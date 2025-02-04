@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/HeroText.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+export async function getStaticPaths() {
+  const portfolioEntries = await getCollection('portfolio');
+  return portfolioEntries.map((entry) => ({
+    params: { slug: entry.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const portfolioEntries = await getCollection('portfolio');
+const entry = portfolioEntries.find((post) => post.slug === slug);
+
+if (!entry) {
+  throw new Error(`Nessun progetto trovato per lo slug: ${slug}`);
+}
+---
+
+<PageLayout>
+  <div class="container mx-auto px-4 py-4 relative z-10">
+    <nav class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+      <a href="/" class="hover:underline text-blue-400">Home</a> &gt;
+      <a href="/portfolio" class="hover:underline text-blue-400">Portfolio</a> &gt;
+      <span class="text-gray-900 dark:text-white">{entry.data.title}</span>
+    </nav>
+  </div>
+  
+  <Hero title={entry.data.title} subtitle={entry.data.description} />
+
+  <article class="container mx-auto px-4 py-8 relative z-10">
+    {entry.data.image?.src && (
+      <img
+        src={entry.data.image.src}
+        alt={entry.data.image.alt || 'Immagine del progetto'}
+        width={entry.data.image.width || 1200}
+        height={entry.data.image.height || 800}
+        class="rounded-lg shadow-lg my-6"
+      />
+    )}
+
+    <div class="prose dark:prose-dark" dangerouslySetInnerHTML={{ __html: entry.body }} />
+
+    {entry.data.category && (
+      <section class="mt-6">
+        <h2 class="text-2xl font-semibold">Categoria</h2>
+        <p class="text-gray-600 dark:text-gray-300">{entry.data.category}</p>
+      </section>
+    )}
+
+    {entry.data.technologies && (
+      <section class="mt-6">
+        <h2 class="text-2xl font-semibold">Tecnologie Utilizzate</h2>
+        <ul class="list-disc ml-6">
+          {entry.data.technologies.map((tech) => (
+            <li>{tech}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <CallToAction actions={[{ variant: 'primary', text: 'Scopri altri progetti', href: '/portfolio', icon: 'tabler:layout-grid' }]}> 
+      <Fragment slot="title">Vuoi un sito web professionale come questo?</Fragment>
+      <Fragment slot="subtitle">Contattaci per realizzare il tuo progetto online.</Fragment>
+    </CallToAction>
+  </article>
+</PageLayout>

@@ -64,7 +64,34 @@ const postCollection = defineCollection({
     metadata: metadataDefinition(),
   }),
 });
+// ✅ Collezione Portfolio (Modificata per adattarsi al progetto)
+const portfolioCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    permalink: z.string(), // 🔹 Assicuriamoci che ogni progetto abbia un permalink
+    description: z.string().optional(),
+    category: z.string().optional(), // 🔹 Campo per categorizzare i progetti
+    technologies: z.array(z.string()).optional(), // 🔹 Tecnologie usate nel progetto
+    image: z
+      .object({
+        src: z.string(),
+        alt: z.string().optional(),
+        width: z.number().optional(),
+        height: z.number().optional(),
+      })
+      .optional(),
+    metadata: z
+      .object({
+        canonical: z.string().url().optional(),
+      })
+      .optional(),
+  }),
+});
+
 
 export const collections = {
   post: postCollection,
+  portfolio: portfolioCollection, // 🔹 Collezione Portfolio (Personalizzata)
+
 };

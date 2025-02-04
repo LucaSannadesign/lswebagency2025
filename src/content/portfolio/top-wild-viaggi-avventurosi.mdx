@@ -1,0 +1,41 @@
+---
+title: "Top Wild - Viaggi Avventurosi"
+description: "Esperienze di viaggio uniche per giovani avventurieri."
+permalink: "/portfolio/top-wild-viaggi-avventurosi"
+keywords: ["viaggi", "avventura", "turismo", "esperienze"]
+image:
+  src: "/images/portfolio/topwild-viaggi-avventurosi-per-giovani-backpackers.webp"
+  alt: "Top Wild"
+  width: 1200
+  height: 800
+---
+
+<Layout metadata={{ title: title, description: description, permalink: permalink }}>
+
+  <Hero
+    title="Top Wild - Viaggi Avventurosi"
+    subtitle="Un sito web pensato per gli amanti delle esperienze outdoor"
+    image={{ src: "/images/portfolio/topwild-viaggi-avventurosi-per-giovani-backpackers.webp", alt: "Top Wild", width: 1200, height: 800 }}
+  />
+
+  <Content
+    tagline="Web Design per il Turismo"
+    title="Un portale coinvolgente per i viaggiatori avventurosi"
+    items={[
+      { title: "Design Immersivo", description: "Un layout accattivante che trasmette il senso dell’avventura." },
+      { title: "User Experience", description: "Navigazione intuitiva e accesso immediato alle destinazioni più richieste." },
+      { title: "SEO & Performance", description: "Ottimizzazione per i motori di ricerca e caricamento veloce su ogni dispositivo." }
+    ]}
+    image={{ src: "/images/portfolio/topwild-mockup.webp", alt: "Mockup Top Wild", width: 1200, height: 800 }}
+  />
+
+  <CallToAction
+    actions={[
+      { variant: "primary", text: "Scopri altri progetti", href: "/portfolio", icon: "tabler:layout-grid" }
+    ]}
+  >
+    <Fragment slot="title">Vuoi un sito web coinvolgente per la tua attività?</Fragment>
+    <Fragment slot="subtitle">Contattaci e trasformiamo la tua idea in una piattaforma digitale di successo.</Fragment>
+  </CallToAction>
+
+</Layout>

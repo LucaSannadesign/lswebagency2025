@@ -1,0 +1,73 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+
+const metadata = {
+  title: 'Contatti',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HeroText Widget ******************* -->
+  <HeroText tagline="Contatti" title="Hai bisogno di informazioni?" />
+
+  <!-- Testo Motivazionale -->
+  <section class="text-center max-w-3xl mx-auto mb-8">
+    <p class="text-xl font-medium">
+      Hai un progetto in mente? Siamo pronti ad ascoltarti e offrirti la soluzione su misura per te.
+      <span class="text-blue-500">Contattaci oggi stesso</span> e trasforma le tue idee in realtà!
+    </p>
+  </section>
+
+  <!-- Contact Form -->
+  <ContactUs
+    id="form"
+    title="Scrivici un messaggio oggi stesso!"
+    subtitle="Ti risponderemo il prima possibile con tutte le informazioni di cui hai bisogno!"
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Nome e Cognome',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email',
+      },
+    ]}
+    textarea={{
+      label: 'Messaggio',
+    }}
+    disclaimer={{
+      label:
+        'Inviando questo modulo di contatto, confermi di accettare la raccolta e l’elaborazione dei tuoi dati personali.',
+    }}
+    description="Il nostro team di supporto risponde solitamente entro 24 ore lavorative."
+  />
+
+  <!-- Features Section -->
+  <Features2
+    title="Siamo qui per aiutarti!"
+    items={[
+      {
+        title: "Telefono",
+        description: "+39 340 3223 494",
+        icon: "tabler:headset",
+      },
+      {
+        title: "Email",
+        description: "info@lucasanna.eu",
+        icon: "tabler:mail",
+      },
+      {
+        title: "Indirizzo",
+        description: "Via Alcide De Gasperi, 3, 07100 Sassari, Italia",
+        icon: "tabler:map-pin",
+      },
+    ]}
+  />
+</Layout>
+

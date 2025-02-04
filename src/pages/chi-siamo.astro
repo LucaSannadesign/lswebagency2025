@@ -1,0 +1,171 @@
+---
+import Features2 from '~/components/widgets/Features2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Steps2 from '~/components/widgets/Steps2.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Chi Siamo - LS Web Agency',
+  description: 'Scopri chi siamo e come aiutiamo aziende e professionisti con siti web ottimizzati e soluzioni digitali avanzate.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero
+    tagline="Chi Siamo"
+    image={{
+      src: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?fit=crop&w=2070&q=80',
+      alt: 'Team al lavoro',
+    }}
+  >
+    <Fragment slot="title">
+      Creiamo esperienze digitali su misura per il tuo <br />
+      <span class="text-accent dark:text-white highlight"> Successo Online</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Siamo una web agency specializzata in creazione siti web, SEO e marketing digitale.  
+      Il nostro obiettivo è aiutare aziende e professionisti a migliorare la loro presenza online con design moderni e strategie vincenti.
+    </Fragment>
+  </Hero>
+
+  <!-- Stats Widget ****************** -->
+
+  <Stats
+    title="I Nostri Numeri"
+    stats={[
+      { title: 'Progetti completati', amount: '250+' },
+      { title: 'Clienti soddisfatti', amount: '180+' },
+      { title: 'Anni di esperienza', amount: '10+' },
+      { title: 'Awards vinti', amount: '12' },
+    ]}
+  />
+
+  <!-- Features3 Widget ************** -->
+
+  <Features3
+    title="I Nostri Servizi"
+    subtitle="Ogni progetto è studiato per ottenere il massimo dei risultati."
+    columns={3}
+    isBeforeContent={true}
+    items={[
+      {
+        title: 'Creazione Siti Web',
+        description:
+          'Realizziamo siti web personalizzati, responsive e ottimizzati per ogni dispositivo.',
+        icon: 'tabler:template',
+      },
+      {
+        title: 'SEO e Posizionamento',
+        description:
+          'Miglioriamo il ranking sui motori di ricerca con strategie SEO avanzate.',
+        icon: 'tabler:search',
+      },
+      {
+        title: 'Branding e Identità Visiva',
+        description:
+          'Costruiamo la tua immagine online con grafiche accattivanti e un’identità forte.',
+        icon: 'tabler:palette',
+      },
+    ]}
+  />
+
+  <!-- Steps2 Widget ****************** -->
+
+  <Steps2
+    title="I Nostri Valori"
+    subtitle="I principi che guidano ogni nostro progetto"
+    items={[
+      {
+        title: 'Focalizzazione sul Cliente',
+        description:
+          'Ogni progetto nasce da un’attenta analisi delle esigenze del cliente e del suo target.',
+      },
+      {
+        title: 'Innovazione Costante',
+        description:
+          'Sperimentiamo e utilizziamo le tecnologie più recenti per offrire le migliori soluzioni digitali.',
+      },
+      {
+        title: 'Trasparenza e Affidabilità',
+        description:
+          'Crediamo in una comunicazione chiara, onesta e in un rapporto di fiducia con i nostri clienti.',
+      },
+    ]}
+  />
+
+  <!-- Steps2 Widget ****************** -->
+
+  <Steps2
+    title="I Nostri Risultati"
+    subtitle="Ecco alcuni successi raggiunti dai nostri clienti"
+    isReversed={true}
+    callToAction={{
+      text: 'Scopri i nostri progetti',
+      href: '/portfolio',
+    }}
+    items={[
+      {
+        title: 'Aumento del traffico organico',
+        description: 'Abbiamo incrementato il traffico SEO di oltre il 300% per diversi clienti.',
+        icon: 'tabler:chart-line',
+      },
+      {
+        title: 'Conversioni migliorate',
+        description:
+          'Ottimizzando UX/UI, i nostri clienti hanno visto un +50% nelle conversioni sui loro siti.',
+        icon: 'tabler:star',
+      },
+      {
+        title: 'Espansione internazionale',
+        description:
+          'Abbiamo aiutato aziende a lanciare i loro prodotti su mercati esteri con strategie digitali mirate.',
+        icon: 'tabler:world',
+      },
+    ]}
+  />
+
+  <!-- Features2 Widget ************** -->
+
+  <Features2
+    title="Dove Siamo"
+    tagline="I nostri uffici"
+    columns={2}
+    items={[
+      {
+        title: 'Italia',
+        description: 'Sede centrale a Sassari, Sardegna.',
+      },
+      {
+        title: 'Europa',
+        description: 'Collaboriamo con aziende in Spagna, Francia e Germania.',
+      },
+    ]}
+  />
+
+  <!-- Features2 Widget ************** -->
+
+  <Features2
+    title="Supporto e Contatti"
+    tagline="Parla con noi"
+    columns={2}
+    items={[
+      {
+        title: 'Chat Live',
+        description:
+          'Assistenza immediata dal nostro team per risolvere ogni dubbio.',
+        icon: 'tabler:messages',
+      },
+      {
+        title: 'Email',
+        description:
+          'Scrivici a info@lucasanna.eu per richieste o preventivi.',
+        icon: 'tabler:mail',
+      },
+    ]}
+  />
+</Layout>

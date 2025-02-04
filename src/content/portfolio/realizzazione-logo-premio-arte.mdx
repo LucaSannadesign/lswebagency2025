@@ -1,0 +1,41 @@
+---
+title: "Realizzazione Logo Premio Arte"
+description: "Creazione del logo per il concorso artistico 'Premio Arte'."
+permalink: "/portfolio/realizzazione-logo-premio-arte"
+keywords: ["design", "logo", "branding", "premio arte"]
+image:
+  src: "/images/portfolio/logo-premioarte.webp"
+  alt: "Logo Premio Arte"
+  width: 1200
+  height: 800
+---
+
+<Layout metadata={{ title: title, description: description, permalink: permalink }}>
+
+  <Hero
+    title="Realizzazione Logo Premio Arte"
+    subtitle="Un’identità visiva pensata per celebrare l'arte"
+    image={{ src: "/images/portfolio/premio_Arte.webp", alt: "Logo Premio Arte", width: 1200, height: 800 }}
+  />
+
+  <Content
+    tagline="Design Grafico & Branding"
+    title="Un logo che esprime prestigio e creatività"
+    items={[
+      { title: "Concept Creativo", description: "Un design che richiama l’eleganza e il valore artistico del premio." },
+      { title: "Sviluppo del Logo", description: "Studio tipografico, scelta dei colori e creazione di un marchio distintivo." },
+      { title: "Applicazioni Brand", description: "Adattamento del logo per materiali digitali, stampati e promozionali." }
+    ]}
+    image={{ src: "/images/portfolio/premio-arte-branding.webp", alt: "Branding Premio Arte", width: 1200, height: 800 }}
+  />
+
+  <CallToAction
+    actions={[
+      { variant: "primary", text: "Scopri altri progetti", href: "/portfolio", icon: "tabler:layout-grid" }
+    ]}
+  >
+    <Fragment slot="title">Vuoi un logo che rappresenti al meglio il tuo progetto?</Fragment>
+    <Fragment slot="subtitle">Contattaci per sviluppare un’identità visiva unica e professionale.</Fragment>
+  </CallToAction>
+
+</Layout>
