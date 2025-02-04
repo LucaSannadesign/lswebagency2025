@@ -1,0 +1,41 @@
+---
+title: "Luca Sanna - Artista Contemporaneo"
+description: "Portfolio artistico di Luca Sanna, con una selezione delle sue opere più significative."
+permalink: "/portfolio/luca-sanna-artista"
+keywords: ["arte", "pittura", "contemporaneo", "artista"]
+image: 
+  src: "/images/portfolio/luca-sanna-artista.webp"
+  alt: "Luca Sanna - Artista Contemporaneo"
+  width: 1200
+  height: 800
+---
+
+<Layout metadata={{ title: title, description: description, permalink: permalink }}>
+
+  <Hero
+    title="Luca Sanna - Artista Contemporaneo"
+    subtitle="Esplora il portfolio di Luca Sanna, tra dipinti, illustrazioni e sperimentazioni digitali."
+    image={{ src: "/images/portfolio/luca-sanna-artista.webp", alt: "Luca Sanna - Artista Contemporaneo", width: 1200, height: 800 }}
+  />
+
+  <Content
+    tagline="Arte e Creatività"
+    title="Un percorso tra tradizione e innovazione"
+    items={[
+      { title: "Tecniche e Stili", description: "Dall’olio su tela alle illustrazioni digitali, esplorando tecniche ibride e sperimentali." },
+      { title: "Mostre ed Esposizioni", description: "Opere esposte in gallerie nazionali e internazionali, con un forte impatto visivo." },
+      { title: "Progetti in Evoluzione", description: "Collaborazioni artistiche e nuove idee per il futuro del design e della pittura." }
+    ]}
+    image={{ src: "/images/portfolio/luca-sanna-artista-mockup.webp", alt: "Portfolio Luca Sanna", width: 1200, height: 800 }}
+  />
+
+  <CallToAction
+    actions={[
+      { variant: "primary", text: "Scopri altri progetti", href: "/portfolio", icon: "tabler:layout-grid" }
+    ]}
+  >
+    <Fragment slot="title">Vuoi realizzare un portfolio artistico su misura?</Fragment>
+    <Fragment slot="subtitle">Contattaci per creare una vetrina digitale che valorizzi il tuo lavoro.</Fragment>
+  </CallToAction>
+
+</Layout>

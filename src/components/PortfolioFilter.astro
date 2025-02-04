@@ -1,0 +1,38 @@
+---
+import { useState } from 'preact/hooks';
+
+// Props: categorie disponibili e funzione per aggiornare il filtro
+const { categories, setCategoryFilter, setSortByDate } = Astro.props;
+
+// Stato per la categoria selezionata
+const [selectedCategory, setSelectedCategory] = useState('');
+const [sortOrder, setSortOrder] = useState('desc'); // Ordinamento predefinito
+
+const handleCategoryChange = (event) => {
+  const newCategory = event.target.value;
+  setSelectedCategory(newCategory);
+  setCategoryFilter(newCategory);
+};
+
+const handleSortChange = (event) => {
+  const newSortOrder = event.target.value;
+  setSortOrder(newSortOrder);
+  setSortByDate(newSortOrder);
+};
+---
+
+<div class="flex gap-4 mb-6">
+  <!-- Filtro per categoria -->
+  <select onChange={handleCategoryChange} class="p-2 border rounded">
+    <option value="">Tutte le categorie</option>
+    {categories.map((category) => (
+      <option value={category}>{category}</option>
+    ))}
+  </select>
+
+  <!-- Ordinamento per data -->
+  <select onChange={handleSortChange} class="p-2 border rounded">
+    <option value="desc">Più recenti</option>
+    <option value="asc">Più vecchi</option>
+  </select>
+</div>

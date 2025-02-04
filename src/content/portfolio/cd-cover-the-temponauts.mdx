@@ -1,0 +1,40 @@
+---
+title: "CD Cover - The Temponauts"
+description: "Design grafico per la copertina del CD della band The Temponauts."
+permalink: "/portfolio/cd-cover-the-temponauts"
+keywords: ["grafica", "musica", "cover album", "design"]
+image:
+  src: "/src/assets/images/cd-cover-the-temponauts.jpg"
+  alt: "Copertina CD The Temponauts"
+  width: 1200
+  height: 800
+---
+
+<Layout metadata={{ title, description, permalink }}>
+  <Hero
+    title="CD Cover - The Temponauts"
+    subtitle="Progetto di design grafico per la copertina di un album musicale."
+    image={{ src: "/images/portfolio/cd-cover-the-temponauts.jpg", alt: "Copertina The Temponauts", width: 1200, height: 800 }}
+  />
+
+  <Content
+    tagline="Design Grafico"
+    title="Un’illustrazione pensata per il sound della band"
+    items={[
+      { title: "Concept Creativo", description: "Un design ispirato all’estetica vintage e psichedelica degli anni ‘60." },
+      { title: "Elementi Grafici", description: "Uso di colori vivaci e texture che richiamano la musica della band." },
+      { title: "Finalizzazione e Stampa", description: "Ottimizzazione per la stampa su vinile, CD e formati digitali." }
+    ]}
+    image={{ src: "/images/portfolio/the-temponauts-detail.webp", alt: "Dettaglio copertina The Temponauts", width: 1200, height: 800 }}
+  />
+
+  <CallToAction
+    actions={[
+      { variant: "primary", text: "Scopri altri progetti", href: "/portfolio", icon: "tabler:layout-grid" }
+    ]}
+  >
+    <Fragment slot="title">Hai bisogno di una copertina per il tuo album?</Fragment>
+    <Fragment slot="subtitle">Contattaci e creiamo insieme un design unico per la tua musica.</Fragment>
+  </CallToAction>
+
+</Layout>

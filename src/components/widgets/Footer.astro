@@ -1,5 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
 import { SITE } from 'astrowind:config';
 import { getHomePermalink } from '~/utils/permalinks';
 
@@ -28,77 +29,93 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
 
 <footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
   <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-  <div
-    class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-slate-300 intersect-once intersect-quarter intercept-no-queue motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-  >
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-slate-300">
+    
     <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
-      <div class="col-span-12 lg:col-span-4">
-        <div class="mb-2">
-          <a class="inline-block font-bold text-xl" href={getHomePermalink()}>{SITE?.name}</a>
+      
+      <!-- Logo e descrizione -->
+      <div class="col-span-12 lg:col-span-3">
+        <div class="flex items-center mb-2">
+          <a class="flex items-center" href={getHomePermalink()}>
+            <img src="/images/logo-ls-webdesignagency-2025.png" alt="LS Web Design Agency" class="h-10 w-auto dark:hidden" />
+            <img src="/images/logo-ls-webdesignagency-2025-dark.png" alt="LS Web Design Agency" class="h-10 w-auto hidden dark:block" />
+          </a>
         </div>
-        <div class="text-sm text-muted flex gap-1">
-          {
-            secondaryLinks.map(({ text, href }, index) => (
-              <>
-                {index !== 0 ? ' · ' : ''}
-                <a
-                  class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition duration-150 ease-in-out"
-                  href={href}
-                  set:html={text}
-                />
-              </>
-            ))
-          }
-        </div>
-      </div>
-      {
-        links.map(({ title, links }) => (
-          <div class="col-span-6 md:col-span-3 lg:col-span-2">
-            <div class="dark:text-gray-300 font-medium mb-2">{title}</div>
-            {links && Array.isArray(links) && links.length > 0 && (
-              <ul class="text-sm">
-                {links.map(({ text, href, ariaLabel }) => (
-                  <li class="mb-2">
-                    <a
-                      class="text-muted hover:text-gray-700 hover:underline dark:text-gray-400 transition duration-150 ease-in-out"
-                      href={href}
-                      aria-label={ariaLabel}
-                    >
-                      <Fragment set:html={text} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
+        <p class="text-sm text-muted">
+          Agenzia web specializzata nella creazione di siti internet e posizionamento SEO a Sassari e Sardegna.
+        </p>
+        <div class="mt-4">
+          <span class="font-semibold">Social</span>
+          <div class="flex mt-2 space-x-4">
+            <a href="https://www.facebook.com/lswebdesignagency" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition">
+              <Icon name="fa6-brands:facebook" class="w-5 h-5" />
+            </a>
+            <a href="https://www.linkedin.com/company/ls-web-design-agency/" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition">
+              <Icon name="fa6-brands:linkedin" class="w-5 h-5" />
+            </a>
+            <a href="https://wa.me/+393403223494" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition">
+              <Icon name="fa6-brands:whatsapp" class="w-5 h-5" />
+            </a>
+            <a href="https://t.me/+393403223494" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition">
+              <Icon name="fa6-brands:telegram" class="w-5 h-5" />
+            </a>
           </div>
-        ))
-      }
-    </div>
-    <div class="md:flex md:items-center md:justify-between py-6 md:py-8">
-      {
-        socialLinks?.length ? (
-          <ul class="flex mb-4 md:order-1 -ml-2 md:ml-4 md:mb-0 rtl:ml-0 rtl:-mr-2 rtl:md:ml-0 rtl:md:mr-4">
-            {socialLinks.map(({ ariaLabel, href, text, icon }) => (
-              <li>
-                <a
-                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
-                  aria-label={ariaLabel}
-                  href={href}
-                >
-                  {icon && <Icon name={icon} class="w-5 h-5" />}
-                  <Fragment set:html={text} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          ''
-        )
-      }
+        </div>
+      </div>
 
-      <div class="text-sm mr-4 dark:text-muted">
-        <Fragment set:html={footNote} />
+      <!-- Informazioni Contatti -->
+      <div class="col-span-6 md:col-span-3">
+        <div class="font-medium mb-2">Dove siamo</div>
+        <p class="text-sm">
+          <strong>LS Web Agency</strong><br />
+          di Luca Sanna<br />
+          Via Alcide De Gasperi, 3<br />
+          07100 Sassari, Sardegna, Italia<br />
+          P. Iva: 02929290902
+        </p>
+      </div>
+
+      <!-- Navigazione -->
+      <div class="col-span-6 md:col-span-2">
+        <div class="font-medium mb-2">Navigazione</div>
+        <ul class="text-sm">
+          <li><a class="hover:underline" href="/">Home Page</a></li>
+          <li><a class="hover:underline" href="/chi-siamo">Chi Siamo</a></li>
+          <li><a class="hover:underline" href="/portfolio">Portfolio</a></li>
+          <li><a class="hover:underline" href="/servizi">Servizi</a></li>
+          <li><a class="hover:underline" href="/blog">Blog</a></li>
+          <li><a class="hover:underline" href="/contatti">Contatti</a></li>
+        </ul>
+      </div>
+
+      <!-- Contatti -->
+      <div class="col-span-6 md:col-span-3">
+        <div class="font-medium mb-2">Per richieste di preventivi</div>
+        <p class="text-sm">Scrivere a: <a class="font-medium text-link hover:underline" href="mailto:info@lucasanna.eu">info@lucasanna.eu</a></p>
+        <div class="mt-2 flex items-center space-x-3">
+          <a href="https://wa.me/+393403223494" class="flex items-center space-x-2" rel="noopener noreferrer" target="_blank">
+            <Icon name="fa6-brands:whatsapp" class="w-5 h-5" />
+            <span>WhatsApp</span>
+          </a>
+          <a href="https://t.me/+393403223494" class="flex items-center space-x-2" rel="noopener noreferrer" target="_blank">
+            <Icon name="fa6-brands:telegram" class="w-5 h-5" />
+            <span>Telegram</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="md:flex md:items-center md:justify-between py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
+      <p class="text-sm dark:text-muted">
+        © 2025 <strong>LS Web Agency</strong> di Luca Sanna. Tutti i diritti riservati.
+      </p>
+      <div class="text-sm">
+        <a href="/privacy-policy" class="hover:underline">Privacy & Cookie Policy</a> | 
+        <a href="/sitemap" class="hover:underline">Sitemap</a>
       </div>
     </div>
+
   </div>
 </footer>
