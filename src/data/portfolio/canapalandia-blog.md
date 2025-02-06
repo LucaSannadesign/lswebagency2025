@@ -2,10 +2,15 @@
 title: "Canapalandia - Blog"
 slug: "canapalandia-blog"
 date: "2025-02-05"
+permalink: "/portfolio/canapalandia-blog" # ✅ Aggiunto il permalink
 description: "Realizzazione del blog informativo Canapalandia, dedicato alla cannabis legale e alla sua cultura."
 category: "Web Design"
 technologies: ["WordPress", "CSS", "PHP", "HTML", "SEO"]
-image: "/src/assets/images/portfolio/background-canapalandia-8.webp"
+image:
+  src: "/src/assets/images/portfolio/background-canapalandia-8.webp"
+  alt: "Anteprima del blog Canapalandia"
+  width: 1200
+  height: 800
 metadata:
   canonical: "https://lswebagency2025.com/portfolio/canapalandia-blog"
   openGraph:
