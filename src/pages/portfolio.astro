@@ -12,7 +12,15 @@ const portfolio = await getCollection('portfolio');
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {portfolio.map((project) => (
         <a href={`/portfolio/${project.id}`} class="block rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
-          {project.data.image && (
+          {project.data.image && typeof project.data.image === 'object' ? (
+            <img 
+              src={project.data.image.src} 
+              alt={project.data.image.alt || project.data.title} 
+              width={project.data.image.width || "auto"} 
+              height={project.data.image.height || "auto"} 
+              class="w-full h-48 object-cover"
+            />
+          ) : (
             <img 
               src={project.data.image} 
               alt={project.data.title} 

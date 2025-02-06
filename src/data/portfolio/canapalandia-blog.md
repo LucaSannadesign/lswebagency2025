@@ -8,18 +8,14 @@ category: "Web Design"
 technologies: ["WordPress", "CSS", "PHP", "HTML", "SEO"]
 image:
   src: "/src/assets/images/portfolio/background-canapalandia-8.webp"
-  alt: "Anteprima del blog Canapalandia"
+  alt: "Canapalandia Blog"
   width: 1200
-  height: 800
+  height: 630
 metadata:
   canonical: "https://lswebagency2025.com/portfolio/canapalandia-blog"
   openGraph:
     url: "https://lswebagency2025.com/portfolio/canapalandia-blog"
     siteName: "LS Web Agency"
-    images:
-      - url: "/src/assets/images/portfolio/background-canapalandia-8.webp"
-        width: 1200
-        height: 630
     locale: "it_IT"
     type: "article"
   twitter:

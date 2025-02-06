@@ -21,9 +21,21 @@ const { project } = Astro.props;
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Colonna Immagine -->
       <div>
-        {project.data.image && (
-          <img src={project.data.image} alt={project.data.title} class="w-full rounded-lg shadow-md" />
-        )}
+        {project.data.image && typeof project.data.image === 'object' ? (
+  <img 
+    src={project.data.image.src} 
+    alt={project.data.image.alt || project.data.title} 
+    width={project.data.image.width || "auto"} 
+    height={project.data.image.height || "auto"} 
+    class="w-full rounded-lg shadow-md" 
+  />
+) : (
+  <img 
+    src={project.data.image} 
+    alt={project.data.title} 
+    class="w-full rounded-lg shadow-md" 
+  />
+)}
       </div>
 
       <!-- Colonna Dettagli -->
