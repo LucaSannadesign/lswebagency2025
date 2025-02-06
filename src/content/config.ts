@@ -48,6 +48,7 @@ const metadataDefinition = () =>
 
 const postCollection = defineCollection({
   loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/post' }),
+<<<<<<< HEAD
   schema: z.object({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
@@ -67,8 +68,15 @@ const postCollection = defineCollection({
 // ✅ Collezione Portfolio (Modificata per adattarsi al progetto)
 const portfolioCollection = defineCollection({
   type: 'content',
+=======
+>>>>>>> 8487b4a (Aggiornamento navigazione e struttura del portfolio)
   schema: z.object({
+    publishDate: z.date().optional(),
+    updateDate: z.date().optional(),
+    draft: z.boolean().optional(),
+
     title: z.string(),
+<<<<<<< HEAD
     permalink: z.string(), // 🔹 Assicuriamoci che ogni progetto abbia un permalink
     description: z.string().optional(),
     category: z.string().optional(), // 🔹 Campo per categorizzare i progetti
@@ -94,4 +102,36 @@ export const collections = {
   post: postCollection,
   portfolio: portfolioCollection, // 🔹 Collezione Portfolio (Personalizzata)
 
+=======
+    excerpt: z.string().optional(),
+    image: z.string().optional(),
+
+    category: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    author: z.string().optional(),
+
+    metadata: metadataDefinition(),
+  }),
+});
+
+// ✅ Aggiunta della collezione portfolio
+const portfolioCollection = defineCollection({
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/portfolio' }), // Percorso per i progetti portfolio
+  schema: z.object({
+    publishDate: z.date().optional(),
+    updateDate: z.date().optional(),
+    title: z.string(),
+    slug: z.string(),
+    description: z.string().optional(),
+    category: z.string().optional(),
+    technologies: z.array(z.string()).optional(),
+    image: z.string().optional(),
+    metadata: metadataDefinition(),
+  }),
+});
+
+export const collections = {
+  post: postCollection,
+  portfolio: portfolioCollection, // ✅ Aggiunto il portfolio
+>>>>>>> 8487b4a (Aggiornamento navigazione e struttura del portfolio)
 };
