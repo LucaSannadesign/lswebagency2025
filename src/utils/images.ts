@@ -76,11 +76,11 @@ export const adaptOpenGraphImages = async (
         _image = (await unpicOptimizer(resolvedImage, [defaultWidth], defaultWidth, defaultHeight, 'jpg'))[0];
       } else if (resolvedImage && typeof resolvedImage !== 'string') {
         const dimensions =
-          resolvedImage.width <= defaultWidth ? [resolvedImage.width, resolvedImage.height] : [defaultWidth, defaultHeight];
+          resolvedImage.width <= defaultWidth
+            ? [resolvedImage.width, resolvedImage.height]
+            : [defaultWidth, defaultHeight];
 
-        _image = (
-          await astroAsseetsOptimizer(resolvedImage, [dimensions[0]], dimensions[0], dimensions[1], 'jpg')
-        )[0];
+        _image = (await astroAsseetsOptimizer(resolvedImage, [dimensions[0]], dimensions[0], dimensions[1], 'jpg'))[0];
       }
 
       return {

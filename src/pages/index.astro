@@ -4,10 +4,10 @@ import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Note from '~/components/widgets/Note.astro';
 import Features from '~/components/widgets/Features.astro';
- import Content from '~/components/widgets/Content.astro';
+import Content from '~/components/widgets/Content.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
- import CallToAction from '~/components/widgets/CallToAction.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
   title: 'LS Web Agency — Creazione Siti Web & Strategie Digitali',
@@ -27,12 +27,12 @@ const metadata = {
       },
       { text: 'Scopri di più', href: '#features' },
     ]}
-image={{
-  src: '~/assets/images/hero-image.png',
-  alt: 'LS Web Agency - Creazione Siti Web',
-  width: 1200,
-  height: 600
-}}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'LS Web Agency - Creazione Siti Web',
+      width: 1200,
+      height: 600,
+    }}
   >
     <Fragment slot="title">
       Soluzioni digitali avanzate con <br />
@@ -41,7 +41,8 @@ image={{
 
     <Fragment slot="subtitle">
       <span class="hidden sm:inline">
-        <span class="font-semibold">LS Web Agency</span> ti aiuta a creare un sito web professionale, ottimizzato e orientato al successo. 
+        <span class="font-semibold">LS Web Agency</span> ti aiuta a creare un sito web professionale, ottimizzato e orientato
+        al successo.
       </span>
       <span class="block mb-1 sm:hidden font-bold text-blue-600">Dai slancio alla tua attività con il digitale.</span>
     </Fragment>
@@ -143,9 +144,7 @@ image={{
       },
     ]}
   >
-    <Fragment slot="title">
-      Il tuo sito web su misura è a un passo da te
-    </Fragment>
+    <Fragment slot="title"> Il tuo sito web su misura è a un passo da te </Fragment>
     <Fragment slot="subtitle">
       Contattaci oggi stesso per scoprire come possiamo trasformare la tua presenza online in un vero successo.
     </Fragment>
