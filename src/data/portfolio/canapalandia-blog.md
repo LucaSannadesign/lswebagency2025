@@ -7,7 +7,7 @@ description: 'Realizzazione del blog informativo Canapalandia, dedicato alla can
 category: 'Web Design'
 technologies: ['WordPress', 'CSS', 'PHP', 'HTML', 'SEO']
 image:
-  src: '/src/assets/images/portfolio/background-canapalandia-8.webp'
+  src: '/public/images/portfolio/background-canapalandia-8.webp'
   alt: 'Canapalandia Blog'
   width: 1200
   height: 630
