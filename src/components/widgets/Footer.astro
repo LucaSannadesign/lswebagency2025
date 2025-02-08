@@ -1,8 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import Logo from '~/components/Logo.astro';
-import { SITE } from 'astrowind:config';
-import { getHomePermalink } from '~/utils/permalinks';
+  import { getHomePermalink } from '~/utils/permalinks';
 
 interface Link {
   text?: string;
@@ -24,7 +22,9 @@ export interface Props {
   theme?: string;
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme = 'light' } = Astro.props;
+/* eslint-enable @typescript-eslint/no-unused-vars */
 ---
 
 <footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
