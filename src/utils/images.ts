@@ -3,13 +3,11 @@ import type { ImageMetadata } from 'astro';
 import type { OpenGraph } from '@astrolib/seo';
 
 const load = async function () {
-  let images: Record<string, () => Promise<unknown>> | undefined = undefined;
   try {
-    images = import.meta.glob('~/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}');
-  } catch (error) {
-    // continua indipendentemente dall'errore
+    return import.meta.glob('~/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}');
+  } catch {
+    return undefined; // Ritorna undefined se non può caricare le immagini
   }
-  return images;
 };
 
 let _images: Record<string, () => Promise<unknown>> | undefined = undefined;
@@ -24,7 +22,7 @@ export const fetchLocalImages = async () => {
 export const findImage = async (
   imagePath?: string | ImageMetadata | null
 ): Promise<string | ImageMetadata | undefined | null> => {
-  if (typeof imagePath !== 'string') {
+  if (!imagePath || typeof imagePath !== 'string') {
     return imagePath;
   }
 
@@ -59,40 +57,37 @@ export const adaptOpenGraphImages = async (
 
   const adaptedImages = await Promise.all(
     images.map(async (image) => {
-      if (image?.url) {
-        const resolvedImage = (await findImage(image.url)) as ImageMetadata | string | undefined;
-        if (!resolvedImage) {
-          return { url: '' };
-        }
-
-        let _image: { src: string; width?: number; height?: number } | null = null;
-
-        if (
-          typeof resolvedImage === 'string' &&
-          (resolvedImage.startsWith('http://') || resolvedImage.startsWith('https://')) &&
-          isUnpicCompatible(resolvedImage)
-        ) {
-          _image = (await unpicOptimizer(resolvedImage, [defaultWidth], defaultWidth, defaultHeight, 'jpg'))[0];
-        } else if (resolvedImage) {
-          const dimensions =
-            typeof resolvedImage !== 'string' && resolvedImage?.width <= defaultWidth
-              ? [resolvedImage?.width, resolvedImage?.height]
-              : [defaultWidth, defaultHeight];
-
-          _image = (
-            await astroAsseetsOptimizer(resolvedImage, [dimensions[0]], dimensions[0], dimensions[1], 'jpg')
-          )[0];
-        }
-
-        // ✅ Controllo sicuro per evitare errori su `_image`
-        return {
-          url: _image?.src ? String(new URL(_image.src, astroSite)) : '',
-          width: _image?.width ?? undefined,
-          height: _image?.height ?? undefined,
-        };
+      if (!image?.url) {
+        return { url: '' };
       }
 
-      return { url: '' };
+      const resolvedImage = (await findImage(image.url)) as ImageMetadata | string | undefined;
+      if (!resolvedImage) {
+        return { url: '' };
+      }
+
+      let _image: { src: string; width?: number; height?: number } | null = null;
+
+      if (
+        typeof resolvedImage === 'string' &&
+        (resolvedImage.startsWith('http://') || resolvedImage.startsWith('https://')) &&
+        isUnpicCompatible(resolvedImage)
+      ) {
+        _image = (await unpicOptimizer(resolvedImage, [defaultWidth], defaultWidth, defaultHeight, 'jpg'))[0];
+      } else if (resolvedImage && typeof resolvedImage !== 'string') {
+        const dimensions =
+          resolvedImage.width <= defaultWidth ? [resolvedImage.width, resolvedImage.height] : [defaultWidth, defaultHeight];
+
+        _image = (
+          await astroAsseetsOptimizer(resolvedImage, [dimensions[0]], dimensions[0], dimensions[1], 'jpg')
+        )[0];
+      }
+
+      return {
+        url: _image?.src ? String(new URL(_image.src, astroSite)) : '',
+        width: _image?.width ?? undefined,
+        height: _image?.height ?? undefined,
+      };
     })
   );
 
