@@ -6,36 +6,32 @@ const load = async function () {
   let images: Record<string, () => Promise<unknown>> | undefined = undefined;
   try {
     images = import.meta.glob('~/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    // continue regardless of error
+    // continua indipendentemente dall'errore
   }
   return images;
 };
 
 let _images: Record<string, () => Promise<unknown>> | undefined = undefined;
 
-/** */
+/** Carica tutte le immagini locali disponibili */
 export const fetchLocalImages = async () => {
   _images = _images || (await load());
   return _images;
 };
 
-/** */
+/** Trova un'immagine in base al percorso specificato */
 export const findImage = async (
   imagePath?: string | ImageMetadata | null
 ): Promise<string | ImageMetadata | undefined | null> => {
-  // Not string
   if (typeof imagePath !== 'string') {
     return imagePath;
   }
 
-  // Absolute paths
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('/')) {
     return imagePath;
   }
 
-  // Relative paths or not "~/assets/"
   if (!imagePath.startsWith('~/assets/images')) {
     return imagePath;
   }
@@ -48,7 +44,7 @@ export const findImage = async (
     : null;
 };
 
-/** */
+/** Adatta le immagini OpenGraph per garantire che abbiano le dimensioni corrette */
 export const adaptOpenGraphImages = async (
   openGraph: OpenGraph = {},
   astroSite: URL | undefined = new URL('')
@@ -66,12 +62,10 @@ export const adaptOpenGraphImages = async (
       if (image?.url) {
         const resolvedImage = (await findImage(image.url)) as ImageMetadata | string | undefined;
         if (!resolvedImage) {
-          return {
-            url: '',
-          };
+          return { url: '' };
         }
 
-        let _image;
+        let _image: { src: string; width?: number; height?: number } | null = null;
 
         if (
           typeof resolvedImage === 'string' &&
@@ -84,26 +78,21 @@ export const adaptOpenGraphImages = async (
             typeof resolvedImage !== 'string' && resolvedImage?.width <= defaultWidth
               ? [resolvedImage?.width, resolvedImage?.height]
               : [defaultWidth, defaultHeight];
+
           _image = (
             await astroAsseetsOptimizer(resolvedImage, [dimensions[0]], dimensions[0], dimensions[1], 'jpg')
           )[0];
         }
 
-        if (typeof _image === 'object') {
-          return {
-            url: 'src' in _image && typeof _image.src === 'string' ? String(new URL(_image.src, astroSite)) : '',
-            width: 'width' in _image && typeof _image.width === 'number' ? _image.width : undefined,
-            height: 'height' in _image && typeof _image.height === 'number' ? _image.height : undefined,
-          };
-        }
+        // ✅ Controllo sicuro per evitare errori su `_image`
         return {
-          url: '',
+          url: _image?.src ? String(new URL(_image.src, astroSite)) : '',
+          width: _image?.width ?? undefined,
+          height: _image?.height ?? undefined,
         };
       }
 
-      return {
-        url: '',
-      };
+      return { url: '' };
     })
   );
 
