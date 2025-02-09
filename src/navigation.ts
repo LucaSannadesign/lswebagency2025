@@ -13,10 +13,10 @@ export const headerData = {
     {
       text: 'Servizi',
       links: [
-        { text: 'Web Design', href: getPermalink('/servizi/web-design') },
-        { text: 'E-commerce', href: getPermalink('/servizi/ecommerce') },
-        { text: 'SEO', href: getPermalink('/servizi/seo') },
-        { text: 'Grafica', href: getPermalink('/servizi/grafica') },
+        { text: 'Creazione siti web', href: '/servizi/creazione-siti-web-sassari' },
+        { text: 'Realizzazione E-commerce', href: '/servizi/realizzazione-siti-ecommerce' },
+        { text: 'Branding e Grafica', href: '/servizi/branding-e-grafica-siti-web' },
+        { text: 'Ottimizzazione SEO', href: '/servizi/ottimizzazione-seo-siti-web' },
       ],
     },
     {
