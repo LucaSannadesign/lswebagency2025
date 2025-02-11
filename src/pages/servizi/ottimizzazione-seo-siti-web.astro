@@ -1,13 +1,13 @@
 ---
 import CallToAction from '~/components/widgets/CallToAction.astro';
-import Content from '~/components/widgets/Content.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro';
 
 const metadata = {
   title: 'Ottimizzazione SEO a Sassari - LS Web Agency',
-  description: 'Migliora la visibilità del tuo sito web con strategie avanzate di Ottimizzazione SEO a Sassari.'
+  description: 'Migliora la visibilità del tuo sito web con strategie avanzate di Ottimizzazione SEO a Sassari.',
 };
 ---
 
@@ -21,15 +21,27 @@ const metadata = {
 
   <Features2
     items={[
-      { title: 'SEO Tecnico', description: 'Ottimizziamo la struttura del sito per garantire velocità e usabilità elevate.' },
-      { title: 'SEO On-Page', description: 'Miglioriamo titoli, meta descrizioni, contenuti e link interni per un ranking migliore.' },
-      { title: 'SEO Off-Page', description: 'Gestiamo backlink di qualità per aumentare l’autorevolezza del tuo sito.' }
+      {
+        title: 'SEO Tecnico',
+        description: 'Ottimizziamo la struttura del sito per garantire velocità e usabilità elevate.',
+      },
+      {
+        title: 'SEO On-Page',
+        description: 'Miglioriamo titoli, meta descrizioni, contenuti e link interni per un ranking migliore.',
+      },
+      {
+        title: 'SEO Off-Page',
+        description: 'Gestiamo backlink di qualità per aumentare l’autorevolezza del tuo sito.',
+      },
     ]}
   />
 
   <CallToAction
-    title="Vuoi migliorare il posizionamento del tuo sito?"
-    subtitle="Contattaci oggi stesso per una strategia SEO personalizzata."
-    button={{ text: "Parliamone", href: "/contatti" }}
-  />
+    title="Vuoi un sito web su misura per la tua attività?"
+    subtitle="Contattaci oggi stesso e trasformiamo la tua idea in realtà."
+  >
+    <Fragment slot="actions">
+      <Button variant="primary" href="/contatti">Parliamone</Button>
+    </Fragment>
+  </CallToAction>
 </Layout>
