@@ -1,0 +1,52 @@
+---
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro'; // ✅ IMPORTAZIONE CORRETTA
+
+const metadata = {
+  title: 'Branding e Grafica per Siti Web - LS Web Agency',
+  description: 'Distinguiti con un design unico! Scopri i nostri servizi di branding e grafica per siti web per un’identità visiva professionale e accattivante.'
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Branding e Grafica per Siti Web"
+    title="Crea un’identità visiva unica per il tuo brand"
+    subtitle="Un sito web efficace inizia da un design professionale e un branding riconoscibile."
+    actions={[{ variant: 'primary', text: 'Richiedi una consulenza', href: '/contatti' }]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80',
+      alt: 'Branding e Grafica per Siti Web'
+    }}
+  />
+
+  <Content>
+    <h2>Perché il branding e la grafica sono fondamentali?</h2>
+    <p>Un’identità visiva forte e coerente aiuta a comunicare i valori del tuo brand, migliorare la riconoscibilità e fidelizzare i clienti.</p>
+  </Content>
+
+  <Features2
+    items={[
+      { title: 'Design Unico e Personalizzato', description: 'Creiamo interfacce accattivanti che rispecchiano la tua identità aziendale.' },
+      { title: 'Brand Identity', description: 'Dallo studio del logo alla scelta della palette colori e tipografia, tutto su misura per te.' },
+      { title: 'User Experience (UX)', description: 'Miglioriamo la navigazione e l’usabilità del sito per un’esperienza ottimale.' },
+      { title: 'Materiale Grafico', description: 'Forniamo immagini, icone e elementi visivi professionali per il tuo sito.' }
+    ]}
+  />
+
+  <Testimonials />
+
+  <CallToAction
+    title="Vuoi un design professionale per il tuo sito web?"
+    subtitle="Contattaci oggi stesso e rendiamo il tuo brand unico."
+  >
+    <Fragment slot="actions">
+      <Button variant="primary" href="/contatti">Parliamone</Button>
+    </Fragment>
+  </CallToAction>
+</Layout>

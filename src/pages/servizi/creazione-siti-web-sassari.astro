@@ -1,55 +1,47 @@
 ---
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Content from '~/components/widgets/Content.astro';
 import Features2 from '~/components/widgets/Features2.astro';
-import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
-import Stats from '~/components/widgets/Stats.astro';
-import Steps2 from '~/components/widgets/Steps2.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro'; // ✅ Import del componente Button
 
-title: "Creazione Siti Web a Sassari - Siti Web Professionali e Ottimizzati"
-description: "Realizziamo siti web professionali e ottimizzati per il SEO a Sassari. Scopri come migliorare la tua presenza online con un sito su misura."
-seoTitle: "Creazione Siti Web Sassari - Realizzazione Siti Web Professionali"
-seoDescription: "Se cerchi un'agenzia per la creazione di siti web a Sassari, sei nel posto giusto. Realizziamo siti moderni, veloci e ottimizzati per il SEO."
-permalink: "/servizi/creazione-siti-web-sassari"
+const metadata = {
+  title: 'Creazione Siti Web a Sassari - LS Web Agency',
+};
 ---
 
-# Creazione Siti Web a Sassari
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Servizi"
+    title="Creazione Siti Web a Sassari - LS Web Agency"
+    subtitle="Realizziamo siti web professionali su misura, ottimizzati per SEO e performance elevate."
+  >
+    <Fragment slot="actions">
+      <Button variant="primary" href="/contatti">Richiedi una consulenza</Button>
+    </Fragment>
+  </Hero>
 
-## La tua presenza online inizia con un sito web professionale
+  <Content>
+    <h2>Perché scegliere LS Web Agency?</h2>
+    <p>Nel mondo digitale di oggi, avere un <strong>sito web professionale</strong> è fondamentale. Ci occupiamo della creazione di siti web su misura.</p>
+  </Content>
 
-Oggi, **avere un sito web** non è più un'opzione, ma una necessità. Se sei un'azienda, un professionista o un'attività locale a **Sassari**, devi essere presente online con un sito **moderno, veloce e ottimizzato per i motori di ricerca**.
+  <Features2
+    items={[
+      { title: 'Design Moderno', description: 'Ogni sito è progettato per offrire un’esperienza utente unica e coinvolgente.' },
+      { title: 'Ottimizzazione SEO', description: 'Garantiamo visibilità sui motori di ricerca grazie a strategie SEO avanzate.' },
+      { title: 'Siti Responsive', description: 'Perfetti su ogni dispositivo: desktop, tablet e smartphone.' }
+    ]}
+  />
 
-### Perché scegliere LS Web Agency?
-
-Noi di **LS Web Agency** progettiamo **siti web su misura**, studiati per valorizzare il tuo business e trasformare i visitatori in clienti.
-
-🔹 **Design moderno e personalizzato**: creiamo siti web eleganti, intuitivi e in linea con il tuo brand.  
-🔹 **Ottimizzazione SEO**: realizziamo siti web ottimizzati per Google, per garantirti il massimo della visibilità.  
-🔹 **Siti veloci e responsivi**: garantiamo una navigazione fluida da desktop, tablet e smartphone.  
-🔹 **Strategia digitale**: il tuo sito non è solo estetica, ma un potente strumento di marketing.  
-
-## I nostri servizi per la creazione siti web a Sassari
-
-### 🌍 **Siti Web Vetrina**  
-Perfetti per aziende e professionisti che vogliono una **presenza online efficace** con una grafica accattivante e contenuti chiari.  
-
-### 🛍️ **E-commerce e negozi online**  
-Se vuoi vendere i tuoi prodotti online, realizziamo **e-commerce professionali** con sistemi di pagamento sicuri e un'interfaccia user-friendly.  
-
-### ⚡ **Landing Page per campagne marketing**  
-Pagine ottimizzate per convertire i visitatori in clienti, perfette per campagne pubblicitarie su Google Ads e Facebook Ads.  
-
-### 🏆 **SEO e posizionamento su Google**  
-Un sito web senza traffico è inutile! Ottimizziamo i tuoi contenuti per farti raggiungere la prima pagina di Google.  
-
-## Quanto costa un sito web a Sassari?
-
-Ogni progetto è unico e i prezzi variano in base alle funzionalità richieste. Contattaci per un **preventivo gratuito** e senza impegno.  
-
-## Contattaci per la realizzazione del tuo sito web
-
-Se vuoi un sito web che **faccia davvero la differenza**, sei nel posto giusto. Contattaci oggi stesso e inizia a costruire la tua presenza online!  
-
-📩 **Email**: [info@lucasanna.eu](mailto:info@lswebagency.com)  
-📞 **Telefono**: 340 32 23 494  
-🌐 **Sito Web**: [LS Web Agency](https://lswebagency.com/)  
+  <CallToAction
+    title="Vuoi un sito web su misura per la tua attività?"
+    subtitle="Contattaci oggi stesso e trasformiamo la tua idea in realtà."
+  >
+    <Fragment slot="actions">
+      <Button variant="primary" href="/contatti">Parliamone</Button>
+    </Fragment>
+  </CallToAction>
+</Layout>

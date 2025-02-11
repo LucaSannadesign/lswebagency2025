@@ -5,6 +5,9 @@ import Features2 from '~/components/widgets/Features2.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import heroImage from '~/assets/images/hero-image.png';
+import { Icon } from '@iconify/react'
+import Button from '~/components/ui/Button.astro';
 
 const metadata = {
   title: 'Servizi di Web Design e SEO - LS Web Agency',
@@ -13,17 +16,27 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
-
   <Hero
-    tagline="I Nostri Servizi"
-    title="Soluzioni digitali per far crescere il tuo business"
-    subtitle="Dalla creazione di siti web professionali all’ottimizzazione SEO, fino al marketing digitale: progettiamo strategie su misura per il successo della tua azienda."
-    actions={[{ variant: 'primary', target: '_blank', text: 'Scopri i nostri servizi', href: '/' }]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      alt: 'LS Web Agency - Creazione Siti Web e SEO',
-    }}
-  />
+  actions={[
+    {
+      variant: 'primary',
+      text: 'Richiedi un Preventivo',
+      href: '/contatti',
+    },
+    { text: 'Scopri di più', href: '#features' },
+  ]}
+  image={{
+    src: heroImage.src,
+    alt: 'LS Web Agency - Creazione Siti Web',
+  }}
+>
+  <Fragment slot="actions">
+    <Button variant="primary" href="/contatti">
+      <Icon icon="tabler:message" class="mr-2" /> Richiedi un Preventivo
+    </Button>
+    <Button href="#features">Scopri di più</Button>
+  </Fragment>
+</Hero>
 
   <!-- Features2 Widget ************** -->
 
