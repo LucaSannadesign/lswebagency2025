@@ -21,12 +21,12 @@ if (props.alt === undefined || props.alt === null) {
   throw new Error();
 }
 
-if (typeof props.width === 'string') {
-  props.width = parseInt(props.width);
+if (!props.width) {
+  props.width = 1792; // Usa la dimensione corretta
 }
 
-if (typeof props.height === 'string') {
-  props.height = parseInt(props.height);
+if (!props.height) {
+  props.height = 1024; // Usa la dimensione corretta
 }
 
 if (!props.loading) {

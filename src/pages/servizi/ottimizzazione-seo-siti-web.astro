@@ -1,0 +1,35 @@
+---
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Ottimizzazione SEO a Sassari - LS Web Agency',
+  description: 'Migliora la visibilità del tuo sito web con strategie avanzate di Ottimizzazione SEO a Sassari.'
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Ottimizzazione SEO a Sassari"
+    title="Aumenta la visibilità del tuo sito con strategie SEO efficaci"
+    subtitle="Ottimizziamo il tuo sito web per scalare le classifiche di Google e aumentare il traffico organico."
+    actions={[{ variant: 'primary', text: 'Richiedi una consulenza', href: '/contatti' }]}
+  />
+
+  <Features2
+    items={[
+      { title: 'SEO Tecnico', description: 'Ottimizziamo la struttura del sito per garantire velocità e usabilità elevate.' },
+      { title: 'SEO On-Page', description: 'Miglioriamo titoli, meta descrizioni, contenuti e link interni per un ranking migliore.' },
+      { title: 'SEO Off-Page', description: 'Gestiamo backlink di qualità per aumentare l’autorevolezza del tuo sito.' }
+    ]}
+  />
+
+  <CallToAction
+    title="Vuoi migliorare il posizionamento del tuo sito?"
+    subtitle="Contattaci oggi stesso per una strategia SEO personalizzata."
+    button={{ text: "Parliamone", href: "/contatti" }}
+  />
+</Layout>

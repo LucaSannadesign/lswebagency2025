@@ -1,0 +1,35 @@
+---
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Creazione E-commerce a Sassari - LS Web Agency',
+  description: 'Scopri il nostro servizio di creazione e-commerce a Sassari: soluzioni professionali, scalabili e ottimizzate per le vendite online.'
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Creazione E-commerce a Sassari"
+    title="Porta il tuo business online con un e-commerce su misura"
+    subtitle="Realizziamo soluzioni e-commerce scalabili, performanti e ottimizzate per le vendite online."
+    actions={[{ variant: 'primary', text: 'Richiedi un Preventivo', href: '/contatti' }]}
+  />
+
+  <Features2
+    items={[
+      { title: 'Design Accattivante', description: 'Realizziamo e-commerce moderni con un’interfaccia intuitiva e coinvolgente.' },
+      { title: 'Ottimizzazione SEO', description: 'Massimizziamo la visibilità del tuo negozio online sui motori di ricerca.' },
+      { title: 'Sicurezza e Affidabilità', description: 'Soluzioni con protezione avanzata per i pagamenti e i dati sensibili.' }
+    ]}
+  />
+
+  <CallToAction
+    title="Vuoi un e-commerce di successo?"
+    subtitle="Contattaci oggi stesso e porta il tuo business online con una soluzione professionale."
+    button={{ text: "Parliamone", href: "/contatti" }}
+  />
+</Layout>
