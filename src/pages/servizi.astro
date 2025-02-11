@@ -6,7 +6,7 @@ import Hero from '~/components/widgets/Hero.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import heroImage from '~/assets/images/hero-image.png';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 import Button from '~/components/ui/Button.astro';
 
 const metadata = {
@@ -17,26 +17,26 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
   <Hero
-  actions={[
-    {
-      variant: 'primary',
-      text: 'Richiedi un Preventivo',
-      href: '/contatti',
-    },
-    { text: 'Scopri di più', href: '#features' },
-  ]}
-  image={{
-    src: heroImage.src,
-    alt: 'LS Web Agency - Creazione Siti Web',
-  }}
->
-  <Fragment slot="actions">
-    <Button variant="primary" href="/contatti">
-      <Icon icon="tabler:message" class="mr-2" /> Richiedi un Preventivo
-    </Button>
-    <Button href="#features">Scopri di più</Button>
-  </Fragment>
-</Hero>
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Richiedi un Preventivo',
+        href: '/contatti',
+      },
+      { text: 'Scopri di più', href: '#features' },
+    ]}
+    image={{
+      src: heroImage.src,
+      alt: 'LS Web Agency - Creazione Siti Web',
+    }}
+  >
+    <Fragment slot="actions">
+      <Button variant="primary" href="/contatti">
+        <Icon icon="tabler:message" class="mr-2" /> Richiedi un Preventivo
+      </Button>
+      <Button href="#features">Scopri di più</Button>
+    </Fragment>
+  </Hero>
 
   <!-- Features2 Widget ************** -->
 

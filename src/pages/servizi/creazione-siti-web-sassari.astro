@@ -3,7 +3,6 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import Content from '~/components/widgets/Content.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Hero from '~/components/widgets/Hero.astro';
-import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro'; // ✅ Import del componente Button
 
@@ -25,14 +24,23 @@ const metadata = {
 
   <Content>
     <h2>Perché scegliere LS Web Agency?</h2>
-    <p>Nel mondo digitale di oggi, avere un <strong>sito web professionale</strong> è fondamentale. Ci occupiamo della creazione di siti web su misura.</p>
+    <p>
+      Nel mondo digitale di oggi, avere un <strong>sito web professionale</strong> è fondamentale. Ci occupiamo della creazione
+      di siti web su misura.
+    </p>
   </Content>
 
   <Features2
     items={[
-      { title: 'Design Moderno', description: 'Ogni sito è progettato per offrire un’esperienza utente unica e coinvolgente.' },
-      { title: 'Ottimizzazione SEO', description: 'Garantiamo visibilità sui motori di ricerca grazie a strategie SEO avanzate.' },
-      { title: 'Siti Responsive', description: 'Perfetti su ogni dispositivo: desktop, tablet e smartphone.' }
+      {
+        title: 'Design Moderno',
+        description: 'Ogni sito è progettato per offrire un’esperienza utente unica e coinvolgente.',
+      },
+      {
+        title: 'Ottimizzazione SEO',
+        description: 'Garantiamo visibilità sui motori di ricerca grazie a strategie SEO avanzate.',
+      },
+      { title: 'Siti Responsive', description: 'Perfetti su ogni dispositivo: desktop, tablet e smartphone.' },
     ]}
   />
 
