@@ -65,7 +65,7 @@ const { title, subtitle, tagline, actions = [], image, id, bg } = Astro.props;
         class="intersect-once intercept-no-queue intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
       >
         {
-          image && (
+          image?.src && (
             <div class="relative m-auto max-w-5xl">
               <Image
                 widths={[400, 768, 1024, 2040]}
@@ -73,8 +73,8 @@ const { title, subtitle, tagline, actions = [], image, id, bg } = Astro.props;
                 loading="eager"
                 src={image.src}
                 alt={image.alt}
-                width={image?.width ?? 1024}
-                height={image?.height ?? 576}
+                width={image.width ?? 1024}
+                height={image.height ?? 576}
               />
             </div>
           )
