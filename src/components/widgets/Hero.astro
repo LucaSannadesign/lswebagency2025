@@ -1,13 +1,13 @@
 ---
-import Image from '~/components/common/Image.astro';
-import Button from '~/components/ui/Button.astro';
+import Button from '~/components/ui/Button.astro'; // ✅ Import senza {}
+import Image from '~/components/common/Image.astro'; // ✅ Import dell'immagine corretto
 
 export interface Props {
   title?: string;
   subtitle?: string;
   tagline?: string;
   actions?: Array<{ text: string; href: string; variant?: string }>;
-  image?: { src: string; alt: string };
+  image?: { src: string; alt: string; width?: number; height?: number };
   id?: string;
   bg?: string;
 }
@@ -68,13 +68,13 @@ const { title, subtitle, tagline, actions = [], image, id, bg } = Astro.props;
           image && (
             <div class="relative m-auto max-w-5xl">
               <Image
-                class="mx-auto rounded-md w-full"
                 widths={[400, 768, 1024, 2040]}
                 sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
                 loading="eager"
-                width={1024}
-                height={576}
-                {...image}
+                src={image.src}
+                alt={image.alt}
+                width={image?.width ?? 1024}
+                height={image?.height ?? 576}
               />
             </div>
           )

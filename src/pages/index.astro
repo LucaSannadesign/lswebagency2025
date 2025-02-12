@@ -9,7 +9,6 @@ import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
-
 const metadata = {
   title: 'LS Web Agency — Creazione Siti Web & Strategie Digitali',
   ignoreTitleTemplate: true,
@@ -19,31 +18,21 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
   <Hero
-    tagline="Home"
-    title="Migliora la tua presenza online con un sito web professionale"
-    subtitle="Realizziamo siti web su misura, moderni, performanti e ottimizzati per la SEO. Diamo valore al tuo brand e aumentiamo la tua visibilità online."
-    actions={[
-      { variant: 'primary', text: 'Richiedi un Preventivo', href: '/contatti' },
-      { text: 'Scopri di più', href: '#features' },
-    ]}
-    image={{
-      src: '~/assets/images/hero-image.png',
-      alt: 'LS Web Agency - Creazione Siti Web',
-    }}
-  >
-    <Fragment slot="title">
-      Creazione Siti Web <span class="hidden xl:inline">per la tua attività con</span>
-      <span class="text-accent dark:text-white highlight"> LS Web Agency</span>
-    </Fragment>
+  tagline="Home"
+  title="Migliora la tua presenza online con un sito web professionale"
+  subtitle="Realizziamo siti web su misura, moderni, performanti e ottimizzati per la SEO. Diamo valore al tuo brand e aumentiamo la tua visibilità online."
+  actions={[
+    { variant: 'primary', text: 'Richiedi un Preventivo', href: '/contatti' },
+    { text: 'Scopri di più', href: '#features' },
+  ]}
+  image={{
+    src: '/images/portfolio/hero-image.png',  // Cambiato percorso
+    alt: 'LS Web Agency - Creazione Siti Web',
+    width: 1792,
+    height: 900,
+  }}
+/>
 
-    <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">LS Web Agency</span> realizza siti web professionali, moderni e ottimizzati per la SEO.
-      </span>
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">LS Web Agency: Creazione Siti Web Professionali.</span>
-      Perfetto per aziende, professionisti, e-commerce e attività locali.
-    </Fragment>
-  </Hero>
 
   <!-- Note Widget ******************* -->
   <Note />
