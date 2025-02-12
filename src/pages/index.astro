@@ -1,147 +1,30 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-
 import Hero from '~/components/widgets/Hero.astro';
-import Note from '~/components/widgets/Note.astro';
-import Features from '~/components/widgets/Features.astro';
-import Content from '~/components/widgets/Content.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
-import Stats from '~/components/widgets/Stats.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
+import { Icon } from '@iconify/react';
+import Button from '~/components/ui/Button.astro';
+
+// ✅ Importa l'immagine direttamente
+import heroImageSrc from '~/assets/images/hero-image.png';
+
 const metadata = {
   title: 'LS Web Agency — Creazione Siti Web & Strategie Digitali',
-  ignoreTitleTemplate: true,
+  description: 'Migliora la tua presenza online con un sito web professionale su misura.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
   <Hero
-    tagline="Home"
+    tagline="Soluzioni Digitali su Misura"
     title="Migliora la tua presenza online con un sito web professionale"
-    subtitle="Realizziamo siti web su misura, moderni, performanti e ottimizzati per la SEO. Diamo valore al tuo brand e aumentiamo la tua visibilità online."
-    actions={[
-      { variant: 'primary', text: 'Richiedi un Preventivo', href: '/contatti' },
-      { text: 'Scopri di più', href: '#features' },
-    ]}
-    image={{
-      src: '/images/portfolio/hero-image.png', // Cambiato percorso
-      alt: 'LS Web Agency - Creazione Siti Web',
-      width: 1792,
-      height: 900,
-    }}
-  />
-
-  <!-- Note Widget ******************* -->
-  <Note />
-
-  <!-- Features Widget *************** -->
-  <Features
-    id="features"
-    tagline="I nostri servizi"
-    title="Cosa offriamo per il tuo business online"
-    subtitle="Strategie digitali, sviluppo web e soluzioni su misura per aziende e professionisti."
-    items={[
-      {
-        title: 'Siti Web & Landing Page',
-        description: 'Realizziamo siti web moderni, performanti e ottimizzati per ogni dispositivo.',
-        icon: 'tabler:device-desktop',
-      },
-      {
-        title: 'E-commerce personalizzato',
-        description: 'Soluzioni per vendere online con funzionalità avanzate e un’esperienza utente intuitiva.',
-        icon: 'tabler:shopping-cart',
-      },
-      {
-        title: 'SEO e Posizionamento',
-        description: 'Strategie SEO avanzate per aumentare la visibilità del tuo brand sui motori di ricerca.',
-        icon: 'tabler:search',
-      },
-      {
-        title: 'Branding & Identità Visiva',
-        description: 'Creiamo identità visive d’impatto con loghi, palette colori e materiali grafici.',
-        icon: 'tabler:palette',
-      },
-    ]}
-  />
-
-  <!-- Content Widget **************** -->
-  <Content
-    isReversed
-    tagline="Perché scegliere LS Web Agency"
-    title="Il tuo partner digitale di fiducia"
-    items={[
-      {
-        title: 'Strategia personalizzata',
-        description: 'Ogni progetto è studiato per rispondere alle esigenze specifiche della tua attività.',
-      },
-      {
-        title: 'Design moderno e UX intuitiva',
-        description: 'Curiamo ogni dettaglio per garantire un’esperienza utente impeccabile.',
-      },
-      {
-        title: 'Supporto continuo',
-        description: 'Dall’idea alla messa online, ti seguiamo in ogni fase del progetto.',
-      },
-    ]}
-    image={{
-      src: '~/assets/images/hero-image.png',
-      alt: 'Team di sviluppo web',
-    }}
-  />
-
-  <!-- BlogLatestPosts Widget ******* -->
-  <BlogLatestPosts
-    title="Dal nostro Blog"
-    information="Approfondimenti, consigli e ultime tendenze su sviluppo web e strategie digitali."
-  />
-
-  <!-- FAQs Widget ******************* -->
-  <FAQs
-    title="Domande Frequenti"
-    subtitle="Scopri di più sui nostri servizi"
-    tagline="FAQ"
-    items={[
-      {
-        title: 'Quanto tempo serve per creare un sito web?',
-        description: 'Dipende dal progetto, ma in genere tra 3 e 6 settimane.',
-      },
-      {
-        title: 'Quanto costa realizzare un sito?',
-        description: 'Il costo varia in base alle funzionalità richieste. Contattaci per un preventivo personalizzato.',
-      },
-      {
-        title: 'Fornite supporto dopo il lancio?',
-        description: 'Sì, offriamo manutenzione e aggiornamenti costanti per garantire prestazioni ottimali.',
-      },
-    ]}
-  />
-
-  <!-- Stats Widget ****************** -->
-  <Stats
-    stats={[
-      { title: 'Clienti soddisfatti', amount: '132K' },
-      { title: 'Progetti completati', amount: '24.8K' },
-      { title: 'Siti web online', amount: '10.3K' },
-      { title: 'Anni di esperienza', amount: '48.4K' },
-    ]}
-  />
-
-  <!-- CallToAction Widget *********** -->
-  <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Prenota una consulenza',
-        href: '/contatti',
-        icon: 'tabler:phone',
-      },
-    ]}
+    subtitle="Realizziamo siti web su misura, moderni, performanti e ottimizzati per la SEO."
+    image={heroImageSrc}
   >
-    <Fragment slot="title"> Il tuo sito web su misura è a un passo da te </Fragment>
-    <Fragment slot="subtitle">
-      Contattaci oggi stesso per scoprire come possiamo trasformare la tua presenza online in un vero successo.
+    <Fragment slot="actions">
+      <Button variant="primary" href="/contatti">
+        <Icon icon="tabler:message" className="mr-2" /> Richiedi una consulenza
+      </Button>
+      <Button href="#features">Scopri di più</Button>
     </Fragment>
-  </CallToAction>
+  </Hero>
 </Layout>

@@ -1,14 +1,13 @@
 ---
 import CallToAction from '~/components/widgets/CallToAction.astro';
-import Content from '~/components/widgets/Content.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import heroImage from '~/assets/images/hero-image.png';
 import { Icon } from '@iconify/react';
 import Button from '~/components/ui/Button.astro';
-
+ 
+ 
 const metadata = {
   title: 'Servizi di Web Design e SEO - LS Web Agency',
 };
@@ -17,29 +16,19 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
   <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Richiedi un Preventivo',
-        href: '/contatti',
-      },
-      { text: 'Scopri di più', href: '#features' },
-    ]}
-    image={{
-      src: heroImage.src,
-      alt: 'LS Web Agency - Creazione Siti Web',
-    }}
-  >
-    <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">
-        <Icon icon="tabler:message" className="mr-2" /> Richiedi un Preventivo
-      </Button>
-      <Button href="#features">Scopri di più</Button>
-    </Fragment>
-  </Hero>
+  tagline="Scopri i nostri servizi"
+  title="Soluzioni digitali su misura per il tuo business"
+  subtitle="Realizziamo siti web performanti e ottimizzati per la SEO. Diamo valore al tuo brand e aumentiamo la tua visibilità online."
+>
+  <Fragment slot="actions">
+    <Button variant="primary" href="/contatti">
+      <Icon icon="tabler:message" className="mr-2" /> Richiedi una consulenza
+    </Button>
+    <Button href="#features">Scopri di più</Button>
+  </Fragment>
+</Hero>
 
   <!-- Features2 Widget ************** -->
-
   <Features2
     title="Servizi per il tuo successo online"
     subtitle="Strategie digitali avanzate per migliorare la tua presenza sul web e aumentare le conversioni."
@@ -72,82 +61,7 @@ const metadata = {
     ]}
   />
 
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    items={[
-      {
-        title: 'Soluzioni Web su Misura',
-        description:
-          'Ogni progetto è personalizzato per adattarsi alle esigenze del cliente, garantendo un’esperienza unica e professionale.',
-        icon: 'tabler:settings',
-      },
-      {
-        title: 'Ottimizzazione Mobile',
-        description:
-          'Tutti i nostri siti sono progettati per funzionare perfettamente su smartphone e tablet, migliorando l’esperienza utente.',
-        icon: 'tabler:device-mobile',
-      },
-      {
-        title: 'Strategie Digitali',
-        description:
-          'Dalla progettazione alla promozione, offriamo strategie digitali per aumentare la tua visibilità e il tuo fatturato online.',
-        icon: 'tabler:rocket',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1525909002-1b05e0c869d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-      alt: 'Strategia Digitale - LS Web Agency',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Perché scegliere noi?</h3>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isAfterContent
-    items={[
-      {
-        title: 'Risparmio di Tempo',
-        description:
-          'Le nostre soluzioni digitali ti permettono di concentrarti sul tuo business, mentre noi ci occupiamo della tua presenza online.',
-        icon: 'tabler:clock',
-      },
-      {
-        title: 'Immagine Professionale',
-        description:
-          'Un sito ben progettato trasmette affidabilità e credibilità, elementi fondamentali per attrarre nuovi clienti.',
-        icon: 'tabler:school',
-      },
-      {
-        title: 'Investimento Intelligente',
-        description:
-          'Con le nostre soluzioni scalabili e ottimizzate per la SEO, il tuo investimento digitale sarà sempre vantaggioso.',
-        icon: 'tabler:coin',
-      },
-      {
-        title: 'Supporto e Aggiornamenti',
-        description:
-          'Ti offriamo assistenza continua e aggiornamenti regolari per garantire il massimo delle prestazioni.',
-        icon: 'tabler:file-download',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1552664688-cf412ec27db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-      alt: 'Supporto e Aggiornamenti - LS Web Agency',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Vantaggi dei nostri servizi</h3>
-    </Fragment>
-  </Content>
-
   <!-- Testimonials Widget *********** -->
-
   <Testimonials
     title="Dicono di noi"
     testimonials={[
@@ -155,34 +69,21 @@ const metadata = {
         testimonial: `LS Web Agency ha trasformato la nostra presenza online, rendendo il nostro sito più veloce, intuitivo e altamente visibile su Google.`,
         name: 'Giovanni Rossi',
         job: 'Imprenditore',
-        image: {
-          src: 'https://images.unsplash.com/photo-1618835962148-cf177563c6c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80',
-          alt: 'Giovanni Rossi',
-        },
       },
       {
         testimonial: `Affidarsi a LS Web Agency è stata la scelta migliore per il nostro e-commerce. Vendite aumentate e gestione facilitata!`,
         name: 'Maria Bianchi',
         job: 'E-commerce Manager',
-        image: {
-          src: 'https://images.unsplash.com/photo-1561406636-b80293969660?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-          alt: 'Maria Bianchi',
-        },
       },
       {
         testimonial: `Con LS Web Agency abbiamo finalmente un sito professionale e ben posizionato su Google. Consigliatissimi!`,
         name: 'Marco Verdi',
         job: 'Freelance',
-        image: {
-          src: 'https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=824&q=80',
-          alt: 'Marco Verdi',
-        },
       },
     ]}
   />
 
   <!-- CallToAction Widget *********** -->
-
   <CallToAction
     actions={[
       {
