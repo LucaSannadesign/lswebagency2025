@@ -2,9 +2,8 @@
 import Features2 from '~/components/widgets/Features2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
-import Stats from '~/components/widgets/Stats.astro';
-import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from '@iconify/react';
 
 const metadata = {
   title: 'Chi Siamo - LS Web Agency',
@@ -18,6 +17,8 @@ const metadata = {
 
   <Hero
     tagline="Chi Siamo"
+    title="Strategie Digitali e Creazione Siti Web su Misura"
+    subtitle="Aiutiamo aziende e professionisti a trasformare la loro presenza online con siti web innovativi, ottimizzati per SEO e performance elevate."
     image={{
       src: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?fit=crop&w=2070&q=80',
       alt: 'Team al lavoro',
@@ -33,18 +34,6 @@ const metadata = {
       aziende e professionisti a migliorare la loro presenza online con design moderni e strategie vincenti.
     </Fragment>
   </Hero>
-
-  <!-- Stats Widget ****************** -->
-
-  <Stats
-    title="I Nostri Numeri"
-    stats={[
-      { title: 'Progetti completati', amount: '250+' },
-      { title: 'Clienti soddisfatti', amount: '180+' },
-      { title: 'Anni di esperienza', amount: '10+' },
-      { title: 'Awards vinti', amount: '12' },
-    ]}
-  />
 
   <!-- Features3 Widget ************** -->
 
@@ -72,57 +61,88 @@ const metadata = {
     ]}
   />
 
-  <!-- Steps2 Widget ****************** -->
+  <!-- Sezione "I Nostri Valori" in due colonne su desktop ****************** -->
 
-  <Steps2
-    title="I Nostri Valori"
-    subtitle="I principi che guidano ogni nostro progetto"
-    items={[
-      {
-        title: 'Focalizzazione sul Cliente',
-        description: 'Ogni progetto nasce da un’attenta analisi delle esigenze del cliente e del suo target.',
-      },
-      {
-        title: 'Innovazione Costante',
-        description:
-          'Sperimentiamo e utilizziamo le tecnologie più recenti per offrire le migliori soluzioni digitali.',
-      },
-      {
-        title: 'Trasparenza e Affidabilità',
-        description: 'Crediamo in una comunicazione chiara, onesta e in un rapporto di fiducia con i nostri clienti.',
-      },
-    ]}
-  />
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-6">I Nostri Valori</h2>
+      <p class="text-center text-lg text-muted max-w-3xl mx-auto mb-10">
+        La nostra filosofia si basa su qualità, trasparenza e innovazione. Ogni sito web che realizziamo è il risultato
+        di una visione strategica e di un impegno costante per offrire il massimo valore ai nostri clienti.
+      </p>
 
-  <!-- Steps2 Widget ****************** -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <!-- Colonna Sinistra -->
+        <div class="space-y-6">
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:chart-line" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Innovazione Continua</h3>
+              <p class="text-muted">
+                Esploriamo nuove tecnologie e seguiamo le ultime tendenze per creare soluzioni digitali avanzate e
+                performanti.
+              </p>
+            </div>
+          </div>
 
-  <Steps2
-    title="I Nostri Risultati"
-    subtitle="Ecco alcuni successi raggiunti dai nostri clienti"
-    isReversed={true}
-    callToAction={{
-      text: 'Scopri i nostri progetti',
-      href: '/portfolio',
-    }}
-    items={[
-      {
-        title: 'Aumento del traffico organico',
-        description: 'Abbiamo incrementato il traffico SEO di oltre il 300% per diversi clienti.',
-        icon: 'tabler:chart-line',
-      },
-      {
-        title: 'Conversioni migliorate',
-        description: 'Ottimizzando UX/UI, i nostri clienti hanno visto un +50% nelle conversioni sui loro siti.',
-        icon: 'tabler:star',
-      },
-      {
-        title: 'Espansione internazionale',
-        description:
-          'Abbiamo aiutato aziende a lanciare i loro prodotti su mercati esteri con strategie digitali mirate.',
-        icon: 'tabler:world',
-      },
-    ]}
-  />
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:star" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Eccellenza e Qualità</h3>
+              <p class="text-muted">
+                Lavoriamo con precisione per garantire siti web veloci, sicuri e dall’estetica impeccabile.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:shield-check" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Trasparenza e Affidabilità</h3>
+              <p class="text-muted">
+                Costruiamo relazioni di fiducia con i nostri clienti attraverso comunicazione chiara e supporto
+                continuo.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonna Destra -->
+        <div class="space-y-6">
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:users" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Focus sul Cliente</h3>
+              <p class="text-muted">
+                Ogni progetto è creato su misura per soddisfare le esigenze e gli obiettivi specifici di ogni cliente.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:brush" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Creatività e Passione</h3>
+              <p class="text-muted">
+                La nostra esperienza e passione per il design ci permettono di realizzare siti web unici e coinvolgenti.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:chart-line" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Risultati Misurabili</h3>
+              <p class="text-muted">
+                Monitoriamo costantemente il rendimento dei siti per garantire una crescita continua e successi
+                concreti.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Features2 Widget ************** -->
 
@@ -138,26 +158,6 @@ const metadata = {
       {
         title: 'Europa',
         description: 'Collaboriamo con aziende in Spagna, Francia e Germania.',
-      },
-    ]}
-  />
-
-  <!-- Features2 Widget ************** -->
-
-  <Features2
-    title="Supporto e Contatti"
-    tagline="Parla con noi"
-    columns={2}
-    items={[
-      {
-        title: 'Chat Live',
-        description: 'Assistenza immediata dal nostro team per risolvere ogni dubbio.',
-        icon: 'tabler:messages',
-      },
-      {
-        title: 'Email',
-        description: 'Scrivici a info@lucasanna.eu per richieste o preventivi.',
-        icon: 'tabler:mail',
       },
     ]}
   />
