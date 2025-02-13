@@ -1,40 +1,54 @@
 ---
+import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
+
+import merge from 'lodash.merge';
+import type { ImageMetadata } from 'astro';
 import Layout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import { Icon } from '@iconify/react';
-import Button from '~/components/ui/Button.astro';
-import { getImage } from 'astro:assets';
-import myImageSrc from '~/assets/images/hero-image.png';
+import SinglePost from '~/components/blog/SinglePost.astro';
+import ToBlogLink from '~/components/blog/ToBlogLink.astro';
 
-const heroImage = await getImage({
-  src: myImageSrc,
-  width: 1792, // ✅ Specifica la larghezza manualmente
-  height: 1024, // ✅ Specifica l'altezza manualmente
-});
+import { getCanonical, getPermalink } from '~/utils/permalinks';
+import { getStaticPathsBlogPost, blogPostRobots } from '~/utils/blog';
+import { findImage } from '~/utils/images';
+import type { MetaData } from '~/types';
+import RelatedPosts from '~/components/blog/RelatedPosts.astro';
 
-const metadata = {
-  title: 'LS Web Agency — Creazione Siti Web & Strategie Digitali',
-  description: 'Migliora la tua presenza online con un sito web professionale su misura.',
-};
+export const prerender = true;
+
+export const getStaticPaths = (async () => {
+  return await getStaticPathsBlogPost();
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { post } = Astro.props as Props;
+
+const url = getCanonical(getPermalink(post.permalink, 'post'));
+const image = (await findImage(post.image)) as ImageMetadata | string | undefined;
+
+const metadata = merge(
+  {
+    title: post.title,
+    description: post.excerpt,
+    robots: {
+      index: blogPostRobots?.index,
+      follow: blogPostRobots?.follow,
+    },
+    openGraph: {
+      type: 'article',
+      ...(image
+        ? { images: [{ url: image, width: (image as ImageMetadata)?.width, height: (image as ImageMetadata)?.height }] }
+        : {}),
+    },
+  },
+  { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }
+) as MetaData;
 ---
 
 <Layout metadata={metadata}>
-  <Hero
-    tagline="Soluzioni Digitali su Misura"
-    title="Migliora la tua presenza online con un sito web professionale"
-    subtitle="Realizziamo siti web su misura, moderni, performanti e ottimizzati per la SEO."
-    image={{
-      src: heroImage.src, // ✅ Usa l'URL generato automaticamente
-      alt: 'LS Web Agency - Creazione Siti Web',
-      width: heroImage.width,
-      height: heroImage.height
-    }}
-  >
-    <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">
-        <Icon icon="tabler:message" className="mr-2" /> Richiedi una consulenza
-      </Button>
-      <Button href="#features">Scopri di più</Button>
-    </Fragment>
-  </Hero>
+  <SinglePost post={{ ...post, image: image }} url={url}>
+    {post.Content ? <post.Content /> : <Fragment set:html={post.content || ''} />}
+  </SinglePost>
+  <ToBlogLink />
+  <RelatedPosts post={post} />
 </Layout>

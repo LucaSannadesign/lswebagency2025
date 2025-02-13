@@ -3,37 +3,40 @@ import { getCollection } from 'astro:content';
 import Layout from '~/layouts/PageLayout.astro';
 
 const portfolio = await getCollection('portfolio');
+
+const metadata = {
+  title: 'Portfolio - LS Web Agency',
+  description: 'Esplora i nostri progetti di web design e sviluppo digitale.',
+};
 ---
 
-<Layout metadata={{ title: 'Portfolio' }}>
+<Layout metadata={metadata}>
   <section class="container mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold text-center mb-8">Portfolio</h1>
+    <h1 class="text-4xl font-bold text-center mb-8">{metadata.title}</h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {
-        portfolio.map((project) => (
-          <a
-            href={`/portfolio/${project.id}`}
-            class="block rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
-          >
-            {project.data.image && typeof project.data.image === 'object' ? (
-              <img
-                src={project.data.image.src}
-                alt={project.data.image.alt || project.data.title}
-                width={project.data.image.width || 'auto'}
-                height={project.data.image.height || 'auto'}
-                class="w-full h-48 object-cover"
-              />
-            ) : (
-              <img src={project.data.image} alt={project.data.title} class="w-full h-48 object-cover" />
-            )}
-            <div class="p-4">
-              <h2 class="text-xl font-semibold">{project.data.title}</h2>
-              <p class="text-gray-600">{project.data.description}</p>
-            </div>
-          </a>
-        ))
-      }
+      {portfolio.map((project) => (
+        <a
+          href={`/portfolio/${project.id}`}
+          class="block rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
+        >
+          {project.data.image && typeof project.data.image === 'object' ? (
+            <img
+              src={project.data.image.src}
+              alt={project.data.image.alt || project.data.title}
+              width={project.data.image.width || 'auto'}
+              height={project.data.image.height || 'auto'}
+              class="w-full h-48 object-cover"
+            />
+          ) : (
+            <img src={project.data.image} alt={project.data.title} class="w-full h-48 object-cover" />
+          )}
+          <div class="p-4">
+            <h2 class="text-xl font-semibold">{project.data.title}</h2>
+            <p class="text-gray-600">{project.data.description}</p>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
 </Layout>
