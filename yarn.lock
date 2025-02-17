@@ -161,7 +161,7 @@
     unist-util-visit-parents "^6.0.1"
     vfile "^6.0.3"
 
-"@astrojs/mdx@^4.0.7":
+"@astrojs/mdx@^4.0.8":
   version "4.0.8"
   resolved "https://registry.npmjs.org/@astrojs/mdx/-/mdx-4.0.8.tgz"
   integrity sha512-/aiLr2yQ55W9AbpyOgfMtFXk7g2t7XoWdC2Avps/NqxAx4aYONDLneX43D79QwgqdjFhin7o3cIPp/vVppMbaA==
@@ -1489,10 +1489,10 @@ astro-icon@^1.1.5:
     "@iconify/types" "^2.0.0"
     "@iconify/utils" "^2.1.30"
 
-astro@*, "astro@^1.2.1 || ^2.0.0 || ^3.0.0-beta.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-beta.0 || ^5.0.0", "astro@^2.0.0 || ^3.0.0-beta || ^4.0.0-beta || ^5.0.0-beta", "astro@^3.0.0 || ^4.0.0 || ^5.0.0", "astro@^4.0.0 || ^5.0.0-beta.0", "astro@^4.0.0-beta || ^5.0.0-beta", astro@^5.0.0, astro@^5.2.5:
-  version "5.2.5"
-  resolved "https://registry.npmjs.org/astro/-/astro-5.2.5.tgz"
-  integrity sha512-AYXyYkc+c5xbKTm48FyQA91y81nXyNPAaoyafR0LUugE4lAwuvIUcXDBfMzmbuP1lGRvsE33G2oypv6gbGaPFg==
+astro@*, "astro@^1.2.1 || ^2.0.0 || ^3.0.0-beta.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-beta.0 || ^5.0.0", "astro@^2.0.0 || ^3.0.0-beta || ^4.0.0-beta || ^5.0.0-beta", "astro@^3.0.0 || ^4.0.0 || ^5.0.0", "astro@^4.0.0 || ^5.0.0-beta.0", "astro@^4.0.0-beta || ^5.0.0-beta", astro@^5.0.0, astro@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.npmjs.org/astro/-/astro-5.3.0.tgz"
+  integrity sha512-e88l/Yk/6enR/ZDddLbqtM+oblBFk5mneNSmNesyVYGL/6Dj4UA67GPAZOk79VxT5dbLlclZSyyw/wlxN1aj3A==
   dependencies:
     "@astrojs/compiler" "^2.10.3"
     "@astrojs/internal-helpers" "0.5.1"
@@ -3370,7 +3370,12 @@ lower-case@^2.0.2:
   dependencies:
     tslib "^2.0.3"
 
-lru-cache@^10.2.0, lru-cache@^10.4.3:
+lru-cache@^10.2.0:
+  version "10.4.3"
+  resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-10.4.3.tgz"
+  integrity sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==
+
+lru-cache@^10.4.3:
   version "10.4.3"
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-10.4.3.tgz"
   integrity sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==

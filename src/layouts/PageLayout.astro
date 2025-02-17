@@ -12,7 +12,14 @@ export interface Props {
   metadata?: MetaData;
 }
 
-const { metadata } = Astro.props;
+// Fallback per evitare `undefined`
+const { metadata = {
+  title: "Titolo di default",
+  description: "Descrizione di default",
+  canonical: "/"
+} } = Astro.props;
+
+console.log("Metadata ricevuti in PageLayout:", metadata);
 ---
 
 <Layout metadata={metadata}>
@@ -23,7 +30,7 @@ const { metadata } = Astro.props;
     <Header {...headerData} isSticky showRssFeed showToggleTheme />
   </slot>
   <main>
-    <slot />
+    <slot /> <!-- ✅ Il titolo viene gestito direttamente all’interno delle pagine -->
   </main>
   <slot name="footer">
     <Footer {...footerData} />

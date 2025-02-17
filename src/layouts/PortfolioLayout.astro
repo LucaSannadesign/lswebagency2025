@@ -1,8 +1,17 @@
 ---
-import Image from '~/components/common/Image.astro';
+import { Image } from 'astro:assets';
 import Layout from '~/layouts/PageLayout.astro';
 
-const { title, description, image, category, technologies, metadata } = Astro.props;
+// Import dinamico dell'immagine
+let imageSrc;
+try {
+  imageSrc = await import(`~/assets/images/progettazione-landing-page.webp`);
+} catch (e) {
+  console.error('Errore nel caricamento immagine:', e);
+}
+
+// Ottieni i dati del post
+const { title, description, category, technologies, metadata } = Astro.props;
 ---
 
 <Layout metadata={metadata}>
@@ -11,8 +20,8 @@ const { title, description, image, category, technologies, metadata } = Astro.pr
       <!-- Colonna Sinistra: Immagine -->
       <div class="flex items-center justify-center">
         {
-          image ? (
-            <Image src={image} alt={title} width={800} height={600} class="rounded-lg shadow-lg" />
+          imageSrc ? (
+            <Image src={imageSrc.default} alt={title} width={800} height={600} class="rounded-lg shadow-lg" />
           ) : (
             <div class="bg-gray-300 w-full h-[400px] flex items-center justify-center text-gray-500">
               Nessuna immagine disponibile

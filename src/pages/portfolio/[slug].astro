@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '~/layouts/PageLayout.astro';
 
-// 📌 Corretto: Recuperiamo il `slug` dai dati della collezione
+// 📌 Recuperiamo i dati della collezione e generiamo gli slug per ogni progetto
 export async function getStaticPaths() {
   const projects = await getCollection('portfolio');
 
@@ -14,6 +14,12 @@ export async function getStaticPaths() {
 
 // 📌 Recuperiamo i dati del progetto
 const { project } = Astro.props;
+
+
+// 📌 Controlliamo il tipo di immagine e assegniamo un fallback se necessario
+const imageUrl = project.data.image
+  ? (typeof project.data.image === 'object' ? project.data.image.src : project.data.image)
+  : defaultImage.src;
 ---
 
 <Layout metadata={{ title: project.data.title }}>
@@ -21,19 +27,13 @@ const { project } = Astro.props;
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Colonna Immagine -->
       <div>
-        {
-          project.data.image && typeof project.data.image === 'object' ? (
-            <img
-              src={project.data.image.src}
-              alt={project.data.image.alt || project.data.title}
-              width={project.data.image.width || 'auto'}
-              height={project.data.image.height || 'auto'}
-              class="w-full rounded-lg shadow-md"
-            />
-          ) : (
-            <img src={project.data.image} alt={project.data.title} class="w-full rounded-lg shadow-md" />
-          )
-        }
+        <img
+          src={imageUrl}
+          alt={project.data.image?.alt || project.data.title}
+          width={project.data.image?.width || 1024}
+          height={project.data.image?.height || 768}
+          class="w-full rounded-lg shadow-md object-cover"
+        />
       </div>
 
       <!-- Colonna Dettagli -->
@@ -41,21 +41,17 @@ const { project } = Astro.props;
         <h1 class="text-3xl font-bold">{project.data.title}</h1>
         <p class="text-gray-600 mt-2">{project.data.description}</p>
 
-        {
-          project.data.category && (
-            <p class="mt-4">
-              <strong>Categoria:</strong> {project.data.category}
-            </p>
-          )
-        }
+        {project.data.category && (
+          <p class="mt-4">
+            <strong>Categoria:</strong> {project.data.category}
+          </p>
+        )}
 
-        {
-          project.data.technologies && (
-            <p class="mt-4">
-              <strong>Tecnologie:</strong> {project.data.technologies.join(', ')}
-            </p>
-          )
-        }
+        {project.data.technologies && (
+          <p class="mt-4">
+            <strong>Tecnologie:</strong> {project.data.technologies.join(', ')}
+          </p>
+        )}
       </div>
     </div>
   </section>
