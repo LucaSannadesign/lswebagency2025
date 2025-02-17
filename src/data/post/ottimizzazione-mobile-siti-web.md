@@ -1,5 +1,5 @@
 ---
-publishDate: 2025-02-13T00:00:00Z
+publishDate: 2025-02-16T00:00:00Z
 title: "Mobile First: Perché il Tuo Sito Deve Essere Ottimizzato per Smartphone"
 excerpt: "Scopri perché l'ottimizzazione mobile è fondamentale per il successo del tuo sito web. Approfondiamo strategie e strumenti per migliorare l'esperienza utente e il ranking su Google."
 tags:

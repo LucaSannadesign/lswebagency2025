@@ -11,17 +11,27 @@ import react from '@astrojs/react';
 import '@iconify/react';
 import '@iconify-json/fa6-brands';
 import astrowind from './vendor/integration';
-import type { AstroIntegration } from 'astro'; // ✅ Import corretto
+import type { AstroIntegration } from 'astro';
 
-import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
+import {
+  readingTimeRemarkPlugin,
+  responsiveTablesRehypePlugin,
+  lazyImagesRehypePlugin,
+} from './src/utils/frontmatter';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const hasExternalScripts = false;
 
-// ✅ Corretto il metodo `whenExternalScripts`
-const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroIntegration)[]) =>
-  hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
+// Funzione per gestire l'integrazione di script esterni
+const whenExternalScripts = (
+  items: (() => AstroIntegration) | (() => AstroIntegration)[]
+) =>
+  hasExternalScripts
+    ? Array.isArray(items)
+      ? items.map((item) => item())
+      : [items()]
+    : [];
 
 export default defineConfig({
   output: 'static',
@@ -39,7 +49,7 @@ export default defineConfig({
         'fa6-brands': ['*'],
       },
     }),
-    react(), // ✅ Integrazione React per supportare @iconify/react
+    react(),
 
     ...whenExternalScripts(() =>
       partytown({
