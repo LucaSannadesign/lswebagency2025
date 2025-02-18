@@ -98,12 +98,10 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
 
     readingTime: remarkPluginFrontmatter?.readingTime,
   };
-  
 };
 
 const load = async function (): Promise<Array<Post>> {
   const posts = await getCollection('post');
-  console.log(posts); // 👈 AGGIUNGI QUESTA RIGA PER DEBUG
   const normalizedPosts = posts.map(async (post) => await getNormalizedPost(post));
 
   const results = (await Promise.all(normalizedPosts))
@@ -272,5 +270,12 @@ export async function getRelatedPosts(originalPost: Post, maxResults: number = 4
 
   postsWithScores.sort((a, b) => b.score - a.score);
 
-  return postsWithScores.slice(0, maxResults).map((entry) => entry.post);
+  const selectedPosts: Post[] = [];
+  let i = 0;
+  while (selectedPosts.length < maxResults && i < postsWithScores.length) {
+    selectedPosts.push(postsWithScores[i].post);
+    i++;
+  }
+
+  return selectedPosts;
 }
