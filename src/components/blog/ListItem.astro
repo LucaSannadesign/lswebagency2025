@@ -15,23 +15,27 @@ export interface Props {
 
 const { post } = Astro.props;
 
-// Usa l'immagine dal frontmatter del post
-const imageUrl = post.image?.src || null;
-console.log("Post:", post);
-console.log("Post Image:", post.image?.src);
+// Debug dell'immagine
+console.log("🔍 POST IMAGE OBJECT:", post.image);
+console.log("🔍 POST IMAGE TYPE:", typeof post.image);
 
-const link = APP_BLOG?.post?.isEnabled && post.permalink ? getPermalink(post.permalink, 'post') : '#';
+// Controlliamo se l'immagine esiste e ha il formato corretto
+const imageUrl = post.image?.src ? post.image.src : '/src/assets/images/hero-image.jpg';
+const imageAlt = post.image?.alt || post.title;
+const imageWidth = post.image?.width || 1200;
+const imageHeight = post.image?.height || 630;
+const link = typeof post.permalink === "string" ? getPermalink(post.permalink, 'post') : `/blog/${post.slug}`;
 ---
 
 <article class="max-w-md mx-auto md:max-w-none grid gap-6 md:gap-8 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade md:grid-cols-2">
-  <a class="relative block group" href={`/blog/${post.slug}`}>
-        <div class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-72 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg">
-      {post.image?.src ? (
+  <a class="relative block group" href={link}>
+    <div class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-72 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg">
+      {imageUrl ? (
         <img 
-          src={post.image.src} 
-          alt={post.image.alt || post.title} 
-          width={post.image.width || 1200}
-          height={post.image.height || 630}
+          src={imageUrl.startsWith("/") ? imageUrl : `/assets/images/${imageUrl}`} 
+          alt={imageAlt} 
+          width={imageWidth}
+          height={imageHeight}
           class="absolute inset-0 object-cover w-full h-full"
           loading="lazy"
           decoding="async"

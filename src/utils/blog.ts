@@ -242,7 +242,21 @@ export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFu
     )
   );
 };
+import { getCollection } from 'astro:content';
 
+export async function getStaticPaths() {
+  const posts = await getCollection('post');
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: {
+      post: {
+        ...post,
+        image: post.image ? post.image : { src: "/assets/images/placeholder.webp", alt: "Placeholder Image" }
+      }
+    },
+  }));
+}
 /** */
 export async function getRelatedPosts(originalPost: Post, maxResults: number = 4): Promise<Post[]> {
   const allPosts = await fetchPosts();
