@@ -242,8 +242,6 @@ export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFu
     )
   );
 };
-import { getCollection } from 'astro:content';
-
 export async function getStaticPaths() {
   const posts = await getCollection('post');
 
