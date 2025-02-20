@@ -10,11 +10,13 @@ const { posts } = Astro.props;
 ---
 
 <ul>
-  {
+  {posts?.length > 0 ? (
     posts.map((post) => (
       <li class="mb-12 md:mb-20">
         <Item post={post} />
       </li>
     ))
-  }
+  ) : (
+    <p class="text-gray-500">Nessun post disponibile.</p>
+  )}
 </ul>
