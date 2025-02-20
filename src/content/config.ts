@@ -1,7 +1,7 @@
 import { z, defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const metadataDefinition = () =>
+export const metadataDefinition = () =>
   z
     .object({
       title: z.string().optional(),
@@ -21,9 +21,9 @@ const metadataDefinition = () =>
           images: z
             .array(
               z.object({
-                url: z.string(),
-                width: z.number().optional(),
-                height: z.number().optional(),
+                url: z.string().min(1, "Il percorso dell'immagine non può essere vuoto."), // Assicura che il percorso non sia vuoto
+                width: z.number().positive().optional(),
+                height: z.number().positive().optional(),
               })
             )
             .optional(),
