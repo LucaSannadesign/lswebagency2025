@@ -8,6 +8,7 @@ tags:
   - velocità sito web
   - ottimizzazione
   - strumenti web
+image: "~/assets/images/misurare-migliorare-velocita-sito.webp"
 ---
 
 ## Perché la Velocità del Sito è Cruciale  
