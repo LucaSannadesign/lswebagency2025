@@ -43,7 +43,7 @@ export const metadataDefinition = () =>
 
 // ✅ Collezione per i post del blog
 const postCollection = defineCollection({
-  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/post' }),
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/content/data/post' }),
   schema: z.object({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
@@ -68,7 +68,7 @@ const postCollection = defineCollection({
 
 // ✅ Collezione per il portfolio
 const portfolioCollection = defineCollection({
-  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/portfolio' }), // Percorso per i progetti portfolio
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/content/data/portfolio' }), // Percorso per i progetti portfolio
   schema: z.object({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
