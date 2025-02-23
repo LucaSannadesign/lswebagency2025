@@ -75,10 +75,6 @@ export default defineConfig({
     }),
   ],
 
-  image: {
-    domains: ['cdn.pixabay.com'],
-  },
-
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
