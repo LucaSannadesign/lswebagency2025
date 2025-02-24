@@ -6,6 +6,7 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Parsing del body della richiesta
     const body = await new Promise((resolve, reject) => {
       let data = '';
       req.on('data', chunk => data += chunk);
@@ -13,8 +14,9 @@ export default async function handler(req, res) {
       req.on('error', reject);
     });
 
-    const { name, email, message } = body;
+    const { name, email, phone, service, message } = body;
 
+    // Configurazione del trasportatore Nodemailer
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -26,16 +28,23 @@ export default async function handler(req, res) {
     });
 
     const mailOptions = {
-      from: email,
-      to: process.env.EMAIL_USER,
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_DESTINATION,
       subject: `Nuovo messaggio da ${name}`,
-      text: `Nome: ${name}\nEmail: ${email}\nMessaggio: ${message}`,
+      text: `
+        Nome: ${name}
+        Email: ${email}
+        Telefono: ${phone || 'Non specificato'}
+        Servizio richiesto: ${service || 'Non specificato'}
+        Messaggio: ${message}
+      `,
     };
 
+    // Invio dell'email
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: 'Email inviata con successo!' });
   } catch (error) {
-    console.error(error);
+    console.error('Errore durante l’invio dell’email:', error);
     res.status(500).json({ error: 'Errore durante l’invio dell’email.' });
   }
 }
