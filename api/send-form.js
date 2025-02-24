@@ -6,16 +6,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, message } = JSON.parse(req.body);
+    const body = await new Promise((resolve, reject) => {
+      let data = '';
+      req.on('data', chunk => data += chunk);
+      req.on('end', () => resolve(JSON.parse(data)));
+      req.on('error', reject);
+    });
 
-    if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Tutti i campi sono obbligatori.' });
-    }
+    const { name, email, message } = body;
 
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -26,17 +29,13 @@ export default async function handler(req, res) {
       from: email,
       to: process.env.EMAIL_USER,
       subject: `Nuovo messaggio da ${name}`,
-      text: `
-        Nome: ${name}
-        Email: ${email}
-        Messaggio: ${message}
-      `,
+      text: `Nome: ${name}\nEmail: ${email}\nMessaggio: ${message}`,
     };
 
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: 'Email inviata con successo!' });
   } catch (error) {
-    console.error('Errore durante l’invio dell’email:', error);
+    console.error(error);
     res.status(500).json({ error: 'Errore durante l’invio dell’email.' });
   }
 }
