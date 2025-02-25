@@ -1,24 +1,22 @@
 import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
+  // ✅ Controllo metodo della richiesta
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Metodo non consentito' });
+    return res.status(405).json({ error: 'Metodo non consentito. Usa POST.' });
   }
 
   try {
-    // Parsing del body della richiesta
-    const body = await new Promise((resolve, reject) => {
-      let data = '';
-      req.on('data', chunk => data += chunk);
-      req.on('end', () => resolve(JSON.parse(data)));
-      req.on('error', reject);
-    });
+    // ✅ Parsing del body (Vercel lo gestisce automaticamente)
+    const { name, email, phone, service, message } = req.body;
 
-    const { name, email, phone, service, message } = body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'Compila tutti i campi obbligatori.' });
+    }
 
-    // Configurazione del trasportatore Nodemailer
+    // ✅ Configurazione del trasportatore Nodemailer
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
+      host: 'smtp.gmail.com', // Cambia se usi un altro provider
       port: 587,
       secure: false,
       auth: {
@@ -27,6 +25,7 @@ export default async function handler(req, res) {
       },
     });
 
+    // ✅ Configurazione email
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_DESTINATION,
@@ -40,11 +39,12 @@ export default async function handler(req, res) {
       `,
     };
 
-    // Invio dell'email
+    // ✅ Invio dell'email
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: 'Email inviata con successo!' });
+
   } catch (error) {
-    console.error('Errore durante l’invio dell’email:', error);
-    res.status(500).json({ error: 'Errore durante l’invio dell’email.' });
+    console.error('Errore nell’invio:', error);
+    res.status(500).json({ error: 'Errore nel server, riprova più tardi.' });
   }
 }
