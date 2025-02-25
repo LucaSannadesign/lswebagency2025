@@ -1,4 +1,4 @@
-import sendgrid from '@sendgrid/mail';
+import sendgrid from "@sendgrid/mail";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -6,18 +6,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, service, message } = req.body;
+    // ✅ Parsing esplicito del body per evitare "undefined"
+    const body = await new Response(req.body).json();
+
+    const { name, email, phone, service, message } = body;
 
     if (!name || !email || !message) {
       return res.status(400).json({ error: "Dati mancanti" });
     }
 
-    // Imposta la chiave API di SendGrid
     sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
     const emailContent = {
-      to: process.env.EMAIL_TO, // Destinatario
-      from: process.env.EMAIL_FROM, // Mittente (deve essere verificato su SendGrid)
+      to: process.env.EMAIL_TO,
+      from: process.env.EMAIL_FROM,
       subject: `Nuova richiesta di contatto da ${name}`,
       text: `Nome: ${name}\nEmail: ${email}\nTelefono: ${phone || "Non fornito"}\nServizio: ${service}\nMessaggio:\n${message}`,
       html: `
