@@ -91,3 +91,19 @@
 .dd *:first-child {
   margin-top: 0;
 }
+@layer components {
+  /* Stile per gli input di testo */
+  input, textarea, select {
+    @apply text-black dark:text-white bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600;
+  }
+
+  /* Stile per il placeholder */
+  input::placeholder, textarea::placeholder {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  /* Stile per i campi input quando attivi */
+  input:focus, textarea:focus, select:focus {
+    @apply ring-2 ring-primary dark:ring-secondary;
+  }
+}
