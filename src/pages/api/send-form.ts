@@ -6,15 +6,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ Parsing esplicito del body per evitare "undefined"
     const body = await new Response(req.body).json();
-
     const { name, email, phone, service, message } = body;
 
     if (!name || !email || !message) {
       return res.status(400).json({ error: "Dati mancanti" });
     }
 
+    // Configura SendGrid
     sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
     const emailContent = {
