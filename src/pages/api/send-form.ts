@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import sendgrid from '@sendgrid/mail';
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -12,24 +12,25 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Dati mancanti" });
     }
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.sendgrid.net", // Cambia se usi un altro provider
-      port: 587,
-      secure: false, 
-      auth: {
-        user: process.env.EMAIL_USER, // Deve essere settato su Vercel
-        pass: process.env.EMAIL_PASS, // Deve essere settato su Vercel
-      },
-    });
+    // Imposta la chiave API di SendGrid
+    sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
-    const mailOptions = {
-      from: `"LS Web Agency" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_DESTINATION,
+    const emailContent = {
+      to: process.env.EMAIL_TO, // Destinatario
+      from: process.env.EMAIL_FROM, // Mittente (deve essere verificato su SendGrid)
       subject: `Nuova richiesta di contatto da ${name}`,
       text: `Nome: ${name}\nEmail: ${email}\nTelefono: ${phone || "Non fornito"}\nServizio: ${service}\nMessaggio:\n${message}`,
+      html: `
+        <p><strong>Nome:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Telefono:</strong> ${phone || "Non fornito"}</p>
+        <p><strong>Servizio:</strong> ${service}</p>
+        <p><strong>Messaggio:</strong></p>
+        <p>${message}</p>
+      `,
     };
 
-    await transporter.sendMail(mailOptions);
+    await sendgrid.send(emailContent);
 
     return res.status(200).json({ message: "Email inviata con successo!" });
 
