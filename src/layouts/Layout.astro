@@ -12,7 +12,6 @@ import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
 
-// Comment the line below to disable View Transitions
 import { ClientRouter } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '~/types';
@@ -22,17 +21,29 @@ export interface Props {
 }
 
 const { metadata = {} } = Astro.props;
-const { language, textDirection } = I18N;
+const siteTitle = "LS Web Agency"; // Nome del sito fisso
+
+// ✅ Evita la duplicazione di "LS Web Agency"
+const cleanTitle = metadata.title?.trim();
+const pageTitle = cleanTitle && !cleanTitle.includes(siteTitle)
+  ? `${cleanTitle} | ${siteTitle}`
+  : cleanTitle || siteTitle;
+
+const pageDescription = metadata.description || "Soluzioni digitali su misura per la tua attività.";
 ---
 
 <!doctype html>
-<html lang={language} dir={textDirection} class="2xl:text-[20px]">
+<html lang={I18N.language} dir={I18N.textDirection} class="2xl:text-[20px]">
   <head>
-    <CommonMeta />
-    
-    <!-- 🔹 Blocca l'indicizzazione dei motori di ricerca -->
-    <meta name="robots" content="noindex, nofollow" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
 
+    <!-- Open Graph e SEO Meta Tags -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+
+    <CommonMeta />
     <Favicons />
     <CustomStyles />
     <ApplyColorMode />
@@ -40,7 +51,7 @@ const { language, textDirection } = I18N;
     <SiteVerification />
     <Analytics />
 
-    <!-- Comment the line below to disable View Transitions -->
+    <!-- Transizioni di visualizzazione -->
     <ClientRouter fallback="swap" />
   </head>
 
