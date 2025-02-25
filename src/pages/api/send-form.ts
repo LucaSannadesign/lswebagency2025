@@ -1,48 +1,40 @@
-import sgMail from "@sendgrid/mail";
-
-// Recupera la API Key di SendGrid dalle variabili d'ambiente
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ message: "Metodo non consentito" });
+    return res.status(405).json({ error: "Metodo non consentito" });
   }
 
   try {
-    // **Leggi il body correttamente**
-    const body = await new Response(req.body).json();
-    
-    // Estrarre i dati dal body
-    const { name, email, phone, service, message } = body;
+    const { name, email, phone, service, message } = req.body;
 
-    // Controllo se mancano dati obbligatori
     if (!name || !email || !message) {
-      return res.status(400).json({ error: "Dati mancanti nel form" });
+      return res.status(400).json({ error: "Dati mancanti" });
     }
 
-    // **Configura l'email da inviare**
-    const msg = {
-      to: process.env.EMAIL_DESTINATION, // Email destinatario (configurata su Vercel)
-      from: process.env.EMAIL_SENDER, // Email mittente (configurata su Vercel)
+    const transporter = nodemailer.createTransport({
+      host: "smtp.sendgrid.net", // Cambia se usi un altro provider
+      port: 587,
+      secure: false, 
+      auth: {
+        user: process.env.EMAIL_USER, // Deve essere settato su Vercel
+        pass: process.env.EMAIL_PASS, // Deve essere settato su Vercel
+      },
+    });
+
+    const mailOptions = {
+      from: `"LS Web Agency" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_DESTINATION,
       subject: `Nuova richiesta di contatto da ${name}`,
-      text: `Nome: ${name}\nEmail: ${email}\nTelefono: ${phone || "Non fornito"}\nServizio: ${service || "Non specificato"}\n\nMessaggio:\n${message}`,
-      html: `
-        <h2>Nuova richiesta di contatto</h2>
-        <p><strong>Nome:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Telefono:</strong> ${phone || "Non fornito"}</p>
-        <p><strong>Servizio:</strong> ${service || "Non specificato"}</p>
-        <p><strong>Messaggio:</strong></p>
-        <p>${message}</p>
-      `,
+      text: `Nome: ${name}\nEmail: ${email}\nTelefono: ${phone || "Non fornito"}\nServizio: ${service}\nMessaggio:\n${message}`,
     };
 
-    // **Invia l'email**
-    await sgMail.send(msg);
+    await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ success: "Email inviata con successo!" });
+    return res.status(200).json({ message: "Email inviata con successo!" });
+
   } catch (error) {
-    console.error("Errore durante l’invio dell’email:", error);
-    res.status(500).json({ error: `Errore durante l’invio dell’email: ${error.message}` });
+    console.error("Errore nel server:", error);
+    return res.status(500).json({ error: `Errore durante l’invio dell’email: ${error.message}` });
   }
 }
