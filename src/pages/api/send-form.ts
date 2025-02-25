@@ -1,4 +1,7 @@
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
+
+// Recupera la API Key di SendGrid dalle variabili d'ambiente
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -6,38 +9,40 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, service, message } = req.body;
+    // **Leggi il body correttamente**
+    const body = await new Response(req.body).json();
+    
+    // Estrarre i dati dal body
+    const { name, email, phone, service, message } = body;
 
-    if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      throw new Error("Missing SMTP credentials");
+    // Controllo se mancano dati obbligatori
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: "Dati mancanti nel form" });
     }
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT || 587,
-      secure: process.env.EMAIL_PORT == "465", // Usa SSL se la porta è 465
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: `"${name}" <${email}>`, // Mittente
-      to: process.env.EMAIL_DESTINATION, // Destinatario
-      subject: `Nuovo messaggio da ${name}`,
-      text: `
-        Nome: ${name}
-        Email: ${email}
-        Telefono: ${phone || "Non specificato"}
-        Servizio richiesto: ${service || "Non specificato"}
-        Messaggio: ${message}
+    // **Configura l'email da inviare**
+    const msg = {
+      to: process.env.EMAIL_DESTINATION, // Email destinatario (configurata su Vercel)
+      from: process.env.EMAIL_SENDER, // Email mittente (configurata su Vercel)
+      subject: `Nuova richiesta di contatto da ${name}`,
+      text: `Nome: ${name}\nEmail: ${email}\nTelefono: ${phone || "Non fornito"}\nServizio: ${service || "Non specificato"}\n\nMessaggio:\n${message}`,
+      html: `
+        <h2>Nuova richiesta di contatto</h2>
+        <p><strong>Nome:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Telefono:</strong> ${phone || "Non fornito"}</p>
+        <p><strong>Servizio:</strong> ${service || "Non specificato"}</p>
+        <p><strong>Messaggio:</strong></p>
+        <p>${message}</p>
       `,
-    });
+    };
 
-    return res.status(200).json({ message: "Email inviata con successo!" });
+    // **Invia l'email**
+    await sgMail.send(msg);
+
+    res.status(200).json({ success: "Email inviata con successo!" });
   } catch (error) {
-    console.error("Errore durante l'invio dell'email:", error);
-    return res.status(500).json({ error: "Errore durante l'invio dell'email." });
+    console.error("Errore durante l’invio dell’email:", error);
+    res.status(500).json({ error: `Errore durante l’invio dell’email: ${error.message}` });
   }
 }
