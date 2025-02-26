@@ -1,42 +1,31 @@
-import sendgrid from "@sendgrid/mail";
+import nodemailer from 'nodemailer';
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Metodo non consentito" });
-  }
+export async function POST({ request }) {
+  const { name, email, message } = await request.json();
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp-relay.brevo.com", // Server SMTP di Brevo
+    port: 587, // Porta SMTP
+    secure: false, // Usa STARTTLS (false per porta 587)
+    auth: {
+      user: "86a892001@smtp-brevo.com", // Il tuo login SMTP
+      pass: "4mdGkS2jLQMW58nD", // Inserisci la tua password SMTP generata
+    },
+  });
 
   try {
-    const body = await new Response(req.body).json();
-    const { name, email, phone, service, message } = body;
+    await transporter.sendMail({
+      from: '"LS Web Agency" <info@lswebagency.com>', // Mittente
+      to: "info@lswebagency.com", // Destinatario
+      subject: "Nuovo messaggio dal form di contatto",
+      html: `<p><strong>Nome:</strong> ${name}</p>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Messaggio:</strong> ${message}</p>`,
+    });
 
-    if (!name || !email || !message) {
-      return res.status(400).json({ error: "Dati mancanti" });
-    }
-
-    // Configura SendGrid
-    sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
-
-    const emailContent = {
-      to: process.env.EMAIL_TO,
-      from: process.env.EMAIL_FROM,
-      subject: `Nuova richiesta di contatto da ${name}`,
-      text: `Nome: ${name}\nEmail: ${email}\nTelefono: ${phone || "Non fornito"}\nServizio: ${service}\nMessaggio:\n${message}`,
-      html: `
-        <p><strong>Nome:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Telefono:</strong> ${phone || "Non fornito"}</p>
-        <p><strong>Servizio:</strong> ${service}</p>
-        <p><strong>Messaggio:</strong></p>
-        <p>${message}</p>
-      `,
-    };
-
-    await sendgrid.send(emailContent);
-
-    return res.status(200).json({ message: "Email inviata con successo!" });
-
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
-    console.error("Errore nel server:", error);
-    return res.status(500).json({ error: `Errore durante l’invio dell’email: ${error.message}` });
+    console.error(error);
+    return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
   }
 }
