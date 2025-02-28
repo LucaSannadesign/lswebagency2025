@@ -29,6 +29,12 @@ export default {
           '100%': { opacity: 1, transform: 'translateY(0)' },
         },
       },
+
+      /** 🔥 Aggiunta di una classe globale per testi non <p> e non titoli */
+      fontSize: {
+        default: '1.2rem', // Cambia la dimensione di tutti i testi normali
+        lg: '1.5rem', // Modifica anche text-lg se necessario
+      },
     },
   },
   plugins: [

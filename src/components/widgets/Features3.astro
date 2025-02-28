@@ -55,16 +55,17 @@ const {
   </div>
 
   <ItemGrid
-    items={items}
-    columns={columns}
-    defaultIcon={defaultIcon}
-    classes={{
-      container: 'mt-12',
-      panel: 'max-w-full sm:max-w-md',
-      title: 'text-lg font-semibold',
-      description: 'mt-0.5',
-      icon: 'flex-shrink-0 mt-1 text-primary w-6 h-6',
-      ...((classes?.items as object) ?? {}),
-    }}
+  items={items}
+  columns={columns}
+  defaultIcon={defaultIcon}
+  classes={{
+    container: 'mt-12',
+    panel: 'bg-white dark:bg-slate-900 shadow-lg border border-gray-200 dark:border-gray-700 p-6 rounded-lg',
+    title: 'text-lg font-semibold',
+    description: 'mt-0.5',
+    icon: 'flex-shrink-0 mt-1 text-primary w-6 h-6',
+    ...((classes?.items as object) ?? {}),
+  }}
+
   />
 </WidgetWrapper>

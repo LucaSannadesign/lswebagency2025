@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-
 import Hero from '~/components/widgets/Hero.astro';
 import Note from '~/components/widgets/Note.astro';
 import Features from '~/components/widgets/Features.astro';
@@ -9,18 +8,17 @@ import Steps from '~/components/widgets/Steps.astro';
 import Content from '~/components/widgets/Content.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
-import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
   title: 'LS Web Agency — Creazione di Siti Web, App e Soluzioni Digitali',
+  description: 'Scopri le nostre soluzioni digitali per siti web moderni, performanti e ottimizzati per SEO.',
   ignoreTitleTemplate: true,
 };
 ---
 
-<Layout>
-  <!-- Hero Widget ******************* -->
-
+<Layout metadata={metadata}>
+  <!-- Hero Section -->
   <Hero
     actions={[
       {
@@ -32,348 +30,134 @@ const metadata = {
     ]}
     image={{ src: '~/assets/images/hero-image.png', alt: 'Immagine Hero LS Web Agency' }}
   >
-  <Fragment slot="title">
-    Siti web e app <span class="text-accent dark:text-white highlight">professionali e performanti</span>
-</Fragment>
+    <Fragment slot="title">
+      Siti web e app <span class="text-accent dark:text-white highlight">professionali e performanti</span>
+    </Fragment>
 
-<Fragment slot="subtitle">
-    <span class="hidden sm:inline">
-      <span class="font-semibold">LS Web Agency</span> realizza siti web, app e soluzioni digitali su misura, combinando performance, estetica e SEO avanzato.</span
-    >
-    <span class="block mb-1 sm:hidden font-bold text-blue-600">LS Web Agency: Creatività e tecnologia al servizio del tuo brand.</span>
-    Ideali per aziende, professionisti ed e-commerce, trasformiamo la tua visione in una realtà digitale vincente.
-</Fragment>
+    <Fragment slot="subtitle">
+      <span class="hidden sm:inline">
+        <span class="font-semibold">LS Web Agency</span> realizza siti web, app e soluzioni digitali su misura, combinando performance, estetica e SEO avanzato.
+      </span>
+      <span class="block mb-1 sm:hidden font-bold text-blue-600">
+        LS Web Agency: Creatività e tecnologia al servizio del tuo brand.
+      </span>
+      Ideali per aziende, professionisti ed e-commerce, trasformiamo la tua visione in una realtà digitale vincente.
+    </Fragment>
   </Hero>
 
-  <!-- Note Widget ******************* -->
-
-  <Note />
-
-  <!-- Features Widget *************** -->
-
-<!-- Features Widget *************** -->
-
-<Features
-  id="features"
-  tagline="Servizi"
-  title="Cosa offriamo con LS Web Agency"
-  subtitle="Soluzioni digitali professionali per aziende, professionisti e startup. Creiamo esperienze web su misura per il tuo business."
-  items={[
-    {
-      title: 'Siti Web Moderni e Performanti',
-      description:
-        'Realizziamo siti web personalizzati, ottimizzati per SEO e con design responsive, garantendo massima velocità e usabilità.',
-      icon: 'tabler:device-desktop',
-    },
-    {
-      title: 'Sviluppo App su Misura',
-      description:
-        'Progettiamo e sviluppiamo applicazioni web e mobile intuitive e performanti, adattate alle esigenze del tuo business.',
-      icon: 'tabler:device-mobile', // CORRETTO
-    },
-    {
-      title: 'Strategie di Web Marketing',
-      description:
-        'Utilizziamo strategie di digital marketing e SEO per aumentare la visibilità del tuo brand e migliorare il posizionamento sui motori di ricerca.',
-      icon: 'tabler:chart-line',
-    },
-    {
-      title: 'Branding e Identità Visiva',
-      description:
-        'Creiamo loghi, grafiche personalizzate e identità visive accattivanti per far emergere il tuo brand nel mercato digitale.',
-      icon: 'tabler:palette',
-    },
-    {
-      title: 'E-commerce e Vendite Online',
-      description:
-        'Sviluppiamo soluzioni di e-commerce sicure e scalabili, integrando sistemi di pagamento e gestione ordini per il massimo rendimento.',
-      icon: 'tabler:shopping-cart',
-    },
-    {
-      title: 'Manutenzione e Supporto Continuo',
-      description:
-        'Offriamo assistenza e aggiornamenti costanti per garantire la sicurezza, la stabilità e la crescita del tuo sito o applicazione.',
-      icon: 'tabler:lifebuoy',
-    },
-  ]}
-/>
-
-<!-- Content Widget **************** -->
-
-<Content
-  isReversed
-  tagline="Tecnologia e Innovazione"
-  title="La Nostra Formula: Performance e Creatività"
-  items={[
-    {
-      title: 'Basato sulle tecnologie più moderne',
-      description:
-        'Sfruttiamo framework avanzati come Astro e Tailwind CSS per garantire siti web veloci, scalabili e facili da gestire.',
-    },
-    {
-      title: 'Design Personalizzato e Ottimizzato',
-      description:
-        'Creiamo interfacce utente moderne, intuitive e responsive, garantendo un’esperienza fluida su ogni dispositivo.',
-    },
-    {
-      title: 'Compatibilità Cross-Browser',
-      description:
-        'Garantiamo che il tuo sito funzioni perfettamente su tutti i principali browser, offrendo un’esperienza omogenea agli utenti.',
-    },
-  ]}
-  image={{
-    src: '~/assets/images/teamwork-tech-laptops.jpeg',
-    alt: 'Team di sviluppo web al lavoro',
-  }}
->
-  <Fragment slot="content"
-    <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-      Costruiamo Esperienze Digitali su Misura
-    </h3>
-    Uniamo innovazione tecnologica e design creativo per realizzare siti web di alta qualità, ottimizzati per ogni esigenza aziendale.
-  </Fragment>
-
-  <Fragment slot="bg">
-    <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-  </Fragment>
-</Content>
-
-  <!-- Content Widget **************** -->
-
-<Content
-isAfterContent
-items={[
-  {
-    title: 'Massima Personalizzazione',
-    description: `Adattiamo ogni progetto alle esigenze specifiche del cliente, creando soluzioni digitali uniche che rappresentano al meglio la tua attività.`,
-  },
-  {
-    title: 'Design Moderno e Funzionale',
-    description:
-      'Offriamo diverse opzioni di layout per migliorare l’interazione con gli utenti e garantire un’esperienza di navigazione fluida e coinvolgente.',
-  },
-  {
-    title: 'Ottimizzazione per Tutti i Dispositivi',
-    description:
-      'Siti web e applicazioni completamente responsive, progettati per offrire prestazioni eccellenti su desktop, tablet e smartphone.',
-  },
-  {
-    title: 'Integrazione Multimediale',
-    description:
-      'Incorporiamo immagini, video e altri contenuti interattivi per rendere il tuo sito più accattivante e coinvolgente per i visitatori.',
-  },
-]}
-image={{
-  src: '~/assets/images/programming-code-screen2.jpeg',
-  alt: 'Progetto di web design',
-}}
->
-<Fragment slot="content">
-  <h3>Assicuriamo che la tua presenza online sia professionale, efficace e allineata ai tuoi obiettivi di business.</h3>
-</Fragment>
-
-<Fragment slot="bg">
-  <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-</Fragment>
-</Content>
-
-<Content
-isReversed
-isAfterContent
-items={[
-  {
-    title: 'Esperienza Utente Ottimizzata',
-    description:
-      'Progettiamo siti web intuitivi, veloci e coinvolgenti per migliorare l’interazione con il pubblico.',
-  },
-  {
-    title: 'Aggiornamenti Costanti',
-    description:
-      'Manteniamo il tuo sito sempre al passo con le ultime tecnologie e tendenze digitali.',
-  },
-  {
-    title: 'Soluzioni su Misura',
-    description:
-      'Dalla progettazione alla pubblicazione, offriamo servizi personalizzati per ogni esigenza digitale.',
-  },
-]}
-image={{
-  src: '~/assets/images/programming-code-screen.jpeg',
-  alt: 'Strategia digitale',
-}}
->
-<Fragment slot="content">Costruiamo strategie digitali per far crescere il tuo business online.</Fragment>
-
-<Fragment slot="bg">
-  <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-</Fragment>
-</Content>
-
-<Steps
-title="Il tuo sito web in pochi passi"
-items={[
-  {
-    title: 'Step 1: <span class="font-medium">Analisi e Strategia</span>',
-    description:
-      "Studiamo il tuo brand, il mercato e gli obiettivi per progettare un sito su misura, funzionale e performante.",
-    icon: 'tabler:search',
-  },
-  {
-    title: 'Step 2: <span class="font-medium">Design e Sviluppo</span>',
-    description:
-      "Realizziamo un design moderno e sviluppiamo il sito con tecnologie avanzate, garantendo un’esperienza utente fluida.",
-    icon: 'tabler:palette',
-  },
-  {
-    title: 'Step 3: <span class="font-medium">Ottimizzazione SEO</span>',
-    description:
-      'Ottimizziamo il sito per i motori di ricerca, migliorando visibilità e posizionamento su Google.',
-    icon: 'tabler:trending-up',
-  },
-  {
-    title: 'Online!',
-    description: "Lancio del sito e monitoraggio delle performance per garantire risultati concreti.",
-    icon: 'tabler:check',
-  },
-]}
-image={{
-  src: '~/assets/images/modern-wall-clock.jpeg',
-  alt: 'Processo sviluppo sito web',
-}}
-/>
-
-<Features2
-title="Elementi essenziali di un sito web moderno"
-subtitle="Ogni dettaglio conta per garantire un’esperienza utente fluida e professionale"
-tagline="Componenti Chiave"
-items={[
-  {
-    title: 'Navigazione Intuitiva',
-    description: "Un menu chiaro e ben strutturato aiuta gli utenti a trovare ciò che cercano rapidamente.",
-    icon: 'tabler:layout-navbar',
-  },
-  {
-    title: 'Design Accattivante',
-    description:
-      "L'estetica è fondamentale: colori, font e immagini devono comunicare il valore del brand.",
-    icon: 'tabler:palette',
-  },
-  {
-    title: 'Performance e Velocità',
-    description:
-      'Un sito veloce riduce il tasso di abbandono e migliora il posizionamento sui motori di ricerca.',
-    icon: 'tabler:rocket',
-  },
-  {
-    title: 'Contenuti Ottimizzati',
-    description:
-      "Testi chiari, immagini di qualità e call-to-action efficaci rendono un sito funzionale e coinvolgente.",
-    icon: 'tabler:file-text',
-  },
-  {
-    title: 'SEO e Visibilità',
-    description:
-      'L’ottimizzazione per i motori di ricerca (SEO) è essenziale per attrarre traffico organico e clienti.',
-    icon: 'tabler:search',
-  },
-  {
-    title: 'Responsive e Mobile-Friendly',
-    description: 'Il sito deve adattarsi perfettamente a tutti i dispositivi, dal desktop allo smartphone.',
-    icon: 'tabler:device-mobile',
-  },
-  {
-    title: 'Sezione Contatti Strategica',
-    description:
-      'Facilitare la comunicazione con i clienti attraverso form chiari e informazioni di contatto ben visibili.',
-    icon: 'tabler:mail',
-  },
-  {
-    title: 'Integrazione con Social Media',
-    description:
-      'Un sito con collegamenti ai social network aiuta a migliorare la presenza online e la fidelizzazione.',
-    icon: 'tabler:brand-facebook',
-  },
-]}
->
-<Fragment slot="bg">
-  <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-</Fragment>
-</Features2>
-  <!-- Widget Post in Evidenza ******* -->
-
-  <BlogLatestPosts
-    title="Scopri le ultime novità nel nostro Blog"
-    information={`Nel nostro blog trovi articoli, guide e approfondimenti su sviluppo web, UX/UI design, SEO e strategie digitali.
-                        Ogni articolo è pensato per aiutarti a migliorare la tua presenza online con le migliori pratiche del settore.
-                        Rimani aggiornato sulle ultime tendenze del web e scopri come portare il tuo progetto al livello successivo.
-                `}
-  />
-
-  <!-- Widget Domande Frequenti (FAQs) ******************* -->
-
-  <FAQs
-    title="Domande Frequenti"
-    subtitle="Scopri le risposte alle domande più comuni sui nostri servizi di sviluppo web, design e strategie digitali."
-    tagline="FAQs"
-    classes={{ container: 'max-w-6xl' }}
+  <!-- Features Widget -->
+  <Features
+    id="features"
+    tagline="Servizi"
+    title="Cosa offriamo con LS Web Agency"
+    subtitle="Soluzioni digitali professionali per aziende, professionisti e startup. Creiamo esperienze web su misura per il tuo business."
     items={[
       {
-        title: 'Perché scegliere LS Web Agency?',
-        description:
-          "Offriamo soluzioni su misura per siti web, e-commerce e branding digitale. Il nostro approccio unisce creatività, innovazione e strategia per portare il tuo progetto al successo.",
+        title: 'Siti Web Moderni e Performanti',
+        description: 'Realizziamo siti web personalizzati, ottimizzati per SEO e con design responsive, garantendo massima velocità e usabilità.',
+        icon: 'tabler:device-desktop',
       },
       {
-        title: 'Cosa serve per iniziare?',
-        description:
-          'Basta avere un’idea chiara del tuo progetto o un obiettivo da raggiungere. Ti guideremo passo dopo passo, dalla progettazione alla messa online, ottimizzando ogni dettaglio per massimizzare il risultato.',
+        title: 'Sviluppo App su Misura',
+        description: 'Progettiamo e sviluppiamo applicazioni web e mobile intuitive e performanti, adattate alle esigenze del tuo business.',
+        icon: 'tabler:device-mobile',
       },
       {
-        title: 'Quali tecnologie utilizziamo?',
-        description:
-          "Lavoriamo con le tecnologie più moderne, come Astro, Tailwind CSS, WordPress Headless e soluzioni personalizzate per garantire performance elevate, scalabilità e un'esperienza utente ottimale.",
+        title: 'Strategie di Web Marketing',
+        description: 'Utilizziamo strategie di digital marketing e SEO per aumentare la visibilità del tuo brand e migliorare il posizionamento sui motori di ricerca.',
+        icon: 'tabler:chart-line',
       },
       {
-        title: 'Quanto tempo ci vuole per sviluppare un sito web?',
-        description:
-          "Il tempo varia a seconda della complessità del progetto. Un sito vetrina può essere pronto in 2-4 settimane, mentre soluzioni più avanzate come e-commerce o app richiedono più tempo per garantire qualità e funzionalità ottimali.",
+        title: 'Branding e Identità Visiva',
+        description: 'Creiamo loghi, grafiche personalizzate e identità visive accattivanti per far emergere il tuo brand nel mercato digitale.',
+        icon: 'tabler:palette',
       },
       {
-        title: 'Offrite supporto e manutenzione dopo il lancio?',
-        description:
-          "Sì, forniamo assistenza continua, aggiornamenti di sicurezza e ottimizzazioni per garantire che il tuo sito web sia sempre performante e aggiornato con le ultime tecnologie.",
+        title: 'E-commerce e Vendite Online',
+        description: 'Sviluppiamo soluzioni di e-commerce sicure e scalabili, integrando sistemi di pagamento e gestione ordini per il massimo rendimento.',
+        icon: 'tabler:shopping-cart',
       },
       {
-        title: 'Come posso migliorare la visibilità del mio sito?',
-        description:
-          "Ottimizziamo il tuo sito per i motori di ricerca (SEO) e ti supportiamo con strategie di content marketing, social media e advertising per aumentare traffico e conversioni.",
+        title: 'Manutenzione e Supporto Continuo',
+        description: 'Offriamo assistenza e aggiornamenti costanti per garantire la sicurezza, la stabilità e la crescita del tuo sito o applicazione.',
+        icon: 'tabler:lifebuoy',
       },
     ]}
   />
 
-  
+  <!-- Elementi Essenziali -->
+  <Features2
+    title="Elementi essenziali di un sito web moderno"
+    subtitle="Ogni dettaglio conta per garantire un’esperienza utente fluida e professionale"
+    tagline="Componenti Chiave"
+    items={[
+      {
+        title: 'Navigazione Intuitiva',
+        description: "Un menu chiaro e ben strutturato aiuta gli utenti a trovare ciò che cercano rapidamente.",
+        icon: 'tabler:layout-navbar',
+      },
+      {
+        title: 'Design Accattivante',
+        description: "L'estetica è fondamentale: colori, font e immagini devono comunicare il valore del brand.",
+        icon: 'tabler:palette',
+      },
+      {
+        title: 'Performance e Velocità',
+        description: 'Un sito veloce riduce il tasso di abbandono e migliora il posizionamento sui motori di ricerca.',
+        icon: 'tabler:rocket',
+      },
+      {
+        title: 'Contenuti Ottimizzati',
+        description: "Testi chiari, immagini di qualità e call-to-action efficaci rendono un sito funzionale e coinvolgente.",
+        icon: 'tabler:file-text',
+      },
+      {
+        title: 'SEO e Visibilità',
+        description: 'L’ottimizzazione per i motori di ricerca (SEO) è essenziale per attrarre traffico organico e clienti.',
+        icon: 'tabler:search',
+      },
+      {
+        title: 'Responsive e Mobile-Friendly',
+        description: 'Il sito deve adattarsi perfettamente a tutti i dispositivi, dal desktop allo smartphone.',
+        icon: 'tabler:device-mobile',
+      },
+      {
+        title: 'Sezione Contatti Strategica',
+        description: 'Facilitare la comunicazione con i clienti attraverso form chiari e informazioni di contatto ben visibili.',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Integrazione con Social Media',
+        description: 'Un sito con collegamenti ai social network aiuta a migliorare la presenza online e la fidelizzazione.',
+        icon: 'tabler:brand-facebook',
+      },
+      {
+        title: 'Sicurezza e Protezione Dati',
+        description: 'Proteggiamo il tuo sito con protocolli avanzati, certificati SSL e backup regolari per garantire sicurezza e affidabilità.',
+        icon: 'tabler:shield-lock',
+      },
+    ]}
+  />
 
-<!-- CallToAction Widget *********** -->
+  <!-- Call to Action -->
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Prenota una consulenza gratuita',
+        href: '/contatti',
+        icon: 'tabler:message',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Siti Web&nbsp;+&nbsp;<br class="block sm:hidden" />
+      <span class="sm:whitespace-nowrap">SEO & Brand Identity</span>
+    </Fragment>
 
-<!-- CallToAction Widget *********** -->
-
-<CallToAction
-  actions={[
-    {
-      variant: 'primary',
-      text: 'Prenota una consulenza gratuita',
-      href: '/contatti',
-      icon: 'tabler:message',
-    },
-  ]}
->
-  <Fragment slot="title">
-    Siti Web&nbsp;+&nbsp;<br class="block sm:hidden" />
-    <span class="sm:whitespace-nowrap">SEO & Brand Identity</span>
-  </Fragment>
-
-  <Fragment slot="subtitle">
-    Vuoi un sito web professionale e visibile sui motori di ricerca? 🚀 <br />
-    Contattaci ora e scopri come possiamo trasformare la tua presenza online con soluzioni su misura per il tuo business.
-  </Fragment>
-</CallToAction>
+    <Fragment slot="subtitle">
+      Vuoi un sito web professionale e visibile sui motori di ricerca? 🚀 <br />
+      Contattaci ora e scopri come possiamo trasformare la tua presenza online con soluzioni su misura per il tuo business.
+    </Fragment>
+  </CallToAction>
 </Layout>
