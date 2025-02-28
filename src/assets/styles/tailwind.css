@@ -107,3 +107,25 @@
     @apply ring-2 ring-primary dark:ring-secondary;
   }
 }
+@layer base {
+  /* Imposta il font standard per il footer */
+  footer {
+    @apply text-base text-gray-700 dark:text-gray-300 leading-relaxed;
+  }
+
+  /* Migliora i titoli del footer */
+  footer h3, footer h4 {
+    @apply text-lg font-semibold text-gray-900 dark:text-white mb-3;
+  }
+
+  /* Testo delle voci di navigazione */
+  footer a {
+    @apply text-gray-600 dark:text-gray-400 hover:text-primary transition;
+  }
+
+  /* Copyright e link in basso */
+  footer .footer-bottom {
+    @apply text-sm text-gray-500 dark:text-gray-400 text-center mt-6;
+  }
+
+}

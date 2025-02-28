@@ -1,47 +1,135 @@
 ---
-import CallToAction from '~/components/widgets/CallToAction.astro';
 import Features2 from '~/components/widgets/Features2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import Button from '~/components/ui/Button.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import { Icon } from '@iconify/react';
+
 const metadata = {
   title: 'Creazione E-commerce a Sassari - LS Web Agency',
-  description:
-    'Scopri il nostro servizio di creazione e-commerce a Sassari: soluzioni professionali, scalabili e ottimizzate per le vendite online.',
+  description: 'Scopri il nostro servizio di creazione e-commerce a Sassari: soluzioni professionali, scalabili e ottimizzate per le vendite online.',
 };
 ---
 
 <Layout metadata={metadata}>
+  <!-- Hero Section -->
   <Hero
-    tagline="Creazione E-commerce a Sassari"
-    title="Porta il tuo business online con un e-commerce su misura"
+    tagline="Creazione E-commerce"
+    title="Porta il tuo business online con un E-commerce su misura"
     subtitle="Realizziamo soluzioni e-commerce scalabili, performanti e ottimizzate per le vendite online."
-    actions={[{ variant: 'primary', text: 'Richiedi un Preventivo', href: '/contatti' }]}
-  />
+    image={{
+      src: '~/assets/images/e-commerce-business-web-site-digital-solutions.webp',
+      alt: 'Creazione e-commerce',
+    }}
+  >
+    <Fragment slot="title">
+      Sviluppiamo il tuo <span class="text-accent dark:text-white highlight">E-commerce di successo</span>
+    </Fragment>
 
-  <Features2
+    <Fragment slot="subtitle">
+      Ti forniamo una piattaforma performante, sicura e ottimizzata per incrementare le vendite online.
+    </Fragment>
+  </Hero>
+
+  <!-- Servizi Offerti -->
+  <Features3
+    title="I nostri servizi per il tuo E-commerce"
+    subtitle="Progettiamo soluzioni su misura per la tua attività."
+    columns={3}
+    isBeforeContent={true}
     items={[
       {
-        title: 'Design Accattivante',
-        description: 'Realizziamo e-commerce moderni con un’interfaccia intuitiva e coinvolgente.',
+        title: 'Design Moderno e Intuitivo',
+        description: 'Creiamo esperienze di acquisto fluide e coinvolgenti per i tuoi clienti.',
+        icon: 'tabler:template',
       },
       {
-        title: 'Ottimizzazione SEO',
-        description: 'Massimizziamo la visibilità del tuo negozio online sui motori di ricerca.',
+        title: 'SEO e Visibilità Online',
+        description: 'Ottimizziamo il tuo e-commerce per scalare i risultati sui motori di ricerca.',
+        icon: 'tabler:search',
       },
       {
         title: 'Sicurezza e Affidabilità',
-        description: 'Soluzioni con protezione avanzata per i pagamenti e i dati sensibili.',
+        description: 'Soluzioni avanzate per proteggere i pagamenti e i dati sensibili.',
+        icon: 'tabler:shield-check',
       },
     ]}
   />
 
+  <!-- Perché scegliere noi -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-6">Perché scegliere noi?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="space-y-6">
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:trophy" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Esperienza nel settore</h3>
+              <p class="text-muted">Sviluppiamo e-commerce professionali per aziende di ogni settore.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:credit-card" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Pagamenti sicuri</h3>
+              <p class="text-muted">Integrazione con gateway affidabili per garantire transazioni sicure.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:chart-line" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Strategia di crescita</h3>
+              <p class="text-muted">Monitoriamo il rendimento del tuo negozio online per migliorare le conversioni.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:shopping-cart" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Gestione facile</h3>
+              <p class="text-muted">Pannello di controllo intuitivo per gestire prodotti, ordini e clienti.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:device-mobile" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">E-commerce Mobile-Friendly</h3>
+              <p class="text-muted">Esperienza d’acquisto ottimizzata per smartphone e tablet.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:users" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Supporto continuo</h3>
+              <p class="text-muted">Ti assistiamo nella gestione e crescita del tuo negozio online.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione Testimonianze -->
+  <Testimonials />
+
+  <!-- Call to Action -->
   <CallToAction
-    title="Vuoi un sito web E-commerce su misura per la tua attività?"
-    subtitle="Contattaci oggi stesso e trasformiamo la tua idea in realtà."
+    title="Vuoi creare il tuo E-commerce?"
+    subtitle="Contattaci oggi stesso per iniziare a vendere online."
   >
     <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">Parliamone</Button>
+      <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
     </Fragment>
   </CallToAction>
+
+  
 </Layout>

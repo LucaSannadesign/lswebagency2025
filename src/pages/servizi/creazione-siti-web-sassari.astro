@@ -1,94 +1,130 @@
 ---
-import CallToAction from '~/components/widgets/CallToAction.astro';
-import Content from '~/components/widgets/Content.astro';
-import Features2 from '~/components/widgets/Features2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import Button from '~/components/ui/Button.astro'; // ✅ Import del componente Button
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import { Icon } from '@iconify/react';
 
 const metadata = {
-  title: 'Creazione Siti Web a Sassari - LS Web Agency',
+  title: 'Creazione Siti Web - LS Web Agency',
+  description: 'Realizziamo siti web ottimizzati per SEO, performance elevate e un’esperienza utente impeccabile.',
 };
 ---
 
 <Layout metadata={metadata}>
+  <!-- Hero Section -->
   <Hero
-    tagline="Servizi"
-    title="Creazione Siti Web - LS Web Agency"
-    subtitle="Realizziamo siti web a Sassari, professionali su misura, ottimizzati per SEO e performance elevate."
-  >
-    <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">Richiedi una consulenza</Button>
-    </Fragment>
-  </Hero>
-
-  <Content>
-    <h2>Perché scegliere LS Web Agency?</h2>
-    
-    <p>
-      Nel mondo digitale di oggi, avere un <strong>sito web professionale</strong> non è più un lusso, ma una necessità.  
-      Un sito ben progettato è il cuore della tua presenza online e può fare la differenza tra il successo e l'anonimato.
-    </p>
-  
-    <h3>🎯 Soluzioni su misura per il tuo business</h3>
-    <p>
-      Ogni attività ha esigenze diverse. Ecco perché offriamo <strong>soluzioni personalizzate</strong>, costruite su misura per 
-      rispecchiare la tua identità e i tuoi obiettivi. Che tu abbia bisogno di un sito vetrina, un e-commerce o un portale 
-      aziendale, realizziamo un progetto che valorizza il tuo brand.
-    </p>
-  
-    <h3>🚀 Performance e ottimizzazione SEO</h3>
-    <p>
-      Creare un sito bello non basta: deve essere <strong>veloce, ottimizzato per Google e capace di convertire</strong>.  
-      Ottimizziamo ogni pagina per garantire <strong>prestazioni elevate</strong> e un migliore posizionamento nei motori di ricerca.
-    </p>
-  
-    <h3>📱 Mobile-first e accessibilità</h3>
-    <p>
-      Oltre il <strong>60% del traffico web</strong> proviene da dispositivi mobili. I nostri siti sono progettati con un approccio 
-      <strong>mobile-first</strong>, garantendo un'esperienza fluida su qualsiasi dispositivo. Inoltre, curiamo l’<strong>accessibilità</strong> 
-      per rendere i contenuti fruibili a tutti.
-    </p>
-  
-    <h3>🔧 Supporto continuo e aggiornamenti</h3>
-    <p>
-      La nostra collaborazione non finisce con il lancio del sito. Offriamo <strong>assistenza tecnica</strong>, manutenzione e 
-      aggiornamenti costanti per garantire che il tuo sito rimanga sempre performante e sicuro nel tempo.
-    </p>
-  
-    <h3>💡 Strategia digitale e marketing</h3>
-    <p>
-      Un sito web è solo il primo passo. Ti aiutiamo a costruire una <strong>strategia di marketing digitale</strong> efficace, 
-      integrando strumenti come SEO, content marketing e campagne pubblicitarie per far crescere la tua attività online.
-    </p>
-  
-    <h2>🔗 Contattaci e porta il tuo business al livello successivo!</h2>
-    <p>
-      Sei pronto a creare un sito web professionale e ottimizzato? Affidati a <strong>LS Web Agency</strong> e trasforma la tua 
-      presenza online in un vantaggio competitivo.
-    </p>
-  </Content>
-
-  <Features2
-    items={[
-      {
-        title: 'Design Moderno',
-        description: 'Ogni sito è progettato per offrire un’esperienza utente unica e coinvolgente.',
-      },
-      {
-        title: 'Ottimizzazione SEO',
-        description: 'Garantiamo visibilità sui motori di ricerca grazie a strategie SEO avanzate.',
-      },
-      { title: 'Siti Responsive', description: 'Perfetti su ogni dispositivo: desktop, tablet e smartphone.' },
-    ]}
+    tagline="Creazione Siti Web"
+    title="Creiamo Siti Web Professionali e Performanti"
+    subtitle="Ottimizzati per SEO, rapidi, responsive e con un design su misura per il tuo brand."
+    image={{
+      src: '~/assets/images/team-sviluppo-siti-web2.webp',
+      alt: 'Creazione siti web',
+    }}
   />
 
+  <!-- Servizi Offerti -->
+  <Features3
+  title="I Nostri Servizi"
+  subtitle="Soluzioni su misura per il tuo sito web"
+  columns={3}
+  items={[
+    {
+      title: 'Siti Web Personalizzati',
+      description: 'Design esclusivo e funzionalità su misura per la tua attività.',
+      icon: 'tabler:template',
+      itemClasses: {
+        panel: 'bg-white dark:bg-slate-900 shadow-lg border border-gray-200 dark:border-gray-700 p-6 rounded-lg',
+      },
+    },
+    {
+      title: 'Ottimizzazione SEO',
+      description: 'Migliora il tuo posizionamento nei motori di ricerca con strategie efficaci.',
+      icon: 'tabler:search',
+      itemClasses: {
+        panel: 'bg-white dark:bg-slate-900 shadow-lg border border-gray-200 dark:border-gray-700 p-6 rounded-lg',
+      },
+    },
+    {
+      title: 'Siti Responsive',
+      description: 'Perfetti su qualsiasi dispositivo: desktop, tablet e mobile.',
+      icon: 'tabler:device-desktop',
+      itemClasses: {
+        panel: 'bg-white dark:bg-slate-900 shadow-lg border border-gray-200 dark:border-gray-700 p-6 rounded-lg',
+      },
+    },
+  ]}
+/>
+  <!-- Perché scegliere LS Web Agency -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-6">Perché scegliere noi?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="space-y-6">
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:trophy" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Esperienza e Affidabilità</h3>
+              <p class="text-muted">Anni di esperienza nel settore garantiscono un prodotto di qualità.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:palette" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Design Moderno</h3>
+              <p class="text-muted">Interfacce curate per una navigazione intuitiva e coinvolgente.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:shield-check" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Sicurezza e Aggiornamenti</h3>
+              <p class="text-muted">Tecnologie all’avanguardia per garantire stabilità e protezione.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:users" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Supporto Continuo</h3>
+              <p class="text-muted">Ti accompagniamo dalla fase di sviluppo all'assistenza post-lancio.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:graph" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Strategie di Crescita</h3>
+              <p class="text-muted">Monitoriamo il rendimento del sito per massimizzare i risultati.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <Icon icon="tabler:device-mobile" className="text-accent text-3xl" />
+            <div>
+              <h3 class="text-lg font-semibold">Mobile-First</h3>
+              <p class="text-muted">Ottimizzato per smartphone e tablet per un’esperienza perfetta ovunque.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Sezione Testimonianze -->
+  <Testimonials />
+
+<!-- Call to Action -->
   <CallToAction
-    title="Vuoi un sito web su misura per la tua attività?"
-    subtitle="Contattaci oggi stesso e trasformiamo la tua idea in realtà."
+    title="Vuoi un sito web professionale?"
+    subtitle="Parliamone e troviamo la soluzione perfetta per la tua attività."
   >
     <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">Parliamone</Button>
+      <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
     </Fragment>
   </CallToAction>
 </Layout>
