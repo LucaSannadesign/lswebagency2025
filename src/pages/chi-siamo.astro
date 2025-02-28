@@ -1,20 +1,17 @@
 ---
-import Features2 from '~/components/widgets/Features2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from '@iconify/react';
 
 const metadata = {
   title: 'Chi Siamo - LS Web Agency',
   description:
-    'Scopri chi siamo e come aiutiamo aziende e professionisti con siti web ottimizzati e soluzioni digitali avanzate.',
+    'LS Web Agency è un progetto di Luca Sanna, web designer e developer con oltre 15 anni di esperienza nello sviluppo di siti web e applicazioni. Collaboriamo con esperti per offrire soluzioni digitali di alta qualità.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
-
+  <!-- Hero Widget -->
   <Hero
     tagline="Chi Siamo"
     title="Strategie Digitali e Creazione Siti Web su Misura"
@@ -23,20 +20,22 @@ const metadata = {
       src: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?fit=crop&w=2070&q=80',
       alt: 'Team al lavoro',
     }}
-  >
-    <Fragment slot="title">
-      Creiamo esperienze digitali su misura per il tuo <br />
-      <span class="text-accent dark:text-white highlight"> Successo Online</span>
-    </Fragment>
+  />
 
-    <Fragment slot="subtitle">
-      Siamo una web agency specializzata in creazione siti web, SEO e marketing digitale. Il nostro obiettivo è aiutare
-      aziende e professionisti a migliorare la loro presenza online con design moderni e strategie vincenti.
-    </Fragment>
-  </Hero>
+  <!-- Sezione Descrittiva su LS Web Agency -->
+  <section class="py-16 text-center">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold">Chi è LS Web Agency?</h2>
+      <p class="text-lg mt-4 max-w-2xl mx-auto">
+        <strong>LS Web Agency</strong> è un progetto fondato da <strong>Luca Sanna</strong>, web designer e developer con oltre 15 anni di esperienza 
+        nello sviluppo di siti web e applicazioni.  
+        Il nostro obiettivo è unire competenze e professionalità per offrire soluzioni digitali 
+        <strong>di alta qualità</strong>, con un approccio su misura per ogni cliente.
+      </p>
+    </div>
+  </section>
 
-  <!-- Features3 Widget ************** -->
-</section>
+  <!-- Servizi Offerti -->
   <Features3
     title="I Nostri Servizi"
     subtitle="Ogni progetto è studiato per ottenere il massimo dei risultati."
@@ -61,9 +60,7 @@ const metadata = {
     ]}
   />
 
- 
-  <!-- Sezione "I Nostri Valori" in due colonne su desktop ****************** -->
-
+  <!-- I Nostri Valori -->
   <section class="py-16">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold text-center mb-6">I Nostri Valori</h2>
@@ -76,7 +73,7 @@ const metadata = {
         <!-- Colonna Sinistra -->
         <div class="space-y-6">
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:chart-line" className="text-accent text-3xl" />
+            <span class="text-accent text-3xl">📈</span>
             <div>
               <h3 class="text-lg font-semibold">Innovazione Continua</h3>
               <p class="text-muted">
@@ -87,7 +84,7 @@ const metadata = {
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:star" className="text-accent text-3xl" />
+            <span class="text-accent text-3xl">⭐</span>
             <div>
               <h3 class="text-lg font-semibold">Eccellenza e Qualità</h3>
               <p class="text-muted">
@@ -97,12 +94,11 @@ const metadata = {
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:shield-check" className="text-accent text-3xl" />
+            <span class="text-accent text-3xl">🛡️</span>
             <div>
               <h3 class="text-lg font-semibold">Trasparenza e Affidabilità</h3>
               <p class="text-muted">
-                Costruiamo relazioni di fiducia con i nostri clienti attraverso comunicazione chiara e supporto
-                continuo.
+                Costruiamo relazioni di fiducia con i nostri clienti attraverso comunicazione chiara e supporto continuo.
               </p>
             </div>
           </div>
@@ -111,7 +107,7 @@ const metadata = {
         <!-- Colonna Destra -->
         <div class="space-y-6">
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:users" className="text-accent text-3xl" />
+            <span class="text-accent text-3xl">👥</span>
             <div>
               <h3 class="text-lg font-semibold">Focus sul Cliente</h3>
               <p class="text-muted">
@@ -121,7 +117,7 @@ const metadata = {
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:brush" className="text-accent text-3xl" />
+            <span class="text-accent text-3xl">🎨</span>
             <div>
               <h3 class="text-lg font-semibold">Creatività e Passione</h3>
               <p class="text-muted">
@@ -131,12 +127,11 @@ const metadata = {
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:chart-line" className="text-accent text-3xl" />
+            <span class="text-accent text-3xl">📊</span>
             <div>
               <h3 class="text-lg font-semibold">Risultati Misurabili</h3>
               <p class="text-muted">
-                Monitoriamo costantemente il rendimento dei siti per garantire una crescita continua e successi
-                concreti.
+                Monitoriamo costantemente il rendimento dei siti per garantire una crescita continua e successi concreti.
               </p>
             </div>
           </div>
@@ -145,21 +140,20 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Features2 Widget ************** -->
-   <!-- Google Maps Embed -->
-<section class="py-8">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-6">La Nostra Sede</h2>
-    <div class="flex justify-center">
-      <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2724.6631159933872!2d8.576194475639143!3d40.72013917139243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12dc6402a0911c99%3A0x572a199f1be0a9b!2sLS%20Web%20Design%20e%20Grafica!5e1!3m2!1sit!2sit!4v1739481509002!5m2!1sit!2sit" 
-        width="100%" 
-        height="450" 
-        style="border:0; border-radius:10px;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+  <!-- Google Maps Embed -->
+  <section class="py-8">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-6">La Nostra Sede</h2>
+      <div class="flex justify-center">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2724.6631159933872!2d8.576194475639143!3d40.72013917139243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12dc6402a0911c99%3A0x572a199f1be0a9b!2sLS%20Web%20Design%20e%20Grafica!5e1!3m2!1sit!2sit!4v1739481509002!5m2!1sit!2sit" 
+          width="100%" 
+          height="450" 
+          style="border:0; border-radius:10px;" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
     </div>
-  </div>
+  </section>
 </Layout>
