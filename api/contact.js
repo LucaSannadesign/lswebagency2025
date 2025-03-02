@@ -1,33 +1,33 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const contactForm = document.getElementById("contactForm");
+  const form = document.getElementById("contactForm");
 
-  contactForm.addEventListener("submit", async function (event) {
-    event.preventDefault();
+  form.addEventListener("submit", async function (event) {
+      event.preventDefault();
 
-    const formData = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      message: document.getElementById("message").value,
-    };
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
 
-    try {
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      try {
+          const response = await fetch("/api/sendEmail", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+          });
 
-      const result = await response.json();
+          if (response.ok) {
+              // Reindirizza alla pagina di cortesia
+              window.location.href = "/grazie";
 
-      if (result.success) {
-        alert("Email inviata con successo!");
-        contactForm.reset();
-      } else {
-        alert("Errore nell'invio dell'email. Riprova più tardi.");
+              // Dopo 15 secondi, torna alla home
+              setTimeout(() => {
+                  window.location.href = "/";
+              }, 15000);
+          } else {
+              alert("Errore nell'invio del modulo. Riprova più tardi.");
+          }
+      } catch (error) {
+          console.error("Errore:", error);
+          alert("Errore di connessione con il server.");
       }
-    } catch (error) {
-      console.error("Errore nell'invio del modulo:", error);
-      alert("Si è verificato un errore. Controlla la console per maggiori dettagli.");
-    }
   });
 });
