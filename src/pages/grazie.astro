@@ -1,0 +1,22 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: "Grazie per il tuo messaggio - LS Web Agency",
+  description: "Abbiamo ricevuto il tuo messaggio. Ti risponderemo il prima possibile.",
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="text-center max-w-3xl mx-auto my-20">
+    <h1 class="text-4xl font-bold text-blue-600">Grazie per il tuo messaggio!</h1>
+    <p class="text-lg mt-4">Ti risponderemo al più presto.</p>
+    <p class="text-sm text-gray-500 mt-2">Verrai reindirizzato alla homepage tra pochi secondi...</p>
+  </section>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 20000); // 20 secondi
+  </script>
+</Layout>
