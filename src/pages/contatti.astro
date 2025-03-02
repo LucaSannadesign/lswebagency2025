@@ -3,6 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import HeroText from '~/components/widgets/HeroText.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Icon from 'astro-icon';
+
 const metadata = {
   title: 'Contatti - LS Web Agency',
   description: 'Hai bisogno di informazioni? Contattaci per una consulenza gratuita e scopri come possiamo aiutarti a realizzare il tuo progetto digitale.',
@@ -66,146 +67,73 @@ const metadata = {
     
       <button type="submit" class="btn-submit">Invia Richiesta</button>
     </form>
-
-    <script src="/js/contact.js" is:inline></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("contactForm");
-    
-        form.addEventListener("submit", async function (event) {
-          event.preventDefault();
-    
-          const formData = new FormData(form);
-          const data = Object.fromEntries(formData.entries());
-    
-          try {
-            const response = await fetch("/api/sendEmail", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(data),
-            });
-    
-            if (response.ok) {
-              window.location.href = "/grazie"; // Reindirizzamento alla pagina di cortesia
-            } else {
-              alert("Errore nell'invio del modulo. Riprova più tardi.");
-            }
-          } catch (error) {
-            console.error("Errore:", error);
-            alert("Errore di connessione con il server.");
-          }
-        });
-      });
-    </script>
   </div>
 
+  <!-- Script di invio del form -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("contactForm");
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch("/api/sendEmail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          if (response.ok) {
+            window.location.href = "/grazie"; // Reindirizzamento alla pagina di cortesia
+          } else {
+            alert("Errore nell'invio del modulo. Riprova più tardi.");
+          }
+        } catch (error) {
+          console.error("Errore:", error);
+          alert("Errore di connessione con il server.");
+        }
+      });
+    });
+  </script>
+
   <!-- Features Section -->
-   
   <Features2
-  title="Siamo qui per aiutarti!"
-  columns={4}  // 👈 Override specifico per la pagina Contatti
-  items={[
-    {
-      title: 'Contatti Rapidi',
-      description: `
-<div class="flex gap-4 mt-2">
-  <a href="https://wa.me/393403223494" target="_blank" class="btn-whatsapp flex items-center gap-2">
-    <img src="/icons/whatsapp.svg" alt="WhatsApp" class="w-6 h-6" /> WhatsApp
-  </a>
-  <a href="https://t.me/LSWebAgency" target="_blank" class="btn-telegram flex items-center gap-2">
-    <img src="/icons/telegram.svg" alt="Telegram" class="w-6 h-6" /> Telegram
-  </a>
-</div>
-      `,
-      icon: 'tabler:message',
-    },
-    {
-      title: 'Telefono',
-      description: '<a href="tel:+393403223494" class="contact-link">+39 340 3223 494</a>',
-      icon: 'tabler:headset',
-    },
-    {
-      title: 'Email',
-      description: '<a href="mailto:info@lswebagency.com" class="contact-link">info@lswebagency.com</a>',
-      icon: 'tabler:mail',
-    },
-    {
-      title: 'Indirizzo',
-      description: 'Via Alcide De Gasperi, 3, 07100 Sassari, Italia',
-      icon: 'tabler:map-pin',
-    },
-    
-  ]}
-
-/>
-
-  <style>
-    .input-field {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .btn-submit {
-      background-color: #2563eb;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 16px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn-submit:hover {
-      background-color: #1e4bb7;
-    }
-
-    .btn-whatsapp, .btn-telegram {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      border-radius: 6px;
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .btn-whatsapp {
-      background-color: #25D366;
-      color: white;
-    }
-    
-    .btn-telegram {
-      background-color: #0088cc;
-      color: white;
-    }
-
-    .btn-whatsapp:hover {
-      background-color: #1ebe5d;
-    }
-    
-    .btn-telegram:hover {
-      background-color: #0077b5;
-    }
-
-    .contact-link {
-      color: #2563eb;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .contact-link:hover {
-      text-decoration: underline;
-    }
-
-    .icon-class {
-      width: 20px;
-      height: 20px;
-    }
-  </style>
+    title="Siamo qui per aiutarti!"
+    columns={4}
+    items={[
+      {
+        title: 'Contatti Rapidi',
+        description: `
+        <div class="flex gap-4 mt-2">
+          <a href="https://wa.me/393403223494" target="_blank" class="btn-whatsapp flex items-center gap-2">
+            <img src="/icons/whatsapp.svg" alt="WhatsApp" class="w-6 h-6" /> WhatsApp
+          </a>
+          <a href="https://t.me/LSWebAgency" target="_blank" class="btn-telegram flex items-center gap-2">
+            <img src="/icons/telegram.svg" alt="Telegram" class="w-6 h-6" /> Telegram
+          </a>
+        </div>
+        `,
+        icon: 'tabler:message',
+      },
+      {
+        title: 'Telefono',
+        description: '<a href="tel:+393403223494" class="contact-link">+39 340 3223 494</a>',
+        icon: 'tabler:headset',
+      },
+      {
+        title: 'Email',
+        description: '<a href="mailto:info@lswebagency.com" class="contact-link">info@lswebagency.com</a>',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Indirizzo',
+        description: 'Via Alcide De Gasperi, 3, 07100 Sassari, Italia',
+        icon: 'tabler:map-pin',
+      },
+    ]}
+  />
 </Layout>
