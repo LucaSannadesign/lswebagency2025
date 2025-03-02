@@ -30,6 +30,15 @@ const pageTitle = cleanTitle && !cleanTitle.includes(siteTitle)
   : cleanTitle || siteTitle;
 
 const pageDescription = metadata.description || "Soluzioni digitali su misura per la tua attività.";
+
+// ✅ Content Security Policy (CSP)
+const contentSecurityPolicy = `
+  default-src 'self';
+  script-src 'self' https://trusted-cdn.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  img-src 'self' data: https://trusted-images.com;
+  font-src 'self' https://fonts.gstatic.com;
+`.replace(/\n/g, ' '); // Rimuove gli a capo per evitare errori
 ---
 
 <!doctype html>
@@ -42,6 +51,9 @@ const pageDescription = metadata.description || "Soluzioni digitali su misura pe
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     <meta property="og:type" content="website" />
+
+    <!-- ✅ CSP: Protezione dai rischi di sicurezza -->
+    <meta http-equiv="Content-Security-Policy" content={contentSecurityPolicy} />
 
     <CommonMeta />
     <Favicons />
