@@ -24,36 +24,25 @@ const metadata = {
   <!-- Contact Form -->
   <div class="max-w-lg mx-auto bg-white dark:bg-gray-900 p-6 rounded-lg shadow-xl">
     <form id="contactForm" class="space-y-6">
-      <!-- Nome e Cognome -->
       <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Nome e Cognome <span class="text-red-500">*</span>
-        </label>
-        <input type="text" id="name" name="name" required class="input-field" />
+        <label for="name">Nome e Cognome <span class="text-red-500">*</span></label>
+        <input type="text" id="name" name="name" required class="input-field" autocomplete="name" />
       </div>
     
-      <!-- Email e Numero di Telefono in due colonne -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Email <span class="text-red-500">*</span>
-          </label>
-          <input type="email" id="email" name="email" required class="input-field" />
+          <label for="email">Email <span class="text-red-500">*</span></label>
+          <input type="email" id="email" name="email" required class="input-field" autocomplete="email" />
         </div>
         <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Numero di Telefono
-          </label>
-          <input type="tel" id="phone" name="phone" class="input-field" />
+          <label for="phone">Numero di Telefono</label>
+          <input type="tel" id="phone" name="phone" class="input-field" autocomplete="tel" />
         </div>
       </div>
     
-      <!-- Seleziona il servizio -->
       <div>
-        <label for="service" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Seleziona il servizio di tuo interesse
-        </label>
-        <select id="service" name="service" required class="input-field">
+        <label for="service">Seleziona il servizio di tuo interesse</label>
+        <select id="service" name="service" required class="input-field" autocomplete="off">
           <option value="" disabled selected>Seleziona un’opzione</option>
           <option value="siti-web">Creazione Sito Web</option>
           <option value="ecommerce">E-commerce</option>
@@ -63,15 +52,11 @@ const metadata = {
         </select>
       </div>
     
-      <!-- Messaggio -->
       <div>
-        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Messaggio
-        </label>
-        <textarea id="message" name="message" rows="5" placeholder="Descrivi il tuo progetto o la tua richiesta..." required class="input-field"></textarea>
+        <label for="message">Messaggio</label>
+        <textarea id="message" name="message" rows="5" required class="input-field" autocomplete="off"></textarea>
       </div>
     
-      <!-- Checkbox Privacy -->
       <div class="flex items-start">
         <input type="checkbox" id="privacy" name="privacy" required class="checkbox" />
         <label for="privacy" class="ml-2 text-sm text-gray-600 dark:text-gray-400">
@@ -79,7 +64,6 @@ const metadata = {
         </label>
       </div>
     
-      <!-- Pulsante di invio -->
       <button type="submit" class="btn-submit">Invia Richiesta</button>
     </form>
 
