@@ -18,8 +18,10 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <section class="container mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold text-center mb-8">{metadata.title}</h1>
-
+    <h1 class="text-3xl font-bold text-center mb-6">Portfolio - LS Web Agency</h1>
+    <h2 class="text-lg text-center text-gray-700 dark:text-gray-300 mt-4 mb-10">
+      Scopri i nostri progetti realizzati con passione e creatività.
+    </h2>
     <!-- ✅ Griglia progetti -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
       {portfolio.map((project) => (
@@ -42,7 +44,7 @@ const metadata = {
 
           <!-- Titolo e descrizione -->
           <div class="p-4 text-center">
-            <h2 class="text-base font-semibold leading-tight">{project.data.title}</h2>
+            <h3 class="text-base font-semibold leading-tight">{project.data.title}</h3>
             <p class="text-gray-600 mt-2 text-sm">
               {project.data.description.length > 120
                 ? project.data.description.substring(0, 120) + '...'
