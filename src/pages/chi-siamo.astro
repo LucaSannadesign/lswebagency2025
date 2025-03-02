@@ -2,6 +2,7 @@
 import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
   title: 'Chi Siamo - LS Web Agency',
@@ -142,4 +143,13 @@ const metadata = {
       </div>
     </div>
   </section>
+
+  <CallToAction
+  title="Vuoi un sito web professionale?"
+  subtitle="Parliamone e troviamo la soluzione perfetta per la tua attività."
+>
+  <Fragment slot="actions">
+    <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
+  </Fragment>
+</CallToAction>
 </Layout>
