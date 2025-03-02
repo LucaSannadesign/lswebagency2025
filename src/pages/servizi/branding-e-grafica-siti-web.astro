@@ -17,23 +17,30 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Section -->
   <Hero
-    tagline="Branding e Grafica per Siti Web"
-    title="Crea un’identità visiva unica per il tuo brand"
-    subtitle="Un sito web efficace inizia da un design professionale e un branding riconoscibile."
-    image={{
-      src: '~/assets/images/branding-grafica-ls-webagencywebp.webp',
-      alt: 'Branding e Grafica per Siti Web',
-    }}
-  >
-    <Fragment slot="title">
-      Distinguiti con un design unico e una forte identità visiva.
-    </Fragment>
+  actions={[
+    {
+      variant: 'primary',
+      text: 'Scopri i nostri servizi',
+      href: '/servizi',
+    },
+    { text: 'Portfolio', href: '/portfolio' },
+  ]}
+  image={{ src: '~/assets/images/branding-grafica-ls-webagencywebp.webp', alt: 'Branding e Grafica per Siti Web' }}
+>
+  <Fragment slot="title">
+    <span class="text-gradient">Branding e Grafica</span> per Siti Web
+  </Fragment>
 
-    <Fragment slot="subtitle">
-      Creiamo soluzioni grafiche e branding personalizzati per elevare il tuo sito web e la tua presenza online.
-    </Fragment>
-  </Hero>
-
+  <Fragment slot="subtitle">
+    <span class="hidden sm:inline">
+      <span class="font-semibold">Crea un’identità visiva unica</span> per il tuo brand con un design professionale e un branding riconoscibile.
+    </span>
+    <span class="block mb-1 sm:hidden font-bold text-blue-600">
+      Dai valore al tuo brand con un design studiato per il web.
+    </span>
+    Un sito web efficace inizia da una <span class="text-gradient">grafica curata e strategica</span>, capace di comunicare i tuoi valori e attrarre il pubblico giusto.
+  </Fragment>
+</Hero>
   <!-- Servizi Offerti -->
   <Features3
   title="I nostri servizi di Branding e Grafica"

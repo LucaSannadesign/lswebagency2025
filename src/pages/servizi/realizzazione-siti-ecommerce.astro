@@ -16,22 +16,30 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Section -->
   <Hero
-    tagline="Creazione E-commerce"
-    title="Porta il tuo business online con un E-commerce su misura"
-    subtitle="Realizziamo soluzioni e-commerce scalabili, performanti e ottimizzate per le vendite online."
-    image={{
-      src: '~/assets/images/e-commerce-business-web-site-digital-solutions.webp',
-      alt: 'Creazione e-commerce',
-    }}
-  >
-    <Fragment slot="title">
-      Sviluppiamo il tuo <span class="text-accent dark:text-white highlight">E-commerce di successo</span>
-    </Fragment>
+  actions={[
+    {
+      variant: 'primary',
+      text: 'Scopri le soluzioni E-commerce',
+      href: '/contatti',
+    },
+    { text: 'Portfolio', href: '/portfolio' },
+  ]}
+  image={{ src: '~/assets/images/ecommerce-business-online.webp', alt: 'Creazione E-commerce', width: 800, height: 600 }}
+>
+  <Fragment slot="title">
+    Creazione <span class="text-accent text-gradient dark:text-white highlight">E-commerce su Misura</span>
+  </Fragment>
 
-    <Fragment slot="subtitle">
-      Ti forniamo una piattaforma performante, sicura e ottimizzata per incrementare le vendite online.
-    </Fragment>
-  </Hero>
+  <Fragment slot="subtitle">
+    <span class="hidden sm:inline">
+      <span class="font-semibold">LS Web Agency</span> sviluppa soluzioni E-commerce scalabili, performanti e ottimizzate per aumentare le vendite online.
+    </span>
+    <span class="block mb-1 sm:hidden font-bold text-blue-600">
+      Il tuo business online, senza limiti.
+    </span>
+    Dai piccoli shop online ai marketplace avanzati, realizziamo piattaforme su misura per far crescere il tuo brand.
+  </Fragment>
+</Hero>
 
   <!-- Servizi Offerti -->
   <Features3
