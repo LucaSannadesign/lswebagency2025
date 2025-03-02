@@ -131,3 +131,9 @@
 }
 
 
+.text-gradient {
+  background: linear-gradient(90deg, #8A2BE2, #C837AB); /* Usa i colori del logo */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
