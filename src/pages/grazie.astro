@@ -15,8 +15,10 @@ const metadata = {
   </section>
 
   <script>
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 20000); // 20 secondi
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 5000); // 5 secondi
+    });
   </script>
 </Layout>
