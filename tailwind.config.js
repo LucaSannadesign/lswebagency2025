@@ -21,6 +21,7 @@ export default {
 
       animation: {
         fade: 'fadeInUp 1s both',
+        bounceSlow: 'bounce 2s infinite', // Aggiunto per testare le animazioni
       },
 
       keyframes: {
@@ -28,9 +29,12 @@ export default {
           '0%': { opacity: 0, transform: 'translateY(2rem)' },
           '100%': { opacity: 1, transform: 'translateY(0)' },
         },
+        bounce: {
+          '0%, 100%': { transform: 'translateY(-5%)', animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' },
+          '50%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' },
+        },
       },
 
-      /** 🔥 Aggiunta di una classe globale per testi non <p> e non titoli */
       fontSize: {
         default: '1.2rem', // Cambia la dimensione di tutti i testi normali
         lg: '1.5rem', // Modifica anche text-lg se necessario
@@ -41,6 +45,7 @@ export default {
     typographyPlugin,
     plugin(({ addVariant }) => {
       addVariant('intersect', '&:not([no-intersect])');
+      addVariant('motion-safe', '@media (prefers-reduced-motion: no-preference)'); // ✅ Soluzione per animazioni
     }),
   ],
   darkMode: 'class',
