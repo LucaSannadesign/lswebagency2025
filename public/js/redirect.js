@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(() => {
-    window.location.href = "/";
+    if (window && window.location) {
+      window.location.replace("/"); // 🔹 Più sicuro di `window.location.href`
+    }
   }, 5000);
 });
