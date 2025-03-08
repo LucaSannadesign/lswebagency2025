@@ -92,10 +92,13 @@ export default defineConfig({
         "Content-Security-Policy": `
           default-src 'self'; 
           script-src 'self' 'nonce-${nonce}' https://trusted-cdn.com; 
-          style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+          style-src 'self' https://fonts.googleapis.com; 
           img-src 'self' data: https://trusted-images.com https://maps.gstatic.com; 
           font-src 'self' https://fonts.gstatic.com; 
-          frame-src https://www.google.com https://maps.google.com;
+          frame-src 'self' https://www.google.com https://maps.google.com;
+          object-src 'none'; 
+          base-uri 'self'; 
+          form-action 'self';
         `.replace(/\s+/g, ' '), // Rimuove spazi extra
       },
     },
@@ -105,4 +108,3 @@ export default defineConfig({
       },
     },
   },
-});
