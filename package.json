@@ -8,8 +8,8 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "dev": "ASTRO_DISABLE_TOOLBAR=true astro dev",
+    "start": "ASTRO_DISABLE_TOOLBAR=true astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
@@ -36,18 +36,22 @@
     "@sendgrid/mail": "^8.1.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "astro": "^5.4.2",
     "astro-embed": "^0.7.4",
     "astro-icon": "^1.1.5",
     "dotenv": "^16.4.7",
     "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
     "nodemailer": "^6.10.0",
+    "prismjs": "^1.29.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^4.1.2",
     "sib-api-v3-sdk": "^8.5.0",
+    "string-strip-html": "^13.4.12",
     "unpic": "^3.22.0",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "volar": "^0.0.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
@@ -63,7 +67,6 @@
     "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
-    "astro": "^5.3.1",
     "astro-compress": "^2.3.6",
     "astro-eslint-parser": "^1.1.0",
     "eslint": "^9.18.0",

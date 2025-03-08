@@ -19,10 +19,11 @@ const { metadata = {
   canonical: "/"
 } } = Astro.props;
 
-console.log("Metadata ricevuti in PageLayout:", metadata);
+
 ---
 
 <Layout metadata={metadata}>
+
   <slot name="announcement">
     <Announcement />
   </slot>

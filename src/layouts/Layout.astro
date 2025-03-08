@@ -31,15 +31,9 @@ const pageTitle = cleanTitle && !cleanTitle.includes(siteTitle)
 
 const pageDescription = metadata.description || "Soluzioni digitali su misura per la tua attività.";
 
-// ✅ Content Security Policy (CSP) aggiornata per sicurezza e compatibilità
-const contentSecurityPolicy = `
-  default-src 'self';
-  frame-src 'self' https://www.google.com https://maps.google.com;
-  script-src 'self' https://maps.googleapis.com https://www.google.com;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  img-src 'self' data: https://maps.gstatic.com https://fonts.gstatic.com;
-  font-src 'self' https://fonts.gstatic.com;
-`.replace(/\n/g, ' '); // Rimuove gli a capo per evitare errori
+// ✅ Generazione di un nonce per gli script inline
+const nonce = crypto.randomUUID();
+
 ---
 
 <!doctype html>
@@ -47,14 +41,12 @@ const contentSecurityPolicy = `
   <head>
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
-
     <!-- Open Graph e SEO Meta Tags -->
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     <meta property="og:type" content="website" />
 
-    <!-- ✅ CSP: Protezione migliorata per sicurezza e compatibilità -->
-    <meta http-equiv="Content-Security-Policy" content={contentSecurityPolicy} />
+
 
     <CommonMeta />
     <Favicons />
@@ -71,6 +63,7 @@ const contentSecurityPolicy = `
   <body class="antialiased text-default bg-page tracking-tight">
     <slot />
 
-    <BasicScripts />
+    <!-- ✅ Ora BasicScripts viene eseguito con un nonce per evitare blocchi CSP -->
+    <BasicScripts nonce={nonce} />
   </body>
 </html>

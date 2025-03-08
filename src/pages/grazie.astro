@@ -14,11 +14,6 @@ const metadata = {
     <p class="text-sm text-gray-500 mt-2">Verrai reindirizzato alla homepage tra pochi secondi...</p>
   </section>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 5000); // 5 secondi
-    });
-  </script>
+  <!-- Caricamento corretto dello script -->
+  <script src="/js/redirect.js" defer></script>
 </Layout>
