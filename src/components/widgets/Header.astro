@@ -87,19 +87,19 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       />
     </a>
 
-    <nav class="hidden md:flex space-x-6">
+    <nav class="hidden md:flex space-x-6 text-default">
       {links.map(({ text, href, links }) => (
         <div class="relative group">
           {links?.length ? (
             <>
-              <button class="flex items-center space-x-1 text-gray-800 dark:text-white hover:text-primary" data-toggle-menu>
+              <button class="flex items-center space-x-1 text-default hover:text-primary" data-toggle-menu>
                 {text}
                 <Icon name="tabler:chevron-down" class="w-4 h-4" />
               </button>
               <ul class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md hidden group-hover:block">
                 {links.map(({ text: text2, href: href2 }) => (
                   <li>
-                    <a href={href2} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-white">
+                    <a href={href2} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-default">
                       {text2}
                     </a>
                   </li>
@@ -110,7 +110,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
             <a
               href={href}
               class:list={[
-                'text-gray-800 dark:text-white hover:text-primary px-4 py-2',
+                'text-default hover:text-primary px-4 py-2',
                 { 'font-bold': href === currentPath },
               ]}
             >
