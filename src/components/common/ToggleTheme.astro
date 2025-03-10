@@ -1,11 +1,11 @@
 ---
-import { Icon } from "astro-icon/components";
+import { Icon } from 'astro-icon/components';
 
 export interface Props {
   iconClass?: string;
 }
 
-const { iconClass = 'w-6 h-6 md:w-5 md:h-5 transition-opacity duration-300' } = Astro.props;
+const { iconClass = 'w-6 h-6 md:w-5 md:h-5' } = Astro.props;
 ---
 
 <button
@@ -19,51 +19,41 @@ const { iconClass = 'w-6 h-6 md:w-5 md:h-5 transition-opacity duration-300' } = 
   <!-- 🌙 Mezzaluna per la modalità Light -->
   <Icon 
     name="tabler:moon" 
-    id="icon-moon"
-    class={iconClass + " block dark:hidden opacity-100 transition-opacity duration-300"} 
+    class={iconClass + " block dark:hidden transition-opacity duration-300"} 
   />
 
   <!-- ☀️ Sole per la modalità Dark -->
   <Icon 
-    name="tabler:sun"
-    id="icon-sun"
-    class={iconClass + " hidden dark:block opacity-0 transition-opacity duration-300"} 
+    name="tabler:sun" 
+    class={iconClass + " hidden dark:block transition-opacity duration-300"} 
   />
 </button>
 
 <!-- ✅ SCRIPT PER GESTIRE IL TEMA -->
 <script is:inline>
-  document.addEventListener("DOMContentLoaded", () => {
-    const themeToggle = document.querySelector("[data-theme-toggle]");
-    const moonIcon = document.getElementById("icon-moon");
-    const sunIcon = document.getElementById("icon-sun");
+  function setTheme(theme) {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  }
 
-    function setTheme(theme) {
-      document.documentElement.classList.toggle("dark", theme === "dark");
-      localStorage.setItem("theme", theme);
-      
-      // Effetto fade sulle icone
-      if (theme === "dark") {
-        moonIcon.classList.add("opacity-0");
-        sunIcon.classList.remove("opacity-0");
-      } else {
-        moonIcon.classList.remove("opacity-0");
-        sunIcon.classList.add("opacity-0");
-      }
-    }
+  function getSavedTheme() {
+    return localStorage.getItem("theme") || "light"; // 🔹 Default: Light
+  }
 
-    function getSavedTheme() {
-      return localStorage.getItem("theme") || "light"; // 🔹 Predefinito: Light
-    }
+  function initThemeToggle() {
+    setTheme(getSavedTheme());
 
-    // ✅ Imposta il tema al caricamento
-    const savedTheme = getSavedTheme();
-    setTheme(savedTheme);
-
-    // ✅ Cambia tema al click
-    themeToggle.addEventListener("click", () => {
-      const newTheme = document.documentElement.classList.contains("dark") ? "light" : "dark";
-      setTheme(newTheme);
+    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const newTheme = document.documentElement.classList.contains("dark") ? "light" : "dark";
+        setTheme(newTheme);
+      });
     });
-  });
+  }
+
+  // ✅ Inizializza il tema al caricamento della pagina
+  document.addEventListener("DOMContentLoaded", initThemeToggle);
+
+  // ✅ Mantiene il funzionamento dopo il cambio pagina in Astro
+  document.addEventListener("astro:after-swap", initThemeToggle);
 </script>
