@@ -12,7 +12,6 @@ import '@iconify/react';
 import '@iconify-json/fa6-brands';
 import astrowind from './vendor/integration';
 import type { AstroIntegration } from 'astro';
-import crypto from 'crypto';
 
 import {
   readingTimeRemarkPlugin,
@@ -24,12 +23,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const hasExternalScripts = false;
 
-// Genera un nonce sicuro per la CSP
-const generateNonce = () => crypto.randomBytes(16).toString('base64');
-
-const nonce = generateNonce();
-
-// Funzione per gestire l'integrazione di script esterni
+// ✅ Funzione per abilitare script esterni se necessario
 const whenExternalScripts = (
   items: (() => AstroIntegration) | (() => AstroIntegration)[]
 ) =>
@@ -40,6 +34,7 @@ const whenExternalScripts = (
     : [];
 
 export default defineConfig({
+ 
   output: 'static',
 
   integrations: [
@@ -87,24 +82,15 @@ export default defineConfig({
   },
 
   vite: {
-    server: {
-      headers: {
-        "Content-Security-Policy": `
-          default-src 'self'; 
-          script-src 'self' 'nonce-${nonce}' https://trusted-cdn.com; 
-          style-src 'self' https://fonts.googleapis.com; 
-          img-src 'self' data: https://trusted-images.com https://maps.gstatic.com; 
-          font-src 'self' https://fonts.gstatic.com; 
-          frame-src 'self' https://www.google.com https://maps.google.com;
-          object-src 'none'; 
-          base-uri 'self'; 
-          form-action 'self';
-        `.replace(/\s+/g, ' '), // Rimuove spazi extra
-      },
-    },
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
       },
     },
+    server: {
+      headers: {
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';",
+      },
+    },
   },
+});

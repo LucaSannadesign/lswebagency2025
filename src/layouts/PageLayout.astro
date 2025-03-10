@@ -7,10 +7,14 @@ import Announcement from '~/components/widgets/Announcement.astro';
 import { headerData, footerData } from '~/navigation';
 
 import type { MetaData } from '~/types';
+import crypto from "crypto"; // ✅ Importiamo crypto per generare il nonce
 
 export interface Props {
   metadata?: MetaData;
 }
+
+// ✅ Generiamo il nonce una sola volta
+const nonce = crypto.randomBytes(16).toString("base64");
 
 // Fallback per evitare `undefined`
 const { metadata = {
@@ -18,11 +22,9 @@ const { metadata = {
   description: "Descrizione di default",
   canonical: "/"
 } } = Astro.props;
-
-
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} nonce={nonce}>
 
   <slot name="announcement">
     <Announcement />

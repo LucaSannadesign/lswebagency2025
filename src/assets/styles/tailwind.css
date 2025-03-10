@@ -130,3 +130,9 @@
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
+#header.scroll > div:first-child {
+  @apply bg-white dark:bg-gray-900;
+}
+astro-dev-toolbar {
+  display: none !important;
+}

@@ -1,33 +1,31 @@
 ---
-import { UI } from 'astrowind:config';
+export interface Props {
+  nonce?: string;
+}
 
-// TODO: This code is temporary
+const { nonce = '' } = Astro.props;
 ---
 
-<script is:inline define:vars={{ defaultTheme: UI.theme || 'system' }}>
+<script {nonce ? `nonce=${nonce}` : ''} is:inline>
   function applyTheme(theme) {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-    }
-    const matches = document.querySelectorAll('[data-aw-toggle-color-scheme] > input');
-
-    if (matches && matches.length) {
-      matches.forEach((elem) => {
-        elem.checked = theme !== 'dark';
-      });
+      localStorage.setItem('theme', 'light');
     }
   }
 
-  if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
-    applyTheme(defaultTheme.replace(':only', ''));
-  } else if (
-    localStorage.theme === 'dark' ||
-    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    applyTheme('dark');
-  } else {
-    applyTheme('light');
-  }
+  // ✅ Applica il tema salvato in localStorage
+  const storedTheme = localStorage.getItem('theme') || 'light';
+  applyTheme(storedTheme);
+
+  // ✅ Aggiunge il listener per il pulsante di cambio tema
+  document.querySelectorAll('[data-aw-toggle-color-scheme]').forEach(button => {
+    button.addEventListener('click', () => {
+      const newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+      applyTheme(newTheme);
+    });
+  });
 </script>
