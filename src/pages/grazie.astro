@@ -1,0 +1,26 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import crypto from "crypto";
+
+// ✅ Generazione del nonce
+const nonce = crypto.randomBytes(16).toString("base64");
+
+const title = `Grazie per il tuo messaggio!`;
+---
+
+<Layout metadata={{ title }} nonce={nonce}>
+  <section class="flex items-center h-full p-16">
+    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
+      <div class="max-w-md text-center">
+        <h2 class="mb-8 font-bold text-9xl">
+          <span class="text-primary">Grazie!</span>
+        </h2>
+        <p class="text-3xl font-semibold md:text-3xl">Abbiamo ricevuto il tuo messaggio.</p>
+        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
+          Ti risponderemo il prima possibile.
+        </p>
+        <a rel="noopener noreferrer" href="/" class="btn ml-4">Torna alla Homepage</a>
+      </div>
+    </div>
+  </section>
+</Layout>
