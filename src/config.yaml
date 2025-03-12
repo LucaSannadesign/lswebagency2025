@@ -1,6 +1,6 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name: LS Web Agency
+  site: 'https://lswebagency.com' # Sostituisci con il dominio corretto se diverso
   base: '/'
   trailingSlash: false
 
@@ -9,14 +9,14 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: LS Web Agency
+    template: '%s — LS Web Agency'
+  description: "🚀 Creazione di siti web professionali, SEO, web design e sviluppo e-commerce. Realizziamo soluzioni digitali su misura per aziende, startup e professionisti."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: LS Web Agency
     images:
       - url: '~/assets/images/default.png'
         width: 1200
