@@ -2,7 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import HeroText from '~/components/widgets/HeroText.astro';
 import Features2 from '~/components/widgets/Features2.astro';
-
+import Icon from 'astro-icon';
 const metadata = {
   title: 'Contatti - LS Web Agency',
   description: 'Hai bisogno di informazioni? Contattaci per una consulenza gratuita e scopri come possiamo aiutarti a realizzare il tuo progetto digitale.',
@@ -23,40 +23,38 @@ const metadata = {
 
   <!-- Contact Form -->
   <div class="max-w-lg mx-auto bg-white dark:bg-gray-900 p-6 rounded-lg shadow-xl">
-    <form 
-      id="contactForm" 
-      class="space-y-4" 
-      action="https://formsubmit.co/info@lswebagency.com" 
-      method="POST"
-    >
-      <input type="hidden" name="_next" value="https://lswebagency.com/grazie">
-      <input type="hidden" name="_autoresponse" value="Grazie per averci contattato! Ti risponderemo al più presto.">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_subject" value="Nuova richiesta da LS Web Agency">
-
+    <form id="contactForm" class="space-y-6">
       <!-- Nome e Cognome -->
       <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nome e Cognome <span class="text-red-500">*</span></label>
-        <input type="text" id="name" name="name" placeholder="Inserisci il tuo nome" required autocomplete="name" class="input-field" />
+        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Nome e Cognome <span class="text-red-500">*</span>
+        </label>
+        <input type="text" id="name" name="name" required class="input-field" />
       </div>
-
-      <!-- Email e Numero di Telefono -->
+    
+      <!-- Email e Numero di Telefono in due colonne -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email <span class="text-red-500">*</span></label>
-          <input type="email" id="email" name="email" placeholder="esempio@email.com" required autocomplete="email" class="input-field" />
+          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Email <span class="text-red-500">*</span>
+          </label>
+          <input type="email" id="email" name="email" required class="input-field" />
         </div>
         <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Numero di Telefono</label>
-          <input type="tel" id="phone" name="phone" placeholder="+39 340 1234567" autocomplete="tel" class="input-field" />
+          <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Numero di Telefono
+          </label>
+          <input type="tel" id="phone" name="phone" class="input-field" />
         </div>
       </div>
-
-      <!-- Selezione del Servizio -->
+    
+      <!-- Seleziona il servizio -->
       <div>
-        <label for="service" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Seleziona il servizio di tuo interesse</label>
+        <label for="service" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Seleziona il servizio di tuo interesse
+        </label>
         <select id="service" name="service" required class="input-field">
-          <option value="" disabled selected hidden>Seleziona un’opzione</option>
+          <option value="" disabled selected>Seleziona un’opzione</option>
           <option value="siti-web">Creazione Sito Web</option>
           <option value="ecommerce">E-commerce</option>
           <option value="seo">Ottimizzazione SEO</option>
@@ -64,13 +62,15 @@ const metadata = {
           <option value="altro">Altro</option>
         </select>
       </div>
-
+    
       <!-- Messaggio -->
       <div>
-        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Messaggio</label>
-        <textarea id="message" name="message" rows="5" placeholder="Descrivi il tuo progetto..." required autocomplete="off" class="input-field"></textarea>
+        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Messaggio
+        </label>
+        <textarea id="message" name="message" rows="5" placeholder="Descrivi il tuo progetto o la tua richiesta..." required class="input-field"></textarea>
       </div>
-
+    
       <!-- Checkbox Privacy -->
       <div class="flex items-start">
         <input type="checkbox" id="privacy" name="privacy" required class="checkbox" />
@@ -78,46 +78,118 @@ const metadata = {
           <span class="text-red-500">*</span> Confermi di accettare la raccolta e l’elaborazione dei tuoi dati personali.
         </label>
       </div>
-
-      <!-- Pulsante di Invio -->
+    
+      <!-- Pulsante di invio -->
       <button type="submit" class="btn-submit">Invia Richiesta</button>
     </form>
   </div>
 
   <!-- Features Section -->
+   
   <Features2
-    title="Siamo qui per aiutarti!"
-    columns={4}
-    items={[
-      {
-        title: 'Contatti Rapidi',
-        description: `
-        <div class="flex gap-4 mt-2">
-          <a href="https://wa.me/393403223494" target="_blank" class="btn-whatsapp flex items-center gap-2">
-            <img src="/icons/whatsapp.svg" alt="WhatsApp" class="w-6 h-6" /> WhatsApp
-          </a>
-          <a href="https://t.me/LSWebAgency" target="_blank" class="btn-telegram flex items-center gap-2">
-            <img src="/icons/telegram.svg" alt="Telegram" class="w-6 h-6" /> Telegram
-          </a>
-        </div>
-        `,
-        icon: 'tabler:message',
-      },
-      {
-        title: 'Telefono',
-        description: '<a href="tel:+393403223494" class="contact-link">+39 340 3223 494</a>',
-        icon: 'tabler:headset',
-      },
-      {
-        title: 'Email',
-        description: '<a href="mailto:info@lswebagency.com" class="contact-link">info@lswebagency.com</a>',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Indirizzo',
-        description: 'Via Alcide De Gasperi, 3, 07100 Sassari, Italia',
-        icon: 'tabler:map-pin',
-      },
-    ]}
-  />
+  title="Siamo qui per aiutarti!"
+  columns={4}  // 👈 Override specifico per la pagina Contatti
+  items={[
+    {
+      title: 'Contatti Rapidi',
+      description: `
+<div class="flex gap-4 mt-2">
+  <a href="https://wa.me/393403223494" target="_blank" class="btn-whatsapp flex items-center gap-2">
+    <img src="/icons/whatsapp.svg" alt="WhatsApp" class="w-6 h-6" /> WhatsApp
+  </a>
+  <a href="https://t.me/LSWebAgency" target="_blank" class="btn-telegram flex items-center gap-2">
+    <img src="/icons/telegram.svg" alt="Telegram" class="w-6 h-6" /> Telegram
+  </a>
+</div>
+      `,
+      icon: 'tabler:message',
+    },
+    {
+      title: 'Telefono',
+      description: '<a href="tel:+393403223494" class="contact-link">+39 340 3223 494</a>',
+      icon: 'tabler:headset',
+    },
+    {
+      title: 'Email',
+      description: '<a href="mailto:info@lswebagency.com" class="contact-link">info@lswebagency.com</a>',
+      icon: 'tabler:mail',
+    },
+    {
+      title: 'Indirizzo',
+      description: 'Via Alcide De Gasperi, 3, 07100 Sassari, Italia',
+      icon: 'tabler:map-pin',
+    },
+    
+  ]}
+/>
+
+  <style>
+    .input-field {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-submit {
+      background-color: #2563eb;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #1e4bb7;
+    }
+
+    .btn-whatsapp, .btn-telegram {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: white;
+    }
+    
+    .btn-telegram {
+      background-color: #0088cc;
+      color: white;
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #1ebe5d;
+    }
+    
+    .btn-telegram:hover {
+      background-color: #0077b5;
+    }
+
+    .contact-link {
+      color: #2563eb;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
+    .icon-class {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
 </Layout>

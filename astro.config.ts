@@ -23,7 +23,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const hasExternalScripts = false;
 
-// ✅ Funzione per abilitare script esterni se necessario
+// Funzione per gestire l'integrazione di script esterni
 const whenExternalScripts = (
   items: (() => AstroIntegration) | (() => AstroIntegration)[]
 ) =>
@@ -34,7 +34,6 @@ const whenExternalScripts = (
     : [];
 
 export default defineConfig({
- 
   output: 'static',
 
   integrations: [
@@ -85,11 +84,6 @@ export default defineConfig({
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
-      },
-    },
-    server: {
-      headers: {
-        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';",
       },
     },
   },
