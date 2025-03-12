@@ -2,6 +2,7 @@
 import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
   title: 'Chi Siamo - LS Web Agency',
@@ -20,7 +21,7 @@ const metadata = {
   }
   subtitle="Aiutiamo aziende e professionisti a trasformare la loro presenza online con siti web innovativi, ottimizzati per SEO e performance elevate."
   image={{
-    src: 'https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?fit=crop&w=2070&q=80',
+    src: '~/assets/images/team-sviluppo-siti-web.webp',
     alt: 'Team al lavoro',
   }}
 />
@@ -143,20 +144,12 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Google Maps Embed -->
-  <section class="py-8">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-6">La Nostra Sede</h2>
-      <div class="flex justify-center">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2724.6631159933872!2d8.576194475639143!3d40.72013917139243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12dc6402a0911c99%3A0x572a199f1be0a9b!2sLS%20Web%20Design%20e%20Grafica!5e1!3m2!1sit!2sit!4v1739481509002!5m2!1sit!2sit" 
-          width="100%" 
-          height="450" 
-          style="border:0; border-radius:10px;" 
-          allowfullscreen="" 
-          loading="lazy">
-        </iframe>
-      </div>
-    </div>
-  </section>
+  <CallToAction
+  title="Vuoi un sito web professionale?"
+  subtitle="Parliamone e troviamo la soluzione perfetta per la tua attività."
+>
+  <Fragment slot="actions">
+    <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
+  </Fragment>
+</CallToAction>
 </Layout>

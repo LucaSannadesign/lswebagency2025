@@ -1,0 +1,98 @@
+---
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from '@iconify/react';
+import Button from '~/components/ui/Button.astro';
+ 
+ 
+const metadata = {
+  title: 'Servizi di Web Design e SEO - LS Web Agency',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+  <Hero
+  tagline="Scopri i nostri servizi"
+  title="Soluzioni digitali su misura per il tuo business"
+  subtitle="Realizziamo siti web performanti e ottimizzati per la SEO. Diamo valore al tuo brand e aumentiamo la tua visibilità online."
+>
+  <Fragment slot="actions">
+    <Button variant="primary" href="/contatti">
+      <Icon icon="tabler:message" className="mr-2" /> Richiedi una consulenza
+    </Button>
+    <Button href="#features">Scopri di più</Button>
+  </Fragment>
+</Hero>
+
+  <!-- Features2 Widget ************** -->
+  <Features2
+    title="Servizi per il tuo successo online"
+    subtitle="Strategie digitali avanzate per migliorare la tua presenza sul web e aumentare le conversioni."
+    columns={3}
+    items={[
+      {
+        title: 'Creazione Siti Web',
+        description:
+          'Sviluppiamo siti web moderni, responsive e ottimizzati per Google, perfetti per aziende e professionisti.',
+        icon: 'tabler:device-desktop',
+      },
+      {
+        title: 'E-commerce',
+        description:
+          'Realizziamo negozi online performanti e sicuri, con soluzioni su misura per vendere i tuoi prodotti con successo.',
+        icon: 'tabler:shopping-cart',
+      },
+      {
+        title: 'SEO & Posizionamento',
+        description:
+          'Ottimizziamo il tuo sito per i motori di ricerca, migliorando la visibilità online e aumentando il traffico qualificato.',
+        icon: 'tabler:chart-line',
+      },
+      {
+        title: 'Branding e Grafica',
+        description:
+          'Creiamo identità visive forti, loghi e grafiche professionali per valorizzare la tua immagine aziendale.',
+        icon: 'tabler:palette',
+      },
+    ]}
+  />
+
+  <!-- Testimonials Widget *********** -->
+  <Testimonials
+    title="Dicono di noi"
+    testimonials={[
+      {
+        testimonial: `LS Web Agency ha trasformato la nostra presenza online, rendendo il nostro sito più veloce, intuitivo e altamente visibile su Google.`,
+        name: 'Giovanni Rossi',
+        job: 'Imprenditore',
+      },
+      {
+        testimonial: `Affidarsi a LS Web Agency è stata la scelta migliore per il nostro e-commerce. Vendite aumentate e gestione facilitata!`,
+        name: 'Maria Bianchi',
+        job: 'E-commerce Manager',
+      },
+      {
+        testimonial: `Con LS Web Agency abbiamo finalmente un sito professionale e ben posizionato su Google. Consigliatissimi!`,
+        name: 'Marco Verdi',
+        job: 'Freelance',
+      },
+    ]}
+  />
+
+  <!-- CallToAction Widget *********** -->
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Richiedi un preventivo gratuito',
+        href: '/contatti',
+      },
+    ]}
+    title="Pronto a portare il tuo business al livello successivo?"
+    subtitle="Contattaci oggi stesso per una consulenza gratuita e scopri come possiamo aiutarti a crescere online."
+  />
+</Layout>
