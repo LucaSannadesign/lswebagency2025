@@ -30,18 +30,34 @@ const pageTitle = cleanTitle && !cleanTitle.includes(siteTitle)
   : cleanTitle || siteTitle;
 
 const pageDescription = metadata.description || "Soluzioni digitali su misura per la tua attività.";
+const pageImage = metadata.image?.src || "/images/default-og-image.jpg"; // Fallback immagine social
+const canonicalUrl = metadata.canonical || "https://lswebagency.com"; // Imposta un URL canonico
 ---
 
 <!doctype html>
 <html lang={I18N.language} dir={I18N.textDirection} class="2xl:text-[20px]">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow" />
 
-    <!-- Open Graph e SEO Meta Tags -->
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={pageImage} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={pageImage} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl} />
 
     <CommonMeta />
     <Favicons />
