@@ -36,4 +36,6 @@ console.log("Metadata ricevuti in PageLayout:", metadata);
     <Footer {...footerData} />
   </slot>
 </Layout>
-<CookieBanner />
+
+<!-- 🔥 Banner per la Cookie Policy -->
+<CookieBanner client:only="preact" />
