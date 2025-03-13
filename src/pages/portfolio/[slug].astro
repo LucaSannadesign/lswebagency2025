@@ -2,24 +2,30 @@
 import { getCollection } from 'astro:content';
 import Layout from '~/layouts/PageLayout.astro';
 
-// 📌 Recuperiamo i dati della collezione e generiamo gli slug per ogni progetto
+// 📌 Generiamo i percorsi statici per ogni progetto
 export async function getStaticPaths() {
-  const projects = await getCollection('portfolio');
+  const portfolio = await getCollection('portfolio');
 
-  return projects.map((entry) => ({
-    params: { slug: entry.id }, // Usa `id` come slug
-    props: { project: entry },
+  return portfolio.map((project) => ({
+    params: { slug: project.data.slug }, // Usa lo slug per la navigazione
+    props: { project, portfolio }, // Passiamo il portfolio alla pagina
   }));
 }
 
-// 📌 Recuperiamo i dati del progetto
-const { project } = Astro.props;
+// 📌 Recuperiamo i dati passati da getStaticPaths()
+const { project, portfolio } = Astro.props;
 
+// 📌 Troviamo l'indice del progetto attuale
+const currentIndex = portfolio.findIndex((p) => p.data.slug === project.data.slug);
 
-// 📌 Controlliamo il tipo di immagine e assegniamo un fallback se necessario
-const imageUrl = project.data.image
-  ? (typeof project.data.image === 'object' ? project.data.image.src : project.data.image)
-  : defaultImage.src;
+// 📌 Determiniamo il progetto precedente e successivo
+const prevProject = currentIndex > 0 ? portfolio[currentIndex - 1] : null;
+const nextProject = currentIndex < portfolio.length - 1 ? portfolio[currentIndex + 1] : null;
+
+// 📌 Funzione per limitare la lunghezza del titolo
+const truncateTitle = (title, maxLength = 30) => {
+  return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
+};
 ---
 
 <Layout metadata={{ title: project.data.title }}>
@@ -28,7 +34,7 @@ const imageUrl = project.data.image
       <!-- Colonna Immagine -->
       <div>
         <img
-          src={imageUrl}
+          src={project.data.image?.src}
           alt={project.data.image?.alt || project.data.title}
           width={project.data.image?.width || 1024}
           height={project.data.image?.height || 768}
@@ -53,6 +59,21 @@ const imageUrl = project.data.image
           </p>
         )}
       </div>
+    </div>
+
+    <!-- 🔥 Navigazione tra i progetti con titoli limitati -->
+    <div class="mt-12 flex justify-between text-center">
+      {prevProject ? (
+        <a href={`/portfolio/${prevProject.data.slug}`} class="text-primary font-semibold hover:underline">
+          ← {truncateTitle(prevProject.data.title)}
+        </a>
+      ) : <span></span>}
+
+      {nextProject ? (
+        <a href={`/portfolio/${nextProject.data.slug}`} class="text-primary font-semibold hover:underline">
+          {truncateTitle(nextProject.data.title)} →
+        </a>
+      ) : <span></span>}
     </div>
   </section>
 </Layout>
