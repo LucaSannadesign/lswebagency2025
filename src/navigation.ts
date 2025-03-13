@@ -25,7 +25,7 @@ export const footerData = {
     { text: 'Termini di Servizio', href: '/terms' },
   ],
   socialLinks: [
-    { ariaLabel: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/LucaSannadesign/lswebagency2025' },
+    { ariaLabel: 'Linkedin', icon: 'tabler:brand-linkedin', href: 'https://www.linkedin.com/company/ls-web-agency' },
     { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: 'https://www.facebook.com/lswebdesignagency' },
     { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: 'https://www.instagram.com/ls_web_design_agency/' },
   ],
