@@ -9,7 +9,8 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import react from '@astrojs/react';
-import remarkBreaks from 'remark-breaks'; // ✅ Importato per evitare problemi con il Markdown
+import preact from '@astrojs/preact'; // ✅ Corretta la posizione di Preact
+import remarkBreaks from 'remark-breaks'; // ✅ Evita problemi con Markdown
 import '@iconify/react';
 import '@iconify-json/fa6-brands';
 import astrowind from './vendor/integration';
@@ -21,12 +22,12 @@ import {
   lazyImagesRehypePlugin,
 } from './src/utils/frontmatter';
 
-// 🔍 Riconoscere correttamente il percorso della directory
+// 🔍 Riconoscere il percorso della directory attuale
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const hasExternalScripts = false;
 
-// ✅ Funzione per integrare script esterni in base alla configurazione
+// ✅ Funzione per aggiungere script esterni in base alla configurazione
 const whenExternalScripts = (
   items: (() => AstroIntegration) | (() => AstroIntegration)[]
 ) =>
@@ -37,10 +38,12 @@ const whenExternalScripts = (
     : [];
 
 export default defineConfig({
-  output: 'server', // ✅ Necessario per il deploy su Vercel
+  output: 'server', // ✅ Configurazione richiesta per il deploy su Vercel
   adapter: vercel(),
 
   integrations: [
+    preact(), // ✅ Corretto l'inserimento di Preact
+    react(), // ✅ Assicura compatibilità con React
     tailwind({
       applyBaseStyles: false,
     }),
@@ -53,8 +56,8 @@ export default defineConfig({
         'fa6-brands': ['*'],
       },
     }),
-    react(),
 
+    // ✅ Integrazione di Partytown per migliorare le performance
     ...whenExternalScripts(() =>
       partytown({
         config: { forward: ['dataLayer.push'] },
@@ -80,7 +83,7 @@ export default defineConfig({
   ],
 
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin, remarkBreaks], // ✅ Aggiunto `remark-breaks` per correggere problemi di formattazione Markdown
+    remarkPlugins: [readingTimeRemarkPlugin, remarkBreaks], // ✅ Evita problemi di formattazione nel Markdown
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
   },
 
