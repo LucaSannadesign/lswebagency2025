@@ -14,7 +14,10 @@ const metadata = {
 <Layout metadata={metadata}>
   <Hero
     tagline="Ottimizzazione SEO a Sassari"
-    title="Aumenta la visibilità del tuo sito con strategie SEO efficaci"
+    title={
+      `Aumenta la visibilità del tuo sito con 
+      <span class="text-accent text-gradient dark:text-white highlight">strategie SEO efficaci</span>`
+    }
     subtitle="Ottimizziamo il tuo sito web per scalare le classifiche di Google e aumentare il traffico organico."
     actions={[{ variant: 'primary', text: 'Richiedi una consulenza', href: '/contatti' }]}
     image={{
