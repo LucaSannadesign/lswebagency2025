@@ -1,2 +1,22 @@
 User-agent: *
-Disallow: /
+Disallow: /404
+Disallow: /grazie
+Disallow: /admin
+Disallow: /private
+Disallow: /wp-admin
+Disallow: /wp-login.php
+Disallow: /cgi-bin/
+Disallow: /*?*
+Disallow: /*.php$
+Disallow: /cart
+Disallow: /checkout
+Disallow: /wp-json/
+Disallow: /search
+
+Allow: /blog
+Allow: /portfolio
+Allow: /servizi
+Allow: /chi-siamo
+Allow: /contatti
+
+Sitemap: https://lswebagency.com/sitemap.xml
