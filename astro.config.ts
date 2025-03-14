@@ -25,7 +25,7 @@ import {
 // 🔍 Riconoscere il percorso della directory attuale
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const hasExternalScripts = false;
+const hasExternalScripts = true; // ✅ Abilitiamo gli script esterni
 
 // ✅ Funzione per aggiungere script esterni in base alla configurazione
 const whenExternalScripts = (
@@ -94,4 +94,25 @@ export default defineConfig({
       },
     },
   },
+
+  site: 'https://lswebagency.com', // ✅ URL del sito per Google Analytics
+
+  headScripts: [
+    {
+      children: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-FX8HDJJM7B');
+      `,
+    },
+  ],
+
+  scripts: [
+    {
+      type: 'text/javascript',
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B',
+      async: true,
+    },
+  ],
 });
