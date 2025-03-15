@@ -17,8 +17,6 @@ const { metadata = {
   description: "Descrizione di default",
   canonical: "/"
 } } = Astro.props;
-
-console.log("Metadata ricevuti in PageLayout:", metadata);
 ---
 
 <Layout metadata={metadata}>
@@ -29,13 +27,13 @@ console.log("Metadata ricevuti in PageLayout:", metadata);
     <Header {...headerData} isSticky showRssFeed showToggleTheme />
   </slot>
   <main>
-    <slot /> <!-- ✅ Il titolo viene gestito direttamente all’interno delle pagine -->
+    <slot />
   </main>
   <slot name="footer">
     <Footer {...footerData} />
   </slot>
 
-  <!-- 🔥 Banner Cookie con link alla Privacy Policy -->
+  <!-- 🔥 Banner Cookie con gestione consenso -->
   <style>
     .cookie-banner {
       position: fixed;
@@ -70,10 +68,29 @@ console.log("Metadata ricevuti in PageLayout:", metadata);
       border: none;
     }
 
+    .cookie-banner .reject {
+      background-color: #ff4d4d;
+      color: white;
+      margin-left: 10px;
+    }
+
     .cookie-banner a {
       color: #f1d600;
       text-decoration: underline;
       margin-left: 8px;
+    }
+
+    .cookie-settings {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      display: none;
     }
   </style>
 
@@ -83,22 +100,62 @@ console.log("Metadata ricevuti in PageLayout:", metadata);
       <a href="/privacy">Leggi la nostra Privacy Policy</a>
     </span>
     <button id="accept-cookies">Accetto</button>
+    <button id="reject-cookies" class="reject">Rifiuta</button>
+  </div>
+
+  <!-- 🔄 Pulsante per modificare il consenso -->
+  <div id="cookie-settings" class="cookie-settings hidden">
+    Modifica preferenze cookie
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const banner = document.getElementById("cookie-banner");
       const acceptButton = document.getElementById("accept-cookies");
+      const rejectButton = document.getElementById("reject-cookies");
+      const settingsButton = document.getElementById("cookie-settings");
 
-      // Mostra il banner solo se il consenso non è stato già dato
-      if (!localStorage.getItem("cookiesAccepted")) {
+      // Controlla se l'utente ha già fatto una scelta
+      const cookieChoice = localStorage.getItem("cookiesAccepted");
+
+      if (!cookieChoice) {
         banner.classList.remove("hidden");
+      } else {
+        settingsButton.classList.remove("hidden");
       }
 
-      // Memorizza il consenso e nasconde il banner
-      acceptButton.addEventListener("click", function () {
+      // Accettazione cookie → Attiva Google Analytics
+      acceptButton.addEventListener("click", function (event) {
+        event.preventDefault();
         localStorage.setItem("cookiesAccepted", "true");
         banner.classList.add("hidden");
+        settingsButton.classList.remove("hidden");
+
+        // Attiva Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
+
+        let gaScript = document.createElement("script");
+        gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B";
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
+      });
+
+      // Rifiuto cookie → Blocca Google Analytics
+      rejectButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        localStorage.setItem("cookiesAccepted", "false");
+        banner.classList.add("hidden");
+        settingsButton.classList.remove("hidden");
+      });
+
+      // Permette all'utente di modificare la scelta
+      settingsButton.addEventListener("click", function () {
+        localStorage.removeItem("cookiesAccepted");
+        banner.classList.remove("hidden");
+        settingsButton.classList.add("hidden");
       });
     });
   </script>
