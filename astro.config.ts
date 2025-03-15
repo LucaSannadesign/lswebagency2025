@@ -9,8 +9,8 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import react from '@astrojs/react';
-import preact from '@astrojs/preact'; // ✅ Corretta la posizione di Preact
-import remarkBreaks from 'remark-breaks'; // ✅ Evita problemi con Markdown
+import preact from '@astrojs/preact';
+import remarkBreaks from 'remark-breaks';
 import '@iconify/react';
 import '@iconify-json/fa6-brands';
 import astrowind from './vendor/integration';
@@ -22,12 +22,10 @@ import {
   lazyImagesRehypePlugin,
 } from './src/utils/frontmatter';
 
-// 🔍 Riconoscere il percorso della directory attuale
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const hasExternalScripts = true; // ✅ Abilitiamo gli script esterni
+const hasExternalScripts = true;
 
-// ✅ Funzione per aggiungere script esterni in base alla configurazione
 const whenExternalScripts = (
   items: (() => AstroIntegration) | (() => AstroIntegration)[]
 ) =>
@@ -38,12 +36,12 @@ const whenExternalScripts = (
     : [];
 
 export default defineConfig({
-  output: 'server', // ✅ Configurazione richiesta per il deploy su Vercel
+  output: 'server',
   adapter: vercel(),
 
   integrations: [
-    preact(), // ✅ Corretto l'inserimento di Preact
-    react(), // ✅ Assicura compatibilità con React
+    preact(),
+    react(),
     tailwind({
       applyBaseStyles: false,
     }),
@@ -57,7 +55,6 @@ export default defineConfig({
       },
     }),
 
-    // ✅ Integrazione di Partytown per migliorare le performance
     ...whenExternalScripts(() =>
       partytown({
         config: { forward: ['dataLayer.push'] },
@@ -83,7 +80,7 @@ export default defineConfig({
   ],
 
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin, remarkBreaks], // ✅ Evita problemi di formattazione nel Markdown
+    remarkPlugins: [readingTimeRemarkPlugin, remarkBreaks],
     rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
   },
 
@@ -95,15 +92,21 @@ export default defineConfig({
     },
   },
 
-  site: 'https://lswebagency.com', // ✅ URL del sito per Google Analytics
+  site: 'https://lswebagency.com',
 
   headScripts: [
     {
       children: `
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-FX8HDJJM7B');
+
+        function loadAnalytics() {
+          if (localStorage.getItem("cookiesAccepted") === "true") {
+            gtag('js', new Date());
+            gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
+          }
+        }
+        loadAnalytics();
       `,
     },
   ],
