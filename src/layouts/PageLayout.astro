@@ -4,7 +4,6 @@ import Header from '~/components/widgets/Header.astro';
 import Footer from '~/components/widgets/Footer.astro';
 import Announcement from '~/components/widgets/Announcement.astro';
 import { headerData, footerData } from '~/navigation';
-import CookieBanner from "~/components/common/CookieBanner.astro";
 
 import type { MetaData } from '~/types';
 
@@ -35,7 +34,73 @@ console.log("Metadata ricevuti in PageLayout:", metadata);
   <slot name="footer">
     <Footer {...footerData} />
   </slot>
-  <CookieBanner />
-</Layout>
 
-<!-- 🔥 Banner per la Cookie Policy -->
+  <!-- 🔥 Banner Cookie con link alla Privacy Policy -->
+  <style>
+    .cookie-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .cookie-banner.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cookie-banner button {
+      background-color: #f1d600;
+      color: black;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+      font-weight: bold;
+      border: none;
+    }
+
+    .cookie-banner a {
+      color: #f1d600;
+      text-decoration: underline;
+      margin-left: 8px;
+    }
+  </style>
+
+  <div id="cookie-banner" class="cookie-banner hidden">
+    <span>
+      Usiamo i cookie per migliorare la tua esperienza.  
+      <a href="/privacy-policy">Leggi la nostra Privacy Policy</a>
+    </span>
+    <button id="accept-cookies">Accetto</button>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const banner = document.getElementById("cookie-banner");
+      const acceptButton = document.getElementById("accept-cookies");
+
+      // Mostra il banner solo se il consenso non è stato già dato
+      if (!localStorage.getItem("cookiesAccepted")) {
+        banner.classList.remove("hidden");
+      }
+
+      // Memorizza il consenso e nasconde il banner
+      acceptButton.addEventListener("click", function () {
+        localStorage.setItem("cookiesAccepted", "true");
+        banner.classList.add("hidden");
+      });
+    });
+  </script>
+
+</Layout>
