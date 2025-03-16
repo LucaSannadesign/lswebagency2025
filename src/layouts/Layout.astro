@@ -43,6 +43,26 @@ const canonicalUrl = metadata.canonical || "https://lswebagency.com"; // Imposta
     <meta name="description" content={pageDescription} />
     <meta name="robots" content="index, follow" />
 
+<!-- Favicon standard -->
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Apple Touch Icon per iOS -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- Web App Manifest per Android e PWA -->
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Icone per Web App -->
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LS Web Agency">
+<meta name="application-name" content="LS Web Agency">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/web-app-manifest-192x192.png">
+
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
