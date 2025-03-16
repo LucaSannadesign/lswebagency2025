@@ -1,0 +1,82 @@
+---
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from '@iconify/react';
+import Button from '~/components/ui/Button.astro';
+import voucherImage from '~/assets/images/voucher-digitali-sardegna.webp';
+
+const metadata = {
+  title: "Voucher Digitali Sardegna | Fino al 70% di Rimborso per il Tuo Sito Web",
+  description: "Scopri come ottenere un sito web con il 70% di rimborso grazie ai Voucher Digitali in Sardegna. Contattaci per una consulenza gratuita!",
+  slug: "/voucher-digitali-sardegna",
+  keywords: ["Voucher digitali Sardegna", "Finanziamenti digitalizzazione imprese", "Creazione siti web finanziati", "Siti web per aziende locali", "Web agency Sardegna", "SEO Sardegna", "Digitalizzazione imprese locali"],
+  categories: ["Digitalizzazione", "Finanziamenti", "Siti Web"],
+  tags: ["voucher digitali", "siti web", "Sardegna", "web agency", "finanziamenti imprese"],
+  image: voucherImage,
+  twitter_card: "summary_large_image",
+  twitter_title: "Ottieni il 70% di Rimborso sul Tuo Sito Web in Sardegna!",
+  twitter_description: "Scopri come richiedere i Voucher Digitali per finanziare il tuo sito web. Contattaci oggi stesso!",
+  twitter_image: voucherImage,
+  facebook_title: "Voucher Digitali per la Digitalizzazione delle Imprese Sarde",
+  facebook_description: "Richiedi ora il rimborso fino al 70% per il tuo sito web e porta la tua azienda online con il supporto di LS Web Agency!",
+  facebook_image: voucherImage,
+  open_graph: {
+    og_title: "Voucher Digitali Sardegna | Fino al 70% di Rimborso per il Tuo Sito Web",
+    og_description: "Scopri come ottenere un sito web con il 70% di rimborso grazie ai Voucher Digitali in Sardegna. Contattaci per una consulenza gratuita!",
+    og_image: voucherImage,
+    og_url: "https://lswebagency.com/voucher-digitali-sardegna",
+    og_type: "website"
+  }
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Ottieni il massimo dalla digitalizzazione"
+    title="Fino al 70% di Rimborso per il tuo Sito Web"
+    subtitle="Scopri come ottenere finanziamenti per la digitalizzazione della tua attività grazie ai Voucher Digitali in Sardegna."
+    image={{
+      src: voucherImage,
+      alt: "Un cliente felice con il voucher in mano davanti al computer",
+    }}
+  />
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="text-center mt-12">
+      <h2 class="text-3xl font-bold text-gray-900">📌 Cos'è il Voucher Digitale?</h2>
+      <div class="max-w-3xl mx-auto text-left mt-4">
+        <p>Il <strong>Voucher Digitale</strong> è un incentivo promosso dal Ministero dello Sviluppo Economico per supportare le imprese nel processo di digitalizzazione. Grazie a questo contributo, le aziende possono ottenere un <strong>rimborso fino al 70%</strong> per investimenti in tecnologie digitali.</p>
+        <p>Questi fondi sono pensati per aiutare le micro, piccole e medie imprese a migliorare la loro presenza online e adottare strumenti digitali avanzati.</p>
+      </div>
+    </section>
+
+    <Features2
+      title="Come puoi utilizzare il Voucher?"
+      subtitle="Scopri in quali ambiti puoi applicare il finanziamento per digitalizzare la tua azienda"
+      columns={2}
+      items={[{
+        title: "Creazione o Restyling del Sito Web",
+        description: "Utilizza il voucher per creare un sito web moderno e performante o per aggiornare quello esistente, migliorando la sua efficienza e accessibilità.",
+        icon: "tabler:device-desktop",
+      },
+      {
+        title: "E-commerce e Vendite Online",
+        description: "Avvia il tuo negozio online o potenzia quello esistente, implementando funzionalità avanzate per la gestione delle vendite e dei pagamenti.",
+        icon: "tabler:shopping-cart",
+      }]}
+    />
+
+    <CallToAction
+      actions={[{
+        variant: "primary",
+        text: "Scopri se sei idoneo al finanziamento",
+        href: "/contatti",
+      }]}
+      title="Non perdere questa opportunità!"
+      subtitle="Contattaci oggi stesso per scoprire se puoi ottenere un rimborso fino al 70% per la digitalizzazione della tua azienda."
+    />
+  </div>
+</Layout>
