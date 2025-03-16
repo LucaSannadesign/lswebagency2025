@@ -26,3 +26,6 @@ pnpm-lock.yaml
 
 # Local Netlify folder
 .netlify
+
+# Ignora file di configurazione sensibili
+.env
