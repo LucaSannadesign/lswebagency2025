@@ -45,6 +45,7 @@ const metadata = {
   />
 
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    
     <section class="text-center mt-12">
       <h2 class="text-3xl font-bold text-gray-900">📌 Cos'è il Voucher Digitale?</h2>
       <div class="max-w-3xl mx-auto text-left mt-4">
@@ -57,16 +58,18 @@ const metadata = {
       title="Come puoi utilizzare il Voucher?"
       subtitle="Scopri in quali ambiti puoi applicare il finanziamento per digitalizzare la tua azienda"
       columns={2}
-      items={[{
-        title: "Creazione o Restyling del Sito Web",
-        description: "Utilizza il voucher per creare un sito web moderno e performante o per aggiornare quello esistente, migliorando la sua efficienza e accessibilità.",
-        icon: "tabler:device-desktop",
-      },
-      {
-        title: "E-commerce e Vendite Online",
-        description: "Avvia il tuo negozio online o potenzia quello esistente, implementando funzionalità avanzate per la gestione delle vendite e dei pagamenti.",
-        icon: "tabler:shopping-cart",
-      }]}
+      items={[
+        {
+          title: "Creazione o Restyling del Sito Web",
+          description: "Utilizza il voucher per creare un sito web moderno e performante o per aggiornare quello esistente, migliorando la sua efficienza e accessibilità.",
+          icon: "tabler:device-desktop",
+        },
+        {
+          title: "E-commerce e Vendite Online",
+          description: "Avvia il tuo negozio online o potenzia quello esistente, implementando funzionalità avanzate per la gestione delle vendite e dei pagamenti.",
+          icon: "tabler:shopping-cart",
+        }
+      ]}
     />
 
     <CallToAction
@@ -78,5 +81,65 @@ const metadata = {
       title="Non perdere questa opportunità!"
       subtitle="Contattaci oggi stesso per scoprire se puoi ottenere un rimborso fino al 70% per la digitalizzazione della tua azienda."
     />
+
+    <section class="text-center mt-12">
+      <h3 class="text-3xl font-bold text-gray-900">📌 Stato Attuale dei Voucher 2025</h3>
+      <div class="max-w-3xl mx-auto text-left mt-4">
+        <p>🚧 <strong>I bandi per i Voucher Digitali 2025 non sono ancora stati pubblicati.</strong></p>
+        <p>Iscriviti alla nostra newsletter per ricevere aggiornamenti non appena saranno disponibili e scoprire come accedere ai finanziamenti.</p>
+      </div>
+    </section>
+
+    <!-- Form Newsletter -->
+    <section class="py-12 text-center">
+      <h2 class="text-3xl font-bold text-gray-900">📩 Iscriviti alla Newsletter</h2>
+      <p class="text-lg text-gray-600 mt-2">Ricevi aggiornamenti sui bandi 2025 e le opportunità di finanziamento.</p>
+      
+      <form id="newsletter-form" class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="w-full max-w-md px-4 py-2 border rounded-md shadow-sm focus:ring focus:ring-indigo-300"
+          placeholder="Inserisci la tua email" 
+          required
+        />
+        <button 
+          type="submit" 
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md shadow-md">
+          Iscriviti
+        </button>
+      </form>
+
+      <p id="success-message" class="text-green-600 mt-4 hidden">✅ Iscrizione avvenuta con successo!</p>
+      <p id="error-message" class="text-red-600 mt-4 hidden">⚠️ Si è verificato un errore, riprova più tardi.</p>
+    </section>
+
+    <script>
+      document.getElementById('newsletter-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+
+        const response = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          successMessage.classList.remove('hidden');
+          errorMessage.classList.add('hidden');
+        } else {
+          errorMessage.classList.remove('hidden');
+          successMessage.classList.add('hidden');
+        }
+      });
+    </script>
+
   </div>
 </Layout>
