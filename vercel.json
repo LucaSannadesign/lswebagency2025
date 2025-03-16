@@ -1,31 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/privacy-policy",
-      "destination": "/privacy",
-      "permanent": true
-    },
-    {
-      "source": "/strumenti-risorse-creare-sito-web-professionale",
-      "destination": "/blog/strumenti-e-risorse-per-creare-un-sito-web-professionale",
-      "permanent": true
-    },
-    {
-      "source": "/intelligenza-artificiale-web-design",
-      "destination": "/blog/intelligenza-artificiale-e-web-design",
-      "permanent": true
-    },
-    {
-      "source": "/come-creare-landing-page-perfetta",
-      "destination": "/blog/come-creare-la-landing-page-perfetta",
-      "permanent": true
-    },
-    {
-      "source": "/mobile-first-ottimizzazione-sito",
-      "destination": "/blog/mobile-first-e-ottimizzazione-del-sito",
-      "permanent": true
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
