@@ -33,19 +33,19 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": metadata.title,
-      "description": metadata.description,
-      "url": metadata.openGraph.url,
-      "image": metadata.openGraph.image,
-      "publisher": {
-        "@type": "Organization",
-        "name": "LS Web Agency",
-        "logo": "https://lswebagency.com/images/logo.png"
-      }
-    })}
+     {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": metadata.title,
+    "description": metadata.description,
+    "url": metadata.openGraph.url,
+    "image": [metadata.openGraph.image || "https://lswebagency.com/images/portfolio-og.jpg"],
+    "publisher": {
+      "@type": "Organization",
+      "name": "LS Web Agency",
+      "logo": "https://lswebagency.com/images/logo.png"
+    }
+  })}
   </script>
 
   <section class="container mx-auto px-6 py-12">
