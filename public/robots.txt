@@ -13,6 +13,7 @@ Disallow: /checkout
 Disallow: /wp-json/
 Disallow: /search
 
+
 Allow: /blog
 Allow: /portfolio
 Allow: /servizi

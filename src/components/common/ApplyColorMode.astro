@@ -11,8 +11,8 @@ import { UI } from 'astrowind:config';
     } else {
       document.documentElement.classList.remove('dark');
     }
-    const matches = document.querySelectorAll('[data-aw-toggle-color-scheme] > input');
 
+    const matches = document.querySelectorAll('[data-aw-toggle-color-scheme] > input');
     if (matches && matches.length) {
       matches.forEach((elem) => {
         elem.checked = theme !== 'dark';
@@ -20,14 +20,22 @@ import { UI } from 'astrowind:config';
     }
   }
 
-  if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
-    applyTheme(defaultTheme.replace(':only', ''));
-  } else if (
-    localStorage.theme === 'dark' ||
-    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    applyTheme('dark');
-  } else {
-    applyTheme('light');
+  function getPreferredTheme() {
+    if (localStorage.theme) {
+      return localStorage.theme; // Se l'utente ha scelto un tema, usalo
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark'; // Se il sistema è in dark mode, usa dark
+    } else {
+      return 'light'; // Altrimenti usa light
+    }
   }
+
+  applyTheme(getPreferredTheme()); // ✅ Imposta il tema corretto al caricamento
+
+  // Ascolta i cambiamenti di preferenza del sistema
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.theme) { // Cambia solo se l'utente non ha scelto manualmente
+      applyTheme(e.matches ? 'dark' : 'light');
+    }
+  });
 </script>

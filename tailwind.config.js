@@ -30,17 +30,20 @@ export default {
         },
       },
 
-      /** 🔥 Aggiunta di una classe globale per testi non <p> e non titoli */
+      /** 🔥 Sovrascrive la definizione di md:text-6xl */
       fontSize: {
-        default: '1.2rem', // Cambia la dimensione di tutti i testi normali
-        lg: '1.5rem', // Modifica anche text-lg se necessario
+        '6xl': ['3.75rem', { lineHeight: '1.2' }], // ✅ Tailwind ora usa line-height 1.2 per text-6xl
       },
     },
   },
   plugins: [
     typographyPlugin,
-    plugin(({ addVariant }) => {
-      addVariant('intersect', '&:not([no-intersect])');
+    plugin(({ addBase }) => {
+      addBase({
+        'h1': {
+          lineHeight: '1.2', // ✅ Forza l'interlinea per tutti gli H1
+        },
+      });
     }),
   ],
   darkMode: 'class',
