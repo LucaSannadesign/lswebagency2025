@@ -3,16 +3,14 @@ Disallow: /404
 Disallow: /grazie
 Disallow: /admin
 Disallow: /private
-Disallow: /wp-admin
-Disallow: /wp-login.php
 Disallow: /cgi-bin/
 Disallow: /*?*
 Disallow: /*.php$
 Disallow: /cart
 Disallow: /checkout
-Disallow: /wp-json/
 Disallow: /search
-
+Disallow: /landing/
+Disallow: /homes/
 
 Allow: /blog
 Allow: /portfolio
