@@ -35,6 +35,7 @@
     "@fontsource-variable/inter": "^5.1.1",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@iconify-json/fa6-brands": "^1.2.5",
+    "@iconify/json": "^2.2.318",
     "@iconify/react": "^5.2.0",
     "@jop-software/astro-cookieconsent": "github:jop-software/astro-cookieconsent",
     "@sendgrid/mail": "^8.1.4",

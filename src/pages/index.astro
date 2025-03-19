@@ -1,18 +1,14 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
-import Note from '~/components/widgets/Note.astro';
 import Features from '~/components/widgets/Features.astro';
 import Features2 from '~/components/widgets/Features2.astro';
-import Steps from '~/components/widgets/Steps.astro';
-import Content from '~/components/widgets/Content.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'LS Web Agency — Creazione di Siti Web, App e Soluzioni Digitali',
-  description: 'Scopri le nostre soluzioni digitali per siti web moderni, performanti e ottimizzati per SEO.',
+  title: 'Realizzazione Siti Web Sassari | LS Web Agency & SEO',
+  description: 'LS Web Agency è specializzata nella realizzazione di siti web a Sassari, ottimizzazione SEO e web design professionale. Porta il tuo business online con un sito veloce e performante!',
   ignoreTitleTemplate: true,
 };
 ---
@@ -28,124 +24,111 @@ const metadata = {
       },
       { text: 'Portfolio', href: '/portfolio' },
     ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'Immagine Hero LS Web Agency' }}
+    image={{ src: '~/assets/images/hero-image.png', alt: 'Realizzazione siti web a Sassari' }}
   >
     <Fragment slot="title">
-     Creazione siti web e app <span class="text-accent text-gradient dark:text-white highlight">professionali e performanti</span>
+      Realizzazione siti web a Sassari <span class="text-accent text-gradient dark:text-white highlight">ottimizzati per SEO</span>
     </Fragment>
 
     <Fragment slot="subtitle">
       <span class="hidden sm:inline">
-        <span class="font-semibold">LS Web Agency</span> realizza siti web, app e soluzioni digitali su misura, combinando performance, estetica e SEO avanzato.
+        <span class="font-semibold">LS Web Agency</span> realizza siti web su misura per aziende e professionisti a Sassari. Creiamo siti veloci, performanti e ottimizzati per il posizionamento su Google.
       </span>
       <span class="block mb-1 sm:hidden font-bold text-blue-600">
-        LS Web Agency: Creatività e tecnologia al servizio del tuo brand.
+        Affidati a LS Web Agency per la tua presenza online!
       </span>
-      Ideali per aziende, professionisti ed e-commerce, trasformiamo la tua visione in una realtà digitale vincente.
+      Ottieni un sito web professionale con design moderno e strategie SEO avanzate.
     </Fragment>
   </Hero>
 
-  <!-- Features Widget -->
   <Features
     id="features"
-    tagline="Servizi"
-    title="Cosa offriamo con LS Web Agency"
-    subtitle="Soluzioni digitali professionali per aziende, professionisti e startup. Creiamo esperienze web su misura per il tuo business."
+    tagline="Servizi Web"
+    title="Realizzazione siti web e SEO a Sassari"
+    subtitle="Diamo vita a siti web professionali, performanti e ottimizzati per i migliori posizionamenti su Google."
     items={[
       {
-        title: 'Siti Web Moderni e Performanti',
-        description: 'Realizziamo siti web personalizzati, ottimizzati per SEO e con design responsive, garantendo massima velocità e usabilità.',
+        title: 'Creazione Siti Web',
+        description: 'Sviluppiamo siti web personalizzati con un design accattivante e ottimizzazione SEO per una maggiore visibilità.',
         icon: 'tabler:device-desktop',
       },
       {
-        title: 'Sviluppo App su Misura',
-        description: 'Progettiamo e sviluppiamo applicazioni web e mobile intuitive e performanti, adattate alle esigenze del tuo business.',
-        icon: 'tabler:device-mobile',
-      },
-      {
-        title: 'Strategie di Web Marketing',
-        description: 'Utilizziamo strategie di digital marketing e SEO per aumentare la visibilità del tuo brand e migliorare il posizionamento sui motori di ricerca.',
-        icon: 'tabler:chart-line',
-      },
-      {
-        title: 'Branding e Identità Visiva',
-        description: 'Creiamo loghi, grafiche personalizzate e identità visive accattivanti per far emergere il tuo brand nel mercato digitale.',
-        icon: 'tabler:palette',
+        title: 'SEO e Ottimizzazione',
+        description: 'Miglioriamo il posizionamento del tuo sito su Google con strategie SEO avanzate per attirare nuovi clienti.',
+        icon: 'tabler:search',
       },
       {
         title: 'E-commerce e Vendite Online',
-        description: 'Sviluppiamo soluzioni di e-commerce sicure e scalabili, integrando sistemi di pagamento e gestione ordini per il massimo rendimento.',
+        description: 'Sviluppiamo piattaforme e-commerce scalabili e ottimizzate per il massimo rendimento nelle vendite online.',
         icon: 'tabler:shopping-cart',
       },
       {
-        title: 'Manutenzione e Supporto Continuo',
-        description: 'Offriamo assistenza e aggiornamenti costanti per garantire la sicurezza, la stabilità e la crescita del tuo sito o applicazione.',
+        title: 'Web Design e Branding',
+        description: 'Creiamo siti con un’identità visiva forte e coerente, per trasmettere al meglio il valore del tuo brand.',
+        icon: 'tabler:palette',
+      },
+      {
+        title: 'Manutenzione e Supporto',
+        description: 'Garantiamo aggiornamenti, sicurezza e assistenza continua per il tuo sito web.',
         icon: 'tabler:lifebuoy',
+      },
+      {
+        title: 'Strategie di Conversione',
+        description: 'Ottimizziamo il funnel di conversione con call-to-action efficaci per trasformare i visitatori in clienti.',
+        icon: 'tabler:chart-line',
       },
     ]}
   />
 
-  <!-- Elementi Essenziali -->
-  <Features2
-    title="Elementi essenziali di un sito web moderno"
-    subtitle="Ogni dettaglio conta per garantire un’esperienza utente fluida e professionale"
-    tagline="Componenti Chiave"
-    items={[
-      {
-        title: 'Navigazione Intuitiva',
-        description: "Un menu chiaro e ben strutturato aiuta gli utenti a trovare ciò che cercano rapidamente.",
-        icon: 'tabler:layout-navbar',
-      },
-      {
-        title: 'Design Accattivante',
-        description: "L'estetica è fondamentale: colori, font e immagini devono comunicare il valore del brand.",
-        icon: 'tabler:palette',
-      },
-      {
-        title: 'Performance e Velocità',
-        description: 'Un sito veloce riduce il tasso di abbandono e migliora il posizionamento sui motori di ricerca.',
-        icon: 'tabler:rocket',
-      },
-      {
-        title: 'Contenuti Ottimizzati',
-        description: "Testi chiari, immagini di qualità e call-to-action efficaci rendono un sito funzionale e coinvolgente.",
-        icon: 'tabler:file-text',
-      },
-      {
-        title: 'SEO e Visibilità',
-        description: 'L’ottimizzazione per i motori di ricerca (SEO) è essenziale per attrarre traffico organico e clienti.',
-        icon: 'tabler:search',
-      },
-      {
-        title: 'Responsive e Mobile-Friendly',
-        description: 'Il sito deve adattarsi perfettamente a tutti i dispositivi, dal desktop allo smartphone.',
-        icon: 'tabler:device-mobile',
-      },
-      {
-        title: 'Sezione Contatti Strategica',
-        description: 'Facilitare la comunicazione con i clienti attraverso form chiari e informazioni di contatto ben visibili.',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Integrazione con Social Media',
-        description: 'Un sito con collegamenti ai social network aiuta a migliorare la presenza online e la fidelizzazione.',
-        icon: 'tabler:brand-facebook',
-      },
-      {
-        title: 'Sicurezza e Protezione Dati',
-        description: 'Proteggiamo il tuo sito con protocolli avanzati, certificati SSL e backup regolari per garantire sicurezza e affidabilità.',
-        icon: 'tabler:shield-lock',
-      },
-    ]}
-  />
+<!-- Elementi Essenziali -->
+<Features2
+title="Caratteristiche di un sito web vincente"
+subtitle="Ogni sito web che realizziamo è progettato per massimizzare conversioni e visibilità"
+tagline="Cosa include il nostro servizio?"
+items={[
+  {
+    title: 'Navigazione Intuitiva',
+    description: "Struttura chiara per facilitare l'esperienza utente e migliorare la permanenza sul sito.",
+    icon: 'tabler:layout-navbar',
+  },
+  {
+    title: 'Design Responsive',
+    description: "Il tuo sito sarà perfetto su ogni dispositivo, dal desktop allo smartphone.",
+    icon: 'tabler:device-mobile',
+  },
+  {
+    title: 'SEO On-Page',
+    description: "Ogni sito è ottimizzato per le ricerche su Google, migliorando il traffico organico.",
+    icon: 'tabler:search',
+  },
+  {
+    title: 'Velocità e Performance',
+    description: 'Tempi di caricamento ridotti per migliorare il ranking e l’esperienza utente.',
+    icon: 'tabler:rocket',
+  },
+  {
+    title: 'Sicurezza Avanzata',
+    description: 'Proteggiamo il tuo sito con certificati SSL, backup e sistemi anti-hacking.',
+    icon: 'tabler:shield-lock',
+  },
+  {
+    title: 'User Experience Ottimizzata',
+    description: 'Layout studiato per guidare il visitatore e massimizzare le conversioni con Call-To-Action efficaci.',
+    icon: 'tabler:user-check',
+  },
+]}
+/>
+
+  <!-- Ultimi Articoli Blog -->
   <BlogLatestPosts>
     <Fragment slot="title">
-      Scopri gli ultimi articoli del nostro Blog
+      Scopri gli ultimi articoli su SEO e Web Design
     </Fragment>
     <Fragment slot="information">
-      Leggi le ultime novità su Web Design, SEO e sviluppo con Astro!
+      Leggi gli approfondimenti di LS Web Agency sulla realizzazione di siti web e il posizionamento SEO.
     </Fragment>
   </BlogLatestPosts>
+
   <!-- Call to Action -->
   <CallToAction
     actions={[
@@ -158,13 +141,13 @@ const metadata = {
     ]}
   >
     <Fragment slot="title">
-      Siti Web&nbsp;+&nbsp;<br class="block sm:hidden" />
-      <span class="sm:whitespace-nowrap">SEO & Brand Identity</span>
+      Il tuo sito web professionale <br class="block sm:hidden" />
+      <span class="sm:whitespace-nowrap">ti aspetta</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Vuoi un sito web professionale e visibile sui motori di ricerca? 🚀 <br />
-      Contattaci ora e scopri come possiamo trasformare la tua presenza online con soluzioni su misura per il tuo business.
+      Vuoi un sito web ottimizzato per Google e pronto per il successo? 🚀 <br />
+      Contattaci oggi e scopri come possiamo realizzare il tuo progetto con la massima cura e competenza.
     </Fragment>
   </CallToAction>
 </Layout>
