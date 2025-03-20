@@ -434,7 +434,33 @@ const metadata = {
 <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
 
 <script src="https://www.google.com/recaptcha/api.js?render=6LeZb_YqAAAAABWxxq80K2dC_E7lDWy1j4I3Zr9O&hl=it" async defer></script>
+<!-- Includi lo script di reCAPTCHA v3 -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LeZb_YqAAAAABWxxq80K2dC_E7lDWy1j4I3Zr9O" async defer></script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var form = document.getElementById("sib-form");
+
+    if (form) {
+      form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Blocca l'invio del form per attendere il token reCAPTCHA
+
+        grecaptcha.ready(function () {
+          grecaptcha.execute("6LeZb_YqAAAAABWxxq80K2dC_E7lDWy1j4I3Zr9O", { action: "submit" })
+            .then(function (token) {
+              var recaptchaResponse = document.createElement("input");
+              recaptchaResponse.setAttribute("type", "hidden");
+              recaptchaResponse.setAttribute("name", "g-recaptcha-response");
+              recaptchaResponse.setAttribute("value", token);
+              form.appendChild(recaptchaResponse);
+              
+              form.submit(); // Invia il form dopo aver aggiunto il token
+            });
+        });
+      });
+    }
+  });
+</script>
 <!-- END - We recommend to place the above code in footer or bottom of your website html  -->
 <!-- End Brevo Form -->
 
