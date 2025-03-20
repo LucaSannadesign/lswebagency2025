@@ -454,15 +454,18 @@ const metadata = {
               recaptchaResponse.setAttribute("value", token);
               form.appendChild(recaptchaResponse);
               
+              // 🔹 DEBUG: Verifica se il token viene generato
+              console.log("reCAPTCHA token:", token);
+
               form.submit(); // Invia il form dopo aver aggiunto il token
+            }).catch(function (error) {
+              console.error("Errore reCAPTCHA:", error);
             });
         });
       });
     }
   });
 </script>
-<!-- END - We recommend to place the above code in footer or bottom of your website html  -->
-<!-- End Brevo Form -->
 
   </div>
 </Layout>
