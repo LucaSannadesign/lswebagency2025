@@ -6,25 +6,34 @@ import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro';
 
 const metadata = {
-  title: 'Ottimizzazione SEO a Sassari - LS Web Agency',
-  description: 'Migliora la visibilità del tuo sito web con strategie avanzate di Ottimizzazione SEO a Sassari.',
+  title: 'Ottimizzazione SEO a Sassari | Aumenta la Visibilità del tuo Sito',
+  description: 'Migliora il posizionamento del tuo sito web con strategie avanzate di Ottimizzazione SEO a Sassari e in tutta Italia. Contattaci per una consulenza.',
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Ottimizzazione SEO a Sassari"
-    title={
-      `Aumenta la visibilità del tuo sito con 
-      <span class="text-accent text-gradient dark:text-white highlight">strategie SEO efficaci</span>`
-    }
-    subtitle="Ottimizziamo il tuo sito web per scalare le classifiche di Google e aumentare il traffico organico."
-    actions={[{ variant: 'primary', text: 'Richiedi una consulenza', href: '/contatti' }]}
-    image={{
-      src: '~/assets/images/seo-ottimizzazione-ls-webagency.webp',
-      alt: 'Ottimizzazione SEO per siti web',
-    }}
-  />
+  tagline="SEO a Sassari per il tuo business"
+  image={{
+    src: '~/assets/images/seo-ottimizzazione-ls-webagency.webp',
+    alt: 'Ottimizzazione SEO per siti web',
+  }}
+>
+  <Fragment slot="title">
+    Migliora il posizionamento su Google con  
+    <span class="text-accent text-gradient dark:text-white highlight">strategie SEO efficaci</span>
+  </Fragment>
+
+  <Fragment slot="subtitle">
+    Ottimizziamo il tuo sito web per <strong>scalare le classifiche di Google</strong>, aumentare il traffico organico e migliorare le conversioni.
+  </Fragment>
+
+  <Fragment slot="actions">
+    <Button variant="primary" href="/contatti">
+      Richiedi una consulenza gratuita
+    </Button>
+  </Fragment>
+</Hero>
 
   <!-- Introduzione alla SEO -->
   <section class="container mx-auto px-6 py-12 text-lg text-gray-700 dark:text-gray-300">
@@ -32,37 +41,39 @@ const metadata = {
       Perché l'ottimizzazione SEO è fondamentale per il tuo business?
     </h2>
     <p class="text-center max-w-3xl mx-auto mb-8">
-      La SEO (Search Engine Optimization) è l'insieme di strategie volte a migliorare la posizione del tuo sito nei risultati di ricerca organica.
-      Un sito ben ottimizzato non solo attira più visitatori, ma converte meglio i clienti e garantisce un ritorno sull'investimento duraturo.
+      La <strong>SEO (Search Engine Optimization)</strong> è l’insieme di strategie che migliorano la visibilità del tuo sito nei <strong>risultati di ricerca organici</strong>.
+      Un sito web ben ottimizzato non solo <strong>aumenta il traffico</strong>, ma genera anche più <strong>clienti e conversioni</strong>.
     </p>
   </section>
 
   <!-- Approfondimento sulle attività SEO -->
   <Features2
+    title="Strategie SEO per scalare su Google"
+    subtitle="Applichiamo le migliori tecniche SEO per aumentare la tua visibilità online."
     items={[
       {
         title: 'SEO Tecnico',
-        description: 'Ottimizziamo la struttura del sito per garantire velocità, sicurezza e una perfetta esperienza utente, migliorando i Core Web Vitals di Google.',
+        description: '<strong>Ottimizziamo la struttura del sito</strong> per garantire velocità, sicurezza e una perfetta esperienza utente.',
       },
       {
         title: 'SEO On-Page',
-        description: 'Miglioriamo titoli, meta descrizioni, contenuti, struttura dei link interni e dati strutturati per aumentare la rilevanza della tua pagina.',
+        description: '<strong>Ottimizziamo i contenuti</strong>: titoli, meta descrizioni, testi e immagini per aumentare la rilevanza della tua pagina.',
       },
       {
         title: 'SEO Off-Page',
-        description: 'Gestiamo backlink di qualità, Digital PR e menzioni online per migliorare la tua autorità e la fiducia agli occhi di Google.',
+        description: '<strong>Strategie di Link Building</strong> per migliorare l’autorità e la credibilità del tuo sito agli occhi di Google.',
       },
       {
         title: 'SEO Locale',
-        description: 'Ottimizziamo il tuo sito per le ricerche locali, migliorando la scheda Google My Business e la presenza nei risultati geolocalizzati.',
+        description: '<strong>Ottimizzazione per ricerche locali</strong>: Google My Business, recensioni e schede locali per attrarre clienti vicini a te.',
       },
       {
         title: 'SEO per E-commerce',
-        description: 'Ottimizziamo le schede prodotto, i filtri di ricerca e la navigazione per aumentare le conversioni e migliorare la user experience.',
+        description: '<strong>Ottimizziamo le schede prodotto</strong> per migliorare il posizionamento e aumentare le vendite online.',
       },
       {
         title: 'Analisi e Monitoraggio',
-        description: 'Utilizziamo strumenti come Google Analytics, Search Console e strumenti di tracciamento avanzati per monitorare il rendimento e apportare miglioramenti continui.',
+        description: '<strong>Report dettagliati e analisi SEO</strong> per monitorare il rendimento e apportare miglioramenti costanti.',
       },
     ]}
   />
@@ -76,25 +87,25 @@ const metadata = {
       <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
         <h3 class="text-xl font-semibold mb-3">🔍 Maggiore visibilità online</h3>
         <p>
-          Un sito ben posizionato nei risultati di ricerca riceve più traffico e ha maggiori possibilità di conversione.
+          Un sito ben posizionato su Google riceve più <strong>traffico organico</strong> e ha maggiori possibilità di conversione.
         </p>
       </div>
       <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-3">📈 Crescita del traffico organico</h3>
+        <h3 class="text-xl font-semibold mb-3">📈 Crescita del traffico senza pubblicità</h3>
         <p>
-          Investire nella SEO significa ottenere traffico gratuito e di qualità, senza dover dipendere dagli annunci a pagamento.
+          La SEO consente di generare traffico senza dipendere dagli annunci a pagamento, riducendo i costi di marketing.
         </p>
       </div>
       <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
         <h3 class="text-xl font-semibold mb-3">💰 ROI Elevato</h3>
         <p>
-          A differenza delle campagne pubblicitarie a pagamento, i risultati della SEO sono duraturi e offrono un ritorno sull’investimento nel lungo periodo.
+          Gli investimenti in SEO offrono risultati duraturi nel tempo, migliorando la <strong>redditività</strong> della tua attività online.
         </p>
       </div>
       <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-3">⚡ Esperienza utente ottimizzata</h3>
+        <h3 class="text-xl font-semibold mb-3">⚡ Esperienza utente migliorata</h3>
         <p>
-          Un sito SEO-friendly è anche più veloce, intuitivo e accessibile, migliorando l’esperienza per gli utenti e riducendo il tasso di rimbalzo.
+          Un sito veloce e ben ottimizzato migliora la navigazione degli utenti, riducendo il <strong>tasso di abbandono</strong>.
         </p>
       </div>
     </div>
@@ -102,11 +113,11 @@ const metadata = {
 
   <!-- Call To Action -->
   <CallToAction
-    title="Vuoi un sito web su misura per la tua attività?"
-    subtitle="Contattaci oggi stesso e trasformiamo la tua idea in realtà."
+    title="Vuoi migliorare il posizionamento del tuo sito?"
+    subtitle="Scopri come possiamo aiutarti a scalare su Google e raggiungere più clienti."
   >
     <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">Parliamone</Button>
+      <Button variant="primary" href="/contatti">Richiedi una consulenza gratuita</Button>
     </Fragment>
   </CallToAction>
 </Layout>

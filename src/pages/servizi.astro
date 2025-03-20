@@ -7,30 +7,52 @@ import { Icon } from '@iconify/react';
 import Button from '~/components/ui/Button.astro';
 
 const metadata = {
-  title: "Servizi di Creazione Siti Web e SEO a Sassari | LS Web Agency",
-  description: "Scopri i servizi professionali di creazione siti web, SEO e digital marketing per migliorare la tua presenza online e attrarre più clienti.",
+  title: "Web Design, SEO e Marketing Digitale a Sassari | LS Web Agency",
+  description: "Ottieni il massimo dal tuo business con i nostri servizi di creazione siti web, ottimizzazione SEO, digital marketing ed e-commerce. Soluzioni su misura per aziende e professionisti a Sassari.",
   ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Section -->
-  <Hero
-  tagline="Scopri i nostri servizi"
-  title="Creazione Siti Web e SEO a Sassari"
-  subtitle="Aiutiamo aziende e professionisti a ottenere più visibilità online con siti web performanti, ottimizzati per il SEO e progettati per convertire."
-  image={{
-    src: "~/assets/images/servizi-seo-grafica-branding-siti-web.webp",
-    alt: "Illustrazione che rappresenta il miglioramento del ranking SEO con grafici e strumenti digitali",
-  }}
->
-  <Fragment slot="actions">
-    <Button variant="primary" href="/contatti">
-      <Icon icon="tabler:message" className="mr-2" /> Richiedi una consulenza
-    </Button>
-    <Button href="#features">Scopri di più</Button>
-  </Fragment>
-</Hero>
+   <!-- Hero Section -->
+   <Hero
+   actions={[
+     {
+       variant: "primary",
+       text: "Richiedi una consulenza",
+       href: "/contatti",
+     },
+     { text: "Scopri di più", href: "#features" },
+   ]}
+   image={{
+     src: "~/assets/images/servizi-seo-grafica-branding-siti-web.webp",
+     alt: "Blocchi di lettere che formano la scritta SEO Audit, concetto di ottimizzazione per i motori di ricerca",
+   }}
+ >
+   <Fragment slot="title">
+     <span>Strategie Digitali: </span>
+     <span class="text-accent text-gradient dark:text-white highlight">Creazione Siti Web</span>, 
+     <span class="text-accent text-gradient dark:text-white highlight">SEO</span> e 
+     <span class="text-accent text-gradient dark:text-white highlight">Marketing</span> a Sassari
+   </Fragment>
+
+   <Fragment slot="subtitle">
+     <span class="hidden sm:inline">
+       <span class="font-semibold">LS Web Agency</span> offre soluzioni professionali di 
+       <strong>creazione siti web</strong>, 
+       <strong>ottimizzazione SEO</strong> e 
+       <strong>marketing digitale</strong>.
+       Aiutiamo aziende e professionisti a ottenere più visibilità online e aumentare le conversioni con strategie personalizzate.
+     </span>
+     <span class="block mb-1 sm:hidden font-bold text-blue-600">
+       Affidati a LS Web Agency per la tua crescita digitale!
+     </span>
+     Scopri come migliorare la tua presenza online con 
+     <strong>SEO avanzata</strong>, 
+     <strong>strategie di digital marketing</strong> 
+     e <strong>siti web performanti</strong>.
+   </Fragment>
+ </Hero>
 
   <!-- Introduzione ai Servizi -->
   <section class="container mx-auto px-4 py-12">

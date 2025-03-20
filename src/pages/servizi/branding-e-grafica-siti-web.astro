@@ -8,103 +8,107 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import { Icon } from '@iconify/react';
 
 const metadata = {
-  title: 'Branding e Grafica per Siti Web - LS Web Agency',
+  title: 'Branding e Grafica per Siti Web a Sassari | LS Web Agency',
   description:
-    'Distinguiti con un design unico! Scopri i nostri servizi di branding e grafica per siti web per un’identità visiva professionale e accattivante.',
+    'Distinguiti con un design unico! Offriamo servizi di branding, grafica e UX design per siti web a Sassari e in tutta Italia. Richiedi una consulenza.',
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- Hero Section -->
   <Hero
-  actions={[
-    {
-      variant: 'primary',
-      text: 'Scopri i nostri servizi',
-      href: '/servizi',
-    },
-    { text: 'Portfolio', href: '/portfolio' },
-  ]}
-  image={{ src: '~/assets/images/branding-grafica-ls-webagencywebp.webp', alt: 'Branding e Grafica per Siti Web' }}
->
-  <Fragment slot="title">
-    <span class="text-gradient">Branding e Grafica</span> per Siti Web
-  </Fragment>
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Scopri i nostri servizi',
+        href: '/servizi',
+      },
+      { text: 'Portfolio', href: '/portfolio' },
+    ]}
+    image={{ 
+      src: '~/assets/images/branding-grafica-ls-webagencywebp.webp', 
+      alt: 'Studio di branding e grafica per siti web professionali a Sassari' 
+    }}
+  >
+    <Fragment slot="title">
+      <span class="text-gradient">Branding e Grafica</span> per Siti Web a Sassari
+    </Fragment>
 
-  <Fragment slot="subtitle">
-    <span class="hidden sm:inline">
-      <span class="font-semibold">Crea un’identità visiva unica</span> per il tuo brand con un design professionale e un branding riconoscibile.
-    </span>
-    <span class="block mb-1 sm:hidden font-bold text-blue-600">
-      Dai valore al tuo brand con un design studiato per il web.
-    </span>
-    Un sito web efficace inizia da una <span class="text-gradient">grafica curata e strategica</span>, capace di comunicare i tuoi valori e attrarre il pubblico giusto.
-  </Fragment>
-</Hero>
+    <Fragment slot="subtitle">
+      <span class="hidden sm:inline">
+        <span class="font-semibold">Distinguiti dalla concorrenza</span> con un’identità visiva forte e un <strong>design professionale</strong> studiato per il web.
+      </span>
+      <span class="block mb-1 sm:hidden font-bold text-blue-600">
+        Dai valore al tuo brand con un design strategico.
+      </span>
+      Realizziamo <strong>progetti di grafica per il web</strong>, sviluppando <strong>interfacce accattivanti</strong>, <strong>grafiche per landing page</strong> e materiali visivi che valorizzano il tuo brand. Creiamo <strong>loghi e marchi distintivi</strong> per rafforzare <strong>l’identità aziendale online</strong> e migliorare <strong>la comunicazione visiva</strong>.
+    </Fragment>
+  </Hero>
+
   <!-- Servizi Offerti -->
   <Features3
-  title="I nostri servizi di Branding e Grafica"
-  subtitle="Un'identità visiva forte è il primo passo per il successo online."
-  columns={4} /* 🔹 Forzato a quattro colonne su desktop */
-  isBeforeContent={true}
-  items={[
-    {
-      title: 'Design Unico e Personalizzato',
-      description: 'Creiamo interfacce accattivanti che rispecchiano la tua identità aziendale.',
-      icon: 'tabler:brush',
-    },
-    {
-      title: 'Brand Identity',
-      description: 'Dallo studio del logo alla scelta della palette colori e tipografia, tutto su misura per te.',
-      icon: 'tabler:palette',
-    },
-    {
-      title: 'User Experience (UX)',
-      description: 'Miglioriamo la navigazione e l’usabilità del sito per un’esperienza ottimale.',
-      icon: 'tabler:cursor-text',
-    },
-    {
-      title: 'Materiale Grafico',
-      description: 'Forniamo immagini, icone e elementi visivi professionali per il tuo sito.',
-      icon: 'tabler:photo',
-    },
-  ]}
-/>
+    title="I nostri servizi di Branding e Grafica"
+    subtitle="Un'identità visiva forte è il primo passo per il successo online."
+    columns={4}
+    isBeforeContent={true}
+    items={[
+      {
+        title: 'Design Unico e Personalizzato',
+        description: 'Creiamo interfacce accattivanti che rispecchiano la tua identità aziendale.',
+        icon: 'tabler:brush',
+      },
+      {
+        title: 'Brand Identity',
+        description: 'Dallo studio del logo alla scelta della palette colori e tipografia, tutto su misura per te.',
+        icon: 'tabler:palette',
+      },
+      {
+        title: 'User Experience (UX)',
+        description: 'Miglioriamo la navigazione e l’usabilità del sito per un’esperienza ottimale.',
+        icon: 'tabler:cursor-text',
+      },
+      {
+        title: 'Materiale Grafico',
+        description: 'Forniamo immagini, icone e elementi visivi professionali per il tuo sito.',
+        icon: 'tabler:photo',
+      },
+    ]}
+  />
 
   <!-- Perché scegliere noi -->
   <section class="py-16">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-6">Perché affidarsi a noi?</h2>
+      <h2 class="text-3xl font-bold text-center mb-6">Perché scegliere noi?</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div class="space-y-6">
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:trophy" className="text-accent text-3xl" />
+            <Icon icon="tabler:trophy" class="text-accent text-3xl" />
             <div>
               <h3 class="text-lg font-semibold">Esperienza e Creatività</h3>
-              <p class="text-muted">Anni di esperienza nel design per garantire soluzioni creative e innovative.</p>
+              <p class="text-muted">Anni di esperienza nel <strong>graphic design e branding</strong> per garantire soluzioni su misura.</p>
             </div>
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:palette" className="text-accent text-3xl" />
+            <Icon icon="tabler:palette" class="text-accent text-3xl" />
             <div>
-              <h3 class="text-lg font-semibold">Design Unico</h3>
-              <p class="text-muted">Ogni progetto è studiato per valorizzare il tuo brand e renderlo memorabile.</p>
+              <h3 class="text-lg font-semibold">Design Moderno e Memorabile</h3>
+              <p class="text-muted">Ogni progetto è studiato per creare un’identità unica e riconoscibile.</p>
             </div>
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:shield-check" className="text-accent text-3xl" />
+            <Icon icon="tabler:shield-check" class="text-accent text-3xl" />
             <div>
               <h3 class="text-lg font-semibold">Qualità Garantita</h3>
-              <p class="text-muted">Lavoriamo con precisione per ottenere risultati di alto livello.</p>
+              <p class="text-muted">Precisione e cura in ogni dettaglio per un risultato professionale.</p>
             </div>
           </div>
         </div>
 
         <div class="space-y-6">
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:users" className="text-accent text-3xl" />
+            <Icon icon="tabler:users" class="text-accent text-3xl" />
             <div>
               <h3 class="text-lg font-semibold">Approccio Personalizzato</h3>
               <p class="text-muted">Ogni progetto è sviluppato su misura per il cliente.</p>
@@ -112,15 +116,15 @@ const metadata = {
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:graph" className="text-accent text-3xl" />
+            <Icon icon="tabler:graph" class="text-accent text-3xl" />
             <div>
               <h3 class="text-lg font-semibold">Strategia e Risultati</h3>
-              <p class="text-muted">Analizziamo il mercato per creare soluzioni che funzionano.</p>
+              <p class="text-muted">Analizziamo il mercato per creare soluzioni che migliorano la conversione.</p>
             </div>
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:check" className="text-accent text-3xl" />
+            <Icon icon="tabler:check" class="text-accent text-3xl" />
             <div>
               <h3 class="text-lg font-semibold">Supporto Continuo</h3>
               <p class="text-muted">Ti seguiamo in tutto il percorso di creazione e ottimizzazione.</p>
@@ -136,29 +140,11 @@ const metadata = {
 
   <!-- Call to Action -->
   <CallToAction
-    title="Vuoi un design professionale per il tuo sito web?"
-    subtitle="Contattaci oggi stesso e rendiamo il tuo brand unico."
+    title="Vuoi un’identità visiva forte per il tuo brand?"
+    subtitle="Contattaci oggi stesso e rendiamo il tuo marchio unico."
   >
     <Fragment slot="actions">
-      <a href="/contatti" class="btn-primary">Parliamone</a>
+      <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
     </Fragment>
   </CallToAction>
-
-  <!-- Sezione Mappa -->
-  <section class="py-8">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-6">Dove Siamo</h2>
-      <div class="flex justify-center">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2724.6631159933872!2d8.576194475639143!3d40.72013917139243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12dc6402a0911c99%3A0x572a199f1be0a9b!2sLS%20Web%20Design%20e%20Grafica!5e1!3m2!1sit!2sit!4v1739481509002!5m2!1sit!2sit" 
-          width="100%" 
-          height="450" 
-          style="border:0; border-radius:10px;" 
-          allowfullscreen="" 
-          loading="lazy" 
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      </div>
-    </div>
-  </section>
 </Layout>

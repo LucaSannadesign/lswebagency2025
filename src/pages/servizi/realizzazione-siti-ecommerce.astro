@@ -8,117 +8,122 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import { Icon } from '@iconify/react';
 
 const metadata = {
-  title: 'Creazione E-commerce a Sassari - LS Web Agency',
-  description: 'Scopri il nostro servizio di creazione e-commerce a Sassari: soluzioni professionali, scalabili e ottimizzate per le vendite online.',
+  title: 'Creazione E-commerce a Sassari | Siti Vendita Online Professionali - LS Web Agency',
+  description: 'Scopri il nostro servizio di creazione e-commerce a Sassari: soluzioni scalabili, ottimizzate per SEO e progettate per vendere online con successo.',
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- Hero Section -->
   <Hero
-  actions={[
-    {
-      variant: 'primary',
-      text: 'Scopri le soluzioni E-commerce',
-      href: '/contatti',
-    },
-    { text: 'Portfolio', href: '/portfolio' },
-  ]}
-  image={{ src: '~/assets/images/ecommerce-business-online.webp', alt: 'Creazione E-commerce', width: 800, height: 600 }}
->
-  <Fragment slot="title">
-    Creazione <span class="text-accent text-gradient dark:text-white highlight">E-commerce su Misura</span>
-  </Fragment>
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Scopri le soluzioni E-commerce',
+        href: '/contatti',
+      },
+      { text: 'Portfolio', href: '/portfolio' },
+    ]}
+    image={{ 
+      src: '~/assets/images/ecommerce-business-online.webp', 
+      alt: 'Negozio online con prodotti in vendita e dashboard di gestione e-commerce', 
+      width: 800, 
+      height: 600 
+    }}
+  >
+    <Fragment slot="title">
+      Creazione <span class="text-accent text-gradient dark:text-white highlight">E-commerce a Sassari</span>
+    </Fragment>
 
-  <Fragment slot="subtitle">
-    <span class="hidden sm:inline">
-      <span class="font-semibold">LS Web Agency</span> sviluppa soluzioni E-commerce scalabili, performanti e ottimizzate per aumentare le vendite online.
-    </span>
-    <span class="block mb-1 sm:hidden font-bold text-blue-600">
-      Il tuo business online, senza limiti.
-    </span>
-    Dai piccoli shop online ai marketplace avanzati, realizziamo piattaforme su misura per far crescere il tuo brand.
-  </Fragment>
-</Hero>
+    <Fragment slot="subtitle">
+      <span class="hidden sm:inline">
+        <span class="font-semibold">LS Web Agency</span> sviluppa <strong>soluzioni E-commerce</strong> su misura, <strong>scalabili</strong> e ottimizzate per il <strong>SEO</strong>, garantendo vendite online di successo.
+      </span>
+      <span class="block mb-1 sm:hidden font-bold text-blue-600">
+        Il tuo business online, senza limiti.
+      </span>
+      Dai piccoli shop online ai <strong>marketplace avanzati</strong>, realizziamo piattaforme performanti per far crescere il tuo brand.
+    </Fragment>
+  </Hero>
 
   <!-- Servizi Offerti -->
   <Features3
     title="I nostri servizi per il tuo E-commerce"
-    subtitle="Progettiamo soluzioni su misura per la tua attività."
+    subtitle="Soluzioni personalizzate per ogni esigenza di vendita online."
     columns={3}
     isBeforeContent={true}
     items={[
       {
-        title: 'Design Moderno e Intuitivo',
-        description: 'Creiamo esperienze di acquisto fluide e coinvolgenti per i tuoi clienti.',
+        title: 'Design Intuitivo e Coinvolgente',
+        description: 'Esperienza utente ottimizzata per aumentare le conversioni.',
         icon: 'tabler:template',
       },
       {
         title: 'SEO e Visibilità Online',
-        description: 'Ottimizziamo il tuo e-commerce per scalare i risultati sui motori di ricerca.',
+        description: 'Ottimizzazione avanzata per scalare i risultati su Google.',
         icon: 'tabler:search',
       },
       {
         title: 'Sicurezza e Affidabilità',
-        description: 'Soluzioni avanzate per proteggere i pagamenti e i dati sensibili.',
+        description: 'Protezione avanzata per dati sensibili e pagamenti sicuri.',
         icon: 'tabler:shield-check',
       },
     ]}
   />
 
-  <!-- Perché scegliere noi -->
+  <!-- Perché scegliere LS Web Agency -->
   <section class="py-16">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold text-center mb-6">Perché scegliere noi?</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div class="space-y-6">
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:trophy" className="text-accent text-3xl" />
+            <Icon icon="tabler:trophy" class="text-accent text-3xl" />
             <div>
               <h3 class="text-lg font-semibold">Esperienza nel settore</h3>
-              <p class="text-muted">Sviluppiamo e-commerce professionali per aziende di ogni settore.</p>
+              <p class="text-muted">Sviluppiamo <strong>e-commerce professionali</strong> per aziende di ogni settore.</p>
             </div>
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:credit-card" className="text-accent text-3xl" />
+            <Icon icon="tabler:credit-card" class="text-accent text-3xl" />
             <div>
-              <h3 class="text-lg font-semibold">Pagamenti sicuri</h3>
-              <p class="text-muted">Integrazione con gateway affidabili per garantire transazioni sicure.</p>
+              <h3 class="text-lg font-semibold">Pagamenti Sicuri</h3>
+              <p class="text-muted">Integrazione con i <strong>migliori gateway</strong> di pagamento online.</p>
             </div>
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:chart-line" className="text-accent text-3xl" />
+            <Icon icon="tabler:chart-line" class="text-accent text-3xl" />
             <div>
-              <h3 class="text-lg font-semibold">Strategia di crescita</h3>
-              <p class="text-muted">Monitoriamo il rendimento del tuo negozio online per migliorare le conversioni.</p>
+              <h3 class="text-lg font-semibold">Strategia di Crescita</h3>
+              <p class="text-muted">Analisi delle performance per <strong>migliorare conversioni e vendite</strong>.</p>
             </div>
           </div>
         </div>
 
         <div class="space-y-6">
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:shopping-cart" className="text-accent text-3xl" />
+            <Icon icon="tabler:shopping-cart" class="text-accent text-3xl" />
             <div>
-              <h3 class="text-lg font-semibold">Gestione facile</h3>
-              <p class="text-muted">Pannello di controllo intuitivo per gestire prodotti, ordini e clienti.</p>
+              <h3 class="text-lg font-semibold">Gestione Semplice</h3>
+              <p class="text-muted">Pannello intuitivo per <strong>gestire prodotti, ordini e clienti</strong>.</p>
             </div>
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:device-mobile" className="text-accent text-3xl" />
+            <Icon icon="tabler:device-mobile" class="text-accent text-3xl" />
             <div>
-              <h3 class="text-lg font-semibold">E-commerce Mobile-Friendly</h3>
-              <p class="text-muted">Esperienza d’acquisto ottimizzata per smartphone e tablet.</p>
+              <h3 class="text-lg font-semibold">Mobile-First</h3>
+              <p class="text-muted">Esperienza d’acquisto ottimizzata per <strong>smartphone e tablet</strong>.</p>
             </div>
           </div>
 
           <div class="flex items-start space-x-4">
-            <Icon icon="tabler:users" className="text-accent text-3xl" />
+            <Icon icon="tabler:users" class="text-accent text-3xl" />
             <div>
-              <h3 class="text-lg font-semibold">Supporto continuo</h3>
-              <p class="text-muted">Ti assistiamo nella gestione e crescita del tuo negozio online.</p>
+              <h3 class="text-lg font-semibold">Supporto Continuo</h3>
+              <p class="text-muted">Ti assistiamo in <strong>ogni fase della crescita</strong> del tuo shop online.</p>
             </div>
           </div>
         </div>
@@ -132,12 +137,10 @@ const metadata = {
   <!-- Call to Action -->
   <CallToAction
     title="Vuoi creare il tuo E-commerce?"
-    subtitle="Contattaci oggi stesso per iniziare a vendere online."
+    subtitle="Contattaci oggi stesso per vendere online con una piattaforma su misura."
   >
     <Fragment slot="actions">
       <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
     </Fragment>
   </CallToAction>
-
-  
 </Layout>
