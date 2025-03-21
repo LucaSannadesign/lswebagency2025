@@ -99,14 +99,19 @@ export default defineConfig({
       children: `
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-
+  
         function loadAnalytics() {
           if (localStorage.getItem("cookiesAccepted") === "true") {
+            let gaScript = document.createElement("script");
+            gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B";
+            gaScript.async = true;
+            document.head.appendChild(gaScript);
+  
             gtag('js', new Date());
             gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
           }
         }
-        loadAnalytics();
+        document.addEventListener("DOMContentLoaded", loadAnalytics);
       `,
     },
   ],
@@ -116,6 +121,7 @@ export default defineConfig({
       type: 'text/javascript',
       src: 'https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B',
       async: true,
+      defer: true,
     },
   ],
 });
