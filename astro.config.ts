@@ -107,10 +107,13 @@ export default defineConfig({
             gaScript.async = true;
             document.head.appendChild(gaScript);
   
-            gtag('js', new Date());
-            gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
+            gaScript.onload = function () {
+              gtag('js', new Date());
+              gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
+            };
           }
         }
+  
         document.addEventListener("DOMContentLoaded", loadAnalytics);
       `,
     },
