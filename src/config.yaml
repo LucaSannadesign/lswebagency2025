@@ -62,7 +62,8 @@ apps:
 
     isRelatedPostsEnabled: true
     relatedPostsCount: 4
-
+APP_BLOG:
+  isEnabled: true
 analytics:
   vendors:
     googleAnalytics:
