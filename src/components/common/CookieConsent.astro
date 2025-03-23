@@ -1,0 +1,114 @@
+---
+// components/common/CookieConsent.astro
+---
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    gap: 10px;
+  }
+
+  .cookie-banner button {
+    padding: 8px 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .cookie-banner .accept {
+    background-color: #f1d600;
+    color: black;
+  }
+
+  .cookie-banner .reject {
+    background-color: #ff4d4d;
+    color: white;
+  }
+
+  .cookie-settings {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    display: none;
+  }
+
+  .cookie-settings.visible {
+    display: block;
+  }
+</style>
+
+<div id="cookie-banner" class="cookie-banner" style="display: none;">
+  <span>
+    Usiamo i cookie per migliorare la tua esperienza.
+    <a href="/privacy" style="margin-left: 8px; color: #f1d600;">Privacy Policy</a>
+  </span>
+  <button id="accept-cookies" class="accept">Accetto</button>
+  <button id="reject-cookies" class="reject">Rifiuta</button>
+</div>
+
+<div id="cookie-settings" class="cookie-settings">
+  Modifica preferenze cookie
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const banner = document.getElementById("cookie-banner");
+    const acceptBtn = document.getElementById("accept-cookies");
+    const rejectBtn = document.getElementById("reject-cookies");
+    const settingsBtn = document.getElementById("cookie-settings");
+
+    const choice = localStorage.getItem("cookiesAccepted");
+
+    if (!choice) {
+      banner.style.display = "flex";
+    } else {
+      settingsBtn.classList.add("visible");
+    }
+
+    acceptBtn?.addEventListener("click", () => {
+      localStorage.setItem("cookiesAccepted", "true");
+      banner.style.display = "none";
+      settingsBtn.classList.add("visible");
+
+      // Carica Google Analytics
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
+
+      const script = document.createElement("script");
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B";
+      script.async = true;
+      document.head.appendChild(script);
+    });
+
+    rejectBtn?.addEventListener("click", () => {
+      localStorage.setItem("cookiesAccepted", "false");
+      banner.style.display = "none";
+      settingsBtn.classList.add("visible");
+    });
+
+    settingsBtn?.addEventListener("click", () => {
+      localStorage.removeItem("cookiesAccepted");
+      banner.style.display = "flex";
+      settingsBtn.classList.remove("visible");
+    });
+  });
+</script>
