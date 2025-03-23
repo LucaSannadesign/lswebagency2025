@@ -14,8 +14,8 @@ const { id, isDark = false, containerClass = '', bg, as = 'section' } = Astro.pr
 const WrapperTag = as;
 ---
 
-<WrapperTag class="relative not-prose bg-red-100" {...(id ? { id } : {})}>
-    <div
+<WrapperTag class="relative not-prose" {...(id ? { id } : {})}>
+  <div
     class:list={[
       twMerge(
         'relative mx-auto max-w-7xl px-4 md:px-6 py-8 md:py-12 lg:py-14 text-default intersect-once intersect-quarter intercept-no-queue motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade',
