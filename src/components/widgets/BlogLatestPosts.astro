@@ -31,6 +31,7 @@ const {
 } = Astro.props;
 
 const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
+console.log('POSTS TROVATI:', posts);
 ---
 
 {
