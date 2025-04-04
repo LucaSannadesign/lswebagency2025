@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '~/layouts/PageLayout.astro';
+
+// Import dinamico dell'immagine
+let imageSrc;
+try {
+  imageSrc = await import(`~/assets/images/progettazione-landing-page.webp`);
+} catch (e) {
+  console.error('Errore nel caricamento immagine:', e);
+}
+
+// Ottieni i dati del post
+const { title, description, category, technologies, metadata } = Astro.props;
+---
+
+<Layout metadata={metadata}>
+  <section class="container mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <!-- Colonna Sinistra: Immagine -->
+      <div class="flex items-center justify-center">
+        {
+          imageSrc ? (
+            <Image src={imageSrc.default} alt={title} width={800} height={600} class="rounded-lg shadow-lg" />
+          ) : (
+            <div class="bg-gray-300 w-full h-[400px] flex items-center justify-center text-gray-500">
+              Nessuna immagine disponibile
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Colonna Destra: Dettagli -->
+      <div>
+        <h1 class="text-3xl font-bold mb-4">{title}</h1>
+        {description && <p class="text-gray-600 mb-6">{description}</p>}
+
+        <div class="space-y-4">
+          {
+            category && (
+              <div class="flex items-center">
+                <span class="font-semibold text-lg">Categoria:</span>
+                <span class="ml-2 px-3 py-1 bg-gray-200 text-gray-800 rounded-md">{category}</span>
+              </div>
+            )
+          }
+
+          {
+            technologies?.length > 0 && (
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Tecnologie utilizzate:</h3>
+                <div class="flex flex-wrap gap-2">
+                  {technologies.map((tech: { name: string; icon?: string }) => (
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-md text-sm">{tech}</span>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

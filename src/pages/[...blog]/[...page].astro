@@ -1,0 +1,50 @@
+---
+import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
+
+import Layout from '~/layouts/PageLayout.astro';
+import BlogList from '~/components/blog/List.astro';
+import Headline from '~/components/blog/Headline.astro';
+import Pagination from '~/components/blog/Pagination.astro';
+
+import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
+import { getCollection } from 'astro:content';
+
+export const prerender = true;
+
+// Generazione dei percorsi statici per il blog
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  try {
+    return await getStaticPathsBlogList({ paginate });
+  } catch (error) {
+    console.error("Errore nella generazione dei percorsi statici:", error);
+    return [];
+  }
+};
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props as Props ?? {};
+const currentPage = page?.currentPage ?? 1;
+
+// Metadata per SEO e OpenGraph
+const metadata = {
+  title: `Blog${currentPage > 1 ? ` — Pagina ${currentPage}` : ''}`,
+  robots: {
+    index: blogListRobots?.index && currentPage === 1,
+    follow: blogListRobots?.follow,
+  },
+  openGraph: {
+    type: 'blog',
+  },
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
+    <Headline subtitle="Il Blog di LS Web Agency: Guide su Web Design, SEO e Sviluppo Web">
+      Il Blog 
+    </Headline>
+    <BlogList posts={page?.data ?? []} />
+    <Pagination prevUrl={page?.url?.prev} nextUrl={page?.url?.next} />
+  </section>
+</Layout>

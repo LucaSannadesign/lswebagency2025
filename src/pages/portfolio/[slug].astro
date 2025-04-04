@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '~/layouts/PageLayout.astro';
+
+export const prerender = true; // 👈 Aggiungiamo questa linea
+
+// 📌 Generiamo i percorsi statici per ogni progetto
+export async function getStaticPaths() {
+  const portfolio = await getCollection('portfolio');
+
+  if (!portfolio || portfolio.length === 0) {
+    console.error("Errore: La collezione 'portfolio' è vuota o non esiste.");
+    return [];
+  }
+
+  return portfolio.map((project) => ({
+    params: { slug: project.data.slug },
+    props: { project, portfolio },
+  }));
+}
+
+// 📌 Recuperiamo i dati passati da getStaticPaths()
+const { project, portfolio } = Astro.props || {};
+
+if (!project || !portfolio || !Array.isArray(portfolio)) {
+  console.error("Errore: I dati del portfolio non sono stati caricati correttamente.");
+}
+
+// 📌 Troviamo l'indice del progetto attuale
+const currentIndex = Array.isArray(portfolio)
+  ? portfolio.findIndex((p) => p.data.slug === project?.data?.slug)
+  : -1;
+
+if (currentIndex === -1) {
+  console.error("Errore: Nessun progetto trovato con slug:", project?.data?.slug);
+}
+
+// 📌 Determiniamo il progetto precedente e successivo
+const prevProject = currentIndex > 0 ? portfolio[currentIndex - 1] : null;
+const nextProject = currentIndex < portfolio.length - 1 ? portfolio[currentIndex + 1] : null;
+---
+
+<Layout metadata={{ title: project?.data?.title }}>
+  <section class="container mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Colonna Immagine -->
+      <div>
+        <img
+          src={project?.data?.image?.src}
+          alt={project?.data?.image?.alt || project?.data?.title}
+          width={project?.data?.image?.width || 1024}
+          height={project?.data?.image?.height || 768}
+          class="w-full rounded-lg shadow-md object-cover"
+        />
+      </div>
+
+      <!-- Colonna Dettagli -->
+      <div>
+        <h1 class="text-3xl font-bold">{project?.data?.title}</h1>
+        <p class="text-gray-600 mt-2">{project?.data?.description}</p>
+
+        {project?.data?.category && (
+          <p class="mt-4">
+            <strong>Categoria:</strong> {project?.data?.category}
+          </p>
+        )}
+
+        {project?.data?.technologies && (
+          <p class="mt-4">
+            <strong>Tecnologie:</strong> {project?.data?.technologies.join(', ')}
+          </p>
+        )}
+      </div>
+    </div>
+
+    <!-- 🔥 Navigazione tra i progetti con titoli limitati -->
+    <div class="mt-12 flex justify-between text-center">
+      {prevProject ? (
+        <a href={`/portfolio/${prevProject.data.slug}`} class="text-primary font-semibold hover:underline">
+          ← {prevProject.data.title.length > 30 ? prevProject.data.title.substring(0, 30) + "..." : prevProject.data.title}
+        </a>
+      ) : <span></span>}
+
+      {nextProject ? (
+        <a href={`/portfolio/${nextProject.data.slug}`} class="text-primary font-semibold hover:underline">
+          {nextProject.data.title.length > 30 ? nextProject.data.title.substring(0, 30) + "..." : nextProject.data.title} →
+        </a>
+      ) : <span></span>}
+    </div>
+  </section>
+</Layout>

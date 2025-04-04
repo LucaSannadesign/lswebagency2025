@@ -1,0 +1,41 @@
+---
+import { UI } from 'astrowind:config';
+
+// TODO: This code is temporary
+---
+
+<script is:inline define:vars={{ defaultTheme: UI.theme || 'system' }}>
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    const matches = document.querySelectorAll('[data-aw-toggle-color-scheme] > input');
+    if (matches && matches.length) {
+      matches.forEach((elem) => {
+        elem.checked = theme !== 'dark';
+      });
+    }
+  }
+
+  function getPreferredTheme() {
+    if (localStorage.theme) {
+      return localStorage.theme; // Se l'utente ha scelto un tema, usalo
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark'; // Se il sistema è in dark mode, usa dark
+    } else {
+      return 'light'; // Altrimenti usa light
+    }
+  }
+
+  applyTheme(getPreferredTheme()); // ✅ Imposta il tema corretto al caricamento
+
+  // Ascolta i cambiamenti di preferenza del sistema
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.theme) { // Cambia solo se l'utente non ha scelto manualmente
+      applyTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+</script>

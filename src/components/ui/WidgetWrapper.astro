@@ -1,0 +1,29 @@
+---
+import type { HTMLTag } from 'astro/types';
+import type { Widget } from '~/types';
+import { twMerge } from 'tailwind-merge';
+import Background from './Background.astro';
+
+export interface Props extends Widget {
+  containerClass?: string;
+  ['as']?: HTMLTag;
+}
+
+const { id, isDark = false, containerClass = '', bg, as = 'section' } = Astro.props;
+
+const WrapperTag = as;
+---
+
+<WrapperTag class="relative not-prose" {...(id ? { id } : {})}>
+  <div
+    class:list={[
+      twMerge(
+        'relative mx-auto max-w-7xl px-4 md:px-6 py-8 md:py-12 lg:py-14 text-default intercept-no-queue',
+        containerClass
+      ),
+      { dark: isDark },
+    ]}
+  >
+    <slot />
+  </div>
+</WrapperTag>

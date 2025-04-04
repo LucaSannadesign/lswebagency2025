@@ -1,0 +1,65 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains; preload"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/blog//blog/seo-tecnica-ottimizzazione-sito",
+      "destination": "/blog/seo-tecnica-ottimizzazione-sito",
+      "permanent": true
+    },
+    {
+      "source": "/blog//blog/strumenti-risorse-creare-sito-web-professionale",
+      "destination": "/blog/strumenti-risorse-creare-sito-web-professionale",
+      "permanent": true
+    },
+    {
+      "source": "/blog//blog/come-creare-landing-page-perfetta",
+      "destination": "/blog/come-creare-landing-page-perfetta",
+      "permanent": true
+    },
+    {
+      "source": "/blog//blog/come-misurare-velocita-sito-web",
+      "destination": "/blog/come-misurare-velocita-sito-web",
+      "permanent": true
+    },
+    {
+      "source": "/blog//blog/intelligenza-artificiale-web-design",
+      "destination": "/blog/intelligenza-artificiale-web-design",
+      "permanent": true
+    },
+    {
+      "source": "/blog//blog/mobile-first-ottimizzazione-sito",
+      "destination": "/blog/mobile-first-ottimizzazione-sito",
+      "permanent": true
+    }
+  ]
+}

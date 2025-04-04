@@ -1,0 +1,131 @@
+---
+import { Icon } from 'astro-icon/components'; // Assicurati che il pacchetto sia installato
+import { getHomePermalink } from '~/utils/permalinks';
+
+interface Link {
+  text?: string;
+  href: string;
+  ariaLabel?: string;
+  icon?: string;
+}
+
+interface Links {
+  title?: string;
+  links: Link[];
+}
+
+export interface Props {
+  links: Links[];
+  secondaryLinks: Link[];
+  socialLinks: Link[];
+  footNote?: string;
+  theme?: string;
+}
+
+// Destrutturazione di Astro.props con valori predefiniti
+const { socialLinks = [], secondaryLinks = [], theme = 'light', footNote } = Astro.props;
+---
+
+<footer class={`relative border-t border-gray-200 dark:border-slate-800 not-prose ${theme === 'dark' ? 'dark' : ''}`}>
+  <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-slate-300">
+    <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
+      <!-- Logo e descrizione -->
+      <div class="col-span-12 lg:col-span-3">
+        <div class="flex items-center mb-2">
+          <a class="flex items-center" href={getHomePermalink()}>
+            <img
+              src="/images/logo-ls-webdesignagency-2025.svg"
+              alt="LS Web Design Agency"
+              class="h-10 w-auto dark:hidden"
+            />
+            <img
+              src="/images/logo-ls-webdesignagency-2025-bn.svg"
+              alt="LS Web Design Agency"
+              class="h-10 w-auto hidden dark:block"
+            />
+          </a>
+        </div>
+        <p class="text-sm text-muted">
+          Agenzia web specializzata nella creazione di siti internet e posizionamento SEO a Sassari e Sardegna.
+        </p>
+
+        <div class="mt-4">
+          <span class="font-semibold">Social</span>
+          <div class="flex mt-2 space-x-4">
+            {
+              socialLinks.map(({ href, icon }) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition"
+                >
+                  {icon && <Icon name={icon} class="w-5 h-5" />}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Informazioni Contatti -->
+      <div class="col-span-6 md:col-span-3">
+        <div class="font-medium mb-2">Dove siamo</div>
+        <p class="text-sm">
+          <strong>LS Web Agency</strong><br />
+          di <a href="https://www.lucasanna.eu/" target="_blank">Luca Sanna</a><br />
+          Via Alcide De Gasperi, 3<br />
+          07100 Sassari, Sardegna, Italia<br />
+          P. Iva: 02929290902
+        </p>
+      </div>
+
+      <!-- Navigazione -->
+      <div class="col-span-6 md:col-span-2">
+        <div class="font-medium mb-2">Navigazione</div>
+        <ul class="text-sm">
+          <li><a class="hover:underline" href="/">Home Page</a></li>
+          <li><a class="hover:underline" href="/chi-siamo">Chi Siamo</a></li>
+          <li><a class="hover:underline" href="/portfolio">Portfolio</a></li>
+          <li><a class="hover:underline" href="/servizi">Servizi</a></li>
+          <li><a class="hover:underline" href="/blog">Blog</a></li>
+          <li><a class="hover:underline" href="/contatti">Contatti</a></li>
+        </ul>
+      </div>
+
+      <!-- Contatti -->
+      <div class="col-span-6 md:col-span-3">
+        <div class="font-medium mb-2">Per richieste di preventivi</div>
+        <p class="text-sm">
+          Scrivere a: <a class="font-medium text-link hover:underline" href="mailto:info@lucasanna.eu"
+            >info@lswebagency.com</a
+          >
+        </p>
+        <div class="mt-2 flex items-center space-x-3">
+          {
+            secondaryLinks.map(({ href, icon, text }) => (
+              <a href={href} class="flex items-center space-x-2" rel="noopener noreferrer" target="_blank">
+                {icon && <Icon name={icon} class="w-5 h-5" />}
+                <span>{text}</span>
+              </a>
+            ))
+         }
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="md:flex md:items-center md:justify-between py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
+      <p class="text-sm dark:text-muted">
+        © 2025 <strong>LS Web Agency</strong>. Tutti i diritti riservati.
+      </p>
+      <div class="text-sm">
+        <a href="/privacy" class="hover:underline">Privacy & Cookie Policy</a> |
+        <a href="/sitemap" class="hover:underline">Sitemap</a>
+      </div>
+    </div>
+
+    {footNote && <p class="text-center text-xs text-muted mt-4">{footNote}</p>}
+  </div>
+</footer>

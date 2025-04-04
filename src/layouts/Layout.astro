@@ -1,0 +1,114 @@
+---
+import '~/assets/styles/tailwind.css';
+
+import { I18N } from 'astrowind:config';
+
+import CommonMeta from '~/components/common/CommonMeta.astro';
+import Favicons from '~/components/Favicons.astro';
+import CustomStyles from '~/components/CustomStyles.astro';
+import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
+import Metadata from '~/components/common/Metadata.astro';
+import SiteVerification from '~/components/common/SiteVerification.astro';
+import Analytics from '~/components/common/Analytics.astro';
+import BasicScripts from '~/components/common/BasicScripts.astro';
+
+import { ClientRouter } from 'astro:transitions';
+
+import type { MetaData as MetaDataType } from '~/types';
+
+export interface Props {
+  metadata?: MetaDataType;
+}
+
+const { metadata = {} } = Astro.props;
+const siteTitle = "LS Web Agency"; // Nome del sito fisso
+
+// ✅ Evita la duplicazione di "LS Web Agency"
+const cleanTitle = metadata.title?.trim();
+const pageTitle = cleanTitle && !cleanTitle.includes(siteTitle)
+  ? `${cleanTitle} | ${siteTitle}`
+  : cleanTitle || siteTitle;
+
+const pageDescription = metadata.description || "Soluzioni digitali su misura per la tua attività.";
+const pageImage = metadata.image?.src || "/images/default-og-image.jpg"; // Fallback immagine social
+const canonicalUrl = metadata.canonical || "https://lswebagency.com"; // Imposta un URL canonico
+---
+
+<!doctype html>
+<html lang={I18N.language} dir={I18N.textDirection} class="2xl:text-[20px]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow" />
+
+<!-- Favicon standard -->
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Apple Touch Icon per iOS -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- Web App Manifest per Android e PWA -->
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Icone per Web App -->
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LS Web Agency">
+<meta name="application-name" content="LS Web Agency">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/web-app-manifest-192x192.png">
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={pageImage} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={pageImage} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={metadata.canonical ? metadata.canonical : Astro.url.pathname} />
+    <CommonMeta />
+    <Favicons />
+    <CustomStyles />
+    <ApplyColorMode />
+    <Metadata {...metadata} />
+    <SiteVerification />
+    <Analytics />
+
+    <!-- Transizioni di visualizzazione -->
+    <ClientRouter fallback="swap" />
+
+    <script>
+      if (localStorage.getItem("cookiesAccepted") === "true") {
+        let gaScript = document.createElement("script");
+        gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B";
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
+    
+        gaScript.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
+        };
+      }
+    </script>
+  </head>
+
+  <body class="antialiased text-default bg-page tracking-tight">
+    <slot />
+
+    <BasicScripts />
+  </body>
+</html>
