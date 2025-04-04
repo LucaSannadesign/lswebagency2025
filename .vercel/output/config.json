@@ -19,88 +19,8 @@
 			"continue": true
 		},
 		{
-			"src": "^/_server-islands/([^/]+?)$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/_image$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/404$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/api/send-mail$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/chi-siamo$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/contatti$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/grazie$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/portfolio$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/privacy$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/rss\\.xml/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/servizi/branding-e-grafica-siti-web$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/servizi/creazione-siti-web-sassari$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/servizi/ottimizzazione-seo-siti-web$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/servizi/realizzazione-siti-ecommerce$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/servizi$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/sitemap$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/sitemap\\.xml/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/terms$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/voucher-digitali-sardegna$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/$",
-			"dest": "_render"
-		},
-		{
 			"src": "^/.*$",
-			"dest": "_render",
+			"dest": "/404.html",
 			"status": 404
 		}
 	]

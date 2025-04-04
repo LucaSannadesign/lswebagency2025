@@ -48,11 +48,16 @@ const metadata = {
       <div>
         <h2 class="text-2xl font-semibold mb-4">Articoli del Blog</h2>
         <ul class="space-y-2">
-          {posts.map((post) => (
-            <li>
-              <a href={`/blog/${post.id}`} class="text-blue-600 hover:underline">{post.data.title}</a>
-            </li>
-          ))}
+          {posts.map((post) => {
+            const slug = post.data.slug || post.id;
+            return (
+              <li>
+                <a href={`/blog/${slug}`} class="text-blue-600 hover:underline">
+                  {post.data.title}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
 

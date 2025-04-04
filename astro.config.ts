@@ -36,7 +36,7 @@ const whenExternalScripts = (
     : [];
 
 export default defineConfig({
-  output: 'server',
+  output: 'static',
   adapter: vercel(),
 
   integrations: [
@@ -45,12 +45,11 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    sitemap({
-      serialize: (page) => {
-        // Corregge slug doppi tipo /blog/blog/... → /blog/...
-        return page.replace('/blog/blog/', '/blog/');
-      },
-    }),
+ // sitemap({
+//   serialize: (page) => {
+//     return page.replace('/blog/blog/', '/blog/');
+//   },
+// }),
     mdx(),
     icon({
       include: {
