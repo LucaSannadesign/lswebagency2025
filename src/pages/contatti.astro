@@ -63,80 +63,76 @@ const metadata = {
   <!-- Contact Form -->
   <div class="max-w-lg mx-auto bg-white dark:bg-gray-900 p-6 rounded-lg shadow-xl">
     <form 
-      id="contactForm" 
-      class="space-y-4" 
-      action="https://formsubmit.co/info@lswebagency.com" 
-      method="POST"
-    >
-      <input type="hidden" name="_next" value="https://lswebagency.com/grazie">
-      <input type="hidden" name="_autoresponse" value="Grazie per averci contattato! Ti risponderemo al più presto.">
-      <input type="hidden" name="_subject" value="Nuova richiesta da LS Web Agency">
-    
-      <!-- Nome e Cognome -->
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Nome e Cognome <span class="text-red-500">*</span>
-        </label>
-        <input type="text" id="name" name="name" placeholder="Inserisci il tuo nome" required autocomplete="name" class="input-field" />
-      </div>
-    
-      <!-- Email e Numero di Telefono -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Email <span class="text-red-500">*</span>
-          </label>
-          <input type="email" id="email" name="email" placeholder="esempio@email.com" required autocomplete="email" class="input-field" />
-        </div>
-        <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Numero di Telefono
-          </label>
-          <input type="tel" id="phone" name="phone" placeholder="+39 340 1234567" autocomplete="tel" class="input-field" />
-        </div>
-      </div>
-    
-      <!-- Selezione del Servizio -->
-      <div>
-        <label for="service" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Seleziona il servizio di tuo interesse
-        </label>
-        <select id="service" name="service" required class="input-field">
-          <option value="" disabled selected hidden>Seleziona un’opzione</option>
-          <option value="siti-web">Creazione Sito Web</option>
-          <option value="ecommerce">E-commerce</option>
-          <option value="seo">Ottimizzazione SEO</option>
-          <option value="grafica">Branding e Grafica</option>
-          <option value="altro">Altro</option>
-        </select>
-      </div>
-    
-      <!-- Messaggio -->
-      <div>
-        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Messaggio
-        </label>
-        <textarea id="message" name="message" rows="5" placeholder="Descrivi il tuo progetto..." required autocomplete="off" class="input-field"></textarea>
-      </div>
-    
-      <!-- Checkbox Privacy -->
-      <div class="flex items-start">
-        <input type="checkbox" id="privacy" name="privacy" required class="checkbox" />
-        <label for="privacy" class="ml-2 text-sm text-gray-600 dark:text-gray-400">
-          <span class="text-red-500">*</span> Confermi di accettare la raccolta e l’elaborazione dei tuoi dati personali.
-        </label>
-      </div>
-    
-      <!-- Google reCAPTCHA -->
-      <div class="g-recaptcha" data-sitekey="6LfAvvMqAAAAAPZQTFe6CX_8HZ61-tX_v0HlbBaD"></div>
-    
-      <!-- Pulsante di Invio -->
-      <button type="submit" class="btn-submit">Invia Richiesta</button>
-    </form>
-    
-    <!-- Script reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  id="contactForm" 
+  class="space-y-4" 
+  action="https://formsubmit.co/info@lswebagency.com" 
+  method="POST"
+>
+  <!-- Parametri FormSubmit -->
+  <input type="hidden" name="_next" value="https://lswebagency.com/grazie">
+  <input type="hidden" name="_autoresponse" value="Grazie per averci contattato! Ti risponderemo al più presto.">
+  <input type="hidden" name="_subject" value="Nuova richiesta da LS Web Agency">
+  <input type="hidden" name="_captcha" value="false"> <!-- ✅ Disattiva CAPTCHA di FormSubmit -->
+
+  <!-- Nome e Cognome -->
+  <div>
+    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+      Nome e Cognome <span class="text-red-500">*</span>
+    </label>
+    <input type="text" id="name" name="name" placeholder="Inserisci il tuo nome" required autocomplete="name" class="input-field" />
   </div>
+
+  <!-- Email e Numero di Telefono -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        Email <span class="text-red-500">*</span>
+      </label>
+      <input type="email" id="email" name="email" placeholder="esempio@email.com" required autocomplete="email" class="input-field" />
+    </div>
+    <div>
+      <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        Numero di Telefono
+      </label>
+      <input type="tel" id="phone" name="phone" placeholder="+39 340 1234567" autocomplete="tel" class="input-field" />
+    </div>
+  </div>
+
+  <!-- Selezione del Servizio -->
+  <div>
+    <label for="service" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+      Seleziona il servizio di tuo interesse
+    </label>
+    <select id="service" name="service" required class="input-field">
+      <option value="" disabled selected hidden>Seleziona un’opzione</option>
+      <option value="siti-web">Creazione Sito Web</option>
+      <option value="ecommerce">E-commerce</option>
+      <option value="seo">Ottimizzazione SEO</option>
+      <option value="grafica">Branding e Grafica</option>
+      <option value="altro">Altro</option>
+    </select>
+  </div>
+
+  <!-- Messaggio -->
+  <div>
+    <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+      Messaggio
+    </label>
+    <textarea id="message" name="message" rows="5" placeholder="Descrivi il tuo progetto..." required autocomplete="off" class="input-field"></textarea>
+  </div>
+
+  <!-- Checkbox Privacy -->
+  <div class="flex items-start">
+    <input type="checkbox" id="privacy" name="privacy" required class="checkbox" />
+    <label for="privacy" class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+      <span class="text-red-500">*</span> Confermi di accettare la raccolta e l’elaborazione dei tuoi dati personali.
+    </label>
+  </div>
+
+  <!-- Pulsante di Invio -->
+  <button type="submit" class="btn-submit">Invia Richiesta</button>
+</form>
+    
 
   <!-- Features Section -->
   <Features2
