@@ -32,53 +32,8 @@
   ],
   "redirects": [
     {
-      "source": "/blog//blog/seo-tecnica-ottimizzazione-sito",
-      "destination": "/blog/seo-tecnica-ottimizzazione-sito",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/strumenti-risorse-creare-sito-web-professionale",
-      "destination": "/blog/strumenti-risorse-creare-sito-web-professionale",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/come-creare-landing-page-perfetta",
-      "destination": "/blog/come-creare-landing-page-perfetta",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/come-misurare-velocita-sito-web",
-      "destination": "/blog/come-misurare-velocita-sito-web",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/intelligenza-artificiale-web-design",
-      "destination": "/blog/intelligenza-artificiale-web-design",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/mobile-first-ottimizzazione-sito",
-      "destination": "/blog/mobile-first-ottimizzazione-sito",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/come-scegliere-web-agency",
-      "destination": "/blog/come-scegliere-web-agency",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/guida-copywriting-seo",
-      "destination": "/blog/guida-copywriting-seo",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/strumenti-creare-siti-web-professionali",
-      "destination": "/blog/strumenti-creare-siti-web-professionali",
-      "permanent": true
-    },
-    {
-      "source": "/blog//blog/:slug",
-      "destination": "/blog/:slug",
+      "source": "/blog/blog/:path*",
+      "destination": "/blog/:path*",
       "permanent": true
     }
   ]
