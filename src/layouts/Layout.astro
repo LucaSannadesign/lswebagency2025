@@ -104,6 +104,52 @@ const canonicalUrl = metadata.canonical || "https://lswebagency.com"; // Imposta
         };
       }
     </script>
+
+<title>{metadata.title}</title>
+<meta name="description" content={metadata.description} />
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Quanto costa un sito web professionale a Sassari?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "I prezzi variano in base al progetto, ma offriamo soluzioni su misura a partire da 490€. Ogni preventivo è personalizzato."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "In quanto tempo viene realizzato il sito?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Un sito web base può essere online in 1-2 settimane. Per progetti più complessi come e-commerce o landing page avanzate, si può arrivare a 4 settimane."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Il sito sarà visibile su Google?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sì, ogni nostro sito è ottimizzato SEO fin dalla fase di progettazione per migliorare il posizionamento su Google."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Posso aggiornare il sito in autonomia?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Certo! Ti forniamo un pannello semplice e intuitivo, con possibilità di aggiornamenti assistiti se richiesti."
+      }
+    }
+  ]
+}
+</script>
+
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">

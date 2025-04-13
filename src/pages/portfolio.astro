@@ -11,22 +11,23 @@ if (!portfolio || portfolio.length === 0) {
 
 // 📌 Metadati SEO
 const metadata = {
-  title: 'Portfolio - LS Web Agency',
+  title: 'Progetti Web Realizzati a Sassari | Portfolio - LS Web Agency',
   description: 'Esplora i nostri progetti di web design e sviluppo digitale.',
-  canonical: '/portfolio',
+  canonical: 'https://lswebagency.com/portfolio',
+  image: '/images/portfolio-og.jpg',
   openGraph: {
     type: 'website',
     url: 'https://lswebagency.com/portfolio',
     title: 'Portfolio - LS Web Agency',
     description: 'Scopri i progetti realizzati da LS Web Agency: soluzioni digitali su misura per il tuo business.',
-    image: '/images/portfolio-og.jpg'
+    image: 'https://lswebagency.com/images/portfolio-og.jpg'
   },
   twitter: {
     card: 'summary_large_image',
     site: '@lswebagency',
     title: 'Portfolio - LS Web Agency',
     description: 'Dai un’occhiata ai nostri progetti di web design, sviluppo e SEO.',
-    image: '/images/portfolio-og.jpg'
+    image: 'https://lswebagency.com/images/portfolio-og.jpg'
   }
 };
 ---
@@ -72,6 +73,7 @@ const metadata = {
               width={project.data.image.width || 'auto'}
               height={project.data.image.height || 'auto'}
               class="w-full h-64 object-cover"
+              loading="lazy"
             />
           ) : (
             <img src={project.data.image} alt={project.data.title} class="w-full h-64 object-cover" />
