@@ -60,6 +60,26 @@
       "source": "/blog//blog/mobile-first-ottimizzazione-sito",
       "destination": "/blog/mobile-first-ottimizzazione-sito",
       "permanent": true
+    },
+    {
+      "source": "/blog//blog/come-scegliere-web-agency",
+      "destination": "/blog/come-scegliere-web-agency",
+      "permanent": true
+    },
+    {
+      "source": "/blog//blog/guida-copywriting-seo",
+      "destination": "/blog/guida-copywriting-seo",
+      "permanent": true
+    },
+    {
+      "source": "/blog//blog/strumenti-creare-siti-web-professionali",
+      "destination": "/blog/strumenti-creare-siti-web-professionali",
+      "permanent": true
+    },
+    {
+      "source": "/blog//blog/:slug",
+      "destination": "/blog/:slug",
+      "permanent": true
     }
   ]
 }
