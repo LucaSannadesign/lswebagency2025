@@ -144,7 +144,8 @@ const metadata = {
   document.getElementById("contactForm").addEventListener("submit", function (e) {
     const honeypot = document.getElementById("honeypot").value;
     if (honeypot) {
-      e.preventDefault(); // blocca l'invio
+      console.log("Spam bloccato!");
+      e.preventDefault(); // Blocca l'invio se il campo è compilato
     }
   });
 </script>

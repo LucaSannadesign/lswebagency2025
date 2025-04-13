@@ -35,7 +35,7 @@
   }
 
   .btn-tertiary {
-    @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-400 dark:hover:text-white;
+    @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-700 dark:hover:text-white;
   }
 
   /* Stile per gli input di testo */
@@ -45,7 +45,7 @@
 
   /* Stile per il placeholder */
   input::placeholder, textarea::placeholder {
-    @apply text-gray-500 dark:text-gray-400;
+    @apply text-gray-500 dark:text-gray-700;
   }
 
   /* Checkbox */
@@ -115,11 +115,11 @@
   }
 
   footer a {
-    @apply text-gray-600 dark:text-gray-400 hover:text-primary transition;
+    @apply text-gray-600 dark:text-gray-700 hover:text-primary transition;
   }
 
   footer .footer-bottom {
-    @apply text-sm text-gray-500 dark:text-gray-400 text-center mt-6;
+    @apply text-sm text-gray-500 dark:text-gray-700 text-center mt-6;
   }
 }
 
