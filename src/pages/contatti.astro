@@ -23,30 +23,6 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <script src="https://www.google.com/recaptcha/api.js?render=6Lc-qxsrAAAAAHLlUJs6Ri31zL0clBbBtDDLsSlYZ"></script>
-
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "ContactPage",
-      "name": metadata.title,
-      "description": metadata.description,
-      "url": metadata.openGraph.url,
-      "publisher": {
-        "@type": "Organization",
-        "name": "LS Web Agency",
-        "logo": "https://lswebagency.com/images/logo.png",
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": "+39 340 3223 494",
-          "contactType": "customer support",
-          "email": "info@lswebagency.com",
-          "areaServed": "IT",
-          "availableLanguage": ["Italian", "English"]
-        }
-      }
-    })}
-  </script>
 
   <HeroText tagline="Contatti" title="Hai bisogno di informazioni?" />
 
@@ -60,8 +36,6 @@ const metadata = {
   <div class="max-w-lg mx-auto bg-white dark:bg-gray-900 p-6 rounded-lg shadow-xl">
     <form id="contactForm" class="space-y-4" action="/api/contatti" method="POST">
       <input type="hidden" name="timestamp" id="formTimestamp" />
-      <input type="hidden" name="recaptcha_token" id="recaptchaToken" />
-
       <div style="display: none;">
         <label for="honeypot">Lascia questo campo vuoto</label>
         <input type="text" name="honeypot" id="honeypot" />
@@ -120,51 +94,11 @@ const metadata = {
       <button type="submit" class="btn-submit">Invia Richiesta</button>
     </form>
 
-    <script type="module">
-      window.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("contactForm");
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
         const timestampInput = document.getElementById("formTimestamp");
-        const tokenInput = document.getElementById("recaptchaToken");
-
         if (timestampInput) {
           timestampInput.value = Date.now();
-        }
-
-        if (form) {
-          form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const honeypot = document.getElementById("honeypot")?.value;
-            if (honeypot) {
-              console.warn("❌ Spam bloccato (honeypot)");
-              return;
-            }
-
-            try {
-              const token = await grecaptcha.execute("6Lc-qxsrAAAAAHLlUJs6Ri31zL0clBbBtDDLsSlYZ", {
-                action: "submit_form"
-              });
-              if (tokenInput) tokenInput.value = token;
-
-              const formData = new FormData(form);
-
-              const response = await fetch(form.action, {
-                method: "POST",
-                body: formData,
-              });
-
-              if (response.ok) {
-                window.location.href = "/grazie";
-              } else {
-                const err = await response.json();
-                console.error("❌ Errore server:", err);
-                alert("Errore: " + (err?.error || "Invio fallito"));
-              }
-            } catch (error) {
-              console.error("❌ Errore imprevisto:", error);
-              alert("Errore di rete o reCAPTCHA. Riprova.");
-            }
-          });
         }
       });
     </script>
@@ -176,16 +110,14 @@ const metadata = {
     items={[
       {
         title: 'Contatti Rapidi',
-        description: `
-        <div class="flex gap-4 mt-2">
+        description: `<div class="flex gap-4 mt-2">
           <a href="https://wa.me/393403223494" target="_blank" class="btn-whatsapp flex items-center gap-2">
             <img src="/icons/whatsapp.svg" alt="WhatsApp" class="w-6 h-6" /> WhatsApp
           </a>
           <a href="https://t.me/lswebagency" target="_blank" class="btn-telegram flex items-center gap-2">
             <img src="/icons/telegram.svg" alt="Telegram" class="w-6 h-6" /> Telegram
           </a>
-        </div>
-        `,
+        </div>`,
         icon: 'tabler:message',
       },
       {
