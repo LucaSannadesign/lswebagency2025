@@ -6,12 +6,6 @@ import type { APIRoute } from 'astro';
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
 export const POST: APIRoute = async ({ request }) => {
-  const contentType = request.headers.get("content-type") || "";
-
-  if (!contentType.includes("multipart/form-data")) {
-    return new Response(JSON.stringify({ error: "Tipo di contenuto non valido" }), { status: 400 });
-  }
-
   const formData = await request.formData();
 
   const honeypot = formData.get("honeypot");
@@ -34,12 +28,16 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: "Compila tutti i campi obbligatori." }), { status: 400 });
   }
 
+  if (import.meta.env.DEV) {
+    console.log("📩 Contatto ricevuto:", { name, email, phone, service, message });
+  }
+
   try {
     await resend.emails.send({
       from: 'LS Web Agency <info@lswebagency.com>',
       to: 'info@lswebagency.com',
       subject: `Nuovo contatto da ${name}`,
-      reply_to: email,
+      reply_to: [email],
       html: `
         <p><strong>Nome:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
