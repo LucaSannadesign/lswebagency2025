@@ -1,0 +1,12 @@
+---
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+if (!slug || !Array.isArray(slug)) {
+  throw new Error("Slug non valido");
+}
+
+const correctedPath = `/blog/${slug.join("/")}`;
+Astro.redirect(correctedPath, 301);
+---

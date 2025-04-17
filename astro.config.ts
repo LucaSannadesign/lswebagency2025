@@ -15,6 +15,7 @@ import '@iconify/react';
 import '@iconify-json/fa6-brands';
 import astrowind from './vendor/integration';
 import type { AstroIntegration } from 'astro';
+import 'dotenv/config';
 
 import {
   readingTimeRemarkPlugin,
