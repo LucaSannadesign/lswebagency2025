@@ -1,5 +1,5 @@
 export const prerender = false;
-
+// 🔁 Dummy update per forzare Vercel a includere la route
 import { Resend } from 'resend';
 import type { APIRoute } from 'astro';
 
