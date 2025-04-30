@@ -77,8 +77,7 @@ const canonicalUrl = metadata.canonical || "https://lswebagency.com"; // Imposta
     <meta name="twitter:image" content={pageImage} />
 
     <!-- Canonical -->
-    <link rel="canonical" href={metadata.canonical ? metadata.canonical : Astro.url.pathname} />
-    <CommonMeta />
+    <link rel="canonical" href={metadata.canonical?.startsWith('http') ? metadata.canonical : `https://www.lswebagency.com${Astro.url.pathname}`} />    <CommonMeta />
     <Favicons />
     <CustomStyles />
     <ApplyColorMode />
