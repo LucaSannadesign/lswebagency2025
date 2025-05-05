@@ -32,57 +32,52 @@ const metadata = {
   </section>
 
   <div class="max-w-lg mx-auto bg-white dark:bg-gray-900 p-6 rounded-lg shadow-xl">
-    <form
-    action="https://formspree.io/f/mldgyarp"
-    method="POST"
-    class="space-y-4"
-  >
-    <input type="hidden" name="_redirect" value="https://lswebagency.com/grazie" />
-  
-    <!-- Honeypot -->
-    <div style="display: none;">
-      <label for="honeypot">Lascia questo campo vuoto</label>
-      <input type="text" name="honeypot" id="honeypot" />
-    </div>
-  
-    <input type="text" name="name" placeholder="Nome e Cognome *" required class="input-field" />
-    <input type="email" name="_replyto" placeholder="Email *" required class="input-field" />
-    <input type="tel" name="phone" placeholder="Telefono" class="input-field" />
-  
-    <select name="service" required class="input-field">
-      <option value="" disabled selected hidden>Servizio di interesse *</option>
-      <option value="siti-web">Creazione Sito Web</option>
-      <option value="ecommerce">E-commerce</option>
-      <option value="seo">SEO</option>
-      <option value="grafica">Branding e Grafica</option>
-      <option value="altro">Altro</option>
-    </select>
-  
-    <textarea name="message" rows="5" placeholder="Messaggio *" required class="input-field"></textarea>
-  
-    <div class="flex items-start">
-      <input type="checkbox" name="privacy" required class="checkbox" />
-      <label class="ml-2 text-sm">* Accetto la raccolta e l’elaborazione dei dati.</label>
-    </div>
-  
-    <button type="submit" class="btn-submit">Invia Richiesta</button>
-  </form>
-  
-  <!-- ⏱️ Anti-bot: tempo minimo prima dell'invio -->
-  <script type="module">
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.querySelector("form");
-      const submitTime = Date.now();
-  
-      form.addEventListener("submit", (e) => {
-        const elapsed = Date.now() - submitTime;
-        if (elapsed < 3000) {
-          e.preventDefault();
-          alert("Per favore attendi almeno 3 secondi prima di inviare il form.");
-        }
+    <form action="https://formspree.io/f/mldgyarp" method="POST" class="space-y-4">
+      <input type="hidden" name="_redirect" value="https://lswebagency.com/grazie" />
+
+      <!-- Honeypot -->
+      <div style="display: none;">
+        <label for="honeypot">Lascia questo campo vuoto</label>
+        <input type="text" name="honeypot" id="honeypot" />
+      </div>
+
+      <input type="text" name="name" placeholder="Nome e Cognome *" required class="input-field" />
+      <input type="email" name="_replyto" placeholder="Email *" required class="input-field" />
+      <input type="tel" name="phone" placeholder="Telefono" class="input-field" />
+
+      <select name="service" required class="input-field">
+        <option value="" disabled selected hidden>Servizio di interesse *</option>
+        <option value="siti-web">Creazione Sito Web</option>
+        <option value="ecommerce">E-commerce</option>
+        <option value="seo">SEO</option>
+        <option value="grafica">Branding e Grafica</option>
+        <option value="altro">Altro</option>
+      </select>
+
+      <textarea name="message" rows="5" placeholder="Messaggio *" required class="input-field"></textarea>
+
+      <div class="flex items-start">
+        <input type="checkbox" name="privacy" required class="checkbox" />
+        <label class="ml-2 text-sm">* Accetto la raccolta e l’elaborazione dei dati.</label>
+      </div>
+
+      <button type="submit" class="btn-submit">Invia Richiesta</button>
+    </form>
+
+    <script type="module">
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("form");
+        const submitTime = Date.now();
+
+        form.addEventListener("submit", (e) => {
+          const elapsed = Date.now() - submitTime;
+          if (elapsed < 3000) {
+            e.preventDefault();
+            alert("Per favore attendi almeno 3 secondi prima di inviare il form.");
+          }
+        });
       });
-    });
-  </script>
+    </script>
   </div>
 
   <Features2
@@ -92,10 +87,10 @@ const metadata = {
       {
         title: 'Contatti Rapidi',
         description: `
-        <div class="flex gap-4 mt-2">
-          <a href="https://wa.me/393403223494" class="btn-whatsapp">WhatsApp</a>
-          <a href="https://t.me/lswebagency" class="btn-telegram">Telegram</a>
-        </div>`,
+          <div class="flex gap-4 mt-2">
+            <a href="https://wa.me/393403223494" class="btn-whatsapp">WhatsApp</a>
+            <a href="https://t.me/lswebagency" class="btn-telegram">Telegram</a>
+          </div>`,
         icon: 'tabler:message',
       },
       {
