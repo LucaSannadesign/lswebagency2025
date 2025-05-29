@@ -32,11 +32,6 @@
   ],
   "redirects": [
     {
-      "source": "/(.*)",
-      "destination": "https://www.lswebagency.com/$1",
-      "permanent": true
-    },
-    {
       "source": "/blog/blog/:path*",
       "destination": "/blog/:path*",
       "permanent": true
