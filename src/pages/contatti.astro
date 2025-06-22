@@ -23,66 +23,24 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <HeroText tagline="Contatti" title="Hai bisogno di informazioni?" />
+  <!-- Hero -->
+  <HeroText
+    tagline="Contatti"
+    title="Hai bisogno di informazioni?"
+  />
 
-  <section class="text-center max-w-3xl mx-auto mb-8">
+  <section class="text-center max-w-3xl mx-auto mb-12">
     <p class="text-xl font-medium">
-      Hai un progetto in mente? <span class="text-blue-500">Contattaci oggi stesso</span> e trasformiamo le tue idee in realtà!
+      Hai un progetto in mente?
+      <a href="#contact" class="text-blue-500 underline"> Contattaci oggi stesso</a>
+      e trasformiamo le tue idee in realtà!
     </p>
   </section>
 
-  <div class="max-w-lg mx-auto bg-white dark:bg-gray-900 p-6 rounded-lg shadow-xl">
-    <form action="https://formspree.io/f/mldgyarp" method="POST" class="space-y-4">
-      <input type="hidden" name="_redirect" value="https://lswebagency.com/grazie" />
-
-      <!-- Honeypot -->
-      <div style="display: none;">
-        <label for="honeypot">Lascia questo campo vuoto</label>
-        <input type="text" name="honeypot" id="honeypot" />
-      </div>
-
-      <input type="text" name="name" placeholder="Nome e Cognome *" required class="input-field" />
-      <input type="email" name="_replyto" placeholder="Email *" required class="input-field" />
-      <input type="tel" name="phone" placeholder="Telefono" class="input-field" />
-
-      <select name="service" required class="input-field">
-        <option value="" disabled selected hidden>Servizio di interesse *</option>
-        <option value="siti-web">Creazione Sito Web</option>
-        <option value="ecommerce">E-commerce</option>
-        <option value="seo">SEO</option>
-        <option value="grafica">Branding e Grafica</option>
-        <option value="altro">Altro</option>
-      </select>
-
-      <textarea name="message" rows="5" placeholder="Messaggio *" required class="input-field"></textarea>
-
-      <div class="flex items-start">
-        <input type="checkbox" name="privacy" required class="checkbox" />
-        <label class="ml-2 text-sm">* Accetto la raccolta e l’elaborazione dei dati.</label>
-      </div>
-
-      <button type="submit" class="btn-submit">Invia Richiesta</button>
-    </form>
-
-    <script type="module">
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.querySelector("form");
-        const submitTime = Date.now();
-
-        form.addEventListener("submit", (e) => {
-          const elapsed = Date.now() - submitTime;
-          if (elapsed < 3000) {
-            e.preventDefault();
-            alert("Per favore attendi almeno 3 secondi prima di inviare il form.");
-          }
-        });
-      });
-    </script>
-  </div>
-
+  <!-- Sezione Contatti Rapidi -->
   <Features2
     title="Siamo qui per aiutarti!"
-    columns={4}
+    columns={3}
     items={[
       {
         title: 'Contatti Rapidi',
@@ -103,11 +61,97 @@ const metadata = {
         description: '<a href="mailto:info@lswebagency.com" class="contact-link">info@lswebagency.com</a>',
         icon: 'tabler:mail',
       },
-      {
-        title: 'Indirizzo',
-        description: 'Via Alcide De Gasperi, 3, 07100 Sassari',
-        icon: 'tabler:map-pin',
-      },
     ]}
   />
+
+  <!-- Intro al form -->
+  <section id="contact" class="max-w-lg mx-auto text-center mt-16 mb-6">
+    <h2 class="text-2xl font-semibold">Compila il form</h2>
+    <p class="text-gray-600 dark:text-gray-400">
+      Raccontaci il tuo progetto: compila tutti i campi e ti risponderemo il prima possibile.
+    </p>
+  </section>
+
+  <!-- Sezione Form di Contatto -->
+  <section class="max-w-lg mx-auto bg-white dark:bg-gray-900 p-6 rounded-lg shadow-xl mb-16">
+    <form action="https://formspree.io/f/mldgyarp" method="POST" class="space-y-4">
+      <input type="hidden" name="_redirect" value="https://lswebagency.com/grazie" />
+
+      <!-- Honeypot anti-spam -->
+      <div style="display: none;">
+        <label for="honeypot">Lascia questo campo vuoto</label>
+        <input type="text" name="honeypot" id="honeypot" />
+      </div>
+
+      <input
+        type="text"
+        name="name"
+        placeholder="Nome e Cognome *"
+        required
+        class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
+      />
+
+      <input
+        type="email"
+        name="_replyto"
+        placeholder="Email *"
+        required
+        class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
+      />
+
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Telefono"
+        class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
+      />
+
+      <select
+        name="service"
+        required
+        class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
+      >
+        <option value="" disabled selected hidden>Servizio di interesse *</option>
+        <option value="siti-web">Creazione Sito Web</option>
+        <option value="ecommerce">E-commerce</option>
+        <option value="seo">SEO</option>
+        <option value="grafica">Branding e Grafica</option>
+        <option value="altro">Altro</option>
+      </select>
+
+      <textarea
+        name="message"
+        rows="5"
+        placeholder="Messaggio *"
+        required
+        class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
+      ></textarea>
+
+      <div class="flex items-start">
+        <input type="checkbox" name="privacy" required class="h-4 w-4 text-blue-600 rounded" />
+        <label class="ml-2 text-sm">* Accetto la raccolta e l’elaborazione dei dati.</label>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded px-4 py-2 focus:outline-none focus:ring"
+      >
+        Invia Richiesta
+      </button>
+    </form>
+
+    <script type="module">
+      document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('form');
+        const submitTime = Date.now();
+        form.addEventListener('submit', (e) => {
+          const elapsed = Date.now() - submitTime;
+          if (elapsed < 3000) {
+            e.preventDefault();
+            alert('Per favore attendi almeno 3 secondi prima di inviare il form.');
+          }
+        });
+      });
+    </script>
+  </section>
 </Layout>

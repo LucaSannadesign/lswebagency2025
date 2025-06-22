@@ -1,0 +1,63 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Web Design Etico e Inclusivo',
+  description: 'Progettiamo esperienze digitali che mettono al centro la persona: accessibili, trasparenti e sostenibili. Servizio su richiesta.',
+  canonical: '/servizi/web-design-etico-sostenibile',
+  openGraph: {
+    title: 'Web Design Etico',
+    description: 'Servizio su richiesta: design consapevole, inclusivo e rispettoso dell’utente.',
+    url: 'https://www.lswebagency.com/servizi/web-design-etico-sostenibile',
+    image: '/images/web-design-etico-sostenibile-hero.webp'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Etico e Consapevole',
+    description: 'Crea siti belli, etici e responsabili. Un servizio speciale su richiesta.',
+    image: '/images/web-design-etico-sostenibile-hero.webp'
+  }
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="relative w-full h-[60vh] overflow-hidden">
+    <img
+      src="/images/web-design-etico-sostenibile-hero.webp"
+      alt="Web design etico e inclusivo"
+      class="absolute inset-0 w-full h-full object-cover object-center brightness-75"
+    />
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Web Design Etico e Inclusivo</h1>
+      <p class="text-lg md:text-xl mb-6 max-w-3xl">Un approccio consapevole che mette al centro rispetto, accessibilità e trasparenza.</p>
+      <a href="/contatti" class="bg-white text-blue-600 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition">Richiedi informazioni</a>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Cosa significa “etico” per noi?</h2>
+      <ul class="space-y-6 text-gray-700">
+        <li><strong class="text-blue-600">Centralità della persona</strong><br />Design centrato sulle reali esigenze dell’utente, non sulle metriche manipolative.</li>
+        <li><strong class="text-blue-600">Accessibilità e inclusione</strong><br />Siti fruibili da tutti, indipendentemente da abilità, device o background culturale.</li>
+        <li><strong class="text-blue-600">Rispetto della privacy</strong><br />Soluzioni trasparenti e senza dark pattern, in linea con GDPR e buone pratiche.</li>
+        <li><strong class="text-blue-600">Estetica responsabile</strong><br />Scelte grafiche sostenibili, sobrie, orientate alla leggibilità e alla chiarezza.</li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Quando sceglierlo?</h2>
+      <ul class="space-y-4 list-disc list-inside text-gray-700">
+        <li>✅ Per progetti a forte impatto sociale o culturale</li>
+        <li>✅ Per startup e realtà che mettono al centro l’utente</li>
+        <li>✅ Per enti pubblici, associazioni, ONG</li>
+        <li>✅ Quando vuoi differenziarti in modo autentico</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-blue-600 text-white text-center py-12">
+    <h2 class="text-3xl font-bold mb-4">Un servizio su richiesta, pensato per chi vuole fare la differenza</h2>
+    <p class="text-lg mb-6">Contattaci e raccontaci la tua idea: creeremo insieme un progetto etico, bello e funzionale.</p>
+    <a href="/contatti" class="bg-white text-blue-600 font-bold px-6 py-3 rounded-full hover:bg-gray-100 transition">Parla con noi</a>
+  </section>
+</Layout>

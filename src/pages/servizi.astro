@@ -14,45 +14,45 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-   <!-- Hero Section -->
-   <Hero
-   actions={[
-     {
-       variant: "primary",
-       text: "Richiedi una consulenza",
-       href: "/contatti",
-     },
-     { text: "Scopri di più", href: "#features" },
-   ]}
-   image={{
-     src: "~/assets/images/servizi-seo-grafica-branding-siti-web.webp",
-     alt: "Blocchi di lettere che formano la scritta SEO Audit, concetto di ottimizzazione per i motori di ricerca",
-   }}
- >
-   <Fragment slot="title">
-     <span>Strategie Digitali: </span>
-     <span class="text-accent text-gradient dark:text-white highlight">Creazione Siti Web</span>, 
-     <span class="text-accent text-gradient dark:text-white highlight">SEO</span> e 
-     <span class="text-accent text-gradient dark:text-white highlight">Marketing</span> a Sassari
-   </Fragment>
+  <!-- Hero Section -->
+  <Hero
+    actions={[
+      {
+        variant: "primary",
+        text: "Richiedi una consulenza",
+        href: "/contatti",
+      },
+      { text: "Scopri di più", href: "#features" },
+    ]}
+    image={{
+      src: "~/assets/images/servizi-seo-grafica-branding-siti-web.webp",
+      alt: "Blocchi di lettere che formano la scritta SEO Audit, concetto di ottimizzazione per i motori di ricerca",
+    }}
+  >
+    <Fragment slot="title">
+      <span>Strategie Digitali: </span>
+      <span class="text-accent text-gradient dark:text-white highlight">Creazione Siti Web</span>, 
+      <span class="text-accent text-gradient dark:text-white highlight">SEO</span> e 
+      <span class="text-accent text-gradient dark:text-white highlight">Marketing</span> a Sassari
+    </Fragment>
 
-   <Fragment slot="subtitle">
-     <span class="hidden sm:inline">
-       <span class="font-semibold">LS Web Agency</span> offre soluzioni professionali di 
-       <strong>creazione siti web</strong>, 
-       <strong>ottimizzazione SEO</strong> e 
-       <strong>marketing digitale</strong>.
-       Aiutiamo aziende e professionisti a ottenere più visibilità online e aumentare le conversioni con strategie personalizzate.
-     </span>
-     <span class="block mb-1 sm:hidden font-bold text-blue-600">
-       Affidati a LS Web Agency per la tua crescita digitale!
-     </span>
-     Scopri come migliorare la tua presenza online con 
-     <strong>SEO avanzata</strong>, 
-     <strong>strategie di digital marketing</strong> 
-     e <strong>siti web performanti</strong>.
-   </Fragment>
- </Hero>
+    <Fragment slot="subtitle">
+      <span class="hidden sm:inline">
+        <span class="font-semibold">LS Web Agency</span> offre soluzioni professionali di 
+        <strong>creazione siti web</strong>, 
+        <strong>ottimizzazione SEO</strong> e 
+        <strong>marketing digitale</strong>.
+        Aiutiamo aziende e professionisti a ottenere più visibilità online e aumentare le conversioni con strategie personalizzate.
+      </span>
+      <span class="block mb-1 sm:hidden font-bold text-blue-600">
+        Affidati a LS Web Agency per la tua crescita digitale!
+      </span>
+      Scopri come migliorare la tua presenza online con 
+      <strong>SEO avanzata</strong>, 
+      <strong>strategie di digital marketing</strong> 
+      e <strong>siti web performanti</strong>.
+    </Fragment>
+  </Hero>
 
   <!-- Introduzione ai Servizi -->
   <section class="container mx-auto px-4 py-12">
@@ -60,8 +60,8 @@ const metadata = {
       Soluzioni Digitali per il Tuo Business
     </h2>
     <p class="text-lg text-center max-w-3xl mx-auto">
-      Offriamo servizi di <strong>creazione siti web</strong>, <strong>ottimizzazione SEO</strong>, <strong>digital marketing</strong> 
-      ed <strong>e-commerce</strong>. Lavoriamo per migliorare il posizionamento sui motori di ricerca e aumentare le conversioni.
+      Offriamo servizi di <strong>creazione siti web</strong>, <strong>ottimizzazione SEO</strong>, <strong>digital marketing</strong>,
+      <strong>e-commerce</strong> e soluzioni innovative come <strong>accessibilità digitale avanzata</strong>, <strong>personalizzazione UX con AI</strong> e <strong>web design etico e sostenibile</strong>. Lavoriamo per migliorare il posizionamento sui motori di ricerca e aumentare le conversioni.
     </p>
   </section>
 
@@ -92,40 +92,31 @@ const metadata = {
         icon: "tabler:palette",
       },
       {
+        title: "Accessibilità Digitale Avanzata",
+        description: "Rendi il tuo sito inclusivo e conforme alle normative sull'accessibilità digitale.",
+        icon: "tabler:disabled",
+        href: "/servizi/accessibilita-digitale-avanzata",
+      },
+      {
+        title: "UX con AI",
+        description: "Offri un'esperienza personalizzata con soluzioni avanzate basate sull'intelligenza artificiale.",
+        icon: "tabler:brain",
+        href: "/servizi/personalizzazione-ux-intelligenza-artificiale"
+      },
+      {
+        title: "Web Design Etico",
+        description: "Crea siti web sostenibili e rispettosi della privacy e dell'ambiente.",
+        icon: "tabler:leaf",
+        href: "/servizi/web-design-etico-sostenibile",
+      },
+      {
         title: "Ottimizzazione Velocità",
         description: "Riduciamo i tempi di caricamento per migliorare l'esperienza utente e il ranking SEO del tuo sito web.",
         icon: "tabler:rocket",
       },
-      {
-        title: "Gestione Social Media",
-        description: "Creiamo strategie social per aumentare la visibilità e l'engagement del tuo business online.",
-        icon: "tabler:brand-facebook",
-      },
-      {
-        title: "Web Marketing",
-        description: "Campagne pubblicitarie mirate su Google Ads e Facebook Ads per attrarre più clienti.",
-        icon: "tabler:speakerphone", // ✅ ICONA ESISTENTE
-      },
-      {
-        title: "Sicurezza e Manutenzione",
-        description: "Monitoriamo e proteggiamo il tuo sito web con aggiornamenti e backup regolari.",
-        icon: "tabler:shield-lock",
-      },
     ]}
   />
 
-  <!-- Blocco di Contenuto per SEO -->
-  <section class="container mx-auto px-4 py-12">
-    <h2 class="text-3xl font-bold text-center mb-6">
-      Perché scegliere LS Web Agency?
-    </h2>
-    <p class="text-lg text-center max-w-3xl mx-auto">
-      Lavoriamo con un approccio strategico per garantire che ogni sito web sia ottimizzato per i <strong>motori di ricerca</strong> e abbia 
-      una struttura perfetta per migliorare la <strong>visibilità su Google</strong>. Affidati a noi per una strategia digitale efficace.
-    </p>
-  </section>
-
-  <!-- Call to Action -->
   <CallToAction
     actions={[
       {

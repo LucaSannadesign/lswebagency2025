@@ -41,14 +41,15 @@ const {
     items={items}
     columns={columns}
     defaultIcon={defaultIcon}
+    useLinkWrapper={true}
     classes={{
       container: 'gap-8 md:gap-10 lg:gap-12',
       panel:
-        'bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-md',
+        'bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow',
       title: 'text-lg font-semibold',
       description: 'text-muted mt-2',
-      icon: 'w-12 h-12 mb-4 text-primary',
-      ...((classes?.items as Record<string, never>) ?? {}),
+      icon: 'w-12 h-12 mb-4 text-primary group-hover:text-accent transition-colors duration-300',
+      ...(classes?.items ?? {}),
     }}
   />
 </WidgetWrapper>

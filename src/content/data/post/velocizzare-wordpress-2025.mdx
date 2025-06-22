@@ -1,23 +1,29 @@
 ---
 title: "Velocizzare WordPress nel 2025: Guida Tecnica per Migliorare la Performance del Sito"
 description: "Scopri come velocizzare un sito WordPress nel 2025 con tecniche avanzate, ottimizzazione PageSpeed, caching, immagini WebP e best practices SEO."
-publishDate: 2025-05-04T11:00:00Z
+# publishDate come vero YAML date (senza orario), così viene parsato come Date e non come stringa
+publishDate: 2025-05-04
 author: "LS Web Agency"
-tags: ["WordPress", "ottimizzazione", "velocità sito", "SEO tecnica", "PageSpeed"]
-slug: "/blog/velocizzare-wordpress-2025"
+tags:
+  - WordPress
+  - ottimizzazione
+  - velocità sito
+  - SEO tecnica
+  - PageSpeed
+slug: "velocizzare-wordpress-2025"
 focusKeyword: "velocizzare WordPress"
 ogTitle: "Velocizzare WordPress: Tecniche per Migliorare la Performance nel 2025"
 ogDescription: "Guida pratica per rendere un sito WordPress più veloce e performante nel 2025: plugin, codice, immagini, caching e SEO."
-ogImage: "~//assets/images/Velocizzare-Wordpress-2025.webp"
+ogImage: "~/assets/images/Velocizzare-Wordpress-2025.webp"
 ogType: "article"
 twitterCard: "summary_large_image"
 twitterCreator: "@lswebagency"
 twitterTitle: "Come velocizzare un sito WordPress nel 2025: guida tecnica"
 twitterDescription: "Ottimizza il tuo sito WordPress: migliora velocità, PageSpeed e SEO tecnica con questa guida aggiornata al 2025."
-twitterImage: "~/assets/images/Velocizzare-WordPress-2025.webp"
+twitterImage: "~/assets/images/Velocizzare-Wordpress-2025.webp"
 robots: "index, follow"
 canonical: "https://www.lswebagency.com/blog/velocizzare-wordpress-2025"
-category: "WordPress"
+category: "wordpress"
 image: "~/assets/images/Velocizzare-Wordpress-2025.webp"
 ---
 
@@ -70,56 +76,3 @@ Le immagini sono spesso le responsabili del caricamento lento.
   <source srcset="/images/hero.webp" type="image/webp">
   <img src="/images/hero.jpg" alt="Descrizione immagine" width="600" height="400">
 </picture>
-```
-
-## 🧱 4. Tema leggero e codice pulito
-
-Evita temi pesanti e page builder inutili. Usa un **tema leggero**, come:
-- **GeneratePress**
-- **Blocksy**
-- **Astra**
-
-E rimuovi plugin non usati, shortcode obsoleti e codice inline inutile.
-
-## 🚀 5. Hosting performante
-
-Un buon hosting è alla base della velocità. Evita shared economici.
-
-### Consigliati:
-- **SiteGround**, **Cloudways**, **Hostinger Business**
-- Se puoi, usa **server con LiteSpeed** per il massimo risultato
-
-## 🛠 6. Ottimizzazioni avanzate
-
-### Preload risorse:
-```html
-<link rel="preload" href="/fonts/open-sans.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-```
-
-### Disattiva WP Cron:
-Nel `wp-config.php`:
-```php
-define('DISABLE_WP_CRON', true);
-```
-E poi usa un cron esterno (es. cPanel o cron-job.org).
-
-### Rimuovi emoji e embed:
-Nel `functions.php`:
-```php
-remove_action('wp_head', 'print_emoji_detection_script', 7);
-remove_action('wp_print_styles', 'print_emoji_styles');
-```
-
-## 🔚 Conclusione
-
-Velocizzare WordPress nel 2025 significa combinare **buon hosting**, **tema leggero**, **plugin giusti** e **un pizzico di codice tecnico**.
-
-Vuoi migliorare la performance del tuo sito WordPress? **Contattaci e ti aiutiamo noi!**
-## 💡 Cerchi un Hosting Veloce e Ottimizzato per WordPress?
-<div style="border: 2px solid #4f46e5; background-color: #eef2ff; padding: 1.5rem; border-radius: 1rem; margin-top: 2rem;">
-  <h3 style="margin-top: 0;">🚀 Hosting WordPress Super Veloce</h3>
-  <p>🎯 Vuoi davvero <strong>velocizzare il tuo sito WordPress</strong>?<br/>
-  Ti consigliamo <strong>Hostinger</strong>: veloce, affidabile e con un ottimo rapporto qualità/prezzo.</p>
-  <p>💸 Usa il nostro link affiliato e ottieni <strong>uno sconto esclusivo del 20%</strong> sul tuo primo acquisto!</p>
-  <p><a href="https://hostinger.it?REFERRALCODE=7SQLSANNAJE1" target="_blank" style="background-color: #4f46e5; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none;">👉 Scopri le offerte di Hostinger</a></p>
-</div>
