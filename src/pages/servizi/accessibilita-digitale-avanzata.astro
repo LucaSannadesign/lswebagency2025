@@ -9,13 +9,13 @@ const metadata = {
     title: 'Accessibilità Digitale Avanzata',
     description: 'Scopri come rendere il tuo sito web accessibile, inclusivo e conforme alle normative WCAG e AgID.',
     url: 'https://www.lswebagency.com/servizi/accessibilita-digitale-avanzata',
-    image: '/images/accessibilita-digitale-hero.webp'
+    image: '~/assets/images/accessibilita-digitale-hero.webp'
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Accessibilità Digitale per il tuo sito',
     description: 'Inclusione e conformità con un sito web accessibile a tutti.',
-    image: '/images/accessibilita-digitale-hero.webp'
+    image: '~/assets/images/accessibilita-digitale-hero.webp'
   }
 };
 ---
@@ -33,26 +33,41 @@ const metadata = {
       <a href="/contatti" class="bg-white text-primary font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition">Richiedi un check gratuito</a>
     </div>
   </section>
+<section class="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+  <div>
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Cosa offriamo</h2>
+    <ul class="space-y-6 dark:space-y-4">
+      <li>
+        <strong class="text-blue-600">Audit accessibilità</strong><br />
+        <span class="text-gray-700 dark:text-slate-300">
+          Verifica dei principali errori e barriere nel sito.
+        </span>
+      </li>
+      <li>
+        <strong class="text-blue-600">Correzioni visive e tecniche</strong><br />
+        <span class="text-gray-700 dark:text-slate-300">
+          Contrasti, tag alt, navigazione da tastiera e screen reader.
+        </span>
+      </li>
+      <li>
+        <strong class="text-blue-600">Dichiarazione di conformità</strong><br />
+        <span class="text-gray-700 dark:text-slate-300">
+          Per PA o aziende che vogliono attestare la conformità.
+        </span>
+      </li>
+    </ul>
+  </div>
 
-  <section class="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
-    <div>
-      <h2 class="text-2xl font-bold text-gray-900 mb-4">Cosa offriamo</h2>
-      <ul class="space-y-6 text-gray-700">
-        <li><strong class="text-blue-600">Audit accessibilità</strong><br />Verifica dei principali errori e barriere nel sito.</li>
-        <li><strong class="text-blue-600">Correzioni visive e tecniche</strong><br />Contrasti, tag alt, navigazione da tastiera e screen reader.</li>
-        <li><strong class="text-blue-600">Dichiarazione di conformità</strong><br />Per PA o aziende che vogliono attestare la conformità.</li>
-      </ul>
-    </div>
-    <div>
-      <h2 class="text-2xl font-bold text-gray-900 mb-4">Perché è importante?</h2>
-      <ul class="space-y-4 list-disc list-inside text-gray-700">
-        <li>✅ Rispetti le normative (AgID, WCAG, EAA)</li>
-        <li>✅ Ampli il tuo pubblico, anche con disabilità</li>
-        <li>✅ Migliori usabilità e SEO</li>
-        <li>✅ Eviti sanzioni e blocchi su fondi pubblici</li>
-      </ul>
-    </div>
-  </section>
+  <div>
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Perché è importante?</h2>
+    <ul class="space-y-4 list-disc list-inside">
+      <li class="text-gray-700 dark:text-slate-300">✅ Rispetti le normative (AgID, WCAG, EAA)</li>
+      <li class="text-gray-700 dark:text-slate-300">✅ Ampli il tuo pubblico, anche con disabilità</li>
+      <li class="text-gray-700 dark:text-slate-300">✅ Migliori usabilità e SEO</li>
+      <li class="text-gray-700 dark:text-slate-300">✅ Eviti sanzioni e blocchi su fondi pubblici</li>
+    </ul>
+  </div>
+</section>
 
   <section class="bg-blue-600 text-white text-center py-12">
     <h2 class="text-3xl font-bold mb-4">Vuoi sapere se il tuo sito è accessibile?</h2>
