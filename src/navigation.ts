@@ -4,6 +4,7 @@ export const headerData = {
     { text: 'Chi Siamo', href: '/chi-siamo' },
     {
       text: 'Servizi',
+      href: '/servizi',
       links: [
         { text: 'Creazione siti web', href: '/servizi/creazione-siti-web-sassari' },
         { text: 'Realizzazione E-commerce', href: '/servizi/realizzazione-siti-ecommerce' },
