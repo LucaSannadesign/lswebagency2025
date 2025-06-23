@@ -8,34 +8,29 @@ import Button from '~/components/ui/Button.astro';
 const metadata = {
   title: 'Ottimizzazione SEO a Sassari | Aumenta la Visibilità del tuo Sito',
   description: 'Migliora il posizionamento del tuo sito web con strategie avanzate di Ottimizzazione SEO a Sassari e in tutta Italia. Contattaci per una consulenza.',
+  canonical: 'https://www.lswebagency.com/servizi/ottimizzazione-seo',
+  robots: 'index, follow',
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-  tagline="SEO a Sassari per il tuo business"
-  image={{
-    src: '~/assets/images/seo-ottimizzazione-ls-webagency.webp',
-    alt: 'Ottimizzazione SEO per siti web',
-  }}
->
-  <Fragment slot="title">
-    Migliora il posizionamento su Google con  
-    <span class="text-accent text-gradient dark:text-white highlight">strategie SEO efficaci</span>
-  </Fragment>
+    tagline="SEO a Sassari per il tuo business"
+    image={{
+      src: '~/assets/images/seo-ottimizzazione-ls-webagency.webp',
+      alt: 'Ottimizzazione SEO per siti web',
+    }}
+  >
+    <Fragment slot="title">
+      Migliora il posizionamento su Google con
+      <span class="text-accent text-gradient dark:text-white highlight">strategie SEO efficaci</span>
+    </Fragment>
 
-  <Fragment slot="subtitle">
-    Ottimizziamo il tuo sito web per <strong>scalare le classifiche di Google</strong>, aumentare il traffico organico e migliorare le conversioni.
-  </Fragment>
+    <Fragment slot="subtitle">
+      Ottimizziamo il tuo sito web per <strong>scalare le classifiche di Google</strong>, aumentare il traffico organico e migliorare le conversioni.
+    </Fragment>
+  </Hero>
 
-  <Fragment slot="actions">
-    <Button variant="primary" href="/contatti">
-      Richiedi una consulenza gratuita
-    </Button>
-  </Fragment>
-</Hero>
-
-  <!-- Introduzione alla SEO -->
   <section class="container mx-auto px-6 py-12 text-lg text-gray-700 dark:text-gray-300">
     <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
       Perché l'ottimizzazione SEO è fondamentale per il tuo business?
@@ -46,78 +41,92 @@ const metadata = {
     </p>
   </section>
 
-  <!-- Approfondimento sulle attività SEO -->
   <Features2
     title="Strategie SEO per scalare su Google"
     subtitle="Applichiamo le migliori tecniche SEO per aumentare la tua visibilità online."
     items={[
       {
         title: 'SEO Tecnico',
-        description: '<strong>Ottimizziamo la struttura del sito</strong> per garantire velocità, sicurezza e una perfetta esperienza utente.',
+        description: `<strong>Ottimizziamo la struttura del sito</strong> per garantire velocità, sicurezza e una perfetta esperienza utente.`,
       },
       {
         title: 'SEO On-Page',
-        description: '<strong>Ottimizziamo i contenuti</strong>: titoli, meta descrizioni, testi e immagini per aumentare la rilevanza della tua pagina.',
+        description: `<strong>Ottimizziamo i contenuti</strong>: titoli, meta descrizioni, testi e immagini per aumentare la rilevanza della tua pagina.`,
       },
       {
         title: 'SEO Off-Page',
-        description: '<strong>Strategie di Link Building</strong> per migliorare l’autorità e la credibilità del tuo sito agli occhi di Google.',
+        description: `<strong>Strategie di Link Building</strong> per migliorare l’autorità e la credibilità del tuo sito agli occhi di Google.`,
       },
       {
         title: 'SEO Locale',
-        description: '<strong>Ottimizzazione per ricerche locali</strong>: Google My Business, recensioni e schede locali per attrarre clienti vicini a te.',
+        description: `<strong>Ottimizzazione per ricerche locali</strong>: Google My Business, recensioni e schede locali per attrarre clienti vicini a te.`,
       },
       {
         title: 'SEO per E-commerce',
-        description: '<strong>Ottimizziamo le schede prodotto</strong> per migliorare il posizionamento e aumentare le vendite online.',
+        description: `<strong>Ottimizziamo le schede prodotto</strong> per migliorare il posizionamento e aumentare le vendite online.`,
       },
       {
         title: 'Analisi e Monitoraggio',
-        description: '<strong>Report dettagliati e analisi SEO</strong> per monitorare il rendimento e apportare miglioramenti costanti.',
-      },
+        description: `<strong>Report dettagliati e analisi SEO</strong> per monitorare il rendimento e apportare miglioramenti costanti.`,
+      }
     ]}
   />
 
-  <!-- Sezione Benefici della SEO -->
   <section class="container mx-auto px-6 py-12 text-lg text-gray-700 dark:text-gray-300">
-    <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
-      I Benefici della SEO per il tuo Business
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-3">🔍 Maggiore visibilità online</h3>
-        <p>
-          Un sito ben posizionato su Google riceve più <strong>traffico organico</strong> e ha maggiori possibilità di conversione.
-        </p>
-      </div>
-      <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-3">📈 Crescita del traffico senza pubblicità</h3>
-        <p>
-          La SEO consente di generare traffico senza dipendere dagli annunci a pagamento, riducendo i costi di marketing.
-        </p>
-      </div>
-      <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-3">💰 ROI Elevato</h3>
-        <p>
-          Gli investimenti in SEO offrono risultati duraturi nel tempo, migliorando la <strong>redditività</strong> della tua attività online.
-        </p>
-      </div>
-      <div class="p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-3">⚡ Esperienza utente migliorata</h3>
-        <p>
-          Un sito veloce e ben ottimizzato migliora la navigazione degli utenti, riducendo il <strong>tasso di abbandono</strong>.
-        </p>
-      </div>
+    <div class="bg-gray-100 dark:bg-gray-800 p-8 rounded-lg shadow-md max-w-3xl mx-auto text-center">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">
+        ✍️ AI Blog Engine: Contenuti SEO sempre attivi
+      </h2>
+      <p class="mb-6">
+        Vuoi mantenere attivo il tuo blog ma non hai tempo per scrivere? Con AI Blog Engine generiamo articoli ottimizzati SEO con l’intelligenza artificiale, rifiniti da un professionista. Tu approvi, il tuo sito cresce.
+      </p>
+      <a href="/servizi/ai-blog-engine" class="inline-block bg-accent text-white font-semibold py-3 px-6 rounded shadow hover:shadow-lg transition">
+        Scopri il servizio AI Blog Engine
+      </a>
     </div>
   </section>
 
-  <!-- Call To Action -->
-  <CallToAction
-    title="Vuoi migliorare il posizionamento del tuo sito?"
-    subtitle="Scopri come possiamo aiutarti a scalare su Google e raggiungere più clienti."
-  >
-    <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">Richiedi una consulenza gratuita</Button>
-    </Fragment>
-  </CallToAction>
+  <section class="container mx-auto px-6 py-12 text-lg text-gray-700 dark:text-gray-300">
+    <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+      Servizio SEO Locale: Fatti Trovare nella Tua Zona
+    </h2>
+    <p class="text-center max-w-3xl mx-auto mb-8">
+      Vuoi che la tua attività appaia tra i primi risultati quando qualcuno cerca <strong>il tuo servizio nella tua città</strong>? Ottimizziamo la tua presenza su Google Maps e la scheda Google Business, creando contenuti mirati per attrarre clienti locali.
+    </p>
+  </section>
+
+  <section id="form-seo-locale" class="container mx-auto px-6 py-12 text-lg text-gray-700 dark:text-gray-300">
+    <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+      Richiedi una consulenza SEO Locale gratuita
+    </h2>
+    <form method="POST" action="https://formspree.io/f/{your-form-id}" class="max-w-2xl mx-auto grid gap-6">
+      <input type="text" name="name" placeholder="Nome e Cognome" required class="form-input" />
+      <input type="email" name="email" placeholder="Email" required class="form-input" />
+      <input type="text" name="phone" placeholder="Telefono (facoltativo)" class="form-input" />
+      <input type="text" name="website" placeholder="Sito web attuale" class="form-input" />
+      <input type="text" name="location" placeholder="Città o zona di riferimento" required class="form-input" />
+
+      <select name="sector" required class="form-select">
+        <option value="">Seleziona il tuo settore</option>
+        <option value="ristorazione">Ristorante / Bar / Food</option>
+        <option value="medico">Studio medico o sanitario</option>
+        <option value="turismo">Attività turistica</option>
+        <option value="artigiano">Artigiano / Negozio fisico</option>
+        <option value="servizi">Servizi professionali</option>
+        <option value="altro">Altro</option>
+      </select>
+
+      <select name="obiettivo" required class="form-select">
+        <option value="">Qual è il tuo obiettivo principale?</option>
+        <option value="clienti">Aumentare clienti locali</option>
+        <option value="google">Ottimizzare scheda Google Business</option>
+        <option value="recensioni">Ricevere più recensioni positive</option>
+        <option value="maps">Posizionarmi su Google Maps</option>
+        <option value="valutazione">Non so, vorrei una valutazione gratuita</option>
+      </select>
+
+      <textarea name="message" placeholder="Messaggio aggiuntivo (facoltativo)" rows="4" class="form-textarea"></textarea>
+      <button type="submit" class="btn btn-primary">Invia richiesta</button>
+    </form>
+  </section>
 </Layout>

@@ -1,0 +1,84 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Button from '~/components/ui/Button.astro';
+
+const metadata = {
+  title: 'WordPress Slim: Siti Statici o Headless | LS Web Agency',
+  description: 'Trasforma il tuo sito WordPress in un sistema più veloce, sicuro e ottimizzato con la tecnologia statica o headless. Scopri WordPress Slim.',
+  canonical: '/servizi/wordpress-slim-siti-statici-headless',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="Siti WordPress più veloci e sicuri"
+    image={{
+      src: '~/assets/images/wordpress-slim-lswebagency.webp',
+      alt: 'Siti statici e headless WordPress',
+    }}
+  >
+    <Fragment slot="title">
+      <span class="text-accent text-gradient dark:text-white highlight">WordPress Slim</span>: alleggerisci il tuo sito
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Migrazione verso soluzioni statiche o headless per migliorare prestazioni, sicurezza e SEO.
+    </Fragment>
+
+    <Fragment slot="actions">
+      <Button variant="primary" href="/contatti">
+        Richiedi una valutazione gratuita
+      </Button>
+    </Fragment>
+  </Hero>
+
+  <section class="container mx-auto px-6 py-12 text-lg text-gray-700 dark:text-gray-300 max-w-3xl">
+    <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+      Cos’è WordPress Slim?
+    </h2>
+    <p class="mb-6">
+      È un servizio di conversione che trasforma il tuo sito WordPress classico in una versione
+      <strong>statica o headless</strong>, per ottenere maggiore velocità, sicurezza e semplicità di gestione.
+    </p>
+    <p>
+      Utilizziamo strumenti moderni come Astro.js, Hugo o Next.js per rendere il sito più leggero e performante,
+      mantenendo l’editing facile tramite WordPress come backend.
+    </p>
+  </section>
+
+ <Features2
+  title="Perché scegliere WordPress Slim"
+  subtitle="I benefici di passare a una soluzione più moderna e leggera"
+  columns={4}
+  items={[
+    {
+      title: '🚀 Prestazioni migliorate',
+      description: 'Un sito statico carica in una frazione di secondo e riduce drasticamente il bounce rate.',
+    },
+    {
+      title: '🔒 Più sicurezza',
+      description: 'Nessun backend esposto: il sito non può essere attaccato da bot o malware.',
+    },
+    {
+      title: '📉 Costi ridotti',
+      description: 'Hosting più economico e niente più aggiornamenti stressanti o plugin pesanti.',
+    },
+    {
+      title: '🧠 SEO più semplice',
+      description: 'Codice pulito, struttura chiara, velocità top: Google ti premierà.',
+    },
+  ]}
+/>
+
+  <CallToAction
+    title="Vuoi alleggerire e velocizzare il tuo sito WordPress?"
+    subtitle="Contattaci per scoprire se WordPress Slim è la scelta giusta per il tuo progetto."
+  >
+    <Fragment slot="actions">
+      <Button variant="primary" href="/contatti">Richiedi una consulenza gratuita</Button>
+    </Fragment>
+  </CallToAction>
+</Layout>

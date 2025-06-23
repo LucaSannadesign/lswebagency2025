@@ -1,11 +1,10 @@
 ---
-// src/pages/index.astro
-
 import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import { Fragment } from 'astro/jsx-runtime';
+import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: 'Realizzazione Siti Web Sassari | LS Web Agency & SEO',
@@ -47,78 +46,48 @@ const metadata = {
   <!-- I Nostri Servizi -->
   <section id="servizi" class="container mx-auto px-4 py-12">
     <h2 class="text-3xl font-bold text-center mb-8">I Nostri Servizi</h2>
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-      <!-- Creazione Siti Web -->
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <!-- 6 Box Servizi con icone diverse -->
       <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <div class="text-blue-600 mb-4">
-          <!-- Desktop icon -->
-          <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M4 4h16v12H4z"/>
-            <path d="M2 18h20v2H2z"/>
-          </svg>
-        </div>
+        <Icon name="tabler:device-laptop" class="w-12 h-12 text-blue-600 mb-4" />
         <h3 class="text-xl font-semibold mb-2">Creazione Siti Web</h3>
         <p class="text-gray-600 mb-4">Siti responsive, veloci e SEO-friendly.</p>
-        <a
-          href="/servizi/creazione-siti-web-sassari"
-          class="mt-auto inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition"
-        >
-          Scopri
-        </a>
+        <a href="/servizi/creazione-siti-web-sassari" class="btn-primary">Scopri</a>
       </div>
 
-      <!-- E-commerce -->
       <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <div class="text-blue-600 mb-4">
-          <!-- Shopping cart icon -->
-          <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M3 5h18l-2 11H5L3 5zm5 13a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4z"/>
-          </svg>
-        </div>
+        <Icon name="tabler:shopping-cart" class="w-12 h-12 text-blue-600 mb-4" />
         <h3 class="text-xl font-semibold mb-2">E-commerce</h3>
         <p class="text-gray-600 mb-4">Piattaforme di vendita online performanti.</p>
-        <a
-          href="/servizi/realizzazione-siti-ecommerce"
-          class="mt-auto inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition"
-        >
-          Scopri
-        </a>
+        <a href="/servizi/realizzazione-siti-ecommerce" class="btn-primary">Scopri</a>
       </div>
 
-      <!-- SEO & Posizionamento -->
       <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <div class="text-blue-600 mb-4">
-          <!-- Chart icon -->
-          <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M3 17h18v2H3zM3 12h18v2H3zM3 7h18v2H3z"/>
-          </svg>
-        </div>
+        <Icon name="tabler:chart-bar" class="w-12 h-12 text-blue-600 mb-4" />
         <h3 class="text-xl font-semibold mb-2">SEO & Posizionamento</h3>
         <p class="text-gray-600 mb-4">Strategie per scalare Google.</p>
-        <a
-          href="/servizi/ottimizzazione-seo-siti-web"
-          class="mt-auto inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition"
-        >
-          Scopri
-        </a>
+        <a href="/servizi/ottimizzazione-seo-siti-web" class="btn-primary">Scopri</a>
       </div>
 
-      <!-- Branding & Grafica -->
       <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <div class="text-blue-600 mb-4">
-          <!-- Palette icon -->
-          <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2a10 10 0 00-9 6h18a10 10 0 00-9-6zm0 4a2 2 0 110 4 2 2 0 010-4zm0 14a8 8 0 01-8-8h16a8 8 0 01-8 8z"/>
-          </svg>
-        </div>
+        <Icon name="tabler:palette" class="w-12 h-12 text-blue-600 mb-4" />
         <h3 class="text-xl font-semibold mb-2">Branding & Grafica</h3>
         <p class="text-gray-600 mb-4">Identità visiva e loghi professionali.</p>
-        <a
-          href="/servizi/branding-e-grafica-siti-web"
-          class="mt-auto inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition"
-        >
-          Scopri
-        </a>
+        <a href="/servizi/branding-e-grafica-siti-web" class="btn-primary">Scopri</a>
+      </div>
+
+      <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
+        <Icon name="tabler:database-export" class="w-12 h-12 text-blue-600 mb-4" />
+        <h3 class="text-xl font-semibold mb-2">WordPress Slim</h3>
+        <p class="text-gray-600 mb-4">Trasforma WordPress in un sito statico o headless.</p>
+        <a href="/servizi/wordpress-slim-siti-statici-headless" class="btn-primary">Scopri</a>
+      </div>
+
+      <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
+        <Icon name="tabler:robot" class="w-12 h-12 text-blue-600 mb-4" />
+        <h3 class="text-xl font-semibold mb-2">AI Blog Engine</h3>
+        <p class="text-gray-600 mb-4">Articoli SEO creati con AI e rifiniti da esperti.</p>
+        <a href="/servizi/ai-blog-engine" class="btn-primary">Scopri</a>
       </div>
     </div>
 
@@ -127,9 +96,9 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Ultimi Articoli Blog -->
+  <!-- Blog -->
   <BlogLatestPosts>
-    <Fragment slot="title">Dalla nostra guida</Fragment>
+    <Fragment slot="title">Dal nostro blog:</Fragment>
     <Fragment slot="information">
       Approfondimenti su SEO, web design e marketing digitale.
     </Fragment>
@@ -141,41 +110,31 @@ const metadata = {
     <div class="space-y-8 border-t border-gray-200 pt-8">
       <div class="border-b pb-6">
         <h3 class="text-xl font-semibold dark:text-white">Quanto costa un sito web professionale?</h3>
-        <p class="mt-2 dark:text-slate-300">
-          I prezzi variano in base al progetto. Soluzioni a partire da <strong>490€</strong>.
-        </p>
+        <p class="mt-2 dark:text-slate-300">Soluzioni a partire da <strong>490€</strong>.</p>
       </div>
       <div class="border-b pb-6">
         <h3 class="text-xl font-semibold dark:text-white">In quanto tempo viene realizzato?</h3>
-        <p class="mt-2 dark:text-slate-300">
-          Da 1–2 settimane per siti base, fino a 4 settimane per e-commerce e progetti complessi.
-        </p>
+        <p class="mt-2 dark:text-slate-300">Da 1–2 settimane per siti base, fino a 4 per progetti più grandi.</p>
       </div>
       <div class="border-b pb-6">
         <h3 class="text-xl font-semibold dark:text-white">Il sito sarà ottimizzato per Google?</h3>
-        <p class="mt-2 dark:text-slate-300">
-          Sì: applichiamo best practice SEO fin dalla fase di sviluppo.
-        </p>
+        <p class="mt-2 dark:text-slate-300">Sì: ottimizzazione SEO inclusa fin da subito.</p>
       </div>
       <div>
         <h3 class="text-xl font-semibold dark:text-white">Posso gestire il sito autonomamente?</h3>
-        <p class="mt-2 dark:text-slate-300">
-          Certo: forniamo un pannello di controllo semplice e formazione iniziale.
-        </p>
+        <p class="mt-2 dark:text-slate-300">Certo! Pannello facile da usare e formazione inclusa.</p>
       </div>
     </div>
   </section>
 
-  <!-- Call to Action Finale -->
+  <!-- Call to Action -->
   <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Prenota una consulenza gratuita',
-        href: '/contatti',
-        icon: 'tabler:message',
-      },
-    ]}
+    actions={[{
+      variant: 'primary',
+      text: 'Prenota una consulenza gratuita',
+      href: '/contatti',
+      icon: 'tabler:message'
+    }]}
   >
     <Fragment slot="title">Pronto a far crescere il tuo business online?</Fragment>
     <Fragment slot="subtitle">

@@ -8,9 +8,12 @@ export const headerData = {
       links: [
         { text: 'Creazione siti web', href: '/servizi/creazione-siti-web-sassari' },
         { text: 'Realizzazione E-commerce', href: '/servizi/realizzazione-siti-ecommerce' },
-        { text: 'Branding e Grafica', href: '/servizi/branding-e-grafica-siti-web' },
         { text: 'Ottimizzazione SEO', href: '/servizi/ottimizzazione-seo-siti-web' },
-        { text: 'Voucher Digitali', href: '/voucher-digitali-sardegna' } // Nuova voce aggiunta
+        { text: 'Branding e Grafica', href: '/servizi/branding-e-grafica-siti-web' },
+        { text: 'Accessibilità Digitale', href: '/servizi/accessibilita-digitale-avanzata' },
+        { text: 'UX con AI', href: '/servizi/personalizzazione-ux-intelligenza-artificiale' },
+        { text: 'Web Design Etico', href: '/servizi/web-design-etico-sostenibile' },
+        { text: 'Voucher Digitali', href: '/servizi/voucher-digitali-sassari' }
       ],
     },
     { text: 'Portfolio', href: '/portfolio' },
@@ -24,7 +27,7 @@ export const footerData = {
   links: [
     { text: 'Privacy Policy', href: '/privacy' },
     { text: 'Termini di Servizio', href: '/terms' },
-    { text: 'Voucher Digitali', href: '/voucher-digitali-sardegna' } // Nuovo link nel footer
+    { text: 'Voucher Digitali', href: '/servizi/voucher-digitali-sassari' }
   ],
   socialLinks: [
     { ariaLabel: 'Linkedin', icon: 'tabler:brand-linkedin', href: 'https://www.linkedin.com/company/ls-web-agency' },
