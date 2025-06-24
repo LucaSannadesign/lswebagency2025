@@ -1,7 +1,9 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
 import { defineConfig } from 'astro/config';
-import type { AstroIntegration } from 'astro';import vercel from '@astrojs/vercel';
+import type { AstroIntegration } from 'astro';
+import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
@@ -24,7 +26,6 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const hasExternalScripts = true;
-
 const whenExternalScripts = (
   items: (() => AstroIntegration) | Array<() => AstroIntegration>
 ) =>
@@ -37,60 +38,40 @@ export default defineConfig({
   adapter: vercel(),
 
   integrations: [
-    preact(),
-    react(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
+    preact({ include: ['src/components/preact/**/*.{js,jsx,ts,tsx}'] }),
+    react({ exclude: ['src/components/preact/**/*.{js,jsx,ts,tsx}'] }),
+    tailwind({ applyBaseStyles: false }),
     mdx(),
     icon({
-      include: {
-        tabler: ['*'],
-        'flat-color-icons': ['*'],
-        'fa6-brands': ['*'],
-      },
+      include: { tabler: ['*'], 'flat-color-icons': ['*'], 'fa6-brands': ['*'] },
     }),
-    ...whenExternalScripts(() =>
-      partytown({
-        config: { forward: ['dataLayer.push'] },
-      })
-    ),
+    ...whenExternalScripts(() => partytown({ config: { forward: ['dataLayer.push'] } })),
     compress({
       CSS: true,
-      HTML: {
-        'html-minifier-terser': {
-          removeAttributeQuotes: false,
-        },
-      },
+      HTML: { 'html-minifier-terser': { removeAttributeQuotes: false } },
       Image: false,
       JavaScript: true,
       SVG: false,
       Logger: 1,
     }),
-    astrowind({
-      config: './src/config.yaml',
-    }),
-    // Se ti serve: sitemap(),
+    astrowind({ config: './src/config.yaml' }),
+    // sitemap(),
   ],
 
   markdown: {
-    remarkPlugins: [
-      readingTimeRemarkPlugin,
-      remarkBreaks,
-    ],
-    rehypePlugins: [
-      responsiveTablesRehypePlugin,
-      lazyImagesRehypePlugin,
-    ],
+    remarkPlugins: [readingTimeRemarkPlugin, remarkBreaks],
+    rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
   },
 
-  vite: {
-    resolve: {
-      alias: {
-        '~': path.resolve(__dirname, './src'),
-      },
-    },
+vite: {
+  resolve: {},        // NESSUN alias!
+  esbuild: {
+    tsconfigRaw: readFileSync(
+      path.resolve(__dirname, 'tsconfig.json'),
+      'utf-8'
+    ),
   },
+},
 
   site: 'https://lswebagency.com',
 
@@ -98,7 +79,7 @@ export default defineConfig({
     {
       children: `
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag(){dataLayer.push(arguments);} 
         function loadAnalytics() {
           if (localStorage.getItem("cookiesAccepted") === "true") {
             let s = document.createElement("script");
