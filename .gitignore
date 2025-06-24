@@ -1,1 +1,15 @@
 .vercel
+# Dipendenze e build
+node_modules/
+.astro/
+dist/# Dipendenze e build
+node_modules/
+.astro/
+dist/
+
+node_modules/
+
+.astro/
+
+dist/
+
