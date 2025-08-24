@@ -3,23 +3,32 @@ import type { ImageMetadata } from 'astro';
 import type { OpenGraph } from '@astrolib/seo';
 
 /* -------------------------------------------------------
-   Loader delle immagini locali (~/assets/images/**)
+   Loader delle immagini locali (/src/assets/images/**)
+   (accetta path passati come "@/..." o "~/" e li normalizza)
 ------------------------------------------------------- */
+
+// normalizza alias "~/" e "@/" in "/src/"
+const resolveSrcAlias = (p: string) => p.replace(/^~\//, '/src/').replace(/^@\//, '/src/');
+
+// verifica se il path fa riferimento alla nostra cartella assets
+const isLocalAsset = (p?: string) =>
+  !!p && (p.startsWith('~/assets/') || p.startsWith('@/assets/'));
 
 const load = async function () {
   let images: Record<string, () => Promise<unknown>> | undefined = undefined;
   try {
+    // NB: usiamo direttamente /src/... per evitare problemi di alias nei glob
     images = import.meta.glob(
-      '~/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}'
+      '/src/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}'
     );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_err) {
-    // ignora errori: il progetto può non avere ~/assets/images
+    // Ignora: il progetto può non avere /src/assets/images
   }
   return images;
 };
 
-let _images: Record<string, () => Promise<unknown>> | undefined = undefined;
+let _images: Record<string, () => Promise<unknown>> | undefined;
 
 /** Carica (una sola volta) la mappa di immagini locali */
 export const fetchLocalImages = async () => {
@@ -30,32 +39,28 @@ export const fetchLocalImages = async () => {
 /** Risolve un path immagine.
  *  - http/https → restituito com’è (string)
  *  - /assoluto (public) → restituito com’è (string)
- *  - ~/assets/images/** → prova a risolvere in ImageMetadata via import.meta.glob
+ *  - @/assets/** o ~/assets/** → prova a risolvere in ImageMetadata via import.meta.glob
  *  - altro → restituito com’è (string)
  */
 export const findImage = async (
   imagePath?: string | ImageMetadata | null
 ): Promise<string | ImageMetadata | undefined | null> => {
-  // Non-string → lascio passare (già ImageMetadata o null/undefined)
+  // Non-string → è già ImageMetadata o null/undefined
   if (typeof imagePath !== 'string') return imagePath;
 
-  // Path assoluti o HTTP → non risolvo
-  if (
-    imagePath.startsWith('http://') ||
-    imagePath.startsWith('https://') ||
-    imagePath.startsWith('/')
-  ) {
+  // Path remoti o assoluti (public) → non risolviamo
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('/')) {
     return imagePath;
   }
 
-  // Se NON è in ~/assets/images → restituisco com’è
-  if (!imagePath.startsWith('~/assets/images')) {
+  // Se non punta ai nostri assets locali, restituisci com’è
+  if (!isLocalAsset(imagePath)) {
     return imagePath;
   }
 
-  // Provo a risolvere un asset locale via import.meta.glob
+  // Prova a risolvere un asset locale via import.meta.glob
   const images = await fetchLocalImages();
-  const key = imagePath.replace('~/', '/src/');
+  const key = resolveSrcAlias(imagePath); // "@/..."/"~/" → "/src/..."
 
   return images && typeof images[key] === 'function'
     ? ((await images[key]()) as { default: ImageMetadata }).default
@@ -66,14 +71,12 @@ export const findImage = async (
    Adattatore OpenGraph Images (versione SAFE)
    - http/https: non ottimizzare (usa width/height o default)
    - /public:    non ottimizzare (usa width/height o default)
-   - ~/assets:   prova ottimizzazione (unpic/astro:assets)
+   - @/assets o ~/: prova ottimizzazione (unpic / astro:assets)
 ------------------------------------------------------- */
 
-// helpers locali
 const isHttp = (u?: string) => !!u && /^https?:\/\//i.test(u);
 const isAbsolutePublic = (u?: string) => !!u && u.startsWith('/');
 
-/** Adatta openGraph.images evitando probe/errore su URL remoti o /public */
 export async function adaptOpenGraphImages<T extends { openGraph?: OpenGraph }>(meta: T): Promise<T> {
   const images = (meta?.openGraph as OpenGraph | undefined)?.images;
   if (!images || images.length === 0) return meta;
@@ -87,7 +90,7 @@ export async function adaptOpenGraphImages<T extends { openGraph?: OpenGraph }>(
       const url: string | undefined = o?.url;
       if (!url) return { url: '' };
 
-      // 1) URL remoti → NON ottimizzare (niente fetch dimensioni)
+      // 1) URL remoti → NON ottimizzare
       if (isHttp(url)) {
         return {
           url,
@@ -96,7 +99,7 @@ export async function adaptOpenGraphImages<T extends { openGraph?: OpenGraph }>(
         };
       }
 
-      // 2) URL assoluti (file in /public) → NON passare per astro:assets
+      // 2) /public → NON passare per astro:assets
       if (isAbsolutePublic(url)) {
         return {
           url,
@@ -105,11 +108,11 @@ export async function adaptOpenGraphImages<T extends { openGraph?: OpenGraph }>(
         };
       }
 
-      // 3) ~/assets/images/** → prova a risolvere/ottimizzare
+      // 3) "@/assets/**" o "~/**" → prova a risolvere/ottimizzare
       const resolved = (await findImage(url)) as ImageMetadata | string | undefined | null;
       if (!resolved) return { url: '' };
 
-      // 3.a) Remoto compatibile con unpic → usa unpic
+      // 3.a) Se resolvesse in URL remoto compatibile con unpic → usa unpic
       if (typeof resolved === 'string' && isHttp(resolved) && isUnpicCompatible(resolved)) {
         const out = (await unpicOptimizer(resolved, [DEFAULT_W], DEFAULT_W, DEFAULT_H, 'jpg'))[0];
         return {
@@ -119,7 +122,7 @@ export async function adaptOpenGraphImages<T extends { openGraph?: OpenGraph }>(
         };
       }
 
-      // 3.b) ImageMetadata locale (da ~/assets) → astro:assets
+      // 3.b) ImageMetadata locale (/src/assets/...) → usa astro:assets
       const dims =
         typeof resolved !== 'string' && resolved?.width && resolved.width <= DEFAULT_W
           ? [resolved.width, resolved.height]

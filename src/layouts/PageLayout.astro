@@ -1,12 +1,12 @@
 ---
-// src/layouts/PageLayout.astro
-import Layout from '~/layouts/Layout.astro';
-import Header from '~/components/widgets/Header.astro';
-import Footer from '~/components/widgets/Footer.astro';
-import Announcement from '~/components/widgets/Announcement.astro';
-import { headerData, footerData } from '~/navigation';
-import CookieConsent from '~/components/common/CookieConsent.astro';
-import type { MetaData } from '~/types';
+/* src/layouts/PageLayout.astro */
+import Layout from './Layout.astro';
+import Header from '../components/widgets/Header.astro';
+import Footer from '../components/widgets/Footer.astro';
+import Announcement from '../components/widgets/Announcement.astro';
+import { headerData, footerData } from '../navigation';
+import CookieConsent from '../components/common/CookieConsent.astro';
+import type { MetaData } from '../types';
 
 export interface Props {
   metadata?: MetaData;
@@ -20,20 +20,18 @@ const {
   },
 } = Astro.props;
 ---
-
 <Layout metadata={metadata}>
   <slot name="announcement">
     <Announcement />
   </slot>
 
   <slot name="header">
-    <!-- Ecco la modifica: aggiunto client:load -->
+    <!-- NIENTE client:load: Header è un componente Astro -->
     <Header
       {...headerData}
       isSticky
       showRssFeed
       showToggleTheme
-      client:load
     />
   </slot>
 
@@ -45,7 +43,7 @@ const {
     <Footer {...footerData} />
   </slot>
 
-  <!-- ✅ Cookie Banner -->
+  <!-- Cookie Banner di fallback (se tieni il componente dedicato, puoi anche rimuovere questo blocco inline) -->
   <div
     id="cookie-banner"
     style="
@@ -67,11 +65,7 @@ const {
       Usiamo i cookie per migliorare la tua esperienza.
       <a
         href="/privacy"
-        style="
-          color: #f1d600;
-          text-decoration: underline;
-          margin-left: 8px;
-        "
+        style="color: #f1d600; text-decoration: underline; margin-left: 8px;"
       >
         Privacy Policy
       </a>
@@ -80,14 +74,9 @@ const {
       <button
         id="accept-cookies"
         style="
-          margin-left: 12px;
-          padding: 8px 16px;
-          font-weight: bold;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          background: #f1d600;
-          color: #000;
+          margin-left: 12px; padding: 8px 16px; font-weight: bold;
+          border: none; border-radius: 4px; cursor: pointer;
+          background: #f1d600; color: #000;
         "
       >
         Accetto
@@ -95,14 +84,9 @@ const {
       <button
         id="reject-cookies"
         style="
-          margin-left: 8px;
-          padding: 8px 16px;
-          font-weight: bold;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          background: #ff4d4d;
-          color: #fff;
+          margin-left: 8px; padding: 8px 16px; font-weight: bold;
+          border: none; border-radius: 4px; cursor: pointer;
+          background: #ff4d4d; color: #fff;
         "
       >
         Rifiuta

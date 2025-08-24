@@ -1,4 +1,4 @@
-// astro.config.mjs
+// astro.config.ts
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -24,7 +24,7 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const hasExternalScripts = true;
-const whenExternalScripts = (items) =>
+const whenExternalScripts = (items: any) =>
   hasExternalScripts
     ? (Array.isArray(items) ? items.map((f) => f()) : [items()])
     : [];
@@ -59,22 +59,46 @@ export default defineConfig({
   ],
 
   markdown: {
-    remarkPlugins: [
-      readingTimeRemarkPlugin,
-      remarkBreaks,
-    ],
-    rehypePlugins: [
-      responsiveTablesRehypePlugin,
-      lazyImagesRehypePlugin,
-    ],
+    remarkPlugins: [readingTimeRemarkPlugin, remarkBreaks],
+    rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
   },
 
-vite: {
-  resolve: {
-    alias: { '~': path.resolve(__dirname, './src') },
+  vite: {
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
+    // 🔧 Workaround: normalizza i virtual id che includono "@/..."
+    plugins: [
+      {
+        name: 'fix-astro-entry-alias-in-virtual-ids',
+        enforce: 'pre',
+        resolveId(id: string) {
+          // Astro crea virtual ids con prefisso "\0astro-entry:"
+          if (id.startsWith('\0astro-entry:@/')) {
+            return id.replace('\0astro-entry:@/', '\0astro-entry:/src/');
+          }
+          if (id.startsWith('\0astro-entry:~/')) {
+            return id.replace('\0astro-entry:~/', '\0astro-entry:/src/');
+          }
+          return null;
+        },
+      },
+    ],
+    // (facoltativo) Indica esplicitamente il tsconfig a esbuild per evitare lookup strani
+    optimizeDeps: {
+      esbuildOptions: {
+        tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+      },
+    },
+    // (facoltativo) Evita che esbuild cerchi un tsconfig relativo ai virtual ids
+    esbuild: {
+      tsconfigRaw: {
+        compilerOptions: {},
+      },
+    },
   },
-  // rimosso il blocco esbuild.tsconfig perché non valido
-},
 
   headScripts: [
     {

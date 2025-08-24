@@ -1,8 +1,8 @@
 ---
-import Layout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
+import Layout from '@/layouts/PageLayout.astro';
+import Hero from '@/components/widgets/Hero.astro';
+import BlogLatestPosts from '@/components/widgets/BlogLatestPosts.astro';
+import CallToAction from '@/components/widgets/CallToAction.astro';
 import { Fragment } from 'astro/jsx-runtime';
 import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
@@ -45,7 +45,7 @@ const portfolioLatest = portfolioAll
       { text: 'I nostri servizi', href: '#servizi' },
     ]}
     image={{
-      src: '~/assets/images/realizzazione-siti-web-sassari-sardegna.webp',
+      src: '@/assets/images/realizzazione-siti-web-sassari-sardegna.webp',
       alt: 'Realizzazione siti web a Sassari',
     }}
   >

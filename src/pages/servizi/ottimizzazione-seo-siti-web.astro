@@ -1,9 +1,9 @@
 ---
-import CallToAction from '~/components/widgets/CallToAction.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Layout from '~/layouts/PageLayout.astro';
-import Button from '~/components/ui/Button.astro';
+import CallToAction from '@/components/widgets/CallToAction.astro';
+import Features2 from '@/components/widgets/Features2.astro';
+import Hero from '@/components/widgets/Hero.astro';
+import Layout from '@/layouts/PageLayout.astro';
+import Button from '@/components/ui/Button.astro';
 
 const metadata = {
   title: 'Ottimizzazione SEO a Sassari | Aumenta la Visibilità del tuo Sito',
@@ -17,7 +17,7 @@ const metadata = {
   <Hero
     tagline="SEO a Sassari per il tuo business"
     image={{
-      src: '~/assets/images/seo-ottimizzazione-ls-webagency.webp',
+      src: '@/assets/images/seo-ottimizzazione-ls-webagency.webp',
       alt: 'Ottimizzazione SEO per siti web',
     }}
   >
