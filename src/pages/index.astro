@@ -5,12 +5,36 @@ import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import { Fragment } from 'astro/jsx-runtime';
 import { Icon } from 'astro-icon/components';
+import { getCollection } from 'astro:content';
 
 const metadata = {
   title: 'Realizzazione Siti Web Sassari | LS Web Agency & SEO',
   description: 'LS Web Agency realizza siti web, e-commerce, SEO e marketing digitale su misura per aziende e professionisti a Sassari.',
   ignoreTitleTemplate: true,
 };
+
+/* ---------- Portfolio (ordinamento robusto per data) ---------- */
+const LIMIT = 8; // 2 righe x 4 colonne
+
+// timestamp sicuro: 0 se manca/è invalido → va in fondo
+const ts = (v) => {
+  const d = v instanceof Date ? v : (typeof v === 'string' ? new Date(v) : null);
+  return d && !Number.isNaN(d.getTime()) ? d.getTime() : 0;
+};
+
+const portfolioAll = await getCollection('portfolio');
+
+const portfolioLatest = portfolioAll
+  .filter((e) => !e.data.draft)
+  .slice()
+  .sort((a, b) => {
+    const tb = ts(b.data.publishDate ?? b.data.updateDate);
+    const ta = ts(a.data.publishDate ?? a.data.updateDate);
+    // per prime le date più recenti; tie-breaker sullo slug/titolo
+    return tb - ta ||
+      String(b.data.slug || b.slug || '').localeCompare(String(a.data.slug || a.slug || ''));
+  })
+  .slice(0, LIMIT);
 ---
 
 <Layout metadata={metadata}>
@@ -47,7 +71,6 @@ const metadata = {
   <section id="servizi" class="container mx-auto px-4 py-12">
     <h2 class="text-3xl font-bold text-center mb-8">I Nostri Servizi</h2>
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <!-- 6 Box Servizi con icone diverse -->
       <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
         <Icon name="tabler:device-laptop" class="w-12 h-12 text-blue-600 mb-4" />
         <h3 class="text-xl font-semibold mb-2">Creazione Siti Web</h3>
@@ -93,6 +116,46 @@ const metadata = {
 
     <div class="text-center mt-10">
       <a href="/servizi" class="btn-secondary">Scopri tutti i servizi</a>
+    </div>
+  </section>
+
+  <!-- Ultimi Lavori -->
+  <section id="ultimi-lavori" class="container mx-auto px-4 py-12">
+    <div class="mb-6 flex items-end justify-between">
+      <h2 class="text-3xl font-bold">Ultimi lavori</h2>
+      <a href="/portfolio" class="text-sm underline">Vedi tutti</a>
+    </div>
+
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      {portfolioLatest.map((item) => {
+        // permalink pulito per trailingSlash: "never"
+        const hrefRaw = item.data.permalink ?? `/portfolio/${item.data.slug || item.slug}`;
+        const href = hrefRaw.replace(/\/+$/, '');
+        const img = item.data.image;
+        return (
+          <article class="rounded-xl overflow-hidden border hover:shadow-md transition-shadow">
+            <a href={href} aria-label={`Apri: ${item.data.title}`} class="block">
+              {img?.src && (
+                <img
+                  src={img.src}
+                  alt={img.alt ?? item.data.title}
+                  width={img.width ?? 1200}
+                  height={img.height ?? 800}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-full object-cover aspect-[3/2] rounded-lg"
+                />
+              )}
+              <div class="p-4">
+                <h3 class="text-base font-semibold mb-1 line-clamp-2">{item.data.title}</h3>
+                {item.data.description && (
+                  <p class="text-sm text-gray-700 line-clamp-3">{item.data.description}</p>
+                )}
+              </div>
+            </a>
+          </article>
+        );
+      })}
     </div>
   </section>
 

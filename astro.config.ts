@@ -1,23 +1,21 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { readFileSync } from 'fs';
+// astro.config.mjs
 import { defineConfig } from 'astro/config';
-import type { AstroIntegration } from 'astro';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+// Adapter e integrazioni Astro
 import vercel from '@astrojs/vercel';
-import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
-import partytown from '@astrojs/partytown';
-import icon from 'astro-icon';
-import compress from 'astro-compress';
 import react from '@astrojs/react';
 import preact from '@astrojs/preact';
-import remarkBreaks from 'remark-breaks';
-import 'dotenv/config';
-import '@iconify/react';
-import '@iconify-json/fa6-brands';
+import icon from 'astro-icon';
+import compress from 'astro-compress';
+import partytown from '@astrojs/partytown';
+import sitemap from '@astrojs/sitemap';
 import astrowind from './vendor/integration';
 
+import remarkBreaks from 'remark-breaks';
 import {
   readingTimeRemarkPlugin,
   responsiveTablesRehypePlugin,
@@ -26,9 +24,7 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const hasExternalScripts = true;
-const whenExternalScripts = (
-  items: (() => AstroIntegration) | Array<() => AstroIntegration>
-) =>
+const whenExternalScripts = (items) =>
   hasExternalScripts
     ? (Array.isArray(items) ? items.map((f) => f()) : [items()])
     : [];
@@ -37,59 +33,60 @@ export default defineConfig({
   output: 'server',
   adapter: vercel(),
 
+  site: 'https://lswebagency.com',
+
   integrations: [
-    preact({ include: ['src/components/preact/**/*.{js,jsx,ts,tsx}'] }),
-    react({ exclude: ['src/components/preact/**/*.{js,jsx,ts,tsx}'] }),
+    preact(),
+    react(),
     tailwind({ applyBaseStyles: false }),
     mdx(),
     icon({
       include: { tabler: ['*'], 'flat-color-icons': ['*'], 'fa6-brands': ['*'] },
     }),
-    ...whenExternalScripts(() => partytown({ config: { forward: ['dataLayer.push'] } })),
+    ...whenExternalScripts(() =>
+      partytown({ config: { forward: ['dataLayer.push'] } })
+    ),
     compress({
       CSS: true,
       HTML: { 'html-minifier-terser': { removeAttributeQuotes: false } },
-      Image: false,
       JavaScript: true,
+      Image: false,
       SVG: false,
       Logger: 1,
     }),
     astrowind({ config: './src/config.yaml' }),
-    // sitemap(),
+    sitemap(),
   ],
 
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin, remarkBreaks],
-    rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
+    remarkPlugins: [
+      readingTimeRemarkPlugin,
+      remarkBreaks,
+    ],
+    rehypePlugins: [
+      responsiveTablesRehypePlugin,
+      lazyImagesRehypePlugin,
+    ],
   },
 
 vite: {
-  resolve: {},        // NESSUN alias!
-  esbuild: {
-    tsconfigRaw: readFileSync(
-      path.resolve(__dirname, 'tsconfig.json'),
-      'utf-8'
-    ),
+  resolve: {
+    alias: { '~': path.resolve(__dirname, './src') },
   },
+  // rimosso il blocco esbuild.tsconfig perché non valido
 },
-
-  site: 'https://lswebagency.com',
 
   headScripts: [
     {
       children: `
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);} 
+        function gtag(){dataLayer.push(arguments);}
         function loadAnalytics() {
-          if (localStorage.getItem("cookiesAccepted") === "true") {
-            let s = document.createElement("script");
-            s.src = "https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B";
-            s.async = true;
-            document.head.appendChild(s);
-            s.onload = () => {
-              gtag('js', new Date());
-              gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
-            };
+          if (localStorage.getItem("cookiesAccepted")==="true") {
+            const s=document.createElement("script");
+            s.src="https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B";
+            s.async=true;document.head.appendChild(s);
+            s.onload=()=>{gtag('js',new Date());gtag('config','G-FX8HDJJM7B',{anonymize_ip:true});};
           }
         }
         document.addEventListener("DOMContentLoaded", loadAnalytics);
