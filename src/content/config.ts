@@ -44,7 +44,6 @@ export const metadataDefinition = () =>
 
 /* ---------- Post (Content Layer) ---------- */
 const postCollection = defineCollection({
-  // Content Layer API: serve SOLO loader, niente "type"
   loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/content/data/post' }),
   schema: z.object({
     publishDate: z.date().optional(),
@@ -94,9 +93,8 @@ const portfolioCollection = defineCollection({
   }),
 });
 
-/* ---------- Reviews (Data Layer) ---------- */
+/* ---------- Reviews (Content Layer) ---------- */
 const reviewsCollection = defineCollection({
-  type: 'data', // esplicito (facoltativo ma chiaro)
   loader: glob({ pattern: ['*.json'], base: 'src/content/data/reviews' }),
   schema: z.object({
     author: z.string(),
