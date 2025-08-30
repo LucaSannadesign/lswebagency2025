@@ -1,6 +1,6 @@
 ---
-import Item from '~/components/blog/ListItem.astro';
-import type { Post } from '~/types';
+import Item from '@/components/blog/ListItem.astro';
+import type { Post } from '@/types';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('post');

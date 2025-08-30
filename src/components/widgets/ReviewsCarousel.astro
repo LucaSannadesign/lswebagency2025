@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  title?: string;
+  linkAllHref?: string; // link alla tua scheda Google
+  limit?: number;
+}
+const {
+  title = "Recensioni dei clienti",
+  linkAllHref = "https://www.google.com/maps/place/LS+Web+Agency/@40.7201392,8.5761945,16z/data=!4m16!1m7!3m6!1s0x12dc6402a0911c99:0x572a199f1be0a9b!2sLS+Web+Agency!8m2!3d40.7201392!4d8.5787694!16s%2Fg%2F1tg_164p!3m7!1s0x12dc6402a0911c99:0x572a199f1be0a9b!8m2!3d40.7201392!4d8.5787694!9m1!1b1!16s%2Fg%2F1tg_164p?entry=ttu",
+  limit = 4,
+} = Astro.props;
+
+const items = (await getCollection("reviews"))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, limit);
+
+const initials = (name?: string) =>
+  (name || "Cliente Google").split(/\s+/).filter(Boolean).slice(0,2).map(s => s[0]?.toUpperCase()).join("");
+---
+<section class="container mx-auto px-4 py-12" aria-labelledby="reviews-title">
+  <div class="mb-6 flex items-end justify-between">
+    <h2 id="reviews-title" class="text-3xl font-bold">{title}</h2>
+    <a href={linkAllHref} target="_blank" rel="noopener" class="text-sm underline">Vedi tutte su Google</a>
+  </div>
+
+  {items.length === 0 ? (
+    <p class="text-gray-600">Ancora nessuna recensione.</p>
+  ) : (
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((r) => (
+        <article class="p-5 border rounded-xl bg-white/70 dark:bg-slate-900/40">
+          <div class="flex items-center gap-3 mb-3">
+            {r.data.authorPhoto ? (
+              <img src={r.data.authorPhoto} alt={r.data.author}
+                   class="w-10 h-10 rounded-full object-cover" loading="lazy" decoding="async" />
+            ) : (
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-sm font-semibold text-gray-700">
+                {initials(r.data.author)}
+              </div>
+            )}
+            <div>
+              <p class="font-semibold">{r.data.author || 'Cliente Google'}</p>
+              <p class="text-xs text-gray-600">{new Date(r.data.date).toLocaleDateString("it-IT")}</p>
+            </div>
+          </div>
+
+          <div class="text-amber-500 mb-2" aria-label={`${r.data.rating} su 5`}>
+            {"★".repeat(r.data.rating)}{"☆".repeat(5 - r.data.rating)}
+          </div>
+
+          <p class="text-sm text-gray-800 dark:text-slate-200 line-clamp-5">{r.data.text}</p>
+
+          <p class="mt-3">
+            <a href={r.data.sourceUrl} target="_blank" rel="noopener" class="text-sm underline">
+              Vedi su Google
+            </a>
+          </p>
+        </article>
+      ))}
+    </div>
+  )}
+</section>

@@ -1,9 +1,9 @@
 ---
-import Layout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
-import Button from '~/components/ui/Button.astro';
+import Layout from '@/layouts/PageLayout.astro';
+import Hero from '@/components/widgets/Hero.astro';
+import Features2 from '@/components/widgets/Features2.astro';
+import CallToAction from '@/components/widgets/CallToAction.astro';
+import Button from '@/components/ui/Button.astro';
 
 const metadata = {
   title: 'WordPress Slim: Siti Statici o Headless | LS Web Agency',
@@ -16,7 +16,7 @@ const metadata = {
   <Hero
     tagline="Siti WordPress più veloci e sicuri"
     image={{
-      src: '~/assets/images/wordpress-slim-lswebagency.webp',
+      src: '@/assets/images/wordpress-slim-lswebagency.webp',
       alt: 'Siti statici e headless WordPress',
     }}
   >

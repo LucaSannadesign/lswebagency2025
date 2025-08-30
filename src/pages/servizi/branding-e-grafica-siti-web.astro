@@ -1,10 +1,10 @@
 ---
-import Features2 from '~/components/widgets/Features2.astro';
-import Features3 from '~/components/widgets/Features3.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Layout from '~/layouts/PageLayout.astro';
-import Testimonials from '~/components/widgets/Testimonials.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
+import Features2 from '@/components/widgets/Features2.astro';
+import Features3 from '@/components/widgets/Features3.astro';
+import Hero from '@/components/widgets/Hero.astro';
+import Layout from '@/layouts/PageLayout.astro';
+import Testimonials from '@/components/widgets/Testimonials.astro';
+import CallToAction from '@/components/widgets/CallToAction.astro';
 import { Icon } from '@iconify/react';
 
 const metadata = {
@@ -26,7 +26,7 @@ const metadata = {
       { text: 'Portfolio', href: '/portfolio' },
     ]}
     image={{ 
-      src: '~/assets/images/branding-grafica-ls-webagencywebp.webp', 
+      src: '@/assets/images/branding-grafica-ls-webagencywebp.webp', 
       alt: 'Studio di branding e grafica per siti web professionali a Sassari' 
     }}
   >

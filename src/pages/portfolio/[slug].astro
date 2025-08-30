@@ -1,91 +1,80 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '~/layouts/PageLayout.astro';
+import Layout from '@/layouts/PageLayout.astro';
+import { getCollection, render as renderEntry } from 'astro:content';
 
-export const prerender = true; // 👈 Aggiungiamo questa linea
+export const prerender = true;
 
-// 📌 Generiamo i percorsi statici per ogni progetto
+const short = (s = '', n = 38) => (s?.length > n ? s.slice(0, n) + '…' : s ?? '');
+const toDate = (v) => (v instanceof Date ? v : (typeof v === 'string' && v ? new Date(v) : new Date(0)));
+
 export async function getStaticPaths() {
-  const portfolio = await getCollection('portfolio');
-
-  if (!portfolio || portfolio.length === 0) {
-    console.error("Errore: La collezione 'portfolio' è vuota o non esiste.");
-    return [];
-  }
-
-  return portfolio.map((project) => ({
-    params: { slug: project.data.slug },
-    props: { project, portfolio },
-  }));
+  const all = await getCollection('portfolio');
+  return all.map((e) => ({ params: { slug: e.data.slug } }));
 }
 
-// 📌 Recuperiamo i dati passati da getStaticPaths()
-const { project, portfolio } = Astro.props || {};
+const { slug } = Astro.params;
 
-if (!project || !portfolio || !Array.isArray(portfolio)) {
-  console.error("Errore: I dati del portfolio non sono stati caricati correttamente.");
-}
+const all = await getCollection('portfolio');
+const ordered = all
+  .slice()
+  .sort(
+    (a, b) =>
+      toDate(b.data.publishDate) - toDate(a.data.publishDate) ||
+      String(a.data.slug).localeCompare(String(b.data.slug))
+  );
 
-// 📌 Troviamo l'indice del progetto attuale
-const currentIndex = Array.isArray(portfolio)
-  ? portfolio.findIndex((p) => p.data.slug === project?.data?.slug)
-  : -1;
+const entry = ordered.find((e) => e.data.slug === slug);
+if (!entry) throw new Error(`Portfolio non trovato: ${slug}`);
 
-if (currentIndex === -1) {
-  console.error("Errore: Nessun progetto trovato con slug:", project?.data?.slug);
-}
+const d = entry.data;
+const { Content } = await renderEntry(entry);
 
-// 📌 Determiniamo il progetto precedente e successivo
-const prevProject = currentIndex > 0 ? portfolio[currentIndex - 1] : null;
-const nextProject = currentIndex < portfolio.length - 1 ? portfolio[currentIndex + 1] : null;
+const idx = ordered.findIndex((e) => e.data.slug === slug);
+const prev = idx > 0 ? ordered[idx - 1] : null;
+const next = idx < ordered.length - 1 ? ordered[idx + 1] : null;
+
+const metadata = d.metadata ?? { title: d.title };
 ---
 
-<Layout metadata={{ title: project?.data?.title }}>
+<Layout metadata={metadata}>
   <section class="container mx-auto px-6 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Colonna Immagine -->
-      <div>
+    <div class="grid grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-8 items-start">
+      {d.image?.src && (
         <img
-          src={project?.data?.image?.src}
-          alt={project?.data?.image?.alt || project?.data?.title}
-          width={project?.data?.image?.width || 1024}
-          height={project?.data?.image?.height || 768}
-          class="w-full rounded-lg shadow-md object-cover"
+          src={d.image.src}
+          alt={d.image.alt ?? d.title}
+          width={d.image.width ?? 1200}
+          height={d.image.height ?? 800}
+          class="w-full rounded-2xl shadow object-cover"
+          loading="eager"
         />
-      </div>
-
-      <!-- Colonna Dettagli -->
+      )}
       <div>
-        <h1 class="text-3xl font-bold">{project?.data?.title}</h1>
-        <p class="text-gray-600 mt-2">{project?.data?.description}</p>
-
-        {project?.data?.category && (
-          <p class="mt-4">
-            <strong>Categoria:</strong> {project?.data?.category}
-          </p>
-        )}
-
-        {project?.data?.technologies && (
-          <p class="mt-4">
-            <strong>Tecnologie:</strong> {project?.data?.technologies.join(', ')}
-          </p>
+        <h1 class="text-4xl font-bold mb-3 dark:text-white">{d.title}</h1>
+        {d.description && <p class="text-gray-600 dark:text-gray-300 mb-4">{d.description}</p>}
+        {d.category && <p class="mt-2"><strong>Categoria:</strong> {d.category}</p>}
+        {d.technologies?.length && (
+          <p class="mt-2"><strong>Tecnologie:</strong> {d.technologies.join(', ')}</p>
         )}
       </div>
     </div>
 
-    <!-- 🔥 Navigazione tra i progetti con titoli limitati -->
-    <div class="mt-12 flex justify-between text-center">
-      {prevProject ? (
-        <a href={`/portfolio/${prevProject.data.slug}`} class="text-primary font-semibold hover:underline">
-          ← {prevProject.data.title.length > 30 ? prevProject.data.title.substring(0, 30) + "..." : prevProject.data.title}
-        </a>
-      ) : <span></span>}
-
-      {nextProject ? (
-        <a href={`/portfolio/${nextProject.data.slug}`} class="text-primary font-semibold hover:underline">
-          {nextProject.data.title.length > 30 ? nextProject.data.title.substring(0, 30) + "..." : nextProject.data.title} →
-        </a>
-      ) : <span></span>}
+    <!-- ✅ Tipografia con inversione automatica in dark -->
+    <div class="prose prose-slate lg:prose-lg dark:prose-invert max-w-none mt-10">
+      <Content />
     </div>
+
+    <nav class="mt-12 flex justify-between text-sm">
+      {prev ? (
+        <a href={`/portfolio/${prev.data.slug}`} class="text-primary hover:underline">
+          ← {short(prev.data.title)}
+        </a>
+      ) : <span></span>}
+      {next ? (
+        <a href={`/portfolio/${next.data.slug}`} class="text-primary hover:underline">
+          {short(next.data.title)} →
+        </a>
+      ) : <span></span>}
+    </nav>
   </section>
 </Layout>

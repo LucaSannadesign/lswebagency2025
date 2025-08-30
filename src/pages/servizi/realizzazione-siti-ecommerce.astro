@@ -1,10 +1,10 @@
 ---
-import Features2 from '~/components/widgets/Features2.astro';
-import Features3 from '~/components/widgets/Features3.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Layout from '~/layouts/PageLayout.astro';
-import Testimonials from '~/components/widgets/Testimonials.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
+import Features2 from '@/components/widgets/Features2.astro';
+import Features3 from '@/components/widgets/Features3.astro';
+import Hero from '@/components/widgets/Hero.astro';
+import Layout from '@/layouts/PageLayout.astro';
+import Testimonials from '@/components/widgets/Testimonials.astro';
+import CallToAction from '@/components/widgets/CallToAction.astro';
 import { Icon } from '@iconify/react';
 
 const metadata = {
@@ -25,7 +25,7 @@ const metadata = {
       { text: 'Portfolio', href: '/portfolio' },
     ]}
     image={{ 
-      src: '~/assets/images/ecommerce-business-online.webp', 
+      src: '@/assets/images/ecommerce-business-online.webp', 
       alt: 'Negozio online con prodotti in vendita e dashboard di gestione e-commerce', 
       width: 800, 
       height: 600 

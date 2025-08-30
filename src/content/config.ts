@@ -1,6 +1,7 @@
 import { z, defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+/* ---------- Metadata comune ---------- */
 export const metadataDefinition = () =>
   z
     .object({
@@ -21,7 +22,7 @@ export const metadataDefinition = () =>
           images: z
             .array(
               z.object({
-                url: z.string().min(1, "Il percorso dell'immagine non può essere vuoto."), // Assicura che il percorso non sia vuoto
+                url: z.string().min(1, "Il percorso dell'immagine non può essere vuoto."),
                 width: z.number().positive().optional(),
                 height: z.number().positive().optional(),
               })
@@ -41,7 +42,7 @@ export const metadataDefinition = () =>
     })
     .optional();
 
-// ✅ Collezione per i post del blog
+/* ---------- Post (Content Layer) ---------- */
 const postCollection = defineCollection({
   loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/content/data/post' }),
   schema: z.object({
@@ -50,15 +51,17 @@ const postCollection = defineCollection({
     draft: z.boolean().optional(),
     title: z.string(),
     excerpt: z.string().optional(),
-    image: z.union([
-      z.string(), // Permette di usare stringhe ("/assets/images/...")
-      z.object({
-        src: z.string(),
-        alt: z.string().optional(),
-        width: z.number().optional(),
-        height: z.number().optional(),
-      }),
-    ]).optional(),
+    image: z
+      .union([
+        z.string(),
+        z.object({
+          src: z.string(),
+          alt: z.string().optional(),
+          width: z.number().optional(),
+          height: z.number().optional(),
+        }),
+      ])
+      .optional(),
     category: z.string().optional(),
     tags: z.array(z.string()).optional(),
     author: z.string().optional(),
@@ -66,9 +69,9 @@ const postCollection = defineCollection({
   }),
 });
 
-// ✅ Collezione per il portfolio
+/* ---------- Portfolio (Content Layer) ---------- */
 const portfolioCollection = defineCollection({
-  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/content/data/portfolio' }), // Percorso per i progetti portfolio
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/content/data/portfolio' }),
   schema: z.object({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
@@ -90,7 +93,22 @@ const portfolioCollection = defineCollection({
   }),
 });
 
+/* ---------- Reviews (Content Layer) ---------- */
+const reviewsCollection = defineCollection({
+  loader: glob({ pattern: ['*.json'], base: 'src/content/data/reviews' }),
+  schema: z.object({
+    author: z.string(),
+    rating: z.number().min(1).max(5),
+    text: z.string(),
+    date: z.string(), // ISO es. "2025-08-24"
+    source: z.literal('Google'),
+    sourceUrl: z.string().url(),
+    authorPhoto: z.string().optional(),
+  }),
+});
+
 export const collections = {
   post: postCollection,
   portfolio: portfolioCollection,
+  reviews: reviewsCollection,
 };

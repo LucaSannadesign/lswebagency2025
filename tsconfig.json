@@ -5,12 +5,12 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "@/*": ["src/*"]
     },
-    "types": ["node"]               /* per riconoscere __dirname, path, fileURLToPath, ecc. */
+    "types": ["node"]
   },
   "include": [
-    ".astro/types.d.ts", 
+    ".astro/types.d.ts",
     "**/*"
   ],
   "exclude": [
