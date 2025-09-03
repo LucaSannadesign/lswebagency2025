@@ -110,6 +110,8 @@ const {
       <!-- Preventivi -->
       <div class="col-span-6 md:col-span-3">
         <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Per richieste di preventivi</div>
+
+        <!-- Email -->
         <p class="text-sm text-gray-600 dark:text-gray-400">
           Scrivere a: 
           <a
@@ -119,21 +121,50 @@ const {
             info@lswebagency.com
           </a>
         </p>
-        <div class="mt-2 flex items-center space-x-3">
-          {
-            secondaryLinks.map(({ href, icon, text }) => (
-              <a
-                href={href}
-                rel="noopener noreferrer"
-                target="_blank"
-                class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-white hover:underline"
-              >
-                {icon && <Icon name={icon} class="w-5 h-5" />}
-                <span>{text}</span>
-              </a>
-            ))
-          }
+
+        <!-- Contatti diretti: WhatsApp + Telegram (icone ufficiali, senza bordi) -->
+        <div class="mt-3 flex items-center gap-3">
+          <a
+            href="https://wa.me/393403223494"
+            aria-label="Scrivimi su WhatsApp al +39 340 322 3494"
+            title="WhatsApp"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-xl hover:opacity-90 transition select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-current/40 focus-visible:ring-offset-2"
+          >
+            <img src="/icons/whatsapp.svg" alt="WhatsApp" width="28" height="28" loading="lazy" decoding="async" class="h-7 w-7" />
+          </a>
+
+          <a
+            href="https://t.me/lswebagency"
+            aria-label="Scrivimi su Telegram"
+            title="Telegram"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-xl hover:opacity-90 transition select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-current/40 focus-visible:ring-offset-2"
+          >
+            <img src="/icons/telegram.svg" alt="Telegram" width="28" height="28" loading="lazy" decoding="async" class="h-7 w-7" />
+          </a>
         </div>
+
+        <!-- Eventuali link testuali aggiuntivi -->
+        {secondaryLinks.length > 0 && (
+          <div class="mt-3 flex flex-col space-y-2">
+            {
+              secondaryLinks.map(({ href, icon, text }) => (
+                <a
+                  href={href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-white hover:underline"
+                >
+                  {icon && <Icon name={icon} class="w-5 h-5" />}
+                  <span>{text}</span>
+                </a>
+              ))
+            }
+          </div>
+        )}
       </div>
     </div>
 
