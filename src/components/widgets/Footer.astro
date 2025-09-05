@@ -16,7 +16,6 @@ export interface Props {
   theme?: string;
 }
 
-// Props di default
 const {
   socialLinks = [],
   secondaryLinks = [],
@@ -27,44 +26,41 @@ const {
 
 <footer class={`relative border-t border-gray-200 dark:border-slate-800 not-prose ${theme === 'dark' ? 'dark' : ''}`}>
   <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-gray-200">
     <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
       
-      <!-- Logo e descrizione -->
+      <!-- Colonna sinistra: logo, descrizione, social -->
       <div class="col-span-12 lg:col-span-3">
         <a class="flex items-center mb-2" href={getHomePermalink()}>
-          <img
-            src="/images/logo-ls-webdesignagency-2025.svg"
-            alt="LS Web Design Agency"
-            class="h-10 w-auto dark:hidden"
-          />
-          <img
-            src="/images/logo-ls-webdesignagency-2025-bn.svg"
-            alt="LS Web Design Agency"
-            class="h-10 w-auto hidden dark:block"
-          />
+          <img src="/images/logo-ls-webdesignagency-2025.svg" alt="LS Web Design Agency" class="h-10 w-auto dark:hidden" />
+          <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="LS Web Design Agency" class="h-10 w-auto hidden dark:block" />
         </a>
+
         <p class="text-sm text-gray-600 dark:text-gray-400">
           Agenzia web specializzata nella creazione di siti internet e posizionamento SEO a Sassari e Sardegna.
         </p>
 
-        <div class="mt-4">
-          <span class="font-semibold text-gray-800 dark:text-gray-200">Social</span>
-          <div class="flex mt-2 space-x-4">
-            {
-              socialLinks.map(({ href, icon }) => (
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition"
-                >
-                  {icon && <Icon name={icon} class="w-5 h-5" />}
-                </a>
-              ))
-            }
+        {socialLinks.length > 0 && (
+          <div class="mt-4">
+            <span class="font-semibold text-gray-800 dark:text-gray-200">Social</span>
+            <div class="mt-2 flex items-center gap-3">
+              {
+                socialLinks.map(({ href, icon, ariaLabel }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={ariaLabel}
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
+                  >
+                    {icon && <Icon name={icon} class="w-5 h-5" />}
+                  </a>
+                ))
+              }
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <!-- Dove siamo -->
@@ -72,11 +68,7 @@ const {
         <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Dove siamo</div>
         <p class="text-sm text-gray-600 dark:text-gray-400">
           <strong>LS Web Agency</strong><br />
-          di <a
-            href="https://www.lucasanna.eu/"
-            target="_blank"
-            class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline"
-          >Luca Sanna</a><br />
+          di <a href="https://www.lucasanna.eu/" target="_blank" class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline">Luca Sanna</a><br />
           Via Alcide De Gasperi, 3<br />
           07100 Sassari, Sardegna, Italia<br />
           P. Iva: 02929290902
@@ -96,10 +88,7 @@ const {
             { text: 'Contatti', href: '/contatti' },
           ].map((item) => (
             <li>
-              <a
-                href={item.href}
-                class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline"
-              >
+              <a href={item.href} class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline">
                 {item.text}
               </a>
             </li>
@@ -107,49 +96,43 @@ const {
         </ul>
       </div>
 
-      <!-- Preventivi -->
-      <div class="col-span-6 md:col-span-3">
-        <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Per richieste di preventivi</div>
+<!-- Preventivi + Contatti + Social (a destra) -->
+<div class="col-span-12 md:col-span-4 lg:col-span-4">
+  <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Per richieste di preventivi</div>
 
-        <!-- Email -->
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-          Scrivere a: 
-          <a
-            href="mailto:info@lswebagency.com"
-            class="font-medium text-link hover:underline text-gray-700 dark:text-gray-300 hover:text-white"
-          >
-            info@lswebagency.com
-          </a>
-        </p>
+  <!-- Email -->
+  <p class="text-sm text-gray-600 dark:text-gray-400">
+    Scrivere a: 
+    <a
+      href="mailto:info@lswebagency.com"
+      class="font-medium text-link hover:underline text-gray-700 dark:text-gray-300 hover:text-white"
+    >
+      info@lswebagency.com
+    </a>
+  </p>
 
-        <!-- Contatti diretti: WhatsApp + Telegram (icone ufficiali, senza bordi) -->
-        <div class="mt-3 flex items-center gap-3">
-          <a
-            href="https://wa.me/393403223494"
-            aria-label="Scrivimi su WhatsApp al +39 340 322 3494"
-            title="WhatsApp"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl hover:opacity-90 transition select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-current/40 focus-visible:ring-offset-2"
-          >
-            <img src="/icons/whatsapp.svg" alt="WhatsApp" width="28" height="28" loading="lazy" decoding="async" class="h-7 w-7" />
-          </a>
+  <!-- Contatti diretti: WhatsApp + Telegram -->
 
-          <a
-            href="https://t.me/lswebagency"
-            aria-label="Scrivimi su Telegram"
-            title="Telegram"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl hover:opacity-90 transition select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-current/40 focus-visible:ring-offset-2"
-          >
-            <img src="/icons/telegram.svg" alt="Telegram" width="28" height="28" loading="lazy" decoding="async" class="h-7 w-7" />
-          </a>
-        </div>
+<!-- Titolo aggiunto -->
+  <div class="mt-4 font-semibold text-gray-800 dark:text-gray-200">
+    Contatti diretti
+  </div>
 
-        <!-- Eventuali link testuali aggiuntivi -->
+  <!-- WhatsApp + Telegram (icone) -->
+  <div class="mt-2 flex items-center gap-3">
+    <a href="https://wa.me/393403223494" aria-label="Scrivimi su WhatsApp"
+       class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition">
+      <Icon name="tabler:brand-whatsapp" class="w-5 h-5" />
+    </a>
+
+    <a href="https://t.me/lswebagency" aria-label="Scrivimi su Telegram"
+       class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition">
+      <Icon name="tabler:brand-telegram" class="w-5 h-5" />
+    </a>
+  </div>
+
         {secondaryLinks.length > 0 && (
-          <div class="mt-3 flex flex-col space-y-2">
+          <div class="mt-4 flex flex-col space-y-2">
             {
               secondaryLinks.map(({ href, icon, text }) => (
                 <a
@@ -168,21 +151,15 @@ const {
       </div>
     </div>
 
-    <!-- Footer Bottom -->
+    <!-- Bottom -->
     <div class="md:flex md:items-center md:justify-between py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
       <p class="text-sm text-gray-600 dark:text-gray-400">
         © 2025 <strong class="text-gray-800 dark:text-gray-200">LS Web Agency</strong>. Tutti i diritti riservati.
       </p>
       <div class="text-sm space-x-2">
-        <a
-          href="/privacy"
-          class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline"
-        >Privacy & Cookie Policy</a>
+        <a href="/privacy" class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline">Privacy & Cookie Policy</a>
         |
-        <a
-          href="/sitemap"
-          class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline"
-        >Sitemap</a>
+        <a href="/sitemap" class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline">Sitemap</a>
       </div>
     </div>
 

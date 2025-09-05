@@ -25,9 +25,7 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const hasExternalScripts = true;
 const whenExternalScripts = (items: any) =>
-  hasExternalScripts
-    ? (Array.isArray(items) ? items.map((f) => f()) : [items()])
-    : [];
+  hasExternalScripts ? (Array.isArray(items) ? items.map((f) => f()) : [items()]) : [];
 
 export default defineConfig({
   output: 'server',
@@ -40,8 +38,17 @@ export default defineConfig({
     react(),
     tailwind({ applyBaseStyles: false }),
     mdx(),
+    // 👇 astro-icon: abilita anche il set "local" (src/icons)
     icon({
-      include: { tabler: ['*'], 'flat-color-icons': ['*'], 'fa6-brands': ['*'] },
+      iconDir: 'src/icons',               // <— cartella icone locali (whatsapp.svg / telegram.svg)
+      include: {
+        local: ['*'],                     // <— carica tutte le icone locali
+        tabler: ['*'],
+        'flat-color-icons': ['*'],
+        'fa6-brands': ['*'],
+        // Se in futuro vuoi usare anche simple-icons, abilita e installa il pacchetto:
+        // 'simple-icons': ['whatsapp', 'telegram', 'linkedin', 'facebook', 'instagram'],
+      },
     }),
     ...whenExternalScripts(() =>
       partytown({ config: { forward: ['dataLayer.push'] } })
@@ -69,13 +76,12 @@ export default defineConfig({
         '@': path.resolve(__dirname, './src'),
       },
     },
-    // 🔧 Workaround: normalizza i virtual id che includono "@/..."
+    // 🔧 Workaround: normalizza i virtual id che includono "@/..." o "~/".
     plugins: [
       {
         name: 'fix-astro-entry-alias-in-virtual-ids',
         enforce: 'pre',
         resolveId(id: string) {
-          // Astro crea virtual ids con prefisso "\0astro-entry:"
           if (id.startsWith('\0astro-entry:@/')) {
             return id.replace('\0astro-entry:@/', '\0astro-entry:/src/');
           }
@@ -86,17 +92,13 @@ export default defineConfig({
         },
       },
     ],
-    // (facoltativo) Indica esplicitamente il tsconfig a esbuild per evitare lookup strani
     optimizeDeps: {
       esbuildOptions: {
         tsconfig: path.resolve(__dirname, 'tsconfig.json'),
       },
     },
-    // (facoltativo) Evita che esbuild cerchi un tsconfig relativo ai virtual ids
     esbuild: {
-      tsconfigRaw: {
-        compilerOptions: {},
-      },
+      tsconfigRaw: { compilerOptions: {} },
     },
   },
 
