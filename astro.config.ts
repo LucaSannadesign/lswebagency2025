@@ -38,16 +38,12 @@ export default defineConfig({
     react(),
     tailwind({ applyBaseStyles: false }),
     mdx(),
-    // 👇 astro-icon: abilita anche il set "local" (src/icons)
+    // ✅ astro-icon: usa solo set locale + tabler
     icon({
-      iconDir: 'src/icons',               // <— cartella icone locali (whatsapp.svg / telegram.svg)
+      iconDir: 'src/icons',     // dove metti whatsapp.svg / telegram.svg (se li usi)
       include: {
-        local: ['*'],                     // <— carica tutte le icone locali
-        tabler: ['*'],
-        'flat-color-icons': ['*'],
-        'fa6-brands': ['*'],
-        // Se in futuro vuoi usare anche simple-icons, abilita e installa il pacchetto:
-        // 'simple-icons': ['whatsapp', 'telegram', 'linkedin', 'facebook', 'instagram'],
+        local: ['*'],           // abilita tutte le icone locali
+        tabler: ['*'],          // brand-whatsapp / brand-telegram
       },
     }),
     ...whenExternalScripts(() =>
@@ -76,7 +72,7 @@ export default defineConfig({
         '@': path.resolve(__dirname, './src'),
       },
     },
-    // 🔧 Workaround: normalizza i virtual id che includono "@/..." o "~/".
+    // 🔧 Workaround per virtual ids con "@/..." o "~/".
     plugins: [
       {
         name: 'fix-astro-entry-alias-in-virtual-ids',
