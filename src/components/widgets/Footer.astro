@@ -179,7 +179,12 @@ const NAV = [
         <!-- La Sitemap XML è per i bot: vedi nota sotto -->
       </div>
     </div>
-
+<button
+  type="button"
+  class="underline text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+  onclick="window.__openConsentBanner && window.__openConsentBanner()">
+  Gestisci preferenze cookie
+</button>
     {footNote && (
       <p class="text-center text-xs text-gray-600 dark:text-gray-400 mt-4">
         {footNote}

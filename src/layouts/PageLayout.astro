@@ -1,11 +1,13 @@
 ---
 import Layout from './Layout.astro';
-import Header from '../components/widgets/Header.astro';
-import Footer from '../components/widgets/Footer.astro';
-import Announcement from '../components/widgets/Announcement.astro';
-import { headerData, footerData } from '../navigation';
-import CookieConsent from '../components/common/CookieConsent.astro';
-import type { MetaData } from '../types';
+
+import Header from '@/components/widgets/Header.astro';
+import Footer from '@/components/widgets/Footer.astro';
+import Announcement from '@/components/widgets/Announcement.astro';
+import { headerData, footerData } from '@/navigation';
+
+import CookieConsent from '@/components/common/CookieConsent.astro';
+import type { MetaData } from '@/types';
 
 export interface Props {
   metadata?: MetaData;
@@ -13,9 +15,9 @@ export interface Props {
 
 const {
   metadata = {
-    title: 'Titolo di default',
-    description: 'Descrizione di default',
-    canonical: 'https://www.lswebagency.com/',
+    title: 'LS Web Agency',
+    description: 'Creazione siti web professionali, SEO e performance.',
+    canonical: '/',
   },
 } = Astro.props;
 ---
@@ -42,28 +44,6 @@ const {
     <Footer {...footerData} />
   </slot>
 
-  <!-- Banner cookie di fallback -->
-  <div
-    id="cookie-banner"
-    style="
-      position: fixed; bottom: 0; left: 0; width: 100%;
-      background: #000; color: #fff; padding: 1rem; display: none;
-      justify-content: space-between; align-items: center; z-index: 9999; font-size: 14px;
-    "
-  >
-    <span>
-      Usiamo i cookie per migliorare la tua esperienza.
-      <a href="/privacy" style="color:#f1d600; text-decoration: underline; margin-left: 8px;">Privacy Policy</a>
-    </span>
-    <div>
-      <button id="accept-cookies" style="margin-left:12px; padding:8px 16px; font-weight:bold; border:none; border-radius:4px; cursor:pointer; background:#f1d600; color:#000;">
-        Accetto
-      </button>
-      <button id="reject-cookies" style="margin-left:8px; padding:8px 16px; font-weight:bold; border:none; border-radius:4px; cursor:pointer; background:#ff4d4d; color:#fff;">
-        Rifiuta
-      </button>
-    </div>
-  </div>
-
+  <!-- Banner cookie (self-hosted, CSP-safe). Espone window.__openConsentBanner() -->
   <CookieConsent />
 </Layout>
