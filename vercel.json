@@ -18,7 +18,7 @@
 
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; form-action 'self' https://www.paypal.com; frame-ancestors 'none'; upgrade-insecure-requests; frame-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; child-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.paypalobjects.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleusercontent.com https://www.google.com; font-src 'self' data:;"
+          "value": "default-src 'self'; base-uri 'self'; form-action 'self' https://www.paypal.com; frame-ancestors 'none'; upgrade-insecure-requests; frame-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; child-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.paypalobjects.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleusercontent.com https://www.google.com; font-src 'self' data:;"
         }
       ]
     },
@@ -54,6 +54,9 @@
     { "source": "/metodi-di-pagamento",     "destination": "/pagamenti",                    "permanent": true },
     { "source": "/servizi/pagamenti",       "destination": "/pagamenti",                    "permanent": true },
 
-    { "source": "/servizi/local-seo",       "destination": "/servizi/local-seo-booster",    "permanent": true }
+    { "source": "/servizi/local-seo",       "destination": "/servizi/local-seo-booster",    "permanent": true },
+
+    { "source": "/privacy-policy",          "destination": "/privacy",                      "permanent": true },
+    { "source": "/cookie-policy",           "destination": "/privacy",                      "permanent": true }
   ]
 }

@@ -1,168 +1,121 @@
 ---
-/* === Global HEAD + SEO sane defaults ===================================== */
-
-import "@/assets/styles/tailwind.css";
-import { I18N } from "astrowind:config";
-
-import Favicons from "@/components/Favicons.astro";
-import CustomStyles from "@/components/CustomStyles.astro";
-import ApplyColorMode from "@/components/common/ApplyColorMode.astro";
-import SiteVerification from "@/components/common/SiteVerification.astro";
-import BasicScripts from "@/components/common/BasicScripts.astro";
-// ⛔️ Tenere fuori qui componenti che iniettano nuovamente meta OG/Twitter/Title
-//    (es. CommonMeta/Metadata/Analytics duplicanti) per evitare conflitti.
-
-import { ClientRouter } from "astro:transitions";
-import type { MetaData as MetaDataType } from "@/types";
-
-export interface Props {
-  metadata?: MetaDataType & {
-    /** Opzionale: uno o più blocchi JSON-LD da iniettare nel <head> della singola pagina */
-    jsonLd?: Record<string, any> | Record<string, any>[];
-  };
-}
-
-/* ----------------------------- Helpers ---------------------------------- */
-const SITE_TITLE = "LS Web Agency";
-const siteBase = (Astro.site?.toString?.() || "https://lswebagency.com").replace(/\/+$/, "");
-const toAbs = (u: string) => (u?.startsWith("http") ? u : `${siteBase}${u?.startsWith("/") ? "" : "/"}${u}`);
-
-const md = (Astro.props.metadata ?? {}) as Props["metadata"];
-
-/* ------------------------------ Title ----------------------------------- */
-// Rispetta ignoreTitleTemplate ed evita doppi "LS Web Agency"
-const rawTitle = (md?.title ?? SITE_TITLE).trim();
-const useTemplate = md?.ignoreTitleTemplate ? false : true;
-const pageTitle =
-  useTemplate && rawTitle !== SITE_TITLE && !rawTitle.includes(SITE_TITLE)
-    ? `${rawTitle} — ${SITE_TITLE}`
-    : rawTitle;
-
-/* --------------------------- Description -------------------------------- */
-const pageDescription =
-  md?.description ??
-  "Creazione siti web professionali, SEO e marketing digitale. Soluzioni su misura per aziende e professionisti.";
-
-/* ----------------------------- Robots ----------------------------------- */
-const robotsCfg = md?.robots ?? { index: true, follow: true };
-const robotsContent = [
-  robotsCfg.index === false ? "noindex" : "index",
-  robotsCfg.follow === false ? "nofollow" : "follow",
-].join(", ");
-
-/* ---------------------------- Canonical --------------------------------- */
-const canonicalIn = md?.canonical ?? Astro.url?.pathname ?? "/";
-const canonicalUrl = canonicalIn.startsWith("http")
-  ? canonicalIn
-  : `${siteBase}${canonicalIn.startsWith("/") ? "" : "/"}${canonicalIn}`;
-
-/* ----------------------- Open Graph / Twitter --------------------------- */
-const og = md?.openGraph ?? {};
-const ogType = og.type ?? "website";
-const ogSiteName = og.siteName ?? SITE_TITLE;
-
-const ogUrl = toAbs(og.url ?? canonicalUrl);
-
-// ✅ Fallback immagine social unificato su /images/default-og-image.jpg
-const ogImagesRaw =
-  Array.isArray(og.images) && og.images.length > 0
-    ? og.images
-    : [{ url: "/images/default-og-image.jpg", width: 1200, height: 628 }];
-const ogImages = ogImagesRaw.map((img) => ({ ...img, url: toAbs(img.url) }));
-
-const tw = md?.twitter ?? {};
-const twCard = tw.cardType ?? "summary_large_image";
-const twImage = ogImages[0]?.url ?? toAbs("/images/default-og-image.jpg");
-const twHandle = tw.handle ?? "@lswebagency";
-const twSite = tw.site ?? "@lswebagency";
-
-/* --------------------------- JSON-LD per pagina ------------------------- */
-const jsonLdBlocks = md?.jsonLd
-  ? (Array.isArray(md.jsonLd) ? md.jsonLd : [md.jsonLd]).filter(Boolean)
-  : [];
+/**
+ * Banner cookie self-hosted + Google Consent Mode v2.
+ * Carica GA4 SOLO dopo consenso (usa PUBLIC_GA4_ID se presente).
+ */
+const GA_ID = import.meta.env.PUBLIC_GA4_ID || '';
 ---
 
-<!doctype html>
-<html lang={I18N.language} dir={I18N.textDirection} class="2xl:text-[20px]">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<div
+  id="cookie-banner"
+  class="hidden fixed inset-x-0 bottom-0 z-[9999] border-t ring-1 ring-neutral-200 dark:ring-neutral-800
+         bg-white/95 dark:bg-neutral-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+  <div class="mx-auto max-w-5xl px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+    <p class="text-sm text-neutral-700 dark:text-neutral-300 flex-1">
+      Usiamo cookie tecnici e, previo consenso, cookie analitici/marketing.
+      Puoi accettare o rifiutare ora e cambiare scelta in qualsiasi momento.
+      Leggi la nostra <a href="/privacy-cookie-policy" class="underline">Cookie Policy</a>.
+    </p>
 
-    <!-- =========================
-         Primary meta
-    ========================== -->
-    <title>{pageTitle}</title>
-    <meta name="description" content={pageDescription} />
-    <meta name="robots" content={robotsContent} />
-    <link rel="canonical" href={canonicalUrl} />
+    <div class="flex gap-2 shrink-0">
+      <button type="button" class="px-4 py-2 rounded-full ring-1 ring-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              onclick="window.__rejectAllCookies?.()">
+        Rifiuta
+      </button>
+      <button type="button" class="px-4 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700"
+              onclick="window.__acceptAllCookies?.()">
+        Accetta
+      </button>
+    </div>
+  </div>
+</div>
 
-    <!-- =========================
-         Open Graph
-    ========================== -->
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={pageDescription} />
-    <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={ogUrl} />
-    <meta property="og:site_name" content={ogSiteName} />
-    {ogImages.map((img) => (
-      <>
-        <meta property="og:image" content={img.url} />
-        <meta property="og:image:secure_url" content={img.url} />
-        {img.width && <meta property="og:image:width" content={String(img.width)} />}
-        {img.height && <meta property="og:image:height" content={String(img.height)} />}
-      </>
-    ))}
+<script is:inline define:vars={{ GA_ID }}>
+(function () {
+  const KEY = 'lsw-consent-v2';
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
 
-    <!-- =========================
-         Twitter
-    ========================== -->
-    <meta name="twitter:card" content={twCard} />
-    <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={pageDescription} />
-    <meta name="twitter:image" content={twImage} />
-    <meta name="twitter:site" content={twSite} />
-    <meta name="twitter:creator" content={twHandle} />
+  // Default: tutto negato tranne storage funzionali/sicurezza
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
 
-    <!-- =========================
-         Favicons / Styles / Color mode
-    ========================== -->
-    <Favicons />
-    <CustomStyles />
-    <ApplyColorMode />
+  function $(id){ return document.getElementById(id); }
+  function show(){ $('cookie-banner')?.classList.remove('hidden'); }
+  function hide(){ $('cookie-banner')?.classList.add('hidden'); }
 
-    <!-- =========================
-         Site verification (Search Console, ecc.)
-    ========================== -->
-    <SiteVerification />
+  function loadGA() {
+    if (!GA_ID || window.__gaLoaded) return;
+    window.__gaLoaded = true;
 
-    <!-- =========================
-         Perf hints
-    ========================== -->
-    <link rel="preconnect" href="https://www.paypal.com" crossorigin />
-    <link rel="dns-prefetch" href="https://www.paypal.com" />
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    // carica la libreria gtag
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(s);
 
-    <!-- =========================
-         Client-side transitions
-    ========================== -->
-    <ClientRouter fallback="swap" />
+    // inizializza
+    gtag('js', new Date());
+    gtag('config', GA_ID, { anonymize_ip: true });
+  }
 
-    <!-- =========================
-         Google Analytics
-         (rimosso qui: ora è caricato da CookieConsent.astro dopo consenso)
-    ========================== -->
+  function applyConsentFromStorage() {
+    const saved = localStorage.getItem(KEY);
+    if (saved === 'granted') {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        analytics_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted'
+      });
+      loadGA();
+    }
+    return saved;
+  }
 
-    <!-- =========================
-         JSON-LD per pagina (se passato via metadata.jsonLd)
-    ========================== -->
-    {jsonLdBlocks.map((block) => (
-      <script type="application/ld+json" is:inline>{JSON.stringify(block)}</script>
-    ))}
-  </head>
+  // Bottoni globali (e per eventuale link “Gestisci consenso” nel footer)
+  window.__acceptAllCookies = function () {
+    localStorage.setItem(KEY, 'granted');
+    gtag('consent', 'update', {
+      ad_storage: 'granted',
+      analytics_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted'
+    });
+    loadGA();
+    hide();
+  };
 
-  <body class="antialiased text-default bg-page tracking-tight">
-    <slot />
-    <BasicScripts />
-  </body>
-</html>
+  window.__rejectAllCookies = function () {
+    localStorage.setItem(KEY, 'denied');
+    gtag('consent', 'update', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
+    hide();
+  };
+
+  window.__openConsentBanner = function () { show(); };
+
+  // Prima vista
+  document.addEventListener('DOMContentLoaded', function () {
+    const saved = applyConsentFromStorage();
+    if (!saved) show();
+  });
+
+  // Navigazioni client-side (Astro View Transitions)
+  document.addEventListener('astro:after-swap', function () {
+    const saved = applyConsentFromStorage();
+    if (!saved) show();
+  });
+})();
+</script>
