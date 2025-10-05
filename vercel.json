@@ -4,32 +4,21 @@
 
   "headers": [
     {
-      "source": "/contatti",
+      "source": "/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex,follow" },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; form-action 'self' https://www.paypal.com; frame-ancestors 'none'; upgrade-insecure-requests; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://maps.gstatic.com https://maps.googleapis.com; font-src 'self' data:; frame-src 'self' https://www.google.com https://*.google.com;"
-        }
-      ]
-    },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
+        { "key": "X-Content-Type-Options",   "value": "nosniff" },
+        { "key": "X-Frame-Options",          "value": "DENY" },
+        { "key": "Referrer-Policy",          "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy",       "value": "geolocation=(), microphone=(), camera=()" },
+        { "key": "Cross-Origin-Opener-Policy",  "value": "same-origin" },
+        { "key": "Cross-Origin-Resource-Policy","value": "same-origin" },
+        { "key": "X-DNS-Prefetch-Control",      "value": "on" },
+        { "key": "X-Permitted-Cross-Domain-Policies", "value": "none" },
 
-    {
-      "source": "/servizi/realizzazione-siti-ecommerce",
-      "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; form-action 'self' https://www.paypal.com; frame-ancestors 'none'; upgrade-insecure-requests; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.paypal.com https://*.paypal.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.paypal.com https://*.paypal.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.paypalobjects.com https://www.paypal.com https://*.paypal.com; font-src 'self' data:; frame-src 'self' https://www.paypal.com https://*.paypal.com;"
-        }
-      ]
-    },
-
-    {
-      "source": "/(servizi/assistente-ai-sito-whatsapp|demo/assistente-ai)",
-      "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; form-action 'self' https://www.paypal.com; frame-ancestors 'none'; upgrade-insecure-requests; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.paypal.com https://*.paypal.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.paypal.com https://*.paypal.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.paypalobjects.com https://www.paypal.com https://*.paypal.com; font-src 'self' data:; frame-src 'self' https://www.paypal.com https://*.paypal.com;"
+          "value": "default-src 'self'; base-uri 'self'; form-action 'self' https://www.paypal.com; frame-ancestors 'none'; upgrade-insecure-requests; frame-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; child-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.paypalobjects.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleusercontent.com https://www.google.com; font-src 'self' data:;"
         }
       ]
     },
@@ -45,25 +34,6 @@
       "source": "/(_astro|assets|images|img|fonts|og)/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
-        { "key": "X-Content-Type-Options",   "value": "nosniff" },
-        { "key": "X-Frame-Options",          "value": "DENY" },
-        { "key": "Referrer-Policy",          "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy",       "value": "geolocation=(), microphone=(), camera=()" },
-        { "key": "Cross-Origin-Opener-Policy",  "value": "same-origin" },
-        { "key": "Cross-Origin-Resource-Policy","value": "same-origin" },
-        { "key": "X-DNS-Prefetch-Control",      "value": "on" },
-        { "key": "X-Permitted-Cross-Domain-Policies", "value": "none" },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com; font-src 'self' data:;"
-        }
       ]
     }
   ],
