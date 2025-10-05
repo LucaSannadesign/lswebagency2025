@@ -1,173 +1,256 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
-import HeroText from '@/components/widgets/HeroText.astro';
-import Features2 from '@/components/widgets/Features2.astro';
-import { Fragment } from 'astro/jsx-runtime';
+import Button from '@/components/ui/Button.astro';
+import { Icon } from 'astro-icon/components';
 
 const metadata = {
-  title: 'Contatti - LS Web Agency',
-  description: 'Hai bisogno di informazioni? Contattaci per una consulenza gratuita.',
+  title: 'Contatti | LS Web Agency Sassari',
+  description:
+    'Parla con LS Web Agency: consulenza per siti web, e-commerce, SEO e marketing digitale a Sassari. Telefono, WhatsApp, Telegram ed email.',
   canonical: '/contatti',
   openGraph: {
+    url: '/contatti',
     type: 'website',
-    url: 'https://lswebagency.com/contatti',
-    title: 'Contatti - LS Web Agency',
-    description: 'Contattaci per discutere il tuo progetto.',
   },
   twitter: {
-    card: 'summary_large_image',
-    site: '@lswebagency',
-    title: 'Contatti - LS Web Agency',
-    description: 'Richiedi una consulenza gratuita.',
-  }
+    cardType: 'summary',
+  },
+};
+
+// Dati utili (mostrati anche nel JSON-LD)
+const AGENCY = {
+  name: 'LS Web Agency',
+  person: 'Luca Sanna',
+  street: 'Via Alcide De Gasperi, 3',
+  city: 'Sassari',
+  region: 'Sardegna',
+  postal: '07100',
+  country: 'IT',
+  phoneIntl: '+39 3403223494',
+  phoneHuman: '340 322 3494',
+  email: 'info@lswebagency.com',
+  site: 'https://www.lswebagency.com',
+  sameAs: [
+    'https://www.facebook.com/lswebagency',
+    'https://www.linkedin.com/company/lswebagency',
+    'https://t.me/lswebagency',
+    'https://wa.me/393403223494',
+  ],
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero -->
-  <HeroText
-    tagline="Contatti"
-    title="Hai bisogno di informazioni?"
-  />
-
-  <section class="text-center max-w-3xl mx-auto mb-12">
-    <p class="text-xl font-medium">
-      Hai un progetto in mente?
-      <a href="#contact" class="text-blue-500 underline"> Contattaci oggi stesso</a>
-      e trasformiamo le tue idee in realtà!
-    </p>
-  </section>
-
-  <!-- Sezione Contatti Rapidi -->
-  <Features2
-    title="Siamo qui per aiutarti!"
-    columns={3}
-    items={[
-      {
-        title: 'Contatti Rapidi',
-        description: `
-          <div class="flex gap-4 mt-2">
-            <a href="https://wa.me/393403223494" class="btn-whatsapp">WhatsApp</a>
-            <a href="https://t.me/lswebagency" class="btn-telegram">Telegram</a>
-          </div>`,
-        icon: 'tabler:message',
-      },
-      {
-        title: 'Telefono',
-        description: '<a href="tel:+393403223494" class="contact-link">+39 340 3223 494</a>',
-        icon: 'tabler:headset',
-      },
-      {
-        title: 'Email',
-        description: '<a href="mailto:info@lswebagency.com" class="contact-link">info@lswebagency.com</a>',
-        icon: 'tabler:mail',
-      },
-    ]}
-  />
-
-  <!-- Intro al form -->
-  <section id="contact" class="max-w-lg mx-auto text-center mt-16 mb-6">
-    <h2 class="text-2xl font-semibold">Compila il form</h2>
-    <p class="text-gray-600 dark:text-gray-400">
-      Raccontaci il tuo progetto: compila tutti i campi e ti risponderemo il prima possibile.
-    </p>
-  </section>
-
- <!-- Sezione Form di Contatto -->
-<section class="max-w-lg mx-auto bg-white dark:bg-gray-900 p-6 rounded-lg shadow-xl mb-16">
-  <form
-    action="https://formspree.io/f/mldgyarp"
-    method="POST"
-    class="space-y-4"
-  >
-    <!-- Redirect alla pagina di ringraziamento -->
-    <input type="hidden" name="_redirect" value="https://lswebagency.com/grazie" />
-
-    <!-- Subject personalizzato -->
-    <input type="hidden" name="_subject" value="Nuova richiesta da LS Web Agency – Form Contatti" />
-
-    <!-- Honeypot anti-spam -->
-    <div style="display: none;">
-      <label for="honeypot">Lascia questo campo vuoto</label>
-      <input type="text" name="honeypot" id="honeypot" />
+  <!-- HERO / INTRO -->
+  <section class="relative overflow-hidden isolate">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[360px] bg-gradient-to-b
+             from-violet-100/80 via-white to-transparent
+             dark:from-violet-900/40 dark:via-transparent">
     </div>
 
-    <!-- Nome -->
-    <input
-      type="text"
-      name="name"
-      placeholder="Nome e Cognome *"
-      required
-      class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
-    />
+    <div class="container mx-auto px-6 pt-14 md:pt-16 pb-8">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r
+                         from-violet-700 via-fuchsia-500 to-pink-500
+                         dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-300">
+              Contattaci
+            </span>
+          </h1>
+          <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
+            Siamo a Sassari e lavoriamo in tutta la Sardegna e in Italia. Parla con noi per siti web,
+            e-commerce, SEO e marketing digitale.
+          </p>
 
-    <!-- Email (Reply-To per Formspree) -->
-    <input
-      type="email"
-      name="_replyto"
-      placeholder="Email *"
-      required
-      class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
-    />
+          <div class="mt-5 flex flex-wrap gap-3">
+            <a href="#contact" class="inline-flex items-center justify-center rounded-full px-6 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
+              Invia una richiesta
+            </a>
+            <a href="/servizi" class="inline-flex items-center justify-center rounded-full px-6 py-3 ring-1 ring-neutral-300 text-neutral-900 hover:bg-neutral-100 dark:text-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800 transition">
+              Vedi i servizi
+            </a>
+          </div>
+        </div>
 
-    <!-- Telefono -->
-    <input
-      type="tel"
-      name="phone"
-      placeholder="Telefono"
-      class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
-    />
+        <!-- Contatti rapidi -->
+        <div class="grid grid-cols-2 gap-4">
+          <a href={`tel:${AGENCY.phoneIntl}`} class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
+            <div class="flex items-center gap-3">
+              <Icon name="tabler:phone" class="text-2xl opacity-80" aria-hidden="true" />
+              <div>
+                <div class="text-sm text-neutral-500">Telefono</div>
+                <div class="font-semibold">{AGENCY.phoneHuman}</div>
+              </div>
+            </div>
+          </a>
 
-    <!-- Servizio di interesse -->
-    <select
-      name="service"
-      required
-      class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
-    >
-      <option value="" disabled selected hidden>Servizio di interesse *</option>
-      <option value="siti-web">Creazione Sito Web</option>
-      <option value="ecommerce">E-commerce</option>
-      <option value="seo">SEO</option>
-      <option value="grafica">Branding e Grafica</option>
-      <option value="altro">Altro</option>
-    </select>
+          <a href="https://wa.me/393403223494" target="_blank" rel="noopener nofollow"
+             class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
+            <div class="flex items-center gap-3">
+              <Icon name="tabler:brand-whatsapp" class="text-2xl opacity-80" aria-hidden="true" />
+              <div>
+                <div class="text-sm text-neutral-500">WhatsApp</div>
+                <div class="font-semibold">Scrivici ora</div>
+              </div>
+            </div>
+          </a>
 
-    <!-- Messaggio -->
-    <textarea
-      name="message"
-      rows="5"
-      placeholder="Messaggio *"
-      required
-      class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
-    ></textarea>
+          <a href="https://t.me/lswebagency" target="_blank" rel="noopener nofollow"
+             class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
+            <div class="flex items-center gap-3">
+              <Icon name="tabler:brand-telegram" class="text-2xl opacity-80" aria-hidden="true" />
+              <div>
+                <div class="text-sm text-neutral-500">Telegram</div>
+                <div class="font-semibold">Messaggia su Telegram</div>
+              </div>
+            </div>
+          </a>
 
-    <!-- Privacy -->
-    <div class="flex items-start">
-      <input type="checkbox" name="privacy" required class="h-4 w-4 text-blue-600 rounded" />
-      <label class="ml-2 text-sm">* Accetto la raccolta e l’elaborazione dei dati.</label>
+          <a href={`mailto:${AGENCY.email}`} class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
+            <div class="flex items-center gap-3">
+              <Icon name="tabler:mail" class="text-2xl opacity-80" aria-hidden="true" />
+              <div>
+                <div class="text-sm text-neutral-500">Email</div>
+                <div class="font-semibold">{AGENCY.email}</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Submit -->
-    <button
-      type="submit"
-      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded px-4 py-2 focus:outline-none focus:ring"
-    >
-      Invia Richiesta
-    </button>
-  </form>
+  <!-- FORM CONTATTI -->
+  <section id="contact" class="scroll-mt-24 container mx-auto px-6 py-10">
+    <div class="max-w-4xl mx-auto rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 p-6 md:p-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-1">Richiedi una consulenza</h2>
+      <p class="text-neutral-600 dark:text-neutral-300 mb-6">Ti rispondiamo entro 24h lavorative.</p>
 
-  <!-- Semplice timeout anti-double-submit -->
-  <script type="module">
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.querySelector('form');
-      const t0 = Date.now();
-      form.addEventListener('submit', (e) => {
-        if (Date.now() - t0 < 3000) {
-          e.preventDefault();
-          alert('Attendi almeno 3 secondi prima di inviare.');
-        }
-      });
-    });
-  </script>
-</section>
+      {/* 
+        ACTION DEL FORM:
+        - Se hai un endpoint: action="/api/contact"
+        - In alternativa zero-setup: action="https://formsubmit.co/info@lswebagency.com"
+      */}
+      <form method="POST" action="/api/contact" class="grid grid-cols-1 md:grid-cols-2 gap-4" netlify>
+        <!-- Anti-spam honeypot -->
+        <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+        <div class="col-span-1">
+          <label for="name" class="block text-sm font-medium mb-1">Nome e cognome</label>
+          <input id="name" name="name" type="text" required
+                 class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500" />
+        </div>
+
+        <div class="col-span-1">
+          <label for="email" class="block text-sm font-medium mb-1">Email</label>
+          <input id="email" name="email" type="email" required inputmode="email" autocomplete="email"
+                 class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500" />
+        </div>
+
+        <div class="col-span-1">
+          <label for="phone" class="block text-sm font-medium mb-1">Telefono (opzionale)</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                 class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500" />
+        </div>
+
+        <div class="col-span-1">
+          <label for="service" class="block text-sm font-medium mb-1">Servizio di interesse</label>
+          <select id="service" name="service" class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500">
+            <option value="" selected>Seleziona…</option>
+            <option value="sito">Creazione sito web</option>
+            <option value="ecommerce">E-commerce</option>
+            <option value="seo">SEO / Local SEO</option>
+            <option value="branding">Branding & grafica</option>
+            <option value="ai">AI / Assistenti</option>
+            <option value="altro">Altro</option>
+          </select>
+        </div>
+
+        <div class="col-span-1 md:col-span-2">
+          <label for="message" class="block text-sm font-medium mb-1">Messaggio</label>
+          <textarea id="message" name="message" rows="6" required
+                    class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"></textarea>
+        </div>
+
+        <div class="col-span-1 md:col-span-2 flex items-start gap-2">
+          <input id="privacy" name="privacy" type="checkbox" required class="mt-1" />
+          <label for="privacy" class="text-sm">
+            Ho letto e accetto la <a href="/privacy" class="underline decoration-violet-500 underline-offset-2">Privacy Policy</a>.
+          </label>
+        </div>
+
+        <div class="col-span-1 md:col-span-2 mt-2">
+          <Button type="submit" variant="primary">Invia richiesta</Button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- DOVE SIAMO -->
+  <section class="container mx-auto px-6 pb-14">
+    <div class="grid md:grid-cols-2 gap-6 items-start">
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+        <h3 class="text-xl font-semibold">Dove siamo</h3>
+        <address class="not-italic mt-2 text-neutral-700 dark:text-neutral-300">
+          <strong>{AGENCY.name}</strong><br />
+          di {AGENCY.person}<br />
+          {AGENCY.street}<br />
+          {AGENCY.postal} {AGENCY.city}, {AGENCY.region}, Italia
+        </address>
+
+        <ul class="mt-4 space-y-2 text-neutral-700 dark:text-neutral-300">
+          <li><strong>Tel:</strong> <a href={`tel:${AGENCY.phoneIntl}`} class="underline decoration-violet-500 underline-offset-2">{AGENCY.phoneHuman}</a></li>
+          <li><strong>Email:</strong> <a href={`mailto:${AGENCY.email}`} class="underline decoration-violet-500 underline-offset-2">{AGENCY.email}</a></li>
+          <li><strong>Orari:</strong> Lun–Ven 9:30–18:30</li>
+        </ul>
+
+        <div class="mt-4 flex gap-3">
+          <a href="https://wa.me/393403223494" target="_blank" rel="noopener nofollow" class="inline-flex items-center gap-2 rounded-full px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-700 transition">
+            <Icon name="tabler:brand-whatsapp" class="text-xl" /> WhatsApp
+          </a>
+          <a href="https://t.me/lswebagency" target="_blank" rel="noopener nofollow" class="inline-flex items-center gap-2 rounded-full px-4 py-2 bg-sky-600 text-white hover:bg-sky-700 transition">
+            <Icon name="tabler:brand-telegram" class="text-xl" /> Telegram
+          </a>
+        </div>
+      </div>
+
+      <div class="rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 overflow-hidden bg-white/60 dark:bg-neutral-900/50">
+        <!-- map embed (facoltativa); se non vuoi l’iframe, lascia solo il link -->
+        <iframe
+          title="Mappa — LS Web Agency, Sassari"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          class="w-full h-[320px] md:h-[380px] block"
+          src="https://www.google.com/maps?q=Via%20Alcide%20De%20Gasperi%203%2C%20Sassari&output=embed">
+        </iframe>
+        <div class="p-3 text-sm text-center">
+          <a href="https://www.google.com/maps/search/?api=1&query=Via+Alcide+De+Gasperi,+3,+Sassari" target="_blank" rel="noopener" class="underline decoration-violet-500 underline-offset-2">
+            Apri su Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD LocalBusiness -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: AGENCY.name,
+    url: AGENCY.site,
+    email: AGENCY.email,
+    telephone: AGENCY.phoneIntl,
+    image: `${AGENCY.site}/images/logo-ls-webdesignagency-2025.svg`,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: AGENCY.street,
+      addressLocality: AGENCY.city,
+      addressRegion: AGENCY.region,
+      postalCode: AGENCY.postal,
+      addressCountry: 'IT'
+    },
+    areaServed: ['Sassari', 'Sardegna', 'Italia'],
+    sameAs: AGENCY.sameAs
+  })} />
 </Layout>

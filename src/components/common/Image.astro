@@ -3,7 +3,7 @@ import type { HTMLAttributes } from 'astro/types';
 import { findImage } from '@/utils/images';
 import {
   getImagesOptimized,
-  astroAsseetsOptimizer,
+  astroAsseetsOptimizer,   // ← usa l'export esistente nel tuo file utils
   unpicOptimizer,
   isUnpicCompatible,
   type ImageProps,
@@ -15,47 +15,76 @@ type ImageType = {
   attributes: HTMLAttributes<'img'>;
 };
 
-const props = Astro.props;
+const baseProps = Astro.props as Props;
 
-if (props.alt === undefined || props.alt === null) {
-  throw new Error();
+// accessibilità: alt obbligatorio (consenti anche alt="")
+if (baseProps.alt === undefined || baseProps.alt === null) {
+  throw new Error('[Image] attributo "alt" richiesto (usa alt="" per immagini decorative).');
 }
 
-if (!props.width) {
-  props.width = 1792; // Usa la dimensione corretta
+// risolvi sorgente (ESM asset, /public path, o URL remoto)
+const resolved = await findImage(baseProps.src);
+const isRemote = typeof resolved === 'string' && /^https?:\/\//i.test(resolved);
+const isEsmAsset = !!resolved && typeof resolved === 'object' && 'src' in resolved;
+
+// default non bloccanti
+const loading = baseProps.loading ?? 'lazy';
+const decoding = baseProps.decoding ?? 'async';
+
+// dimensioni: fallback SOLO se NON ESM (evita distorsioni)
+let width = baseProps.width;
+let height = baseProps.height;
+if (!isEsmAsset) {
+  width = width ?? 1792;
+  height = height ?? 1024;
 }
 
-if (!props.height) {
-  props.height = 1024; // Usa la dimensione corretta
+// props per l'optimizer
+const optProps: ImageProps = {
+  ...baseProps,
+  width,
+  height,
+  loading,
+  decoding,
+};
+
+let image: ImageType | undefined;
+
+if (isRemote && isUnpicCompatible(resolved as string)) {
+  image = await getImagesOptimized(resolved as string, optProps, unpicOptimizer);
+} else if (resolved) {
+  // ESM asset o path locale gestito dall'optimizer Astro
+  image = await getImagesOptimized(resolved as any, optProps, astroAsseetsOptimizer);
 }
 
-if (!props.loading) {
-  props.loading = 'lazy';
-}
+// fallback: se l'optimizer non produce output, renderizza comunque <img>
+const fallbackSrc = isEsmAsset
+  ? (resolved as any).src
+  : isRemote
+    ? (resolved as string)
+    : String(baseProps.src);
 
-if (!props.decoding) {
-  props.decoding = 'async';
-}
-
-const _image = await findImage(props.src);
-
-let image: ImageType | undefined = undefined;
-
-if (
-  typeof _image === 'string' &&
-  (_image.startsWith('http://') || _image.startsWith('https://')) &&
-  isUnpicCompatible(_image)
-) {
-  image = await getImagesOptimized(_image, props, unpicOptimizer);
-} else if (_image) {
-  image = await getImagesOptimized(_image, props, astroAsseetsOptimizer);
-}
+const fallbackAttrs: HTMLAttributes<'img'> = {
+  alt: baseProps.alt as string,
+  width,
+  height,
+  loading,
+  decoding,
+  style: baseProps.style as any,
+  class: baseProps.class as any,
+};
 ---
 
-{
-  !image ? (
-    <Fragment />
-  ) : (
-    <img src={image.src} crossorigin="anonymous" referrerpolicy="no-referrer" {...image.attributes} />
-  )
-}
+{image ? (
+  <img
+    src={image.src}
+    {...image.attributes}
+    {...(isRemote ? { crossorigin: 'anonymous', referrerpolicy: 'no-referrer' } : {})}
+  />
+) : (
+  <img
+    src={fallbackSrc}
+    {...fallbackAttrs}
+    {...(isRemote ? { crossorigin: 'anonymous', referrerpolicy: 'no-referrer' } : {})}
+  />
+)}

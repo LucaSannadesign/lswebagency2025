@@ -1,0 +1,33 @@
+{
+  "name": "Quartu Sant'Elena",
+  "slug": "quartu-sant-elena",
+  "region": "Sardegna",
+  "province": "CA",
+  "country": "IT",
+  "priority": 88,
+  "published": true,
+  "description": "Siti web, ottimizzazione su Google Maps e componenti AI per imprese e professionisti a Quartu Sant'Elena.",
+  "services": [
+    {
+      "title": "WordPress Slim",
+      "href": "/servizi/wordpress-slim-siti-statici-headless"
+    },
+    {
+      "title": "Local SEO & Maps",
+      "href": "/servizi/local-seo-booster"
+    },
+    {
+      "title": "AI Blog Engine",
+      "href": "/servizi/ai-blog-engine"
+    }
+  ],
+  "metadata": {
+    "title": "Quartu Sant'Elena — Servizi Local | LS Web Agency",
+    "description": "Siti veloci, Local SEO e contenuti AI per Quartu Sant'Elena.",
+    "canonical": "https://lswebagency.com/local/quartu-sant-elena",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  }
+}

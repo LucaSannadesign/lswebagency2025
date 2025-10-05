@@ -1,114 +1,168 @@
 ---
-// components/common/CookieConsent.astro
+/* === Global HEAD + SEO sane defaults ===================================== */
+
+import "@/assets/styles/tailwind.css";
+import { I18N } from "astrowind:config";
+
+import Favicons from "@/components/Favicons.astro";
+import CustomStyles from "@/components/CustomStyles.astro";
+import ApplyColorMode from "@/components/common/ApplyColorMode.astro";
+import SiteVerification from "@/components/common/SiteVerification.astro";
+import BasicScripts from "@/components/common/BasicScripts.astro";
+// ⛔️ Tenere fuori qui componenti che iniettano nuovamente meta OG/Twitter/Title
+//    (es. CommonMeta/Metadata/Analytics duplicanti) per evitare conflitti.
+
+import { ClientRouter } from "astro:transitions";
+import type { MetaData as MetaDataType } from "@/types";
+
+export interface Props {
+  metadata?: MetaDataType & {
+    /** Opzionale: uno o più blocchi JSON-LD da iniettare nel <head> della singola pagina */
+    jsonLd?: Record<string, any> | Record<string, any>[];
+  };
+}
+
+/* ----------------------------- Helpers ---------------------------------- */
+const SITE_TITLE = "LS Web Agency";
+const siteBase = (Astro.site?.toString?.() || "https://lswebagency.com").replace(/\/+$/, "");
+const toAbs = (u: string) => (u?.startsWith("http") ? u : `${siteBase}${u?.startsWith("/") ? "" : "/"}${u}`);
+
+const md = (Astro.props.metadata ?? {}) as Props["metadata"];
+
+/* ------------------------------ Title ----------------------------------- */
+// Rispetta ignoreTitleTemplate ed evita doppi "LS Web Agency"
+const rawTitle = (md?.title ?? SITE_TITLE).trim();
+const useTemplate = md?.ignoreTitleTemplate ? false : true;
+const pageTitle =
+  useTemplate && rawTitle !== SITE_TITLE && !rawTitle.includes(SITE_TITLE)
+    ? `${rawTitle} — ${SITE_TITLE}`
+    : rawTitle;
+
+/* --------------------------- Description -------------------------------- */
+const pageDescription =
+  md?.description ??
+  "Creazione siti web professionali, SEO e marketing digitale. Soluzioni su misura per aziende e professionisti.";
+
+/* ----------------------------- Robots ----------------------------------- */
+const robotsCfg = md?.robots ?? { index: true, follow: true };
+const robotsContent = [
+  robotsCfg.index === false ? "noindex" : "index",
+  robotsCfg.follow === false ? "nofollow" : "follow",
+].join(", ");
+
+/* ---------------------------- Canonical --------------------------------- */
+const canonicalIn = md?.canonical ?? Astro.url?.pathname ?? "/";
+const canonicalUrl = canonicalIn.startsWith("http")
+  ? canonicalIn
+  : `${siteBase}${canonicalIn.startsWith("/") ? "" : "/"}${canonicalIn}`;
+
+/* ----------------------- Open Graph / Twitter --------------------------- */
+const og = md?.openGraph ?? {};
+const ogType = og.type ?? "website";
+const ogSiteName = og.siteName ?? SITE_TITLE;
+
+const ogUrl = toAbs(og.url ?? canonicalUrl);
+
+// ✅ Fallback immagine social unificato su /images/default-og-image.jpg
+const ogImagesRaw =
+  Array.isArray(og.images) && og.images.length > 0
+    ? og.images
+    : [{ url: "/images/default-og-image.jpg", width: 1200, height: 628 }];
+const ogImages = ogImagesRaw.map((img) => ({ ...img, url: toAbs(img.url) }));
+
+const tw = md?.twitter ?? {};
+const twCard = tw.cardType ?? "summary_large_image";
+const twImage = ogImages[0]?.url ?? toAbs("/images/default-og-image.jpg");
+const twHandle = tw.handle ?? "@lswebagency";
+const twSite = tw.site ?? "@lswebagency";
+
+/* --------------------------- JSON-LD per pagina ------------------------- */
+const jsonLdBlocks = md?.jsonLd
+  ? (Array.isArray(md.jsonLd) ? md.jsonLd : [md.jsonLd]).filter(Boolean)
+  : [];
 ---
 
-<style>
-  .cookie-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    gap: 10px;
-  }
+<!doctype html>
+<html lang={I18N.language} dir={I18N.textDirection} class="2xl:text-[20px]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  .cookie-banner button {
-    padding: 8px 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+    <!-- =========================
+         Primary meta
+    ========================== -->
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content={robotsContent} />
+    <link rel="canonical" href={canonicalUrl} />
 
-  .cookie-banner .accept {
-    background-color: #f1d600;
-    color: black;
-  }
+    <!-- =========================
+         Open Graph
+    ========================== -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:site_name" content={ogSiteName} />
+    {ogImages.map((img) => (
+      <>
+        <meta property="og:image" content={img.url} />
+        <meta property="og:image:secure_url" content={img.url} />
+        {img.width && <meta property="og:image:width" content={String(img.width)} />}
+        {img.height && <meta property="og:image:height" content={String(img.height)} />}
+      </>
+    ))}
 
-  .cookie-banner .reject {
-    background-color: #ff4d4d;
-    color: white;
-  }
+    <!-- =========================
+         Twitter
+    ========================== -->
+    <meta name="twitter:card" content={twCard} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={twImage} />
+    <meta name="twitter:site" content={twSite} />
+    <meta name="twitter:creator" content={twHandle} />
 
-  .cookie-settings {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 13px;
-    cursor: pointer;
-    display: none;
-  }
+    <!-- =========================
+         Favicons / Styles / Color mode
+    ========================== -->
+    <Favicons />
+    <CustomStyles />
+    <ApplyColorMode />
 
-  .cookie-settings.visible {
-    display: block;
-  }
-</style>
+    <!-- =========================
+         Site verification (Search Console, ecc.)
+    ========================== -->
+    <SiteVerification />
 
-<div id="cookie-banner" class="cookie-banner" style="display: none;">
-  <span>
-    Usiamo i cookie per migliorare la tua esperienza.
-    <a href="/privacy" style="margin-left: 8px; color: #f1d600;">Privacy Policy</a>
-  </span>
-  <button id="accept-cookies" class="accept">Accetto</button>
-  <button id="reject-cookies" class="reject">Rifiuta</button>
-</div>
+    <!-- =========================
+         Perf hints
+    ========================== -->
+    <link rel="preconnect" href="https://www.paypal.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.paypal.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-<div id="cookie-settings" class="cookie-settings">
-  Modifica preferenze cookie
-</div>
+    <!-- =========================
+         Client-side transitions
+    ========================== -->
+    <ClientRouter fallback="swap" />
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const banner = document.getElementById("cookie-banner");
-    const acceptBtn = document.getElementById("accept-cookies");
-    const rejectBtn = document.getElementById("reject-cookies");
-    const settingsBtn = document.getElementById("cookie-settings");
+    <!-- =========================
+         Google Analytics
+         (rimosso qui: ora è caricato da CookieConsent.astro dopo consenso)
+    ========================== -->
 
-    const choice = localStorage.getItem("cookiesAccepted");
+    <!-- =========================
+         JSON-LD per pagina (se passato via metadata.jsonLd)
+    ========================== -->
+    {jsonLdBlocks.map((block) => (
+      <script type="application/ld+json" is:inline>{JSON.stringify(block)}</script>
+    ))}
+  </head>
 
-    if (!choice) {
-      banner.style.display = "flex";
-    } else {
-      settingsBtn.classList.add("visible");
-    }
-
-    acceptBtn?.addEventListener("click", () => {
-      localStorage.setItem("cookiesAccepted", "true");
-      banner.style.display = "none";
-      settingsBtn.classList.add("visible");
-
-      // Carica Google Analytics
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-FX8HDJJM7B', { anonymize_ip: true });
-
-      const script = document.createElement("script");
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B";
-      script.async = true;
-      document.head.appendChild(script);
-    });
-
-    rejectBtn?.addEventListener("click", () => {
-      localStorage.setItem("cookiesAccepted", "false");
-      banner.style.display = "none";
-      settingsBtn.classList.add("visible");
-    });
-
-    settingsBtn?.addEventListener("click", () => {
-      localStorage.removeItem("cookiesAccepted");
-      banner.style.display = "flex";
-      settingsBtn.classList.remove("visible");
-    });
-  });
-</script>
+  <body class="antialiased text-default bg-page tracking-tight">
+    <slot />
+    <BasicScripts />
+  </body>
+</html>

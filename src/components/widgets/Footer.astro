@@ -13,7 +13,7 @@ export interface Props {
   socialLinks?: Link[];
   secondaryLinks?: Link[];
   footNote?: string;
-  theme?: string;
+  theme?: 'light' | 'dark';
 }
 
 const {
@@ -22,6 +22,18 @@ const {
   theme = 'light',
   footNote,
 } = Astro.props;
+
+/** Navigazione footer (INCLUDE Local e Pagamenti) */
+const NAV = [
+  { text: 'Home Page', href: '/' },
+  { text: 'Chi Siamo', href: '/chi-siamo' },
+  { text: 'Servizi', href: '/servizi' },
+  { text: 'Portfolio', href: '/portfolio' },
+  { text: 'Blog', href: '/blog' },
+  { text: 'Local (pagine città)', href: '/local' },          // ✅ aggiunto
+  { text: 'Metodi di pagamento', href: '/pagamenti' },       // ✅ aggiunto
+  { text: 'Contatti', href: '/contatti' },
+];
 ---
 
 <footer class={`relative border-t border-gray-200 dark:border-slate-800 not-prose ${theme === 'dark' ? 'dark' : ''}`}>
@@ -29,123 +41,116 @@ const {
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-gray-200">
     <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
-      
-      <!-- Colonna sinistra: logo, descrizione, social -->
+      <!-- Colonna 1 -->
       <div class="col-span-12 lg:col-span-3">
-        <a class="flex items-center mb-2" href={getHomePermalink()}>
-          <img src="/images/logo-ls-webdesignagency-2025.svg" alt="LS Web Design Agency" class="h-10 w-auto dark:hidden" />
-          <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="LS Web Design Agency" class="h-10 w-auto hidden dark:block" />
+        <a class="flex items-center mb-2" href={getHomePermalink()} aria-label="Torna alla Home">
+          <img src="/images/logo-ls-webdesignagency-2025.svg" alt="LS Web Agency" class="h-10 w-auto dark:hidden" />
+          <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="LS Web Agency" class="h-10 w-auto hidden dark:block" />
         </a>
-
         <p class="text-sm text-gray-600 dark:text-gray-400">
-          Agenzia web specializzata nella creazione di siti internet e posizionamento SEO a Sassari e Sardegna.
+          Agenzia web specializzata nella creazione di siti internet e posizionamento SEO a Sassari e in Sardegna.
         </p>
 
         {socialLinks.length > 0 && (
           <div class="mt-4">
             <span class="font-semibold text-gray-800 dark:text-gray-200">Social</span>
             <div class="mt-2 flex items-center gap-3">
-              {
-                socialLinks.map(({ href, icon, ariaLabel }) => (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={ariaLabel}
-                    class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
-                  >
-                    {icon && <Icon name={icon} class="w-5 h-5" />}
-                  </a>
-                ))
-              }
+              {socialLinks.map(({ href, icon, ariaLabel }) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={ariaLabel}
+                  class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
+                >
+                  {icon && <Icon name={icon} class="w-5 h-5" />}
+                </a>
+              ))}
             </div>
           </div>
         )}
       </div>
 
-      <!-- Dove siamo -->
+      <!-- Colonna 2 -->
       <div class="col-span-6 md:col-span-3">
         <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Dove siamo</div>
-        <p class="text-sm text-gray-600 dark:text-gray-400">
+        <address class="not-italic text-sm text-gray-600 dark:text-gray-400">
           <strong>LS Web Agency</strong><br />
-          di <a href="https://www.lucasanna.eu/" target="_blank" class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline">Luca Sanna</a><br />
+          di <a
+            href="https://www.lucasanna.eu/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-700 dark:text-gray-300 hover:underline hover:text-indigo-700 dark:hover:text-white transition"
+          >Luca Sanna</a><br />
           Via Alcide De Gasperi, 3<br />
           07100 Sassari, Sardegna, Italia<br />
-          P. Iva: 02929290902
-        </p>
+          P. IVA: 02929290902
+        </address>
       </div>
 
-      <!-- Navigazione -->
-      <div class="col-span-6 md:col-span-2">
+      <!-- Colonna 3: Navigazione -->
+      <div class="col-span-6 md:col-span-3">
         <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Navigazione</div>
-        <ul class="text-sm space-y-1">
-          {[
-            { text: 'Home Page', href: '/' },
-            { text: 'Chi Siamo', href: '/chi-siamo' },
-            { text: 'Portfolio', href: '/portfolio' },
-            { text: 'Servizi', href: '/servizi' },
-            { text: 'Blog', href: '/blog' },
-            { text: 'Contatti', href: '/contatti' },
-          ].map((item) => (
-            <li>
-              <a href={item.href} class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline">
-                {item.text}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <nav aria-label="Navigazione footer">
+          <ul class="space-y-1">
+            {NAV.map(({ text, href }) => (
+              <li>
+                <a
+                  href={href}
+                  class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/30"
+                >
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
-<!-- Preventivi + Contatti + Social (a destra) -->
-<div class="col-span-12 md:col-span-4 lg:col-span-4">
-  <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Per richieste di preventivi</div>
+      <!-- Colonna 4 -->
+      <div class="col-span-12 md:col-span-3">
+        <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Per richieste di preventivi</div>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Scrivi a:
+          <a
+            href="mailto:info@lswebagency.com"
+            class="font-medium text-link hover:underline text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white ml-1 transition"
+          >
+            info@lswebagency.com
+          </a>
+        </p>
 
-  <!-- Email -->
-  <p class="text-sm text-gray-600 dark:text-gray-400">
-    Scrivere a: 
-    <a
-      href="mailto:info@lswebagency.com"
-      class="font-medium text-link hover:underline text-gray-700 dark:text-gray-300 hover:text-white"
-    >
-      info@lswebagency.com
-    </a>
-  </p>
-
-  <!-- Contatti diretti: WhatsApp + Telegram -->
-
-<!-- Titolo aggiunto -->
-  <div class="mt-4 font-semibold text-gray-800 dark:text-gray-200">
-    Contatti diretti
-  </div>
-
-  <!-- WhatsApp + Telegram (icone) -->
-  <div class="mt-2 flex items-center gap-3">
-    <a href="https://wa.me/393403223494" aria-label="Scrivimi su WhatsApp"
-       class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition">
-      <Icon name="tabler:brand-whatsapp" class="w-5 h-5" />
-    </a>
-
-    <a href="https://t.me/lswebagency" aria-label="Scrivimi su Telegram"
-       class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition">
-      <Icon name="tabler:brand-telegram" class="w-5 h-5" />
-    </a>
-  </div>
+        <div class="mt-4 font-semibold text-gray-800 dark:text-gray-200">Contatti diretti</div>
+        <div class="mt-2 flex items-center gap-3">
+          <a
+            href="https://wa.me/393403223494"
+            aria-label="Scrivici su WhatsApp"
+            class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition"
+          >
+            <Icon name="tabler:brand-whatsapp" class="w-5 h-5" />
+          </a>
+          <a
+            href="https://t.me/lswebagency"
+            aria-label="Scrivici su Telegram"
+            class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition"
+          >
+            <Icon name="tabler:brand-telegram" class="w-5 h-5" />
+          </a>
+        </div>
 
         {secondaryLinks.length > 0 && (
           <div class="mt-4 flex flex-col space-y-2">
-            {
-              secondaryLinks.map(({ href, icon, text }) => (
-                <a
-                  href={href}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-white hover:underline"
-                >
-                  {icon && <Icon name={icon} class="w-5 h-5" />}
-                  <span>{text}</span>
-                </a>
-              ))
-            }
+            {secondaryLinks.map(({ href, icon, text }) => (
+              <a
+                href={href}
+                rel="noopener noreferrer"
+                target="_blank"
+                class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:underline transition"
+              >
+                {icon && <Icon name={icon} class="w-5 h-5" />}
+                <span>{text}</span>
+              </a>
+            ))}
           </div>
         )}
       </div>
@@ -156,10 +161,22 @@ const {
       <p class="text-sm text-gray-600 dark:text-gray-400">
         © 2025 <strong class="text-gray-800 dark:text-gray-200">LS Web Agency</strong>. Tutti i diritti riservati.
       </p>
+
       <div class="text-sm space-x-2">
-        <a href="/privacy" class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline">Privacy & Cookie Policy</a>
+        <a
+          href="/privacy"
+          class="text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:underline transition"
+        >
+          Privacy & Cookie Policy
+        </a>
         |
-        <a href="/sitemap" class="text-gray-700 dark:text-gray-300 hover:text-white hover:underline">Sitemap</a>
+        <a
+          href="/mappa-del-sito"
+          class="text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:underline transition"
+        >
+          Mappa del sito
+        </a>
+        <!-- La Sitemap XML è per i bot: vedi nota sotto -->
       </div>
     </div>
 

@@ -1,73 +1,96 @@
 site:
-  name: LS Web Agency
-  site: 'https://lswebagency.com' # Sostituisci con il dominio corretto se diverso
-  base: '/'
+  name: "LS Web Agency"
+  site: "https://lswebagency.com"
+  base: "/"
   trailingSlash: false
+  googleSiteVerificationId: "orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M"
 
-  googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M
-
-# Default SEO metadata
 metadata:
   title:
-    default: LS Web Agency
-    template: '%s — LS Web Agency'
+    default: "LS Web Agency"
+    template: "%s — LS Web Agency"
   description: "🚀 Creazione di siti web professionali, SEO, web design e sviluppo e-commerce. Realizziamo soluzioni digitali su misura per aziende, startup e professionisti."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: LS Web Agency
+    site_name: "LS Web Agency"
     images:
-      - url: '@/assets/images/default.png'
+      - url: "@/assets/images/default.png"
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@onwidget'
-    site: '@onwidget'
+    handle: null
+    site: null
     cardType: summary_large_image
 
 i18n:
-  language: en
+  language: it
   textDirection: ltr
 
 apps:
   blog:
     isEnabled: true
+    name: "LS Web Agency Blog"
+    label: "LS Web Agency Blog"
+    description: "Web design, SEO e AI: il blog di LS Web Agency."
     postsPerPage: 6
 
     post:
       isEnabled: true
-      permalink: '/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
+      permalink: "/blog/%slug%"
       robots:
         index: true
 
     list:
       isEnabled: true
-      pathname: 'blog' # Blog main path, you can change this to "articles" (/articles)
+      pathname: "blog"
       robots:
         index: true
 
     category:
       isEnabled: true
-      pathname: 'category' # Category main path /category/some-category, you can change this to "group" (/group/some-category)
+      pathname: "category"
       robots:
         index: true
 
     tag:
       isEnabled: true
-      pathname: 'tag' # Tag main path /tag/some-tag, you can change this to "topics" (/topics/some-category)
+      pathname: "tag"
       robots:
         index: false
 
     isRelatedPostsEnabled: true
     relatedPostsCount: 4
-APP_BLOG:
-  isEnabled: true
+
 analytics:
   vendors:
     googleAnalytics:
-      id: null # or "G-XXXXXXXXXX"
+      id: null
 
 ui:
-  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
+  theme: "system"
+
+menu:
+  header:
+    - text: Servizi
+      href: /servizi
+    - text: Blog
+      href: /blog
+    - text: Contatti
+      href: /contatti
+  footer:
+    - text: Servizi
+      href: /servizi
+    # 🔽 RIMOSSO: Local
+    # - text: Local
+    #   href: /local
+    - text: Pagamenti
+      href: /pagamenti
+    - text: Privacy
+      href: /privacy
+    - text: Cookie
+      href: /cookie
+    - text: Contatti
+      href: /contatti

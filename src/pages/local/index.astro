@@ -1,0 +1,182 @@
+---
+// /src/pages/local/index.astro
+import Layout from "@/layouts/PageLayout.astro";
+import { getCollection } from "astro:content";
+
+export const prerender = true;
+
+// Helpers
+const slugify = (input: string) =>
+  String(input || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // rimuovi accenti
+    .trim().toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")           // non-alfanumerico → trattino
+    .replace(/^-+|-+$/g, "");              // trim trattini
+
+const toKey = (v: string) => v?.trim() ?? "";
+
+// 1) Leggi la collection in modo sicuro
+const raw = await getCollection("cities").catch(() => []);
+
+// 2) Normalizza i dati, includi `published` e slug robusto
+const mapped = raw.map((entry) => {
+  const d: any = entry?.data ?? {};
+  const baseSlug =
+    (d.slug && String(d.slug)) ||
+    (entry as any)?.slug ||
+    (entry as any)?.id ||
+    "";
+  const slugFromBase = String(baseSlug)
+    .trim()
+    .replace(/^\/+|\/+$/g, "")
+    .replace(/\.mdx?$/i, "");
+  const slug = slugify(slugFromBase);
+
+  return {
+    name: toKey(d.name) || slug,
+    region: toKey(d.region),
+    province: toKey(d.province).toUpperCase(), // es. SS, CA
+    priority: Number.isFinite(d.priority) ? Number(d.priority) : undefined,
+    published: d.published === true,
+    slug,
+  };
+});
+
+// 3) Whitelist: solo pubblicate, ordine per priority -> name
+const cities = mapped
+  .filter((c) => c.published)
+  .sort((a, b) => (a.priority ?? 999) - (b.priority ?? 999) || a.name.localeCompare(b.name, "it"));
+
+const metadata = {
+  title: "Pagine Local — Città in cui operiamo | LS Web Agency",
+  description:
+    "Siti web, SEO e Local SEO. Sfoglia l’elenco delle città e apri la pagina dedicata alla tua zona.",
+  canonical: "/local",
+  robots: "index, follow",
+  openGraph: {
+    url: "/local",
+    siteName: "LS Web Agency",
+    images: [{ url: "/og/lswebagency-local.jpg", width: 1200, height: 630 }],
+    type: "website",
+  },
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO con gradient brand -->
+  <section class="relative overflow-hidden isolate">
+    <div
+      aria-hidden="true"
+      class="absolute inset-x-0 top-0 -z-10 h-[360px] sm:h-[420px] md:h-[460px]
+             bg-gradient-to-b from-violet-600/15 via-fuchsia-500/10 to-transparent
+             dark:from-violet-500/25 dark:via-fuchsia-400/15">
+    </div>
+
+    <div class="container mx-auto px-6 pt-16 pb-10 text-center">
+      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold
+                    bg-violet-100 text-violet-700 ring-1 ring-violet-200/60
+                    dark:bg-violet-900/40 dark:text-violet-200 dark:ring-violet-700/50">
+        Servizi Local
+      </span>
+
+      <h1 class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight
+                 text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
+                 bg-gradient-to-r from-black via-fuchsia-700 to-pink-400
+                 dark:from-white dark:via-fuchsia-400 dark:to-pink-300">
+        Pagine Local (Città)
+      </h1>
+
+      <p class="mt-3 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+        Trova la pagina dedicata alla tua città e scopri i nostri servizi locali.
+      </p>
+
+      <div class="mt-6 max-w-xl mx-auto">
+        <input
+          id="citySearch"
+          type="search"
+          placeholder="Cerca una città…"
+          class="w-full rounded-full px-5 py-3 ring-1 ring-neutral-300
+                 focus:outline-none focus:ring-2 focus:ring-violet-500
+                 dark:bg-neutral-900 dark:text-neutral-100"
+          aria-label="Cerca città"
+          aria-describedby="cityResults"
+        />
+        <p id="cityResults" class="sr-only" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section class="container mx-auto px-6 pb-12">
+    {cities.length === 0 ? (
+      <p class="text-center text-neutral-600 dark:text-neutral-300">
+        Nessuna pagina Local pubblicata al momento.
+      </p>
+    ) : (
+      <div id="citiesGrid" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {cities.map((c) => {
+          const subtitle = [c.region, c.province].filter(Boolean).join(" · ");
+          return (
+            <a
+              href={`/local/${c.slug}`}
+              class="group block rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800
+                     bg-white/70 dark:bg-neutral-900/50 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
+              data-q={`${c.name} ${subtitle}`.toLowerCase()}
+            >
+              <div class="font-semibold">{c.name}</div>
+              {subtitle && (
+                <div class="text-sm text-neutral-600 dark:text-neutral-400">{subtitle}</div>
+              )}
+              <div class="mt-2 text-sm text-violet-700 group-hover:underline">Apri →</div>
+            </a>
+          );
+        })}
+      </div>
+    )}
+  </section>
+
+  <!-- JSON-LD: elenco pagine local -->
+  {cities.length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Pagine Local LS Web Agency",
+      "itemListElement": cities.map((c, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "url": `/local/${c.slug}`,
+        "name": c.name
+      }))
+    })} />
+  )}
+
+  <script is:inline>
+    // Ricerca accent-insensitive + annuncio risultati
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('citySearch');
+      const grid  = document.getElementById('citiesGrid');
+      const announcer = document.getElementById('cityResults');
+      if (!input || !grid) return;
+      const cards = Array.from(grid.children);
+
+      const strip = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+      const update = () => {
+        const term = strip(input.value.trim());
+        let visible = 0;
+        cards.forEach((card) => {
+          const hay = strip(card.getAttribute('data-q') || '');
+          const show = !term || hay.includes(term);
+          card.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+        if (announcer) announcer.textContent = visible === cards.length
+          ? 'Mostrate tutte le città.'
+          : `Risultati: ${visible} città.`;
+      };
+
+      input.addEventListener('input', update);
+      update();
+    });
+  </script>
+</Layout>

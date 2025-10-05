@@ -1,0 +1,70 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Grazie — Local SEO Booster',
+  description: 'Grazie per il tuo ordine! Ti contattiamo a breve per l’onboarding di Local SEO Booster.',
+  canonical: '/grazie/local-seo-booster',
+  robots: { index: false, follow: false },
+};
+
+const wa = import.meta.env.PUBLIC_WHATSAPP_SALES || 'https://wa.me/393403223494?text=Ciao%2C%20ho%20completato%20l%27acquisto%20di%20Local%20SEO%20Booster%20e%20vorrei%20procedere%20con%20l%27onboarding.';
+---
+
+<Layout metadata={metadata}>
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-100 via-white to-white dark:from-emerald-900/30 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 pb-10 text-center">
+      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-100 ring-1 ring-emerald-200/60 dark:ring-emerald-700/50">
+        Ordine ricevuto
+      </span>
+      <h1 class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight">
+        Grazie per l’acquisto di <span class="whitespace-nowrap">Local SEO Booster</span> 🎉
+      </h1>
+      <p class="mt-4 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+        Ti contattiamo entro 1 giorno lavorativo per l’onboarding. Nel frattempo puoi anticiparci info utili
+        e confermarci accessi/asset.
+      </p>
+
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href="/contatti?servizio=local-seo-booster"
+           class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90">
+          Compila onboarding
+        </a>
+        <a href={wa} target="_blank" rel="noopener"
+           class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
+          Scrivici su WhatsApp
+        </a>
+        <a href="/servizi/local-seo-booster"
+           class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
+          Rivedi il servizio
+        </a>
+      </div>
+
+      <div class="mx-auto mt-8 max-w-2xl text-left">
+        <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+          <h2 class="font-semibold text-lg mb-2">Prossimi passi</h2>
+          <ol class="list-decimal ml-5 space-y-2 text-neutral-700 dark:text-neutral-300">
+            <li>Riceverai una <strong>email di conferma</strong> con riepilogo ordine.</li>
+            <li>Invia/compila i materiali per l’<strong>onboarding</strong> (dati business, pagine locali, foto, accessi a GBP, ecc.).</li>
+            <li>Setup in <strong>7–10 giorni lavorativi</strong> dall’onboarding.</li>
+            <li>Consegna <strong>report iniziale</strong> e roadmap consigliata.</li>
+          </ol>
+          <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">
+            Hai urgenza? Contattaci su WhatsApp: priorità entro le 24–48h lavorative.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD minimale -->
+  <script type="application/ld+json" is:inline>
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Grazie — Local SEO Booster",
+    "description":"Pagina di conferma ordine per Local SEO Booster."
+  }
+  </script>
+</Layout>

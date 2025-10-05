@@ -1,150 +1,265 @@
 ---
-import Features2 from '@/components/widgets/Features2.astro';
-import Features3 from '@/components/widgets/Features3.astro';
-import Hero from '@/components/widgets/Hero.astro';
 import Layout from '@/layouts/PageLayout.astro';
-import Testimonials from '@/components/widgets/Testimonials.astro';
-import CallToAction from '@/components/widgets/CallToAction.astro';
-import { Icon } from '@iconify/react';
+
+const linkLogoStarter =
+  import.meta.env.PUBLIC_PAYPAL_LOGO_STARTER ||
+  'https://www.paypal.com/ncp/payment/3RGPS9V8MHEKJ';
+
+const linkLogoPro =
+  import.meta.env.PUBLIC_PAYPAL_LOGO_PRO ||
+  'https://www.paypal.com/ncp/payment/ZPFYFHDT94UBN';
+
+const linkBrandKit =
+  import.meta.env.PUBLIC_PAYPAL_BRAND_KIT ||
+  'https://www.paypal.com/ncp/payment/D3EGHG7AC6BUY';
 
 const metadata = {
-  title: 'Branding e Grafica per Siti Web a Sassari | LS Web Agency',
+  title: 'Branding & Grafica — Loghi, Brand Kit e UX | LS Web Agency',
   description:
-    'Distinguiti con un design unico! Offriamo servizi di branding, grafica e UX design per siti web a Sassari e in tutta Italia. Richiedi una consulenza.',
+    'Loghi professionali, identità visiva e brand kit completi. Pacchetti chiari, processo trasparente e file pronti per web e stampa.',
+  canonical: '/servizi/branding-e-grafica-siti-web',
+  robots: { index: true, follow: true },
+
+  // facoltativi ma utili e 100% tip-safe
+  openGraph: {
+    url: '/servizi/branding-e-grafica-siti-web',
+    images: [{ url: '/og/lswebagency-default.jpg', width: 1200, height: 630 }],
+    type: 'website',
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+    handle: '@lswebagency',
+    site: '@lswebagency',
+  },
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Section -->
-  <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Scopri i nostri servizi',
-        href: '/servizi',
-      },
-      { text: 'Portfolio', href: '/portfolio' },
-    ]}
-    image={{ 
-      src: '@/assets/images/branding-grafica-ls-webagencywebp.webp', 
-      alt: 'Studio di branding e grafica per siti web professionali a Sassari' 
-    }}
-  >
-    <Fragment slot="title">
-      <span class="text-gradient">Branding e Grafica</span> per Siti Web a Sassari
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">Distinguiti dalla concorrenza</span> con un’identità visiva forte e un <strong>design professionale</strong> studiato per il web.
+  <!-- HERO minimal con sfumatura -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-fuchsia-100 via-white to-white dark:from-fuchsia-900/25 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 pb-10 text-center">
+      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/40 dark:text-fuchsia-200 ring-1 ring-fuchsia-200/60 dark:ring-fuchsia-700/50">
+        Design & Identità Visiva
       </span>
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">
-        Dai valore al tuo brand con un design strategico.
-      </span>
-      Realizziamo <strong>progetti di grafica per il web</strong>, sviluppando <strong>interfacce accattivanti</strong>, <strong>grafiche per landing page</strong> e materiali visivi che valorizzano il tuo brand. Creiamo <strong>loghi e marchi distintivi</strong> per rafforzare <strong>l’identità aziendale online</strong> e migliorare <strong>la comunicazione visiva</strong>.
-    </Fragment>
-  </Hero>
-
-  <!-- Servizi Offerti -->
-  <Features3
-    title="I nostri servizi di Branding e Grafica"
-    subtitle="Un'identità visiva forte è il primo passo per il successo online."
-    columns={4}
-    isBeforeContent={true}
-    items={[
-      {
-        title: 'Design Unico e Personalizzato',
-        description: 'Creiamo interfacce accattivanti che rispecchiano la tua identità aziendale.',
-        icon: 'tabler:brush',
-      },
-      {
-        title: 'Brand Identity',
-        description: 'Dallo studio del logo alla scelta della palette colori e tipografia, tutto su misura per te.',
-        icon: 'tabler:palette',
-      },
-      {
-        title: 'User Experience (UX)',
-        description: 'Miglioriamo la navigazione e l’usabilità del sito per un’esperienza ottimale.',
-        icon: 'tabler:cursor-text',
-      },
-      {
-        title: 'Materiale Grafico',
-        description: 'Forniamo immagini, icone e elementi visivi professionali per il tuo sito.',
-        icon: 'tabler:photo',
-      },
-    ]}
-  />
-
-  <!-- Perché scegliere noi -->
-  <section class="py-16">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-6">Perché scegliere noi?</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div class="space-y-6">
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:trophy" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold">Esperienza e Creatività</h3>
-              <p class="text-muted">Anni di esperienza nel <strong>graphic design e branding</strong> per garantire soluzioni su misura.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:palette" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold">Design Moderno e Memorabile</h3>
-              <p class="text-muted">Ogni progetto è studiato per creare un’identità unica e riconoscibile.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:shield-check" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold">Qualità Garantita</h3>
-              <p class="text-muted">Precisione e cura in ogni dettaglio per un risultato professionale.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="space-y-6">
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:users" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold">Approccio Personalizzato</h3>
-              <p class="text-muted">Ogni progetto è sviluppato su misura per il cliente.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:graph" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold">Strategia e Risultati</h3>
-              <p class="text-muted">Analizziamo il mercato per creare soluzioni che migliorano la conversione.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:check" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold">Supporto Continuo</h3>
-              <p class="text-muted">Ti seguiamo in tutto il percorso di creazione e ottimizzazione.</p>
-            </div>
-          </div>
-        </div>
+      <h1
+        class="mt-4 text-3xl md:text-5xl font-extrabold leading-tight
+               text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
+               bg-gradient-to-r from-black via-fuchsia-700 to-fuchsia-400
+               dark:from-white dark:via-fuchsia-400 dark:to-fuchsia-200">
+        Branding e Grafica per il Web
+      </h1>
+      <p class="mt-3 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+        Loghi memorabili, sistemi visivi consistenti e interfacce curate.
+        Pacchetti chiari e file pronti per web e stampa.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href="#pacchetti" class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90 transition">Vedi pacchetti</a>
+        <a href="/portfolio" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">Portfolio</a>
       </div>
     </div>
   </section>
 
-  <!-- Sezione Testimonianze -->
-  <Testimonials />
+  <!-- PACCHETTI -->
+  <section id="pacchetti" class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-2">Pacchetti logo & branding</h2>
+    <p class="text-neutral-600 dark:text-neutral-300 mb-6">Prezzi indicativi, IVA esclusa.</p>
 
-  <!-- Call to Action -->
-  <CallToAction
-    title="Vuoi un’identità visiva forte per il tuo brand?"
-    subtitle="Contattaci oggi stesso e rendiamo il tuo marchio unico."
-  >
-    <Fragment slot="actions">
-      <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
-    </Fragment>
-  </CallToAction>
+    <div class="grid gap-6 md:grid-cols-3">
+      <!-- Logo Starter -->
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-fuchsia-600 text-white w-max">Essenziale</span>
+        <h3 class="mt-3 text-xl font-semibold">Logo Starter</h3>
+        <div class="text-3xl font-extrabold mt-1">290 €</div>
+        <ul class="mt-4 text-sm text-neutral-700 dark:text-neutral-300 space-y-2">
+          <li>• 2 proposte logo + 1 revisione</li>
+          <li>• Logo principale + variante orizzontale</li>
+          <li>• File SVG/PNG ad alta risoluzione</li>
+          <li>• Palette base + mini guida (1 pagina)</li>
+        </ul>
+        <div class="mt-6 flex gap-2">
+          <a
+            href={linkLogoStarter}
+            aria-label="Acquista pacchetto Logo Starter"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 bg-fuchsia-600 text-white hover:bg-fuchsia-700 transition"
+            target="_blank" rel="noopener"
+          >
+            Acquista
+          </a>
+          <a
+            href="/contatti"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+          >
+            Richiedi brief
+          </a>
+        </div>
+      </div>
+
+      <!-- Logo Pro (card centrale) -->
+      <div
+        class="relative overflow-hidden rounded-2xl p-6
+               ring-2 ring-fuchsia-600 dark:ring-fuchsia-500
+               ring-offset-2 ring-offset-white dark:ring-offset-neutral-900
+               shadow-lg shadow-fuchsia-200/50 dark:shadow-fuchsia-900/20
+               flex flex-col
+               bg-gradient-to-br from-zinc-50 via-neutral-100 to-zinc-200
+               dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700"
+      >
+        <div class="flex items-start justify-between h-7">
+          <span aria-hidden="true" class="inline-block h-7"></span>
+          <span class="inline-flex text-xs font-semibold px-2.5 py-1 rounded-full bg-fuchsia-600 text-white">Più scelto</span>
+        </div>
+
+        <div class="pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay"
+          style="background-image:
+            radial-gradient(120% 70% at 0% 0%, rgba(255,255,255,.7), rgba(255,255,255,0) 60%),
+            radial-gradient(120% 70% at 100% 100%, rgba(255,255,255,.35), rgba(255,255,255,0) 60%);">
+        </div>
+
+        <h3 class="relative mt-3 text-xl font-semibold">Logo Pro</h3>
+        <div class="relative text-3xl font-extrabold mt-1">590 €</div>
+
+        <ul class="relative mt-4 text-sm text-neutral-700 dark:text-neutral-300 space-y-2">
+          <li>• 3 proposte + fino a 3 revisioni</li>
+          <li>• Set tipografico + palette completa</li>
+          <li>• Griglia, icona, favicon, formati social</li>
+          <li>• Mini brand book (8–12 pagine)</li>
+        </ul>
+
+        <div class="relative mt-6 flex gap-2">
+          <a
+            href={linkLogoPro}
+            aria-label="Acquista pacchetto Logo Pro"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 bg-fuchsia-600 text-white hover:bg-fuchsia-700 transition"
+            target="_blank" rel="noopener"
+          >
+            Acquista
+          </a>
+          <a
+            href="/contatti"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+          >
+            Richiedi brief
+          </a>
+        </div>
+      </div>
+
+      <!-- Brand Kit -->
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-fuchsia-600 text-white w-max">Completo</span>
+        <h3 class="mt-3 text-xl font-semibold">Brand Kit</h3>
+        <div class="text-3xl font-extrabold mt-1">990 €</div>
+        <ul class="mt-4 text-sm text-neutral-700 dark:text-neutral-300 space-y-2">
+          <li>• 3–4 proposte creative</li>
+          <li>• Revisione illimitata per 30 giorni</li>
+          <li>• Pattern, versioni secondarie, mockup</li>
+          <li>• Brand book esteso (20–30 pagine)</li>
+        </ul>
+        <div class="mt-6 flex gap-2">
+          <a
+            href={linkBrandKit}
+            aria-label="Acquista pacchetto Brand Kit"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 bg-fuchsia-600 text-white hover:bg-fuchsia-700 transition"
+            target="_blank" rel="noopener"
+          >
+            Acquista
+          </a>
+          <a
+            href="/contatti"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+          >
+            Richiedi brief
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-3 text-sm text-neutral-500">
+      Hai già un logo? Facciamo anche <a href="/contatti" class="underline">restyling</a> (da 390 €) e
+      <a href="/pagamenti" class="underline ml-1">pagamenti semplici</a> con PayPal o bonifico.
+    </p>
+  </section>
+
+  <!-- PROCESSO -->
+  <section class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Come lavoriamo</h2>
+    <div class="grid md:grid-cols-5 gap-4">
+      {[
+        ['Brief', 'Obiettivi, target e tono visivo.'],
+        ['Moodboard', 'Palette, tipografia, riferimenti.'],
+        ['Proposte', 'Varianti e direzioni creative.'],
+        ['Iterazioni', 'Revisione guidata e rifiniture.'],
+        ['Consegna', 'File master + brand book.']
+      ].map(([t,d],i)=>(
+        <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+          <div class="w-8 h-8 rounded-full bg-fuchsia-600 text-white flex items-center justify-center font-bold">{i+1}</div>
+          <h3 class="mt-3 font-semibold">{t}</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300">{d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ADD-ON -->
+  <section class="container mx-auto px-6 py-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Add-on popolari</h2>
+    <div class="grid md:grid-cols-3 gap-4 text-sm">
+      <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">Kit social (copertine, post, avatar) — <strong>da 120 €</strong></div>
+      <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">Biglietti da visita & carta intestata — <strong>da 90 €</strong></div>
+      <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">Template presentazioni — <strong>da 180 €</strong></div>
+    </div>
+  </section>
+
+  <!-- CTA Portfolio -->
+  <section class="container mx-auto px-6 py-10">
+    <div class="rounded-3xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-semibold">Vuoi ispirarti a lavori reali?</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Dai un’occhiata ad alcuni progetti di identità visiva e interfacce.</p>
+      </div>
+      <div class="flex gap-2">
+        <a href="/portfolio" class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90 transition">Vedi portfolio</a>
+        <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">Parla con noi</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container mx-auto px-6 pb-12">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Domande frequenti</h2>
+    <div class="space-y-3">
+      {[
+        ['Quante proposte ricevo?', 'Dipende dal pacchetto scelto: 2 con Starter, 3 con Pro, 3–4 con Brand Kit.'],
+        ['Se non mi piace nessuna proposta?', 'Iteriamo insieme con revisioni guidate. Col Brand Kit hai revisioni illimitate per 30 giorni.'],
+        ['Ricevo i file sorgente?', 'Sì: SVG/AI/PDF + PNG. Inclusi formati per web e stampa.'],
+        ['Potete rifare un logo esistente?', 'Certo, valutiamo un restyling conservando l’equity visiva.'],
+        ['Tempi di consegna?', 'Starter 5–7 gg, Pro 10–14 gg, Brand Kit 2–3 settimane (stima).']
+      ].map(([q,a])=>(
+        <details class="rounded-2xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+          <summary class="font-semibold cursor-pointer">{q}</summary>
+          <p class="mt-2 text-neutral-600 dark:text-neutral-300">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- JSON-LD OfferCatalog -->
+  <script type="application/ld+json" is:inline>
+  {
+    "@context":"https://schema.org",
+    "@type":"Service",
+    "name":"Branding & Grafica",
+    "provider":{"@type":"Organization","name":"LS Web Agency"},
+    "description":"Loghi professionali, sistemi visivi e brand kit per web e stampa.",
+    "hasOfferCatalog":{
+      "@type":"OfferCatalog",
+      "name":"Pacchetti logo & branding",
+      "itemListElement":[
+        {"@type":"Offer","name":"Logo Starter","price":"290","priceCurrency":"EUR","description":"2 proposte, 1 revisione, file master"},
+        {"@type":"Offer","name":"Logo Pro","price":"590","priceCurrency":"EUR","description":"3 proposte, 3 revisioni, mini brand book"},
+        {"@type":"Offer","name":"Brand Kit","price":"990","priceCurrency":"EUR","description":"3–4 proposte, brand book esteso"}
+      ]
+    }
+  }
+  </script>
 </Layout>

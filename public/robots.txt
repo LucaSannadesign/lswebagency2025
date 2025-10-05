@@ -3,6 +3,7 @@ Disallow: /404
 Disallow: /grazie
 Disallow: /admin
 Disallow: /private
+Disallow: /api/
 Disallow: /cgi-bin/
 Disallow: /*?*
 Disallow: /*.php$
@@ -12,10 +13,6 @@ Disallow: /search
 Disallow: /landing/
 Disallow: /homes/
 
-Allow: /blog
-Allow: /portfolio
-Allow: /servizi
-Allow: /chi-siamo
-Allow: /contatti
+# Tutto il resto è consentito (incluso /local/*)
 
 Sitemap: https://lswebagency.com/sitemap.xml

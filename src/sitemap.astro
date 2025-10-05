@@ -1,40 +1,59 @@
 ---
-import { getCollection } from 'astro:content';
+// src/sitemap.astro
 import Layout from '@/layouts/PageLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 
-const baseUrl = 'https://lswebagency.com';
+export const prerender = true;
 
-// Recupera gli articoli del blog e i progetti portfolio
+/* Helper: ricava lo slug dal path file (ultimo segmento senza estensione) */
+const fileSlug = (id: string) =>
+  id.split('/').pop()?.replace(/\.[^.]+$/, '') || id;
+
+/* Contenuti dinamici */
 const posts = await getCollection('post');
-const portfolioItems = await getCollection('portfolio');
+const portfolio = await getCollection('portfolio');
 
-// Pagine statiche
+let cities: CollectionEntry<'cities'>[] = [];
+try {
+  cities = (await getCollection('cities')) as CollectionEntry<'cities'>[];
+} catch {
+  // se la collection non esiste, ignora
+}
+
+/* Pagine statiche principali */
 const staticPages = [
   { title: 'Home', url: '/' },
   { title: 'Chi Siamo', url: '/chi-siamo' },
   { title: 'Servizi', url: '/servizi' },
   { title: 'Portfolio', url: '/portfolio' },
-  { title: 'Contatti', url: '/contatti' },
   { title: 'Blog', url: '/blog' },
+  { title: 'Contatti', url: '/contatti' },
+  { title: 'Pagamenti', url: '/pagamenti' },
+  { title: 'Local (città)', url: '/local' },
 ];
 
+/* SEO della pagina */
 const metadata = {
-  title: 'Sitemap - LS Web Agency',
-  description: 'Scopri tutte le pagine disponibili su LS Web Agency, inclusi blog, portfolio e servizi.',
+  title: 'Mappa del Sito | LS Web Agency',
+  description:
+    'Elenco completo delle pagine del sito: principali, articoli del blog, progetti portfolio e local (città).',
+  canonical: '/sitemap',
+  robots: { index: true, follow: true },
 };
 ---
 
 <Layout metadata={metadata}>
   <section class="container mx-auto px-6 py-12">
     <h1 class="text-4xl font-bold text-center mb-8">Mappa del Sito</h1>
-    <p class="text-center text-lg text-muted mb-10">
-      Qui trovi l'elenco di tutte le pagine del nostro sito, inclusi articoli e progetti.
+    <p class="text-center text-lg text-gray-600 dark:text-gray-300 mb-10">
+      Naviga tutte le pagine del sito, inclusi articoli del blog, progetti e sezioni locali.
     </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Pagine Statiche -->
       <div>
-        <h2 class="text-2xl font-semibold mb-4">Pagine Principali</h2>
+        <h2 class="text-2xl font-semibold mb-4">Pagine principali</h2>
         <ul class="space-y-2">
           {staticPages.map((page) => (
             <li>
@@ -49,7 +68,8 @@ const metadata = {
         <h2 class="text-2xl font-semibold mb-4">Articoli del Blog</h2>
         <ul class="space-y-2">
           {posts.map((post) => {
-            const slug = post.data.slug || post.id;
+            // ⬇️ Safe-cast richiesta
+            const slug = (post as any).data?.slug?.trim?.() || (post as any).slug || post.id;
             return (
               <li>
                 <a href={`/blog/${slug}`} class="text-blue-600 hover:underline">
@@ -65,13 +85,54 @@ const metadata = {
       <div>
         <h2 class="text-2xl font-semibold mb-4">Portfolio</h2>
         <ul class="space-y-2">
-          {portfolioItems.map((item) => (
-            <li>
-              <a href={`/portfolio/${item.id}`} class="text-blue-600 hover:underline">{item.data.title}</a>
-            </li>
-          ))}
+          {portfolio.map((item) => {
+            const slug =
+              (item.data as any)?.slug?.trim?.() || fileSlug(item.id);
+            const href =
+              (item.data as any)?.permalink?.trim?.() || `/portfolio/${slug}`;
+            return (
+              <li>
+                <a href={href} class="text-blue-600 hover:underline">
+                  {item.data.title}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
+
+      <!-- Local (Città) - mostrata solo se la collection esiste -->
+      {cities.length > 0 && (
+        <div>
+          <h2 class="text-2xl font-semibold mb-4">Local (Città)</h2>
+          <ul class="grid sm:grid-cols-2 gap-2">
+            {cities
+              .map((entry) => {
+                const routeSlug =
+                  (entry.data as any)?.slug?.trim?.() || fileSlug(entry.id);
+                return {
+                  name: entry.data.name,
+                  routeSlug,
+                  priority: entry.data.priority ?? 999,
+                };
+              })
+              .sort(
+                (a, b) =>
+                  a.priority - b.priority || a.name.localeCompare(b.name)
+              )
+              .map((c) => (
+                <li>
+                  <a
+                    href={`/local/${c.routeSlug}`}
+                    class="text-blue-600 hover:underline"
+                  >
+                    {c.name}
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </div>
+      )}
     </div>
   </section>
 </Layout>

@@ -1,0 +1,186 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+export const prerender = true;
+
+/* ---------------- Utils ---------------- */
+const norm = (v: unknown) => String(v ?? '').trim();
+const normalizeBlogSlug = (slug: unknown) =>
+  norm(slug).replace(/^\/?blog\/?/i, '').replace(/^\/+|\/+$/g, '');
+const normalizeEntrySlug = (entry: any) =>
+  norm(entry?.data?.slug ?? entry?.slug ?? entry?.id)
+    .replace(/^\/+|\/+$/g, '')
+    .replace(/\.mdx?$/i, '')
+    .toLowerCase();
+
+/* ---------------- Dati dinamici ---------------- */
+const posts = await getCollection('post').catch(() => []);
+const portfolioItems = await getCollection('portfolio').catch(() => []);
+const cities = await getCollection('cities').catch(() => []);
+
+/* ---------------- Pagine statiche ---------------- */
+const staticPages = [
+  { title: 'Home', url: '/' },
+  { title: 'Chi Siamo', url: '/chi-siamo' },
+  { title: 'Servizi', url: '/servizi' },
+  { title: 'Portfolio', url: '/portfolio' },
+  { title: 'Contatti', url: '/contatti' },
+  { title: 'Blog', url: '/blog' },
+  { title: 'Local', url: '/local' },
+];
+
+/* ---------------- SEO ---------------- */
+const metadata = {
+  title: 'Mappa del Sito — LS Web Agency',
+  description:
+    'Elenco completo di pagine, articoli del blog, progetti portfolio e pagine Local.',
+  canonical: '/mappa-del-sito',
+  robots: { index: true, follow: true },
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="container mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold text-center mb-8">Mappa del Sito</h1>
+    <p class="text-center text-lg text-muted mb-10">
+      Qui trovi l'elenco di tutte le pagine del sito, inclusi articoli, portfolio e pagine Local.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Pagine Principali -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4">Pagine Principali</h2>
+        <ul class="space-y-2">
+          {staticPages.map((page) => (
+            <li>
+              <a href={page.url} class="text-blue-600 hover:underline">{page.title}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Articoli del Blog -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4">Articoli del Blog</h2>
+        <ul class="space-y-2">
+          {posts
+            .slice()
+            // Ordina per data desc, poi per titolo
+            .sort((a: any, b: any) => {
+              const da = new Date(a?.data?.publishDate ?? 0).getTime();
+              const db = new Date(b?.data?.publishDate ?? 0).getTime();
+              return db - da || String(a?.data?.title ?? a.id).localeCompare(String(b?.data?.title ?? b.id));
+            })
+            .map((post) => {
+              const slug = normalizeBlogSlug((post as any).data?.slug ?? post.id);
+              const title = (post as any).data?.title ?? slug;
+              return (
+                <li>
+                  <a href={`/blog/${slug}`} class="text-blue-600 hover:underline">{title}</a>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
+
+      <!-- Portfolio -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4">Portfolio</h2>
+        <ul class="space-y-2">
+          {portfolioItems
+            .slice()
+            .sort((a: any, b: any) =>
+              String(a?.data?.title ?? a.id).localeCompare(String(b?.data?.title ?? b.id))
+            )
+            .map((item) => {
+              const slug = (item as any).data?.slug ?? item.id;
+              const title = (item as any).data?.title ?? (item as any).id;
+              return (
+                <li>
+                  <a href={`/portfolio/${slug}`} class="text-blue-600 hover:underline">{title}</a>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
+
+      <!-- Pagine Local (collassabile) -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4">Pagine Local</h2>
+
+        <!-- Grid: 2 colonne su md, 3 su lg -->
+        <div id="localList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          {cities
+            .slice()
+            .sort((a: any, b: any) => {
+              // prima per priority (più basso prima), poi alfabetico per nome/slug
+              const pa = Number.isFinite(a?.data?.priority) ? a.data.priority : 999;
+              const pb = Number.isFinite(b?.data?.priority) ? b.data.priority : 999;
+              return pa - pb ||
+                String(a?.data?.name ?? a?.data?.slug ?? a.id)
+                  .localeCompare(String(b?.data?.name ?? b?.data?.slug ?? b.id));
+            })
+            .map((c, i) => {
+              const slug = normalizeEntrySlug(c as any);
+              const label = (c as any).data?.name ?? slug;
+              // mostriamo solo i primi 24, gli altri hanno data-hidden="true"
+              const hidden = i >= 24;
+              return (
+                <a
+                  href={`/local/${slug}`}
+                  class:list={[
+                    'text-blue-600 hover:underline',
+                    { 'hidden': hidden, 'block': !hidden }
+                  ]}
+                  data-hidden={hidden ? 'true' : 'false'}
+                >
+                  {label}
+                </a>
+              );
+            })}
+        </div>
+
+        {/* Toggle Mostra tutte / Mostra meno */}
+        {cities.length > 24 && (
+          <div class="mt-4">
+            <button
+              id="toggleLocal"
+              type="button"
+              class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm font-medium"
+              aria-expanded="false"
+              aria-controls="localList"
+            >
+              Mostra tutte
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  {/* Script inline per il toggle */}
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('toggleLocal');
+      const grid = document.getElementById('localList');
+      if (!btn || !grid) return;
+
+      const update = (expanded) => {
+        grid.querySelectorAll('[data-hidden="true"]').forEach((el) => {
+          el.classList.toggle('hidden', !expanded);
+          el.classList.toggle('block', expanded);
+        });
+        btn.setAttribute('aria-expanded', String(expanded));
+        btn.textContent = expanded ? 'Mostra meno' : 'Mostra tutte';
+      };
+
+      let expanded = false;
+      update(expanded);
+      btn.addEventListener('click', () => {
+        expanded = !expanded;
+        update(expanded);
+      });
+    });
+  </script>
+</Layout>

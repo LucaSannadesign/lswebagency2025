@@ -3,12 +3,9 @@ import merge from 'lodash.merge';
 import { AstroSeo } from '@astrolib/seo';
 
 import type { Props as AstroSeoProps } from '@astrolib/seo';
-
 import { SITE, METADATA, I18N } from 'astrowind:config';
 import type { MetaData } from '@/types';
 import { getCanonical } from '@/utils/permalinks';
-
-import { adaptOpenGraphImages } from '@/utils/images';
 
 export interface Props extends MetaData {
   dontUseTitleTemplate?: boolean;
@@ -24,45 +21,69 @@ const {
   twitter = {},
 } = Astro.props;
 
-const seoProps: AstroSeoProps = merge(
-  {
-    title: '',
-    titleTemplate: '%s',
-    canonical: canonical,
-    noindex: true,
-    nofollow: true,
-    description: undefined,
-    openGraph: {
-      url: canonical,
-      site_name: SITE?.name,
-      images: [],
-      locale: I18N?.language || 'en',
-      type: 'website',
-    },
-    twitter: {
-      cardType: openGraph?.images?.length ? 'summary_large_image' : 'summary',
-    },
+const baseSeo: AstroSeoProps = {
+  title: '',
+  titleTemplate: '%s',
+  canonical,
+  noindex: true,
+  nofollow: true,
+  description: undefined,
+  openGraph: {
+    url: canonical,
+    site_name: SITE?.name,
+    images: [],
+    locale: I18N?.language || 'en',
+    type: 'website',
   },
-  {
-    title: METADATA?.title?.default,
-    titleTemplate: METADATA?.title?.template,
-    noindex: typeof METADATA?.robots?.index !== 'undefined' ? !METADATA.robots.index : undefined,
-    nofollow: typeof METADATA?.robots?.follow !== 'undefined' ? !METADATA.robots.follow : undefined,
-    description: METADATA?.description,
-    openGraph: METADATA?.openGraph,
-    twitter: METADATA?.twitter,
+  twitter: {
+    cardType: (openGraph as any)?.images?.length ? 'summary_large_image' : 'summary',
   },
-  {
-    title: title,
-    titleTemplate: ignoreTitleTemplate ? '%s' : undefined,
-    canonical: canonical,
-    noindex: typeof robots?.index !== 'undefined' ? !robots.index : undefined,
-    nofollow: typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
-    description: description,
-    openGraph: { url: canonical, ...openGraph },
-    twitter: twitter,
-  }
-);
+};
+
+const fromSiteConfig: Partial<AstroSeoProps> = {
+  title: METADATA?.title?.default,
+  titleTemplate: METADATA?.title?.template,
+  noindex: typeof METADATA?.robots?.index !== 'undefined' ? !METADATA.robots.index : undefined,
+  nofollow: typeof METADATA?.robots?.follow !== 'undefined' ? !METADATA.robots.follow : undefined,
+  description: METADATA?.description,
+  openGraph: METADATA?.openGraph,
+  twitter: METADATA?.twitter,
+};
+
+const fromPage: Partial<AstroSeoProps> = {
+  title,
+  titleTemplate: ignoreTitleTemplate ? '%s' : undefined,
+  canonical,
+  noindex: typeof robots?.index !== 'undefined' ? !robots.index : undefined,
+  nofollow: typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
+  description,
+  openGraph: { url: canonical, ...(openGraph as any) },
+  twitter: twitter as any,
+};
+
+const seoProps = merge({}, baseSeo, fromSiteConfig, fromPage) as AstroSeoProps;
+
+// -- Normalizzazione URL assolute
+function abs(u?: string) {
+  if (!u) return u;
+  try { return new URL(u, Astro.site ?? undefined).toString(); } catch { return u; }
+}
+
+// -- Normalizza immagini OG
+const og = (seoProps.openGraph ?? {}) as any;
+const ogImages = Array.isArray(og.images)
+  ? og.images.map((img: any) =>
+      typeof img === 'string'
+        ? { url: abs(img) }
+        : { ...img, url: abs(img?.url) }
+    )
+  : [];
+
+const finalOpenGraph = {
+  ...og,
+  url: abs(seoProps.canonical ?? canonical),
+  images: ogImages,
+};
 ---
 
-<AstroSeo {...{ ...seoProps, openGraph: await adaptOpenGraphImages(seoProps?.openGraph, Astro.site) }} />
+<AstroSeo {...{ ...seoProps, openGraph: finalOpenGraph }} />

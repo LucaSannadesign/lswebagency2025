@@ -1,6 +1,4 @@
+// src/vite.config.ts
 import { defineConfig } from 'vite';
-import astro from '@astrojs/vite-plugin-astro';
 
-export default defineConfig({
-  plugins: [astro()],
-});
+export default defineConfig({});

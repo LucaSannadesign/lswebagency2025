@@ -1,48 +1,51 @@
 ---
-import WidgetWrapper from '@/components/ui/WidgetWrapper.astro';
-import ItemGrid from '@/components/ui/ItemGrid.astro';
-import Headline from '@/components/ui/Headline.astro';
-import type { Features as Props } from '@/types';
+type HeadlineClasses = {
+  container?: string;
+  title?: string;
+  subtitle?: string;
+  [k: string]: any;
+};
+
+type ClassesProp = {
+  headline?: HeadlineClasses;
+};
 
 const {
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
-  tagline = await Astro.slots.render('tagline'),
-  items = [],
-  columns = 2,
+  title = '',
+  subtitle = '',
+  tagline = '',
+  classes = {} as ClassesProp,
+} = Astro.props as {
+  title?: string;
+  subtitle?: string;
+  tagline?: string;
+  classes?: ClassesProp;
+};
 
-  defaultIcon,
+// base di default
+const headlineBase: HeadlineClasses = {
+  container: 'mb-12 text-center max-w-3xl mx-auto',
+  title: 'text-3xl md:text-4xl font-bold tracking-tight font-heading text-heading',
+  subtitle: 'mt-4 text-muted text-xl',
+};
 
-  id,
-  isDark = false,
-  classes = {},
-  bg = await Astro.slots.render('bg'),
-} = Astro.props;
+// merge sicuro (niente spread su undefined)
+const headlineMerged: HeadlineClasses = {
+  ...headlineBase,
+  ...(classes && typeof classes.headline === 'object' ? classes.headline : {}),
+};
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl ${classes?.container ?? ''}`} bg={bg}>
-  <Headline
-    title={title}
-    subtitle={subtitle}
-    tagline={tagline}
-    classes={{
-      ...classes?.headline,
-      container: 'mb-8 md:mx-auto md:mb-12 text-center max-w-3xl',
-      title: 'text-3xl md:text-4xl font-bold tracking-tighter font-heading text-heading',
-      subtitle: 'mt-4 text-muted text-xl',
-    }}
-  />
-  <ItemGrid
-  items={items}
-  columns={columns}
-  defaultIcon={defaultIcon}
-  classes={{
-    container: 'grid mx-auto gap-8 md:gap-y-12 sm:grid-cols-2',
-    panel: 'flex flex-row max-w-md', // 🔧 senza animazioni/intersect
-    title: 'text-xl font-bold md:text-[1.3rem]',
-    description: 'text-muted mt-2', // 👈 volendo puoi aggiungerla
-    icon: 'text-white bg-primary rounded-full w-10 h-10 p-2 md:w-12 md:h-12 md:p-3 mr-4 rtl:ml-4 rtl:mr-0',
-    ...((classes?.items as Record<string, never>) ?? {}),
-  }}
-/>
-</WidgetWrapper>
+<!-- Se usi un tuo componente Headline: -->
+<!-- <Headline title={title} subtitle={subtitle} tagline={tagline} classes={headlineMerged} /> -->
+
+<!-- In alternativa, markup inline equivalente (eviti import): -->
+<div class={headlineMerged.container}>
+  {tagline && (
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent">
+      {tagline}
+    </p>
+  )}
+  {title && <h2 class={headlineMerged.title}>{title}</h2>}
+  {subtitle && <p class={headlineMerged.subtitle}>{subtitle}</p>}
+</div>

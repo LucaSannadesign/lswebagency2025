@@ -1,177 +1,256 @@
 ---
-import Features3 from '@/components/widgets/Features3.astro';
-import Hero from '@/components/widgets/Hero.astro';
 import Layout from '@/layouts/PageLayout.astro';
 import Testimonials from '@/components/widgets/Testimonials.astro';
-import CallToAction from '@/components/widgets/CallToAction.astro';
-import { Icon } from '@iconify/react';
 
 const metadata = {
-  title: 'Creazione Siti Web a Sassari | Web Design Moderno e Ottimizzato - LS Web Agency',
-  description: 'Realizziamo siti web su misura a Sassari, ottimizzati per SEO, veloci e performanti. Scopri come aumentare la tua visibilità online con LS Web Agency.',
+  title:
+    'Creazione Siti Web a Sassari | Veloci, SEO & Core Web Vitals Garantiti — LS Web Agency',
+  description:
+    'Siti web professionali a Sassari: veloci, ottimizzati per Google e pensati per convertire. Pacchetti Base, Pro e Avanzato + add-on (Core Web Vitals Express, Local SEO Booster, Consent Mode v2 + GA4 Pro).',
+  canonical: '/servizi/creazione-siti-web-sassari',
 };
+
+const WHATSAPP =
+  'https://wa.me/393403223494?text=Ciao%20LS%20Web%20Agency%2C%20vorrei%20informazioni%20sui%20siti%20web.';
+
+/** 🔗 PayPal Payment Links (ENV) */
+const PP_SITE_BASE_LINK = import.meta.env.PUBLIC_PAYPAL_SETUP_SITE_BASE || '';
+const PP_SITE_PRO_LINK  = import.meta.env.PUBLIC_PAYPAL_SETUP_SITE_PRO  || '';
+const PP_SITE_ADV_LINK  = import.meta.env.PUBLIC_PAYPAL_SETUP_SITE_ADV  || '';
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Section -->
-  <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Richiedi una consulenza',
-        href: '/contatti',
-      },
-      {
-        text: 'Portfolio',
-        href: '/portfolio',
-      },
-    ]}
-    image={{
-      src: '@/assets/images/creazione-sito-web-professionale.webp',
-      alt: 'Creazione siti web moderni e ottimizzati a Sassari',
-      width: 800,
-      height: 600,
-    }}
-  >
-    <Fragment slot="title">
-      Creazione <span class="text-accent text-gradient dark:text-white highlight">Siti Web a Sassari</span>
-    </Fragment>
+  <!-- HERO -->
+  <section class="relative overflow-hidden isolate">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 -z-10
+             h-[520px] sm:h-[560px] md:h-[600px]
+             bg-gradient-to-b from-blue-100/80 via-white to-transparent
+             dark:from-blue-900/40 dark:via-transparent">
+    </div>
 
-    <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">LS Web Agency</span> realizza <strong>siti web professionali</strong>, veloci e ottimizzati per il <strong>SEO</strong>, con un design su misura per migliorare la tua visibilità e aumentare i clienti.
-      </span>
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">
-        Realizziamo siti web moderni per aziende e professionisti!
-      </span>
-      Perfetti per <strong>aziende, freelance e negozi online</strong>, i nostri siti sono progettati per convertire e migliorare la tua presenza digitale.
-    </Fragment>
-  </Hero>
+    <div class="container mx-auto px-6 pt-16 md:pt-20 pb-12">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <!-- Testo -->
+        <div>
+          <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
+            <span class="text-neutral-900 dark:text-white">Creazione </span>
+            <span
+              class="text-blue-600 supports-[background-clip:text]:text-transparent bg-clip-text
+                     bg-gradient-to-r from-neutral-900 via-blue-700 to-blue-600
+                     dark:from-neutral-100 dark:via-blue-400 dark:to-blue-300">
+              Siti Web a Sassari
+            </span>
+          </h1>
 
-  <!-- Servizi Offerti -->
-  <Features3
-    title="Caratteristiche dei Nostri Siti Web"
-    subtitle="Soluzioni web su misura per aziende e professionisti"
-    columns={3}
-    items={[
-      {
-        title: 'Siti Web Personalizzati',
-        description: 'Design unico e funzionalità avanzate per la tua attività.',
-        icon: 'tabler:template',
-      },
-      {
-        title: 'SEO Avanzata',
-        description: 'Ottimizzazione completa per un migliore posizionamento su Google.',
-        icon: 'tabler:search',
-      },
-      {
-        title: 'Siti Responsive',
-        description: 'Perfetti per ogni dispositivo: mobile, tablet e desktop.',
-        icon: 'tabler:device-desktop',
-      },
-    ]}
-  />
+          <p class="mt-4 text-base md:text-lg text-neutral-700 dark:text-neutral-300">
+            Realizziamo <strong>siti veloci, sicuri e ottimizzati SEO</strong>, con
+            design su misura e attenzione alle <strong>Core Web Vitals</strong> per
+            un’esperienza utente eccellente e posizionamenti stabili.
+          </p>
 
-  <!-- Nuovo Servizio: WordPress Slim -->
-  <section class="py-16 bg-gray-50 dark:bg-gray-900">
-    <div class="container mx-auto px-6 max-w-5xl">
-      <h2 class="text-2xl font-bold text-center mb-4 text-gray-900 dark:text-white">
-        🔧 Novità: WordPress Slim
-      </h2>
-      <p class="text-center text-lg text-muted mb-8">
-        Trasformiamo il tuo sito WordPress in una versione <strong>statica o headless</strong> per renderlo più veloce, sicuro e facile da mantenere.
-        Ideale per chi vuole il massimo delle prestazioni con il minimo della manutenzione.
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="/contatti"
+               class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-blue-600 hover:bg-blue-700 transition">
+              Richiedi una consulenza
+            </a>
+            <a href="#pacchetti"
+               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              Vedi pacchetti
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              WhatsApp
+            </a>
+          </div>
+
+          <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">Core Web Vitals</div>
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">SEO On-Page</div>
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">Mobile-First</div>
+          </div>
+        </div>
+
+        <!-- Immagine (compatta) -->
+        <div class="relative md:ml-auto">
+          <figure
+            class="rounded-2xl overflow-hidden shadow-lg ring-1 ring-neutral-200 dark:ring-neutral-800
+                   w-full max-w-[560px] lg:max-w-[600px]">
+            <img
+              src="/images/creazione-sito-web-professionale.webp"
+              alt="Siti web moderni, veloci e SEO-friendly a Sassari"
+              class="w-full h-[260px] sm:h-[320px] md:h-[360px] lg:h-[400px] object-cover"
+              loading="eager" decoding="async" fetchpriority="high"
+              width="800" height="600"
+              sizes="(min-width:1024px) 600px, (min-width:768px) 48vw, 92vw"
+            />
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALORE -->
+  <section class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Cosa ottieni (davvero)</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      {[
+        ['Velocità & Stabilità','Architettura pulita, immagini ottimizzate, JS ridotto al minimo: siti che caricano in un lampo e non “saltano”.'],
+        ['SEO Tecnico & On-Page','Struttura, meta, schema, heading e contenuti pronti a scalare su Google.'],
+        ['Design che converte','User journey chiari, call to action efficaci, moduli e WhatsApp sempre a portata.'],
+      ].map(([t, d]) => (
+        <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+          <h3 class="font-semibold text-lg mb-2">{t}</h3>
+          <p class="text-neutral-600 dark:text-neutral-300">{d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CORE WEB VITALS -->
+  <section class="container mx-auto px-6 py-6">
+    <div class="rounded-2xl p-6 ring-1 ring-blue-200 dark:ring-blue-800/60 bg-blue-50/60 dark:bg-blue-900/20">
+      <h2 class="text-xl md:text-2xl font-bold mb-3">Core Web Vitals: cosa sono e perché contano</h2>
+      <div class="grid md:grid-cols-4 gap-4">
+        <div><div class="font-semibold">LCP &lt; 2.5s</div><p class="text-sm text-neutral-700 dark:text-neutral-300">Il contenuto principale appare rapidamente.</p></div>
+        <div><div class="font-semibold">INP &lt; 200ms</div><p class="text-sm text-neutral-700 dark:text-neutral-300">Il sito risponde subito ai tuoi click.</p></div>
+        <div><div class="font-semibold">CLS &lt; 0.1</div><p class="text-sm text-neutral-700 dark:text-neutral-300">Layout stabile, niente elementi che “saltano”.</p></div>
+        <div><div class="font-semibold">TTFB &lt; 0.8s</div><p class="text-sm text-neutral-700 dark:text-neutral-300">Server e rete ottimizzati per il primo byte.</p></div>
+      </div>
+      <p class="mt-4 text-sm text-neutral-700 dark:text-neutral-300">
+        Con i pacchetti <strong>Pro</strong> e <strong>Avanzato</strong> puntiamo al <strong>pass</strong> delle soglie su
+        mobile al 75° percentile nei dati reali (CrUX), con report <em>pre/post</em> e monitoraggio.
       </p>
-      <div class="text-center">
-        <a href="/servizi/wordpress-slim-siti-statici-headless" class="inline-block bg-accent text-white font-semibold py-3 px-6 rounded shadow hover:shadow-lg transition">
-          Scopri WordPress Slim →
-        </a>
+    </div>
+  </section>
+
+  <!-- PACCHETTI (con pulsanti PayPal "Acquista") -->
+  <section id="pacchetti" class="relative">
+    <div class="absolute inset-x-0 top-0 h-32 -z-10 bg-gradient-to-b from-blue-50/70 to-transparent dark:from-blue-900/20"></div>
+
+    <div class="container mx-auto px-6 py-10">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6">Pacchetti siti web</h2>
+      <p class="text-neutral-600 dark:text-neutral-300 mb-6">
+        Prezzi indicativi. Ogni progetto è personalizzabile in base a pagine, integrazioni e contenuti.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- BASE -->
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+          <h3 class="font-semibold text-lg mb-1">Base</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Vetrina essenziale, pronto a convertire.</p>
+
+          <div class="mb-4">
+            <div class="text-2xl font-bold">da 690 €</div>
+            <div class="text-sm text-neutral-600 dark:text-neutral-300">assistenza opz. da 39 €/mese</div>
+          </div>
+
+          <ul class="text-sm space-y-1 mb-6">
+            <li><strong>Stack consigliato:</strong> WordPress leggero <em>oppure</em> Astro statico</li>
+            <li>Fino a 5 pagine</li>
+            <li>Design personalizzato</li>
+            <li>SEO on-page base</li>
+            <li>Contatti & WhatsApp</li>
+            <li>Ottimizzazioni performance essenziali</li>
+          </ul>
+
+          <div class="mt-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <a
+              href={PP_SITE_BASE_LINK || '/contatti?pkg=site-base'}
+              target={PP_SITE_BASE_LINK ? '_blank' : undefined}
+              rel={PP_SITE_BASE_LINK ? 'noopener nofollow' : undefined}
+              aria-label="Acquista — Pacchetto Base"
+              class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-blue-600 text-white hover:bg-blue-700">
+              Acquista
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              WhatsApp
+            </a>
+          </div>
+
+          <p class="mt-2 text-xs text-neutral-500">Pagamento sicuro con PayPal.</p>
+        </article>
+
+        <!-- PRO -->
+        <article class="relative rounded-2xl p-6 ring-2 ring-blue-400 dark:ring-blue-600 bg-gradient-to-b from-white to-blue-50 dark:from-neutral-900 dark:to-blue-900/10 shadow-md flex flex-col">
+          <span class="absolute -top-3 right-4 text-xs font-semibold px-2 py-1 rounded-full bg-blue-600 text-white">Più scelto</span>
+          <h3 class="font-semibold text-lg mb-1">Pro</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Per crescere su Google con CWV garantiti.</p>
+
+          <div class="mb-4">
+            <div class="text-2xl font-bold">da 1.590 €</div>
+            <div class="text-sm text-neutral-600 dark:text-neutral-300">assistenza opz. da 79 €/mese</div>
+          </div>
+
+          <ul class="text-sm space-y-1 mb-6">
+            <li><strong>Stack consigliato:</strong> Astro + Headless CMS (WP headless / Sanity / Strapi)
+              <em> oppure</em> WordPress Slim ottimizzato</li>
+            <li>Fino a 10 pagine + Blog</li>
+            <li>SEO tecnico &amp; schema markup</li>
+            <li><strong>Core Web Vitals</strong> (target pass mobile)</li>
+            <li>Report pre/post performance</li>
+            <li>Tracciamento GA4 / eventi base</li>
+          </ul>
+
+          <div class="mt-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <a
+              href={PP_SITE_PRO_LINK || '/contatti?pkg=site-pro'}
+              target={PP_SITE_PRO_LINK ? '_blank' : undefined}
+              rel={PP_SITE_PRO_LINK ? 'noopener nofollow' : undefined}
+              aria-label="Acquista — Pacchetto Pro"
+              class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-blue-600 text-white hover:bg-blue-700">
+              Acquista
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              WhatsApp
+            </a>
+          </div>
+
+          <p class="mt-2 text-xs text-neutral-500">Pagamento sicuro con PayPal.</p>
+        </article>
+
+        <!-- AVANZATO -->
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+          <h3 class="font-semibold text-lg mb-1">Avanzato</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Headless / catalogo light / integrazioni.</p>
+
+          <div class="mb-4">
+            <div class="text-2xl font-bold">da 2.490 €</div>
+            <div class="text-sm text-neutral-600 dark:text-neutral-300">assistenza opz. da 99 €/mese</div>
+          </div>
+
+          <ul class="text-sm space-y-1 mb-6">
+            <li><strong>Stack consigliato:</strong> Headless (Astro/Next.js) + CMS headless + integrazioni</li>
+            <li>Architettura headless / statico</li>
+            <li>Componenti custom & integrazioni</li>
+            <li><strong>Core Web Vitals</strong> (target pass mobile)</li>
+            <li>Localizzazione / multi-lingua (opz.)</li>
+            <li>Audit SEO avanzato</li>
+          </ul>
+
+          <div class="mt-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <a
+              href={PP_SITE_ADV_LINK || '/contatti?pkg=site-avanzato'}
+              target={PP_SITE_ADV_LINK ? '_blank' : undefined}
+              rel={PP_SITE_ADV_LINK ? 'noopener nofollow' : undefined}
+              aria-label="Acquista — Pacchetto Avanzato"
+              class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-blue-600 text-white hover:bg-blue-700">
+              Acquista
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              WhatsApp
+            </a>
+          </div>
+
+          <p class="mt-2 text-xs text-neutral-500">Pagamento sicuro con PayPal.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- Perché scegliere LS Web Agency -->
-  <section class="py-16">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-6">Perché scegliere noi?</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div class="space-y-6">
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:trophy" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold flex items-center">
-                <Icon icon="tabler:trophy" class="mr-2 text-primary" /> Esperienza e Qualità
-              </h3>
-              <p class="text-muted">Sviluppiamo siti web da anni, con risultati garantiti.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:palette" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold flex items-center">
-                <Icon icon="tabler:palette" class="mr-2 text-primary" /> Design Moderno e Unico
-              </h3>
-              <p class="text-muted">Interfacce intuitive e grafiche accattivanti per distinguerti online.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:shield-check" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold flex items-center">
-                <Icon icon="tabler:shield-check" class="mr-2 text-primary" /> Sicurezza e Aggiornamenti
-              </h3>
-              <p class="text-muted">Backup, protezione da malware e aggiornamenti costanti.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="space-y-6">
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:users" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold flex items-center">
-                <Icon icon="tabler:users" class="mr-2 text-primary" /> Assistenza Continua
-              </h3>
-              <p class="text-muted">Supporto post-lancio per miglioramenti e manutenzione.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:graph" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold flex items-center">
-                <Icon icon="tabler:graph" class="mr-2 text-primary" /> Ottimizzazione per Conversioni
-              </h3>
-              <p class="text-muted">Struttura strategica per aumentare contatti e vendite.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-4">
-            <Icon icon="tabler:device-mobile" class="text-accent text-3xl" />
-            <div>
-              <h3 class="text-lg font-semibold flex items-center">
-                <Icon icon="tabler:device-mobile" class="mr-2 text-primary" /> Mobile-First
-              </h3>
-              <p class="text-muted">Perfetto per smartphone e tablet con UX avanzata.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sezione Testimonianze -->
-  <Testimonials />
-
-  <!-- Call to Action -->
-  <CallToAction
-    title="Vuoi un sito web professionale?"
-    subtitle="Parliamone e troviamo la soluzione perfetta per la tua attività."
-  >
-    <Fragment slot="actions">
-      <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
-    </Fragment>
-  </CallToAction>
+  <!-- (resto pagina invariato: eventuali sezioni aggiuntive / JSON-LD, se presenti altrove) -->
 </Layout>

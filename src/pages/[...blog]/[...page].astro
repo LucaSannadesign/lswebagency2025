@@ -16,14 +16,16 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   try {
     return await getStaticPathsBlogList({ paginate });
   } catch (error) {
-    console.error("Errore nella generazione dei percorsi statici:", error);
+    console.error('Errore nella generazione dei percorsi statici:', error);
     return [];
   }
 };
 
+// (opzionale) Tipo inferito, se ti serve altrove
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { page } = Astro.props as Props ?? {};
+// ⬇️ Fix: tipizza “al volo” page per evitare never
+const page: any = (Astro as any).props?.page ?? {};
 const currentPage = page?.currentPage ?? 1;
 
 // Metadata per SEO e OpenGraph
@@ -42,8 +44,9 @@ const metadata = {
 <Layout metadata={metadata}>
   <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
     <Headline subtitle="Il Blog di LS Web Agency: Guide su Web Design, SEO e Sviluppo Web">
-      Il Blog 
+      Il Blog
     </Headline>
+    <!-- ✅ Usi lasciati invariati -->
     <BlogList posts={page?.data ?? []} />
     <Pagination prevUrl={page?.url?.prev} nextUrl={page?.url?.next} />
   </section>

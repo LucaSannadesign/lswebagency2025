@@ -3,7 +3,45 @@ import Headline from '@/components/ui/Headline.astro';
 import ItemGrid from '@/components/ui/ItemGrid.astro';
 import WidgetWrapper from '@/components/ui/WidgetWrapper.astro';
 import Image from '@/components/common/Image.astro';
-import type { Features as Props } from '@/types';
+
+type HeadlineClasses = {
+  container?: string;
+  title?: string;
+  subtitle?: string;
+  [k: string]: any;
+};
+
+type ItemsClasses = {
+  container?: string;
+  panel?: string;
+  title?: string;
+  description?: string;
+  icon?: string;
+  [k: string]: any;
+};
+
+type ClassesProp = {
+  container?: string;
+  headline?: HeadlineClasses;
+  items?: ItemsClasses;
+  [k: string]: any;
+};
+
+type Features3Props = {
+  title?: any;
+  subtitle?: any;
+  tagline?: any;
+  image?: any;
+  items?: any[];
+  columns?: number;
+  defaultIcon?: string;
+  isBeforeContent?: boolean;
+  isAfterContent?: boolean;
+  id?: string;
+  isDark?: boolean;
+  classes?: ClassesProp;
+  bg?: any;
+};
 
 const {
   title = await Astro.slots.render('title'),
@@ -15,43 +53,58 @@ const {
   defaultIcon,
   isBeforeContent,
   isAfterContent,
-
   id,
   isDark = false,
-  classes = {},
+  classes = {} as ClassesProp,
   bg = await Astro.slots.render('bg'),
-} = Astro.props;
+} = Astro.props as Features3Props;
+
+// Base + merge sicuro per Headline
+const headlineBase: HeadlineClasses = {
+  container: 'mb-8 md:mx-auto md:mb-12 text-center max-w-3xl',
+  title: 'text-3xl md:text-4xl font-bold tracking-tighter font-heading text-heading',
+  subtitle: 'mt-4 text-muted text-xl',
+};
+const headlineMerged: HeadlineClasses = {
+  ...headlineBase,
+  ...(typeof classes?.headline === 'object' && classes.headline ? classes.headline : {}),
+};
+
+// Base + merge sicuro per Items
+const itemsBase: ItemsClasses = {
+  container: 'mt-12',
+  panel: 'bg-white dark:bg-slate-900 shadow-lg border border-gray-200 dark:border-gray-700 p-6 rounded-lg',
+  title: 'text-lg font-semibold',
+  description: 'mt-0.5 text-muted',
+  icon: 'flex-shrink-0 mt-1 text-primary w-6 h-6',
+};
+const itemsMerged: ItemsClasses = {
+  ...itemsBase,
+  ...(typeof classes?.items === 'object' && classes.items ? classes.items : {}),
+};
 ---
 
 <WidgetWrapper
   id={id}
   isDark={isDark}
-  containerClass={`${
-    isBeforeContent ? 'md:pb-8 lg:pb-12' : ''
-  } ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
+  containerClass={`${isBeforeContent ? 'md:pb-8 lg:pb-12' : ''} ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
   bg={bg}
 >
   <Headline
     title={title}
     subtitle={subtitle}
     tagline={tagline}
-    classes={{
-      ...classes?.headline,
-      container: 'mb-8 md:mx-auto md:mb-12 text-center max-w-3xl',
-      title: 'text-3xl md:text-4xl font-bold tracking-tighter font-heading text-heading',
-      subtitle: 'mt-4 text-muted text-xl',
-    }}
+    classes={headlineMerged}
   />
 
   {image && (
     <div aria-hidden="true" class="aspect-w-16 aspect-h-7 mt-8">
       <div class="w-full h-80 object-cover rounded-xl mx-auto bg-gray-500 shadow-lg">
         {typeof image === 'string' ? (
-          <Fragment set:html={image} />
+          <div set:html={image}></div>
         ) : (
           <Image
             class="w-full h-80 object-cover rounded-xl mx-auto bg-gray-500 shadow-lg"
-            width="auto"
             height={320}
             widths={[400, 768]}
             layout="fullWidth"
@@ -66,13 +119,6 @@ const {
     items={items}
     columns={columns}
     defaultIcon={defaultIcon}
-    classes={{
-      container: 'mt-12',
-      panel: 'bg-white dark:bg-slate-900 shadow-lg border border-gray-200 dark:border-gray-700 p-6 rounded-lg',
-      title: 'text-lg font-semibold',
-      description: 'mt-0.5 text-muted',
-      icon: 'flex-shrink-0 mt-1 text-primary w-6 h-6',
-      ...((classes?.items as object) ?? {}),
-    }}
+    classes={itemsMerged}
   />
 </WidgetWrapper>

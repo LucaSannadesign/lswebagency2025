@@ -1,37 +1,24 @@
-import { getRssString } from '@astrojs/rss';
+import rss from '@astrojs/rss';
+import { getCollection } from 'astro:content';
 
-import { SITE, METADATA, APP_BLOG } from 'astrowind:config';
-import { fetchPosts } from '@/utils/blog';
-import { getPermalink } from '@/utils/permalinks';
+export async function GET(context) {
+  const posts = await getCollection('post', (e) => !e.data?.draft);
+  posts.sort((a, b) => (new Date(b.data?.publishDate ?? b.data?.pubDate).valueOf()) - (new Date(a.data?.publishDate ?? a.data?.pubDate).valueOf()));
 
-export const GET = async () => {
-  if (!APP_BLOG.isEnabled) {
-    return new Response(null, {
-      status: 404,
-      statusText: 'Not found',
-    });
-  }
-
-  const posts = await fetchPosts();
-
-  const rss = await getRssString({
-    title: `${SITE.name}’s Blog`,
-    description: METADATA?.description || '',
-    site: import.meta.env.SITE,
-
-    items: posts.map((post) => ({
-      link: getPermalink(post.permalink, 'post'),
-      title: post.title,
-      description: post.excerpt,
-      pubDate: post.publishDate,
-    })),
-
-    trailingSlash: SITE.trailingSlash,
+  return rss({
+    title: 'LS Web Agency — Blog',
+    description: 'SEO, web design, accessibilità e digital marketing.',
+    site: context.site ?? 'https://www.lswebagency.com',
+    items: posts.map((p) => {
+      const slug = p.slug || '';
+      const link = slug.startsWith('blog/') ? `/${slug}` : `/blog/${slug}`;
+      return {
+        link,
+        title: p.data?.title ?? slug,
+        pubDate: p.data?.publishDate ?? p.data?.pubDate,
+        description: p.data?.description ?? p.data?.excerpt ?? '',
+      };
+    }),
+    customData: `<language>it-it</language>`,
   });
-
-  return new Response(rss, {
-    headers: {
-      'Content-Type': 'application/xml',
-    },
-  });
-};
+}

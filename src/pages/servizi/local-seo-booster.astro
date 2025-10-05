@@ -1,0 +1,290 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+
+/* ===== PayPal links (env con fallback prod) =====
+   - PUBLIC_PAYPAL_SETUP_LOCALSEO        -> Setup una tantum (490 €)
+   - PUBLIC_PAYPAL_ASSIST_LOCALSEO       -> Manutenzione (49 €/mese)
+   - PUBLIC_PAYPAL_BOOSTER_RECENSIONI    -> Recensioni Booster (39 €/mese)
+*/
+const linkSetupLocalSeo =
+  import.meta.env.PUBLIC_PAYPAL_SETUP_LOCALSEO ||
+  'https://www.paypal.com/ncp/payment/GUJPCWZFWHMYG';
+
+const linkAssistLocalSeo =
+  import.meta.env.PUBLIC_PAYPAL_ASSIST_LOCALSEO ||
+  'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-5R429712GP839143HNDGU7PI';
+
+const linkReviewsBooster =
+  import.meta.env.PUBLIC_PAYPAL_BOOSTER_RECENSIONI ||
+  'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-20L71242S1109083RNDGVFII';
+
+// === SEO ===
+const metadata = {
+  title: 'Local SEO Booster — Google Business Profile & Local Pack',
+  description:
+    'Ottimizzazione completa del profilo Google Business Profile, miglioramento posizionamenti nel Local Pack e gestione recensioni. Setup una tantum + piani mensili.',
+  canonical: '/servizi/local-seo-booster',
+  robots: { index: true, follow: true },
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-100 via-white to-white dark:from-emerald-900/30 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 pb-10 text-center">
+      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200 ring-1 ring-emerald-200/60 dark:ring-emerald-700/50">
+        Local SEO · Google Business Profile
+      </span>
+
+      <!-- H1 con gradiente nero → verde (dark: bianco → verde chiaro) -->
+      <h1
+        class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight
+               text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
+               bg-gradient-to-r from-black via-emerald-700 to-emerald-300
+               dark:from-white dark:via-emerald-400 dark:to-emerald-200">
+        Local SEO Booster
+      </h1>
+
+      <p class="mt-3 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+        Più visite local, più chiamate e richieste via Google. Setup completo del
+        profilo, ottimizzazioni on-page locali e crescita costante nel Local Pack.
+      </p>
+
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href="#prezzi" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-emerald-600 hover:bg-emerald-700 transition">
+          Vedi prezzi
+        </a>
+        <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+          Parla con noi
+        </a>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-neutral-600 dark:text-neutral-300">
+        <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Per attività locali &amp; multi-sede</div>
+        <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Focus su GBP + Local Pack</div>
+        <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Risultati misurabili</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA INCLUDE -->
+  <section class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Cosa include</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        ['Audit & setup GBP','Verifica categorie, NAP, servizi, foto, attributi e policy. Correzione incongruenze.'],
+        ['Ottimizzazioni locale on-page','Titoli/H1 locali, schema LocalBusiness, NAP coerente, map embed, pagine sede/servizio.'],
+        ['Strategia contenuti locali','Piano post mensili GBP e FAQ locali per catturare ricerche “vicino a me”.'],
+        ['Recensioni & reputazione','Template richiesta, risposta e gestione criticità secondo linee guida Google.'],
+        ['Citazioni & directory','Short-list directory locali / settoriali ad alto trust.'],
+        ['Tracking & KPI','Setup tracciamento click chiamata, indicazioni stradali, UTM e report baseline.'],
+      ].map(([t,d]) => (
+        <div class="rounded-2xl p-6 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-900/40 dark:to-neutral-900 ring-1 ring-neutral-200 dark:ring-neutral-800 shadow-sm">
+          <div class="mb-2 font-semibold">{t}</div>
+          <p class="text-neutral-600 dark:text-neutral-300">{d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- FASI -->
+  <section class="container mx-auto px-6 py-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Come lavoriamo</h2>
+    <div class="grid md:grid-cols-4 gap-4">
+      {[
+        ['Onboarding','Raccolta accessi GBP, siti e materiali. Obiettivi e zone di interesse.'],
+        ['Setup & correzioni','Fix NAP, categorie, servizi, foto, schema. Allineamento directory principali.'],
+        ['Boost contenuti locali','Linee guida per pagine/sedi, calendario post GBP, recensioni.'],
+        ['Report & next steps','Baseline KPI locali e roadmap 90 giorni.'],
+      ].map(([title,desc],i)=>(
+        <div class="relative rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-emerald-600 text-white font-bold">{i+1}</span>
+            <h3 class="font-semibold">{title}</h3>
+          </div>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300">{desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- PREZZI -->
+  <section id="prezzi" class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Prezzi</h2>
+    <p class="text-neutral-600 dark:text-neutral-300 mb-6"><em>Prezzi indicativi, IVA esclusa.</em></p>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Recensioni Booster -->
+      <div class="relative rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <span class="absolute -top-3 left-4 text-xs font-semibold px-2 py-1 rounded-full bg-emerald-600 text-white">Nuovo</span>
+        <h3 class="text-xl font-semibold mb-2">Recensioni Booster</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3">Focalizzato su GBP + richieste recensioni.</p>
+        <div class="text-3xl font-extrabold mb-1">39 € / mese</div>
+        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+          <li>• Link &amp; QR diretti alla recensione (shortlink brandizzato)</li>
+          <li>• Template messaggi (WhatsApp / email) pronti</li>
+          <li>• Alert nuove recensioni + risposte guidate</li>
+          <li>• KPI recensioni: volume, rating medio, % risposta</li>
+        </ul>
+        <a
+          href={linkReviewsBooster || "#"}
+          target={linkReviewsBooster ? "_blank" : undefined}
+          rel={linkReviewsBooster ? "noopener" : undefined}
+          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-emerald-600 text-white hover:bg-emerald-700 active:bg-emerald-800 transition"
+          aria-disabled={!linkReviewsBooster}
+        >
+          Attiva
+        </a>
+        <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+          Disattivabile quando vuoi. <strong>Non necessario se attivi Manutenzione</strong>.
+        </p>
+      </div>
+
+      <!-- Setup una tantum -->
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <h3 class="text-xl font-semibold mb-2">Setup (una tantum)</h3>
+        <div class="text-3xl font-extrabold mb-1">490 €</div>
+        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+          <li>• Audit &amp; setup GBP + correzioni NAP</li>
+          <li>• Ottimizzazioni locali on-page &amp; schema</li>
+          <li>• Linee guida contenuti locali e recensioni</li>
+          <li>• Report baseline KPI locali</li>
+        </ul>
+        <a
+          href={linkSetupLocalSeo || "#"}
+          target={linkSetupLocalSeo ? "_blank" : undefined}
+          rel={linkSetupLocalSeo ? "noopener" : undefined}
+          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90 transition"
+          aria-disabled={!linkSetupLocalSeo}
+        >
+          Acquista setup
+        </a>
+        <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+          Consigliato prima di attivare i piani mensili.
+        </p>
+      </div>
+
+      <!-- Manutenzione -->
+      <div class="relative rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <span class="absolute -top-3 right-4 text-xs font-semibold px-2 py-1 rounded-full bg-emerald-600 text-white">Più scelto</span>
+        <h3 class="text-xl font-semibold mb-2">Manutenzione (opzionale)</h3>
+        <div class="text-3xl font-extrabold mb-1">49 € / mese</div>
+        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+          <li>• Monitor Local Pack &amp; query principali</li>
+          <li>• 1 post/mese su GBP (promo, novità)</li>
+          <li>• Mini-report mensile (azioni consigliate)</li>
+          <li>• Richieste aggiornamenti prioritarie</li>
+          <li>• Supporto su policy e ottimizzazioni GBP</li>
+        </ul>
+        <a
+          href={linkAssistLocalSeo || "#"}
+          target={linkAssistLocalSeo ? "_blank" : undefined}
+          rel={linkAssistLocalSeo ? "noopener" : undefined}
+          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-emerald-600 text-white hover:bg-emerald-700 active:bg-emerald-800 transition"
+          aria-disabled={!linkAssistLocalSeo}
+        >
+          Attiva manutenzione
+        </a>
+        <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+          Disattivabile in qualsiasi momento. <strong>Comprende Recensioni Booster</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">FAQ</h2>
+    <div class="space-y-3">
+      {[
+        ['Quando vedrò i primi risultati?',
+         'Per la maggior parte delle realtà locali si notano segnali entro 2–6 settimane (più chiamate, richieste indicazioni, crescita delle impressions su Maps). I tempi dipendono da concorrenza e qualità dei materiali.'],
+        ['Cosa vi serve per iniziare?',
+         'Accesso “Manager” al Google Business Profile, accesso al sito (o al CMS), logo/foto aggiornate, elenco servizi e aree servite. Per multi-sede, un foglio con NAP e categorie per ogni sede.'],
+        ['Non ho una sede aperta al pubblico: posso farlo?',
+         'Sì, per attività “service-area” è possibile verificare il profilo e mostrare solo le aree servite nascondendo l’indirizzo (se le policy lo consentono).'],
+        ['Local SEO è diverso dalla SEO organica?',
+         'Sì: il Local SEO lavora su Mappe/Local Pack e segnali di prossimità; la SEO organica lavora sui risultati “classici”. Sono attività complementari.'],
+        ['Quante sedi sono incluse?',
+         'Il prezzo di setup si riferisce a 1 sede. Sedi aggiuntive vengono preventivate a parte in base a complessità e volumi.'],
+        ['Cosa include la manutenzione mensile e come si disdice?',
+         'Include 1 post/mese su GBP, monitor Local Pack & query principali, mini-report e richieste prioritarie. La disdetta è immediata dal link PayPal e sospende i rinnovi futuri.'],
+        ['Serve un contratto lungo?',
+         'No. La manutenzione è mese per mese; puoi interrompere quando vuoi.'],
+        ['Booster recensioni è compreso nella manutenzione?',
+         'Sì. Se attivi Manutenzione non serve attivare a parte il piano Recensioni Booster.'],
+        ['Emettete fattura?',
+         'Certo. Dopo l’acquisto ricevi conferma via email e i dati per la fatturazione; in alternativa puoi indicarli nel form di onboarding.'],
+      ].map(([q,a]) => (
+        <details class="rounded-2xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+          <summary class="font-semibold cursor-pointer">{q}</summary>
+          <p class="mt-2 text-neutral-600 dark:text-neutral-300">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- Sticky CTA mobile -->
+  <div class="fixed bottom-4 inset-x-0 px-4 md:hidden z-40">
+    <div class="rounded-full bg-white/90 dark:bg-neutral-900/90 shadow-lg backdrop-blur flex gap-2 p-2 ring-1 ring-neutral-200 dark:ring-neutral-800">
+      <a href={linkReviewsBooster || "#"} target="_blank" rel="noopener"
+         class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-700">
+        Booster
+      </a>
+      <a href={linkSetupLocalSeo || "#"} target="_blank" rel="noopener"
+         class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-black text-white hover:opacity-90">
+        Setup
+      </a>
+      <a href={linkAssistLocalSeo || "#"} target="_blank" rel="noopener"
+         class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-700">
+        Manutenzione
+      </a>
+    </div>
+  </div>
+
+  <!-- JSON-LD: Service + OfferCatalog -->
+  <script type="application/ld+json" is:inline>
+  {
+    "@context":"https://schema.org",
+    "@type":"Service",
+    "name":"Local SEO Booster",
+    "areaServed":"IT",
+    "provider":{"@type":"Organization","name":"LS Web Agency"},
+    "description":"Ottimizzazione Google Business Profile e Local Pack per attività locali. Setup una tantum e piani mensili (manutenzione e recensioni).",
+    "offers":{
+      "@type":"AggregateOffer",
+      "lowPrice":"39",
+      "highPrice":"490",
+      "priceCurrency":"EUR"
+    },
+    "hasOfferCatalog":{
+      "@type":"OfferCatalog",
+      "name":"Piani Local SEO",
+      "itemListElement":[
+        {
+          "@type":"Offer",
+          "name":"Recensioni Booster",
+          "price":"39",
+          "priceCurrency":"EUR",
+          "description":"Link & QR diretti alla recensione, template messaggi, alert e risposte guidate, KPI recensioni."
+        },
+        {
+          "@type":"Offer",
+          "name":"Setup",
+          "price":"490",
+          "priceCurrency":"EUR",
+          "description":"Audit & setup GBP, correzioni NAP, ottimizzazioni on-page locali, schema, baseline KPI."
+        },
+        {
+          "@type":"Offer",
+          "name":"Manutenzione",
+          "price":"49",
+          "priceCurrency":"EUR",
+          "description":"Monitor Local Pack, 1 post/mese su GBP, mini-report, richieste prioritarie, supporto policy. Comprende Recensioni Booster."
+        }
+      ]
+    }
+  }
+  </script>
+</Layout>

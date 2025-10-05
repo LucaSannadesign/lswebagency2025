@@ -1,0 +1,33 @@
+{
+  "name": "Olbia",
+  "slug": "olbia",
+  "region": "Sardegna",
+  "province": "SS",
+  "country": "IT",
+  "priority": 96,
+  "published": true,
+  "description": "Soluzioni web per turismo, servizi e professionisti a Olbia. Performance elevate, tracciamento GA4/GSC e funnel locali.",
+  "services": [
+    {
+      "title": "WordPress Slim",
+      "href": "/servizi/wordpress-slim-siti-statici-headless"
+    },
+    {
+      "title": "Local SEO & Maps",
+      "href": "/servizi/local-seo-booster"
+    },
+    {
+      "title": "Assistente AI 24/7",
+      "href": "/servizi/assistente-ai-sito-whatsapp"
+    }
+  ],
+  "metadata": {
+    "title": "Olbia — Servizi Local | LS Web Agency",
+    "description": "Siti performanti, Local SEO e automazioni AI per la tua attività a Olbia.",
+    "canonical": "https://lswebagency.com/local/olbia",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  }
+}

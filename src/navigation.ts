@@ -1,3 +1,5 @@
+// src/navigation.ts
+
 export const headerData = {
   links: [
     { text: 'Home', href: '/' },
@@ -6,6 +8,10 @@ export const headerData = {
       text: 'Servizi',
       href: '/servizi',
       links: [
+        // NOVITÀ / principali
+        { text: 'Local SEO Booster', href: '/servizi/local-seo-booster' },
+
+        // Altri servizi
         { text: 'Creazione siti web', href: '/servizi/creazione-siti-web-sassari' },
         { text: 'Realizzazione E-commerce', href: '/servizi/realizzazione-siti-ecommerce' },
         { text: 'Ottimizzazione SEO', href: '/servizi/ottimizzazione-seo-siti-web' },
@@ -13,9 +19,15 @@ export const headerData = {
         { text: 'Accessibilità Digitale', href: '/servizi/accessibilita-digitale-avanzata' },
         { text: 'UX con AI', href: '/servizi/personalizzazione-ux-intelligenza-artificiale' },
         { text: 'Web Design Etico', href: '/servizi/web-design-etico-sostenibile' },
-        { text: 'Voucher Digitali', href: '/servizi/voucher-digitali-sassari' }
+        { text: 'Voucher Digitali', href: '/servizi/voucher-digitali-sassari' },
+        { text: 'Assistente AI (Sito & WhatsApp)', href: '/servizi/assistente-ai-sito-whatsapp' },
       ],
     },
+
+    // ✅ voci top-level aggiunte
+    { text: 'Local', href: '/local' },
+    { text: 'Pagamenti', href: '/pagamenti' },
+
     { text: 'Portfolio', href: '/portfolio' },
     { text: 'Blog', href: '/blog' },
     { text: 'Contatti', href: '/contatti' },
@@ -25,13 +37,22 @@ export const headerData = {
 
 export const footerData = {
   links: [
-    { text: 'Privacy Policy', href: '/privacy' },
+    // Navigazione rapida footer
+    { text: 'Home', href: '/' },
+    { text: 'Servizi', href: '/servizi' },
+    { text: 'Local', href: '/local' },           // ✅
+    { text: 'Pagamenti', href: '/pagamenti' },   // ✅
+    { text: 'Portfolio', href: '/portfolio' },
+    { text: 'Blog', href: '/blog' },
+    { text: 'Contatti', href: '/contatti' },
+
+    // Legali
+    { text: 'Privacy & Cookie Policy', href: '/privacy' },
     { text: 'Termini di Servizio', href: '/terms' },
-    { text: 'Voucher Digitali', href: '/servizi/voucher-digitali-sassari' }
   ],
   socialLinks: [
-    { ariaLabel: 'Linkedin', icon: 'tabler:brand-linkedin', href: 'https://www.linkedin.com/company/ls-web-agency' },
-    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: 'https://www.facebook.com/lswebdesignagency' },
+    { ariaLabel: 'Linkedin',  icon: 'tabler:brand-linkedin',  href: 'https://www.linkedin.com/company/ls-web-agency' },
+    { ariaLabel: 'Facebook',  icon: 'tabler:brand-facebook',  href: 'https://www.facebook.com/lswebdesignagency' },
     { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: 'https://www.instagram.com/ls_web_agency' },
   ],
   secondaryLinks: [],

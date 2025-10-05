@@ -1,55 +1,92 @@
 ---
-import WidgetWrapper from '@/components/ui/WidgetWrapper.astro';
-import Headline from '@/components/ui/Headline.astro';
-import ItemGrid2 from '@/components/ui/ItemGrid2.astro';
-import type { Features as Props } from '@/types';
+/**
+ * Features2.astro
+ * - Griglia card servizi
+ * - Se item.href è presente: titolo cliccabile + link "Scopri di più →" sotto la descrizione
+ * - Columns responsive + override classi via prop
+ */
+
+import { Icon } from 'astro-icon/components';
+
+export interface Item {
+  title: string;
+  description?: string;
+  icon?: string;
+  href?: string;
+}
+
+export interface Props {
+  id?: string;
+  title?: string;
+  subtitle?: string;
+  columns?: 2 | 3 | 4;
+  items: Item[];
+  classes?: Partial<{
+    container: string;
+    panel: string;
+    title: string;
+    description: string;
+    icon: string;
+    headerWrap: string;
+  }>;
+}
 
 const {
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
-  tagline = await Astro.slots.render('tagline'),
-  items = [],
-  columns = 3,
-  defaultIcon,
-
   id,
-  isDark = false,
+  title,
+  subtitle,
+  columns = 3,
+  items = [],
   classes = {},
-  bg = await Astro.slots.render('bg'),
 } = Astro.props;
+
+const colClass =
+  columns === 4
+    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+    : columns === 3
+      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+      : 'grid-cols-1 sm:grid-cols-2';
+
+const containerClass =
+  classes.container ??
+  `max-w-7xl mx-auto grid ${colClass} gap-5 md:gap-6 xl:gap-8 px-6 md:px-8`;
+
+const panelClass =
+  classes.panel ??
+  'h-full rounded-2xl p-5 md:p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition hover:-translate-y-0.5';
+
+const titleClass = classes.title ?? 'mt-1 font-semibold text-lg';
+const descClass  = classes.description ?? 'mt-1 text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed';
+const iconClass  = classes.icon ?? 'text-2xl mb-2 opacity-80';
 ---
 
-<WidgetWrapper
-  id={id}
-  isDark={isDark}
-  containerClass={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${classes?.container ?? ''}`}
-  bg={bg}
->
-  <Headline
-    title={title}
-    subtitle={subtitle}
-    tagline={tagline}
-    classes={{
-      container: 'mb-12 text-center max-w-3xl mx-auto',
-      title: 'text-3xl md:text-4xl font-bold tracking-tight font-heading text-heading',
-      subtitle: 'mt-4 text-muted text-xl',
-      ...(classes?.headline ?? {}),
-    }}
-  />
+<section id={id} class="py-10">
+  {(title || subtitle) && (
+    <div class={`text-center mb-6 ${classes.headerWrap ?? ''}`}>
+      {title && <h2 class="text-2xl md:text-3xl font-bold">{title}</h2>}
+      {subtitle && <p class="text-neutral-600 dark:text-neutral-300">{subtitle}</p>}
+    </div>
+  )}
 
-  <ItemGrid2
-    items={items}
-    columns={columns}
-    defaultIcon={defaultIcon}
-    useLinkWrapper={true}
-    classes={{
-      container: 'gap-8 md:gap-10 lg:gap-12',
-      panel:
-        'bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow',
-      title: 'text-lg font-semibold',
-      description: 'text-muted mt-2',
-      icon: 'w-12 h-12 mb-4 text-primary group-hover:text-accent transition-colors duration-300',
-      ...(classes?.items ?? {}),
-    }}
-  />
-</WidgetWrapper>
+  <div class={containerClass}>
+    {items.map((it) => (
+      <article class={panelClass}>
+        {it.icon && <Icon name={it.icon} class={iconClass} aria-hidden="true" />}
+        {it.href ? (
+          <h3 class={titleClass}>
+            <a href={it.href} class="hover:underline hover:text-neutral-900 dark:hover:text-white">{it.title}</a>
+          </h3>
+        ) : (
+          <h3 class={titleClass}>{it.title}</h3>
+        )}
+        {it.description && <p class={descClass}>{it.description}</p>}
+
+        {it.href && (
+          <a href={it.href} class="mt-3 inline-flex items-center text-sm font-medium text-indigo-700 hover:text-indigo-800">
+            Scopri di più →
+          </a>
+        )}
+      </article>
+    ))}
+  </div>
+</section>

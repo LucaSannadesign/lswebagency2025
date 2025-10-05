@@ -3,135 +3,146 @@ import CallToAction from '@/components/widgets/CallToAction.astro';
 import Features2 from '@/components/widgets/Features2.astro';
 import Hero from '@/components/widgets/Hero.astro';
 import Layout from '@/layouts/PageLayout.astro';
-import { Icon } from '@iconify/react';
-import Button from '@/components/ui/Button.astro';
+
+// ✅ immagine esistente importata come ESM (evita MissingImageDimension)
+import servicesHero from '@/assets/images/servizi-seo-grafica-branding-siti-web.webp';
 
 const metadata = {
-  title: "Web Design, SEO e Marketing Digitale a Sassari | LS Web Agency",
-  description: "Ottieni il massimo dal tuo business con i nostri servizi di creazione siti web, ottimizzazione SEO, digital marketing ed e-commerce. Soluzioni su misura per aziende e professionisti a Sassari.",
+  title: 'Servizi Web, SEO e Marketing | LS Web Agency',
+  description:
+    'Siti web performanti, SEO (anche locale) e marketing digitale. Nuovi servizi: Local SEO Booster, Accessibilità avanzata, UX con AI e Web Design Etico.',
+  canonical: '/servizi',
   ignoreTitleTemplate: true,
+  openGraph: {
+    url: '/servizi',
+    images: [{ url: servicesHero.src, width: servicesHero.width, height: servicesHero.height }],
+    type: 'website',
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+  },
 };
 
+// URL utili
+const SEO_BOOSTER_URL = '/servizi/local-seo-booster';
+const PAGAMENTI_URL = '/pagamenti';
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Section -->
-  <Hero
-    actions={[
-      {
-        variant: "primary",
-        text: "Richiedi una consulenza",
-        href: "/contatti",
-      },
-      { text: "Scopri di più", href: "#features" },
-    ]}
-    image={{
-      src: "@/assets/images/servizi-seo-grafica-branding-siti-web.webp",
-      alt: "Blocchi di lettere che formano la scritta SEO Audit, concetto di ottimizzazione per i motori di ricerca",
+  <!-- HERO + bg gradient: più tenue e più basso -->
+  <section class="relative isolate">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 -z-10
+             h-[340px] sm:h-[400px] md:h-[440px]
+             "
+    >
+      <div class="h-full bg-gradient-to-b
+                  from-violet-600/10 via-fuchsia-500/8 to-white
+                  dark:from-violet-500/20 dark:via-fuchsia-400/10 dark:to-neutral-950">
+      </div>
+    </div>
+
+    <Hero
+      actions={[
+        { variant: 'primary', text: 'Parla con noi', href: '/contatti' },
+        { text: 'Scopri i servizi', href: '#servizi' },
+      ]}
+      image={{
+        src: servicesHero.src,
+        alt: 'Servizi web, SEO e marketing digitale',
+        width: servicesHero.width,
+        height: servicesHero.height,
+      }}
+    >
+      <span slot="title">
+        <span>Strategie digitali su misura: </span>
+        <span class="text-accent text-gradient dark:text-white highlight">Siti Web</span>,
+        <span class="text-accent text-gradient dark:text-white highlight">SEO</span> &
+        <span class="text-accent text-gradient dark:text-white highlight">Marketing</span> 
+        
+      </span>
+
+      <span slot="subtitle">
+        Realizziamo siti veloci e sicuri, posizioniamo il tuo brand su Google (anche nel
+        <strong>Local Pack</strong>) e attiviamo campagne che convertono.
+        Novità: <strong>Local SEO Booster</strong>, <strong>Accessibilità Digitale</strong>,
+        <strong>UX con AI</strong> e <strong>Web Design Etico</strong>.
+      </span>
+    </Hero>
+  </section>
+
+  <!-- SERVIZI (griglia) -->
+  <Features2
+    id="servizi"
+    title="I Nostri Servizi"
+    subtitle="Strategie e realizzazioni per aumentare visibilità, lead e vendite."
+    columns={4}
+    classes={{
+      container:
+        'max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 xl:gap-8 px-6 md:px-8',
+      panel:
+        'h-full rounded-2xl p-5 md:p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition hover:-translate-y-0.5',
+      title: 'mt-1 font-semibold text-lg',
+      description: 'mt-1 text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed',
+      icon: 'text-2xl mb-2 opacity-80',
     }}
-  >
-    <Fragment slot="title">
-      <span>Strategie Digitali: </span>
-      <span class="text-accent text-gradient dark:text-white highlight">Creazione Siti Web</span>, 
-      <span class="text-accent text-gradient dark:text-white highlight">SEO</span> e 
-      <span class="text-accent text-gradient dark:text-white highlight">Marketing</span> a Sassari
-    </Fragment>
+    items={[
+      { title: 'Local SEO Booster', description: 'Google Business Profile, Local Pack, recensioni.', icon: 'tabler:map-pin', href: '/servizi/local-seo-booster' },
+      { title: 'Creazione siti web', description: 'Siti moderni, veloci, orientati alla conversione.', icon: 'tabler:device-desktop', href: '/servizi/creazione-siti-web-sassari' },
+      { title: 'Realizzazione E-commerce', description: 'WooCommerce o headless, checkout ottimizzati.', icon: 'tabler:shopping-cart', href: '/servizi/realizzazione-siti-ecommerce' },
+      { title: 'Ottimizzazione SEO', description: 'Analisi tecnica, contenuti e link building.', icon: 'tabler:chart-line', href: '/servizi/ottimizzazione-seo-siti-web' },
+      { title: 'Branding e Grafica', description: 'Identità visiva, UI e materiali promozionali.', icon: 'tabler:palette', href: '/servizi/branding-e-grafica-siti-web' },
+      { title: 'Accessibilità Digitale', description: 'Adeguamenti WCAG/AgID e remediation.', icon: 'tabler:wheelchair', href: '/servizi/accessibilita-digitale-avanzata' },
+      { title: 'UX con Intelligenza Artificiale', description: 'Esperienze personalizzate e dinamiche.', icon: 'tabler:brain', href: '/servizi/personalizzazione-ux-intelligenza-artificiale' },
+      { title: 'Assistente AI (Sito & WhatsApp)', description: 'FAQ 24/7, prenotazioni, lead qualificati.', icon: 'tabler:message-chatbot', href: '/servizi/assistente-ai-sito-whatsapp' },
+      { title: 'Web Design Etico & Sostenibile', description: 'Performance, privacy e leggerezza.', icon: 'tabler:leaf', href: '/servizi/web-design-etico-sostenibile' },
+      { title: 'Voucher Digitali', description: 'Accesso ai contributi e implementazione.', icon: 'tabler:ticket', href: '/servizi/voucher-digitali-sassari-2025' },
+      { title: 'WordPress Slim', description: 'Statici/headless: veloci, sicuri, SEO-ready.', icon: 'tabler:rocket', href: '/servizi/wordpress-slim-siti-statici-headless' },
+    ]}
+  />
 
-    <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">LS Web Agency</span> offre soluzioni professionali di 
-        <strong>creazione siti web</strong>, 
-        <strong>ottimizzazione SEO</strong> e 
-        <strong>marketing digitale</strong>.
-        Aiutiamo aziende e professionisti a ottenere più visibilità online e aumentare le conversioni con strategie personalizzate.
-      </span>
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">
-        Affidati a LS Web Agency per la tua crescita digitale!
-      </span>
-      Scopri come migliorare la tua presenza online con 
-      <strong>SEO avanzata</strong>, 
-      <strong>strategie di digital marketing</strong> 
-      e <strong>siti web performanti</strong>.
-    </Fragment>
-  </Hero>
+  <!-- NOVITÀ -->
+  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
+    <div class="text-center mb-6">
+      <h2 class="text-2xl md:text-3xl font-bold">Novità</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">Servizi introdotti o aggiornati di recente.</p>
+    </div>
 
-  <!-- Introduzione ai Servizi -->
-  <section class="container mx-auto px-4 py-12">
-    <h2 class="text-3xl font-bold text-center mb-6">
-      Soluzioni Digitali per il Tuo Business
-    </h2>
-    <p class="text-lg text-center max-w-3xl mx-auto">
-      Offriamo servizi di <strong>creazione siti web</strong>, <strong>ottimizzazione SEO</strong>, <strong>digital marketing</strong>,
-      <strong>e-commerce</strong> e soluzioni innovative come <strong>accessibilità digitale avanzata</strong>, <strong>personalizzazione UX con AI</strong> e <strong>web design etico e sostenibile</strong>. Lavoriamo per migliorare il posizionamento sui motori di ricerca e aumentare le conversioni.
+    <div class="grid gap-5 md:gap-6 xl:gap-8 md:grid-cols-3">
+      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-indigo-600 text-white">Nuovo</span>
+        <h3 class="mt-2 font-semibold">Local SEO Booster</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300">GBP, Local Pack, recensioni. Piani mensili + setup.</p>
+        <a href={SEO_BOOSTER_URL} class="mt-3 inline-flex items-center text-sm font-medium text-indigo-700 hover:text-indigo-800">Scopri di più →</a>
+      </article>
+
+      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-indigo-600 text-white">Nuovo</span>
+        <h3 class="mt-2 font-semibold">Accessibilità Digitale</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300">Audit, remediation e conformità WCAG/AgID.</p>
+        <a href="/servizi/accessibilita-digitale-avanzata" class="mt-3 inline-flex items-center text-sm font-medium text-indigo-700 hover:text-indigo-800">Scopri di più →</a>
+      </article>
+
+      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-indigo-600 text-white">Nuovo</span>
+        <h3 class="mt-2 font-semibold">UX con AI</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300">Percorsi dinamici per aumentare le conversioni.</p>
+        <a href="/servizi/personalizzazione-ux-intelligenza-artificiale" class="mt-3 inline-flex items-center text-sm font-medium text-indigo-700 hover:text-indigo-800">Scopri di più →</a>
+      </article>
+    </div>
+
+    <p class="text-center text-sm mt-6 text-neutral-500 dark:text-neutral-400">
+      Pagamenti con PayPal/carte o bonifico: <a class="underline decoration-indigo-600 underline-offset-2" href={PAGAMENTI_URL}>metodi di pagamento</a>.
     </p>
   </section>
 
-  <!-- Servizi Offerti -->
-  <Features2
-  title="I Nostri Servizi"
-  subtitle="Strategie digitali avanzate per migliorare la tua presenza sul web e aumentare i tuoi clienti."
-  columns={4}
-  items={[
-    {
-      title: "Creazione Siti Web",
-      description: "Sviluppiamo siti moderni, responsive e SEO-friendly, ottimizzati per convertire.",
-      icon: "tabler:device-desktop",
-      href: "/servizi/creazione-siti-web-sassari",
-    },
-    {
-      title: "E-commerce",
-      description: "Piattaforme di vendita online performanti e integrate con i sistemi di pagamento.",
-      icon: "tabler:shopping-cart",
-      href: "/servizi/realizzazione-siti-ecommerce",
-    },
-    {
-      title: "SEO & Posizionamento",
-      description: "Strategie SEO avanzate per migliorare la visibilità su Google.",
-      icon: "tabler:chart-line",
-      href: "/servizi/ottimizzazione-seo-siti-web",
-    },
-    {
-      title: "Branding e Grafica",
-      description: "Loghi professionali, palette colori e identità visiva coordinata.",
-      icon: "tabler:palette",
-      href: "/servizi/branding-e-grafica-siti-web",
-    },
-    {
-      title: "Accessibilità Digitale",
-      description: "Adeguiamo il tuo sito alle normative WCAG e AgID per l’inclusività.",
-      icon: "tabler:wheelchair",
-      href: "/servizi/accessibilita-digitale-avanzata",
-    },
-    {
-      title: "UX con Intelligenza Artificiale",
-      description: "Personalizzazione dell’esperienza utente grazie all’AI.",
-      icon: "tabler:brain",
-      href: "/servizi/personalizzazione-ux-intelligenza-artificiale",
-    },
-    {
-      title: "Web Design Etico",
-      description: "Siti sostenibili, leggeri, accessibili e privacy-friendly.",
-      icon: "tabler:leaf",
-      href: "/servizi/web-design-etico-sostenibile",
-    },
-    {
-      title: "Voucher Digitali Sassari",
-      description: "Fino al 70% di rimborso per la digitalizzazione con il bando 2025.",
-      icon: "tabler:ticket",
-      href: "/servizi/voucher-digitali-sassari",
-    },
-  ]}
-/>
-
   <CallToAction
     actions={[
-      {
-        variant: "primary",
-        text: "Richiedi un preventivo gratuito",
-        href: "/contatti",
-      },
+      { variant: 'primary', text: 'Richiedi un preventivo', href: '/contatti' },
+      { text: 'Scopri il Local SEO Booster', href: SEO_BOOSTER_URL },
     ]}
-    title="Vuoi migliorare la tua presenza online?"
-    subtitle="Contattaci oggi stesso per una consulenza gratuita e scopri come possiamo aiutarti a crescere con soluzioni digitali su misura."
+    title="Pronti a far crescere il tuo business?"
+    subtitle="Unisciti alle attività locali che ottengono più chiamate, visite e richieste da Google."
   />
 </Layout>

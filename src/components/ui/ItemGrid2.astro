@@ -1,64 +1,94 @@
 ---
-import type { ItemGrid as Props } from '@/types';
-import { Icon } from 'astro-icon/components';
-import { twMerge } from 'tailwind-merge';
-import Button from './Button.astro';
+// src/components/ui/ItemGrid2.astro
+import { Icon } from '@iconify/react';
 
-const { items = [], columns, defaultIcon = '', classes = {}, useLinkWrapper = false } = Astro.props;
-
+/* Props volutamente allentate per compatibilità con item.href e useLinkWrapper */
 const {
-  container: containerClass = '',
-  panel: panelClass = '',
-  title: titleClass = '',
-  description: descriptionClass = '',
-  icon: defaultIconClass = 'text-primary',
-} = classes;
+  items = [],
+  columns,
+  defaultIcon = '',
+  classes = {},
+  useLinkWrapper = false,
+} = Astro.props as any;
+
+/* Helper: classi responsive per la griglia in base a "columns" */
+function gridCols(n: number | undefined) {
+  const v = Number(n ?? 3);
+  switch (v) {
+    case 1:
+      return 'grid grid-cols-1';
+    case 2:
+      return 'grid grid-cols-1 sm:grid-cols-2';
+    case 3:
+      return 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3';
+    case 4:
+      return 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4';
+    default:
+      return 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3';
+  }
+}
+
+/* Classi base + override da props.classes */
+const containerClass =
+  `${gridCols(columns)} ${classes?.container ?? 'gap-8 md:gap-10 lg:gap-12'}`.trim();
+const basePanelClass =
+  classes?.panel ??
+  'bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow';
+const baseTitleClass = classes?.title ?? 'text-lg font-semibold';
+const baseDescClass = classes?.description ?? 'text-muted mt-2';
+const baseIconClass =
+  classes?.icon ??
+  'w-12 h-12 mb-4 text-primary group-hover:text-accent transition-colors duration-300';
 ---
 
-{
-  items && (
-    <div
-      class={twMerge(
-        `grid gap-8 gap-x-12 sm:gap-y-8 ${
-          columns === 4
-            ? 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'
-            : columns === 3
-              ? 'lg:grid-cols-3 sm:grid-cols-2'
-              : columns === 2
-                ? 'sm:grid-cols-2'
-                : ''
-        }`,
-        containerClass
-      )}
-    >
-      {items.map(({ title, description, icon, href, callToAction, classes: itemClasses = {} }) => {
-        const WrapperTag = useLinkWrapper && href ? 'a' : 'div';
-        const wrapperProps = useLinkWrapper && href ? { href } : {};
+<div class={containerClass}>
+  {items.map((it: any) => {
+    const {
+      title,
+      description,
+      icon,
+      href,
+      callToAction,
+      classes: itemClasses = {},
+      ...rest
+    } = it || {};
 
-        return (
-          <WrapperTag
-            {...wrapperProps}
-            class={twMerge(
-              'relative flex flex-col transition-shadow hover:shadow-lg duration-300 group',
-              panelClass,
-              itemClasses?.panel
-            )}
-          >
-            {(icon || defaultIcon) && (
-              <Icon name={icon || defaultIcon} class={twMerge('mb-2 w-10 h-10', defaultIconClass, itemClasses?.icon)} />
-            )}
-            <div class={twMerge('text-xl font-bold', titleClass, itemClasses?.title)}>{title}</div>
-            {description && (
-              <p class={twMerge('text-muted mt-2', descriptionClass, itemClasses?.description)} set:html={description} />
-            )}
-            {callToAction && (
-              <div class="mt-2">
-                <Button {...callToAction} />
-              </div>
-            )}
-          </WrapperTag>
-        );
-      })}
-    </div>
-  )
-}
+    const panelClass = itemClasses.panel ? itemClasses.panel : basePanelClass;
+    const titleClass = itemClasses.title ? itemClasses.title : baseTitleClass;
+    const descClass = itemClasses.description ? itemClasses.description : baseDescClass;
+    const iconClass = itemClasses.icon ? itemClasses.icon : baseIconClass;
+
+    const aria = typeof title === 'string' ? `Apri ${title}` : undefined;
+
+    const content = (
+      <>
+        {(icon || defaultIcon) && (
+          <Icon icon={icon || defaultIcon} className={iconClass} />
+        )}
+
+        {title && <h3 class={titleClass}>{title}</h3>}
+
+        {description && <p class={descClass}>{description}</p>}
+
+        {callToAction?.text && callToAction?.href && (
+          <div class="mt-4">
+            <a href={callToAction.href} class="inline-flex items-center gap-1 text-primary hover:underline">
+              {callToAction.text} →
+            </a>
+          </div>
+        )}
+      </>
+    );
+
+    /* Link wrapper opzionale */
+    return useLinkWrapper && href ? (
+      <a href={href} aria-label={aria} class={panelClass} {...rest}>
+        {content}
+      </a>
+    ) : (
+      <div class={panelClass} {...rest}>
+        {content}
+      </div>
+    );
+  })}
+</div>

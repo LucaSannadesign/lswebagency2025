@@ -1,0 +1,94 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const PER_PAGE = 12;
+
+// Ordinamento robusto per data
+const ts = (v: unknown) => {
+  const d = v instanceof Date ? v : (typeof v === 'string' && v ? new Date(v) : null);
+  return d && !Number.isNaN(d.getTime()) ? d.getTime() : 0;
+};
+
+const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
+  .slice()
+  .sort((a, b) => {
+    const tb = ts(b.data.updateDate ?? b.data.publishDate);
+    const ta = ts(a.data.updateDate ?? a.data.publishDate);
+    return tb - ta || String(b.slug).localeCompare(String(a.slug));
+  });
+
+const total = all.length;
+const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+const items = all.slice(0, PER_PAGE);
+
+const metadata = {
+  title: 'Portfolio | Ultimi lavori',
+  description: 'Selezione dei progetti realizzati da LS Web Agency.',
+  canonical: '/portfolio',
+};
+
+// Normalizza l’href della card
+function hrefFor(item: any) {
+  const raw =
+    item?.data?.permalink
+      ?? (item?.data?.slug ? `/portfolio/${item.data.slug}` : null)
+      ?? `/portfolio/${item.slug}`;
+
+  // assicura leading slash, niente doppie slash e niente trailing slash
+  return ('/' + String(raw).trim())
+    .replace(/\/{2,}/g, '/')
+    .replace(/\/+$/, '');
+}
+---
+
+<Layout metadata={metadata}>
+  <section class="container mx-auto px-6 py-10">
+    <h1 class="text-3xl md:text-4xl font-extrabold mb-6">Portfolio</h1>
+
+    <div id="portfolio-grid" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((item) => {
+        const href = hrefFor(item);
+        const img = item.data.image as { src?: string; alt?: string; width?: number; height?: number } | undefined;
+
+        return (
+          <article class="rounded-xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+            <a href={href} class="block" aria-label={`Apri: ${item.data.title}`}>
+              {img?.src && (
+                <img
+                  src={img.src}
+                  alt={img?.alt ?? item.data.title}
+                  width={img?.width ?? 1200}
+                  height={img?.height ?? 800}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-full object-cover aspect-[3/2]"
+                />
+              )}
+              <div class="p-4">
+                <h3 class="font-semibold">{item.data.title}</h3>
+                {item.data.description && (
+                  <p class="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2">
+                    {item.data.description}
+                  </p>
+                )}
+              </div>
+            </a>
+          </article>
+        );
+      })}
+    </div>
+
+    {totalPages > 1 && (
+      <nav class="mt-10 flex items-center justify-center">
+        <a
+          href="/portfolio/page/2"
+          rel="next"
+          class="inline-flex items-center justify-center rounded-full px-5 py-2.5 ring-1 ring-neutral-300 hover:bg-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800"
+        >
+          Pagina successiva →
+        </a>
+      </nav>
+    )}
+  </section>
+</Layout>

@@ -1,0 +1,150 @@
+---
+// /src/pages/local/[slug].astro
+import Layout from "@/layouts/PageLayout.astro";
+import { getCollection } from "astro:content";
+
+export const prerender = true;
+
+/* 1) Pre-generazione rotte statiche */
+export async function getStaticPaths() {
+  const entries = await getCollection("cities").catch(() => []);
+  return entries
+    .filter((e) => e?.data?.published === true && e?.data?.slug)
+    .map((e) => ({ params: { slug: e.data.slug } }));
+}
+
+/* 2) Lettura dati città corrente */
+const { slug } = Astro.params;
+const all = await getCollection("cities").catch(() => []);
+const entry = all.find((e) => e?.data?.slug === slug);
+const notFound = !entry || entry.data?.published !== true;
+
+const d = entry?.data ?? {};
+const name = d.name ?? slug;
+
+/* 3) Metadati */
+const metadata = notFound
+  ? {
+      title: "Local — pagina non trovata | LS Web Agency",
+      description: "La pagina richiesta non è disponibile.",
+      canonical: "https://lswebagency.com/local",
+      robots: { index: false, follow: true }
+    }
+  : {
+      title: d.metadata?.title ?? `${name} — Servizi Local | LS Web Agency`,
+      description:
+        d.metadata?.description ??
+        `Siti web, SEO locale e automazioni AI per attività a ${name}.`,
+      canonical:
+        d.metadata?.canonical ?? `https://lswebagency.com/local/${slug}`,
+      robots: d.metadata?.robots ?? { index: true, follow: true }
+    };
+
+/* 4) JSON-LD: LocalBusiness solo per Sassari, altrove Service */
+const isSassari = String(name).toLowerCase() === "sassari";
+const schema = notFound
+  ? null
+  : (isSassari
+      ? {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "LS Web Agency di Luca Sanna",
+          url: `https://lswebagency.com/local/${slug}`,
+          telephone: "+39 340 322 3494",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Sassari",
+            addressRegion: "SS",
+            addressCountry: "IT"
+          },
+          areaServed: "Sardegna"
+        }
+      : {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: `Servizi Web & AI — ${name}`,
+          provider: { "@type": "Organization", name: "LS Web Agency" },
+          areaServed: name
+        });
+
+/* 5) Servizi consigliati (fallback se non definiti nel JSON) */
+const DEFAULT_SERVICES = [
+  {
+    title: "WordPress Slim",
+    description: "Siti statici/headless: veloci, sicuri, SEO-ready.",
+    href: "/servizi/wordpress-slim-siti-statici-headless"
+  },
+  {
+    title: "SEO Locale & Google Business",
+    description: "Ottimizzazione scheda, Maps e contenuti local.",
+    href: "/servizi/local-seo-booster"
+  },
+  {
+    title: "Assistente AI 24/7",
+    description: "Risposte automatiche su sito/WhatsApp alle FAQ.",
+    href: "/servizi/assistente-ai-sito-whatsapp"
+  }
+];
+const services = Array.isArray(d.services) && d.services.length ? d.services : DEFAULT_SERVICES;
+---
+
+<Layout metadata={metadata}>
+  {schema && <script type="application/ld+json">{JSON.stringify(schema)}</script>}
+
+  {notFound ? (
+    <section class="container mx-auto px-6 py-16 text-center">
+      <h1 class="text-3xl md:text-5xl font-bold">Pagina non trovata</h1>
+      <p class="mt-4 text-neutral-600 dark:text-neutral-300">
+        La pagina local richiesta non esiste o non è stata pubblicata.
+      </p>
+      <p class="mt-6">
+        <a class="text-emerald-700 underline" href="/local">← Torna all’elenco città</a>
+      </p>
+    </section>
+  ) : (
+    <>
+      <section class="relative overflow-hidden">
+        <div class="container mx-auto px-6 pt-16 pb-10 text-center">
+          <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm ring-1 ring-emerald-300/60">
+            Servizi Local
+          </span>
+          <h1 class="mt-4 text-3xl md:text-5xl font-bold">
+            Web Design, SEO & AI a {name}
+          </h1>
+          <p class="mx-auto mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-300">
+            {d.description ?? "Siti veloci, Local SEO e integrazioni AI per aumentare contatti e conversioni."}
+          </p>
+          <div class="mt-8">
+            <a href="/contatti" class="inline-block rounded-xl px-5 py-3 ring-1 ring-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+              Richiedi una consulenza
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="container mx-auto px-6 py-12 border-t">
+        <h2 class="text-2xl md:text-3xl font-semibold mb-6">Servizi consigliati</h2>
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {services.map((s) => (
+            <a href={s.href ?? "#"} class="block rounded-xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900/20">
+              <h3 class="text-lg md:text-xl font-semibold">{s.title}</h3>
+              {s.description && <p class="mt-1 text-muted">{s.description}</p>}
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="container mx-auto px-6 py-12 border-t">
+        <h2 class="text-2xl md:text-3xl font-semibold mb-4">FAQ rapide</h2>
+        <details class="mb-3">
+          <summary class="cursor-pointer">Serve un incontro in sede?</summary>
+          <p class="mt-2">Lavoriamo anche da remoto; se utile, organizziamo sopralluoghi e meeting in presenza.</p>
+        </details>
+        <details class="mb-3">
+          <summary class="cursor-pointer">Tempi di consegna?</summary>
+          <p class="mt-2">Progetti snelli in 2–4 settimane; componenti AI in pochi giorni dal brief.</p>
+        </details>
+      </section>
+    </>
+  )}
+</Layout>

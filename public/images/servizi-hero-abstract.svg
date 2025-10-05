@@ -1,0 +1,71 @@
+<!-- /public/images/servizi-hero-abstract.svg — 1200x630 -->
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradiente brand (viola → fucsia → rosa) -->
+    <linearGradient id="brand" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6A00FF"/>
+      <stop offset="55%" stop-color="#B400FF"/>
+      <stop offset="100%" stop-color="#FF2DC7"/>
+    </linearGradient>
+
+    <!-- Glow morbidi -->
+    <radialGradient id="glow1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(260 120) rotate(35) scale(360 240)">
+      <stop stop-color="#6A00FF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#6A00FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(980 500) rotate(-20) scale(420 280)">
+      <stop stop-color="#FF2DC7" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FF2DC7" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Blur -->
+    <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+
+    <!-- Griglia decorativa -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#111827" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+
+    <!-- Pannello translucido (glassmorphism) -->
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sfondo a griglia molto leggero -->
+  <rect x="0" y="0" width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Glow brand -->
+  <ellipse cx="260" cy="120" rx="360" ry="240" fill="url(#glow1)" filter="url(#softBlur)"/>
+  <ellipse cx="980" cy="500" rx="420" ry="280" fill="url(#glow2)" filter="url(#softBlur)"/>
+
+  <!-- Onda principale -->
+  <path d="M120 410 C 280 330, 480 520, 680 420 C 860 330, 1000 380, 1120 340"
+        stroke="url(#brand)" stroke-width="6" stroke-opacity="0.9" fill="none"/>
+
+  <!-- Micro-dettagli -->
+  <circle cx="190" cy="180" r="3" fill="url(#brand)" opacity="0.9"/>
+  <circle cx="1040" cy="420" r="3" fill="url(#brand)" opacity="0.9"/>
+  <circle cx="780" cy="220" r="3" fill="url(#brand)" opacity="0.9"/>
+
+  <!-- Pannelli translucidi (metafora dei servizi) -->
+  <g opacity="0.9">
+    <rect x="780" y="120" rx="18" ry="18" width="250" height="130" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.4"/>
+    <rect x="800" y="145" rx="10" ry="10" width="80" height="18" fill="url(#brand)" opacity="0.85"/>
+    <rect x="800" y="175" rx="8" ry="8" width="190" height="12" fill="#111827" opacity="0.15"/>
+    <rect x="800" y="195" rx="8" ry="8" width="160" height="12" fill="#111827" opacity="0.10"/>
+  </g>
+
+  <g opacity="0.9">
+    <rect x="520" y="420" rx="18" ry="18" width="260" height="140" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.4"/>
+    <circle cx="560" cy="465" r="18" fill="url(#brand)" opacity="0.85"/>
+    <rect x="590" y="452" rx="8" ry="8" width="160" height="12" fill="#111827" opacity="0.15"/>
+    <rect x="590" y="472" rx="8" ry="8" width="120" height="12" fill="#111827" opacity="0.10"/>
+    <rect x="590" y="495" rx="8" ry="8" width="180" height="10" fill="#111827" opacity="0.08"/>
+  </g>
+</svg>

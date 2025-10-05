@@ -1,23 +1,28 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import { getHomePermalink } from '@/utils/permalinks';
+import Layout from '@/layouts/PageLayout.astro';
 
-const title = `Errore 404 - Pagina Non Trovata`;
+const metadata = {
+  title: 'Pagina non trovata (404)',
+  description: 'La pagina richiesta non esiste o è stata spostata.',
+  canonical: '/404',
+  robots: { index: false, follow: true },
+};
 ---
 
-<Layout metadata={{ title }}>
-  <section class="flex items-center h-full p-16">
-    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-      <div class="max-w-md text-center">
-        <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Errore</span>
-          <span class="text-primary">404</span>
-        </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Oops! La pagina che stai cercando non esiste.</p>
-        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          Forse il link è errato o la pagina è stata rimossa. Torna alla nostra homepage e scopri i nostri servizi.
-        </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Torna alla Homepage</a>
+<Layout metadata={metadata}>
+  <section class="min-h-[60vh] flex items-center justify-center px-6 text-center">
+    <div>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Ops! Pagina non trovata</h1>
+      <p class="mt-3 text-neutral-600 dark:text-neutral-300">
+        La pagina potrebbe essere stata rimossa o l’URL è stato digitato male.
+      </p>
+      <div class="mt-6 flex gap-3 justify-center">
+        <a href="/" class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90 transition">
+          Torna alla Home
+        </a>
+        <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+          Contattaci
+        </a>
       </div>
     </div>
   </section>

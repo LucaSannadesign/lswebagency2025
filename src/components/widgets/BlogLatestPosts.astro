@@ -1,13 +1,12 @@
 ---
 import { APP_BLOG } from 'astrowind:config';
-
 import Grid from '@/components/blog/Grid.astro';
-
 import { getBlogPermalink } from '@/utils/permalinks';
 import { findLatestPosts } from '@/utils/blog';
 import WidgetWrapper from '@/components/ui/WidgetWrapper.astro';
 import type { Widget } from '@/types';
-import Button from '../ui/Button.astro';
+import Button from '@/components/ui/Button.astro';
+import SocialShare from '@/components/common/SocialShare.astro';
 
 export interface Props extends Widget {
   title?: string;
@@ -15,14 +14,33 @@ export interface Props extends Widget {
   linkUrl?: string | URL;
   information?: string;
   count?: number;
+
+  // opzioni share
+  shareNetworks?: string[];
+  showShare?: boolean;
+  shareLabel?: string;
+  shareSize?: 'sm' | 'md';
+  shareClass?: string;
+  preferTwitterIcon?: boolean;
+  shareMedia?: string;
 }
 
 const {
+  // default ITA
   title = await Astro.slots.render('title'),
-  linkText = 'View all posts',
+  linkText = 'Vedi tutti gli articoli',
   linkUrl = getBlogPermalink(),
   information = await Astro.slots.render('information'),
   count = 4,
+
+  // share (per default nascosta qui)
+  shareNetworks = ['facebook', 'linkedin', 'whatsapp', 'telegram', 'email'],
+  showShare = false,
+  shareLabel = 'Condividi:',
+  shareSize = 'sm',
+  shareClass = '',
+  preferTwitterIcon = false,
+  shareMedia = '',
 
   id,
   isDark = false,
@@ -31,29 +49,54 @@ const {
 } = Astro.props;
 
 const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
-console.log('POSTS TROVATI:', posts);
+
+// titolo e URL
+const computedTitle =
+  (typeof title === 'string' && title.trim()) ? title : 'Articoli correlati';
+const plainTitle = typeof computedTitle === 'string'
+  ? computedTitle.replace(/<[^>]*>/g, '')
+  : 'Articoli correlati';
+const allUrl = typeof linkUrl === 'string' ? linkUrl : linkUrl?.toString?.() ?? '/blog';
+
+// evita "as string" negli attributi
+const containerClass = String((classes as any)?.container ?? '');
 ---
 
 {
   APP_BLOG.isEnabled ? (
-    <WidgetWrapper id={id} isDark={isDark} containerClass={classes?.container as string} bg={bg}>
-      <div class="flex flex-col lg:justify-between lg:flex-row mb-8">
-        {title && (
-          <div class="md:max-w-sm">
-            <h2
-              class="text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none group font-heading mb-2"
-              set:html={title}
-            />
-            {APP_BLOG.list.isEnabled && linkText && linkUrl && (
-              <Button variant="link" href={linkUrl}>
-                {' '}
-                {linkText} »
-              </Button>
-            )}
-          </div>
+    <WidgetWrapper id={id} isDark={isDark} containerClass={containerClass} bg={bg}>
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between mb-8">
+        <div class="md:max-w-sm">
+          <h2
+            class="text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none group font-heading mb-2"
+            set:html={computedTitle}
+          />
+          {APP_BLOG.list.isEnabled && linkText && allUrl && (
+            <Button variant="link" href={allUrl} aria-label="Vedi tutti gli articoli del blog">
+              {linkText} »
+            </Button>
+          )}
+        </div>
+
+        {information && (
+          <p
+            class="text-muted dark:text-slate-400 lg:text-sm lg:max-w-md"
+            set:html={information}
+          />
         )}
 
-        {information && <p class="text-muted dark:text-slate-400 lg:text-sm lg:max-w-md" set:html={information} />}
+        {showShare && (
+          <SocialShare
+            url={allUrl}
+            title={plainTitle}
+            media={shareMedia}
+            networks={shareNetworks}
+            label={shareLabel}
+            size={shareSize}
+            class={shareClass}
+            preferTwitterIcon={preferTwitterIcon}
+          />
+        )}
       </div>
 
       <Grid posts={posts} />

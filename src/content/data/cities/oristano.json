@@ -1,0 +1,33 @@
+{
+  "name": "Oristano",
+  "slug": "oristano",
+  "region": "Sardegna",
+  "province": "OR",
+  "country": "IT",
+  "priority": 80,
+  "published": true,
+  "description": "Siti snelli, schede Google Business curate e contenuti local per Oristano.",
+  "services": [
+    {
+      "title": "Local SEO & Maps",
+      "href": "/servizi/local-seo-booster"
+    },
+    {
+      "title": "WordPress Slim",
+      "href": "/servizi/wordpress-slim-siti-statici-headless"
+    },
+    {
+      "title": "Branding & UI",
+      "href": "/servizi/branding-e-grafica-siti-web"
+    }
+  ],
+  "metadata": {
+    "title": "Oristano — Servizi Local | LS Web Agency",
+    "description": "Local SEO, siti veloci e branding per professionisti e PMI a Oristano.",
+    "canonical": "https://lswebagency.com/local/oristano",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  }
+}

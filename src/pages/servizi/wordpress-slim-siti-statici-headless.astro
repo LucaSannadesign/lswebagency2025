@@ -5,80 +5,255 @@ import Features2 from '@/components/widgets/Features2.astro';
 import CallToAction from '@/components/widgets/CallToAction.astro';
 import Button from '@/components/ui/Button.astro';
 
+const PAGE_URL = 'https://lswebagency.com/servizi/wordpress-slim-siti-statici-headless';
+
 const metadata = {
   title: 'WordPress Slim: Siti Statici o Headless | LS Web Agency',
-  description: 'Trasforma il tuo sito WordPress in un sistema più veloce, sicuro e ottimizzato con la tecnologia statica o headless. Scopri WordPress Slim.',
+  description:
+    'Trasforma WordPress in una soluzione statica o headless per massime performance, sicurezza e SEO. Migrazione, build pipeline e manutenzione semplificata.',
   canonical: '/servizi/wordpress-slim-siti-statici-headless',
+  robots: { index: true, follow: true },
+  jsonLd: [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "WordPress Slim (Statico/Headless)",
+      "serviceType": "Sviluppo siti WordPress statici o headless",
+      "description": "Conversione di siti WordPress in soluzioni statiche o headless per migliorare performance, sicurezza e SEO.",
+      "url": PAGE_URL,
+      "provider": {
+        "@type": "Organization",
+        "name": "LS Web Agency",
+        "url": "https://lswebagency.com"
+      },
+      "areaServed": { "@type": "Country", "name": "Italia" },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "priceCurrency": "EUR"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Servizi", "item": "https://lswebagency.com/servizi" },
+        { "@type": "ListItem", "position": 2, "name": "WordPress Slim (Statico/Headless)", "item": PAGE_URL }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Qual è la differenza tra statico e headless?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Statico: le pagine vengono generate in anticipo e servite come HTML, massimizzando velocità e sicurezza. Headless: WordPress resta il backend di editing; il frontend è separato e costruito con framework moderni, ideale per siti dinamici o con integrazioni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Perdo l’editor di WordPress?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Mantieni WordPress per scrivere e gestire i contenuti. In fase di pubblicazione, il sito viene generato e distribuito come statico (o servito da un frontend headless)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "La SEO migliora davvero?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sì, perché aumentano velocità e stabilità. Curando redirect 301, sitemap, canonical e structured data, l’indicizzazione rimane corretta e spesso le metriche Core Web Vitals migliorano."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso fare e-commerce?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "È possibile con approccio headless (ad es. WooCommerce headless o servizi esterni). Valutiamo insieme pro e contro in base al catalogo e ai flussi di checkout."
+          }
+        }
+      ]
+    }
+  ]
 };
 ---
 
 <Layout metadata={metadata}>
+  <!-- HERO -->
   <Hero
     tagline="Siti WordPress più veloci e sicuri"
-    image={{
-      src: '@/assets/images/wordpress-slim-lswebagency.webp',
-      alt: 'Siti statici e headless WordPress',
-    }}
+    image={{ src: '@/assets/images/wordpress-slim-lswebagency.webp', alt: 'Siti statici e headless WordPress' }}
   >
-    <Fragment slot="title">
+    <span slot="title">
       <span class="text-accent text-gradient dark:text-white highlight">WordPress Slim</span>: alleggerisci il tuo sito
-    </Fragment>
+    </span>
 
-    <Fragment slot="subtitle">
-      Migrazione verso soluzioni statiche o headless per migliorare prestazioni, sicurezza e SEO.
-    </Fragment>
+    <span slot="subtitle">
+      Migrazione verso soluzioni <strong>statiche</strong> o <strong>headless</strong> per migliorare prestazioni, sicurezza e SEO.
+    </span>
 
-    <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">
-        Richiedi una valutazione gratuita
-      </Button>
-    </Fragment>
+    <span slot="actions">
+      <Button variant="primary" href="/contatti">Richiedi una valutazione gratuita</Button>
+    </span>
   </Hero>
 
-  <section class="container mx-auto px-6 py-12 text-lg text-gray-700 dark:text-gray-300 max-w-3xl">
-    <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
-      Cos’è WordPress Slim?
-    </h2>
-    <p class="mb-6">
+  <!-- INTRO -->
+  <section id="cos-e" class="max-w-3xl mx-auto px-6 md:px-8 py-12 text-lg text-gray-700 dark:text-gray-300">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Cos’è WordPress Slim?</h2>
+    <p class="mb-4">
       È un servizio di conversione che trasforma il tuo sito WordPress classico in una versione
-      <strong>statica o headless</strong>, per ottenere maggiore velocità, sicurezza e semplicità di gestione.
+      <strong>statica</strong> o <strong>headless</strong>, per ottenere maggiore velocità, sicurezza e semplicità di gestione.
     </p>
-    <p>
-      Utilizziamo strumenti moderni come Astro.js, Hugo o Next.js per rendere il sito più leggero e performante,
+    <p class="mb-0">
+      Utilizziamo stack moderni (Astro, Next.js, Hugo) e pipeline di build per rendere il sito più leggero e performante,
       mantenendo l’editing facile tramite WordPress come backend.
     </p>
   </section>
 
- <Features2
-  title="Perché scegliere WordPress Slim"
-  subtitle="I benefici di passare a una soluzione più moderna e leggera"
-  columns={4}
-  items={[
-    {
-      title: '🚀 Prestazioni migliorate',
-      description: 'Un sito statico carica in una frazione di secondo e riduce drasticamente il bounce rate.',
-    },
-    {
-      title: '🔒 Più sicurezza',
-      description: 'Nessun backend esposto: il sito non può essere attaccato da bot o malware.',
-    },
-    {
-      title: '📉 Costi ridotti',
-      description: 'Hosting più economico e niente più aggiornamenti stressanti o plugin pesanti.',
-    },
-    {
-      title: '🧠 SEO più semplice',
-      description: 'Codice pulito, struttura chiara, velocità top: Google ti premierà.',
-    },
-  ]}
-/>
+  <!-- BENEFIT -->
+  <Features2
+    id="benefici"
+    title="Perché scegliere WordPress Slim"
+    subtitle="I benefici principali del passaggio a una soluzione moderna e leggera."
+    columns={4}
+    classes={{
+      container: "max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 xl:gap-8",
+      panel: "h-full rounded-2xl p-5 md:p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm",
+      title: "mt-1 font-semibold text-lg",
+      description: "mt-1 text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed",
+      icon: "text-2xl mb-2 opacity-80",
+    }}
+    items={[
+      { title: '🚀 Prestazioni migliorate', description: 'Rendering statico e assets ottimizzati: caricamenti rapidi e migliore esperienza utente.' },
+      { title: '🔒 Più sicurezza', description: 'Nessun backend esposto: riduzione drastica della superficie d’attacco contro bot e malware.' },
+      { title: '📉 Costi ridotti', description: 'Hosting più economico, meno patch critiche e manutenzione semplificata.' },
+      { title: '🧠 SEO facilitata', description: 'Markup pulito, struttura chiara, Core Web Vitals migliori: Google ti premierà.' },
+    ]}
+  />
 
+  <!-- PROCESSO -->
+  <section id="processo" class="max-w-7xl mx-auto px-6 md:px-8 py-12">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Come funziona la migrazione</h2>
+    <div class="grid gap-6 md:grid-cols-2">
+      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+        <h3 class="font-semibold mb-1">1) Audit & Strategia</h3>
+        <p class="text-neutral-700 dark:text-neutral-300 text-sm">Analisi del sito attuale, mappa URL, plugin, editor (Gutenberg/Elementor/Divi) e definizione approccio statico o headless.</p>
+      </article>
+      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+        <h3 class="font-semibold mb-1">2) Setup Tecnico</h3>
+        <p class="text-neutral-700 dark:text-neutral-300 text-sm">Estrazione contenuti via API, generazione statica/SSR, ottimizzazione immagini, CSS/JS split, CDN.</p>
+      </article>
+      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+        <h3 class="font-semibold mb-1">3) SEO & Redirect</h3>
+        <p class="text-neutral-700 dark:text-neutral-300 text-sm">Sitemap, canonical, robots, schema, meta equivalenti; redirect 301 e verifica Google Search Console.</p>
+      </article>
+      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+        <h3 class="font-semibold mb-1">4) Build & Deploy</h3>
+        <p class="text-neutral-700 dark:text-neutral-300 text-sm">Pipeline CI/CD con anteprime di staging, test Core Web Vitals e pubblicazione su hosting ottimizzato.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- STATICO vs HEADLESS -->
+  <section id="scelta" class="max-w-7xl mx-auto px-6 md:px-8 pb-4">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Statico o Headless: cosa scegliere?</h2>
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+        <h3 class="font-semibold mb-2">Quando conviene <span class="whitespace-nowrap">Statico</span></h3>
+        <ul class="list-disc pl-5 text-sm text-neutral-700 dark:text-neutral-300 space-y-1">
+          <li>Sito informativo/editoriale con aggiornamenti periodici</li>
+          <li>Massima velocità e sicurezza senza server dinamico</li>
+          <li>Budget ottimizzato e manutenzione minima</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+        <h3 class="font-semibold mb-2">Quando conviene <span class="whitespace-nowrap">Headless</span></h3>
+        <ul class="list-disc pl-5 text-sm text-neutral-700 dark:text-neutral-300 space-y-1">
+          <li>Funzionalità dinamiche (es. aree riservate, filtri complessi)</li>
+          <li>Integrazioni con servizi esterni (CRM, e-commerce, ecc.)</li>
+          <li>Front-end custom con framework moderni</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIZI CORRELATI / INTERLINKING -->
+  <section id="correlati" class="py-10">
+    <Features2
+      title="Servizi correlati"
+      subtitle="Integra WordPress Slim con queste soluzioni per risultati ancora migliori."
+      columns={4}
+      classes={{
+        container: "max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 xl:gap-8",
+        panel: "h-full rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition",
+      }}
+      items={[
+        {
+          title: "Ottimizzazione SEO",
+          description: "Analisi tecnica, contenuti e link building per spingere ranking e traffico.",
+          icon: "tabler:chart-line",
+          href: "/servizi/ottimizzazione-seo-siti-web",
+        },
+        {
+          title: "Accessibilità Digitale Avanzata",
+          description: "Adeguamenti WCAG/AgID per un sito inclusivo e conforme.",
+          icon: "tabler:wheelchair",
+          href: "/servizi/accessibilita-digitale-avanzata",
+        },
+        {
+          title: "Assistente AI (Sito & WhatsApp)",
+          description: "Risposte 24/7 a FAQ, lead qualificati e prenotazioni.",
+          icon: "tabler:message-chatbot",
+          href: "/servizi/assistente-ai-sito-whatsapp",
+        },
+        {
+          title: "Local SEO Booster",
+          description: "Ottimizza Google Business Profile e recensioni per farti trovare vicino ai clienti.",
+          icon: "tabler:map-pin",
+          href: "/servizi/local-seo-booster",
+        },
+      ]}
+    />
+  </section>
+
+  <!-- FAQ (visive) -->
+  <section id="faq" class="max-w-3xl mx-auto px-6 md:px-8 py-12">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Domande frequenti</h2>
+
+    <details class="rounded-xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 mb-3 bg-white/80 dark:bg-neutral-900/40">
+      <summary class="font-medium cursor-pointer">Quanto tempo richiede la migrazione?</summary>
+      <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300">
+        Dipende da dimensioni e complessità. Dopo l’audit, definiamo un piano con milestone e staging pubblico per le verifiche.
+      </p>
+    </details>
+
+    <details class="rounded-xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 mb-3 bg-white/80 dark:bg-neutral-900/40">
+      <summary class="font-medium cursor-pointer">Posso mantenere il tema/visual builder?</summary>
+      <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300">
+        In statico: convertiamo il risultato in HTML/CSS ottimizzato. In headless: ricreiamo il frontend con componenti moderni, mantenendo WordPress come editor.
+      </p>
+    </details>
+
+    <details class="rounded-xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 mb-3 bg-white/80 dark:bg-neutral-900/40">
+      <summary class="font-medium cursor-pointer">Cosa cambia in manutenzione?</summary>
+      <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300">
+        Aggiornamenti ridotti sul frontend e meno rischi di rotture. Restano aggiornamenti di sicurezza/compatibilità sul backend WordPress (headless) e sulla pipeline.
+      </p>
+    </details>
+  </section>
+
+  <!-- CTA FINALE -->
   <CallToAction
     title="Vuoi alleggerire e velocizzare il tuo sito WordPress?"
-    subtitle="Contattaci per scoprire se WordPress Slim è la scelta giusta per il tuo progetto."
-  >
-    <Fragment slot="actions">
-      <Button variant="primary" href="/contatti">Richiedi una consulenza gratuita</Button>
-    </Fragment>
-  </CallToAction>
+    subtitle="Parliamone: valutiamo statico o headless in base a obiettivi, budget e roadmap."
+    actions={[
+      { variant: "primary", text: "Richiedi una consulenza gratuita", href: "/contatti" },
+      { text: "Scopri l’ottimizzazione SEO", href: "/servizi/ottimizzazione-seo-siti-web" },
+    ]}
+  />
 </Layout>

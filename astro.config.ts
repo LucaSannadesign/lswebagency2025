@@ -8,7 +8,6 @@ import vercel from '@astrojs/vercel';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
-import preact from '@astrojs/preact';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import partytown from '@astrojs/partytown';
@@ -29,21 +28,27 @@ const whenExternalScripts = (items: any) =>
 
 export default defineConfig({
   output: 'server',
-  adapter: vercel(),
+
+  // Preview: usa `vercel build && vercel serve .vercel/output`
+  // ✅ Forziamo runtime Node per SMTP/recaptcha; opzionale ISR commentato
+  adapter: vercel({
+    runtime: 'node',
+    // isr: { expiration: 60 * 60 * 24 }, // abilita se vuoi cache SSR 24h
+  }),
 
   site: 'https://lswebagency.com',
 
   integrations: [
-    preact(),
+    // ✅ Solo React (niente warning di renderer multipli)
     react(),
     tailwind({ applyBaseStyles: false }),
     mdx(),
-    // ✅ astro-icon: usa solo set locale + tabler
+    // ✅ astro-icon: set locale + tabler
     icon({
-      iconDir: 'src/icons',     // dove metti whatsapp.svg / telegram.svg (se li usi)
+      iconDir: 'src/icons',
       include: {
-        local: ['*'],           // abilita tutte le icone locali
-        tabler: ['*'],          // brand-whatsapp / brand-telegram
+        local: ['*'],
+        tabler: ['*'],
       },
     }),
     ...whenExternalScripts(() =>
@@ -98,30 +103,6 @@ export default defineConfig({
     },
   },
 
-  headScripts: [
-    {
-      children: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        function loadAnalytics() {
-          if (localStorage.getItem("cookiesAccepted")==="true") {
-            const s=document.createElement("script");
-            s.src="https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B";
-            s.async=true;document.head.appendChild(s);
-            s.onload=()=>{gtag('js',new Date());gtag('config','G-FX8HDJJM7B',{anonymize_ip:true});};
-          }
-        }
-        document.addEventListener("DOMContentLoaded", loadAnalytics);
-      `,
-    },
-  ],
-
-  scripts: [
-    {
-      type: 'text/javascript',
-      src: 'https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B',
-      async: true,
-      defer: true,
-    },
-  ],
+  // ❌ Niente headScripts / scripts qui:
+  // GA è già caricato SOLO dopo consenso nel layout globale.
 });

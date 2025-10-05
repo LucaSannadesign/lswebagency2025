@@ -1,0 +1,33 @@
+{
+  "name": "Cagliari",
+  "slug": "cagliari",
+  "region": "Sardegna",
+  "province": "CA",
+  "country": "IT",
+  "priority": 80,
+  "published": true,
+  "description": "Progetti web scalabili e integrazioni AI per aziende e professionisti a Cagliari. Focus su SEO e UX.",
+  "services": [
+    {
+      "title": "SEO & Posizionamento",
+      "href": "/servizi/ottimizzazione-seo-siti-web"
+    },
+    {
+      "title": "WordPress Slim",
+      "href": "/servizi/wordpress-slim-siti-statici-headless"
+    },
+    {
+      "title": "AI Blog Engine",
+      "href": "/servizi/ai-blog-engine"
+    }
+  ],
+  "metadata": {
+    "title": "Cagliari — Servizi Local | LS Web Agency",
+    "description": "Siti web, SEO e soluzioni AI per aziende e professionisti a Cagliari.",
+    "canonical": "https://lswebagency.com/local/cagliari",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  }
+}

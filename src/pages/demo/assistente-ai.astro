@@ -1,0 +1,487 @@
+---
+// src/pages/servizi/assistente-ai-sito-whatsapp.astro
+import Layout from '@/layouts/PageLayout.astro';
+
+/* ===== Variabili lette da .env.local =====
+PUBLIC_PAYPAL_CLIENT_ID         -> SDK PayPal (necessario solo per Pro/Hosted Button)
+PUBLIC_PAYPAL_SETUP_STARTER     -> Link NCP PayPal (Starter)
+PUBLIC_PAYPAL_HOSTED_BUTTON_PRO -> ID Hosted Button (Pro)
+PUBLIC_PAYPAL_SETUP_PRO         -> Link NCP PayPal fallback (Pro)
+PUBLIC_PAYPAL_SETUP_PLUS        -> Link NCP PayPal (Plus)
+PUBLIC_WHATSAPP_DEMO_LINK       -> Link wa.me per demo rapida
+*/
+
+const demoUrl         = "/demo/assistente-ai";
+
+const linkStarter     = import.meta.env.PUBLIC_PAYPAL_SETUP_STARTER || "";
+const linkProFallback = import.meta.env.PUBLIC_PAYPAL_SETUP_PRO || "";
+const linkPlus        = import.meta.env.PUBLIC_PAYPAL_SETUP_PLUS || "";
+const waDemo          = import.meta.env.PUBLIC_WHATSAPP_DEMO_LINK || "";
+
+const metadata = {
+  title: 'Assistente AI (Sito & WhatsApp) — Risposte 24/7 per PMI',
+  description:
+    'Meno telefonate ripetitive, più clienti. L’Assistente AI risponde 24/7 su sito e WhatsApp a orari, prezzi, disponibilità e inoltra a umano quando serve. Demo su misura.',
+  canonical: '/servizi/assistente-ai-sito-whatsapp',
+  robots: { index: false, follow: false }, // tieni NOINDEX finché non approvi
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-900/40 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 pb-12 text-center">
+      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
+        Novità 2025 · AI per PMI
+      </span>
+
+      <!-- H1: gradiente nero -> viola/rosa con fallback -->
+      <h1
+        class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight
+               text-neutral-900 dark:text-white
+               bg-gradient-to-r from-neutral-900 via-violet-700 to-pink-500
+               dark:from-neutral-100 dark:via-fuchsia-400 dark:to-pink-300
+               bg-clip-text supports-[background-clip:text]:text-transparent supports-[-webkit-background-clip:text]:text-transparent">
+        Assistente AI (Sito &amp; WhatsApp)
+      </h1>
+
+      <p class="mt-4 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+        Meno telefonate ripetitive, più clienti. Risposte 24/7 a FAQ, disponibilità e preventivi, con passaggio a un umano quando serve.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href={demoUrl} data-plan="Demo" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
+          Prova la demo
+        </a>
+        {waDemo && (
+          <a href={waDemo}
+             rel="noopener noreferrer"
+             data-plan="WhatsAppDemo"
+             class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-emerald-500 text-emerald-700 hover:bg-emerald-50 dark:hover:bg-neutral-800 transition">
+            Chatta su WhatsApp
+          </a>
+        )}
+        <a href="#prezzi-pro" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition">
+          Attiva Pro
+        </a>
+        <a href="#prezzi" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition">
+          Vedi prezzi
+        </a>
+      </div>
+
+      <!-- Micro-trust -->
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm text-neutral-600 dark:text-neutral-300">
+        <div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Risposte 24/7</div>
+        <div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Privacy by design</div>
+        <div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Attivazione 5–10 gg</div>
+        <div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Fattura ITA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFICI -->
+  <section class="container mx-auto px-6 pt-6 pb-2">
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Tempi di risposta</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">I clienti che scrivono la sera o nel weekend non aspettano: l’assistente risponde subito e non perdi opportunità.</p>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Domande ripetitive</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Orari, prezzi, indirizzo, parcheggio, disponibilità… gestite 24/7 senza intasare WhatsApp.</p>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Funnel chiaro</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Dal primo contatto alla prenotazione: meno passaggi, più conversioni, handover a umano quando serve.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE -->
+  <section class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Cosa fa (in concreto)</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        {t:'FAQ 24/7 su sito e WhatsApp',d:'Orari, prezzi, disponibilità, policy: risposta immediata e coerente.'},
+        {t:'Verifica disponibilità',d:'Flow guidati e inoltro smart a umano su WhatsApp quando opportuno.'},
+        {t:'Tono di brand',d:'Linguaggio su misura e “contesto” aggiornabile con facilità.'},
+        {t:'Log conversazioni',d:'Migliori le risposte nel tempo con dati reali.'},
+        {t:'Privacy by design',d:'Minimizzazione dati, nessun training su dati sensibili, retention impostabile.'},
+        {t:'Integrazione leggera',d:'Widget sul sito + link/WA Business. Niente plugin pesanti.'},
+      ].map(item => (
+        <div class="rounded-2xl p-6 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-900/40 dark:to-neutral-900 ring-1 ring-neutral-200 dark:ring-neutral-800 shadow-sm">
+          <div class="mb-2 font-semibold">{item.t}</div>
+          <p class="text-neutral-600 dark:text-neutral-300">{item.d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="container mx-auto px-6 py-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Come funziona</h2>
+    <div class="grid md:grid-cols-4 gap-4">
+      {[
+        ['Onboarding','Invia FAQ reali, link, listino/menu, policy, orari.'],
+        ['Configurazione','Creiamo la base di conoscenza e i flussi di inoltro.'],
+        ['Integrazione & test','Widget sul sito + canale WhatsApp; test su casi reali.'],
+        ['Go-live & tuning','Monitor, log, miglioramenti continui.'],
+      ].map(([title,desc],i)=>(
+        <div class="relative rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-violet-600 text-white font-bold">{i+1}</span>
+            <h3 class="font-semibold">{title}</h3>
+          </div>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300">{desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="container mx-auto px-6 py-8">
+    <div class="grid sm:grid-cols-3 gap-4 text-center">
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <div class="text-3xl font-extrabold">−30%</div>
+        <div class="text-sm text-neutral-600 dark:text-neutral-300">chiamate ripetitive</div>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <div class="text-3xl font-extrabold">+↑</div>
+        <div class="text-sm text-neutral-600 dark:text-neutral-300">prenotazioni/lead qualificati</div>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <div class="text-3xl font-extrabold">24/7</div>
+        <div class="text-sm text-neutral-600 dark:text-neutral-300">copertura canali</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INCLUDED IN ALL PLANS -->
+  <section class="container mx-auto px-6 pt-2 pb-4">
+    <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+      <h2 class="text-xl md:text-2xl font-bold mb-4">Incluso in tutti i piani</h2>
+      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm text-neutral-700 dark:text-neutral-300">
+        <li>Onboarding guidato (FAQ, policy, materiali)</li>
+        <li>Handover a umano via WhatsApp</li>
+        <li>1 ciclo di tuning iniziale post go-live</li>
+        <li>Widget leggero per il sito (no plugin pesanti)</li>
+        <li>Privacy by design (minimizzazione &amp; retention)</li>
+        <li>Assistenza via email (tempi standard 1–2 gg lavorativi)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="prezzi" class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Piani &amp; prezzi</h2>
+    <p class="text-neutral-600 dark:text-neutral-300 mb-6"><em>Indicativi, personalizzabili in base a canali e volumi.</em></p>
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Starter -->
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <h3 class="font-semibold text-lg mb-1">Starter</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Sito <em>oppure</em> WhatsApp</p>
+        <div class="mb-4">
+          <div class="text-2xl font-bold">da 300 €</div>
+          <div class="text-sm text-neutral-600 dark:text-neutral-300">gestione da 29 €/mese</div>
+        </div>
+        <ul class="text-sm space-y-1 mb-6">
+          <li>FAQ 24/7 su 1 canale</li>
+          <li>Handover a umano</li>
+          <li>Privacy &amp; log base</li>
+        </ul>
+        <div class="mt-auto flex gap-2">
+          <a
+            href={demoUrl}
+            data-plan="Demo"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
+                   border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
+          >Demo</a>
+          <a
+            href={linkStarter || "#"}
+            target={linkStarter ? "_blank" : undefined}
+            rel={linkStarter ? "noopener noreferrer" : undefined}
+            referrerpolicy={linkStarter ? "no-referrer" : undefined}
+            data-plan="Starter"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
+                   bg-black text-white hover:opacity-90 transition"
+          >Attiva</a>
+        </div>
+      </div>
+
+      <!-- Pro (Più scelto) -->
+      <div id="prezzi-pro" class="relative rounded-2xl p-6 ring-2 ring-violet-400 dark:ring-violet-600 bg-gradient-to-b from-white to-violet-50 dark:from-neutral-900 dark:to-violet-900/10 shadow-md flex flex-col">
+        <span class="absolute -top-3 right-4 text-xs font-semibold px-2 py-1 rounded-full bg-violet-600 text-white">Più scelto</span>
+        <h3 class="font-semibold text-lg mb-1">Pro</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Sito + WhatsApp + log avanzati</p>
+        <div class="mb-4">
+          <div class="text-2xl font-bold">da 600 €</div>
+          <div class="text-sm text-neutral-600 dark:text-neutral-300">gestione da 59 €/mese</div>
+        </div>
+        <ul class="text-sm space-y-1 mb-6">
+          <li>FAQ 24/7 su 2 canali</li>
+          <li>Flow disponibilità</li>
+          <li>Log avanzati &amp; tuning</li>
+        </ul>
+
+        <!-- CTA allineati come negli altri piani -->
+        <div class="mt-auto flex gap-2">
+          <!-- Demo (outline) -->
+          <a
+            href={demoUrl}
+            data-plan="Demo"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
+                   border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
+          >Demo</a>
+
+          <!-- Slot PayPal / Fallback gradiente -->
+          <div class="flex-1">
+            <!-- nascosto finché l’SDK non renderizza -->
+            <div id="paypal-pro" class="w-full" style="display:none"></div>
+
+            <!-- Fallback “Attiva” viola→rosa -->
+            <a
+              id="paypal-pro-fallback"
+              href={linkProFallback || "#prezzi-pro"}
+              target={linkProFallback ? "_blank" : undefined}
+              rel={linkProFallback ? "noopener noreferrer" : undefined}
+              referrerpolicy={linkProFallback ? "no-referrer" : undefined}
+              data-plan="Pro"
+              class="inline-flex w-full items-center justify-center rounded-full px-4 py-2
+                     text-white bg-gradient-to-r from-violet-600 to-pink-500
+                     hover:from-violet-500 hover:to-pink-400
+                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 transition"
+            >Attiva</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plus -->
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <h3 class="font-semibold text-lg mb-1">Plus</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Flussi su misura + report</p>
+        <div class="mb-4">
+          <div class="text-2xl font-bold">da 900 €</div>
+          <div class="text-sm text-neutral-600 dark:text-neutral-300">gestione da 99 €/mese</div>
+        </div>
+        <ul class="text-sm space-y-1 mb-6">
+          <li>Flow personalizzati</li>
+          <li>Report mensili</li>
+          <li>Supporto prioritario</li>
+        </ul>
+        <div class="mt-auto flex gap-2">
+          <a
+            href={demoUrl}
+            data-plan="Demo"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
+                   border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
+          >Demo</a>
+          <a
+            href={linkPlus || "#"}
+            target={linkPlus ? "_blank" : undefined}
+            rel={linkPlus ? "noopener noreferrer" : undefined}
+            referrerpolicy={linkPlus ? "no-referrer" : undefined}
+            data-plan="Plus"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
+                   bg-black text-white hover:opacity-90 transition"
+          >Attiva</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="container mx-auto px-6 pt-2 pb-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Confronto rapido</h2>
+    <div class="overflow-x-auto rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800">
+      <table class="min-w-full text-sm">
+        <thead class="bg-neutral-50 dark:bg-neutral-900/50">
+          <tr>
+            <th class="text-left p-4">Caratteristica</th>
+            <th class="text-left p-4">Starter</th>
+            <th class="text-left p-4">Pro</th>
+            <th class="text-left p-4">Plus</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-200 dark:divide-neutral-800">
+          <tr><td class="p-4">Canali</td><td class="p-4">1 (Sito <em>o</em> WhatsApp)</td><td class="p-4">2 (Sito + WhatsApp)</td><td class="p-4">Su misura</td></tr>
+          <tr><td class="p-4">FAQ 24/7</td><td class="p-4">✓</td><td class="p-4">✓</td><td class="p-4">✓</td></tr>
+          <tr><td class="p-4">Flow disponibilità</td><td class="p-4">—</td><td class="p-4">✓</td><td class="p-4">✓ personalizzati</td></tr>
+          <tr><td class="p-4">Log &amp; tuning</td><td class="p-4">Base</td><td class="p-4">Avanzati</td><td class="p-4">Avanzati + report</td></tr>
+          <tr><td class="p-4">Report mensili</td><td class="p-4">—</td><td class="p-4">—</td><td class="p-4">✓</td></tr>
+          <tr><td class="p-4">SLA supporto</td><td class="p-4">Standard</td><td class="p-4">Standard</td><td class="p-4">Prioritario</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">FAQ</h2>
+    <div class="space-y-3">
+      {[
+        ['L’assistente è multilingua?', 'Sì, può rispondere in più lingue partendo dalle FAQ fornite. Consigliamo comunque una lingua principale.'],
+        ['È conforme al GDPR?', 'Sì: impostiamo policy di retention, minimizzazione dei dati e nessun uso di dati sensibili. Niente training su dati personali dei clienti.'],
+        ['Serve WhatsApp Business API?', 'Dipende dall’uso: per risposte base può bastare WhatsApp Business. Per automazioni avanzate valutiamo insieme API e relativi costi/limiti.'],
+        ['Quando passa a un umano?', 'In base a regole: parole chiave (es. “reclamo”), intenti ad alto rischio o su richiesta esplicita dell’utente.'],
+        ['Cosa include la gestione mensile?', 'Monitoraggio, piccoli aggiustamenti alle risposte/flow, supporto tecnico standard. Migliorie strutturali o nuovi flow sono extra.'],
+        ['Cosa non fa l’assistente?', 'Non prende decisioni legali o mediche, non gestisce pagamenti diretti in chat né sostituisce il servizio clienti umano in casi complessi.'],
+        ['Serve un CRM?', 'No, non è obbligatorio. Possiamo esportare i log oppure integrare un CRM leggero in seguito.'],
+        ['Quanto dura l’attivazione?', '5–10 giorni lavorativi in base alla qualità delle FAQ e dei materiali forniti.'],
+      ].map(([q,a]) => (
+        <details class="rounded-2xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+          <summary class="font-semibold cursor-pointer">{q}</summary>
+          <p class="mt-2 text-neutral-600 dark:text-neutral-300">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+<!-- CTA footer (manuale, visibile sempre) -->
+<!-- HERO -->
+<section class="relative w-full min-h-[60vh] overflow-visible isolate">
+  <!-- background/gradiente sotto il contenuto -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10
+           bg-gradient-to-b from-violet-100 via-white to-white
+           dark:from-violet-900/40 dark:via-transparent">
+  </div>
+
+  <div class="container mx-auto px-6 pt-16 pb-12">
+    <!-- tuo contenuto HERO (titolo, sottotitolo, bottoni, ecc.) -->
+    <!-- ... -->
+  </div>
+</section>
+
+  <!-- Sticky CTA mobile -->
+  <div class="fixed bottom-4 inset-x-0 px-4 md:hidden z-40">
+    <div class="rounded-full bg-white/90 dark:bg-neutral-900/90 shadow-lg backdrop-blur flex gap-2 p-2 ring-1 ring-neutral-200 dark:ring-neutral-800">
+      <a href={demoUrl} data-plan="Demo" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 text-white bg-violet-600 hover:bg-violet-700 transition">Demo</a>
+      {waDemo && (
+        <a href={waDemo} data-plan="WhatsAppDemo" rel="noopener noreferrer"
+           class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 border border-emerald-500 text-emerald-700 hover:bg-emerald-50 dark:hover:bg-neutral-800 transition">
+          WhatsApp
+        </a>
+      )}
+      <a href="#prezzi-pro" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-black text-white hover:opacity-90 transition">Attiva Pro</a>
+    </div>
+  </div>
+
+  <!-- JSON-LD combinato -->
+  <script type="application/ld+json" is:inline>
+  [{
+    "@context":"https://schema.org",
+    "@type":"Service",
+    "name":"Assistente AI (Sito & WhatsApp)",
+    "areaServed":"IT",
+    "provider":{"@type":"Organization","name":"LS Web Agency"},
+    "description":"Assistente AI con risposte 24/7 su sito e WhatsApp per ridurre telefonate ripetitive e aumentare le prenotazioni."
+  },{
+    "@context":"https://schema.org",
+    "@type":"OfferCatalog",
+    "name":"Assistente AI (Sito & WhatsApp) — Piani",
+    "itemListElement":[
+      {
+        "@type":"Offer",
+        "itemOffered":{"@type":"Product","name":"Starter","description":"FAQ 24/7 su 1 canale, handover a umano, privacy & log base."},
+        "priceSpecification":{"@type":"PriceSpecification","price":"300","priceCurrency":"EUR"},
+        "areaServed":"IT",
+        "seller":{"@type":"Organization","name":"LS Web Agency"}
+      },
+      {
+        "@type":"Offer",
+        "itemOffered":{"@type":"Product","name":"Pro","description":"FAQ 24/7 su 2 canali, flow disponibilità, log avanzati & tuning."},
+        "priceSpecification":{"@type":"PriceSpecification","price":"600","priceCurrency":"EUR"},
+        "areaServed":"IT",
+        "seller":{"@type":"Organization","name":"LS Web Agency"}
+      },
+      {
+        "@type":"Offer",
+        "itemOffered":{"@type":"Product","name":"Plus","description":"Flow personalizzati, report mensili, supporto prioritario."},
+        "priceSpecification":{"@type":"PriceSpecification","price":"900","priceCurrency":"EUR"},
+        "areaServed":"IT",
+        "seller":{"@type":"Organization","name":"LS Web Agency"}
+      }
+    ]
+  },{
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"L’assistente è multilingua?","acceptedAnswer":{"@type":"Answer","text":"Sì, può rispondere in più lingue partendo dalle FAQ fornite. Consigliamo comunque una lingua principale."}},
+      {"@type":"Question","name":"È conforme al GDPR?","acceptedAnswer":{"@type":"Answer","text":"Sì: impostiamo policy di retention, minimizzazione dei dati e nessun uso di dati sensibili. Niente training su dati personali dei clienti."}},
+      {"@type":"Question","name":"Serve WhatsApp Business API?","acceptedAnswer":{"@type":"Answer","text":"Dipende dall’uso: per risposte base può bastare WhatsApp Business. Per automazioni avanzate valutiamo insieme API e relativi costi/limiti."}},
+      {"@type":"Question","name":"Quando passa a un umano?","acceptedAnswer":{"@type":"Answer","text":"In base a regole: parole chiave, intenti ad alto rischio o su richiesta esplicita dell’utente."}},
+      {"@type":"Question","name":"Cosa include la gestione mensile?","acceptedAnswer":{"@type":"Answer","text":"Monitoraggio, piccoli aggiustamenti alle risposte/flow, supporto tecnico standard. Migliorie strutturali o nuovi flow sono extra."}},
+      {"@type":"Question","name":"Cosa non fa l’assistente?","acceptedAnswer":{"@type":"Answer","text":"Non prende decisioni legali o mediche, non gestisce pagamenti diretti in chat né sostituisce il servizio clienti umano in casi complessi."}},
+      {"@type":"Question","name":"Serve un CRM?","acceptedAnswer":{"@type":"Answer","text":"No, non è obbligatorio. Possiamo esportare i log oppure integrare un CRM leggero in seguito."}},
+      {"@type":"Question","name":"Quanto dura l’attivazione?","acceptedAnswer":{"@type":"Answer","text":"5–10 giorni lavorativi in base alla qualità delle FAQ e dei materiali forniti."}}
+    ]
+  },{
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Servizi","item":"/servizi"},
+      {"@type":"ListItem","position":2,"name":"Assistente AI (Sito & WhatsApp)","item":"/servizi/assistente-ai-sito-whatsapp"}
+    ]
+  }]
+  </script>
+
+  <!-- PayPal SDK: render Hosted Button Pro (una sola volta) -->
+  <script is:inline>
+    (function () {
+      function track(event, data) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event, ...data });
+      }
+
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[data-plan]');
+        if (!a) return;
+        track('cta_click', { plan: a.dataset.plan, href: a.getAttribute('href') });
+      });
+
+      const CLIENT_ID = "${paypalClientId}";
+      const HOSTED_ID_PRO = "${hostedPro}";
+
+      if (!CLIENT_ID || !HOSTED_ID_PRO) return;
+
+      try {
+        const link = document.createElement('link');
+        link.rel = 'preconnect';
+        link.href = 'https://www.paypal.com';
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+      } catch (_) {}
+
+      const s = document.createElement('script');
+      s.src = "https://www.paypal.com/sdk/js?client-id=" + encodeURIComponent(CLIENT_ID)
+            + "&components=hosted-buttons&currency=EUR";
+      s.async = true;
+      s.onload = function () {
+        try {
+          const slot = document.getElementById('paypal-pro');
+          const fb   = document.getElementById('paypal-pro-fallback');
+          if (window.paypal && slot) {
+            paypal.HostedButtons({ hostedButtonId: HOSTED_ID_PRO })
+              .render('#paypal-pro')
+              .then(() => {
+                slot.style.display = 'block';
+                if (fb) fb.style.display = 'none';
+                track('paypal_hosted_loaded', { plan: 'Pro' });
+              })
+              .catch(() => {
+                if (slot) slot.style.display = 'none';
+                if (fb) fb.style.display = 'inline-flex';
+                track('paypal_hosted_error', { plan: 'Pro' });
+              });
+          }
+        } catch (err) {
+          track('paypal_script_error', { plan: 'Pro', msg: String(err) });
+        }
+      };
+      document.head.appendChild(s);
+    })();
+  </script>
+</Layout>

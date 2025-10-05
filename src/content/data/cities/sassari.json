@@ -1,0 +1,33 @@
+{
+  "name": "Sassari",
+  "slug": "sassari",
+  "region": "Sardegna",
+  "province": "SS",
+  "country": "IT",
+  "priority": 10,
+  "published": true,
+  "description": "Siti veloci, SEO locale su Google Maps e integrazioni AI per PMI e professionisti a Sassari. Focus su performance, accessibilità e automazioni che riducono il lavoro ripetitivo.",
+  "services": [
+    {
+      "title": "WordPress Slim",
+      "href": "/servizi/wordpress-slim-siti-statici-headless"
+    },
+    {
+      "title": "SEO Locale & Google Business",
+      "href": "/servizi/local-seo-booster"
+    },
+    {
+      "title": "Assistente AI 24/7 (WhatsApp/Sito)",
+      "href": "/servizi/assistente-ai-sito-whatsapp"
+    }
+  ],
+  "metadata": {
+    "title": "Sassari — Servizi Local | LS Web Agency",
+    "description": "Siti web veloci, Local SEO su Google Maps e automazioni AI per la tua attività a Sassari.",
+    "canonical": "https://lswebagency.com/local/sassari",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  }
+}

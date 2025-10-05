@@ -1,0 +1,36 @@
+{
+  "name": "Alghero",
+  "slug": "alghero",
+  "region": "Sardegna",
+  "province": "SS",
+  "country": "IT",
+  "aliases": [
+    "L'Alguer"
+  ],
+  "priority": 98,
+  "published": true,
+  "description": "Siti e Local SEO per strutture ricettive, ristorazione e servizi turistici ad Alghero. Gestione scheda Google Business e contenuti local.",
+  "services": [
+    {
+      "title": "Local SEO & Maps",
+      "href": "/servizi/local-seo-booster"
+    },
+    {
+      "title": "WordPress Slim",
+      "href": "/servizi/wordpress-slim-siti-statici-headless"
+    },
+    {
+      "title": "AI Blog Engine (articoli SEO)",
+      "href": "/servizi/ai-blog-engine"
+    }
+  ],
+  "metadata": {
+    "title": "Alghero — Servizi Local | LS Web Agency",
+    "description": "Local SEO, siti veloci e contenuti AI per attività ad Alghero.",
+    "canonical": "https://lswebagency.com/local/alghero",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  }
+}

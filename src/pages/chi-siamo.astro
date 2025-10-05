@@ -1,6 +1,5 @@
 ---
 import Features3 from '@/components/widgets/Features3.astro';
-import Hero from '@/components/widgets/Hero.astro';
 import Layout from '@/layouts/PageLayout.astro';
 import CallToAction from '@/components/widgets/CallToAction.astro';
 
@@ -12,29 +11,135 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget -->
-  <Hero
-  tagline="Chi Siamo"
-  title={
-    `<span class="text-gradient">Strategie Digitali</span> e 
-     <span class="text-gradient">Creazione Siti Web</span> su Misura`
-  }
-  subtitle="Aiutiamo aziende e professionisti a trasformare la loro presenza online con siti web innovativi, ottimizzati per SEO e performance elevate."
-  image={{
-    src: '@/assets/images/team-sviluppo-siti-web.webp',
-    alt: 'Team al lavoro',
-  }}
-/>
+
+  <!-- HERO personalizzato -->
+  <section class="relative isolate overflow-hidden">
+    <!-- sfondo hero -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-b from-fuchsia-100/70 via-white/70 to-white dark:from-fuchsia-900/25 dark:via-transparent dark:to-transparent"></div>
+    </div>
+
+    <div class="container mx-auto px-6 pt-16 pb-10 grid md:grid-cols-12 gap-10 items-center">
+      <!-- TESTO -->
+      <div class="md:col-span-7">
+        <p class="mb-2 text-xs font-semibold tracking-wide text-fuchsia-700/90 dark:text-fuchsia-300">CHI SIAMO</p>
+        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-400">
+            Strategie Digitali
+          </span>
+          e
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-400">
+            Creazione Siti Web
+          </span>
+          su Misura
+        </h1>
+
+        <p class="mt-4 text-neutral-700 dark:text-neutral-300 max-w-prose">
+          Aiutiamo aziende e professionisti a trasformare la presenza online con siti innovativi, ottimizzati per SEO e performance elevate.
+        </p>
+
+        <ul class="mt-6 grid grid-cols-2 gap-3 max-w-md text-sm">
+          <li class="flex items-center gap-2">✅ Go-live veloce</li>
+          <li class="flex items-center gap-2">🎯 Focus KPI</li>
+          <li class="flex items-center gap-2">♿ Accessibilità</li>
+          <li class="flex items-center gap-2">🔒 Sicurezza</li>
+        </ul>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-6 py-3 text-white bg-indigo-600 hover:bg-indigo-700 transition">Parla con noi</a>
+          <a href="/portfolio" class="inline-flex items-center justify-center rounded-full px-6 py-3 ring-1 ring-neutral-300 text-neutral-900 hover:bg-neutral-100 dark:text-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800 transition">Vedi lavori</a>
+        </div>
+      </div>
+
+      <!-- RIQUADRO “appoggiato” a destra -->
+      <div class="hidden md:block md:col-span-5 relative hero-stage">
+        <figure class="hero-card">
+          <!-- immagine trasparente: metti il file in /public/images/hero/chi-siamo-dashboard.png -->
+          <img
+            src="/images/chi-siamo-dashboard.webp"
+            alt="Dashboard SEO con grafici e indicatori di performance"
+            width="1200" height="900"
+            loading="eager" decoding="async" fetchpriority="high"
+            class="block w-full h-auto"
+            onerror="this.style.display='none'; this.parentElement.querySelector('.fallback').style.display='block';"
+          />
+          <!-- fallback tenue se l'immagine manca -->
+          <div class="fallback absolute inset-0 hidden">
+            <div class="absolute inset-0 bg-gradient-to-tr from-fuchsia-100/60 via-white to-indigo-100/50 dark:from-fuchsia-900/25 dark:via-transparent dark:to-indigo-900/25"></div>
+            <div class="absolute bottom-6 left-6 right-6 h-24 rounded-xl"
+                 style="background:
+                   linear-gradient(120deg, rgba(139,92,246,.35), rgba(217,70,239,.25), rgba(96,165,250,.35)),
+                   repeating-linear-gradient( to right, rgba(17,24,39,.10) 0 10px, rgba(17,24,39,0) 10px 20px);
+                 ">
+            </div>
+          </div>
+          <figcaption class="sr-only">Rappresentazione dei risultati digitali dell’agenzia</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <style>
+      /* Ombra “d’appoggio” sul piano */
+      .hero-stage::after{
+        content:"";
+        position:absolute;
+        right:2%;
+        bottom:-10px;
+        width:min(48vw, 680px);
+        height:24px;
+        filter: blur(14px);
+        background: radial-gradient(60% 120% at 50% 50%, rgba(2,6,23,.20), transparent 70%);
+        z-index:-1;
+      }
+
+      /* Card con angoli arrotondati e leggera fluttuazione */
+      .hero-card{
+        position:relative;
+        overflow:hidden;
+        border-radius:28px;
+        background:#fff; /* il PNG è trasparente, lo sfondo vive nella card */
+        box-shadow:
+          0 22px 44px rgba(2,6,23,.08),
+          0 4px 10px rgba(2,6,23,.05);
+      }
+      .hero-card::before,
+      .hero-card::after{
+        content:"";
+        position:absolute;
+        z-index:-1;
+        bottom:-16px;
+        width:44%;
+        height:28px;
+        filter: blur(12px);
+        background: radial-gradient(ellipse at center, rgba(2,6,23,.38), rgba(2,6,23,0) 70%);
+      }
+      .hero-card::before{ left:6%;  transform: rotate(-2deg); }
+      .hero-card::after { right:6%; transform: rotate( 2deg); }
+
+      .hero-card > img + .fallback,
+      .hero-card > .fallback{
+        box-shadow: inset 0 0 0 1px rgba(2,6,23,.06);
+      }
+
+      @media (prefers-reduced-motion: no-preference){
+        .hero-card{ animation: cardFloat 14s ease-in-out infinite; }
+        @keyframes cardFloat{
+          0%,100%{ transform: translateY(0) }
+          50%{     transform: translateY(-4px) }
+        }
+      }
+    </style>
+  </section>
 
   <!-- Sezione Descrittiva su LS Web Agency -->
   <section class="py-16 text-center">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold">Chi è LS Web Agency?</h2>
       <p class="text-lg mt-4 max-w-2xl mx-auto">
-        <strong>LS Web Agency</strong> è un progetto fondato da <strong>Luca Sanna</strong>, web designer e developer con oltre 15 anni di esperienza 
-        nello sviluppo di siti web e applicazioni.  
-        Il nostro obiettivo è unire competenze e professionalità per offrire soluzioni digitali 
-        <strong>di alta qualità</strong>, con un approccio su misura per ogni cliente.
+        <strong>LS Web Agency</strong> è un progetto fondato da <strong>Luca Sanna</strong>, web designer e developer con oltre 15 anni di esperienza
+        nello sviluppo di siti web e applicazioni.
+        Il nostro obiettivo è unire competenze e professionalità per offrire soluzioni digitali
+        <strong> di alta qualità</strong>, con un approccio su misura per ogni cliente.
       </p>
     </div>
   </section>
@@ -46,21 +151,9 @@ const metadata = {
     columns={3}
     isBeforeContent={true}
     items={[
-      {
-        title: 'Creazione Siti Web',
-        description: 'Realizziamo siti web personalizzati, responsive e ottimizzati per ogni dispositivo.',
-        icon: 'tabler:template',
-      },
-      {
-        title: 'SEO e Posizionamento',
-        description: 'Miglioriamo il ranking sui motori di ricerca con strategie SEO avanzate.',
-        icon: 'tabler:search',
-      },
-      {
-        title: 'Branding e Identità Visiva',
-        description: 'Costruiamo la tua immagine online con grafiche accattivanti e un’identità forte.',
-        icon: 'tabler:palette',
-      },
+      { title: 'Creazione Siti Web', description: 'Realizziamo siti web personalizzati, responsive e ottimizzati per ogni dispositivo.', icon: 'tabler:template' },
+      { title: 'SEO e Posizionamento', description: 'Miglioriamo il ranking sui motori di ricerca con strategie SEO avanzate.', icon: 'tabler:search' },
+      { title: 'Branding e Identità Visiva', description: 'Costruiamo la tua immagine online con grafiche accattivanti e un’identità forte.', icon: 'tabler:palette' },
     ]}
   />
 
@@ -80,30 +173,21 @@ const metadata = {
             <span class="text-accent text-3xl">📈</span>
             <div>
               <h3 class="text-lg font-semibold">Innovazione Continua</h3>
-              <p class="text-muted">
-                Esploriamo nuove tecnologie e seguiamo le ultime tendenze per creare soluzioni digitali avanzate e
-                performanti.
-              </p>
+              <p class="text-muted">Esploriamo nuove tecnologie e seguiamo le ultime tendenze per creare soluzioni digitali avanzate e performanti.</p>
             </div>
           </div>
-
           <div class="flex items-start space-x-4">
             <span class="text-accent text-3xl">⭐</span>
             <div>
               <h3 class="text-lg font-semibold">Eccellenza e Qualità</h3>
-              <p class="text-muted">
-                Lavoriamo con precisione per garantire siti web veloci, sicuri e dall’estetica impeccabile.
-              </p>
+              <p class="text-muted">Lavoriamo con precisione per garantire siti web veloci, sicuri e dall’estetica impeccabile.</p>
             </div>
           </div>
-
           <div class="flex items-start space-x-4">
             <span class="text-accent text-3xl">🛡️</span>
             <div>
               <h3 class="text-lg font-semibold">Trasparenza e Affidabilità</h3>
-              <p class="text-muted">
-                Costruiamo relazioni di fiducia con i nostri clienti attraverso comunicazione chiara e supporto continuo.
-              </p>
+              <p class="text-muted">Costruiamo relazioni di fiducia con i nostri clienti attraverso comunicazione chiara e supporto continuo.</p>
             </div>
           </div>
         </div>
@@ -114,29 +198,21 @@ const metadata = {
             <span class="text-accent text-3xl">👥</span>
             <div>
               <h3 class="text-lg font-semibold">Focus sul Cliente</h3>
-              <p class="text-muted">
-                Ogni progetto è creato su misura per soddisfare le esigenze e gli obiettivi specifici di ogni cliente.
-              </p>
+              <p class="text-muted">Ogni progetto è creato su misura per soddisfare le esigenze e gli obiettivi specifici di ogni cliente.</p>
             </div>
           </div>
-
           <div class="flex items-start space-x-4">
             <span class="text-accent text-3xl">🎨</span>
             <div>
               <h3 class="text-lg font-semibold">Creatività e Passione</h3>
-              <p class="text-muted">
-                La nostra esperienza e passione per il design ci permettono di realizzare siti web unici e coinvolgenti.
-              </p>
+              <p class="text-muted">La nostra esperienza e passione per il design ci permettono di realizzare siti web unici e coinvolgenti.</p>
             </div>
           </div>
-
           <div class="flex items-start space-x-4">
             <span class="text-accent text-3xl">📊</span>
             <div>
               <h3 class="text-lg font-semibold">Risultati Misurabili</h3>
-              <p class="text-muted">
-                Monitoriamo costantemente il rendimento dei siti per garantire una crescita continua e successi concreti.
-              </p>
+              <p class="text-muted">Monitoriamo costantemente il rendimento dei siti per garantire una crescita continua e successi concreti.</p>
             </div>
           </div>
         </div>
@@ -145,11 +221,11 @@ const metadata = {
   </section>
 
   <CallToAction
-  title="Vuoi un sito web professionale?"
-  subtitle="Parliamone e troviamo la soluzione perfetta per la tua attività."
->
-  <Fragment slot="actions">
-    <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
-  </Fragment>
-</CallToAction>
+    title="Vuoi un sito web professionale?"
+    subtitle="Parliamone e troviamo la soluzione perfetta per la tua attività."
+  >
+    <Fragment slot="actions">
+      <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
+    </Fragment>
+  </CallToAction>
 </Layout>

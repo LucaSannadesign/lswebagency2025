@@ -1,0 +1,33 @@
+{
+  "name": "Nuoro",
+  "slug": "nuoro",
+  "region": "Sardegna",
+  "province": "NU",
+  "country": "IT",
+  "priority": 80,
+  "published": true,
+  "description": "Sviluppo front-end moderno e SEO tecnica per realtà artigiane e professionali a Nuoro.",
+  "services": [
+    {
+      "title": "WordPress Slim",
+      "href": "/servizi/wordpress-slim-siti-statici-headless"
+    },
+    {
+      "title": "SEO Tecnica & Contenuti",
+      "href": "/servizi/ottimizzazione-seo-siti-web"
+    },
+    {
+      "title": "Assistente AI 24/7",
+      "href": "/servizi/assistente-ai-sito-whatsapp"
+    }
+  ],
+  "metadata": {
+    "title": "Nuoro — Servizi Local | LS Web Agency",
+    "description": "Siti moderni, SEO e AI per attività e professionisti a Nuoro.",
+    "canonical": "https://lswebagency.com/local/nuoro",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Porto Torres",
+  "slug": "porto-torres",
+  "region": "Sardegna",
+  "province": "SS",
+  "country": "IT",
+  "priority": 95,
+  "published": true,
+  "description": "Siti web snelli, Local SEO e automazioni per attività e professionisti a Porto Torres.",
+  "services": [
+    {
+      "title": "Local SEO & Maps",
+      "href": "/servizi/local-seo-booster"
+    },
+    {
+      "title": "WordPress Slim",
+      "href": "/servizi/wordpress-slim-siti-statici-headless"
+    },
+    {
+      "title": "Assistente AI 24/7",
+      "href": "/servizi/assistente-ai-sito-whatsapp"
+    }
+  ],
+  "metadata": {
+    "title": "Porto Torres — Servizi Local | LS Web Agency",
+    "description": "Siti veloci, Local SEO e AI per la tua attività a Porto Torres.",
+    "canonical": "https://lswebagency.com/local/porto-torres",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  }
+}

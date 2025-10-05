@@ -1,0 +1,63 @@
+---
+/**
+ * PayLink.astro
+ * Pulsante con guard-rail:
+ * - Se href valido => <a> cliccabile
+ * - Se href mancante / "#" => pulsante disabilitato + badge "ENV"
+ */
+export interface Props {
+  href?: string;
+  label: string;
+  variant?: 'green' | 'black' | 'accent'; // usa 'green' (emerald), 'black', 'accent' (fuchsia)
+  class?: string;
+  newTab?: boolean;
+}
+
+const {
+  href,
+  label,
+  variant = 'green',
+  class: extra = '',
+  newTab = true,
+} = Astro.props;
+
+const isActive =
+  typeof href === 'string' &&
+  href.trim().length > 0 &&
+  href.trim() !== '#';
+
+const base =
+  'inline-flex items-center justify-center rounded-full px-5 py-3 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2';
+
+const variants = {
+  green: 'bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:ring-emerald-300',
+  black: 'bg-black text-white hover:opacity-90 focus-visible:ring-black/30',
+  accent: 'bg-fuchsia-600 text-white hover:bg-fuchsia-700 focus-visible:ring-fuchsia-300',
+  disabled: 'bg-neutral-300 text-neutral-600 cursor-not-allowed',
+};
+
+const cls = `${base} ${isActive ? variants[variant] : variants.disabled} ${extra}`;
+---
+
+{isActive ? (
+  <a
+    href={href}
+    class={cls}
+    target={newTab ? '_blank' : undefined}
+    rel={newTab ? 'noopener' : undefined}
+  >
+    {label}
+  </a>
+) : (
+  <div class="relative group inline-block">
+    <span class={cls} aria-disabled="true" title="Link non configurato">{label}</span>
+    <!-- Badge ENV -->
+    <span class="absolute -top-2 -right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500 text-white shadow">
+      ENV
+    </span>
+    <!-- Tooltip al passaggio -->
+    <div class="absolute left-1/2 -translate-x-1/2 mt-2 hidden group-hover:block text-xs bg-black text-white rounded px-2 py-1 whitespace-nowrap shadow">
+      Variabile ENV mancante
+    </div>
+  </div>
+)}

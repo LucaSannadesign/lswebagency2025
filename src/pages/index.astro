@@ -3,59 +3,87 @@ import Layout from '@/layouts/PageLayout.astro';
 import Hero from '@/components/widgets/Hero.astro';
 import BlogLatestPosts from '@/components/widgets/BlogLatestPosts.astro';
 import CallToAction from '@/components/widgets/CallToAction.astro';
-import { Fragment } from 'astro/jsx-runtime';
 import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
 
 const metadata = {
   title: 'Realizzazione Siti Web Sassari | LS Web Agency & SEO',
-  description: 'LS Web Agency realizza siti web, e-commerce, SEO e marketing digitale su misura per aziende e professionisti a Sassari.',
+  description:
+    'LS Web Agency realizza siti web, e-commerce, SEO e marketing digitale su misura per aziende e professionisti a Sassari.',
   ignoreTitleTemplate: true,
 };
 
 /* ---------- Portfolio (ordinamento robusto per data) ---------- */
-const LIMIT = 8; // 2 righe x 4 colonne
+const LIMIT = 8;
 
 // timestamp sicuro: 0 se manca/è invalido → va in fondo
-const ts = (v) => {
-  const d = v instanceof Date ? v : (typeof v === 'string' ? new Date(v) : null);
+const ts = (v: unknown) => {
+  const d =
+    v instanceof Date
+      ? v
+      : typeof v === 'string' && v
+        ? new Date(v)
+        : null;
   return d && !Number.isNaN(d.getTime()) ? d.getTime() : 0;
 };
 
 const portfolioAll = await getCollection('portfolio');
 
 const portfolioLatest = portfolioAll
-  .filter((e) => !e.data.draft)
+  .filter((e) => !((e.data as any)?.draft === true))
   .slice()
   .sort((a, b) => {
     const tb = ts(b.data.publishDate ?? b.data.updateDate);
     const ta = ts(a.data.publishDate ?? a.data.updateDate);
-    // per prime le date più recenti; tie-breaker sullo slug/titolo
-    return tb - ta ||
-      String(b.data.slug || b.slug || '').localeCompare(String(a.data.slug || a.slug || ''));
+    // più recenti prima; tie-breaker sullo slug
+    return tb - ta || String(b.data.slug || '').localeCompare(String(a.data.slug || ''));
   })
   .slice(0, LIMIT);
 ---
 
 <Layout metadata={metadata}>
   <!-- Hero Section -->
+<!-- HERO con gradient che sfuma a bianco + immagine più grande -->
+<section class="relative isolate">
+  <!-- sfumatura top ► bottom che termina in bianco -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 -z-10
+           h-[520px] sm:h-[560px] md:h-[600px]
+           bg-gradient-to-b from-violet-100/80 via-white to-transparent
+           dark:from-violet-900/30 dark:via-transparent">
+  </div>
+
   <Hero
     actions={[
       { variant: 'primary', text: 'Richiedi una consulenza', href: '/contatti' },
       { text: 'I nostri servizi', href: '#servizi' },
     ]}
     image={{
-      src: '@/assets/images/realizzazione-siti-web-sassari-sardegna.webp',
+      /* Consigliato: metti il file in /public/images/ e usa il path assoluto */
+      src: '/images/realizzazione-siti-web-sassari-sardegna.webp',
       alt: 'Realizzazione siti web a Sassari',
+      /* dimensioni reali per evitare CLS e migliorare LCP */
+      width: 1600,
+      height: 1066,
+      /* allarga visivamente il blocco immagine a destra */
+      containerClass: 'md:max-w-[820px] lg:max-w-[980px] xl:max-w-[1100px] 2xl:max-w-[1200px]',
+      class: 'rounded-3xl shadow-xl ring-1 ring-black/5',
+      /* opzionale: spostala leggermente verso l’esterno sui desktop
+         class: 'md:translate-x-2 lg:translate-x-4 rounded-3xl shadow-xl ring-1 ring-black/5' */
+      loading: 'eager',
+      fetchpriority: 'high',
+      decoding: 'async',
     }}
   >
-    <Fragment slot="title">
+    <span slot="title">
       Realizzazione siti web a Sassari&nbsp;
       <span class="text-accent text-gradient dark:text-white highlight">
         ottimizzati per SEO
       </span>
-    </Fragment>
-    <Fragment slot="subtitle">
+    </span>
+
+    <span slot="subtitle">
       <span class="hidden sm:inline">
         LS Web Agency progetta <strong>siti web</strong>, <strong>e-commerce</strong> e
         strategie di <strong>SEO</strong> e <strong>marketing digitale</strong> su misura per
@@ -64,8 +92,9 @@ const portfolioLatest = portfolioAll
       <span class="block mb-1 sm:hidden font-bold text-blue-600">
         Affidati a noi per la tua presenza online!
       </span>
-    </Fragment>
+    </span>
   </Hero>
+</section>
 
   <!-- I Nostri Servizi -->
   <section id="servizi" class="container mx-auto px-4 py-12">
@@ -128,10 +157,12 @@ const portfolioLatest = portfolioAll
 
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       {portfolioLatest.map((item) => {
-        // permalink pulito per trailingSlash: "never"
-        const hrefRaw = item.data.permalink ?? `/portfolio/${item.data.slug || item.slug}`;
+        const hrefRaw = item.data.permalink ?? `/portfolio/${item.data.slug}`;
         const href = hrefRaw.replace(/\/+$/, '');
-        const img = item.data.image;
+        const img = item.data.image as
+          | { src: string; alt?: string; width?: number; height?: number }
+          | undefined;
+
         return (
           <article class="rounded-xl overflow-hidden border hover:shadow-md transition-shadow">
             <a href={href} aria-label={`Apri: ${item.data.title}`} class="block">
@@ -158,40 +189,43 @@ const portfolioLatest = portfolioAll
       })}
     </div>
   </section>
-<section class="my-16">
-  <div class="mx-auto max-w-5xl rounded-3xl bg-gray-50 ring-1 ring-gray-200 px-6 py-14 text-center md:px-12">
-    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900">
-      Vuoi un sito web che porti davvero risultati?
-    </h2>
-    <p class="mt-4 text-lg text-gray-600">
-      Dalla strategia al design, ti aiutiamo a creare un sito veloce, sicuro e ottimizzato per Google.
-    </p>
 
-    <div class="mt-8 flex items-center justify-center gap-4">
-      <!-- Pulsante blu -->
-      <a href="/contatti"
-         class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-        Prenota una consulenza
-      </a>
-      <!-- Pulsante fucsia -->
-      <a href="/servizi"
-         class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-pink-600 hover:bg-pink-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500">
-        Scopri i servizi
-      </a>
+  <!-- CTA centrale -->
+  <section class="my-16">
+    <div class="mx-auto max-w-5xl rounded-3xl bg-gray-50 ring-1 ring-gray-200 px-6 py-14 text-center md:px-12">
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900">
+        Vuoi un sito web che porti davvero risultati?
+      </h2>
+      <p class="mt-4 text-lg text-gray-600">
+        Dalla strategia al design, ti aiutiamo a creare un sito veloce, sicuro e ottimizzato per Google.
+      </p>
+
+      <div class="mt-8 flex items-center justify-center gap-4">
+        <a
+          href="/contatti"
+          class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+        >
+          Prenota una consulenza
+        </a>
+        <a
+          href="/servizi"
+          class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-pink-600 hover:bg-pink-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
+        >
+          Scopri i servizi
+        </a>
+      </div>
+
+      <p class="mt-6 text-sm text-gray-500">
+        Preventivo trasparente · Supporto continuo · Soluzioni su misura
+      </p>
     </div>
+  </section>
 
-    <p class="mt-6 text-sm text-gray-500">
-      Preventivo trasparente · Supporto continuo · Soluzioni su misura
-    </p>
-  </div>
-</section>
   <!-- Blog -->
-  <BlogLatestPosts>
-    <Fragment slot="title">Dal nostro blog:</Fragment>
-    <Fragment slot="information">
-      Approfondimenti su SEO, web design e marketing digitale.
-    </Fragment>
-  </BlogLatestPosts>
+<BlogLatestPosts>
+  <span slot="title">Dal nostro blog:</span>
+  <span slot="information">Approfondimenti su SEO, web design e marketing digitale.</span>
+</BlogLatestPosts>
 
   <!-- FAQ -->
   <section id="faq" class="mt-24 px-6 lg:px-8 max-w-4xl mx-auto">
@@ -225,9 +259,9 @@ const portfolioLatest = portfolioAll
       icon: 'tabler:message'
     }]}
   >
-    <Fragment slot="title">Pronto a far crescere il tuo business online?</Fragment>
-    <Fragment slot="subtitle">
+    <span slot="title">Pronto a far crescere il tuo business online?</span>
+    <span slot="subtitle">
       Contattaci oggi stesso e scopri come possiamo aiutarti con soluzioni web su misura.
-    </Fragment>
+    </span>
   </CallToAction>
 </Layout>
