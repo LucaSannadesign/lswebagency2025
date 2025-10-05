@@ -30,8 +30,8 @@ const NAV = [
   { text: 'Servizi', href: '/servizi' },
   { text: 'Portfolio', href: '/portfolio' },
   { text: 'Blog', href: '/blog' },
-  { text: 'Local (pagine città)', href: '/local' },          // ✅ aggiunto
-  { text: 'Metodi di pagamento', href: '/pagamenti' },       // ✅ aggiunto
+  { text: 'Local (pagine città)', href: '/local' },
+  { text: 'Metodi di pagamento', href: '/pagamenti' },
   { text: 'Contatti', href: '/contatti' },
 ];
 ---
@@ -156,38 +156,35 @@ const NAV = [
       </div>
     </div>
 
-    <!-- Bottom -->
-    <div class="md:flex md:items-center md:justify-between py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
-      <p class="text-sm text-gray-600 dark:text-gray-400">
-        © 2025 <strong class="text-gray-800 dark:text-gray-200">LS Web Agency</strong>. Tutti i diritti riservati.
-      </p>
+    <!-- Bottom bar -->
+    <div class="py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <!-- Sinistra -->
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          © 2025 <strong class="text-gray-800 dark:text-gray-200">LS Web Agency</strong>. Tutti i diritti riservati.
+        </p>
 
-      <div class="text-sm space-x-2">
-        <a
-          href="/privacy"
-          class="text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:underline transition"
-        >
-          Privacy & Cookie Policy
-        </a>
-        |
-        <a
-          href="/mappa-del-sito"
-          class="text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:underline transition"
-        >
-          Mappa del sito
-        </a>
-        <!-- La Sitemap XML è per i bot: vedi nota sotto -->
+        <!-- Destra (allineata) -->
+        <nav class="text-sm text-gray-700 dark:text-gray-300 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <a href="/privacy" class="hover:underline">Privacy & Cookie Policy</a>
+          <span class="select-none hidden md:inline">|</span>
+          <a href="/mappa-del-sito" class="hover:underline">Mappa del sito</a>
+          <span class="select-none hidden md:inline">|</span>
+          <button
+            type="button"
+            class="hover:underline underline-offset-2"
+            onclick="(window.__openConsentBanner ? window.__openConsentBanner() : (location.href='/privacy#cookie'))"
+          >
+            Gestisci preferenze cookie
+          </button>
+        </nav>
       </div>
+
+      {footNote && (
+        <p class="text-center text-xs text-gray-600 dark:text-gray-400 mt-4">
+          {footNote}
+        </p>
+      )}
     </div>
-<!-- src/components/widgets/Footer.astro -->
-<a href="/privacy" class="hover:underline">Privacy & Cookie Policy</a>
-<button type="button" class="underline text-sm" onclick="window.__openConsentBanner?.()">
-  Gestisci preferenze cookie
-</button>
-    {footNote && (
-      <p class="text-center text-xs text-gray-600 dark:text-gray-400 mt-4">
-        {footNote}
-      </p>
-    )}
   </div>
 </footer>
