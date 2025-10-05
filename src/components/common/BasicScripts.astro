@@ -2,11 +2,12 @@
 import { UI } from 'astrowind:config';
 ---
 
+<!-- Theme + header/menu/script base (idempotente tramite window.basic_script) -->
 <script is:inline define:vars={{ defaultTheme: UI.theme }}>
   if (window.basic_script) {
+    // Evita doppie inizializzazioni in caso di navigazioni client-side
     return;
   }
-
   window.basic_script = true;
 
   function applyTheme(theme) {
@@ -33,11 +34,11 @@ import { UI } from 'astrowind:config';
 
   function attachEvent(selector, event, fn) {
     const matches = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
-    if (matches && matches.length) {
-      matches.forEach((elem) => {
-        elem.addEventListener(event, (e) => fn(e, elem), false);
-      });
-    }
+    if (!matches) return;
+    const list = matches.length === undefined ? [matches] : matches;
+    list.forEach((elem) => {
+      elem.addEventListener(event, (e) => fn(e, elem), false);
+    });
   }
 
   const onLoad = function () {
@@ -47,9 +48,8 @@ import { UI } from 'astrowind:config';
     attachEvent('#header nav', 'click', function () {
       document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
       document.body.classList.remove('overflow-hidden');
-      document.getElementById('header')?.classList.remove('h-screen');
-      document.getElementById('header')?.classList.remove('expanded');
-      document.getElementById('header')?.classList.remove('bg-page');
+      const header = document.getElementById('header');
+      header?.classList.remove('h-screen', 'expanded', 'bg-page');
       document.querySelector('#header nav')?.classList.add('hidden');
       document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
     });
@@ -57,61 +57,48 @@ import { UI } from 'astrowind:config';
     attachEvent('[data-aw-toggle-menu]', 'click', function (_, elem) {
       elem.classList.toggle('expanded');
       document.body.classList.toggle('overflow-hidden');
-      document.getElementById('header')?.classList.toggle('h-screen');
-      document.getElementById('header')?.classList.toggle('expanded');
-      document.getElementById('header')?.classList.toggle('bg-page');
+      const header = document.getElementById('header');
+      header?.classList.toggle('h-screen');
+      header?.classList.toggle('expanded');
+      header?.classList.toggle('bg-page');
       document.querySelector('#header nav')?.classList.toggle('hidden');
       document.querySelector('#header > div > div:last-child')?.classList.toggle('hidden');
     });
 
     attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
-      if (defaultTheme.endsWith(':only')) {
-        return;
-      }
+      if (defaultTheme.endsWith(':only')) return;
       document.documentElement.classList.toggle('dark');
       localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
     });
 
     attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
       const network = elem.getAttribute('data-aw-social-share');
-      const url = encodeURIComponent(elem.getAttribute('data-aw-url'));
-      const text = encodeURIComponent(elem.getAttribute('data-aw-text'));
+      const url = encodeURIComponent(elem.getAttribute('data-aw-url') || location.href);
+      const text = encodeURIComponent(elem.getAttribute('data-aw-text') || document.title);
 
       let href;
       switch (network) {
-        case 'facebook':
-          href = `https://www.facebook.com/sharer.php?u=${url}`;
-          break;
-        case 'twitter':
-          href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
-          break;
-        case 'linkedin':
-          href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`;
-          break;
-        case 'whatsapp':
-          href = `https://wa.me/?text=${text}%20${url}`;
-          break;
-        case 'mail':
-          href = `mailto:?subject=%22${text}%22&body=${text}%20${url}`;
-          break;
-
-        default:
-          return;
+        case 'facebook': href = `https://www.facebook.com/sharer.php?u=${url}`; break;
+        case 'twitter':  href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`; break;
+        case 'linkedin': href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`; break;
+        case 'whatsapp': href = `https://wa.me/?text=${text}%20${url}`; break;
+        case 'mail':     href = `mailto:?subject=%22${text}%22&body=${text}%20${url}`; break;
+        default: return;
       }
 
-      const newlink = document.createElement('a');
-      newlink.target = '_blank';
-      newlink.href = href;
-      newlink.click();
+      const a = document.createElement('a');
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.href = href;
+      a.click();
     });
 
     const screenSize = window.matchMedia('(max-width: 767px)');
     screenSize.addEventListener('change', function () {
       document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
       document.body.classList.remove('overflow-hidden');
-      document.getElementById('header')?.classList.remove('h-screen');
-      document.getElementById('header')?.classList.remove('expanded');
-      document.getElementById('header')?.classList.remove('bg-page');
+      const header = document.getElementById('header');
+      header?.classList.remove('h-screen', 'expanded', 'bg-page');
       document.querySelector('#header nav')?.classList.add('hidden');
       document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
     });
@@ -130,7 +117,6 @@ import { UI } from 'astrowind:config';
 
     attachEvent([document], 'scroll', function () {
       lastKnownScrollPosition = window.scrollY;
-
       if (!ticking) {
         window.requestAnimationFrame(() => {
           applyHeaderStylesOnScroll();
@@ -139,15 +125,13 @@ import { UI } from 'astrowind:config';
       }
     });
   };
+
   const onPageShow = function () {
     document.documentElement.classList.add('motion-safe:scroll-smooth');
-    const elem = document.querySelector('[data-aw-toggle-menu]');
-    if (elem) {
-      elem.classList.remove('expanded');
-    }
+    document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
     document.body.classList.remove('overflow-hidden');
-    document.getElementById('header')?.classList.remove('h-screen');
-    document.getElementById('header')?.classList.remove('expanded');
+    const header = document.getElementById('header');
+    header?.classList.remove('h-screen', 'expanded');
     document.querySelector('#header nav')?.classList.add('hidden');
   };
 
@@ -161,95 +145,134 @@ import { UI } from 'astrowind:config';
   });
 </script>
 
+<!-- IntersectionObserver (namespacizzato e idempotente) -->
 <script is:inline>
-  /* Inspired by: https://github.com/heidkaemper/tailwindcss-intersect */
-  const Observer = {
-    observer: null,
-    delayBetweenAnimations: 100,
-    animationCounter: 0,
+  (() => {
+    // Namespace globale del sito
+    window.__LS = window.__LS || {};
 
-    start() {
-      const selectors = [
-        '[class*=" intersect:"]',
-        '[class*=":intersect:"]',
-        '[class^="intersect:"]',
-        '[class="intersect"]',
-        '[class*=" intersect "]',
-        '[class^="intersect "]',
-        '[class$=" intersect"]',
-      ];
+    // Crea singleton solo la prima volta
+    if (!window.__LS.Intersect) {
+      window.__LS.Intersect = {
+        observer: null,
+        delayBetweenAnimations: 100,
+        animationCounter: 0,
 
-      const elements = Array.from(document.querySelectorAll(selectors.join(',')));
+        _select() {
+          const selectors = [
+            '[class*=" intersect:"]',
+            '[class*=":intersect:"]',
+            '[class^="intersect:"]',
+            '[class="intersect"]',
+            '[class*=" intersect "]',
+            '[class^="intersect "]',
+            '[class$=" intersect"]',
+          ];
+          return Array.from(document.querySelectorAll(selectors.join(',')));
+        },
 
-      const getThreshold = (element) => {
-        if (element.classList.contains('intersect-full')) return 0.99;
-        if (element.classList.contains('intersect-half')) return 0.5;
-        if (element.classList.contains('intersect-quarter')) return 0.25;
-        return 0;
-      };
+        _getThreshold(el) {
+          if (el.classList.contains('intersect-full')) return 0.99;
+          if (el.classList.contains('intersect-half')) return 0.5;
+          if (el.classList.contains('intersect-quarter')) return 0.25;
+          return 0;
+        },
 
-      elements.forEach((el) => {
-        el.setAttribute('no-intersect', '');
-        el._intersectionThreshold = getThreshold(el);
-      });
+        _prepare(elements) {
+          elements.forEach((el) => {
+            el.setAttribute('no-intersect', '');
+            el.dataset.intersectionThreshold = String(this._getThreshold(el));
+          });
+        },
 
-      const callback = (entries) => {
-        entries.forEach((entry) => {
-          requestAnimationFrame(() => {
-            const target = entry.target;
-            const intersectionRatio = entry.intersectionRatio;
-            const threshold = target._intersectionThreshold;
+        _callback(entries) {
+          entries.forEach((entry) => {
+            requestAnimationFrame(() => {
+              const target = entry.target;
+              const threshold = parseFloat(target.dataset.intersectionThreshold || '0');
+              const ratio = entry.intersectionRatio;
 
-            if (target.classList.contains('intersect-no-queue')) {
-              if (entry.isIntersecting) {
-                target.removeAttribute('no-intersect');
-                if (target.classList.contains('intersect-once')) {
-                  this.observer.unobserve(target);
+              // Nessuna coda: entra/esce senza delay
+              if (target.classList.contains('intersect-no-queue')) {
+                if (entry.isIntersecting) {
+                  target.removeAttribute('no-intersect');
+                  if (target.classList.contains('intersect-once')) {
+                    this.observer.unobserve(target);
+                  }
+                } else {
+                  target.setAttribute('no-intersect', '');
+                }
+                return;
+              }
+
+              if (ratio >= threshold) {
+                if (!target.hasAttribute('data-animated')) {
+                  target.removeAttribute('no-intersect');
+                  target.setAttribute('data-animated', 'true');
+
+                  const delay = this.animationCounter * this.delayBetweenAnimations;
+                  this.animationCounter++;
+
+                  target.style.transitionDelay = `${delay}ms`;
+                  target.style.animationDelay = `${delay}ms`;
+
+                  if (target.classList.contains('intersect-once')) {
+                    this.observer.unobserve(target);
+                  }
                 }
               } else {
                 target.setAttribute('no-intersect', '');
+                target.removeAttribute('data-animated');
+                target.style.transitionDelay = '';
+                target.style.animationDelay = '';
+                this.animationCounter = 0;
               }
-              return;
-            }
-
-            if (intersectionRatio >= threshold) {
-              if (!target.hasAttribute('data-animated')) {
-                target.removeAttribute('no-intersect');
-                target.setAttribute('data-animated', 'true');
-
-                const delay = this.animationCounter * this.delayBetweenAnimations;
-                this.animationCounter++;
-
-                target.style.transitionDelay = `${delay}ms`;
-                target.style.animationDelay = `${delay}ms`;
-
-                if (target.classList.contains('intersect-once')) {
-                  this.observer.unobserve(target);
-                }
-              }
-            } else {
-              target.setAttribute('no-intersect', '');
-              target.removeAttribute('data-animated');
-              target.style.transitionDelay = '';
-              target.style.animationDelay = '';
-
-              this.animationCounter = 0;
-            }
+            });
           });
-        });
+        },
+
+        start() {
+          // Support check
+          if (!('IntersectionObserver' in window)) return;
+
+          // Se esiste già, resetta per evitare doppie osservazioni
+          if (this.observer) {
+            try { this.observer.disconnect(); } catch {}
+            this.observer = null;
+          }
+
+          const elements = this._select();
+          if (!elements.length) return;
+
+          this._prepare(elements);
+
+          this.observer = new IntersectionObserver(
+            this._callback.bind(this),
+            { threshold: [0, 0.25, 0.5, 0.99] }
+          );
+
+          elements.forEach((el) => this.observer.observe(el));
+        },
       };
 
-      this.observer = new IntersectionObserver(callback.bind(this), { threshold: [0, 0.25, 0.5, 0.99] });
+      // Alias di compatibilità: espone window.Observer solo se assente
+      if (typeof window.Observer === 'undefined') {
+        Object.defineProperty(window, 'Observer', {
+          get() { return window.__LS.Intersect; },
+          configurable: true,
+        });
+      }
+    }
 
-      elements.forEach((el) => {
-        this.observer.observe(el);
+    // Avvio iniziale (DOM già pronto in Astro)
+    window.__LS.Intersect.start();
+
+    // Binda una sola volta l’handler per le navigazioni client-side
+    if (!window.__LS._intersectAfterSwapBound) {
+      document.addEventListener('astro:after-swap', () => {
+        window.__LS.Intersect.start();
       });
-    },
-  };
-
-  Observer.start();
-
-  document.addEventListener('astro:after-swap', () => {
-    Observer.start();
-  });
+      window.__LS._intersectAfterSwapBound = true;
+    }
+  })();
 </script>
