@@ -15,21 +15,18 @@
         { "key": "Cross-Origin-Resource-Policy","value": "same-origin" },
         { "key": "X-DNS-Prefetch-Control",      "value": "on" },
         { "key": "X-Permitted-Cross-Domain-Policies", "value": "none" },
-
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; base-uri 'self'; form-action 'self' https://www.paypal.com; frame-ancestors 'none'; upgrade-insecure-requests; frame-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; child-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.paypalobjects.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleusercontent.com https://www.google.com; font-src 'self' data:;"
         }
       ]
     },
-
     {
       "source": "/(grazie|404)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
-
     {
       "source": "/(_astro|assets|images|img|fonts|og)/(.*)",
       "headers": [
@@ -57,6 +54,15 @@
     { "source": "/servizi/local-seo",       "destination": "/servizi/local-seo-booster",    "permanent": true },
 
     { "source": "/privacy-policy",          "destination": "/privacy",                      "permanent": true },
-    { "source": "/cookie-policy",           "destination": "/privacy",                      "permanent": true }
+    { "source": "/cookie-policy",           "destination": "/privacy",                      "permanent": true },
+
+    {
+      "source": "/:path*",
+      "has": [
+        { "type": "host", "value": "lswebagency.com" }
+      ],
+      "destination": "https://www.lswebagency.com/:path*",
+      "permanent": true
+    }
   ]
 }
