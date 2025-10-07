@@ -1,11 +1,10 @@
 ---
 import Layout from './Layout.astro';
-
+import ChatWidget from '@/components/chat/ChatWidget.astro';
 import Header from '@/components/widgets/Header.astro';
 import Footer from '@/components/widgets/Footer.astro';
 import Announcement from '@/components/widgets/Announcement.astro';
 import { headerData, footerData } from '@/navigation';
-
 import CookieConsent from '@/components/common/CookieConsent.astro';
 import type { MetaData } from '@/types';
 
@@ -23,27 +22,18 @@ const {
 ---
 
 <Layout metadata={metadata}>
-  <slot name="announcement">
-    <Announcement />
-  </slot>
-
+  <slot name="announcement"><Announcement /></slot>
   <slot name="header">
-    <Header
-      {...headerData}
-      isSticky
-      showRssFeed
-      showToggleTheme
-    />
+    <Header {...headerData} isSticky showRssFeed showToggleTheme />
   </slot>
 
-  <main>
-    <slot />
-  </main>
+  <main><slot /></main>
 
-  <slot name="footer">
-    <Footer {...footerData} />
-  </slot>
+  <slot name="footer"><Footer {...footerData} /></slot>
 
-  <!-- Banner cookie (self-hosted, CSP-safe). Espone window.__openConsentBanner() -->
+  <!-- Banner cookie -->
   <CookieConsent />
+
+  <!-- ✅ CHAT WIDGET: DEVE STARE QUI -->
+  <ChatWidget />
 </Layout>

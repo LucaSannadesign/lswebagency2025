@@ -1,0 +1,308 @@
+---
+const {
+  PUBLIC_CHAT_ENABLED = 'true',
+  PUBLIC_CHAT_BADGE = 'Chatta con noi',
+  PUBLIC_CHAT_GREETING = 'Ciao! 👋 Sono l’assistente LS. Scrivimi pure una domanda.',
+  PUBLIC_CHAT_SLA_MINUTES = '30',
+  PUBLIC_CHAT_WORK_HOURS = 'Mon-Fri 09:30-18:30 Europe/Rome',
+  PUBLIC_WHATSAPP_NUMBER = '',
+  PUBLIC_WHATSAPP_GREETING = 'Ciao LS Web Agency, vorrei informazioni sui servizi.',
+  PUBLIC_CHAT_CHANNELS = 'web,whatsapp',
+  PUBLIC_CHAT_REQUIRE_EMAIL = 'true',
+} = import.meta.env;
+
+const CHANNELS = String(PUBLIC_CHAT_CHANNELS || '').split(',').map((s) => s.trim());
+const canWeb = CHANNELS.includes('web');
+const canWa  = CHANNELS.includes('whatsapp');
+
+const waHref = PUBLIC_WHATSAPP_NUMBER
+  ? `https://wa.me/${PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent(PUBLIC_WHATSAPP_GREETING)}`
+  : null;
+---
+
+{PUBLIC_CHAT_ENABLED === 'true' && (
+  <div id="ls-chat-widget" class="ls-root fixed bottom-4 right-4 md:bottom-6 md:right-6">
+    <!-- FAB -->
+    <button
+      id="ls-chat-toggle"
+      type="button"
+      class="rounded-full px-4 py-3 shadow-lg bg-violet-600 text-white font-semibold hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+    >
+      {PUBLIC_CHAT_BADGE}
+    </button>
+
+    <!-- Panel -->
+    <div
+      id="ls-chat-panel"
+      class="hidden w-[92vw] max-w-[380px] mt-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-xl overflow-hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ls-chat-title"
+      data-open="false"
+    >
+      <!-- Header -->
+      <div class="p-4 border-b border-neutral-200 dark:border-neutral-800 flex items-start gap-3">
+        <div class="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-500"></div>
+        <div class="min-w-0">
+          <h3 id="ls-chat-title" class="font-semibold leading-tight">LS Web Agency</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">{PUBLIC_CHAT_GREETING}</p>
+          <p class="mt-1 text-xs text-neutral-500">
+            Risposta entro ~{PUBLIC_CHAT_SLA_MINUTES} min · {PUBLIC_CHAT_WORK_HOURS}
+          </p>
+        </div>
+        <button type="button" id="ls-chat-close" class="ml-auto p-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800">
+          ✕
+        </button>
+      </div>
+
+      <!-- Gate: nome+email (solo prima volta) -->
+      <div id="ls-gate" class="p-4 space-y-3 hidden">
+        <div>
+          <label class="text-sm font-medium">Nome*</label>
+          <input id="ls-name" required class="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" />
+        </div>
+        <div>
+          <label class="text-sm font-medium">Email*</label>
+          <input id="ls-email" type="email" required class="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" />
+        </div>
+        <button id="ls-save-profile" class="w-full inline-flex items-center justify-center rounded-lg bg-violet-600 text-white px-4 py-2 font-semibold hover:bg-violet-700">
+          Inizia la chat
+        </button>
+        <p class="text-xs text-neutral-500">
+          Iniziando accetti la nostra <a href="/privacy" class="underline">Privacy & Cookie Policy</a>.
+        </p>
+      </div>
+
+      <!-- Body: chat -->
+      <div id="ls-chat-body" class="flex flex-col">
+        <div id="ls-messages" class="p-4 space-y-3 max-h-[55vh] overflow-y-auto"></div>
+
+        <!-- Quick replies -->
+        <div id="ls-quick" class="px-4 pb-2 flex flex-wrap gap-2"></div>
+
+        <div class="px-4 pb-2">
+          {canWa && waHref && (
+            <a href={waHref} target="_blank" rel="noopener nofollow"
+               class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 text-white font-medium px-4 py-3 hover:bg-emerald-700">
+              Apri WhatsApp
+            </a>
+          )}
+        </div>
+
+        <form id="ls-composer" class="p-3 border-t border-neutral-200 dark:border-neutral-800 flex gap-2">
+          <input id="ls-input" autocomplete="off" placeholder="Scrivi qui la tua domanda…"
+                 class="flex-1 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" />
+          <button class="rounded-lg bg-violet-600 text-white px-4 py-2 font-semibold hover:bg-violet-700">Invia</button>
+        </form>
+      </div>
+    </div>
+  </div>
+)}
+
+<style is:global>
+  .ls-bot   { background: #f6f6f7; color: #111; }
+  .dark .ls-bot { background: #15171a; color: #e5e7eb; }
+  .ls-you   { background: #6d28d9; color: white; }
+  .ls-bubble { border-radius: 14px; padding: 10px 12px; max-width: 85%; }
+  .ls-root { z-index: 99999; pointer-events: auto; }
+  .ls-pill { background:#eee; color:#111; padding:.375rem .6rem; border-radius:9999px; font-weight:600; }
+  .dark .ls-pill { background:#222; color:#e5e7eb; }
+</style>
+
+<script is:inline>
+  // ===== Store persistente =====
+  const STORE_KEY = 'ls_chat_state_v2';
+  const STORE = { open:false, profile:null, messages:[], push(m){ this.messages.push(m); persist(); }, clear(){ this.messages=[]; persist(); } };
+  const persist = () => { try{ localStorage.setItem(STORE_KEY, JSON.stringify(STORE)); }catch{} };
+  (function load(){ try{ Object.assign(STORE, JSON.parse(localStorage.getItem(STORE_KEY)||'{}')); }catch{} })();
+
+  // ===== Utils =====
+  const L = (s='') => s.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'');
+  const HAS = (q, ...keys) => { q = L(q); return keys.some(k => q.match(k)); };
+  const escapeHtml = (s='') => s.replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+  const LINKS = {
+    prezziSiti:'/servizi/creazione-siti-web-sassari#pacchetti',
+    prezziEcom:'/servizi/realizzazione-siti-ecommerce#pacchetti',
+    localSEO:'/servizi/local-seo-booster',
+    cwv:'/servizi/ottimizzazione-seo-siti-web#core-web-vitals',
+    ai:'/servizi/assistente-ai-sito-whatsapp',
+    branding:'/servizi/branding-e-grafica-siti-web',
+    access:'/servizi/accessibilita-digitale-avanzata',
+    uxai:'/servizi/personalizzazione-ux-intelligenza-artificiale',
+    pagamenti:'/pagamenti',
+    contatti:'/contatti',
+    servizi:'/servizi'
+  };
+
+  function replyFor(q){
+    if (HAS(q, /(quanto|prezzi?|listino|costi?|tariff)/))
+      return `Ecco i prezzi e cosa include ogni pacchetto:<br>
+      • <b>Siti Web</b> 👉 <a class="underline" href="${LINKS.prezziSiti}">Pacchetti & Prezzi</a><br>
+      • <b>E-commerce</b> 👉 <a class="underline" href="${LINKS.prezziEcom}">Pacchetti & Prezzi</a><br>
+      Possiamo adattare funzioni e budget. Vuoi un consiglio sul pacchetto giusto?`;
+
+    if (HAS(q, /(cosa.*includ|cosa.*compr|pacchett|base|pro|avanzat)/))
+      return `In breve:<br>
+      • <b>Base</b>: vetrina + SEO on-page + contatti/WhatsApp.<br>
+      • <b>Pro</b>: performance <b>Core Web Vitals</b>, blog, schema, tracciamenti.<br>
+      • <b>Avanzato</b>: statico/headless, componenti custom, integrazioni.<br>
+      Dettagli in <a class="underline" href="${LINKS.prezziSiti}">Siti Web</a>.`;
+
+    if (HAS(q, /(tempo|tempi|tempistic|consegn|durat|quando.*pronto)/))
+      return `Tempistiche tipiche:<br>• <b>Sito vetrina</b>: 2–4 settimane<br>• <b>E-commerce</b>: 4–8 settimane.`;
+
+    if (HAS(q, /(pagament|rate|paypal|stripe|anticipo|acconto|fattur)/))
+      return `Pagamenti sicuri (PayPal/Stripe) — acconto + saldi a milestone. Dettagli: <a class="underline" href="${LINKS.pagamenti}">Metodi di pagamento</a>.`;
+
+    if (HAS(q, /(seo|posizion|local|google\s*maps|scheda|gmb|business\s*profile)/))
+      return `Per il locale: <b>Local SEO Booster</b> 👉 <a class="underline" href="${LINKS.localSEO}">scopri</a>.`;
+
+    if (HAS(q, /(core.*vitals|lcp|inp|cls|performance|velocit)/))
+      return `Pacchetto <b>Core Web Vitals Express</b> 👉 <a class="underline" href="${LINKS.cwv}">Dettagli</a>.`;
+
+    if (HAS(q, /(ga4|analytics|tag\s*manager|consent|cookie|privacy)/))
+      return `Configuriamo <b>Consent Mode v2</b> + <b>GA4</b> con eventi chiave.`;
+
+    if (HAS(q, /(wordpress|headless|astro|statico|cms)/))
+      return `Usiamo <b>Astro</b> e <b>WordPress Slim</b>; per casi avanzati approccio headless.`;
+
+    if (HAS(q, /(accessibilit|wcag|disabil)/))
+      return `Adeguiamo <b>WCAG</b> e offriamo <a class="underline" href="${LINKS.access}">Accessibilità Avanzata</a>.`;
+
+    if (HAS(q, /(logo|brand|branding|grafica)/))
+      return `Logo/palette/linee guida: <a class="underline" href="${LINKS.branding}">Branding & Grafica</a>.`;
+
+    if (HAS(q, /(testi|copy|contenut|foto|immagin)/))
+      return `Possiamo aiutare su testi SEO e immagini.`;
+
+    if (HAS(q, /(multi.?lingua|lingue|traduz)/))
+      return `Supportiamo siti <b>multi-lingua</b> (hreflang, switcher).`;
+
+    if (HAS(q, /(migraz|trasfer|restyling|rifac)/))
+      return `Migrazioni/restyling con redirect SEO per non perdere ranking.`;
+
+    // CONTATTO: più varianti incluse "contattarti"
+    if (HAS(q, /(contatt|contatto|contattarmi|contattarti|telefono|numero|chiam|appunt|call|whatsapp)/))
+      return `Volentieri! 📞 <a class="underline" href="tel:+393403223494">340 322 3494</a> ·
+      WhatsApp 👉 <a class="underline" href="https://wa.me/${encodeURIComponent('${PUBLIC_WHATSAPP_NUMBER}')}" target="_blank" rel="noopener">Apri</a><br>
+      Oppure inviaci il form da <a class="underline" href="${LINKS.contatti}">Contatti</a>.`;
+
+    if (HAS(q, /(serviz|cosa.*fate|offrit|aiutate)/))
+      return `Siti web, e-commerce, SEO/Local, performance, branding, accessibilità, tracciamenti/Consent, automazioni e <b>AI</b> → <a class="underline" href="${LINKS.servizi}">Servizi</a>.`;
+
+    return `Ti rispondo subito o entro breve. Intanto puoi vedere:<br>
+    👉 <a class="underline" href="${LINKS.prezziSiti}">Siti Web</a> · <a class="underline" href="${LINKS.prezziEcom}">E-commerce</a>`;
+  }
+
+  // ===== Bind =====
+  function bindChat(){
+    const root = document.getElementById('ls-chat-widget');
+    if (!root) return;
+
+    // portal to body
+    if (root.parentElement !== document.body) document.body.appendChild(root);
+    root.style.zIndex = '99999';
+    if (root.dataset.bound === '1') return;
+    root.dataset.bound = '1';
+
+    const panel  = document.getElementById('ls-chat-panel');
+    const toggle = document.getElementById('ls-chat-toggle');
+    const closeB = document.getElementById('ls-chat-close');
+
+    const body     = document.getElementById('ls-chat-body');
+    const messages = document.getElementById('ls-messages');
+    const quick    = document.getElementById('ls-quick');
+    const form     = document.getElementById('ls-composer');
+    const input    = document.getElementById('ls-input');
+
+    const gate     = document.getElementById('ls-gate');
+    const nameI    = document.getElementById('ls-name');
+    const emailI   = document.getElementById('ls-email');
+    const saveProf = document.getElementById('ls-save-profile');
+
+    const setOpen = (v)=>{ panel?.setAttribute('data-open', v?'true':'false'); panel?.classList.toggle('hidden', !v); STORE.open = !!v; persist(); };
+    const isOpen  = ()=> panel?.getAttribute('data-open') === 'true';
+    const scrollDown = ()=> { messages && (messages.scrollTop = messages.scrollHeight); };
+
+    const renderQuick = (labels=[])=>{
+      if (!quick) return;
+      quick.innerHTML = '';
+      labels.forEach(txt=>{
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'ls-pill hover:opacity-90 transition';
+        b.textContent = txt;
+        b.addEventListener('click', ()=> sendText(txt));
+        quick.appendChild(b);
+      });
+    };
+
+    const renderFromStore = ()=>{
+      messages.innerHTML = '';
+      for (const m of STORE.messages) {
+        if (m.role === 'user') {
+          messages.insertAdjacentHTML('beforeend', `<div class="flex justify-end"><div class="ls-bubble ls-you">${escapeHtml(m.content)}</div></div>`);
+        } else {
+          messages.insertAdjacentHTML('beforeend', `<div class="flex"><div class="ls-bubble ls-bot">${m.html}</div></div>`);
+        }
+      }
+      messages.querySelectorAll('a[href]').forEach(a => a.addEventListener('click', ()=>{ STORE.open = true; persist(); }));
+      scrollDown();
+    };
+
+    const bot = (html)=>{ STORE.messages.push({ role:'bot', html }); persist();
+      messages.insertAdjacentHTML('beforeend', `<div class="flex"><div class="ls-bubble ls-bot">${html}</div></div>`); scrollDown(); };
+
+    const you = (text)=>{ STORE.messages.push({ role:'user', content:text }); persist();
+      messages.insertAdjacentHTML('beforeend', `<div class="flex justify-end"><div class="ls-bubble ls-you">${escapeHtml(text)}</div></div>`); scrollDown(); };
+
+    const initGateOrChat = ()=>{
+      const need = ("${PUBLIC_CHAT_REQUIRE_EMAIL}" === "true") && !(STORE.profile && STORE.profile.email);
+      if (need) { gate.classList.remove('hidden'); body.classList.add('hidden'); }
+      else {
+        gate.classList.add('hidden'); body.classList.remove('hidden');
+        if (STORE.messages.length === 0) bot("Ciao! 👋 Come posso aiutarti?");
+        else renderFromStore();
+        renderQuick(['Prezzi', 'Come posso contattarti', 'Servizi']);
+      }
+    };
+
+    const openPanel  = ()=> { setOpen(true); initGateOrChat(); };
+    const closePanel = ()=> setOpen(false);
+
+    toggle?.addEventListener('click', ()=> isOpen()? closePanel(): openPanel());
+    closeB?.addEventListener('click', closePanel);
+    document.addEventListener('click', (e)=>{ if (isOpen() && !root.contains(e.target)) closePanel(); });
+
+    saveProf?.addEventListener('click', ()=>{
+      const name  = nameI.value.trim();
+      const email = emailI.value.trim();
+      if (!name || !/.+@.+\..+/.test(email)) { alert('Inserisci nome ed email validi.'); return; }
+      STORE.profile = { name, email }; STORE.messages = []; persist();
+      gate.classList.add('hidden'); body.classList.remove('hidden');
+      bot(`Ciao ${escapeHtml(name)}! 👋 Come posso aiutarti?`);
+      renderQuick(['Prezzi', 'Come posso contattarti', 'Servizi']);
+    });
+
+    function sendText(text){
+      if (!text) return;
+      you(text);
+      const html = replyFor(text);
+      bot(html);
+      renderQuick(['Contatti', 'Prenota una call', 'Servizi']);
+      const prof = STORE.profile || {};
+      fetch('/api/lead', {
+        method:'POST', headers:{'content-type':'application/json'},
+        body: JSON.stringify({ channel:'web', name: prof.name || 'Chat user', email: prof.email || undefined, message: text, meta:{ source:'chat-assistant', path: location.pathname }})
+      }).catch(()=>{});
+    }
+
+    form?.addEventListener('submit', (e)=>{ e.preventDefault(); const msg = (input.value || '').trim(); input.value=''; sendText(msg); });
+
+    if (STORE.open) { setOpen(true); initGateOrChat(); if (STORE.messages.length) renderFromStore(); }
+  }
+
+  document.addEventListener('astro:page-load', bindChat);
+  document.addEventListener('astro:after-swap', bindChat);
+  if (document.readyState !== 'loading') bindChat(); else document.addEventListener('DOMContentLoaded', bindChat);
+</script>
