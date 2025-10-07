@@ -39,6 +39,7 @@
     "@iconify/react": "^5.2.0",
     "@jop-software/astro-cookieconsent": "github:jop-software/astro-cookieconsent",
     "@sendgrid/mail": "^8.1.4",
+    "@supabase/supabase-js": "^2.74.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vercel/routing-utils": "^4.0.0",
