@@ -1,134 +1,124 @@
 // src/pages/api/lead.ts
 import type { APIRoute } from 'astro';
+import { supabaseAdmin } from '../../lib/supabase.server';
 
-// === Email via SMTP (nodemailer) o Resend ===
-import nodemailer from 'nodemailer';
+// --- opzionale: invio email via SMTP (Hostinger) o Resend ---
+const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || import.meta.env.EMAIL_PROVIDER; // 'smtp' | 'resend'
+const LEADS_TO_EMAIL = process.env.LEADS_TO_EMAIL || import.meta.env.LEADS_TO_EMAIL || 'info@lswebagency.com';
+const LEADS_FROM_EMAIL = process.env.LEADS_FROM_EMAIL || import.meta.env.LEADS_FROM_EMAIL || 'bot@lswebagency.com';
 
-const {
-  EMAIL_PROVIDER,
-  // SMTP
-  SMTP_HOST,
-  SMTP_PORT,
-  SMTP_SECURE,
-  SMTP_USER,
-  SMTP_PASS,
-  // RESEND
-  RESEND_API_KEY,
-  LEADS_FROM_EMAIL = 'bot@lswebagency.com',
-  LEADS_TO_EMAIL   = 'info@lswebagency.com',
+// SMTP (Hostinger)
+const SMTP_HOST = process.env.SMTP_HOST || import.meta.env.SMTP_HOST;
+const SMTP_PORT = Number(process.env.SMTP_PORT || import.meta.env.SMTP_PORT || 465);
+const SMTP_SECURE = String(process.env.SMTP_SECURE || import.meta.env.SMTP_SECURE || 'true') === 'true';
+const SMTP_USER = process.env.SMTP_USER || import.meta.env.SMTP_USER;
+const SMTP_PASS = process.env.SMTP_PASS || import.meta.env.SMTP_PASS;
 
-  // Supabase
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY,
+// Resend
+const RESEND_API_KEY = process.env.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
 
-  // Telegram (opzionale)
-  TELEGRAM_BOT_TOKEN,
-  TELEGRAM_CHAT_ID,
-} = import.meta.env as Record<string, string | undefined>;
-
-// ---- helpers ----
-async function sendEmail(subject: string, html: string) {
-  if (EMAIL_PROVIDER === 'smtp') {
-    const transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: Number(SMTP_PORT ?? 465),
-      secure: String(SMTP_SECURE ?? 'true') === 'true',
-      auth: { user: SMTP_USER, pass: SMTP_PASS },
-    });
-    await transporter.sendMail({
-      from: LEADS_FROM_EMAIL,
-      to: LEADS_TO_EMAIL,
-      subject,
-      html,
-    });
-    return;
-  }
-  if (EMAIL_PROVIDER === 'resend' && RESEND_API_KEY) {
-    await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+async function notifyEmail(subject: string, html: string) {
+  try {
+    if (EMAIL_PROVIDER === 'smtp' && SMTP_HOST && SMTP_USER && SMTP_PASS) {
+      const nodemailer = await import('nodemailer');
+      const transporter = nodemailer.createTransport({
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_SECURE,
+        auth: { user: SMTP_USER, pass: SMTP_PASS },
+      });
+      await transporter.sendMail({
         from: LEADS_FROM_EMAIL,
-        to: [LEADS_TO_EMAIL],
+        to: LEADS_TO_EMAIL,
         subject,
         html,
-      }),
-    });
-    return;
+      });
+      return { ok: true, via: 'smtp' };
+    }
+
+    if (EMAIL_PROVIDER === 'resend' && RESEND_API_KEY) {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: LEADS_FROM_EMAIL,
+          to: [LEADS_TO_EMAIL],
+          subject,
+          html,
+        }),
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error(`Resend error: ${res.status} ${t}`);
+      }
+      return { ok: true, via: 'resend' };
+    }
+
+    // se non configurato nessun provider, non falliamo l’API
+    console.warn('[lead] email provider non configurato: skip notify');
+    return { ok: false, via: 'none' };
+  } catch (err) {
+    console.error('[lead] notifyEmail error', err);
+    return { ok: false, via: 'error' };
   }
-}
-
-async function insertSupabase(row: any) {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
-  await fetch(`${SUPABASE_URL}/rest/v1/chat_leads`, {
-    method: 'POST',
-    headers: {
-      'apikey': SUPABASE_ANON_KEY,
-      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal',
-    },
-    body: JSON.stringify(row),
-  });
-}
-
-async function notifyTelegram(text: string) {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
-  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: 'HTML', disable_web_page_preview: true }),
-  });
 }
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const data = await request.json().catch(() => ({}));
+    const body = await request.json().catch(() => ({}));
     const {
-      channel = 'web',
-      name = 'Chat user',
-      email,
+      name = '',
+      email = '',
       message = '',
+      channel = 'web',
+      intent = 'generico',
       meta = {},
-    } = data || {};
+    } = body || {};
 
-    const when = new Date().toISOString();
+    // salva su Supabase
+    const { data, error } = await supabaseAdmin
+      .from('leads')
+      .insert([
+        {
+          name,
+          email,
+          message,
+          channel,
+          intent,
+          path: meta?.path || meta?.pathname || null,
+          meta,
+        },
+      ])
+      .select()
+      .single();
 
-    // 1) salva su Supabase
-    await insertSupabase({
-      channel, name, email, message,
-      intent: meta?.intent ?? null,
-      path: meta?.path ?? null,
-      created_at: when,
-      user_agent: request.headers.get('user-agent') ?? null,
-    });
+    if (error) {
+      console.error('[lead] supabase insert error', error);
+      return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500 });
+    }
 
-    // 2) invia email
-    const subject = `💬 Nuovo messaggio chat (${channel}) — ${name}`;
+    // invia notifica email (se configurata)
+    const subject = `🆕 Nuovo lead (${channel}) – ${name || 'Senza nome'}`;
     const html = `
-      <h2>Nuovo messaggio dalla chat</h2>
-      <p><b>Nome:</b> ${name}</p>
-      ${email ? `<p><b>Email:</b> ${email}</p>` : ''}
-      <p><b>Messaggio:</b><br>${(message || '').replace(/\n/g, '<br>')}</p>
-      <hr>
-      <p><b>Intent:</b> ${meta?.intent ?? '-'}<br>
-      <b>Pagina:</b> ${meta?.path ?? '-'}<br>
-      <b>Quando:</b> ${when}</p>
+      <h2>Nuovo lead dalla chat</h2>
+      <ul>
+        <li><b>Nome:</b> ${name || '-'}</li>
+        <li><b>Email:</b> ${email || '-'}</li>
+        <li><b>Canale:</b> ${channel}</li>
+        <li><b>Intent:</b> ${intent}</li>
+        <li><b>Pagina:</b> ${meta?.path || '-'}</li>
+      </ul>
+      <p><b>Messaggio:</b></p>
+      <pre style="white-space:pre-wrap">${message || '-'}</pre>
     `;
-    await sendEmail(subject, html);
+    const mail = await notifyEmail(subject, html);
 
-    // 3) Telegram ping (facoltativo)
-    await notifyTelegram(
-      `💬 <b>Lead chat</b>\n👤 ${name}${email ? ` — ${email}` : ''}\n📝 ${message}\n🏷️ intent: ${meta?.intent ?? '-'}\n📄 ${meta?.path ?? ''}`
-    );
-
-    return new Response(JSON.stringify({ ok: true }), { status: 200 });
-  } catch (err) {
-    console.error('lead error', err);
-    return new Response(JSON.stringify({ ok: false }), { status: 500 });
+    return new Response(JSON.stringify({ ok: true, data, mail }), { status: 200 });
+  } catch (err: any) {
+    console.error('[lead] fatal', err);
+    return new Response(JSON.stringify({ ok: false, error: String(err?.message || err) }), { status: 500 });
   }
 };
