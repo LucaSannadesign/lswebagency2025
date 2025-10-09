@@ -1,124 +1,79 @@
 // src/pages/api/lead.ts
-import type { APIRoute } from 'astro';
-import { supabaseAdmin } from '../../lib/supabase.server';
+// Salva i messaggi della chat su Supabase (tabella: public.leads)
+// Richiede in env lato server: SUPABASE_URL, SUPABASE_ANON_KEY
+import type { APIContext } from 'astro';
 
-// --- opzionale: invio email via SMTP (Hostinger) o Resend ---
-const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || import.meta.env.EMAIL_PROVIDER; // 'smtp' | 'resend'
-const LEADS_TO_EMAIL = process.env.LEADS_TO_EMAIL || import.meta.env.LEADS_TO_EMAIL || 'info@lswebagency.com';
-const LEADS_FROM_EMAIL = process.env.LEADS_FROM_EMAIL || import.meta.env.LEADS_FROM_EMAIL || 'bot@lswebagency.com';
+export const prerender = false;
 
-// SMTP (Hostinger)
-const SMTP_HOST = process.env.SMTP_HOST || import.meta.env.SMTP_HOST;
-const SMTP_PORT = Number(process.env.SMTP_PORT || import.meta.env.SMTP_PORT || 465);
-const SMTP_SECURE = String(process.env.SMTP_SECURE || import.meta.env.SMTP_SECURE || 'true') === 'true';
-const SMTP_USER = process.env.SMTP_USER || import.meta.env.SMTP_USER;
-const SMTP_PASS = process.env.SMTP_PASS || import.meta.env.SMTP_PASS;
+type LeadBody = {
+  channel?: string;
+  name?: string;
+  email?: string;
+  message?: string;
+  meta?: Record<string, any>;
+};
 
-// Resend
-const RESEND_API_KEY = process.env.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
+const SUPABASE_URL = import.meta.env.SUPABASE_URL as string | undefined;
+const SUPABASE_ANON_KEY = import.meta.env.SUPABASE_ANON_KEY as string | undefined;
 
-async function notifyEmail(subject: string, html: string) {
+export async function POST({ request }: APIContext) {
   try {
-    if (EMAIL_PROVIDER === 'smtp' && SMTP_HOST && SMTP_USER && SMTP_PASS) {
-      const nodemailer = await import('nodemailer');
-      const transporter = nodemailer.createTransport({
-        host: SMTP_HOST,
-        port: SMTP_PORT,
-        secure: SMTP_SECURE,
-        auth: { user: SMTP_USER, pass: SMTP_PASS },
+    const body = (await request.json()) as LeadBody;
+    const channel = body.channel ?? 'web';
+    const name = (body.name ?? '').trim() || 'Chat user';
+    const email = (body.email ?? '').trim() || null;
+    const message = (body.message ?? '').trim();
+    const meta = body.meta ?? {};
+
+    if (!message) {
+      return new Response(JSON.stringify({ error: 'Missing message' }), {
+        status: 400,
+        headers: { 'content-type': 'application/json; charset=utf-8' },
       });
-      await transporter.sendMail({
-        from: LEADS_FROM_EMAIL,
-        to: LEADS_TO_EMAIL,
-        subject,
-        html,
-      });
-      return { ok: true, via: 'smtp' };
     }
 
-    if (EMAIL_PROVIDER === 'resend' && RESEND_API_KEY) {
-      const res = await fetch('https://api.resend.com/emails', {
+    // Inserimento su Supabase (REST)
+    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          'content-type': 'application/json',
+          Prefer: 'return=representation',
         },
-        body: JSON.stringify({
-          from: LEADS_FROM_EMAIL,
-          to: [LEADS_TO_EMAIL],
-          subject,
-          html,
-        }),
+        body: JSON.stringify([
+          {
+            channel,
+            name,
+            email,
+            message,
+            meta,
+            created_at: new Date().toISOString(),
+          },
+        ]),
       });
+
       if (!res.ok) {
-        const t = await res.text();
-        throw new Error(`Resend error: ${res.status} ${t}`);
+        const text = await res.text().catch(() => '');
+        console.error('[lead] supabase insert error:', res.status, text);
       }
-      return { ok: true, via: 'resend' };
+    } else {
+      console.warn('[lead] Missing SUPABASE_URL / SUPABASE_ANON_KEY env');
     }
 
-    // se non configurato nessun provider, non falliamo l’API
-    console.warn('[lead] email provider non configurato: skip notify');
-    return { ok: false, via: 'none' };
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: {
+        'content-type': 'application/json; charset=utf-8',
+        'cache-control': 'no-store',
+      },
+    });
   } catch (err) {
-    console.error('[lead] notifyEmail error', err);
-    return { ok: false, via: 'error' };
+    console.error('[lead] fatal', err);
+    return new Response(JSON.stringify({ ok: false }), {
+      status: 500,
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+    });
   }
 }
-
-export const POST: APIRoute = async ({ request }) => {
-  try {
-    const body = await request.json().catch(() => ({}));
-    const {
-      name = '',
-      email = '',
-      message = '',
-      channel = 'web',
-      intent = 'generico',
-      meta = {},
-    } = body || {};
-
-    // salva su Supabase
-    const { data, error } = await supabaseAdmin
-      .from('leads')
-      .insert([
-        {
-          name,
-          email,
-          message,
-          channel,
-          intent,
-          path: meta?.path || meta?.pathname || null,
-          meta,
-        },
-      ])
-      .select()
-      .single();
-
-    if (error) {
-      console.error('[lead] supabase insert error', error);
-      return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500 });
-    }
-
-    // invia notifica email (se configurata)
-    const subject = `🆕 Nuovo lead (${channel}) – ${name || 'Senza nome'}`;
-    const html = `
-      <h2>Nuovo lead dalla chat</h2>
-      <ul>
-        <li><b>Nome:</b> ${name || '-'}</li>
-        <li><b>Email:</b> ${email || '-'}</li>
-        <li><b>Canale:</b> ${channel}</li>
-        <li><b>Intent:</b> ${intent}</li>
-        <li><b>Pagina:</b> ${meta?.path || '-'}</li>
-      </ul>
-      <p><b>Messaggio:</b></p>
-      <pre style="white-space:pre-wrap">${message || '-'}</pre>
-    `;
-    const mail = await notifyEmail(subject, html);
-
-    return new Response(JSON.stringify({ ok: true, data, mail }), { status: 200 });
-  } catch (err: any) {
-    console.error('[lead] fatal', err);
-    return new Response(JSON.stringify({ ok: false, error: String(err?.message || err) }), { status: 500 });
-  }
-};
