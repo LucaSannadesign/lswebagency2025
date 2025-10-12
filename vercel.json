@@ -36,8 +36,8 @@
     { "source": "/og/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
   ],
   "redirects": [
-    { "source": "/voucher-digitali-sardegna", "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
-    { "source": "/servizi/voucher-digitali-sardegna", "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+     { "source": "/voucher-digitali-sardegna",            "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/servizi/voucher-digitali-sardegna",     "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
     { "source": "/servizi/voucher-digitali-sassari-2025", "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
     { "source": "/blog/blog/:path*", "destination": "/blog/:path*", "permanent": true },
     { "source": "/servizi/local/:slug", "destination": "/local/:slug", "permanent": true },
