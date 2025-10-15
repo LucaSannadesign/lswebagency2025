@@ -22,36 +22,49 @@
     },
     {
       "source": "/grazie",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
     },
     {
       "source": "/404",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
     },
-    { "source": "/_astro/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/images/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/img/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/fonts/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/og/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
+    { "source": "/_astro/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+    { "source": "/assets/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+    { "source": "/images/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+    { "source": "/img/(.*)",    "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+    { "source": "/fonts/(.*)",  "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+    { "source": "/og/(.*)",     "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] }
   ],
   "redirects": [
-     { "source": "/voucher-digitali-sardegna",            "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/voucher-digitali-sardegna",             "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/voucher-digitali-sardegna/",            "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
     { "source": "/servizi/voucher-digitali-sardegna",     "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/servizi/voucher-digitali-sardegna/",    "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
     { "source": "/servizi/voucher-digitali-sassari-2025", "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
-    { "source": "/blog/blog/:path*", "destination": "/blog/:path*", "permanent": true },
-    { "source": "/servizi/local/:slug", "destination": "/local/:slug", "permanent": true },
-    { "source": "/servizi/local/:slug/", "destination": "/local/:slug", "permanent": true },
-    { "source": "/servizi/local", "destination": "/local", "permanent": true },
-    { "source": "/novita/local/:slug", "destination": "/local/:slug", "permanent": true },
-    { "source": "/novita/local/:slug/", "destination": "/local/:slug", "permanent": true },
-    { "source": "/novita/local-seo/:slug", "destination": "/local/:slug", "permanent": true },
-    { "source": "/novita/local-seo/:slug/", "destination": "/local/:slug", "permanent": true },
-    { "source": "/novita/local", "destination": "/local", "permanent": true },
-    { "source": "/metodi-di-pagamento", "destination": "/pagamenti", "permanent": true },
-    { "source": "/servizi/pagamenti", "destination": "/pagamenti", "permanent": true },
-    { "source": "/servizi/local-seo", "destination": "/servizi/local-seo-booster", "permanent": true },
-    { "source": "/privacy-policy", "destination": "/privacy", "permanent": true },
-    { "source": "/cookie-policy", "destination": "/privacy", "permanent": true }
+    { "source": "/servizi/voucher-digitali-sassari-2025/","destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+
+    { "source": "/blog/blog/:path*",        "destination": "/blog/:path*",                  "permanent": true },
+
+    { "source": "/servizi/local/:slug",     "destination": "/local/:slug",                  "permanent": true },
+    { "source": "/servizi/local/:slug/",    "destination": "/local/:slug",                  "permanent": true },
+    { "source": "/servizi/local",           "destination": "/local",                        "permanent": true },
+
+    { "source": "/novita/local/:slug",      "destination": "/local/:slug",                  "permanent": true },
+    { "source": "/novita/local/:slug/",     "destination": "/local/:slug",                  "permanent": true },
+    { "source": "/novita/local-seo/:slug",  "destination": "/local/:slug",                  "permanent": true },
+    { "source": "/novita/local-seo/:slug/", "destination": "/local/:slug",                  "permanent": true },
+    { "source": "/novita/local",            "destination": "/local",                        "permanent": true },
+
+    { "source": "/metodi-di-pagamento",     "destination": "/pagamenti",                    "permanent": true },
+    { "source": "/servizi/pagamenti",       "destination": "/pagamenti",                    "permanent": true },
+
+    { "source": "/servizi/local-seo",       "destination": "/servizi/local-seo-booster",    "permanent": true },
+
+    { "source": "/privacy-policy",          "destination": "/privacy",                      "permanent": true },
+    { "source": "/cookie-policy",           "destination": "/privacy",                      "permanent": true }
   ]
 }
