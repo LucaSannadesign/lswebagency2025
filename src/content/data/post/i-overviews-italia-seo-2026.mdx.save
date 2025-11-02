@@ -1,0 +1,115 @@
+---
+title: "AI Overviews in Italia: strategie SEO 2026 per salvare CTR e lead"
+description: "Guida pratica per PMI e professionisti: come farsi citare nelle risposte AI di Google e far crescere i lead nel 2026 con contenuti answer-first, intenti locali, prove reali e performance."
+slug: "/blog/ai-overviews-italia-seo-2026"
+publishDate: 2025-11-01
+author: "LS Web Agency"
+category: "SEO"
+tags:
+  - "SEO 2026"
+  - "AI Overviews"
+  - "Google Search"
+focusKeyword: "AI Overviews Italia 2026"
+ogTitle: "AI Overviews in Italia: strategia SEO per il 2026"
+ogDescription: "Come proteggere CTR e lead nel 2026: contenuti citabili, intenti locali, prove reali e Core Web Vitals."
+image: "./ai-overviews-italia-seo-2026-cover.webp"
+ogImage: "./ai-overviews-italia-seo-2026-cover.webp"
+twitterTitle: "AI Overviews: le mosse SEO per il 2026"
+twitterDescription: "Citabilità, intenti locali, performance e misurazione: cosa fare adesso per il 2026."
+twitterImage: "./ai-overviews-italia-seo-2026-cover.webp"
+imageAlt: "Cover AI Overviews 2026: strategia SEO per salvare CTR e lead"
+robots: "index, follow"
+canonical: "https://www.lswebagency.com/blog/ai-overviews-italia-seo-2026"
+---
+
+> **Sintesi operativa**  
+> Nel 2026 le AI Overviews comprimono il CTR delle query informative generiche. Si difende (e cresce) puntando su **contenuti citabili**, **intenti locali/transazionali/proof-based**, **strumenti utili** e **performance RUM eccellenti**.
+
+## Perché conta nel 2026
+- Le query **solo informative** perdono clic.
+- Intenti **locali**, **transazionali** e **proof-based** restano forti e monetizzabili.
+- Google valuta **esperienza reale** (E-E-A-T) e **Core Web Vitals RUM**.
+
+## Strategie pratiche (subito applicabili)
+1. **Diventa citabile dall’AI**
+   - Apri con **paragrafo-risposta** (70–120 parole) che risponda all’intento primario.
+   - Usa **H2/H3 sintetici**, definizioni, pro/contro, checklist.
+   - Inserisci **dati verificabili** e link a **fonti primarie**; pagina **About/Autore** e **casi studio**.
+
+2. **Colpisci i punti deboli dell’AI**
+   - **Locale & prossimità**: prezzi, tempi, copertura, “vicino a me”.
+   - **Proof-based**: **case study** con prima/dopo, screenshot, testimonianze (nomi/ruoli reali).
+   - **Strumenti**: calcolatori, comparatori, **preventivo rapido**; micro-tool che risolvono task.
+
+3. **Performance (RUM) prima di tutto**
+   - Obiettivi: **LCP < 2.5s**, **INP < 200ms**, **CLS < 0.1**.
+   - **Immagini** WebP/AVIF correttamente dimensionate; **JS split/defer**; **isole Astro** dove servono.
+   - **Form veloci**: validazione client, feedback immediato, fallback server; tracciamento “submit”.
+
+4. **Misurazione & privacy in EEA**
+   - **Consent Mode v2** con `ad_user_data` e `ad_personalization` correttamente gestiti.
+   - Se possibile, **Advanced Mode** per conversioni modellate (GA4/Ads); coerenza eventi tra view e lead.
+
+## Roadmap 90 giorni (2026)
+- **Sett. 1–2** → mappa query con AI Overviews; riscrivi gli **answer-first** delle **10 pagine core**.  
+- **Sett. 3–4** → aggiungi **FAQ/HowTo** + **2 prove reali/pagina** (numeri, screenshot, review).  
+- **Sett. 5–6** → spingi sul **locale** (GBP completo; pagine città con foto/price reali).  
+- **Sett. 7–8** → **CWV**: compressione immagini hero, `defer`/split JS, `preload` font critici.  
+- **Sett. 9–10** → verifica **Consent Mode v2**; traccia form/WhatsApp/call; controlla GA4.  
+- **Sett. 11–12** → rilascia **tool utili** (calcolatore/preventivo) + **CTA sticky** su mobile.
+
+## Errori da evitare
+- Post informativi **senza CTA** e **senza prove** → CTR in caduta.  
+- **City pages** duplicate o generiche → thin content penalizzante.  
+- **INP ignorato** su siti JS-heavy → interazioni lente = lead persi.  
+- CMP configurata male → **dati incompleti** e rischi compliance.
+
+## KPI prioritari (Q1 2026)
+- **CTR** sulle query impattate da AI Overviews.  
+- **Click su CTA** (form, WhatsApp, call) e **tasso di invio form**.  
+- **CWV RUM** (LCP/INP/CLS) sulle pagine ottimizzate.  
+- **Quota traffico locale** (pageview/lead da city pages).
+
+<!-- JSON-LD FAQPage: non usare fenced code, così viene incluso nell'HTML -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://www.lswebagency.com/blog/ai-overviews-italia-seo-2026#faq",
+  "inLanguage": "it",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Come faccio a far citare il mio sito nelle AI Overviews?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Apri la pagina con un paragrafo-risposta (70–120 parole) in chiaro, usa schema.org (FAQ/HowTo), inserisci dati verificabili con fonti primarie, mostra esperienza (E-E-A-T: About, autore, casi studio) e mantieni performance solide (LCP/INP/CLS)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le AI Overviews eliminano il traffico organico?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dipende dall'intento. Le query puramente informative perdono CTR, mentre intenti locali, transazionali e proof-based restano forti. Allinea contenuti e CTA a questi intenti e integra prove reali (numeri prima/dopo, screenshot, testimonianze)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quali KPI devo monitorare nel 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+†        "text": "CTR sulle query impattate dalle AI Overviews, click su CTA (form, WhatsApp, call), tasso di invio form, Core Web Vitals RUM (LCP/INP/CLS) e quota di traffico/lead dalle city pages."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quali obiettivi di performance devo rispettare?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Punta a LCP < 2.5 s, INP < 200 ms, CLS < 0.1. Usa immagini WebP/AVIF dimensionate correttamente, split/defer del JS, isole Astro solo dove necessario, preload dei font critici e form veloci."
+      }
+    }
+  ]
+}
+</script>

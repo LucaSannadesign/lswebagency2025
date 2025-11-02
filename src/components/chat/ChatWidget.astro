@@ -155,17 +155,26 @@ const WIDGET_ID = 'ls-chat-widget';
   .ls-bubble { border-radius: 14px; padding: 10px 12px; max-width: 85%; }
 </style>
 
-<script is:inline>
-  // ===== Store persistente =====
+<script is:inline type="module">
+(() => {
+  // Evita doppie inizializzazioni quando ClientRouter reinietta gli script
+  if (window.__LS_CHAT_BOOTED__) return;
+  window.__LS_CHAT_BOOTED__ = true;
+
+  // ===== Store persistente (incapsulato) =====
   const STORE_KEY = 'ls_chat_state_v2';
-  const STORE = { open: false, profile: null, messages: [] };
+  const STORE = window.__LS_CHAT_STORE__ || { open: false, profile: null, messages: [] };
   const persist = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(STORE)); } catch {} };
   try { Object.assign(STORE, JSON.parse(localStorage.getItem(STORE_KEY) || '{}')); } catch {}
 
+  // Rende disponibili stato e persistenza ad altri script se servisse
+  window.__LS_CHAT_STORE__ = STORE;
+  window.__LS_CHAT_PERSIST__ = persist;
+
   // ===== Utils =====
   const norm = (s='') => s.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'');
-  const mqMobile = window.matchMedia('(max-width: 767px)');
-  const isMobile = () => mqMobile.matches;
+  const mqMobile = window.matchMedia?.('(max-width: 767px)');
+  const isMobile = () => mqMobile?.matches;
   const esc = (s='') => s.replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 
   // ===== Autoreply =====
@@ -189,49 +198,41 @@ const WIDGET_ID = 'ls-chat-widget';
         • Branding/Logo 👉 <a class="underline" href="${URL_BRAND}">Branding & Grafica</a><br>
         Se vuoi, ti proponiamo un pacchetto coordinato sito + identità visiva.`;
     }
-
     if (hasEcom && hasBrand) {
       return `Perfetto: <b>e-commerce</b> con <b>logo/brand kit</b> ✨<br>
         • Pacchetti E-commerce 👉 <a class="underline" href="${URL_ECOM}">E-commerce</a><br>
         • Branding/Logo 👉 <a class="underline" href="${URL_BRAND}">Branding & Grafica</a>`;
     }
-
     if (hasBrand) {
       return `Per <b>logo</b>, palette e <b>brand kit</b> trovi tutto qui 👉
         <a class="underline" href="${URL_BRAND}">Branding & Grafica</a>.<br>
         Possiamo coordinare immagine e sito per un lancio coerente.`;
     }
-
     if (hasEcom) {
       return `Ottimo! Per l’<b>E-commerce</b> trovi pacchetti & prezzi qui 👉
         <a class="underline" href="${URL_ECOM}">Pacchetti & Prezzi E-commerce</a>.<br>
         Dimmi volumi prodotti e funzioni (varianti, pagamenti, spedizioni…) e ti suggerisco il piano.`;
     }
-
     if (hasSite) {
       return `Per i <b>siti vetrina/aziendali</b> trovi tutto qui 👉
         <a class="underline" href="${URL_SITI}">Pacchetti & Prezzi Siti Web</a>.<br>
         Posso aiutarti a scegliere in base a pagine e obiettivi.`;
     }
-
     if (hasPrice) {
       return `Ecco i prezzi e cosa include ogni pacchetto:<br>
         • <b>Siti Web</b> 👉 <a class="underline" href="${URL_SITI}">Pacchetti & Prezzi</a><br>
         • <b>E-commerce</b> 👉 <a class="underline" href="${URL_ECOM}">Pacchetti & Prezzi</a>`;
     }
-
     if (hasLead) {
       const wa = document.getElementById('ls-chat-panel')?.dataset.wa || '#';
       return `📞 <a class="underline" href="tel:+393403223494">340 322 3494</a> ·
         WhatsApp 👉 <a class="underline" href="${wa}" target="_blank" rel="noopener">Apri</a><br>
         Oppure scrivici da <a class="underline" href="/contatti">Contatti</a>.`;
     }
-
     if (hasServ) {
       return `Qui trovi tutti i servizi 👉 <a class="underline" href="/servizi">/servizi</a>.
         Dimmi pure cosa ti serve e ti indico la pagina giusta.`;
     }
-
     return `Grazie! Ti rispondiamo il prima possibile negli orari indicati.
       Intanto puoi dare un’occhiata ai pacchetti:<br>
       👉 <a class="underline" href="${URL_SITI}">Siti Web</a> ·
@@ -249,11 +250,12 @@ const WIDGET_ID = 'ls-chat-widget';
     return 'generico';
   }
 
-  // ===== Bind/logic =====
-  function bindChat(){
-    const root   = document.getElementById('ls-chat-widget');
+  // ===== Bind/logic (ribind ad ogni page-load/swap) =====
+  function bindChat() {
+    const root = document.getElementById('ls-chat-widget');
     if (!root) return;
 
+    // porta il widget a fine <body> e previeni doppio bind sullo stesso DOM
     if (root.parentElement !== document.body) document.body.appendChild(root);
     root.style.zIndex = '99999';
     if (root.dataset.bound === '1') return;
@@ -297,7 +299,7 @@ const WIDGET_ID = 'ls-chat-widget';
     };
 
     const needGate = () => (
-      "${PUBLIC_CHAT_REQUIRE_EMAIL}" === "true" &&
+      ${JSON.stringify(import.meta.env.PUBLIC_CHAT_REQUIRE_EMAIL)} === "true" &&
       !(STORE.profile && STORE.profile.email)
     );
 
@@ -327,11 +329,7 @@ const WIDGET_ID = 'ls-chat-widget';
       if (!name || !/.+@.+\..+/.test(email)) { alert('Inserisci nome ed email validi.'); return; }
       STORE.profile = { name, email }; STORE.messages = []; persist();
       try {
-        await fetch('/api/chat-profile', {
-          method:'POST',
-          headers:{'content-type':'application/json'},
-          body: JSON.stringify({ name, email })
-        });
+        await fetch('/api/chat-profile', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ name, email }) });
       } catch {}
       gate.classList.add('hidden'); body.classList.remove('hidden');
       bot(`Ciao ${esc(name)}! 👋 Come posso aiutarti?`);
@@ -371,10 +369,12 @@ const WIDGET_ID = 'ls-chat-widget';
     const closeOnNavIfMobile = ()=> { if (isMobile()) setOpen(false); };
     document.addEventListener('astro:after-swap', closeOnNavIfMobile);
     document.addEventListener('astro:page-load', closeOnNavIfMobile);
-    mqMobile.addEventListener?.('change', e => { if (e.matches) setOpen(false); });
+    mqMobile?.addEventListener?.('change', e => { if (e.matches) setOpen(false); });
   }
 
+  // Listener registrati UNA volta; ribind ad ogni cambio pagina
   document.addEventListener('astro:page-load', bindChat);
   document.addEventListener('astro:after-swap', bindChat);
   if (document.readyState !== 'loading') bindChat(); else document.addEventListener('DOMContentLoaded', bindChat);
+})();
 </script>

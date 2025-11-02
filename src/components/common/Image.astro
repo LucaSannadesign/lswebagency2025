@@ -3,7 +3,7 @@ import type { HTMLAttributes } from 'astro/types';
 import { findImage } from '@/utils/images';
 import {
   getImagesOptimized,
-  astroAsseetsOptimizer,   // ← usa l'export esistente nel tuo file utils
+  astroAsseetsOptimizer,   // ← mantiene l'export esistente
   unpicOptimizer,
   isUnpicCompatible,
   type ImageProps,
@@ -17,29 +17,33 @@ type ImageType = {
 
 const baseProps = Astro.props as Props;
 
-// accessibilità: alt obbligatorio (consenti anche alt="")
+// Accessibilità: alt obbligatorio (consenti anche alt="")
 if (baseProps.alt === undefined || baseProps.alt === null) {
   throw new Error('[Image] attributo "alt" richiesto (usa alt="" per immagini decorative).');
 }
 
-// risolvi sorgente (ESM asset, /public path, o URL remoto)
+// Risolvi sorgente (ESM asset, path pubblico /public, o URL remoto)
 const resolved = await findImage(baseProps.src);
 const isRemote = typeof resolved === 'string' && /^https?:\/\//i.test(resolved);
 const isEsmAsset = !!resolved && typeof resolved === 'object' && 'src' in resolved;
+// Path pubblico servito da /public → NON usare astro:assets (evita MissingImageDimension)
+const isPublicPath = typeof resolved === 'string' && (resolved as string).startsWith('/');
+// Path locale relativo (./ o ../) NON supportato: evita di farlo passare a astro:assets
+const isRelativeLocal = typeof resolved === 'string' && /^[.]{1,2}\//.test(resolved as string);
 
-// default non bloccanti
+// Default non bloccanti
 const loading = baseProps.loading ?? 'lazy';
 const decoding = baseProps.decoding ?? 'async';
 
-// dimensioni: fallback SOLO se NON ESM (evita distorsioni)
+// Dimensioni: per asset NON ESM fornisci width/height per evitare CLS
 let width = baseProps.width;
 let height = baseProps.height;
 if (!isEsmAsset) {
-  width = width ?? 1792;
+  width = width ?? 1792;   // fallback sicuro (16:9 ~ 1792x1024)
   height = height ?? 1024;
 }
 
-// props per l'optimizer
+// Props per l'optimizer (solo dove lo useremo)
 const optProps: ImageProps = {
   ...baseProps,
   width,
@@ -50,22 +54,35 @@ const optProps: ImageProps = {
 
 let image: ImageType | undefined;
 
+// Pipeline ottimizzazione:
+// 1) URL remoto compatibile → Unpic
 if (isRemote && isUnpicCompatible(resolved as string)) {
   image = await getImagesOptimized(resolved as string, optProps, unpicOptimizer);
-} else if (resolved) {
-  // ESM asset o path locale gestito dall'optimizer Astro
+}
+// 2) ESM asset (import) → astro:assets
+else if (isEsmAsset) {
   image = await getImagesOptimized(resolved as any, optProps, astroAsseetsOptimizer);
 }
+// 3) Path pubblico (/images/...) o remoto NON compatibile → niente optimizer, si va in fallback <img>
 
-// fallback: se l'optimizer non produce output, renderizza comunque <img>
-const fallbackSrc = isEsmAsset
-  ? (resolved as any).src
-  : isRemote
+// Fallback: se l'optimizer non produce output, renderizza <img>
+if (isRelativeLocal) {
+  // Evita errori silenziosi: spiega come risolvere
+  throw new Error(
+    `[Image] sorgente relativa "${resolved}" non supportata. ` +
+    `Usa un path pubblico che inizi con "/" (es. "/images/...") ` +
+    `oppure importa l'immagine come ESM nel componente/post.`
+  );
+}
+
+const fallbackSrc =
+  isEsmAsset ? (resolved as any).src
+  : resolved
     ? (resolved as string)
     : String(baseProps.src);
 
 const fallbackAttrs: HTMLAttributes<'img'> = {
-  alt: baseProps.alt as string,
+  alt: (baseProps.alt as string) ?? '',
   width,
   height,
   loading,
@@ -76,12 +93,14 @@ const fallbackAttrs: HTMLAttributes<'img'> = {
 ---
 
 {image ? (
+  // Output dall'optimizer (Unpic o astro:assets)
   <img
     src={image.src}
     {...image.attributes}
     {...(isRemote ? { crossorigin: 'anonymous', referrerpolicy: 'no-referrer' } : {})}
   />
 ) : (
+  // Fallback per /public (/images/...), remoti non compatibili e casi residuali
   <img
     src={fallbackSrc}
     {...fallbackAttrs}

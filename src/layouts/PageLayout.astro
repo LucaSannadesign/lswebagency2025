@@ -1,39 +1,17 @@
 ---
-import Layout from './Layout.astro';
-import ChatWidget from '@/components/chat/ChatWidget.astro';
+import Document from '@/layouts/Layout.astro';
 import Header from '@/components/widgets/Header.astro';
 import Footer from '@/components/widgets/Footer.astro';
-import Announcement from '@/components/widgets/Announcement.astro';
-import { headerData, footerData } from '@/navigation';
-import CookieConsent from '@/components/common/CookieConsent.astro';
 import type { MetaData } from '@/types';
 
-export interface Props {
-  metadata?: MetaData;
-}
-
-const {
-  metadata = {
-    title: 'LS Web Agency',
-    description: 'Creazione siti web professionali, SEO e performance.',
-    canonical: '/',
-  },
-} = Astro.props;
+export interface Props { metadata?: MetaData }
+const metadata = (Astro.props.metadata ?? {}) as MetaData;
 ---
 
-<Layout metadata={metadata}>
-  <slot name="announcement"><Announcement /></slot>
-  <slot name="header">
-    <Header {...headerData} isSticky showRssFeed showToggleTheme />
-  </slot>
-
-  <main><slot /></main>
-
-  <slot name="footer"><Footer {...footerData} /></slot>
-
-  <!-- Banner cookie -->
-  <CookieConsent />
-
-  <!-- ✅ CHAT WIDGET: DEVE STARE QUI -->
-  <ChatWidget />
-</Layout>
+<Document metadata={metadata}>
+  <Header />
+  <main id="main" class="min-h-screen">
+    <slot />
+  </main>
+  <Footer />
+</Document>
