@@ -34,6 +34,16 @@ const NAV = [
   { text: 'Metodi di pagamento', href: '/pagamenti' },
   { text: 'Contatti', href: '/contatti' },
 ];
+
+/** Social di default aggiornati */
+const DEFAULT_SOCIAL: Link[] = [
+  { href: 'https://www.linkedin.com/in/lucasannadesign', icon: 'tabler:brand-linkedin', ariaLabel: 'LinkedIn' },
+  { href: 'https://www.instagram.com/ls_web_agency',      icon: 'tabler:brand-instagram', ariaLabel: 'Instagram' },
+  { href: 'https://www.facebook.com/lswebdesignagency',   icon: 'tabler:brand-facebook',  ariaLabel: 'Facebook' },
+  { href: 'https://it.pinterest.com/lucasanna_art/',      icon: 'tabler:brand-pinterest', ariaLabel: 'Pinterest' },
+];
+
+const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
 ---
 
 <footer class={`relative border-t border-gray-200 dark:border-slate-800 not-prose ${theme === 'dark' ? 'dark' : ''}`}>
@@ -41,21 +51,23 @@ const NAV = [
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-gray-200">
     <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
-      <!-- Colonna 1 -->
+      <!-- Colonna 1: Logo + descrizione + Social -->
       <div class="col-span-12 lg:col-span-3">
         <a class="flex items-center mb-2" href={getHomePermalink()} aria-label="Torna alla Home">
           <img src="/images/logo-ls-webdesignagency-2025.svg" alt="LS Web Agency" class="h-10 w-auto dark:hidden" />
           <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="LS Web Agency" class="h-10 w-auto hidden dark:block" />
         </a>
+
         <p class="text-sm text-gray-600 dark:text-gray-400">
           Agenzia web specializzata nella creazione di siti internet e posizionamento SEO a Sassari e in Sardegna.
         </p>
 
-        {socialLinks.length > 0 && (
+        <!-- Social sotto al box del logo -->
+        {SOCIAL.length > 0 && (
           <div class="mt-4">
-            <span class="font-semibold text-gray-800 dark:text-gray-200">Social</span>
+            <span class="font-semibold text-gray-800 dark:text-gray-200">Seguici</span>
             <div class="mt-2 flex items-center gap-3">
-              {socialLinks.map(({ href, icon, ariaLabel }) => (
+              {SOCIAL.map(({ href, icon, ariaLabel }) => (
                 <a
                   href={href}
                   target="_blank"
@@ -71,7 +83,7 @@ const NAV = [
         )}
       </div>
 
-      <!-- Colonna 2 -->
+      <!-- Colonna 2: Indirizzo -->
       <div class="col-span-6 md:col-span-3">
         <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Dove siamo</div>
         <address class="not-italic text-sm text-gray-600 dark:text-gray-400">
@@ -107,7 +119,7 @@ const NAV = [
         </nav>
       </div>
 
-      <!-- Colonna 4 -->
+      <!-- Colonna 4: Contatti -->
       <div class="col-span-12 md:col-span-3">
         <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Per richieste di preventivi</div>
         <p class="text-sm text-gray-600 dark:text-gray-400">
@@ -159,12 +171,10 @@ const NAV = [
     <!-- Bottom bar -->
     <div class="py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <!-- Sinistra -->
         <p class="text-sm text-gray-600 dark:text-gray-400">
           © 2025 <strong class="text-gray-800 dark:text-gray-200">LS Web Agency</strong>. Tutti i diritti riservati.
         </p>
 
-        <!-- Destra (allineata) -->
         <nav class="text-sm text-gray-700 dark:text-gray-300 flex flex-wrap items-center gap-x-3 gap-y-1">
           <a href="/privacy" class="hover:underline">Privacy & Cookie Policy</a>
           <span class="select-none hidden md:inline">|</span>
