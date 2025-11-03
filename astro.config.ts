@@ -36,24 +36,26 @@ export default defineConfig({
     // isr: { expiration: 60 * 60 * 24 }, // abilita se vuoi cache SSR 24h
   }),
 
-  site: 'https://lswebagency.com',
+  // 🔴 IMPORTANTE: dominio canonico con www
+  site: 'https://www.lswebagency.com',
 
   integrations: [
-    // ✅ Solo React (niente warning di renderer multipli)
     react(),
     tailwind({ applyBaseStyles: false }),
     mdx(),
-    // ✅ astro-icon: set locale + tabler
+
+    // ✅ astro-icon
     icon({
       iconDir: 'src/icons',
-      include: {
-        local: ['*'],
-        tabler: ['*'],
-      },
+      include: { local: ['*'], tabler: ['*'] },
     }),
+
+    // Caricamento script terzi dopo consenso
     ...whenExternalScripts(() =>
       partytown({ config: { forward: ['dataLayer.push'] } })
     ),
+
+    // Compressione sicura
     compress({
       CSS: true,
       HTML: { 'html-minifier-terser': { removeAttributeQuotes: false } },
@@ -62,8 +64,21 @@ export default defineConfig({
       SVG: false,
       Logger: 1,
     }),
+
     astrowind({ config: './src/config.yaml' }),
-    sitemap(),
+
+    // ✅ Sitemap coerente con `site`
+    sitemap({
+      serialize(item) {
+        // Lascia gli URL così come generati da Astro (già con www)
+        return {
+          url: item.url,
+          changefreq: item.changefreq ?? 'weekly',
+          priority: item.priority ?? 0.7,
+          lastmod: item.lastmod,
+        };
+      },
+    }),
   ],
 
   markdown: {
