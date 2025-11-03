@@ -15,4 +15,4 @@ Disallow: /homes/
 
 # Tutto il resto è consentito (incluso /local/*)
 
-Sitemap: https://lswebagency.com/sitemap.xml
+Sitemap: https://www.lswebagency.com/sitemap.xml
