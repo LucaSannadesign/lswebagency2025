@@ -1,6 +1,6 @@
 site:
   name: "LS Web Agency"
-  site: "https://lswebagency.com"
+  site: "https://www.lswebagency.com"   # ✅ allineato al canonico con www
   base: "/"
   trailingSlash: false
   googleSiteVerificationId: "orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M"
@@ -9,14 +9,14 @@ metadata:
   title:
     default: "LS Web Agency"
     template: "%s — LS Web Agency"
-  description: "🚀 Creazione di siti web professionali, SEO, web design e sviluppo e-commerce. Realizziamo soluzioni digitali su misura per aziende, startup e professionisti."
+  description: "Creazione di siti web professionali, SEO, web design e sviluppo e-commerce. Realizziamo soluzioni digitali su misura per aziende, startup e professionisti."
   robots:
     index: true
     follow: true
   openGraph:
     site_name: "LS Web Agency"
     images:
-      - url: "@/assets/images/default.png"
+      - url: "/images/default-og-image.jpg"  # ✅ asset pubblico coerente
         width: 1200
         height: 628
     type: website
@@ -36,31 +36,26 @@ apps:
     label: "LS Web Agency Blog"
     description: "Web design, SEO e AI: il blog di LS Web Agency."
     postsPerPage: 6
-
     post:
       isEnabled: true
       permalink: "/blog/%slug%"
       robots:
         index: true
-
     list:
       isEnabled: true
       pathname: "blog"
       robots:
         index: true
-
     category:
       isEnabled: true
       pathname: "category"
       robots:
         index: true
-
     tag:
       isEnabled: true
       pathname: "tag"
       robots:
         index: false
-
     isRelatedPostsEnabled: true
     relatedPostsCount: 4
 
@@ -83,7 +78,6 @@ menu:
   footer:
     - text: Servizi
       href: /servizi
-    # 🔽 RIMOSSO: Local
     # - text: Local
     #   href: /local
     - text: Pagamenti
@@ -91,6 +85,6 @@ menu:
     - text: Privacy
       href: /privacy
     - text: Cookie
-      href: /cookie
+      href: /privacy#cookie   # ✅ esiste e corrisponde al bottone in pagina
     - text: Contatti
       href: /contatti
