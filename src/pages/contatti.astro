@@ -174,19 +174,28 @@ const AGENCY = {
                     class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"></textarea>
         </div>
 
- <div class="col-span-1 md:col-span-2">
-  <label for="privacy" class="flex items-center gap-2 text-sm leading-tight">
+<div class="col-span-1 md:col-span-2">
+  <label
+    for="privacy"
+    class="flex items-center gap-3 rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800
+           bg-gradient-to-r from-violet-50/60 to-white dark:from-violet-950/20
+           p-4 cursor-pointer"
+  >
+    <Icon name="tabler:shield-check" class="text-xl text-violet-600 shrink-0" aria-hidden="true" />
     <input
       id="privacy"
       name="privacy"
       type="checkbox"
       required
-      class="size-4 accent-violet-600"
+      class="size-5 rounded-md accent-violet-600 shadow-sm
+             focus:outline-none focus:ring-2 focus:ring-violet-500"
     />
-    Ho letto e accetto la
-    <a href="/privacy" class="underline decoration-violet-500 underline-offset-2">
-      Privacy Policy
-    </a>.
+    <span class="text-sm">
+      Ho letto e accetto la
+      <a href="/privacy" class="font-medium underline decoration-2 underline-offset-2 decoration-violet-500 hover:decoration-violet-600">
+        Privacy Policy
+      </a>.
+    </span>
   </label>
 </div>
 

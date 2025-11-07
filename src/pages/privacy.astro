@@ -32,9 +32,22 @@ const metadata = {
       Ultimo aggiornamento: <strong>14 Marzo 2025</strong>
     </p>
 
+    <div class="text-center mb-10">
+      <a href="#cookie" class="inline-block rounded-md ring-1 ring-emerald-400 px-4 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+        Vai alla sezione “Cookie”
+      </a>
+      <button
+        type="button"
+        class="ml-3 inline-block rounded-md ring-1 ring-neutral-300 px-4 py-2 hover:bg-neutral-50 dark:hover:bg-neutral-900/20"
+        onclick="window.__openConsentBanner ? window.__openConsentBanner() : (location.href='/privacy#cookie')"
+      >
+        Gestisci preferenze cookie
+      </button>
+    </div>
+
     <h2 class="text-2xl font-semibold mt-8">1. Titolare del Trattamento</h2>
     <p>
-      LS Web Agency – Sassari (Italia). Per informazioni o richieste: 
+      LS Web Agency – Sassari (Italia). Per informazioni o richieste:
       <a href="mailto:info@lswebagency.com" class="text-blue-600 underline">info@lswebagency.com</a>.
     </p>
 
@@ -57,7 +70,7 @@ const metadata = {
 
     <h2 class="text-2xl font-semibold mt-8">5. Diritti dell’interessato</h2>
     <p>
-      Puoi esercitare i diritti di accesso, rettifica, cancellazione, limitazione, opposizione e portabilità scrivendo a 
+      Puoi esercitare i diritti di accesso, rettifica, cancellazione, limitazione, opposizione e portabilità scrivendo a
       <a href="mailto:info@lswebagency.com" class="text-blue-600 underline">info@lswebagency.com</a>.
     </p>
 
@@ -66,10 +79,18 @@ const metadata = {
       Adottiamo misure tecniche e organizzative adeguate. Eventuali trasferimenti extra-UE avvengono con garanzie adeguate.
     </p>
 
-    <h2 class="text-2xl font-semibold mt-8">7. Cookie</h2>
-    <p>
-      Per i dettagli consulta la nostra <a href="/cookie" class="text-blue-600 underline">Cookie Policy</a> e gestisci le preferenze dal banner.
+    <h2 id="cookie" class="text-2xl font-semibold mt-8">7. Cookie</h2>
+    <p class="mb-3">
+      Per i dettagli consulta la nostra <a href="/cookie" class="text-blue-600 underline">Cookie Policy</a>. Puoi
+      modificare in qualsiasi momento le preferenze tramite il pulsante seguente:
     </p>
+    <button
+      type="button"
+      class="inline-block rounded-md ring-1 ring-neutral-300 px-4 py-2 hover:bg-neutral-50 dark:hover:bg-neutral-900/20"
+      onclick="window.__openConsentBanner ? window.__openConsentBanner() : alert('Apri il banner cookie dal footer o ricarica la pagina.')"
+    >
+      Gestisci preferenze cookie
+    </button>
   </section>
 
   <!-- JSON-LD -->
@@ -79,11 +100,11 @@ const metadata = {
       "@type": "WebPage",
       "name": "Privacy Policy | LS Web Agency",
       "description": "Informativa sul trattamento dei dati personali ai sensi del GDPR.",
-      "url": "https://lswebagency.com/privacy",
+      "url": "https://www.lswebagency.com/privacy",
       "publisher": {
         "@type": "Organization",
         "name": "LS Web Agency",
-        "logo": "https://lswebagency.com/images/logo.png"
+        "logo": "https://www.lswebagency.com/images/logo.png"
       }
     })}
   </script>
