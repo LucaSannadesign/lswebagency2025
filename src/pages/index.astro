@@ -7,11 +7,24 @@ import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
 
 const metadata = {
-  title: 'Realizzazione Siti Web Sassari | LS Web Agency & SEO',
+  title: "Siti Web Sassari: Agenzia Web & SEO | LS Web Agency",
   description:
-    'LS Web Agency realizza siti web, e-commerce, SEO e marketing digitale su misura per aziende e professionisti a Sassari.',
+    "Realizzazione di siti web veloci e ottimizzati a Sassari: SEO tecnica, Local SEO e consulenza digitale per aziende e professionisti.",
+  canonical: "/",
+  robots: { index: true, follow: true },
+  openGraph: {
+    url: "https://www.lswebagency.com/",
+    type: "website",
+  },
+  twitter: {
+    cardType: "summary_large_image",
+    handle: "@lswebagency",
+    site: "@lswebagency",
+  },
+  // Evita che venga applicato il template globale al title
   ignoreTitleTemplate: true,
 };
+
 
 /* ---------- Portfolio (ordinamento robusto per data) ---------- */
 const LIMIT = 8;
