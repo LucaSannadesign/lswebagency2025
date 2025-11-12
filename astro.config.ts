@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 // Adapter e integrazioni Astro
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel/serverless';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
@@ -27,16 +27,14 @@ const whenExternalScripts = (items: any) =>
   hasExternalScripts ? (Array.isArray(items) ? items.map((f) => f()) : [items()]) : [];
 
 export default defineConfig({
+  // Usiamo output server per avere API routes su Vercel
   output: 'server',
 
+  // Adapter Vercel serverless (runtime Node implicito)
   // Preview: usa `vercel build && vercel serve .vercel/output`
-  // ✅ Forziamo runtime Node per SMTP/recaptcha; opzionale ISR commentato
-  adapter: vercel({
-    runtime: 'node',
-    // isr: { expiration: 60 * 60 * 24 }, // abilita se vuoi cache SSR 24h
-  }),
+  adapter: vercel(),
 
-  // 🔴 IMPORTANTE: dominio canonico con www
+  // Dominio canonico con www
   site: 'https://www.lswebagency.com',
 
   integrations: [
@@ -44,7 +42,7 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     mdx(),
 
-    // ✅ astro-icon
+    // astro-icon
     icon({
       iconDir: 'src/icons',
       include: { local: ['*'], tabler: ['*'] },
@@ -67,10 +65,9 @@ export default defineConfig({
 
     astrowind({ config: './src/config.yaml' }),
 
-    // ✅ Sitemap coerente con `site`
+    // Sitemap coerente con `site`
     sitemap({
       serialize(item) {
-        // Lascia gli URL così come generati da Astro (già con www)
         return {
           url: item.url,
           changefreq: item.changefreq ?? 'weekly',
@@ -92,7 +89,7 @@ export default defineConfig({
         '@': path.resolve(__dirname, './src'),
       },
     },
-    // 🔧 Workaround per virtual ids con "@/..." o "~/".
+    // Workaround per virtual ids con "@/..." o "~/".
     plugins: [
       {
         name: 'fix-astro-entry-alias-in-virtual-ids',
@@ -118,6 +115,6 @@ export default defineConfig({
     },
   },
 
-  // ❌ Niente headScripts / scripts qui:
+  // Niente headScripts/scripts qui:
   // GA è già caricato SOLO dopo consenso nel layout globale.
 });
