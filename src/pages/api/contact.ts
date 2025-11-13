@@ -1,8 +1,18 @@
 // src/pages/api/contact.ts
-export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import nodemailer from 'nodemailer';
+
+// Questa route deve restare solo server-side
+export const prerender = false;
+
+// (Opzionale ma utile) endpoint di test per verificare che /api/contact esista
+export const GET: APIRoute = async () => {
+  return new Response(JSON.stringify({ status: 'ok' }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -29,7 +39,24 @@ export const POST: APIRoute = async ({ request }) => {
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
-        }
+        },
+      );
+    }
+
+    const gmailUser = import.meta.env.GMAIL_USER;
+    const gmailPass = import.meta.env.GMAIL_APP_PASS;
+
+    if (!gmailUser || !gmailPass) {
+      console.error('Variabili GMAIL_USER / GMAIL_APP_PASS mancanti');
+      return new Response(
+        JSON.stringify({
+          error:
+            'Configurazione email non valida. Contatta l’amministratore del sito.',
+        }),
+        {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+        },
       );
     }
 
@@ -37,14 +64,14 @@ export const POST: APIRoute = async ({ request }) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: import.meta.env.GMAIL_USER,     // es: info@lswebagency.com
-        pass: import.meta.env.GMAIL_APP_PASS, // password app specifica
+        user: gmailUser, // es: info@lswebagency.com
+        pass: gmailPass, // password app specifica
       },
     });
 
     await transporter.sendMail({
-      from: `"LS Web Agency" <${import.meta.env.GMAIL_USER}>`,
-      to: import.meta.env.GMAIL_USER,
+      from: `"LS Web Agency" <${gmailUser}>`,
+      to: gmailUser,
       replyTo: email,
       subject: `Nuovo contatto dal sito — ${name}`,
       html: `
@@ -65,11 +92,13 @@ export const POST: APIRoute = async ({ request }) => {
   } catch (err) {
     console.error('Errore invio email contatti:', err);
     return new Response(
-      JSON.stringify({ error: "Errore durante l'invio. Riprova più tardi." }),
+      JSON.stringify({
+        error: "Errore durante l'invio. Riprova più tardi.",
+      }),
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
-      }
+      },
     );
   }
 };
