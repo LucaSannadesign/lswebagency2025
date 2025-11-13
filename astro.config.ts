@@ -21,20 +21,22 @@ import {
   lazyImagesRehypePlugin,
 } from './src/utils/frontmatter';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// abilita/disabilita caricamento script esterni con Partytown
 const hasExternalScripts = true;
-const whenExternalScripts = (items: any) =>
-  hasExternalScripts ? (Array.isArray(items) ? items.map((f) => f()) : [items()]) : [];
+const whenExternalScripts = (items: () => any | Array<() => any>) =>
+  hasExternalScripts
+    ? (Array.isArray(items) ? items.map((fn) => fn()) : [items()])
+    : [];
 
 export default defineConfig({
-  // Usiamo output server per avere API routes su Vercel
+  // NECESSARIO per avere le API (/api/contact, ecc.) su Vercel
   output: 'server',
-
-  // Adapter Vercel serverless (runtime Node implicito)
-  // Preview: usa `vercel build && vercel serve .vercel/output`
   adapter: vercel(),
 
-  // Dominio canonico con www
+  // Dominio canonico
   site: 'https://www.lswebagency.com',
 
   integrations: [
@@ -42,18 +44,22 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     mdx(),
 
-    // astro-icon
+    // Icone locali + Tabler
     icon({
       iconDir: 'src/icons',
       include: { local: ['*'], tabler: ['*'] },
     }),
 
-    // Caricamento script terzi dopo consenso
+    // Script terzi gestiti con Partytown (dopo consenso)
     ...whenExternalScripts(() =>
-      partytown({ config: { forward: ['dataLayer.push'] } })
+      partytown({
+        config: {
+          forward: ['dataLayer.push'],
+        },
+      })
     ),
 
-    // Compressione sicura
+    // Compressione "safe"
     compress({
       CSS: true,
       HTML: { 'html-minifier-terser': { removeAttributeQuotes: false } },
@@ -63,6 +69,7 @@ export default defineConfig({
       Logger: 1,
     }),
 
+    // Integrazione AstroWind
     astrowind({ config: './src/config.yaml' }),
 
     // Sitemap coerente con `site`
@@ -89,7 +96,6 @@ export default defineConfig({
         '@': path.resolve(__dirname, './src'),
       },
     },
-    // Workaround per virtual ids con "@/..." o "~/".
     plugins: [
       {
         name: 'fix-astro-entry-alias-in-virtual-ids',
@@ -115,6 +121,5 @@ export default defineConfig({
     },
   },
 
-  // Niente headScripts/scripts qui:
-  // GA è già caricato SOLO dopo consenso nel layout globale.
+  // GA e altri script sono gestiti dal layout globale (niente headScripts qui)
 });
