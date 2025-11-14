@@ -127,117 +127,147 @@ const AGENCY = {
       <h2 class="text-2xl md:text-3xl font-bold mb-1">Richiedi una consulenza</h2>
       <p class="text-neutral-600 dark:text-neutral-300 mb-6">Ti rispondiamo entro 24h lavorative.</p>
 
-      <form method="POST" action="/api/contact" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Anti-spam honeypot -->
+    <form
+      method="POST"
+      action="https://formspree.io/f/mldgyarp"
+      class="grid grid-cols-1 md:grid-cols-2 gap-4"
+    >
+      <!-- Honeypot anti-spam -->
+      <input
+        type="text"
+        name="company"
+        tabindex="-1"
+        autocomplete="off"
+        class="hidden"
+        aria-hidden="true"
+      />
+
+      <div class="col-span-1">
+        <label for="name" class="block text-sm font-medium mb-1">
+          Nome e cognome
+        </label>
         <input
+          id="name"
+          name="name"
           type="text"
-          name="company"
-          tabindex="-1"
-          autocomplete="off"
-          class="hidden"
-          aria-hidden="true"
+          required
+          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
         />
+      </div>
 
-        <div class="col-span-1">
-          <label for="name" class="block text-sm font-medium mb-1">Nome e cognome</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+      <div class="col-span-1">
+        <label for="email" class="block text-sm font-medium mb-1">
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          inputmode="email"
+          autocomplete="email"
+          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+        />
+      </div>
+
+      <div class="col-span-1">
+        <label for="phone" class="block text-sm font-medium mb-1">
+          Telefono (opzionale)
+        </label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          inputmode="tel"
+          autocomplete="tel"
+          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+        />
+      </div>
+
+      <div class="col-span-1">
+        <label for="service" class="block text-sm font-medium mb-1">
+          Servizio di interesse
+        </label>
+        <select
+          id="service"
+          name="service"
+          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+        >
+          <option value="" selected>Seleziona…</option>
+          <option value="sito">Creazione sito web</option>
+          <option value="ecommerce">E-commerce</option>
+          <option value="seo">SEO / Local SEO</option>
+          <option value="branding">Branding &amp; grafica</option>
+          <option value="ai">AI / Assistenti</option>
+          <option value="altro">Altro</option>
+        </select>
+      </div>
+
+      <div class="col-span-1 md:col-span-2">
+        <label for="message" class="block text-sm font-medium mb-1">
+          Messaggio
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows="6"
+          required
+          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+        ></textarea>
+      </div>
+
+      <!-- BLOCCO PRIVACY -->
+      <div class="col-span-1 md:col-span-2">
+        <label
+          for="privacy"
+          class="flex items-center gap-3 rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800
+                 bg-gradient-to-r from-violet-50/60 to-white dark:from-violet-950/20
+                 p-4 cursor-pointer"
+        >
+          <Icon
+            name="tabler:shield-check"
+            class="text-xl text-violet-600 shrink-0"
+            aria-hidden="true"
           />
-        </div>
-
-        <div class="col-span-1">
-          <label for="email" class="block text-sm font-medium mb-1">Email</label>
           <input
-            id="email"
-            name="email"
-            type="email"
+            id="privacy"
+            name="privacy"
+            type="checkbox"
             required
-            inputmode="email"
-            autocomplete="email"
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            class="size-5 rounded-md accent-violet-600 shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
-        </div>
+          <span class="text-sm">
+            Ho letto e accetto la
+            <a
+              href="/privacy"
+              class="font-medium underline decoration-2 underline-offset-2 decoration-violet-500 hover:decoration-violet-600"
+            >
+              Privacy Policy
+            </a>.
+          </span>
+        </label>
+      </div>
 
-        <div class="col-span-1">
-          <label for="phone" class="block text-sm font-medium mb-1">Telefono (opzionale)</label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            inputmode="tel"
-            autocomplete="tel"
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-          />
-        </div>
+      <!-- Campi nascosti utili per Formspree -->
+      <input
+        type="hidden"
+        name="_subject"
+        value="Nuovo contatto dal sito LS Web Agency"
+      />
+      <input type="hidden" name="_captcha" value="false" />
+      <input
+        type="hidden"
+        name="_redirect"
+        value="https://www.lswebagency.com/contatti?success=1"
+      />
 
-        <div class="col-span-1">
-          <label for="service" class="block text-sm font-medium mb-1">Servizio di interesse</label>
-          <select
-            id="service"
-            name="service"
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-          >
-            <option value="" selected>Seleziona…</option>
-            <option value="sito">Creazione sito web</option>
-            <option value="ecommerce">E-commerce</option>
-            <option value="seo">SEO / Local SEO</option>
-            <option value="branding">Branding & grafica</option>
-            <option value="ai">AI / Assistenti</option>
-            <option value="altro">Altro</option>
-          </select>
-        </div>
-
-        <div class="col-span-1 md:col-span-2">
-          <label for="message" class="block text-sm font-medium mb-1">Messaggio</label>
-          <textarea
-            id="message"
-            name="message"
-            rows="6"
-            required
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-          ></textarea>
-        </div>
-
-        <div class="col-span-1 md:col-span-2">
-          <label
-            for="privacy"
-            class="flex items-center gap-3 rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800
-                   bg-gradient-to-r from-violet-50/60 to-white dark:from-violet-950/20
-                   p-4 cursor-pointer"
-          >
-            <Icon
-              name="tabler:shield-check"
-              class="text-xl text-violet-600 shrink-0"
-              aria-hidden="true"
-            />
-            <input
-              id="privacy"
-              name="privacy"
-              type="checkbox"
-              required
-              class="size-5 rounded-md accent-violet-600 shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-violet-500"
-            />
-            <span class="text-sm">
-              Ho letto e accetto la
-              <a
-                href="/privacy"
-                class="font-medium underline decoration-2 underline-offset-2 decoration-violet-500 hover:decoration-violet-600"
-              >
-                Privacy Policy
-              </a>.
-            </span>
-          </label>
-        </div>
-
-        <div class="col-span-1 md:col-span-2 mt-2">
-          <Button type="submit" variant="primary">Invia richiesta</Button>
-        </div>
-      </form>
+      <div class="col-span-1 md:col-span-2 mt-2">
+        <Button type="submit" variant="primary">
+          Invia richiesta
+        </Button>
+      </div>
+    </form>
     </div>
   </section>
 
