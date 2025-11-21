@@ -7,9 +7,9 @@ import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
 
 const metadata = {
-  title: "Siti Web Sassari: Agenzia Web & SEO | LS Web Agency",
+  title: "Realizzazione siti web a Sassari ottimizzati SEO – LS Web Agency",
   description:
-    "Realizzazione di siti web veloci e ottimizzati a Sassari: SEO tecnica, Local SEO e consulenza digitale per aziende e professionisti.",
+    "Realizzazione siti web professionali a Sassari che portano clienti: siti veloci, SEO locale e consulenza digitale per aziende e freelance in Sardegna.",
   canonical: "/",
   robots: { index: true, follow: true },
   openGraph: {
@@ -24,7 +24,6 @@ const metadata = {
   // Evita che venga applicato il template globale al title
   ignoreTitleTemplate: true,
 };
-
 
 /* ---------- Portfolio (ordinamento robusto per data) ---------- */
 const LIMIT = 8;
@@ -55,117 +54,231 @@ const portfolioLatest = portfolioAll
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Section -->
-<!-- HERO con gradient che sfuma a bianco + immagine più grande -->
-<section class="relative isolate">
-  <!-- sfumatura top ► bottom che termina in bianco -->
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-x-0 top-0 -z-10
-           h-[520px] sm:h-[560px] md:h-[600px]
-           bg-gradient-to-b from-violet-100/80 via-white to-transparent
-           dark:from-violet-900/30 dark:via-transparent">
-  </div>
+  <!-- HERO -->
+  <section class="relative isolate pb-10 sm:pb-16">
+    <!-- sfumatura top ► bottom che termina in bianco -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 -z-10
+             h-[520px] sm:h-[560px] md:h-[600px]
+             bg-gradient-to-b from-violet-100/80 via-white to-transparent
+             dark:from-violet-900/30 dark:via-transparent">
+    </div>
 
-  <Hero
-    actions={[
-      { variant: 'primary', text: 'Richiedi una consulenza', href: '/contatti' },
-      { text: 'I nostri servizi', href: '#servizi' },
-    ]}
-    image={{
-      /* Consigliato: metti il file in /public/images/ e usa il path assoluto */
-      src: '/images/realizzazione-siti-web-sassari-sardegna.webp',
-      alt: 'Realizzazione siti web a Sassari',
-      /* dimensioni reali per evitare CLS e migliorare LCP */
-      width: 1600,
-      height: 1066,
-      /* allarga visivamente il blocco immagine a destra */
-      containerClass: 'md:max-w-[820px] lg:max-w-[980px] xl:max-w-[1100px] 2xl:max-w-[1200px]',
-      class: 'rounded-3xl shadow-xl ring-1 ring-black/5',
-      /* opzionale: spostala leggermente verso l’esterno sui desktop
-         class: 'md:translate-x-2 lg:translate-x-4 rounded-3xl shadow-xl ring-1 ring-black/5' */
-      loading: 'eager',
-      fetchpriority: 'high',
-      decoding: 'async',
-    }}
-  >
-    <span slot="title">
-      Realizzazione siti web a Sassari&nbsp;
-      <span class="text-accent text-gradient dark:text-white highlight">
-        ottimizzati per SEO
-      </span>
-    </span>
+    <Hero
+      actions={[
+        {
+          variant: 'primary',
+          text: 'Richiedi l’analisi gratuita del tuo sito',
+          href: '/contatti',
+        },
+        {
+          text: 'Scopri i nostri servizi',
+          href: '#servizi',
+        },
+      ]}
+      image={{
+        src: '/images/realizzazione-siti-web-sassari-sardegna.webp',
+        alt: 'Realizzazione siti web professionali e ottimizzati SEO a Sassari',
+        width: 1600,
+        height: 1066,
+        containerClass:
+          'md:max-w-[820px] lg:max-w-[980px] xl:max-w-[1100px] 2xl:max-w-[1200px]',
+        class: 'rounded-3xl shadow-xl ring-1 ring-black/5',
+        loading: 'eager',
+        fetchpriority: 'high',
+        decoding: 'async',
+      }}
+    >
+<span
+  slot="title"
+  class="block leading-none md:leading-tight"
+>
+  <span class="block">
+    Realizzazione siti web a Sassari
+  </span>
+  <span class="block text-accent text-gradient dark:text-white highlight">
+    che portano davvero clienti
+  </span>
+</span>
 
-    <span slot="subtitle">
-      <span class="hidden sm:inline">
-        LS Web Agency progetta <strong>siti web</strong>, <strong>e-commerce</strong> e
-        strategie di <strong>SEO</strong> e <strong>marketing digitale</strong> su misura per
-        aziende e professionisti a Sassari.
-      </span>
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">
-        Affidati a noi per la tua presenza online!
-      </span>
-    </span>
-  </Hero>
-</section>
+      <span slot="subtitle">
+        <span class="hidden sm:inline">
+          Hai già un sito ma la casella email è sempre vuota?
+          <br />
+          LS Web Agency progetta <strong>siti web professionali</strong> ed
+          <strong> e-commerce ottimizzati SEO</strong> a Sassari, pensati per
+          trasformare visite in richieste di preventivo, non solo in “click”.
+        </span>
 
-  <!-- I Nostri Servizi -->
+        <span class="block mb-1 sm:hidden font-medium">
+          Siti web ed e-commerce ottimizzati per la
+          <strong> SEO locale a Sassari</strong> e in tutta la Sardegna.
+        </span>
+      </span>
+    </Hero>
+  </section>
+
+  <!-- STRIP: PER CHI LAVORIAMO -->
+  <section class="px-4 pt-4 pb-12">
+    <div class="mx-auto max-w-4xl rounded-3xl bg-slate-50/70 px-6 py-10 text-center shadow-sm">
+      <p class="text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase">
+        Per chi è il nostro servizio di realizzazione siti web
+      </p>
+
+      <h2 class="mt-3 text-2xl md:text-3xl font-semibold">
+        Se vivi di clienti locali, il tuo sito non può essere solo una vetrina.
+      </h2>
+
+      <p class="mt-4 text-base md:text-lg text-gray-600">
+        Lavoriamo con <strong>piccole imprese, freelance e studi professionali</strong>
+        che vogliono trasformare il sito in uno strumento che genera richieste di
+        preventivo, prenotazioni e appuntamenti, non solo visite anonime da Google.
+      </p>
+
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3 text-sm">
+        <span class="rounded-full bg-white px-4 py-1 shadow-sm">
+          Artigiani, negozi e attività locali
+        </span>
+        <span class="rounded-full bg-white px-4 py-1 shadow-sm">
+          Studi professionali e consulenti
+        </span>
+        <span class="rounded-full bg-white px-4 py-1 shadow-sm">
+          B&amp;B, strutture ricettive e attività legate al turismo
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIZI -->
   <section id="servizi" class="container mx-auto px-4 py-12">
-    <h2 class="text-3xl font-bold text-center mb-8">I Nostri Servizi</h2>
+    <p class="text-center text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase">
+      Servizi LS Web Agency
+    </p>
+    <h2 class="mt-3 text-3xl font-bold text-center mb-3">
+      Servizi web per far crescere il tuo business a Sassari e in Sardegna
+    </h2>
+    <p class="max-w-3xl mx-auto mb-10 text-center text-gray-600">
+      Non ci limitiamo a “fare il sito”. Progettiamo <strong>siti web professionali</strong>,
+      <strong> e-commerce</strong> e strategie di <strong>SEO</strong> che partono dai tuoi
+      obiettivi: più contatti, più appuntamenti, più clienti.
+    </p>
+
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <Icon name="tabler:device-laptop" class="w-12 h-12 text-blue-600 mb-4" />
-        <h3 class="text-xl font-semibold mb-2">Creazione Siti Web</h3>
-        <p class="text-gray-600 mb-4">Siti responsive, veloci e SEO-friendly.</p>
-        <a href="/servizi/creazione-siti-web-sassari" class="btn-primary">Scopri</a>
+      <!-- SITI WEB -->
+      <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
+        <Icon name="tabler:device-laptop" class="w-10 h-10 text-blue-600 mb-3" />
+        <h3 class="text-lg font-semibold mb-2">
+          Realizzazione siti web professionali a Sassari
+        </h3>
+        <p class="text-gray-600 mb-3">
+          Siti <strong>responsive</strong>, veloci e <strong>SEO-friendly</strong>, progettati
+          per raccontare la tua attività e guidare l’utente verso il contatto.
+        </p>
+        <ul class="mb-4 space-y-1 text-sm text-gray-600">
+          <li>• Struttura chiara e facile da navigare</li>
+          <li>• Contenuti pensati per i tuoi clienti</li>
+          <li>• Ottimizzazione per la SEO locale a Sassari</li>
+        </ul>
+        <a href="/servizi/creazione-siti-web-sassari" class="btn-primary self-start">
+          Scopri come lavoriamo
+        </a>
       </div>
 
-      <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <Icon name="tabler:shopping-cart" class="w-12 h-12 text-blue-600 mb-4" />
-        <h3 class="text-xl font-semibold mb-2">E-commerce</h3>
-        <p class="text-gray-600 mb-4">Piattaforme di vendita online performanti.</p>
-        <a href="/servizi/realizzazione-siti-ecommerce" class="btn-primary">Scopri</a>
+      <!-- E-COMMERCE -->
+      <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
+        <Icon name="tabler:shopping-cart" class="w-10 h-10 text-blue-600 mb-3" />
+        <h3 class="text-lg font-semibold mb-2">
+          Realizzazione siti e-commerce
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Piattaforme di vendita online ottimizzate per mobile, integrate con pagamenti
+          sicuri e pensate per gestire catalogo, promozioni e spedizioni in autonomia.
+        </p>
+        <a href="/servizi/realizzazione-siti-ecommerce" class="btn-primary self-start">
+          Inizia a vendere online
+        </a>
       </div>
 
-      <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <Icon name="tabler:chart-bar" class="w-12 h-12 text-blue-600 mb-4" />
-        <h3 class="text-xl font-semibold mb-2">SEO & Posizionamento</h3>
-        <p class="text-gray-600 mb-4">Strategie per scalare Google.</p>
-        <a href="/servizi/ottimizzazione-seo-siti-web" class="btn-primary">Scopri</a>
+      <!-- SEO -->
+      <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
+        <Icon name="tabler:chart-bar" class="w-10 h-10 text-blue-600 mb-3" />
+        <h3 class="text-lg font-semibold mb-2">
+          SEO e posizionamento su Google
+        </h3>
+        <p class="text-gray-600 mb-4">
+          <strong>SEO tecnica</strong>, strategia contenuti e
+          <strong> Local SEO</strong> per farti trovare dai clienti che cercano i tuoi
+          servizi a Sassari e nel resto della Sardegna.
+        </p>
+        <a href="/servizi/ottimizzazione-seo-siti-web" class="btn-primary self-start">
+          Migliora la visibilità
+        </a>
       </div>
 
-      <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <Icon name="tabler:palette" class="w-12 h-12 text-blue-600 mb-4" />
-        <h3 class="text-xl font-semibold mb-2">Branding & Grafica</h3>
-        <p class="text-gray-600 mb-4">Identità visiva e loghi professionali.</p>
-        <a href="/servizi/branding-e-grafica-siti-web" class="btn-primary">Scopri</a>
+      <!-- BRANDING -->
+      <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
+        <Icon name="tabler:palette" class="w-10 h-10 text-blue-600 mb-3" />
+        <h3 class="text-lg font-semibold mb-2">
+          Branding &amp; grafica per il web
+        </h3>
+        <p class="text-gray-600 mb-4">
+          <strong>Identità visiva</strong>, loghi e materiali digitali coerenti per dare
+          un volto riconoscibile al tuo brand su sito, social e campagne.
+        </p>
+        <a href="/servizi/branding-e-grafica-siti-web" class="btn-primary self-start">
+          Cura l’immagine del tuo brand
+        </a>
       </div>
 
-      <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <Icon name="tabler:database-export" class="w-12 h-12 text-blue-600 mb-4" />
-        <h3 class="text-xl font-semibold mb-2">WordPress Slim</h3>
-        <p class="text-gray-600 mb-4">Trasforma WordPress in un sito statico o headless.</p>
-        <a href="/servizi/wordpress-slim-siti-statici-headless" class="btn-primary">Scopri</a>
+      <!-- WORDPRESS SLIM -->
+      <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
+        <Icon name="tabler:database-export" class="w-10 h-10 text-blue-600 mb-3" />
+        <h3 class="text-lg font-semibold mb-2">
+          WordPress Slim: siti più veloci e sicuri
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Convertiamo il tuo sito <strong>WordPress</strong> in una soluzione
+          <strong>statica o headless</strong>, riducendo rischi di attacchi, errori di plugin
+          e problemi di performance.
+        </p>
+        <a href="/servizi/wordpress-slim-siti-statici-headless" class="btn-primary self-start">
+          Scopri WordPress Slim
+        </a>
       </div>
 
-      <div class="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm">
-        <Icon name="tabler:robot" class="w-12 h-12 text-blue-600 mb-4" />
-        <h3 class="text-xl font-semibold mb-2">AI Blog Engine</h3>
-        <p class="text-gray-600 mb-4">Articoli SEO creati con AI e rifiniti da esperti.</p>
-        <a href="/servizi/ai-blog-engine" class="btn-primary">Scopri</a>
+      <!-- AI BLOG ENGINE -->
+      <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
+        <Icon name="tabler:robot" class="w-10 h-10 text-blue-600 mb-3" />
+        <h3 class="text-lg font-semibold mb-2">
+          AI Blog Engine: contenuti SEO con l’AI
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Articoli ottimizzati per la <strong>SEO</strong> creati con l’aiuto dell’AI e
+          rifiniti a mano, per presidiare le ricerche dei tuoi clienti senza testi generici.
+        </p>
+        <a href="/servizi/ai-blog-engine" class="btn-primary self-start">
+          Scopri il servizio
+        </a>
       </div>
     </div>
 
     <div class="text-center mt-10">
-      <a href="/servizi" class="btn-secondary">Scopri tutti i servizi</a>
+      <a href="/servizi" class="btn-secondary">Vedi tutti i servizi</a>
     </div>
   </section>
 
-  <!-- Ultimi Lavori -->
+  <!-- ULTIMI LAVORI -->
   <section id="ultimi-lavori" class="container mx-auto px-4 py-12">
     <div class="mb-6 flex items-end justify-between">
-      <h2 class="text-3xl font-bold">Ultimi lavori</h2>
-      <a href="/portfolio" class="text-sm underline">Vedi tutti</a>
+      <div>
+        <h2 class="text-3xl font-bold">Ultimi lavori</h2>
+        <p class="text-sm text-gray-500">
+          Alcuni progetti di siti web, grafica e comunicazione digitale realizzati per clienti
+          a Sassari e in Sardegna.
+        </p>
+      </div>
+      <a href="/portfolio" class="text-sm underline">Guarda il portfolio completo</a>
     </div>
 
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
@@ -177,7 +290,7 @@ const portfolioLatest = portfolioAll
           | undefined;
 
         return (
-          <article class="rounded-xl overflow-hidden border hover:shadow-md transition-shadow">
+          <article class="rounded-xl overflow-hidden border hover:shadow-md transition-shadow bg-white">
             <a href={href} aria-label={`Apri: ${item.data.title}`} class="block">
               {img?.src && (
                 <img
@@ -187,13 +300,22 @@ const portfolioLatest = portfolioAll
                   height={img.height ?? 800}
                   loading="lazy"
                   decoding="async"
-                  class="w-full object-cover aspect-[3/2] rounded-lg"
+                  class="w-full object-cover aspect-[3/2]"
                 />
               )}
               <div class="p-4">
-                <h3 class="text-base font-semibold mb-1 line-clamp-2">{item.data.title}</h3>
+                <h3 class="text-sm font-semibold mb-1 line-clamp-2">
+                  {item.data.title}
+                </h3>
+                {item.data.category && (
+                  <p class="text-[11px] uppercase tracking-wide text-slate-500 mb-1">
+                    {item.data.category}
+                  </p>
+                )}
                 {item.data.description && (
-                  <p class="text-sm text-gray-700 line-clamp-3">{item.data.description}</p>
+                  <p class="text-xs text-gray-700 line-clamp-2">
+                    {item.data.description}
+                  </p>
                 )}
               </div>
             </a>
@@ -203,17 +325,19 @@ const portfolioLatest = portfolioAll
     </div>
   </section>
 
-  <!-- CTA centrale -->
-  <section class="my-16">
+  <!-- CTA CENTRALE -->
+  <section class="my-16 px-4">
     <div class="mx-auto max-w-5xl rounded-3xl bg-gray-50 ring-1 ring-gray-200 px-6 py-14 text-center md:px-12">
       <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900">
-        Vuoi un sito web che porti davvero risultati?
+        Vuoi un sito web che lavori davvero per la tua attività?
       </h2>
       <p class="mt-4 text-lg text-gray-600">
-        Dalla strategia al design, ti aiutiamo a creare un sito veloce, sicuro e ottimizzato per Google.
+        Ti aiutiamo a progettare un <strong>sito web professionale</strong> che unisce
+        design, <strong>SEO</strong> e contenuti chiari per portare nuovi contatti
+        a Sassari e nel resto della Sardegna.
       </p>
 
-      <div class="mt-8 flex items-center justify-center gap-4">
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
         <a
           href="/contatti"
           class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
@@ -229,52 +353,88 @@ const portfolioLatest = portfolioAll
       </div>
 
       <p class="mt-6 text-sm text-gray-500">
-        Preventivo trasparente · Supporto continuo · Soluzioni su misura
+        Preventivo chiaro, zero vincoli a lungo termine, supporto continuativo.
       </p>
     </div>
   </section>
 
-  <!-- Blog -->
-<BlogLatestPosts>
-  <span slot="title">Dal nostro blog:</span>
-  <span slot="information">Approfondimenti su SEO, web design e marketing digitale.</span>
-</BlogLatestPosts>
+  <!-- BLOG -->
+  <BlogLatestPosts>
+    <span slot="title">Dal nostro blog:</span>
+    <span slot="information">
+      Guide pratiche su <strong>SEO</strong>, creazione di <strong>siti web professionali</strong> e
+      strategie digitali per far crescere il tuo business online.
+    </span>
+  </BlogLatestPosts>
 
   <!-- FAQ -->
   <section id="faq" class="mt-24 px-6 lg:px-8 max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold mb-8">Domande Frequenti</h2>
-    <div class="space-y-8 border-t border-gray-200 pt-8">
+    <h2 class="text-3xl font-bold mb-6">
+      Domande frequenti sulla realizzazione di siti web
+    </h2>
+    <div class="space-y-8 border-t border-gray-200 pt-6">
       <div class="border-b pb-6">
-        <h3 class="text-xl font-semibold dark:text-white">Quanto costa un sito web professionale?</h3>
-        <p class="mt-2 dark:text-slate-300">Soluzioni a partire da <strong>490€</strong>.</p>
+        <h3 class="text-xl font-semibold dark:text-white">
+          Quanto costa un sito web professionale?
+        </h3>
+        <p class="mt-2 dark:text-slate-300">
+          Le nostre soluzioni partono da circa <strong>490€</strong> per un sito essenziale
+          one-page e crescono in base al numero di pagine, alle funzionalità e al livello
+          di personalizzazione grafica e SEO.
+        </p>
       </div>
+
       <div class="border-b pb-6">
-        <h3 class="text-xl font-semibold dark:text-white">In quanto tempo viene realizzato?</h3>
-        <p class="mt-2 dark:text-slate-300">Da 1–2 settimane per siti base, fino a 4 per progetti più grandi.</p>
+        <h3 class="text-xl font-semibold dark:text-white">
+          In quanto tempo viene realizzato il sito?
+        </h3>
+        <p class="mt-2 dark:text-slate-300">
+          Per un <strong>sito web base</strong> servono in media
+          <strong> 1–2 settimane</strong>. Per progetti più strutturati o un
+          <strong> e-commerce</strong> consideriamo circa <strong>3–4 settimane</strong>,
+          a seconda della velocità di revisione dei contenuti.
+        </p>
       </div>
+
       <div class="border-b pb-6">
-        <h3 class="text-xl font-semibold dark:text-white">Il sito sarà ottimizzato per Google?</h3>
-        <p class="mt-2 dark:text-slate-300">Sì: ottimizzazione SEO inclusa fin da subito.</p>
+        <h3 class="text-xl font-semibold dark:text-white">
+          Il sito sarà ottimizzato per Google e per la SEO locale?
+        </h3>
+        <p class="mt-2 dark:text-slate-300">
+          Sì. Progettiamo la struttura pensando fin da subito alla
+          <strong> SEO tecnica</strong> e alla <strong>SEO locale</strong>:
+          URL puliti, meta tag, performance e contenuti orientati alle ricerche
+          dei tuoi clienti a Sassari e in Sardegna.
+        </p>
       </div>
+
       <div>
-        <h3 class="text-xl font-semibold dark:text-white">Posso gestire il sito autonomamente?</h3>
-        <p class="mt-2 dark:text-slate-300">Certo! Pannello facile da usare e formazione inclusa.</p>
+        <h3 class="text-xl font-semibold dark:text-white">
+          Potrò aggiornare il sito in autonomia dopo la consegna?
+        </h3>
+        <p class="mt-2 dark:text-slate-300">
+          Certo. Ti forniamo un pannello semplice da usare e una breve formazione
+          per permetterti di modificare testi, immagini e pagine senza dover
+          dipendere ogni volta da un tecnico.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Call to Action -->
+  <!-- CTA FINALE -->
   <CallToAction
     actions={[{
-      variant: 'primary',
-      text: 'Prenota una consulenza gratuita',
-      href: '/contatti',
-      icon: 'tabler:message'
+      variant: 'secondary',
+      text: 'Leggi la guida completa',
+      href: '/blog/perche-il-tuo-sito-web-non-porta-clienti',
+      icon: 'tabler:book'
     }]}
   >
-    <span slot="title">Pronto a far crescere il tuo business online?</span>
+    <span slot="title">Hai ancora dubbi sul perché il tuo sito non porta risultati?</span>
     <span slot="subtitle">
-      Contattaci oggi stesso e scopri come possiamo aiutarti con soluzioni web su misura.
+      Nel nostro articolo dedicato spieghiamo, passo dopo passo, gli errori più comuni che
+      bloccano un <strong>sito web professionale</strong> e come correggerli con UX,
+      SEO e copywriting. Un buon punto di partenza prima di progettare il tuo nuovo sito.
     </span>
   </CallToAction>
 </Layout>
