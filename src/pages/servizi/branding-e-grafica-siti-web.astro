@@ -1,26 +1,12 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 
-const linkLogoStarter =
-  import.meta.env.PUBLIC_PAYPAL_LOGO_STARTER ||
-  'https://www.paypal.com/ncp/payment/3RGPS9V8MHEKJ';
-
-const linkLogoPro =
-  import.meta.env.PUBLIC_PAYPAL_LOGO_PRO ||
-  'https://www.paypal.com/ncp/payment/ZPFYFHDT94UBN';
-
-const linkBrandKit =
-  import.meta.env.PUBLIC_PAYPAL_BRAND_KIT ||
-  'https://www.paypal.com/ncp/payment/D3EGHG7AC6BUY';
-
 const metadata = {
   title: 'Branding & Grafica — Loghi, Brand Kit e UX | LS Web Agency',
   description:
-    'Loghi professionali, identità visiva e brand kit completi. Pacchetti chiari, processo trasparente e file pronti per web e stampa.',
+    'Branding e identità visiva per freelance e piccole imprese: loghi, sistemi visivi e UX coerente. Metodo chiaro, esempi reali e consulenza personalizzata, senza listini aggressivi.',
   canonical: '/servizi/branding-e-grafica-siti-web',
   robots: { index: true, follow: true },
-
-  // facoltativi ma utili e 100% tip-safe
   openGraph: {
     url: '/servizi/branding-e-grafica-siti-web',
     images: [{ url: '/og/lswebagency-default.jpg', width: 1200, height: 630 }],
@@ -35,231 +21,439 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO minimal con sfumatura -->
+  <!-- HERO orientata al valore, con sfumatura + bottoni blu coerenti col sito -->
   <section class="relative overflow-hidden">
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-fuchsia-100 via-white to-white dark:from-fuchsia-900/25 dark:via-transparent"></div>
-    <div class="container mx-auto px-6 pt-16 pb-10 text-center">
-      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/40 dark:text-fuchsia-200 ring-1 ring-fuchsia-200/60 dark:ring-fuchsia-700/50">
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-b
+             from-fuchsia-100 via-white to-white
+             dark:from-fuchsia-900/25 dark:via-transparent"
+    ></div>
+
+    <div class="container mx-auto px-6 pt-16 pb-14 text-center">
+      <span
+        class="inline-flex items-center gap-2 rounded-full px-3 py-1
+               text-xs font-semibold
+               bg-fuchsia-100 text-fuchsia-700
+               dark:bg-fuchsia-900/40 dark:text-fuchsia-200
+               ring-1 ring-fuchsia-200/60 dark:ring-fuchsia-700/50"
+      >
         Design & Identità Visiva
       </span>
+
       <h1
-        class="mt-4 text-3xl md:text-5xl font-extrabold leading-tight
+        class="mt-4 text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight
                text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
                bg-gradient-to-r from-black via-fuchsia-700 to-fuchsia-400
-               dark:from-white dark:via-fuchsia-400 dark:to-fuchsia-200">
-        Branding e Grafica per il Web
-      </h1>
-      <p class="mt-3 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
-        Loghi memorabili, sistemi visivi consistenti e interfacce curate.
-        Pacchetti chiari e file pronti per web e stampa.
-      </p>
-      <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <a href="#pacchetti" class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90 transition">Vedi pacchetti</a>
-        <a href="/portfolio" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">Portfolio</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PACCHETTI -->
-  <section id="pacchetti" class="container mx-auto px-6 py-10">
-    <h2 class="text-2xl md:text-3xl font-bold mb-2">Pacchetti logo & branding</h2>
-    <p class="text-neutral-600 dark:text-neutral-300 mb-6">Prezzi indicativi, IVA esclusa.</p>
-
-    <div class="grid gap-6 md:grid-cols-3">
-      <!-- Logo Starter -->
-      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
-        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-fuchsia-600 text-white w-max">Essenziale</span>
-        <h3 class="mt-3 text-xl font-semibold">Logo Starter</h3>
-        <div class="text-3xl font-extrabold mt-1">290 €</div>
-        <ul class="mt-4 text-sm text-neutral-700 dark:text-neutral-300 space-y-2">
-          <li>• 2 proposte logo + 1 revisione</li>
-          <li>• Logo principale + variante orizzontale</li>
-          <li>• File SVG/PNG ad alta risoluzione</li>
-          <li>• Palette base + mini guida (1 pagina)</li>
-        </ul>
-        <div class="mt-6 flex gap-2">
-          <a
-            href={linkLogoStarter}
-            aria-label="Acquista pacchetto Logo Starter"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 bg-fuchsia-600 text-white hover:bg-fuchsia-700 transition"
-            target="_blank" rel="noopener"
-          >
-            Acquista
-          </a>
-          <a
-            href="/contatti"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-          >
-            Richiedi brief
-          </a>
-        </div>
-      </div>
-
-      <!-- Logo Pro (card centrale) -->
-      <div
-        class="relative overflow-hidden rounded-2xl p-6
-               ring-2 ring-fuchsia-600 dark:ring-fuchsia-500
-               ring-offset-2 ring-offset-white dark:ring-offset-neutral-900
-               shadow-lg shadow-fuchsia-200/50 dark:shadow-fuchsia-900/20
-               flex flex-col
-               bg-gradient-to-br from-zinc-50 via-neutral-100 to-zinc-200
-               dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700"
+               dark:from-white dark:via-fuchsia-400 dark:to-fuchsia-200"
       >
-        <div class="flex items-start justify-between h-7">
-          <span aria-hidden="true" class="inline-block h-7"></span>
-          <span class="inline-flex text-xs font-semibold px-2.5 py-1 rounded-full bg-fuchsia-600 text-white">Più scelto</span>
+        Branding e Grafica per farti
+        scegliere, non solo vedere
+      </h1>
+
+      <p
+        class="mt-5 max-w-3xl mx-auto
+               text-base md:text-xl leading-relaxed
+               text-neutral-800 dark:text-neutral-100"
+      >
+        Se il tuo logo sembra “messo lì per caso”, anche il tuo lavoro verrà percepito così.
+        Progetto con te logo, colori e immagini per costruire un’identità chiara, riconoscibile
+        e facile da usare su sito, social e materiali stampati.
+      </p>
+
+      <!-- CTA hero -->
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <!-- Primario: blu brand -->
+        <a
+          href="/contatti"
+          class="inline-flex items-center justify-center rounded-full px-6 py-3
+                 text-base font-medium
+                 bg-blue-600 text-white
+                 shadow-md hover:bg-blue-700 hover:shadow-lg
+                 transition"
+        >
+          Raccontami il tuo brand
+        </a>
+
+        <!-- Secondario: bianco con bordo grigio -->
+        <a
+          href="/portfolio"
+          class="inline-flex items-center justify-center rounded-full px-6 py-3
+                 text-base font-medium
+                 border border-slate-300 text-slate-900
+                 bg-white
+                 hover:bg-slate-50
+                 dark:border-slate-600 dark:text-slate-100
+                 dark:bg-transparent dark:hover:bg-slate-900/60
+                 transition"
+        >
+          Vedi alcuni progetti
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEZIONE: Perché il branding viene prima del sito -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <div class="grid gap-10 md:grid-cols-2 md:items-start">
+        <!-- Colonna sinistra: problema + beneficio -->
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold mb-4">
+            Partire dal sito senza branding è come arredare una casa senza fondamenta
+          </h2>
+
+          <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200 mb-3">
+            Magari ti riconosci qui: hai un logo fatto in fretta, una grafica social improvvisata,
+            un biglietto da visita vecchio di anni. Ogni pezzo racconta una storia diversa e
+            nessuno capisce davvero chi sei.
+          </p>
+
+          <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200 mb-3">
+            Un lavoro di branding fatto bene ti aiuta a mettere ordine:
+          </p>
+
+          <ul class="space-y-2 text-base md:text-lg text-neutral-700 dark:text-neutral-200">
+            <li>• dai subito un’impressione professionale, anche con un budget contenuto;</li>
+            <li>• ti fai riconoscere a colpo d’occhio, online e offline;</li>
+            <li>• smetti di rifare tutto ogni sei mesi perché “non ti rappresenta più”.</li>
+          </ul>
+
+          <p class="mt-4 text-base md:text-lg text-neutral-700 dark:text-neutral-200">
+            Prima di investire nel sito, ha senso chiedersi: la mia immagine è davvero
+            all’altezza di ciò che faccio?
+          </p>
         </div>
 
-        <div class="pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay"
-          style="background-image:
-            radial-gradient(120% 70% at 0% 0%, rgba(255,255,255,.7), rgba(255,255,255,0) 60%),
-            radial-gradient(120% 70% at 100% 100%, rgba(255,255,255,.35), rgba(255,255,255,0) 60%);">
-        </div>
-
-        <h3 class="relative mt-3 text-xl font-semibold">Logo Pro</h3>
-        <div class="relative text-3xl font-extrabold mt-1">590 €</div>
-
-        <ul class="relative mt-4 text-sm text-neutral-700 dark:text-neutral-300 space-y-2">
-          <li>• 3 proposte + fino a 3 revisioni</li>
-          <li>• Set tipografico + palette completa</li>
-          <li>• Griglia, icona, favicon, formati social</li>
-          <li>• Mini brand book (8–12 pagine)</li>
-        </ul>
-
-        <div class="relative mt-6 flex gap-2">
-          <a
-            href={linkLogoPro}
-            aria-label="Acquista pacchetto Logo Pro"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 bg-fuchsia-600 text-white hover:bg-fuchsia-700 transition"
-            target="_blank" rel="noopener"
+        <!-- Colonna destra: Per chi è / Per chi non è, con bordo sfumato -->
+        <div
+          class="bg-gradient-to-br from-fuchsia-500/40 via-fuchsia-300/20 to-transparent
+                 p-[1.5px] rounded-3xl"
+        >
+          <div
+            class="rounded-3xl h-full p-6 md:p-7
+                   ring-1 ring-neutral-200 dark:ring-neutral-800
+                   bg-white/90 dark:bg-neutral-900/70 shadow-sm"
           >
-            Acquista
-          </a>
+            <h3 class="text-xl font-semibold mb-3">
+              Per chi è questo servizio
+            </h3>
+            <ul class="space-y-2 text-base text-neutral-700 dark:text-neutral-200 mb-6">
+              <li>• freelance, negozi locali e piccole attività che vogliono smettere di sembrare “improvvisati”;</li>
+              <li>• chi ha già un logo, ma senza regole, palette o tipografia coerente;</li>
+              <li>• chi sta per fare (o rifare) il sito e vuole una base visiva chiara prima di investire nel resto.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold mb-2">
+              Per chi non è
+            </h3>
+            <ul class="space-y-2 text-base text-neutral-700 dark:text-neutral-200">
+              <li>• chi cerca solo un logo a 20–50 € “tanto per avere qualcosa”;</li>
+              <li>• chi vuole copiare l’identità visiva di un altro brand;</li>
+              <li>• chi non vuole dedicare nemmeno un’ora per raccontare il proprio progetto.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEZIONE: Cosa include un progetto di identità visiva -->
+  <!-- SEZIONE: Cosa include un progetto di identità visiva -->
+  <section>
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">
+        Cosa ricevi, in concreto
+      </h2>
+      <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200 max-w-3xl mb-8">
+        Niente cartelle caotiche e file “misteriosi”. L’obiettivo è che tu possa usare il tuo brand
+        anche da solo o con chi ti aiuta per social, sito e stampa, senza dover chiedere ogni volta al grafico.
+      </p>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <!-- Card 1 -->
+        <div
+          class="rounded-2xl p-6
+                 ring-1 ring-fuchsia-100/80 dark:ring-fuchsia-900/50
+                 bg-gradient-to-br from-fuchsia-50 via-white to-rose-50
+                 dark:from-fuchsia-950/70 dark:via-neutral-900 dark:to-rose-950/60"
+        >
+          <span
+            class="inline-flex mb-3 px-2.5 py-1 rounded-full text-xs font-semibold
+                   bg-fuchsia-100 text-fuchsia-700
+                   dark:bg-fuchsia-900/70 dark:text-fuchsia-100"
+          >
+            Logo & varianti
+          </span>
+          <h3 class="font-semibold text-lg mb-2 text-neutral-900 dark:text-neutral-50">
+            Logo e varianti
+          </h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Logo principale, versione orizzontale/compatta e icona per favicon e social.
+            File ottimizzati per schermo, stampa e utilizzo quotidiano.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div
+          class="rounded-2xl p-6
+                 ring-1 ring-fuchsia-100/80 dark:ring-fuchsia-900/50
+                 bg-gradient-to-br from-fuchsia-50 via-purple-50 to-white
+                 dark:from-fuchsia-950/70 dark:via-purple-950/60 dark:to-neutral-900"
+        >
+          <span
+            class="inline-flex mb-3 px-2.5 py-1 rounded-full text-xs font-semibold
+                   bg-purple-100 text-purple-700
+                   dark:bg-purple-900/70 dark:text-purple-100"
+          >
+            Colori & font
+          </span>
+          <h3 class="font-semibold text-lg mb-2 text-neutral-900 dark:text-neutral-50">
+            Palette colori & tipografia
+          </h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Palette studiata e set di caratteri coordinati: titoli, testi, call to action.
+            Con esempi pratici di uso su sito, social e materiali promozionali.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div
+          class="rounded-2xl p-6
+                 ring-1 ring-fuchsia-100/80 dark:ring-fuchsia-900/50
+                 bg-gradient-to-br from-rose-50 via-white to-fuchsia-50
+                 dark:from-rose-950/60 dark:via-neutral-900 dark:to-fuchsia-950/70"
+        >
+          <span
+            class="inline-flex mb-3 px-2.5 py-1 rounded-full text-xs font-semibold
+                   bg-rose-100 text-rose-700
+                   dark:bg-rose-900/70 dark:text-rose-100"
+          >
+            Linee guida
+          </span>
+          <h3 class="font-semibold text-lg mb-2 text-neutral-900 dark:text-neutral-50">
+            Mini brand book
+          </h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Una guida sintetica che spiega come usare logo, colori e font.
+            Così chiunque collabori con te parte da regole chiare, non da intuizioni.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-8 text-sm md:text-base text-neutral-600 dark:text-neutral-300 max-w-3xl">
+        Se ti serve qualcosa in più (kit social, materiali stampati, brand book esteso)
+        possiamo aggiungerlo al progetto. Ne parliamo nella call iniziale e definiamo
+        un perimetro chiaro.
+      </p>
+    </div>
+  </section>
+
+  <!-- SEZIONE: Come lavoriamo (processo) -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6">Come lavoriamo, passo dopo passo</h2>
+      <div class="grid md:grid-cols-5 gap-4 md:gap-5">
+        {[
+          ['Brief', 'Capire obiettivi, target, tono e cosa oggi non funziona nella tua immagine.'],
+          ['Moodboard', 'Tradurre la tua idea in palette, stile tipografico e riferimenti condivisi.'],
+          ['Proposte', 'Presentare alcune direzioni grafiche solide, non bozze casuali.'],
+          ['Iterazioni', 'Raffinare insieme la proposta scelta, con revisioni guidate e motivate.'],
+          ['Consegna', 'Organizzare file, formati e guida d’uso, così non resti “bloccato” dopo il progetto.'],
+        ].map(([t, d], i) => (
+          <div
+            class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800
+                   bg-white/90 dark:bg-neutral-900/70"
+          >
+            <div
+              class="w-8 h-8 rounded-full bg-fuchsia-600 text-white
+                     flex items-center justify-center font-bold"
+            >
+              {i + 1}
+            </div>
+            <h3 class="mt-3 font-semibold text-base md:text-lg">{t}</h3>
+            <p class="text-sm md:text-base text-neutral-600 dark:text-neutral-300">{d}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 text-sm md:text-base text-neutral-600 dark:text-neutral-300 max-w-3xl">
+        Prima di partire, facciamo sempre un breve confronto gratuito: mi racconti il tuo progetto,
+        ti restituisco una strada possibile e, solo se ha senso, un preventivo su misura.
+      </p>
+    </div>
+  </section>
+
+  <!-- SEZIONE: Budget & approccio ai costi, ridisegnata -->
+  <section>
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <div
+        class="relative rounded-3xl p-6 md:p-8
+               bg-white/90 dark:bg-neutral-900/80
+               ring-1 ring-fuchsia-100/70 dark:ring-fuchsia-900/40
+               shadow-sm"
+      >
+        <div
+          class="absolute inset-0 pointer-events-none rounded-3xl
+                 bg-gradient-to-r from-fuchsia-200/25 via-transparent to-fuchsia-100/10
+                 dark:from-fuchsia-800/20 dark:via-transparent dark:to-fuchsia-900/10"
+        ></div>
+
+        <div class="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <!-- Testo -->
+          <div class="max-w-2xl">
+            <h2 class="text-xl md:text-2xl font-bold mb-2">
+              Budget realistici, senza promesse da volantino
+            </h2>
+            <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200 mb-2">
+              Lavoro spesso con freelance, piccole attività e realtà locali: so che il budget non
+              è infinito. Per questo preferisco costruire il progetto in step, invece di spingerti
+              su un pacchetto standard che non ti serve.
+            </p>
+            <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200">
+              In generale, i progetti di branding partono da qualche centinaio di euro e crescono
+              in base a complessità e materiali coinvolti. La cosa importante: hai sempre un
+              preventivo chiaro prima di decidere.
+            </p>
+          </div>
+
+          <!-- CTA -->
+          <div class="flex flex-col gap-2 min-w-[230px]">
+            <a
+              href="/contatti"
+              class="inline-flex items-center justify-center rounded-full px-6 py-3
+                     text-base font-medium
+                     bg-blue-600 text-white
+                     shadow-md hover:bg-blue-700 hover:shadow-lg
+                     transition"
+            >
+              Richiedi un orientamento gratuito
+            </a>
+
+            <a
+              href="/portfolio"
+              class="inline-flex items-center justify-center rounded-full px-6 py-3
+                     text-base font-medium
+                     border border-slate-300 text-slate-900
+                     bg-white
+                     hover:bg-slate-50
+                     dark:border-slate-600 dark:text-slate-100
+                     dark:bg-neutral-900/70 dark:hover:bg-slate-900/60
+                     transition"
+            >
+              Guarda esempi prima/dopo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA finale -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <div
+        class="rounded-3xl p-6 md:p-8
+               bg-white/90 dark:bg-neutral-900/80
+               ring-1 ring-neutral-200 dark:ring-neutral-800
+               flex flex-col md:flex-row
+               md:items-center md:justify-between gap-6"
+      >
+        <div class="max-w-2xl">
+          <h3 class="text-xl md:text-2xl font-semibold mb-2">
+            Non sei sicuro che sia il momento giusto per investire nel brand?
+          </h3>
+          <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-300">
+            Mandami qualche riga su cosa fai e su come ti presenti oggi.
+            Ti rispondo con un feedback onesto e una proposta di priorità, senza obbligo di acquisto.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <a
             href="/contatti"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            class="inline-flex items-center justify-center rounded-full px-6 py-3
+                   text-base font-medium
+                   bg-blue-600 text-white
+                   shadow-md hover:bg-blue-700 hover:shadow-lg
+                   transition"
           >
-            Richiedi brief
-          </a>
-        </div>
-      </div>
-
-      <!-- Brand Kit -->
-      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
-        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-fuchsia-600 text-white w-max">Completo</span>
-        <h3 class="mt-3 text-xl font-semibold">Brand Kit</h3>
-        <div class="text-3xl font-extrabold mt-1">990 €</div>
-        <ul class="mt-4 text-sm text-neutral-700 dark:text-neutral-300 space-y-2">
-          <li>• 3–4 proposte creative</li>
-          <li>• Revisione illimitata per 30 giorni</li>
-          <li>• Pattern, versioni secondarie, mockup</li>
-          <li>• Brand book esteso (20–30 pagine)</li>
-        </ul>
-        <div class="mt-6 flex gap-2">
-          <a
-            href={linkBrandKit}
-            aria-label="Acquista pacchetto Brand Kit"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 bg-fuchsia-600 text-white hover:bg-fuchsia-700 transition"
-            target="_blank" rel="noopener"
-          >
-            Acquista
+            Raccontami il tuo progetto
           </a>
           <a
-            href="/contatti"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            href="/portfolio"
+            class="inline-flex items-center justify-center rounded-full px-6 py-3
+                   text-base font-medium
+                   border border-slate-300 text-slate-900
+                   bg-white
+                   hover:bg-slate-50
+                   dark:border-slate-600 dark:text-slate-100
+                   dark:bg-neutral-900/70 dark:hover:bg-slate-900/60
+                   transition"
           >
-            Richiedi brief
+            Vedi portfolio
           </a>
         </div>
       </div>
     </div>
-
-    <p class="mt-3 text-sm text-neutral-500">
-      Hai già un logo? Facciamo anche <a href="/contatti" class="underline">restyling</a> (da 390 €) e
-      <a href="/pagamenti" class="underline ml-1">pagamenti semplici</a> con PayPal o bonifico.
-    </p>
   </section>
 
-  <!-- PROCESSO -->
-  <section class="container mx-auto px-6 py-10">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Come lavoriamo</h2>
-    <div class="grid md:grid-cols-5 gap-4">
-      {[
-        ['Brief', 'Obiettivi, target e tono visivo.'],
-        ['Moodboard', 'Palette, tipografia, riferimenti.'],
-        ['Proposte', 'Varianti e direzioni creative.'],
-        ['Iterazioni', 'Revisione guidata e rifiniture.'],
-        ['Consegna', 'File master + brand book.']
-      ].map(([t,d],i)=>(
-        <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-          <div class="w-8 h-8 rounded-full bg-fuchsia-600 text-white flex items-center justify-center font-bold">{i+1}</div>
-          <h3 class="mt-3 font-semibold">{t}</h3>
-          <p class="text-sm text-neutral-600 dark:text-neutral-300">{d}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- ADD-ON -->
-  <section class="container mx-auto px-6 py-6">
-    <h2 class="text-2xl md:text-3xl font-bold mb-4">Add-on popolari</h2>
-    <div class="grid md:grid-cols-3 gap-4 text-sm">
-      <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">Kit social (copertine, post, avatar) — <strong>da 120 €</strong></div>
-      <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">Biglietti da visita & carta intestata — <strong>da 90 €</strong></div>
-      <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">Template presentazioni — <strong>da 180 €</strong></div>
-    </div>
-  </section>
-
-  <!-- CTA Portfolio -->
-  <section class="container mx-auto px-6 py-10">
-    <div class="rounded-3xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-semibold">Vuoi ispirarti a lavori reali?</h3>
-        <p class="text-neutral-600 dark:text-neutral-300">Dai un’occhiata ad alcuni progetti di identità visiva e interfacce.</p>
-      </div>
-      <div class="flex gap-2">
-        <a href="/portfolio" class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90 transition">Vedi portfolio</a>
-        <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">Parla con noi</a>
+  <!-- FAQ orientate alle paure “da budget basso” -->
+  <section>
+    <div class="container mx-auto px-6 pb-14 md:pb-20 pt-4">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6">Domande frequenti</h2>
+      <div class="space-y-3">
+        {[
+          [
+            'E se ho un budget piccolo?',
+            'Lo diciamo subito e costruiamo un intervento proporzionato: possiamo partire da una base minima (logo + palette + regole essenziali) e crescere per step. Dopo il primo confronto ricevi un preventivo chiaro, senza sorprese.',
+          ],
+          [
+            'Devo per forza rifare tutto da zero?',
+            'No. Spesso lavoriamo in restyling: salviamo ciò che funziona del tuo logo attuale e sistemiamo coerenza, colori e tipografia. Valutiamo insieme cosa tenere e cosa cambiare, con calma.',
+          ],
+          [
+            'Ricevo i file sorgente?',
+            'Sì. Ti consegno i file nei formati utili per web e stampa (SVG/AI/PDF + PNG) e ti spiego come passarli a sviluppatori, tipografia o social media manager.',
+          ],
+          [
+            'Quanto tempo serve?',
+            'Dipende dalla complessità: per una base di identità servono in genere 1–2 settimane, per un brand kit più articolato qualche settimana in più. Ti do sempre una stima realistica prima di iniziare.',
+          ],
+          [
+            'Posso vedere qualche caso simile al mio?',
+            'Certo. Nel portfolio trovi alcuni esempi e, se serve, durante la call possiamo concentrarci sui lavori più vicini al tuo settore o alla tua situazione di partenza.',
+          ],
+        ].map(([q, a]) => (
+          <details
+            class="rounded-2xl p-4 md:p-5 ring-1 ring-neutral-200 dark:ring-neutral-800
+                   bg-white/90 dark:bg-neutral-900/70"
+          >
+            <summary class="font-semibold cursor-pointer text-base md:text-lg">
+              {q}
+            </summary>
+            <p class="mt-2 text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+              {a}
+            </p>
+          </details>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="container mx-auto px-6 pb-12">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Domande frequenti</h2>
-    <div class="space-y-3">
-      {[
-        ['Quante proposte ricevo?', 'Dipende dal pacchetto scelto: 2 con Starter, 3 con Pro, 3–4 con Brand Kit.'],
-        ['Se non mi piace nessuna proposta?', 'Iteriamo insieme con revisioni guidate. Col Brand Kit hai revisioni illimitate per 30 giorni.'],
-        ['Ricevo i file sorgente?', 'Sì: SVG/AI/PDF + PNG. Inclusi formati per web e stampa.'],
-        ['Potete rifare un logo esistente?', 'Certo, valutiamo un restyling conservando l’equity visiva.'],
-        ['Tempi di consegna?', 'Starter 5–7 gg, Pro 10–14 gg, Brand Kit 2–3 settimane (stima).']
-      ].map(([q,a])=>(
-        <details class="rounded-2xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-          <summary class="font-semibold cursor-pointer">{q}</summary>
-          <p class="mt-2 text-neutral-600 dark:text-neutral-300">{a}</p>
-        </details>
-      ))}
-    </div>
-  </section>
-
-  <!-- JSON-LD OfferCatalog -->
+  <!-- JSON-LD: focus sul servizio, senza catalogo prezzi -->
   <script type="application/ld+json" is:inline>
-  {
-    "@context":"https://schema.org",
-    "@type":"Service",
-    "name":"Branding & Grafica",
-    "provider":{"@type":"Organization","name":"LS Web Agency"},
-    "description":"Loghi professionali, sistemi visivi e brand kit per web e stampa.",
-    "hasOfferCatalog":{
-      "@type":"OfferCatalog",
-      "name":"Pacchetti logo & branding",
-      "itemListElement":[
-        {"@type":"Offer","name":"Logo Starter","price":"290","priceCurrency":"EUR","description":"2 proposte, 1 revisione, file master"},
-        {"@type":"Offer","name":"Logo Pro","price":"590","priceCurrency":"EUR","description":"3 proposte, 3 revisioni, mini brand book"},
-        {"@type":"Offer","name":"Brand Kit","price":"990","priceCurrency":"EUR","description":"3–4 proposte, brand book esteso"}
-      ]
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Branding & Grafica",
+      "provider": {
+        "@type": "Organization",
+        "name": "LS Web Agency"
+      },
+      "description": "Servizio di branding e identità visiva per freelance, negozi locali e piccole imprese: loghi, sistemi visivi e UX coerente per web e social.",
+      "areaServed": {
+        "@type": "Place",
+        "name": "Italia"
+      }
     }
-  }
   </script>
 </Layout>
