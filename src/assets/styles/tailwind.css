@@ -147,7 +147,7 @@
   background: linear-gradient(90deg, #8A2BE2, #C837AB);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: inline-block;
+  display: inline;
 }
 
 /* =========================
@@ -177,3 +177,4 @@
   .prose { @apply prose-slate; }
   .dark .prose { @apply prose-invert; }
 }
+

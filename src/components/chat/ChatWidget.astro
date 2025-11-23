@@ -242,7 +242,7 @@ const WIDGET_ID = 'ls-chat-widget';
   // ===== Intent tag per i lead =====
   function detectIntentTag(t='') {
     t = norm(t);
-    if (/(logo|brand(ing)?|immagine\s*coordinata|brand\s*kit|grafica)/.test(t)) return 'branding';
+    if (/(logo|brand(ing)?|immagine\s*coordinata|brand\s*kit|brandkit|grafica)/.test(t)) return 'branding';
     if (/(e-?commerce|shop|woocommerce)/.test(t)) return 'ecommerce';
     if (/(sito( web)?|vetrina|aziendal|landing|blog)/.test(t)) return 'siti';
     if (/(prezz|preventiv|tariff)/.test(t)) return 'prezzi';
@@ -298,8 +298,9 @@ const WIDGET_ID = 'ls-chat-widget';
       scrollDown();
     };
 
+    // <-- QUI LA PARTE CORRETTA -->
     const needGate = () => (
-      ${JSON.stringify(import.meta.env.PUBLIC_CHAT_REQUIRE_EMAIL)} === "true" &&
+      import.meta.env.PUBLIC_CHAT_REQUIRE_EMAIL === 'true' &&
       !(STORE.profile && STORE.profile.email)
     );
 

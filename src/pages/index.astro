@@ -7,19 +7,19 @@ import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
 
 const metadata = {
-  title: "Realizzazione siti web a Sassari ottimizzati SEO – LS Web Agency",
+  title: 'Realizzazione siti web a Sassari ottimizzati SEO – LS Web Agency',
   description:
-    "Realizzazione siti web professionali a Sassari che portano clienti: siti veloci, SEO locale e consulenza digitale per aziende e freelance in Sardegna.",
-  canonical: "/",
+    'Realizzazione siti web professionali a Sassari che portano clienti: siti veloci, SEO locale e consulenza digitale per aziende e freelance in Sardegna.',
+  canonical: '/',
   robots: { index: true, follow: true },
   openGraph: {
-    url: "https://www.lswebagency.com/",
-    type: "website",
+    url: 'https://www.lswebagency.com/',
+    type: 'website',
   },
   twitter: {
-    cardType: "summary_large_image",
-    handle: "@lswebagency",
-    site: "@lswebagency",
+    cardType: 'summary_large_image',
+    handle: '@lswebagency',
+    site: '@lswebagency',
   },
   // Evita che venga applicato il template globale al title
   ignoreTitleTemplate: true,
@@ -54,104 +54,183 @@ const portfolioLatest = portfolioAll
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO -->
-  <section class="relative isolate pb-10 sm:pb-16">
-    <!-- sfumatura top ► bottom che termina in bianco -->
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 top-0 -z-10
-             h-[520px] sm:h-[560px] md:h-[600px]
-             bg-gradient-to-b from-violet-100/80 via-white to-transparent
-             dark:from-violet-900/30 dark:via-transparent">
-    </div>
+    <!-- HERO -->
+<section class="relative isolate bg-white dark:bg-slate-950 pb-10 sm:pb-16">
+  <section class="relative isolate overflow-hidden">
+    <div class="container mx-auto px-6 md:px-8 pt-10 md:pt-14 pb-8">
+      <div class="grid lg:grid-cols-2 gap-8 md:gap-10 items-center">
+        <!-- Testo -->
+        <div>
+          <h1
+            class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight"
+          >
+            Realizzazione siti web a Sassari <span class="text-accent text-gradient dark:text-white">
+              che portano davvero clienti
+            </span>
+          </h1>
 
-    <Hero
-      actions={[
-        {
-          variant: 'primary',
-          text: 'Richiedi l’analisi gratuita del tuo sito',
-          href: '/contatti',
-        },
-        {
-          text: 'Scopri i nostri servizi',
-          href: '#servizi',
-        },
-      ]}
-      image={{
-        src: '/images/realizzazione-siti-web-sassari-sardegna.webp',
-        alt: 'Realizzazione siti web professionali e ottimizzati SEO a Sassari',
-        width: 1600,
-        height: 1066,
-        containerClass:
-          'md:max-w-[820px] lg:max-w-[980px] xl:max-w-[1100px] 2xl:max-w-[1200px]',
-        class: 'rounded-3xl shadow-xl ring-1 ring-black/5',
-        loading: 'eager',
-        fetchpriority: 'high',
-        decoding: 'async',
-      }}
-    >
-<span
-  slot="title"
-  class="block leading-none md:leading-tight"
->
-  <span class="block">
-    Realizzazione siti web a Sassari
-  </span>
-  <span class="block text-accent text-gradient dark:text-white highlight">
-    che portano davvero clienti
-  </span>
-</span>
+          <p
+            class="mt-5 text-lg md:text-xl text-neutral-700 dark:text-neutral-300 max-w-xl md:max-w-2xl"
+          >
+            Hai già un sito ma la casella email è sempre vuota?
+            LS Web Agency progetta
+            <strong>siti web professionali</strong> ed
+            <strong> e-commerce ottimizzati SEO</strong> a Sassari, pensati per
+            trasformare visite in richieste di preventivo, non solo in “click”.
+            Integriamo <strong>intelligenza artificiale</strong> e strategia
+            <strong> mobile-first</strong> per creare contenuti mirati,
+            non testi generici copia-incolla.
+          </p>
 
-      <span slot="subtitle">
-        <span class="hidden sm:inline">
-          Hai già un sito ma la casella email è sempre vuota?
-          <br />
-          LS Web Agency progetta <strong>siti web professionali</strong> ed
-          <strong> e-commerce ottimizzati SEO</strong> a Sassari, pensati per
-          trasformare visite in richieste di preventivo, non solo in “click”.
-        </span>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="btn-primary" href="/contatti">
+              Richiedi l’analisi gratuita del tuo sito
+            </a>
+            <a class="btn-secondary" href="#servizi">
+              Scopri i nostri servizi
+            </a>
+          </div>
+        </div>
 
-        <span class="block mb-1 sm:hidden font-medium">
-          Siti web ed e-commerce ottimizzati per la
-          <strong> SEO locale a Sassari</strong> e in tutta la Sardegna.
-        </span>
-      </span>
-    </Hero>
-  </section>
-
-  <!-- STRIP: PER CHI LAVORIAMO -->
-  <section class="px-4 pt-4 pb-12">
-    <div class="mx-auto max-w-4xl rounded-3xl bg-slate-50/70 px-6 py-10 text-center shadow-sm">
-      <p class="text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase">
-        Per chi è il nostro servizio di realizzazione siti web
-      </p>
-
-      <h2 class="mt-3 text-2xl md:text-3xl font-semibold">
-        Se vivi di clienti locali, il tuo sito non può essere solo una vetrina.
-      </h2>
-
-      <p class="mt-4 text-base md:text-lg text-gray-600">
-        Lavoriamo con <strong>piccole imprese, freelance e studi professionali</strong>
-        che vogliono trasformare il sito in uno strumento che genera richieste di
-        preventivo, prenotazioni e appuntamenti, non solo visite anonime da Google.
-      </p>
-
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-3 text-sm">
-        <span class="rounded-full bg-white px-4 py-1 shadow-sm">
-          Artigiani, negozi e attività locali
-        </span>
-        <span class="rounded-full bg-white px-4 py-1 shadow-sm">
-          Studi professionali e consulenti
-        </span>
-        <span class="rounded-full bg-white px-4 py-1 shadow-sm">
-          B&amp;B, strutture ricettive e attività legate al turismo
-        </span>
+        <!-- Immagine -->
+        <div class="relative flex lg:justify-end order-first lg:order-none">
+          <img
+            src="/images/ls-web-agency-siti-web-sassari-ai-mobile-first.webp"
+            alt="Illustrazione di siti web e app mobile ottimizzati con intelligenza artificiale da LS Web Agency a Sassari"
+            width="1600"
+            height="900"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            class="rounded-3xl shadow-2xl ring-1 ring-slate-900/5 dark:ring-slate-50/10 object-cover"
+          />
+        </div>
       </div>
     </div>
   </section>
+</section>
 
+  <!-- STRIP: PER CHI LAVORIAMO -->
+<section
+  id="per-chi"
+  class="relative not-prose mt-10 md:mt-12 lg:mt-16"
+>
+  <div class="container mx-auto px-6 md:px-8">
+    <div
+      class="rounded-[32px] border border-slate-100 bg-slate-50/60 
+             shadow-[0_18px_60px_rgba(15,23,42,0.08)]
+             px-6 md:px-10 py-8 md:py-10 lg:py-12
+             grid gap-10 lg:gap-12
+             lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.1fr)]
+             items-start"
+    >
+      <!-- Colonna testo (sinistra) -->
+      <div class="space-y-6">
+        <p class="text-[11px] md:text-xs font-semibold tracking-[0.22em] uppercase text-slate-500">
+          Per chi è il nostro servizio di realizzazione siti web
+        </p>
+
+        <h2 class="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold leading-tight text-slate-900">
+          Se vivi di <span class="text-gradient">clienti locali</span>,
+          il tuo sito non può essere solo una vetrina.
+        </h2>
+
+        <p class="text-base md:text-lg text-slate-700 leading-relaxed">
+          Lavoriamo con <strong>piccole imprese, freelance e studi professionali</strong> che vogliono
+          trasformare il sito in uno strumento che genera richieste di preventivo, prenotazioni
+          e appuntamenti, non solo visite anonime da Google.
+        </p>
+
+        <div class="space-y-4 text-sm md:text-base text-slate-700 leading-relaxed">
+          <p>
+            <strong>Niente più sito “statico”:</strong> ogni pagina è progettata per guidare
+            l’utente verso il contatto, con messaggi chiari e call to action visibili.
+          </p>
+          <p>
+            <strong>Focus sui clienti giusti:</strong> contenuti, SEO locale e struttura del sito
+            lavorano insieme per intercettare <strong>chi è davvero pronto a contattarti</strong>.
+          </p>
+          <p class="mb-1">
+            <strong>Strategia, non solo design:</strong> analizziamo la tua attività, la concorrenza
+            e le ricerche degli utenti per definire un <strong>percorso di conversione</strong>
+            adatto al tuo territorio.
+          </p>
+        </div>
+      </div>
+
+      <!-- Colonna card target (destra) -->
+      <div class="flex flex-col gap-4 lg:gap-5">
+        <!-- Card 1 -->
+        <article
+          class="flex items-start gap-4 rounded-2xl bg-white/90 border border-slate-100
+                 shadow-sm px-4 py-4 md:px-5 md:py-5"
+        >
+          <div
+            class="mt-1 flex h-10 w-10 items-center justify-center rounded-full
+                   bg-indigo-50 text-indigo-600"
+          >
+            <i class="fas fa-store text-base"></i>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm md:text-base font-semibold text-slate-900">
+              Artigiani, negozi e attività locali
+            </h3>
+            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
+              Parrucchieri, centri estetici, officine, negozi di quartiere e attività che vivono
+              di <strong>clienti della zona</strong>.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article
+          class="flex items-start gap-4 rounded-2xl bg-white/90 border border-slate-100
+                 shadow-sm px-4 py-4 md:px-5 md:py-5"
+        >
+          <div
+            class="mt-1 flex h-10 w-10 items-center justify-center rounded-full
+                   bg-emerald-50 text-emerald-600"
+          >
+            <i class="fas fa-briefcase text-base"></i>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm md:text-base font-semibold text-slate-900">
+              Studi professionali e consulenti
+            </h3>
+            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
+              Psicologi, avvocati, consulenti e studi tecnici che vogliono posizionarsi come
+              <strong>riferimento autorevole</strong> sul territorio.
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article
+          class="flex items-start gap-4 rounded-2xl bg-white/90 border border-slate-100
+                 shadow-sm px-4 py-4 md:px-5 md:py-5"
+        >
+          <div
+            class="mt-1 flex h-10 w-10 items-center justify-center rounded-full
+                   bg-pink-50 text-pink-600"
+          >
+            <i class="fas fa-bed text-base"></i>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm md:text-base font-semibold text-slate-900">
+              B&B, strutture ricettive e turismo
+            </h3>
+            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
+              B&amp;B, case vacanza, agriturismi e attività legate al turismo che vogliono ricevere
+              più richieste dirette, non solo tramite portali.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
   <!-- SERVIZI -->
-  <section id="servizi" class="container mx-auto px-4 py-12">
+  <section id="servizi" class="mt-10 md:mt-14 px-4 lg:px-8">
     <p class="text-center text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase">
       Servizi LS Web Agency
     </p>
