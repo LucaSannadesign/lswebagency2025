@@ -1,256 +1,532 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
-import Testimonials from '@/components/widgets/Testimonials.astro';
 
 const metadata = {
   title:
-    'Creazione Siti Web a Sassari | Veloci, SEO & Core Web Vitals Garantiti — LS Web Agency',
+    'Creazione Siti Web a Sassari | Veloci, SEO & Core Web Vitals — LS Web Agency',
   description:
-    'Siti web professionali a Sassari: veloci, ottimizzati per Google e pensati per convertire. Pacchetti Base, Pro e Avanzato + add-on (Core Web Vitals Express, Local SEO Booster, Consent Mode v2 + GA4 Pro).',
+    'Siti web professionali a Sassari per freelance e piccole imprese: veloci, ottimizzati per Google e progettati per convertire. Approccio su misura, focus su Core Web Vitals e consulenza prima dei pacchetti.',
   canonical: '/servizi/creazione-siti-web-sassari',
 };
 
 const WHATSAPP =
   'https://wa.me/393403223494?text=Ciao%20LS%20Web%20Agency%2C%20vorrei%20informazioni%20sui%20siti%20web.';
-
-/** 🔗 PayPal Payment Links (ENV) */
-const PP_SITE_BASE_LINK = import.meta.env.PUBLIC_PAYPAL_SETUP_SITE_BASE || '';
-const PP_SITE_PRO_LINK  = import.meta.env.PUBLIC_PAYPAL_SETUP_SITE_PRO  || '';
-const PP_SITE_ADV_LINK  = import.meta.env.PUBLIC_PAYPAL_SETUP_SITE_ADV  || '';
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO -->
-  <section class="relative overflow-hidden isolate">
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 top-0 -z-10
-             h-[520px] sm:h-[560px] md:h-[600px]
-             bg-gradient-to-b from-blue-100/80 via-white to-transparent
-             dark:from-blue-900/40 dark:via-transparent">
-    </div>
+<!-- HERO orientata al valore -->
+<section class="relative overflow-hidden isolate">
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 -z-10
+           h-[480px] sm:h-[520px] md:h-[560px]
+           bg-gradient-to-b from-blue-100/80 via-white to-transparent
+           dark:from-blue-900/40 dark:via-transparent">
+  </div>
 
-    <div class="container mx-auto px-6 pt-16 md:pt-20 pb-12">
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <!-- Testo -->
-        <div>
-          <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
-            <span class="text-neutral-900 dark:text-white">Creazione </span>
-            <span
-              class="text-blue-600 supports-[background-clip:text]:text-transparent bg-clip-text
-                     bg-gradient-to-r from-neutral-900 via-blue-700 to-blue-600
-                     dark:from-neutral-100 dark:via-blue-400 dark:to-blue-300">
-              Siti Web a Sassari
-            </span>
-          </h1>
+  <div class="container mx-auto px-6 pt-16 md:pt-20 pb-14">
+    <div class="grid md:grid-cols-2 gap-10 items-start">
+      <!-- Testo -->
+      <div>
+        <h1
+          class="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight"
+        >
+          <span class="block text-neutral-900 dark:text-white">
+            Siti web che lavorano
+          </span>
+          <span class="block text-blue-600 dark:text-blue-400">
+            mentre tu fai il tuo lavoro
+          </span>
+        </h1>
 
-          <p class="mt-4 text-base md:text-lg text-neutral-700 dark:text-neutral-300">
-            Realizziamo <strong>siti veloci, sicuri e ottimizzati SEO</strong>, con
-            design su misura e attenzione alle <strong>Core Web Vitals</strong> per
-            un’esperienza utente eccellente e posizionamenti stabili.
-          </p>
+        <p class="mt-5 text-base md:text-xl leading-relaxed text-neutral-800 dark:text-neutral-100">
+          Se il tuo sito è lento, vecchio o difficile da aggiornare, non è solo una questione estetica:
+          <strong> stai perdendo contatti e fiducia</strong>. Progetto con te siti veloci, chiari e facili da gestire,
+          con attenzione a SEO e <strong>Core Web Vitals</strong>, senza pacchetti “copia-incolla”.
+        </p>
 
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a href="/contatti"
-               class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-blue-600 hover:bg-blue-700 transition">
-              Richiedi una consulenza
-            </a>
-            <a href="#pacchetti"
-               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-              Vedi pacchetti
-            </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener"
-               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-              WhatsApp
-            </a>
-          </div>
-
-          <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">Core Web Vitals</div>
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">SEO On-Page</div>
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">Mobile-First</div>
-          </div>
+        <!-- CTA: colonna su mobile, riga in desktop (testo su UNA riga) -->
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-3">
+          <a
+            href="/contatti"
+            class="inline-flex items-center justify-center rounded-full px-5 py-3
+                   text-sm font-medium whitespace-nowrap
+                   bg-blue-600 text-white
+                   shadow-md hover:bg-blue-700 hover:shadow-lg
+                   transition"
+          >
+            Richiedi consulenza
+          </a>
+          <a
+            href="#tipologie"
+            class="inline-flex items-center justify-center rounded-full px-5 py-3
+                   text-sm font-medium whitespace-nowrap
+                   border border-slate-300 text-slate-900
+                   bg-white
+                   hover:bg-slate-50
+                   dark:border-slate-600 dark:text-slate-100
+                   dark:bg-transparent dark:hover:bg-slate-900/60
+                   transition"
+          >
+            Vedi tipologie sito
+          </a>
+          <a
+            href={WHATSAPP}
+            target="_blank" rel="noopener"
+            class="inline-flex items-center justify-center rounded-full px-5 py-3
+                   text-sm font-medium whitespace-nowrap
+                   border border-slate-300 text-slate-900
+                   bg-white
+                   hover:bg-slate-50
+                   dark:border-slate-600 dark:text-slate-100
+                   dark:bg-transparent dark:hover:bg-slate-900/60
+                   transition"
+          >
+            Scrivimi su WhatsApp
+          </a>
         </div>
 
-        <!-- Immagine (compatta) -->
-        <div class="relative md:ml-auto">
-          <figure
-            class="rounded-2xl overflow-hidden shadow-lg ring-1 ring-neutral-200 dark:ring-neutral-800
-                   w-full max-w-[560px] lg:max-w-[600px]">
-            <img
-              src="/images/creazione-sito-web-professionale.webp"
-              alt="Siti web moderni, veloci e SEO-friendly a Sassari"
-              class="w-full h-[260px] sm:h-[320px] md:h-[360px] lg:h-[400px] object-cover"
-              loading="eager" decoding="async" fetchpriority="high"
-              width="800" height="600"
-              sizes="(min-width:1024px) 600px, (min-width:768px) 48vw, 92vw"
-            />
-          </figure>
+        <div class="mt-6 grid grid-cols-3 gap-3 text-sm md:text-base text-neutral-600 dark:text-neutral-300">
+          <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+            Core Web Vitals
+          </div>
+          <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+            SEO On-Page
+          </div>
+          <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+            Mobile-First
+          </div>
+        </div>
+      </div>
+
+      <!-- Immagine: più grande e centrata nella colonna -->
+      <div class="relative md:flex md:justify-center md:items-start">
+        <figure
+          class="rounded-2xl overflow-hidden shadow-lg ring-1 ring-neutral-200 dark:ring-neutral-800
+                 w-full max-w-[640px]"
+        >
+          <img
+            src="/images/creazione-sito-web-professionale.webp"
+            alt="Siti web moderni, veloci e SEO-friendly a Sassari"
+            class="w-full h-[260px] sm:h-[320px] md:h-[380px] lg:h-[420px] object-cover object-top"
+            loading="eager" decoding="async" fetchpriority="high"
+            width="800" height="600"
+            sizes="(min-width:1024px) 640px, (min-width:768px) 48vw, 92vw"
+          />
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- PERCHÉ NON VENDO "SITO VETRINA 350€" -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <div class="grid gap-10 md:grid-cols-2 md:items-start">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold mb-4">
+            Perché non trovi <span class="whitespace-nowrap">“sito vetrina 350€”</span> in questa pagina
+          </h2>
+
+          <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200 mb-3">
+            Ogni attività ha bisogni diversi: c’è chi deve solo farsi trovare con poche
+            pagine chiare e chi ha bisogno di blog, cataloghi, integrazioni e tracciamenti
+            avanzati.
+          </p>
+
+          <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200 mb-3">
+            Un listino rigido rischia di spingerti verso un pacchetto che non ti serve,
+            o che non regge nel tempo. Preferisco partire da tre cose:
+          </p>
+
+          <ul
+            class="mt-2 space-y-2 list-disc pl-5
+                   text-base md:text-lg text-neutral-700 dark:text-neutral-200"
+          >
+            <li>
+              <span class="font-semibold">Obiettivi:</span>
+              cosa deve fare davvero il sito (informare, farti contattare, vendere, raccogliere lead).
+            </li>
+            <li>
+              <span class="font-semibold">Risorse:</span>
+              tempo, contenuti, materiali esistenti e
+              <span class="font-semibold"> budget realistico</span> con cui possiamo lavorare.
+            </li>
+            <li>
+              <span class="font-semibold">Fase in cui ti trovi:</span>
+              nuovo progetto, restyling di un sito vecchio o crescita di qualcosa che già funziona.
+            </li>
+          </ul>
+
+          <p class="mt-4 text-base md:text-lg text-neutral-700 dark:text-neutral-200">
+            Da lì definiamo insieme la soluzione più sensata, con un preventivo chiaro prima di partire.
+          </p>
+        </div>
+
+        <div
+          class="rounded-3xl p-6 md:p-7
+                 ring-1 ring-blue-200/70 dark:ring-blue-900/60
+                 bg-gradient-to-br from-blue-50 via-white to-sky-50
+                 dark:from-blue-950/70 dark:via-neutral-900 dark:to-sky-950/60"
+        >
+          <h3 class="text-xl font-semibold mb-3">
+            Per chi è questo servizio
+          </h3>
+          <ul
+            class="space-y-2 list-disc pl-5
+                   text-base text-neutral-700 dark:text-neutral-200 mb-6"
+          >
+            <li>
+              <span class="font-semibold">Freelance e piccole imprese</span>
+              che vogliono un sito snello ma credibile, non un template qualunque.
+            </li>
+            <li>
+              <span class="font-semibold">Chi ha un sito lento o vecchio</span>
+              e vuole rifarlo con un approccio più tecnico e orientato ai risultati.
+            </li>
+            <li>
+              <span class="font-semibold">Chi sta valutando uno stack moderno</span>
+              (Astro, headless, ecc.) e vuole capire pro e contro prima di investire.
+            </li>
+          </ul>
+
+          <h3 class="text-xl font-semibold mb-2">
+            Per chi non è
+          </h3>
+          <ul
+            class="space-y-2 list-disc pl-5
+                   text-base text-neutral-700 dark:text-neutral-200"
+          >
+            <li>
+              <span class="font-semibold">Chi cerca solo “il prezzo più basso possibile”</span>
+              e valuta il sito solo in base al listino.
+            </li>
+            <li>
+              <span class="font-semibold">Chi vuole un sito pieno di effetti</span>
+              ma non è disposto a lavorare su contenuti e struttura.
+            </li>
+            <li>
+              <span class="font-semibold">Chi non vuole prendersi il tempo</span>
+              per raccontare il proprio progetto e confrontarsi sui passi successivi.
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- VALORE -->
-  <section class="container mx-auto px-6 py-10">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Cosa ottieni (davvero)</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      {[
-        ['Velocità & Stabilità','Architettura pulita, immagini ottimizzate, JS ridotto al minimo: siti che caricano in un lampo e non “saltano”.'],
-        ['SEO Tecnico & On-Page','Struttura, meta, schema, heading e contenuti pronti a scalare su Google.'],
-        ['Design che converte','User journey chiari, call to action efficaci, moduli e WhatsApp sempre a portata.'],
-      ].map(([t, d]) => (
-        <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
-          <h3 class="font-semibold text-lg mb-2">{t}</h3>
-          <p class="text-neutral-600 dark:text-neutral-300">{d}</p>
+  <!-- COSA OTTIENI (DAVVERO) -->
+  <section>
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">
+        Cosa ottieni, oltre alle pagine del sito
+      </h2>
+      <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200 max-w-3xl mb-8">
+        Un sito non è solo un insieme di schermate. È un sistema fatto di struttura, contenuti,
+        performance e strumenti di analisi. Qui sotto trovi alcuni elementi che curo in ogni progetto.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div
+          class="rounded-2xl p-6
+                 ring-1 ring-blue-100/80 dark:ring-blue-900/50
+                 bg-gradient-to-br from-blue-50 via-white to-sky-50
+                 dark:from-blue-950/70 dark:via-neutral-900 dark:to-sky-950/60"
+        >
+          <span class="inline-flex mb-3 px-2.5 py-1 rounded-full text-xs font-semibold
+                       bg-blue-100 text-blue-700
+                       dark:bg-blue-900/70 dark:text-blue-100">
+            Velocità & stabilità
+          </span>
+          <h3 class="font-semibold text-lg mb-2 text-neutral-900 dark:text-neutral-50">
+            Performance reali, non solo “test”
+          </h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Architettura pulita, immagini ottimizzate, JS essenziale: siti che caricano in un lampo
+            e non “saltano” mentre scorri, con un occhio ai dati reali (CrUX).
+          </p>
         </div>
-      ))}
+
+        <div
+          class="rounded-2xl p-6
+                 ring-1 ring-blue-100/80 dark:ring-blue-900/50
+                 bg-gradient-to-br from-sky-50 via-white to-blue-50
+                 dark:from-sky-950/70 dark:via-neutral-900 dark:to-blue-950/60"
+        >
+          <span class="inline-flex mb-3 px-2.5 py-1 rounded-full text-xs font-semibold
+                       bg-sky-100 text-sky-800
+                       dark:bg-sky-900/70 dark:text-sky-100">
+            SEO tecnico & on-page
+          </span>
+          <h3 class="font-semibold text-lg mb-2 text-neutral-900 dark:text-neutral-50">
+            Struttura pensata per Google
+          </h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Heading, meta, schema, sitemap, contenuti e interlink studiati per farti trovare
+            sui motori di ricerca, non solo per “stare online”.
+          </p>
+        </div>
+
+        <div
+          class="rounded-2xl p-6
+                 ring-1 ring-blue-100/80 dark:ring-blue-900/50
+                 bg-gradient-to-br from-white via-blue-50 to-sky-50
+                 dark:from-neutral-900 dark:via-blue-950/60 dark:to-sky-950/60"
+        >
+          <span class="inline-flex mb-3 px-2.5 py-1 rounded-full text-xs font-semibold
+                       bg-indigo-100 text-indigo-800
+                       dark:bg-indigo-900/70 dark:text-indigo-100">
+            UX & conversioni
+          </span>
+          <h3 class="font-semibold text-lg mb-2 text-neutral-900 dark:text-neutral-50">
+            Percorsi chiari per l’utente
+          </h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            User journey lineari, call to action visibili, moduli e WhatsApp sempre a portata.
+            L’obiettivo non è “solo bello”, ma far arrivare il contatto giusto.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIPI DI PROGETTO (ex pacchetti, senza prezzi) -->
+  <section id="tipologie" class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Tipi di progetto che seguo più spesso</h2>
+      <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-200 max-w-3xl mb-8">
+        Non sono pacchetti rigidi, ma punti di partenza. In base a dove ti trovi oggi,
+        scegliamo insieme il formato più sensato e lo adattiamo al tuo contesto.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Essenziale -->
+        <article
+          class="rounded-2xl p-6 bg-white/90 dark:bg-neutral-900/80
+                 ring-1 ring-neutral-200 dark:ring-neutral-800 flex flex-col gap-4"
+        >
+          <h3 class="font-semibold text-lg">Sito vetrina essenziale</h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Poche pagine chiare per presentarti, farti trovare e ricevere contatti
+            senza complicazioni. Ideale se stai iniziando o devi sostituire un sito vecchio.
+          </p>
+          <ul class="text-base text-neutral-700 dark:text-neutral-200 space-y-1">
+            <li>• home, chi sei, servizi, contatti;</li>
+            <li>• design su misura e mobile-first;</li>
+            <li>• SEO on-page di base e tracciamento essenziale.</li>
+          </ul>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            Ne parliamo in call e valutiamo insieme se è sufficiente o se ti serve qualcosa in più.
+          </p>
+          <div class="pt-1">
+            <a
+              href="/contatti?tipo=sito-vetrina"
+              class="inline-flex items-center justify-center rounded-full px-6 py-3
+                     text-sm md:text-base font-medium
+                     bg-blue-600 text-white
+                     shadow-md hover:bg-blue-700 hover:shadow-lg
+                     transition"
+            >
+              Chiedi se fa al caso tuo
+            </a>
+          </div>
+        </article>
+
+        <!-- Contenuti & blog -->
+        <article
+          class="rounded-2xl p-6 bg-white/95 dark:bg-neutral-900/80
+                 ring-2 ring-blue-400 dark:ring-blue-600
+                 shadow-md flex flex-col gap-4"
+        >
+          <span class="self-start text-xs font-semibold px-2 py-1 rounded-full bg-blue-600 text-white">
+            Più richiesto
+          </span>
+          <h3 class="font-semibold text-lg">Sito con blog e contenuti</h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Per chi vuole lavorare su SEO e contenuti nel tempo: articoli, casi studio,
+            guide pratiche e pagine strutturate per intercettare ricerche specifiche.
+          </p>
+          <ul class="text-base text-neutral-700 dark:text-neutral-200 space-y-1">
+            <li>• blog integrato o sezione news;</li>
+            <li>• architettura pensata per crescere con i contenuti;</li>
+            <li>• report base su performance e parole chiave.</li>
+          </ul>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            Utile se vuoi che il sito diventi un canale di acquisizione, non solo un biglietto da visita.
+          </p>
+          <div class="pt-1">
+            <a
+              href="/contatti?tipo=sito-contenuti"
+              class="inline-flex items-center justify-center rounded-full px-6 py-3
+                     text-sm md:text-base font-medium
+                     bg-blue-600 text-white
+                     shadow-md hover:bg-blue-700 hover:shadow-lg
+                     transition"
+            >
+              Parliamone in call
+            </a>
+          </div>
+        </article>
+
+        <!-- Avanzato / headless -->
+        <article
+          class="rounded-2xl p-6 bg-white/90 dark:bg-neutral-900/80
+                 ring-1 ring-neutral-200 dark:ring-neutral-800 flex flex-col gap-4"
+        >
+          <h3 class="font-semibold text-lg">Progetto avanzato / headless</h3>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Quando servono integrazioni, cataloghi, multi-lingua o stack moderni
+            (Astro, Next.js, headless CMS) per prestazioni e scalabilità.
+          </p>
+          <ul class="text-base text-neutral-700 dark:text-neutral-200 space-y-1">
+            <li>• architettura headless o statico-ibrida;</li>
+            <li>• componenti su misura e flussi complessi;</li>
+            <li>• audit tecnico e SEO avanzato.</li>
+          </ul>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            In questi casi il preventivo è sempre su misura: definiamo insieme funzionalità e priorità.
+          </p>
+          <div class="pt-1">
+            <a
+              href="/contatti?tipo=sito-avanzato"
+              class="inline-flex items-center justify-center rounded-full px-6 py-3
+                     text-sm md:text-base font-medium
+                     bg-blue-600 text-white
+                     shadow-md hover:bg-blue-700 hover:shadow-lg
+                     transition"
+            >
+              Richiedi una valutazione gratuita
+            </a>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
   <!-- CORE WEB VITALS -->
-  <section class="container mx-auto px-6 py-6">
-    <div class="rounded-2xl p-6 ring-1 ring-blue-200 dark:ring-blue-800/60 bg-blue-50/60 dark:bg-blue-900/20">
-      <h2 class="text-xl md:text-2xl font-bold mb-3">Core Web Vitals: cosa sono e perché contano</h2>
-      <div class="grid md:grid-cols-4 gap-4">
-        <div><div class="font-semibold">LCP &lt; 2.5s</div><p class="text-sm text-neutral-700 dark:text-neutral-300">Il contenuto principale appare rapidamente.</p></div>
-        <div><div class="font-semibold">INP &lt; 200ms</div><p class="text-sm text-neutral-700 dark:text-neutral-300">Il sito risponde subito ai tuoi click.</p></div>
-        <div><div class="font-semibold">CLS &lt; 0.1</div><p class="text-sm text-neutral-700 dark:text-neutral-300">Layout stabile, niente elementi che “saltano”.</p></div>
-        <div><div class="font-semibold">TTFB &lt; 0.8s</div><p class="text-sm text-neutral-700 dark:text-neutral-300">Server e rete ottimizzati per il primo byte.</p></div>
-      </div>
-      <p class="mt-4 text-sm text-neutral-700 dark:text-neutral-300">
-        Con i pacchetti <strong>Pro</strong> e <strong>Avanzato</strong> puntiamo al <strong>pass</strong> delle soglie su
-        mobile al 75° percentile nei dati reali (CrUX), con report <em>pre/post</em> e monitoraggio.
-      </p>
-    </div>
-  </section>
-
-  <!-- PACCHETTI (con pulsanti PayPal "Acquista") -->
-  <section id="pacchetti" class="relative">
-    <div class="absolute inset-x-0 top-0 h-32 -z-10 bg-gradient-to-b from-blue-50/70 to-transparent dark:from-blue-900/20"></div>
-
-    <div class="container mx-auto px-6 py-10">
-      <h2 class="text-2xl md:text-3xl font-bold mb-6">Pacchetti siti web</h2>
-      <p class="text-neutral-600 dark:text-neutral-300 mb-6">
-        Prezzi indicativi. Ogni progetto è personalizzabile in base a pagine, integrazioni e contenuti.
-      </p>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- BASE -->
-        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm flex flex-col">
-          <h3 class="font-semibold text-lg mb-1">Base</h3>
-          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Vetrina essenziale, pronto a convertire.</p>
-
-          <div class="mb-4">
-            <div class="text-2xl font-bold">da 690 €</div>
-            <div class="text-sm text-neutral-600 dark:text-neutral-300">assistenza opz. da 39 €/mese</div>
+  <section>
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <div class="rounded-2xl p-6 md:p-7 ring-1 ring-blue-200 dark:ring-blue-800/60 bg-blue-50/60 dark:bg-blue-900/20">
+        <h2 class="text-xl md:text-2xl font-bold mb-3">Core Web Vitals: tradotto in parole semplici</h2>
+        <p class="text-base md:text-lg text-neutral-800 dark:text-neutral-100 mb-4 max-w-3xl">
+          Google misura come gli utenti reali vivono il tuo sito: quanto ci mette a comparire,
+          se risponde ai click, se “salta” mentre scorri. Non è teoria: influisce su SEO e conversioni.
+        </p>
+        <div class="grid md:grid-cols-4 gap-4">
+          <div>
+            <div class="font-semibold">LCP &lt; 2.5s</div>
+            <p class="text-sm md:text-base text-neutral-700 dark:text-neutral-300">
+              Il contenuto principale appare rapidamente, soprattutto da mobile.
+            </p>
           </div>
-
-          <ul class="text-sm space-y-1 mb-6">
-            <li><strong>Stack consigliato:</strong> WordPress leggero <em>oppure</em> Astro statico</li>
-            <li>Fino a 5 pagine</li>
-            <li>Design personalizzato</li>
-            <li>SEO on-page base</li>
-            <li>Contatti & WhatsApp</li>
-            <li>Ottimizzazioni performance essenziali</li>
-          </ul>
-
-          <div class="mt-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-            <a
-              href={PP_SITE_BASE_LINK || '/contatti?pkg=site-base'}
-              target={PP_SITE_BASE_LINK ? '_blank' : undefined}
-              rel={PP_SITE_BASE_LINK ? 'noopener nofollow' : undefined}
-              aria-label="Acquista — Pacchetto Base"
-              class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-blue-600 text-white hover:bg-blue-700">
-              Acquista
-            </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener"
-               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-              WhatsApp
-            </a>
+          <div>
+            <div class="font-semibold">INP &lt; 200ms</div>
+            <p class="text-sm md:text-base text-neutral-700 dark:text-neutral-300">
+              Il sito risponde subito ai tuoi click e alle azioni dell’utente.
+            </p>
           </div>
-
-          <p class="mt-2 text-xs text-neutral-500">Pagamento sicuro con PayPal.</p>
-        </article>
-
-        <!-- PRO -->
-        <article class="relative rounded-2xl p-6 ring-2 ring-blue-400 dark:ring-blue-600 bg-gradient-to-b from-white to-blue-50 dark:from-neutral-900 dark:to-blue-900/10 shadow-md flex flex-col">
-          <span class="absolute -top-3 right-4 text-xs font-semibold px-2 py-1 rounded-full bg-blue-600 text-white">Più scelto</span>
-          <h3 class="font-semibold text-lg mb-1">Pro</h3>
-          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Per crescere su Google con CWV garantiti.</p>
-
-          <div class="mb-4">
-            <div class="text-2xl font-bold">da 1.590 €</div>
-            <div class="text-sm text-neutral-600 dark:text-neutral-300">assistenza opz. da 79 €/mese</div>
+          <div>
+            <div class="font-semibold">CLS &lt; 0.1</div>
+            <p class="text-sm md:text-base text-neutral-700 dark:text-neutral-300">
+              Layout stabile: niente pulsanti che si spostano mentre stai per cliccare.
+            </p>
           </div>
-
-          <ul class="text-sm space-y-1 mb-6">
-            <li><strong>Stack consigliato:</strong> Astro + Headless CMS (WP headless / Sanity / Strapi)
-              <em> oppure</em> WordPress Slim ottimizzato</li>
-            <li>Fino a 10 pagine + Blog</li>
-            <li>SEO tecnico &amp; schema markup</li>
-            <li><strong>Core Web Vitals</strong> (target pass mobile)</li>
-            <li>Report pre/post performance</li>
-            <li>Tracciamento GA4 / eventi base</li>
-          </ul>
-
-          <div class="mt-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-            <a
-              href={PP_SITE_PRO_LINK || '/contatti?pkg=site-pro'}
-              target={PP_SITE_PRO_LINK ? '_blank' : undefined}
-              rel={PP_SITE_PRO_LINK ? 'noopener nofollow' : undefined}
-              aria-label="Acquista — Pacchetto Pro"
-              class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-blue-600 text-white hover:bg-blue-700">
-              Acquista
-            </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener"
-               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-              WhatsApp
-            </a>
+          <div>
+            <div class="font-semibold">TTFB &lt; 0.8s</div>
+            <p class="text-sm md:text-base text-neutral-700 dark:text-neutral-300">
+              Server e rete ottimizzati per partire subito, anche con connessioni non perfette.
+            </p>
           </div>
-
-          <p class="mt-2 text-xs text-neutral-500">Pagamento sicuro con PayPal.</p>
-        </article>
-
-        <!-- AVANZATO -->
-        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm flex flex-col">
-          <h3 class="font-semibold text-lg mb-1">Avanzato</h3>
-          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Headless / catalogo light / integrazioni.</p>
-
-          <div class="mb-4">
-            <div class="text-2xl font-bold">da 2.490 €</div>
-            <div class="text-sm text-neutral-600 dark:text-neutral-300">assistenza opz. da 99 €/mese</div>
-          </div>
-
-          <ul class="text-sm space-y-1 mb-6">
-            <li><strong>Stack consigliato:</strong> Headless (Astro/Next.js) + CMS headless + integrazioni</li>
-            <li>Architettura headless / statico</li>
-            <li>Componenti custom & integrazioni</li>
-            <li><strong>Core Web Vitals</strong> (target pass mobile)</li>
-            <li>Localizzazione / multi-lingua (opz.)</li>
-            <li>Audit SEO avanzato</li>
-          </ul>
-
-          <div class="mt-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-            <a
-              href={PP_SITE_ADV_LINK || '/contatti?pkg=site-avanzato'}
-              target={PP_SITE_ADV_LINK ? '_blank' : undefined}
-              rel={PP_SITE_ADV_LINK ? 'noopener nofollow' : undefined}
-              aria-label="Acquista — Pacchetto Avanzato"
-              class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-blue-600 text-white hover:bg-blue-700">
-              Acquista
-            </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener"
-               class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-              WhatsApp
-            </a>
-          </div>
-
-          <p class="mt-2 text-xs text-neutral-500">Pagamento sicuro con PayPal.</p>
-        </article>
+        </div>
+        <p class="mt-4 text-sm md:text-base text-neutral-700 dark:text-neutral-300 max-w-3xl">
+          Nei progetti lavoriamo con report <em>pre/post</em> e monitoraggio nel tempo, così non ti affidi
+          solo a una “pagella” presa il giorno della consegna.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- (resto pagina invariato: eventuali sezioni aggiuntive / JSON-LD, se presenti altrove) -->
+  <!-- PROCESSO -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12 md:py-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6">Come lavoriamo, in pratica</h2>
+      <div class="grid md:grid-cols-5 gap-4 md:gap-5">
+        {[
+          ['Analisi', 'Capire da dove parti, cosa non funziona oggi e quali obiettivi hai sul medio periodo.'],
+          ['Architettura', 'Definire mappa del sito, contenuti e priorità di navigazione.'],
+          ['Design', 'Progettare layout e componenti in linea con il tuo brand e il tuo pubblico.'],
+          ['Sviluppo & test', 'Mettere online il sito, ottimizzare performance e testare su dispositivi reali.'],
+          ['Lancio & supporto', 'Affiancarti nei primi mesi con piccoli aggiustamenti e lettura dei dati.'],
+        ].map(([t, d], i) => (
+          <div
+            class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800
+                   bg-white/90 dark:bg-neutral-900/70"
+          >
+            <div
+              class="w-8 h-8 rounded-full bg-blue-600 text-white
+                     flex items-center justify-center font-bold"
+            >
+              {i + 1}
+            </div>
+            <h3 class="mt-3 font-semibold text-base md:text-lg">{t}</h3>
+            <p class="text-sm md:text-base text-neutral-600 dark:text-neutral-300">{d}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 text-sm md:text-base text-neutral-600 dark:text-neutral-300 max-w-3xl">
+        Prima di parlare di preventivo, facciamo sempre un confronto iniziale gratuito:
+        mi racconti il tuo progetto, ti restituisco una proposta di strada possibile.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section>
+    <div class="container mx-auto px-6 pb-14 md:pb-20 pt-4">
+      <div
+        class="rounded-3xl p-6 md:p-8
+               bg-white/90 dark:bg-neutral-900/80
+               ring-1 ring-neutral-200 dark:ring-neutral-800
+               flex flex-col md:flex-row
+               md:items-center md:justify-between gap-6"
+      >
+        <div class="max-w-2xl">
+          <h3 class="text-xl md:text-2xl font-semibold mb-2">
+            Non sai se è il momento giusto per rifare il sito?
+          </h3>
+          <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-300">
+            Raccontami in poche righe cosa fai, che sito hai oggi (se ce l’hai) e cosa ti manca.
+            Ti rispondo con un feedback onesto e, se ha senso, una proposta di prossimi passi.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <a
+            href="/contatti"
+            class="inline-flex items-center justify-center rounded-full px-6 py-3
+                   text-base font-medium
+                   bg-blue-600 text-white
+                   shadow-md hover:bg-blue-700 hover:shadow-lg
+                   transition"
+          >
+            Scrivimi dal form
+          </a>
+          <a
+            href={WHATSAPP}
+            target="_blank" rel="noopener"
+            class="inline-flex items-center justify-center rounded-full px-6 py-3
+                   text-base font-medium
+                   border border-slate-300 text-slate-900
+                   bg-white
+                   hover:bg-slate-50
+                   dark:border-slate-600 dark:text-slate-100
+                   dark:bg-neutral-900/70 dark:hover:bg-slate-900/60
+                   transition"
+          >
+            Oppure su WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
