@@ -1,4 +1,6 @@
-// astro.config.ts
+// Updated Astro configuration file
+// This version adds trailingSlash to unify URL format and retains the canonical domain.
+
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -38,6 +40,9 @@ export default defineConfig({
 
   // Dominio canonico
   site: 'https://www.lswebagency.com',
+
+  // Gestione degli slash finali: produce URL senza slash finale
+  trailingSlash: 'never',
 
   integrations: [
     react(),
