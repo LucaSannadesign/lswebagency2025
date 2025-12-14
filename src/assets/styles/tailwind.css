@@ -156,7 +156,7 @@
    ========================= */
 @layer base {
   /* Aiuta il browser a scegliere palette corretta */
-  html { color-scheme: light dark; }
+  html { color-scheme: light dark; scroll-behavior: smooth;  }
 
   /* ✔️ Testo e sfondo di base coerenti light/dark */
   body {
@@ -176,5 +176,7 @@
   /* ✔️ Sezioni con tipografia (MD/MDX) */
   .prose { @apply prose-slate; }
   .dark .prose { @apply prose-invert; }
+
+  
 }
 

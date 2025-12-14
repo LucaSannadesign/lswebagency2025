@@ -1,15 +1,14 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
-import Hero from '@/components/widgets/Hero.astro';
 import BlogLatestPosts from '@/components/widgets/BlogLatestPosts.astro';
 import CallToAction from '@/components/widgets/CallToAction.astro';
 import { Icon } from 'astro-icon/components';
 import { getCollection } from 'astro:content';
 
 const metadata = {
-  title: 'Realizzazione siti web a Sassari ottimizzati SEO – LS Web Agency',
+  title: 'Realizzazione siti web a Sassari | SEO, UX e Performance – LS Web Agency',
   description:
-    'Realizzazione siti web professionali a Sassari che portano clienti: siti veloci, SEO locale e consulenza digitale per aziende e freelance in Sardegna.',
+    'Siti web professionali orientati ai contatti: UX, SEO e performance. LS Web Agency lavora a Sassari e gestisce progetti da remoto in tutta Italia con un metodo chiaro e misurabile.',
   canonical: '/',
   robots: { index: true, follow: true },
   openGraph: {
@@ -21,7 +20,6 @@ const metadata = {
     handle: '@lswebagency',
     site: '@lswebagency',
   },
-  // Evita che venga applicato il template globale al title
   ignoreTitleTemplate: true,
 };
 
@@ -30,12 +28,7 @@ const LIMIT = 8;
 
 // timestamp sicuro: 0 se manca/è invalido → va in fondo
 const ts = (v: unknown) => {
-  const d =
-    v instanceof Date
-      ? v
-      : typeof v === 'string' && v
-        ? new Date(v)
-        : null;
+  const d = v instanceof Date ? v : typeof v === 'string' && v ? new Date(v) : null;
   return d && !Number.isNaN(d.getTime()) ? d.getTime() : 0;
 };
 
@@ -47,7 +40,6 @@ const portfolioLatest = portfolioAll
   .sort((a, b) => {
     const tb = ts(b.data.publishDate ?? b.data.updateDate);
     const ta = ts(a.data.publishDate ?? a.data.updateDate);
-    // più recenti prima; tie-breaker sullo slug
     return tb - ta || String(b.data.slug || '').localeCompare(String(a.data.slug || ''));
   })
   .slice(0, LIMIT);
@@ -55,174 +47,387 @@ const portfolioLatest = portfolioAll
 
 <Layout metadata={metadata}>
   <!-- HERO -->
-  <section class="relative isolate bg-white dark:bg-slate-950 pb-10 sm:pb-16">
-    <section class="relative isolate overflow-hidden">
-      <!-- container for hero: align with other sections -->
-      <div class="mx-auto px-6 md:px-8 max-w-screen-xl pt-10 md:pt-14 pb-8">
-        <div class="grid lg:grid-cols-2 gap-8 md:gap-10 items-center">
-          <!-- Testo -->
-          <div>
-            <h1
-              class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight"
-            >
-              Realizzazione siti web a Sassari <span class="text-accent text-gradient dark:text-white">
-                che portano davvero clienti
-              </span>
-            </h1>
+  <section class="relative isolate bg-white dark:bg-slate-950">
+    <div class="mx-auto max-w-screen-xl px-6 md:px-8 pt-10 md:pt-14 pb-10 md:pb-14">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <!-- Testo -->
+        <div>
+          <p class="text-sm md:text-base font-semibold tracking-[0.22em] uppercase text-slate-500 dark:text-slate-400">
+            Siti web • SEO • UX • Performance
+          </p>
 
-            <p
-              class="mt-5 text-lg md:text-xl text-neutral-700 dark:text-neutral-300 max-w-xl md:max-w-2xl"
+          <h1 class="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-slate-900 dark:text-slate-100">
+            Realizzazione siti web a Sassari
+            <span
+              class="block text-gradient
+                     dark:text-slate-100 dark:bg-none
+                     dark:[background-image:none]
+                     dark:[-webkit-text-fill-color:currentColor]"
             >
-              Hai già un sito ma la casella email è sempre vuota?
-              LS Web Agency progetta
-              <strong>siti web professionali</strong> ed
-              <strong> e-commerce ottimizzati SEO</strong> a Sassari, pensati per
-              trasformare visite in richieste di preventivo, non solo in “click”.
-              Integriamo <strong>intelligenza artificiale</strong> e strategia
-              <strong> mobile-first</strong> per creare contenuti mirati,
-              non testi generici copia-incolla.
-            </p>
+              che generano contatti e richieste
+            </span>
+          </h1>
 
-            <div class="mt-6 flex flex-wrap gap-3">
-              <a class="btn-primary" href="/contatti">
-                Richiedi l’analisi gratuita del tuo sito
-              </a>
-              <a class="btn-secondary" href="#servizi">
-                Scopri i nostri servizi
-              </a>
-            </div>
+          <p class="mt-4 text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl">
+            Lavoriamo a Sassari e gestiamo progetti <span class="font-semibold">da remoto in tutta Italia</span>:
+            call, revisione e consegna online.
+          </p>
+
+          <p class="mt-6 text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-2xl leading-relaxed">
+            Se hai un sito ma la casella email è sempre vuota, spesso il problema non è “Google”:
+            è <strong>messaggio</strong>, <strong>percorso</strong> e <strong>fiducia</strong>.
+            Progettiamo siti ed e-commerce per trasformare visite in richieste reali, con un metodo semplice:
+            <strong> analisi → strategia → esecuzione → misurazione</strong>.
+          </p>
+
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a class="btn-primary" href="/contatti">Richiedi una call</a>
+            <a class="btn-secondary" href="#interventi-rapidi">Voglio risultati più rapidi</a>
           </div>
 
-          <!-- Immagine -->
-          <div class="relative flex lg:justify-end order-first lg:order-none">
-            <img
-              src="/images/ls-web-agency-siti-web-sassari-ai-mobile-first.webp"
-              alt="Illustrazione di siti web e app mobile ottimizzati con intelligenza artificiale da LS Web Agency a Sassari"
-              width="1600"
-              height="900"
-              loading="eager"
-              decoding="async"
-              fetchpriority="high"
-              class="rounded-3xl shadow-2xl ring-1 ring-slate-900/5 dark:ring-slate-50/10 object-cover"
-            />
+          <div class="mt-7 flex flex-wrap gap-2 text-sm md:text-base text-slate-700 dark:text-slate-300">
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <i class="fas fa-check text-xs"></i> Metodo chiaro
+            </span>
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <i class="fas fa-check text-xs"></i> Focus conversioni
+            </span>
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <i class="fas fa-check text-xs"></i> SEO + performance
+            </span>
+          </div>
+        </div>
+
+        <!-- Immagine -->
+        <div class="relative flex lg:justify-end order-first lg:order-none">
+          <img
+            src="/images/ls-web-agency-siti-web-sassari-ai-mobile-first.webp"
+            alt="Illustrazione di siti web e app mobile ottimizzati con intelligenza artificiale da LS Web Agency"
+            width="1600"
+            height="900"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            class="rounded-3xl shadow-2xl ring-1 ring-slate-900/5 dark:ring-slate-50/10 object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERVENTI RAPIDI -->
+  <section id="interventi-rapidi" class="relative isolate mt-2 md:mt-4">
+    <!-- Background sfumato FULL -->
+    <div aria-hidden="true" class="absolute inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-pink-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950"></div>
+      <div class="absolute inset-0 opacity-70 dark:opacity-35 bg-[radial-gradient(1100px_circle_at_20%_20%,rgba(59,130,246,0.18),transparent_55%),radial-gradient(900px_circle_at_80%_30%,rgba(236,72,153,0.18),transparent_55%)]"></div>
+    </div>
+
+    <div class="mx-auto max-w-screen-xl px-6 md:px-8 py-10 md:py-14">
+      <div class="grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.9fr)] gap-8 items-start">
+        <!-- Testo -->
+        <div>
+          <p class="text-sm md:text-base font-semibold tracking-[0.22em] uppercase text-slate-500 dark:text-slate-400">
+            Se vuoi partire senza rischi
+          </p>
+
+          <h2 class="mt-3 text-3xl md:text-4xl font-extrabold leading-tight text-slate-900 dark:text-slate-100">
+            Interventi rapidi per sbloccare contatti
+            <span class="block text-slate-700 dark:text-slate-300 font-extrabold">
+              (senza rifare tutto da zero)
+            </span>
+          </h2>
+
+          <p class="mt-5 text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-2xl leading-relaxed">
+            Correggiamo ciò che blocca conversioni, performance o posizionamento, con priorità chiare e azioni concrete.
+            È lo step più efficace quando serve movimento in tempi brevi.
+          </p>
+
+          <div class="mt-6 flex flex-wrap gap-2 text-sm md:text-base text-slate-700 dark:text-slate-300">
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
+              <i class="fas fa-check text-xs"></i> Priorità reali
+            </span>
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
+              <i class="fas fa-check text-xs"></i> Output misurabile
+            </span>
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
+              <i class="fas fa-check text-xs"></i> Intervento mirato
+            </span>
+          </div>
+        </div>
+
+        <!-- CTA laterale -->
+        <div class="lg:flex lg:justify-end">
+          <div class="flex flex-col gap-3 w-full lg:max-w-sm">
+            <a href="/contatti" class="btn-primary w-full text-center">Richiedi un preventivo rapido</a>
+            <a href="#servizi" class="btn-secondary w-full text-center">Vedi i servizi completi</a>
+            <p class="mt-2 text-sm md:text-base text-slate-500 dark:text-slate-400 lg:text-right">
+              Ideale come primo step prima di un progetto completo.
+            </p>
           </div>
         </div>
       </div>
-    </section>
+
+      <!-- 3 CARD (cromatiche, più chiare già in normal) -->
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        <!-- Audit -->
+        <article
+          class="group relative overflow-hidden rounded-2xl
+                 border border-slate-200/90 dark:border-slate-800/90
+                 bg-white/90 dark:bg-slate-900/65
+                 ring-1 ring-slate-900/5 dark:ring-slate-50/10
+                 shadow-sm transition
+                 hover:-translate-y-0.5 hover:shadow-lg hover:bg-white
+                 dark:hover:bg-slate-900/75"
+        >
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-sky-400"></div>
+          <div aria-hidden="true" class="absolute -top-20 -right-24 h-56 w-56 rounded-full bg-blue-500/10 blur-3xl group-hover:bg-blue-500/15 transition"></div>
+
+          <div class="p-7">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <div class="mt-0.5 h-12 w-12 rounded-2xl flex items-center justify-center bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-300">
+                  <i class="fas fa-magnifying-glass text-base"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                    Audit sito + piano d’azione
+                  </h3>
+                  <p class="mt-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+                    Diagnosi rapida, priorità e azioni concrete.
+                  </p>
+                </div>
+              </div>
+
+              <span class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-sm md:text-base font-semibold bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-200">
+                48 ore
+              </span>
+            </div>
+
+            <ul class="mt-6 space-y-2 text-base md:text-lg leading-relaxed text-slate-700 dark:text-slate-200">
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500/80"></span>
+                UX e conversioni (CTA, messaggi, percorso utente)
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500/80"></span>
+                SEO tecnica (tag, struttura, indicizzazione)
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500/80"></span>
+                Performance (Core Web Vitals e colli di bottiglia)
+              </li>
+            </ul>
+
+            <a
+              href="/contatti"
+              class="mt-7 inline-flex items-center gap-2 text-base md:text-lg font-semibold text-slate-900 dark:text-slate-100
+                     underline underline-offset-4 decoration-blue-400/70 hover:decoration-blue-500"
+            >
+              Voglio l’audit <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Landing -->
+        <article
+          class="group relative overflow-hidden rounded-2xl
+                 border border-slate-200/90 dark:border-slate-800/90
+                 bg-white/90 dark:bg-slate-900/65
+                 ring-1 ring-slate-900/5 dark:ring-slate-50/10
+                 shadow-sm transition
+                 hover:-translate-y-0.5 hover:shadow-lg hover:bg-white
+                 dark:hover:bg-slate-900/75"
+        >
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-400"></div>
+          <div aria-hidden="true" class="absolute -top-20 -right-24 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl group-hover:bg-emerald-500/15 transition"></div>
+
+          <div class="p-7">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <div class="mt-0.5 h-12 w-12 rounded-2xl flex items-center justify-center bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-300">
+                  <i class="fas fa-bullseye text-base"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                    Landing page per contatti
+                  </h3>
+                  <p class="mt-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+                    Perfetta per ads, social o Google Business.
+                  </p>
+                </div>
+              </div>
+
+              <span class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-sm md:text-base font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-200">
+                1 pagina
+              </span>
+            </div>
+
+            <ul class="mt-6 space-y-2 text-base md:text-lg leading-relaxed text-slate-700 dark:text-slate-200">
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500/80"></span>
+                Copy orientato alla richiesta di preventivo
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500/80"></span>
+                Struttura “proof + CTA” (chiaro e misurabile)
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500/80"></span>
+                Tracking base (eventi/obiettivi)
+              </li>
+            </ul>
+
+            <a
+              href="/contatti"
+              class="mt-7 inline-flex items-center gap-2 text-base md:text-lg font-semibold text-slate-900 dark:text-slate-100
+                     underline underline-offset-4 decoration-emerald-400/70 hover:decoration-emerald-500"
+            >
+              Voglio una landing <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Fix -->
+        <article
+          class="group relative overflow-hidden rounded-2xl
+                 border border-slate-200/90 dark:border-slate-800/90
+                 bg-white/90 dark:bg-slate-900/65
+                 ring-1 ring-slate-900/5 dark:ring-slate-50/10
+                 shadow-sm transition
+                 hover:-translate-y-0.5 hover:shadow-lg hover:bg-white
+                 dark:hover:bg-slate-900/75"
+        >
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-pink-500 via-fuchsia-500 to-rose-400"></div>
+          <div aria-hidden="true" class="absolute -top-20 -right-24 h-56 w-56 rounded-full bg-pink-500/10 blur-3xl group-hover:bg-pink-500/15 transition"></div>
+
+          <div class="p-7">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <div class="mt-0.5 h-12 w-12 rounded-2xl flex items-center justify-center bg-pink-50 dark:bg-pink-500/10 text-pink-600 dark:text-pink-300">
+                  <i class="fas fa-screwdriver-wrench text-base"></i>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                    Fix SEO/Performance
+                  </h3>
+                  <p class="mt-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+                    Correggiamo ciò che ti rallenta davvero.
+                  </p>
+                </div>
+              </div>
+
+              <span class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-sm md:text-base font-semibold bg-pink-50 text-pink-700 dark:bg-pink-500/10 dark:text-pink-200">
+                Mirato
+              </span>
+            </div>
+
+            <ul class="mt-6 space-y-2 text-base md:text-lg leading-relaxed text-slate-700 dark:text-slate-200">
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-pink-500/80"></span>
+                Pulizia strutturale e miglioramento velocità
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-pink-500/80"></span>
+                Meta, headings, canonical, immagini
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-2 h-1.5 w-1.5 rounded-full bg-pink-500/80"></span>
+                Stabilità UI e bug visivi (dark mode inclusa)
+              </li>
+            </ul>
+
+            <a
+              href="/contatti"
+              class="mt-7 inline-flex items-center gap-2 text-base md:text-lg font-semibold text-slate-900 dark:text-slate-100
+                     underline underline-offset-4 decoration-pink-400/70 hover:decoration-pink-500"
+            >
+              Voglio un fix <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
   </section>
 
   <!-- STRIP: PER CHI LAVORIAMO -->
-  <section
-    id="per-chi"
-    class="relative not-prose mt-10 md:mt-12 lg:mt-16"
-  >
-    <div class="mx-auto px-6 md:px-8 max-w-screen-xl">
+  <section id="per-chi" class="mt-12 md:mt-16">
+    <div class="mx-auto max-w-screen-xl px-6 md:px-8">
       <div
-        class="rounded-[32px] border border-slate-100 bg-slate-50/60 
+        class="rounded-[32px]
+               border border-slate-200 dark:border-slate-800
+               bg-slate-50/60 dark:bg-slate-900/40
                shadow-[0_18px_60px_rgba(15,23,42,0.08)]
-               px-6 md:px-8 py-8 md:py-10 lg:py-12
+               dark:shadow-[0_18px_60px_rgba(0,0,0,0.35)]
+               px-6 md:px-8 py-10 md:py-12
                grid gap-10 lg:gap-12
-               lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.1fr)]
+               lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.05fr)]
                items-start"
       >
-        <!-- Colonna testo (sinistra) -->
         <div class="space-y-6">
-          <p class="text-sm md:text-base font-bold tracking-[0.22em] uppercase text-slate-700">
-            Per chi è il nostro servizio di <span class="bg-indigo-50 px-2 py-0.5 rounded">realizzazione</span> siti web
+          <p class="text-sm md:text-base font-bold tracking-[0.22em] uppercase text-slate-700 dark:text-slate-300">
+            Per chi è il nostro servizio di
+            <span class="ml-2 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded text-slate-900 dark:text-slate-100">
+              realizzazione
+            </span>
+            siti web
           </p>
 
-          <h2 class="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold leading-tight text-slate-900">
-            Se vivi di <span class="text-gradient">clienti locali</span>,
-            il tuo sito non può essere solo una vetrina.
+          <h2 class="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold leading-tight text-slate-900 dark:text-slate-100">
+            Se ti servono clienti locali o richieste da tutta Italia, il sito non può essere solo una vetrina.
           </h2>
 
-          <p class="text-base md:text-lg text-slate-700 leading-relaxed">
-            Lavoriamo con <strong>piccole imprese, freelance e studi professionali</strong> che vogliono
-            trasformare il sito in uno strumento che genera richieste di preventivo, prenotazioni
-            e appuntamenti, non solo visite anonime da Google.
+          <p class="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+            Lavoriamo con <strong>piccole imprese, freelance e studi professionali</strong> che vogliono trasformare
+            il sito in uno strumento che genera richieste: con messaggi chiari, pagine pulite e call to action visibili.
           </p>
 
-          <div class="space-y-4 text-sm md:text-base text-slate-700 leading-relaxed">
+          <div class="space-y-4 text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
             <p>
-              <strong>Niente più sito “statico”:</strong> ogni pagina è progettata per guidare
-              l’utente verso il contatto, con messaggi chiari e call to action visibili.
+              <strong>Niente più sito “bello ma muto”:</strong> il layout guida l’utente e riduce l’attrito verso il contatto.
             </p>
             <p>
-              <strong>Focus sui clienti giusti:</strong> contenuti, SEO locale e struttura del sito
-              lavorano insieme per intercettare <strong>chi è davvero pronto a contattarti</strong>.
+              <strong>Focus sui clienti giusti:</strong> contenuti e SEO lavorano insieme per intercettare chi sta già cercando.
             </p>
-            <p class="mb-1">
-              <strong>Strategia, non solo design:</strong> analizziamo la tua attività, la concorrenza
-              e le ricerche degli utenti per definire un <strong>percorso di conversione</strong>
-              adatto al tuo territorio.
+            <p>
+              <strong>Misurazione reale:</strong> tracciamo eventi e obiettivi per capire cosa funziona e cosa va corretto.
             </p>
           </div>
         </div>
 
-        <!-- Colonna card target (destra) -->
         <div class="flex flex-col gap-4 lg:gap-5">
-          <!-- Card 1 -->
-          <article
-            class="flex items-start gap-4 rounded-2xl bg-white/90 border border-slate-100
-                   shadow-sm px-4 py-4 md:px-5 md:py-5"
-          >
-            <div
-              class="mt-1 flex h-10 w-10 items-center justify-center rounded-full
-                     bg-indigo-50 text-indigo-600"
-            >
+          <article class="flex items-start gap-4 rounded-2xl bg-white/90 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 px-5 py-5">
+            <div class="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300">
               <i class="fas fa-store text-base"></i>
             </div>
             <div class="space-y-1">
-              <h3 class="text-base md:text-lg font-semibold text-slate-900">
-                Artigiani, negozi e attività locali
-              </h3>
-              <p class="text-base md:text-lg text-slate-600 leading-relaxed">
-                Parrucchieri, centri estetici, officine, negozi di quartiere e attività che vivono
-                di <strong>clienti della zona</strong>.
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Attività locali</h3>
+              <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                Pagine chiare + SEO locale + CTA: più richieste e prenotazioni.
               </p>
             </div>
           </article>
 
-          <!-- Card 2 -->
-          <article
-            class="flex items-start gap-4 rounded-2xl bg-white/90 border border-slate-100
-                   shadow-sm px-4 py-4 md:px-5 md:py-5"
-          >
-            <div
-              class="mt-1 flex h-10 w-10 items-center justify-center rounded-full
-                     bg-emerald-50 text-emerald-600"
-            >
+          <article class="flex items-start gap-4 rounded-2xl bg-white/90 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 px-5 py-5">
+            <div class="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-300">
               <i class="fas fa-briefcase text-base"></i>
             </div>
             <div class="space-y-1">
-              <h3 class="text-base md:text-lg font-semibold text-slate-900">
-                Studi professionali e consulenti
-              </h3>
-              <p class="text-base md:text-lg text-slate-600 leading-relaxed">
-                Psicologi, avvocati, consulenti e studi tecnici che vogliono posizionarsi come
-                <strong>riferimento autorevole</strong> sul territorio.
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Studi e consulenti</h3>
+              <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                Autorevolezza, struttura e contenuti per trasformare visite in contatti.
               </p>
             </div>
           </article>
 
-          <!-- Card 3 -->
-          <article
-            class="flex items-start gap-4 rounded-2xl bg-white/90 border border-slate-100
-                   shadow-sm px-4 py-4 md:px-5 md:py-5"
-          >
-            <div
-              class="mt-1 flex h-10 w-10 items-center justify-center rounded-full
-                     bg-pink-50 text-pink-600"
-            >
+          <article class="flex items-start gap-4 rounded-2xl bg-white/90 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 px-5 py-5">
+            <div class="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-pink-50 dark:bg-pink-500/10 text-pink-600 dark:text-pink-300">
               <i class="fas fa-bed text-base"></i>
             </div>
             <div class="space-y-1">
-              <h3 class="text-base md:text-lg font-semibold text-slate-900">
-                B&B, strutture ricettive e turismo
-              </h3>
-              <p class="text-base md:text-lg text-slate-600 leading-relaxed">
-                B&B, case vacanza, agriturismi e attività legate al turismo che vogliono ricevere
-                più richieste dirette, non solo tramite portali.
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Turismo e ricettivo</h3>
+              <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                Meno dipendenza dai portali: UX e pagine orientate alla prenotazione.
               </p>
             </div>
           </article>
@@ -232,141 +437,104 @@ const portfolioLatest = portfolioAll
   </section>
 
   <!-- SERVIZI -->
-  <section id="servizi" class="mt-10 md:mt-14">
-    <div class="mx-auto px-6 md:px-8 max-w-screen-xl">
-      <p class="text-center text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase">
+  <section id="servizi" class="mt-12 md:mt-16">
+    <div class="mx-auto max-w-screen-xl px-6 md:px-8">
+      <p class="text-center text-xs font-semibold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400">
         Servizi LS Web Agency
       </p>
-      <h2 class="mt-3 text-3xl font-bold text-center mb-3">
-        Servizi web per far crescere il tuo business a Sassari e in Sardegna
+
+      <h2 class="mt-3 text-3xl md:text-4xl font-extrabold text-center text-slate-900 dark:text-slate-100">
+        Siti, SEO e ottimizzazione: scegli lo step giusto
       </h2>
-      <p class="max-w-3xl mx-auto mb-10 text-center text-gray-600">
-        Non ci limitiamo a “fare il sito”. Progettiamo <strong>siti web professionali</strong>,
-        <strong> e-commerce</strong> e strategie di <strong>SEO</strong> che partono dai tuoi
-        obiettivi: più contatti, più appuntamenti, più clienti.
+
+      <p class="max-w-3xl mx-auto mt-4 mb-10 text-center text-base md:text-lg text-slate-600 dark:text-slate-300">
+        Puoi partire con un intervento rapido oppure costruire un progetto completo. In ogni caso:
+        <strong> design</strong>, <strong>SEO</strong> e <strong>contenuti</strong> sono pensati per generare richieste reali.
       </p>
 
       <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <!-- SITI WEB -->
-        <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
-          <Icon name="tabler:device-laptop" class="w-10 h-10 text-blue-600 mb-3" />
-          <h3 class="text-lg font-semibold mb-2">
-            Realizzazione siti web professionali a Sassari
-          </h3>
-          <p class="text-gray-600 mb-3">
-            Siti <strong>responsive</strong>, veloci e <strong>SEO-friendly</strong>, progettati
-            per raccontare la tua attività e guidare l’utente verso il contatto.
+        <div class="flex flex-col items-start text-left p-6 rounded-2xl shadow-sm bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <Icon name="tabler:device-laptop" class="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3" />
+          <h3 class="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">Siti web professionali</h3>
+          <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 mb-3">
+            Siti veloci e chiari, progettati per guidare l’utente verso il contatto.
           </p>
-          <ul class="mb-4 space-y-1 text-sm text-gray-600">
-            <li>• Struttura chiara e facile da navigare</li>
-            <li>• Contenuti pensati per i tuoi clienti</li>
-            <li>• Ottimizzazione per la SEO locale a Sassari</li>
+          <ul class="mb-4 space-y-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+            <li>• Struttura e UX</li>
+            <li>• Copy orientato alle richieste</li>
+            <li>• SEO locale o nazionale</li>
           </ul>
-          <a href="/servizi/creazione-siti-web-sassari" class="btn-primary self-start">
-            Scopri come lavoriamo
-          </a>
+          <a href="/servizi/creazione-siti-web-sassari" class="btn-primary self-start">Scopri come lavoriamo</a>
         </div>
 
-        <!-- E-COMMERCE & FUNNEL -->
-        <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
-          <Icon name="tabler:shopping-cart" class="w-10 h-10 text-blue-600 mb-3" />
-          <h3 class="text-lg font-semibold mb-2">
-            Realizzazione siti e‑commerce e funnel
-          </h3>
-          <p class="text-gray-600 mb-3">
-            Piattaforme di vendita online ottimizzate per mobile e integrate con pagamenti
-            sicuri, pensate per gestire catalogo, promozioni e spedizioni in autonomia.
+        <div class="flex flex-col items-start text-left p-6 rounded-2xl shadow-sm bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <Icon name="tabler:shopping-cart" class="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3" />
+          <h3 class="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">E-commerce e funnel</h3>
+          <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 mb-3">
+            Checkout semplice, UX orientata alla vendita, e struttura SEO pronta.
           </p>
-          <ul class="mb-4 space-y-1 text-sm text-gray-600">
-            <li>• Checkout semplice e UX ottimizzata</li>
-            <li>• Integrazione con gateway di pagamento sicuri</li>
-            <li>• Gestione prodotti, offerte e funnel di vendita</li>
+          <ul class="mb-4 space-y-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+            <li>• UX e conversioni</li>
+            <li>• Pagamenti e integrazioni</li>
+            <li>• Pagine prodotto SEO-ready</li>
           </ul>
-          <a href="/servizi/realizzazione-siti-ecommerce" class="btn-primary self-start">
-            Inizia a vendere online
-          </a>
+          <a href="/servizi/realizzazione-siti-ecommerce" class="btn-primary self-start">Inizia a vendere online</a>
         </div>
 
-        <!-- SEO -->
-        <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
-          <Icon name="tabler:chart-bar" class="w-10 h-10 text-blue-600 mb-3" />
-          <h3 class="text-lg font-semibold mb-2">
-            SEO e posizionamento su Google
-          </h3>
-          <p class="text-gray-600 mb-3">
-            <strong>SEO tecnica</strong>, strategia contenuti e
-            <strong> Local SEO</strong> per farti trovare dai clienti che cercano i tuoi
-            servizi a Sassari e nel resto della Sardegna.
+        <div class="flex flex-col items-start text-left p-6 rounded-2xl shadow-sm bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <Icon name="tabler:chart-bar" class="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3" />
+          <h3 class="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">SEO e posizionamento</h3>
+          <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 mb-3">
+            SEO tecnica e contenuti per farti trovare dai clienti giusti.
           </p>
-          <ul class="mb-4 space-y-1 text-sm text-gray-600">
-            <li>• Analisi tecnica e ottimizzazione on‑site</li>
-            <li>• Keyword research e contenuti mirati</li>
-            <li>• Strategie di Local SEO per la tua area</li>
+          <ul class="mb-4 space-y-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+            <li>• Analisi tecnica</li>
+            <li>• Keyword research</li>
+            <li>• Local SEO / SEO nazionale</li>
           </ul>
-          <a href="/servizi/ottimizzazione-seo-siti-web" class="btn-primary self-start">
-            Migliora la visibilità
-          </a>
+          <a href="/servizi/ottimizzazione-seo-siti-web" class="btn-primary self-start">Migliora la visibilità</a>
         </div>
 
-        <!-- BRANDING -->
-        <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
-          <Icon name="tabler:palette" class="w-10 h-10 text-blue-600 mb-3" />
-          <h3 class="text-lg font-semibold mb-2">
-            Branding & grafica per il web
-          </h3>
-          <p class="text-gray-600 mb-3">
-            <strong>Identità visiva</strong>, loghi e materiali digitali coerenti per dare
-            un volto riconoscibile al tuo brand su sito, social e campagne.
+        <div class="flex flex-col items-start text-left p-6 rounded-2xl shadow-sm bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <Icon name="tabler:palette" class="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3" />
+          <h3 class="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">Branding & grafica</h3>
+          <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 mb-3">
+            Identità visiva coerente e UI pulita per comunicare in modo riconoscibile.
           </p>
-          <ul class="mb-4 space-y-1 text-sm text-gray-600">
-            <li>• Progettazione di loghi e palette colore</li>
-            <li>• Linee guida grafiche per il brand</li>
-            <li>• Materiali digitali coordinati</li>
+          <ul class="mb-4 space-y-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+            <li>• Logo e palette</li>
+            <li>• Linee guida</li>
+            <li>• UI coerente su sito e landing</li>
           </ul>
-          <a href="/servizi/branding-e-grafica-siti-web" class="btn-primary self-start">
-            Cura l’immagine del tuo brand
-          </a>
+          <a href="/servizi/branding-e-grafica-siti-web" class="btn-primary self-start">Cura l’immagine</a>
         </div>
 
-        <!-- WORDPRESS SLIM -->
-        <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
-          <Icon name="tabler:database-export" class="w-10 h-10 text-blue-600 mb-3" />
-          <h3 class="text-lg font-semibold mb-2">
-            WordPress Slim: siti più veloci e sicuri
-          </h3>
-          <p class="text-gray-600 mb-3">
-            Convertiamo il tuo sito <strong>WordPress</strong> in una soluzione
-            <strong>statica o headless</strong>, riducendo rischi di attacchi, errori di plugin
-            e problemi di performance.
+        <div class="flex flex-col items-start text-left p-6 rounded-2xl shadow-sm bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <Icon name="tabler:database-export" class="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3" />
+          <h3 class="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">WordPress Slim</h3>
+          <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 mb-3">
+            Migrazione a statico o headless per ridurre rischi e aumentare performance.
           </p>
-          <ul class="mb-4 space-y-1 text-sm text-gray-600">
-            <li>• Conversione a statico o headless</li>
-            <li>• Aumento di velocità e sicurezza</li>
-            <li>• Aggiornamento semplificato</li>
+          <ul class="mb-4 space-y-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+            <li>• Statico/headless</li>
+            <li>• Velocità e sicurezza</li>
+            <li>• Manutenzione più semplice</li>
           </ul>
-          <a href="/servizi/wordpress-slim-siti-statici-headless" class="btn-primary self-start">
-            Scopri WordPress Slim
-          </a>
+          <a href="/servizi/wordpress-slim-siti-statici-headless" class="btn-primary self-start">Scopri WordPress Slim</a>
         </div>
 
-        <!-- AI BLOG ENGINE -->
-        <div class="flex flex-col items-start text-left p-6 border rounded-2xl shadow-sm bg-white">
-          <Icon name="tabler:robot" class="w-10 h-10 text-blue-600 mb-3" />
-          <h3 class="text-lg font-semibold mb-2">
-            AI Blog Engine: contenuti SEO con l’AI
-          </h3>
-          <p class="text-gray-600 mb-3">
-            Articoli ottimizzati per la <strong>SEO</strong> creati con l’aiuto dell’AI e
-            rifiniti a mano, per presidiare le ricerche dei tuoi clienti senza testi generici.
+        <div class="flex flex-col items-start text-left p-6 rounded-2xl shadow-sm bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <Icon name="tabler:robot" class="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3" />
+          <h3 class="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">AI Blog Engine</h3>
+          <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 mb-3">
+            Contenuti SEO con AI controllata e revisione manuale, per aumentare richieste nel tempo.
           </p>
-          <ul class="mb-4 space-y-1 text-sm text-gray-600">
-            <li>• Generazione articoli con AI controllata</li>
-            <li>• Ottimizzazione SEO per chiavi mirate</li>
-            <li>• Revisione e personalizzazione manuale</li>
+          <ul class="mb-4 space-y-1 text-base md:text-lg text-slate-600 dark:text-slate-300">
+            <li>• Articoli e cluster</li>
+            <li>• Ottimizzazione on-page</li>
+            <li>• Piano editoriale sostenibile</li>
           </ul>
-          <a href="/servizi/ai-blog-engine" class="btn-primary self-start">
-            Scopri il servizio
-          </a>
+          <a href="/servizi/ai-blog-engine" class="btn-primary self-start">Scopri il servizio</a>
         </div>
       </div>
 
@@ -377,29 +545,30 @@ const portfolioLatest = portfolioAll
   </section>
 
   <!-- ULTIMI LAVORI -->
-  <section id="ultimi-lavori" class="py-12">
-    <div class="mx-auto px-6 md:px-8 max-w-screen-xl">
-      <div class="mb-6 flex items-end justify-between">
+  <section id="ultimi-lavori" class="py-12 md:py-14">
+    <div class="mx-auto max-w-screen-xl px-6 md:px-8">
+      <div class="mb-6 flex items-end justify-between gap-4">
         <div>
-          <h2 class="text-3xl font-bold">Ultimi lavori</h2>
-          <p class="text-sm text-gray-500">
-            Alcuni progetti di siti web, grafica e comunicazione digitale realizzati per clienti
-            a Sassari e in Sardegna.
+          <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Ultimi lavori</h2>
+          <p class="mt-1 text-base md:text-lg text-slate-500 dark:text-slate-400">
+            Alcuni progetti realizzati: siti web, grafica e comunicazione digitale.
           </p>
         </div>
-        <a href="/portfolio" class="text-sm underline">Guarda il portfolio completo</a>
+        <a href="/portfolio" class="text-base md:text-lg underline text-slate-700 dark:text-slate-300">
+          Guarda il portfolio completo
+        </a>
       </div>
 
       <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {portfolioLatest.map((item) => {
           const hrefRaw = item.data.permalink ?? `/portfolio/${item.data.slug}`;
-          const href = hrefRaw.replace(/\/+\$/, '');
+          const href = hrefRaw.replace(/\/+$/, '');
           const img = item.data.image as
             | { src: string; alt?: string; width?: number; height?: number }
             | undefined;
 
           return (
-            <article class="rounded-xl overflow-hidden border hover:shadow-md transition-shadow bg-white">
+            <article class="rounded-xl overflow-hidden transition-shadow hover:shadow-md bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
               <a href={href} aria-label={`Apri: ${item.data.title}`} class="block">
                 {img?.src && (
                   <img
@@ -413,16 +582,16 @@ const portfolioLatest = portfolioAll
                   />
                 )}
                 <div class="p-4">
-                  <h3 class="text-sm font-semibold mb-1 line-clamp-2">
+                  <h3 class="text-base md:text-lg font-semibold mb-1 line-clamp-2 text-slate-900 dark:text-slate-100">
                     {item.data.title}
                   </h3>
                   {item.data.category && (
-                    <p class="text-[11px] uppercase tracking-wide text-slate-500 mb-1">
+                    <p class="text-[12px] uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">
                       {item.data.category}
                     </p>
                   )}
                   {item.data.description && (
-                    <p class="text-xs text-gray-700 line-clamp-2">
+                    <p class="text-sm md:text-base text-slate-700 dark:text-slate-300 line-clamp-2">
                       {item.data.description}
                     </p>
                   )}
@@ -436,35 +605,29 @@ const portfolioLatest = portfolioAll
   </section>
 
   <!-- CTA CENTRALE -->
-  <section class="my-16">
-    <div class="mx-auto px-6 md:px-8 max-w-screen-xl">
-      <div class="mx-auto max-w-5xl rounded-3xl bg-gray-50 ring-1 ring-gray-200 px-6 py-14 text-center md:px-12">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900">
-          Vuoi un sito web che lavori davvero per la tua attività?
+  <section class="my-14 md:my-16">
+    <div class="mx-auto max-w-screen-xl px-6 md:px-8">
+      <div class="mx-auto max-w-5xl rounded-3xl bg-slate-50 dark:bg-slate-900/50 ring-1 ring-slate-200 dark:ring-slate-800 px-6 py-14 text-center md:px-12">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
+          Vuoi un sito che inizi a lavorare per te, non “un bel sito e basta”?
         </h2>
-        <p class="mt-4 text-lg text-gray-600">
-          Ti aiutiamo a progettare un <strong>sito web professionale</strong> che unisce
-          design, <strong>SEO</strong> e contenuti chiari per portare nuovi contatti
-          a Sassari e nel resto della Sardegna.
+
+        <p class="mt-4 text-lg md:text-xl text-slate-600 dark:text-slate-300">
+          Possiamo partire con un <strong>intervento rapido</strong> (audit/landing/fix) oppure con un progetto completo.
+          L’obiettivo è uno: <strong>più richieste</strong>, misurabili.
         </p>
 
         <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href="/contatti"
-            class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-          >
-            Prenota una consulenza
+          <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+            Prenota una call
           </a>
-          <a
-            href="/servizi"
-            class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-pink-600 hover:bg-pink-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
-          >
-            Scopri i servizi
+          <a href="#interventi-rapidi" class="inline-flex items-center justify-center rounded-full px-8 py-3 text-base font-semibold text-white bg-pink-600 hover:bg-pink-700 shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500">
+            Vedi interventi rapidi
           </a>
         </div>
 
-        <p class="mt-6 text-sm text-gray-500">
-          Preventivo chiaro, zero vincoli a lungo termine, supporto continuativo.
+        <p class="mt-6 text-sm md:text-base text-slate-500 dark:text-slate-400">
+          Preventivo chiaro, obiettivi realistici, supporto continuativo.
         </p>
       </div>
     </div>
@@ -472,82 +635,67 @@ const portfolioLatest = portfolioAll
 
   <!-- BLOG -->
   <BlogLatestPosts>
-    <span slot="title">Dal nostro blog:</span>
-    <span slot="information">
-      Guide pratiche su <strong>SEO</strong>, creazione di <strong>siti web professionali</strong> e
-      strategie digitali per far crescere il tuo business online.
+    <span slot="title" class="block">Dal nostro blog:</span>
+    <span slot="information" class="block mt-2 text-base md:text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+      Guide pratiche su <strong>SEO</strong>, creazione di <strong>siti web professionali</strong> e strategie digitali per far crescere il tuo business online.
     </span>
   </BlogLatestPosts>
 
   <!-- FAQ -->
-  <section id="faq" class="mt-24 px-6 lg:px-8 max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold mb-6">
-      Domande frequenti sulla realizzazione di siti web
-    </h2>
-    <div class="space-y-8 border-t border-gray-200 pt-6">
-      <div class="border-b pb-6">
-        <h3 class="text-xl font-semibold dark:text-white">
-          Quanto costa un sito web professionale?
-        </h3>
-        <p class="mt-2 dark:text-slate-300">
-          Le nostre soluzioni partono da circa <strong>490€</strong> per un sito essenziale
-          one‑page e crescono in base al numero di pagine, alle funzionalità e al livello
-          di personalizzazione grafica e SEO.
+  <section id="faq" class="mt-20 md:mt-24 px-6 md:px-8 max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Domande frequenti</h2>
+
+    <div class="space-y-8 border-t border-slate-200 dark:border-slate-800 pt-6">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Possiamo lavorare anche online?</h3>
+        <p class="mt-2 text-base md:text-lg text-slate-700 dark:text-slate-300">
+          Sì. Gestiamo call, raccolta materiali, revisione e consegna online. Il metodo resta identico:
+          obiettivi chiari, piano d’azione e misurazione.
         </p>
       </div>
 
-      <div class="border-b pb-6">
-        <h3 class="text-xl font-semibold dark:text-white">
-          In quanto tempo viene realizzato il sito?
-        </h3>
-        <p class="mt-2 dark:text-slate-300">
-          Per un <strong>sito web base</strong> servono in media
-          <strong>1–2 settimane</strong>. Per progetti più strutturati o un
-          <strong> e‑commerce</strong> consideriamo circa <strong>3–4 settimane</strong>,
-          a seconda della velocità di revisione dei contenuti.
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Quanto costa un sito web professionale?</h3>
+        <p class="mt-2 text-base md:text-lg text-slate-700 dark:text-slate-300">
+          Le soluzioni partono da circa <strong>490€</strong> per un one-page essenziale e crescono in base a pagine,
+          funzionalità e livello di SEO/UX. Se vuoi partire “leggero”, consigliamo prima un audit o una landing.
         </p>
       </div>
 
-      <div class="border-b pb-6">
-        <h3 class="text-xl font-semibold dark:text-white">
-          Il sito sarà ottimizzato per Google e per la SEO locale?
-        </h3>
-        <p class="mt-2 dark:text-slate-300">
-          Sì. Progettiamo la struttura pensando fin da subito alla
-          <strong>SEO tecnica</strong> e alla <strong>SEO locale</strong>:
-          URL puliti, meta tag, performance e contenuti orientati alle ricerche
-          dei tuoi clienti a Sassari e in Sardegna.
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">In quanto tempo posso vedere risultati?</h3>
+        <p class="mt-2 text-base md:text-lg text-slate-700 dark:text-slate-300">
+          Dipende dal punto di partenza. Con <strong>interventi rapidi</strong> (audit/landing/fix) spesso si sbloccano
+          conversioni in tempi brevi. La SEO organica richiede più continuità, ma è la base più solida nel medio periodo.
         </p>
       </div>
 
       <div>
-        <h3 class="text-xl font-semibold dark:text-white">
-          Potrò aggiornare il sito in autonomia dopo la consegna?
-        </h3>
-        <p class="mt-2 dark:text-slate-300">
-          Certo. Ti forniamo un pannello semplice da usare e una breve formazione
-          per permetterti di modificare testi, immagini e pagine senza dover
-          dipendere ogni volta da un tecnico.
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Il sito sarà ottimizzato per Google?</h3>
+        <p class="mt-2 text-base md:text-lg text-slate-700 dark:text-slate-300">
+          Sì: SEO tecnica, performance, struttura e contenuti. Possiamo impostare una strategia locale (Sassari/Sardegna)
+          oppure una strategia per acquisire clienti in tutta Italia, in base al tuo mercato.
         </p>
       </div>
     </div>
   </section>
 
   <!-- CTA FINALE -->
-  <div class="mx-auto px-6 md:px-8 max-w-screen-xl">
+  <div class="mx-auto max-w-screen-xl px-6 md:px-8 mt-16 md:mt-20">
     <CallToAction
-      actions={[{
-        variant: 'secondary',
-        text: 'Leggi la guida completa',
-        href: '/blog/perche-il-tuo-sito-web-non-porta-clienti',
-        icon: 'tabler:book'
-      }]}
+      actions={[
+        {
+          variant: 'secondary',
+          text: 'Leggi la guida completa',
+          href: '/blog/perche-il-tuo-sito-web-non-porta-clienti',
+          icon: 'tabler:book',
+        },
+      ]}
     >
-      <span slot="title">Hai ancora dubbi sul perché il tuo sito non porta risultati?</span>
+      <span slot="title">Vuoi capire perché il tuo sito non porta contatti?</span>
       <span slot="subtitle">
-        Nel nostro articolo dedicato spieghiamo, passo dopo passo, gli errori più comuni che
-        bloccano un <strong>sito web professionale</strong> e come correggerli con UX,
-        SEO e copywriting. Un buon punto di partenza prima di progettare il tuo nuovo sito.
+        Nel nostro articolo spieghiamo gli errori più comuni che bloccano un <strong>sito web professionale</strong>
+        e come correggerli con UX, SEO e copywriting. È un buon punto di partenza prima di investire.
       </span>
     </CallToAction>
   </div>
