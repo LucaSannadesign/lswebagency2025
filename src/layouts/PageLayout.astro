@@ -10,8 +10,54 @@ const metadata = (Astro.props.metadata ?? {}) as MetaData;
 
 <Document metadata={metadata}>
   <Header />
+
   <main id="main" class="min-h-screen">
     <slot />
   </main>
+
   <Footer />
+
+  <!-- Scroll to top -->
+  <button
+    id="scrollToTop"
+    type="button"
+    aria-label="Torna in cima"
+    class="fixed bottom-6 right-6 z-50 hidden
+           h-12 w-12 rounded-full
+           bg-slate-900/90 text-white
+           shadow-lg ring-1 ring-white/10
+           backdrop-blur
+           transition
+           hover:bg-slate-900
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+           dark:bg-slate-100/90 dark:text-slate-900 dark:ring-slate-900/10 dark:hover:bg-slate-100"
+  >
+    <span aria-hidden="true" class="text-xl leading-none">↑</span>
+  </button>
+
+  <script is:inline>
+    (() => {
+      const btn = document.getElementById('scrollToTop');
+      if (!btn) return;
+
+      const SHOW_AT = 600;
+
+      const onScroll = () => {
+        const y = window.scrollY || document.documentElement.scrollTop || 0;
+        if (y > SHOW_AT) btn.classList.remove('hidden');
+        else btn.classList.add('hidden');
+      };
+
+      btn.addEventListener('click', () => {
+        try {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch {
+          window.scrollTo(0, 0);
+        }
+      });
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
 </Document>
