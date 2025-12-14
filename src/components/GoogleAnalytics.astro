@@ -1,0 +1,21 @@
+---
+const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+if (!GA_ID) throw new Error("Missing PUBLIC_GA_MEASUREMENT_ID");
+---
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FX8HDJJM7B"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FX8HDJJM7B', { send_page_view: true });
+
+  document.addEventListener('astro:page-load', () => {
+    gtag('config', 'G-FX8HDJJM7B', {
+      page_path: location.pathname + location.search,
+      page_title: document.title,
+      page_location: location.href,
+    });
+  });
+</script>
