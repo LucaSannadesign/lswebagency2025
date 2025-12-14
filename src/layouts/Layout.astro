@@ -9,7 +9,6 @@ import CustomStyles from "@/components/CustomStyles.astro";
 import ApplyColorMode from "@/components/common/ApplyColorMode.astro";
 import SiteVerification from "@/components/common/SiteVerification.astro";
 import BasicScripts from "@/components/common/BasicScripts.astro";
-// ⛔️ Evita qui componenti che reiniettano meta OG/Twitter/Title per non duplicare.
 
 import { ClientRouter } from "astro:transitions";
 import type { MetaData as MetaDataType } from "@/types";
@@ -25,7 +24,6 @@ export interface Props {
 const SITE_TITLE = "LS Web Agency";
 const siteBase = (Astro.site?.toString?.() || "https://lswebagency.com").replace(/\/+$/, "");
 
-/** Converte in URL assoluto. Sicura: accetta solo stringhe, ignora altro. */
 const toAbs = (val: unknown): string => {
   if (typeof val !== "string") return "";
   const s = val.trim();
@@ -66,7 +64,6 @@ const ogType = og.type ?? "website";
 const ogSiteName = og.siteName ?? SITE_TITLE;
 const ogUrl = toAbs((og as any).url ?? canonicalUrl) || canonicalUrl;
 
-// Normalizza immagini OG: accetta stringhe o oggetti { url, width?, height?, alt? }
 type OGImg = { url: string; width?: number; height?: number; alt?: string };
 const ogImagesInput = Array.isArray((og as any).images) ? (og as any).images : [];
 const ogImagesParsed = ogImagesInput
@@ -76,10 +73,20 @@ const ogImagesParsed = ogImagesInput
     return null;
   })
   .filter(Boolean) as OGImg[];
+
 const ogImages: OGImg[] =
   ogImagesParsed.length > 0
-    ? ogImagesParsed.map((img) => ({ ...img, url: toAbs(img.url) || `${siteBase}/images/default-og-image.jpg` }))
-    : [{ url: toAbs("/images/default-og-image.jpg") || `${siteBase}/images/default-og-image.jpg`, width: 1200, height: 628 }];
+    ? ogImagesParsed.map((img) => ({
+        ...img,
+        url: toAbs(img.url) || `${siteBase}/images/default-og-image.jpg`,
+      }))
+    : [
+        {
+          url: toAbs("/images/default-og-image.jpg") || `${siteBase}/images/default-og-image.jpg`,
+          width: 1200,
+          height: 628,
+        },
+      ];
 
 const tw = md?.twitter ?? {};
 const twCard = tw.cardType ?? "summary_large_image";
@@ -99,17 +106,13 @@ const jsonLdBlocks = md?.jsonLd
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- =========================
-         Primary meta
-    ========================== -->
+    <!-- Primary meta -->
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="robots" content={robotsContent} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- =========================
-         Open Graph
-    ========================== -->
+    <!-- Open Graph -->
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     <meta property="og:type" content={ogType} />
@@ -125,9 +128,7 @@ const jsonLdBlocks = md?.jsonLd
       </>
     ))}
 
-    <!-- =========================
-         Twitter
-    ========================== -->
+    <!-- Twitter -->
     <meta name="twitter:card" content={twCard} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
@@ -135,34 +136,24 @@ const jsonLdBlocks = md?.jsonLd
     <meta name="twitter:site" content={twSite} />
     <meta name="twitter:creator" content={twHandle} />
 
-    <!-- =========================
-         Favicons / Styles / Color mode
-    ========================== -->
+    <!-- Favicons / Styles / Color mode -->
     <Favicons />
     <CustomStyles />
     <ApplyColorMode />
 
-    <!-- =========================
-         Site verification (Search Console, ecc.)
-    ========================== -->
+    <!-- Site verification -->
     <SiteVerification />
 
-    <!-- =========================
-         Perf hints
-    ========================== -->
+    <!-- Perf hints -->
     <link rel="preconnect" href="https://www.paypal.com" crossorigin />
     <link rel="dns-prefetch" href="https://www.paypal.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-    <!-- =========================
-         Client-side transitions
-    ========================== -->
+    <!-- Client-side transitions -->
     <ClientRouter fallback="swap" />
 
-    <!-- =========================
-         JSON-LD per pagina (se passato via metadata.jsonLd)
-    ========================== -->
+    <!-- JSON-LD per pagina -->
     {jsonLdBlocks.map((block) => (
       <script type="application/ld+json" is:inline>{JSON.stringify(block)}</script>
     ))}
