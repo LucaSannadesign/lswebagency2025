@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button.astro';
 
 import { getHomePermalink, trimSlash, getAsset } from '@/utils/permalinks';
 import type { CallToAction } from '@/types';
+import { headerData as navHeaderData } from '@/navigation';
 
 interface Link {
   text?: string;
@@ -31,40 +32,19 @@ export interface Props {
 
 const {
   id = 'header',
-  // NB: non includo Local/Pagamenti qui
-  links = [
-    { text: 'Home', href: '/' },
-    { text: 'Chi Siamo', href: '/chi-siamo' },
-    {
-      text: 'Servizi',
-      href: '/servizi',
-      links: [
-        { text: 'Creazione siti web', href: '/servizi/creazione-siti-web-sassari' },
-        { text: 'Realizzazione E-commerce', href: '/servizi/realizzazione-siti-ecommerce' },
-        { text: 'Ottimizzazione SEO', href: '/servizi/ottimizzazione-seo-siti-web' },
-        { text: 'Branding e Grafica', href: '/servizi/branding-e-grafica-siti-web' },
-        { text: 'Accessibilità Digitale', href: '/servizi/accessibilita-digitale-avanzata' },
-        { text: 'UX con AI', href: '/servizi/personalizzazione-ux-intelligenza-artificiale' },
-        { text: 'Assistente AI (Sito & WhatsApp)', href: '/servizi/assistente-ai-sito-whatsapp' },
-        { text: 'Web Design Etico', href: '/servizi/web-design-etico-sostenibile' },
-        { text: 'Voucher Digitali', href: '/servizi/voucher-digitali-sassari' },
-      ],
-    },
-    { text: 'Portfolio', href: '/portfolio' },
-    { text: 'Blog', href: '/blog' },
-    { text: 'Contatti', href: '/contatti' },
-  ],
-  actions = [],
+  links: linksProp,
+  actions: actionsProp,
   isSticky = false,
   isDark = false,
   isFullWidth = false,
-
-  // 🔧 Mostra le icone per default
   showToggleTheme = true,
   showRssFeed = true,
-
   position = 'center',
 } = Astro.props;
+
+// ✅ Source of truth: src/navigation.ts (override opzionale via props)
+const links = (Array.isArray(linksProp) && linksProp.length ? linksProp : navHeaderData.links) as MenuLink[];
+const actions = (Array.isArray(actionsProp) && actionsProp.length ? actionsProp : (navHeaderData.actions ?? [])) as CallToAction[];
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 

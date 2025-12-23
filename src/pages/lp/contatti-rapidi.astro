@@ -1,0 +1,375 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+// Immagine già presente (OG + hero). Se vuoi una hero senza immagine, rimuovi l'import e il blocco "Hero Visual".
+import servicesHero from '@/assets/images/servizi-seo-grafica-branding-siti-web.webp';
+
+const metadata = {
+  title: 'Pacchetto Contatti Rapidi | LS Web Agency',
+  description:
+    'Una landing progettata per trasformare visite in richieste: CTA WhatsApp e form, copy orientato alla conversione, performance e SEO essenziale. Consegna 7–10 giorni.',
+  canonical: '/lp/contatti-rapidi',
+  ignoreTitleTemplate: true,
+  openGraph: {
+    url: '/lp/contatti-rapidi',
+    type: 'website',
+    images: [{ url: servicesHero.src, width: servicesHero.width, height: servicesHero.height }],
+  },
+  twitter: { cardType: 'summary_large_image' },
+};
+
+const PRICE_FROM = '690€';
+const DELIVERY = '7–10 giorni';
+
+const CTA_BASE = '/contatti?servizio=contatti-rapidi';
+const CTA_CALL = `${CTA_BASE}&azione=call`;
+const CTA_STARTER = `${CTA_BASE}&pacchetto=starter`;
+const CTA_PLUS = `${CTA_BASE}&pacchetto=plus`;
+
+const SERVICES_URL = '/servizi';
+
+// JSON-LD (SEO)
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Pacchetto Contatti Rapidi",
+  "description": "Landing page orientata alla conversione con CTA WhatsApp e form, copy e struttura UX, tracking base e ottimizzazioni performance/SEO essenziali.",
+  "provider": { "@type": "Organization", "name": "LS Web Agency", "url": "https://www.lswebagency.com" },
+  "areaServed": "IT",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EUR",
+    "priceSpecification": { "@type": "PriceSpecification", "price": "690", "priceCurrency": "EUR" },
+    "url": "https://www.lswebagency.com/lp/contatti-rapidi"
+  }
+};
+---
+
+<Layout metadata={metadata}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <!-- HERO -->
+  <section class="relative isolate overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 -z-10">
+      <div class="absolute -top-32 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-600/20 via-fuchsia-500/10 to-emerald-400/15 blur-3xl"></div>
+      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-white dark:to-neutral-950"></div>
+    </div>
+
+    <div class="container mx-auto max-w-7xl px-6 md:px-8 py-14 md:py-20">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+        <!-- Copy -->
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-neutral-200 bg-white/70 dark:bg-neutral-900/50 dark:ring-neutral-800">
+            <span class="inline-flex items-center gap-1">
+              <Icon name="tabler:bolt" class="w-4 h-4" />
+              Pacchetto rapido
+            </span>
+            <span class="text-neutral-500 dark:text-neutral-400">Consegna {DELIVERY}</span>
+          </div>
+
+          <h1 class="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
+            Una landing che <span class="text-accent text-gradient dark:text-white highlight">porta contatti</span>,
+            non solo visite.
+          </h1>
+
+          <p class="mt-4 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed max-w-2xl">
+            Se oggi il tuo sito (o i tuoi social) non trasformano l’interesse in richieste, il problema spesso non è “fare più contenuti”:
+            è la <strong>pagina</strong> che non guida l’utente a un’azione chiara. Qui costruiamo una landing essenziale, credibile e orientata alla conversione.
+          </p>
+
+          <div class="mt-7 flex flex-col sm:flex-row gap-3">
+            <a href={CTA_CALL} class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold">
+              Richiedi una call (15 min)
+              <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+            </a>
+            <a href="#pacchetti" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold ring-1 ring-neutral-200 bg-white/70 hover:bg-white dark:bg-neutral-900/40 dark:ring-neutral-800 dark:hover:bg-neutral-900/60">
+              Vedi pacchetti e prezzi
+            </a>
+          </div>
+
+          <!-- Micro trust -->
+          <div class="mt-7 grid gap-3 sm:grid-cols-3 max-w-2xl">
+            <div class="rounded-2xl p-4 ring-1 ring-neutral-200 bg-white/70 dark:bg-neutral-900/40 dark:ring-neutral-800">
+              <div class="text-sm font-semibold flex items-center gap-2">
+                <Icon name="tabler:target-arrow" class="w-5 h-5 opacity-80" /> Focus: conversione
+              </div>
+              <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">CTA, struttura e microcopy progettati per far scegliere.</p>
+            </div>
+            <div class="rounded-2xl p-4 ring-1 ring-neutral-200 bg-white/70 dark:bg-neutral-900/40 dark:ring-neutral-800">
+              <div class="text-sm font-semibold flex items-center gap-2">
+                <Icon name="tabler:rocket" class="w-5 h-5 opacity-80" /> Performance
+              </div>
+              <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Pagina leggera, rapida, SEO essenziale e chiara.</p>
+            </div>
+            <div class="rounded-2xl p-4 ring-1 ring-neutral-200 bg-white/70 dark:bg-neutral-900/40 dark:ring-neutral-800">
+              <div class="text-sm font-semibold flex items-center gap-2">
+                <Icon name="tabler:message-chatbot" class="w-5 h-5 opacity-80" /> Lead pronti
+              </div>
+              <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Form + WhatsApp, con tracking base degli eventi.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual -->
+        <div class="lg:col-span-5">
+          <div class="relative rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/60 dark:bg-neutral-900/40 shadow-sm">
+            <img
+              src={servicesHero.src}
+              width={servicesHero.width}
+              height={servicesHero.height}
+              alt="Anteprima layout LS Web Agency"
+              class="w-full h-[320px] md:h-[420px] object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-neutral-950/40 via-neutral-950/10 to-transparent"></div>
+
+            <div class="absolute bottom-4 left-4 right-4">
+              <div class="rounded-2xl p-4 bg-white/85 dark:bg-neutral-950/70 ring-1 ring-white/40 dark:ring-neutral-800 backdrop-blur">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <div class="text-sm font-semibold">Contatti Rapidi</div>
+                    <div class="text-sm text-neutral-600 dark:text-neutral-300">Da <strong>{PRICE_FROM}</strong> · consegna {DELIVERY}</div>
+                  </div>
+                  <div class="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-emerald-600 text-white">
+                    <Icon name="tabler:check" class="w-4 h-4" /> Pronto per vendere
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini checklist -->
+          <div class="mt-4 grid gap-3">
+            <div class="rounded-2xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/40">
+              <div class="text-sm font-semibold">Ideale se…</div>
+              <ul class="mt-2 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> hai un’offerta chiara ma poche richieste</li>
+                <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> ricevi traffico da Google/Ads/social, ma non converti</li>
+                <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> vuoi una pagina “snella” da condividere ovunque</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Anchor nav -->
+      <div class="mt-10 flex flex-wrap gap-2 text-sm">
+        <a href="#cosa-ottieni" class="px-4 py-2 rounded-full ring-1 ring-neutral-200 bg-white/70 hover:bg-white dark:bg-neutral-900/40 dark:ring-neutral-800 dark:hover:bg-neutral-900/60">Cosa ottieni</a>
+        <a href="#processo" class="px-4 py-2 rounded-full ring-1 ring-neutral-200 bg-white/70 hover:bg-white dark:bg-neutral-900/40 dark:ring-neutral-800 dark:hover:bg-neutral-900/60">Processo</a>
+        <a href="#pacchetti" class="px-4 py-2 rounded-full ring-1 ring-neutral-200 bg-white/70 hover:bg-white dark:bg-neutral-900/40 dark:ring-neutral-800 dark:hover:bg-neutral-900/60">Pacchetti</a>
+        <a href="#faq" class="px-4 py-2 rounded-full ring-1 ring-neutral-200 bg-white/70 hover:bg-white dark:bg-neutral-900/40 dark:ring-neutral-800 dark:hover:bg-neutral-900/60">FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA OTTIENI -->
+  <section id="cosa-ottieni" class="container mx-auto max-w-7xl px-6 md:px-8 py-14">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-bold">Cosa ottieni, in concreto</h2>
+      <p class="mt-2 text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        Una pagina progettata per <strong>far scegliere</strong>: meno dispersione, più chiarezza, più richieste.
+        Ogni sezione ha un motivo: ridurre dubbi e aumentare fiducia.
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {[
+        { icon: 'tabler:layout', title: 'Struttura UX orientata all’azione', text: 'Gerarchia chiara, sezioni essenziali, CTA ripetute con criterio.' },
+        { icon: 'tabler:writing', title: 'Copy e microcopy', text: 'Titoli, benefici, obiezioni e CTA scritti per essere capiti al volo.' },
+        { icon: 'tabler:brand-whatsapp', title: 'WhatsApp + Form contatti', text: 'Due strade rapide: contatto immediato e richiesta completa.' },
+        { icon: 'tabler:gauge', title: 'Performance & leggerezza', text: 'Caricamento rapido, layout pulito, niente “peso” inutile.' },
+        { icon: 'tabler:search', title: 'SEO essenziale', text: 'Title/description, heading puliti, intent chiaro, struttura leggibile.' },
+        { icon: 'tabler:activity', title: 'Tracking base', text: 'Eventi principali: click WhatsApp e invio form (per misurare davvero).' },
+      ].map((f) => (
+        <article class="rounded-3xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+          <div class="text-2xl opacity-80"><Icon name={f.icon} /></div>
+          <h3 class="mt-2 font-semibold text-lg">{f.title}</h3>
+          <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{f.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section id="processo" class="container mx-auto max-w-7xl px-6 md:px-8 pb-14">
+    <div class="rounded-3xl p-7 md:p-10 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-b from-white/80 to-white/60 dark:from-neutral-900/60 dark:to-neutral-900/40">
+      <div class="max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-bold">Come lavoriamo (senza perdere tempo)</h2>
+        <p class="mt-2 text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          Un flusso breve e controllato: decisioni veloci, consegna rapida, revisioni mirate.
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-4">
+        {[
+          { n: '1', t: 'Call di allineamento', d: '15–20 min: obiettivo, offerta, pubblico, CTA.' },
+          { n: '2', t: 'Bozza struttura + copy', d: 'Hero, benefici, prove, obiezioni, CTA.' },
+          { n: '3', t: 'Design + sviluppo', d: 'Layout, componenti, performance e accessibilità base.' },
+          { n: '4', t: 'Pubblicazione + tracking', d: 'Eventi principali e controlli finali.' },
+        ].map((s) => (
+          <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/75 dark:bg-neutral-950/30">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-neutral-900 text-white font-bold text-sm dark:bg-white dark:text-neutral-900">{s.n}</span>
+              <h3 class="font-semibold">{s.t}</h3>
+            </div>
+            <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{s.d}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8 flex flex-col sm:flex-row gap-3">
+        <a href={CTA_CALL} class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold">
+          Prenota la call
+          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+        </a>
+        <a href={SERVICES_URL} class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold ring-1 ring-neutral-200 bg-white/70 hover:bg-white dark:bg-neutral-900/40 dark:ring-neutral-800 dark:hover:bg-neutral-900/60">
+          Vedi tutti i servizi
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACCHETTI -->
+  <section id="pacchetti" class="container mx-auto max-w-7xl px-6 md:px-8 py-14">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-bold">Pacchetti semplici, richiesti</h2>
+      <p class="mt-2 text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        Due opzioni chiare. Nessun “menù infinito”: scegli in base all’urgenza e al livello di controllo che vuoi.
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-6 lg:grid-cols-2">
+      <!-- STARTER -->
+      <article class="rounded-3xl p-7 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/85 dark:bg-neutral-900/55 shadow-sm">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-xs font-semibold inline-flex px-3 py-1 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900">
+              Starter
+            </div>
+            <h3 class="mt-3 text-xl font-bold">Contatti Rapidi</h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">La landing essenziale per iniziare a convertire subito.</p>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-neutral-500 dark:text-neutral-400">Da</div>
+            <div class="text-3xl font-extrabold">{PRICE_FROM}</div>
+            <div class="text-sm text-neutral-500 dark:text-neutral-400">{DELIVERY}</div>
+          </div>
+        </div>
+
+        <ul class="mt-6 space-y-3 text-sm text-neutral-700 dark:text-neutral-300">
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> 1 pagina completa (hero, benefici, prove, FAQ, CTA)</li>
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> CTA WhatsApp + modulo contatti</li>
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> Tracking base (click WhatsApp + invio form)</li>
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> SEO essenziale + performance</li>
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> 2 revisioni mirate</li>
+        </ul>
+
+        <a href={CTA_STARTER} class="mt-7 btn-primary w-full inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold">
+          Richiedi questo pacchetto
+          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+        </a>
+
+        <p class="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
+          Il prezzo “da” varia in base a quantità contenuti, integrazioni e urgenze.
+        </p>
+      </article>
+
+      <!-- PLUS -->
+      <article class="rounded-3xl p-7 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-b from-emerald-50/70 to-white/80 dark:from-emerald-400/10 dark:to-neutral-900/55 shadow-sm">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-xs font-semibold inline-flex px-3 py-1 rounded-full bg-emerald-600 text-white">
+              Più richieste, più controllo
+            </div>
+            <h3 class="mt-3 text-xl font-bold">Contatti Rapidi Plus</h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Per chi vuole misurare e migliorare con metodo.</p>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-neutral-500 dark:text-neutral-400">Da</div>
+            <div class="text-3xl font-extrabold">990€</div>
+            <div class="text-sm text-neutral-500 dark:text-neutral-400">{DELIVERY}</div>
+          </div>
+        </div>
+
+        <ul class="mt-6 space-y-3 text-sm text-neutral-700 dark:text-neutral-300">
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> Tutto il pacchetto Starter</li>
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> Variante A/B del blocco Hero o CTA</li>
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> Sezione “prove” potenziata (case, numeri, recensioni)</li>
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> Setup eventi e obiettivi più completo</li>
+          <li class="flex gap-2"><Icon name="tabler:check" class="w-5 h-5 opacity-80" /> 3 revisioni mirate</li>
+        </ul>
+
+        <a href={CTA_PLUS} class="mt-7 w-full inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold bg-emerald-600 text-white hover:bg-emerald-700">
+          Richiedi Plus
+          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+        </a>
+
+        <div class="mt-4 rounded-2xl p-4 ring-1 ring-neutral-200 bg-white/70 dark:bg-neutral-950/30 dark:ring-neutral-800">
+          <div class="text-sm font-semibold">Add-on utili</div>
+          <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
+            Local SEO Booster (GBP), integrazioni calendario/prenotazioni, multilingua, mini-campagna Ads.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container mx-auto max-w-7xl px-6 md:px-8 pb-16">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-bold">FAQ</h2>
+      <p class="mt-2 text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        Risposte brevi, senza ambiguità: così l’utente decide, e tu eviti perdite di tempo.
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2">
+      {[
+        {
+          q: 'Devo avere già testi e immagini?',
+          a: 'Meglio sì, ma non è obbligatorio. Se hai poco materiale, lavoriamo su una base essenziale e ti diciamo cosa serve per rendere credibile l’offerta.'
+        },
+        {
+          q: 'Posso usare questa pagina per Ads e social?',
+          a: 'Sì: è pensata per essere condivisa ovunque. Se fai campagne, consigliamo la versione Plus per un tracciamento più completo.'
+        },
+        {
+          q: 'È utile anche se ho già un sito?',
+          a: 'Spesso sì. Una landing “snella” converte meglio di un sito multipagina quando l’obiettivo è una sola azione (contatto, preventivo, call).'
+        },
+        {
+          q: 'Cosa NON include?',
+          a: 'Non include e-commerce completo o contenuti multipagina. È un pacchetto rapido: un obiettivo, una pagina, una conversione.'
+        },
+      ].map((f) => (
+        <details class="rounded-3xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between gap-4">
+            <span>{f.q}</span>
+            <Icon name="tabler:chevron-down" class="w-5 h-5 opacity-70" />
+          </summary>
+          <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{f.a}</p>
+        </details>
+      ))}
+    </div>
+
+    <!-- Final CTA -->
+    <div class="mt-10 rounded-3xl p-7 md:p-10 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-neutral-950 via-neutral-900 to-emerald-950 text-white">
+      <div class="grid gap-6 md:grid-cols-12 md:items-center">
+        <div class="md:col-span-8">
+          <h2 class="text-2xl md:text-3xl font-extrabold">Vuoi più richieste in tempi brevi?</h2>
+          <p class="mt-2 text-white/80 leading-relaxed">
+            In 15 minuti capiamo cosa vendi, a chi e qual è la CTA migliore. Se ha senso, preparo la landing e la mettiamo online in <strong>{DELIVERY}</strong>.
+          </p>
+        </div>
+        <div class="md:col-span-4 md:text-right">
+          <a href={CTA_CALL} class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90 w-full md:w-auto">
+            Prenota la call
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          </a>
+          <div class="mt-2 text-xs text-white/70">Call gratuita · Nessun vincolo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

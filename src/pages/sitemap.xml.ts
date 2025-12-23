@@ -37,7 +37,6 @@ export async function GET({ site }: { site: URL }) {
     '/servizi/accessibilita-digitale-avanzata',
     '/servizi/personalizzazione-ux-intelligenza-artificiale',
     '/servizi/web-design-etico-sostenibile',
-    '/servizi/voucher-digitali-sassari-2025',
     '/servizi/wordpress-slim-siti-statici-headless',
     // '/servizi/assistente-ai-sito-whatsapp',
   ];
