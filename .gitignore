@@ -26,3 +26,6 @@ yarn.lock
 # lock non usati
 pnpm-lock.yaml
 yarn.lock
+
+.DS_Store
+**/.DS_Store
