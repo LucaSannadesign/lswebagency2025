@@ -87,13 +87,13 @@ const portfolioLatest = portfolioAll
 
           <div class="mt-7 flex flex-wrap gap-2 text-sm md:text-base text-slate-700 dark:text-slate-300">
             <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-              <i class="fas fa-check text-xs"></i> Metodo chiaro
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> Metodo chiaro
             </span>
             <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-              <i class="fas fa-check text-xs"></i> Focus conversioni
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> Focus conversioni
             </span>
             <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-              <i class="fas fa-check text-xs"></i> SEO + performance
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> SEO + performance
             </span>
           </div>
         </div>
@@ -116,7 +116,7 @@ const portfolioLatest = portfolioAll
   </section>
 
   <!-- INTERVENTI RAPIDI -->
-  <section id="interventi-rapidi" class="relative isolate mt-2 md:mt-4">
+  <section id="interventi-rapidi" class="relative isolate mt-2 md:mt-4 scroll-mt-24">
     <!-- Background sfumato FULL -->
     <div aria-hidden="true" class="absolute inset-0 -z-10">
       <div class="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-pink-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950"></div>
@@ -145,13 +145,13 @@ const portfolioLatest = portfolioAll
 
           <div class="mt-6 flex flex-wrap gap-2 text-sm md:text-base text-slate-700 dark:text-slate-300">
             <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
-              <i class="fas fa-check text-xs"></i> Priorità reali
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> Priorità reali
             </span>
             <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
-              <i class="fas fa-check text-xs"></i> Output misurabile
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> Output misurabile
             </span>
             <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
-              <i class="fas fa-check text-xs"></i> Intervento mirato
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> Intervento mirato
             </span>
           </div>
         </div>
@@ -168,7 +168,7 @@ const portfolioLatest = portfolioAll
         </div>
       </div>
 
-      <!-- 3 CARD (cromatiche, più chiare già in normal) -->
+      <!-- 3 CARD -->
       <div class="mt-10 grid gap-6 lg:grid-cols-3">
         <!-- Audit -->
         <article
@@ -187,7 +187,7 @@ const portfolioLatest = portfolioAll
             <div class="flex items-start justify-between gap-4">
               <div class="flex items-start gap-4">
                 <div class="mt-0.5 h-12 w-12 rounded-2xl flex items-center justify-center bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-300">
-                  <i class="fas fa-magnifying-glass text-base"></i>
+                  <Icon name="tabler:search" class="w-5 h-5" />
                 </div>
                 <div>
                   <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
@@ -246,7 +246,7 @@ const portfolioLatest = portfolioAll
             <div class="flex items-start justify-between gap-4">
               <div class="flex items-start gap-4">
                 <div class="mt-0.5 h-12 w-12 rounded-2xl flex items-center justify-center bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-300">
-                  <i class="fas fa-bullseye text-base"></i>
+                  <Icon name="tabler:target" class="w-5 h-5" />
                 </div>
                 <div>
                   <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
@@ -305,7 +305,7 @@ const portfolioLatest = portfolioAll
             <div class="flex items-start justify-between gap-4">
               <div class="flex items-start gap-4">
                 <div class="mt-0.5 h-12 w-12 rounded-2xl flex items-center justify-center bg-pink-50 dark:bg-pink-500/10 text-pink-600 dark:text-pink-300">
-                  <i class="fas fa-screwdriver-wrench text-base"></i>
+                  <Icon name="tabler:tool" class="w-5 h-5" />
                 </div>
                 <div>
                   <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
@@ -351,7 +351,7 @@ const portfolioLatest = portfolioAll
   </section>
 
   <!-- STRIP: PER CHI LAVORIAMO -->
-  <section id="per-chi" class="mt-12 md:mt-16">
+  <section id="per-chi" class="mt-12 md:mt-16 scroll-mt-24">
     <div class="mx-auto max-w-screen-xl px-6 md:px-8">
       <div
         class="rounded-[32px]
@@ -395,10 +395,11 @@ const portfolioLatest = portfolioAll
           </div>
         </div>
 
+        <!-- ✅ 4 CARD: niente “vuoto” -->
         <div class="flex flex-col gap-4 lg:gap-5">
           <article class="flex items-start gap-4 rounded-2xl bg-white/90 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 px-5 py-5">
             <div class="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300">
-              <i class="fas fa-store text-base"></i>
+              <Icon name="tabler:building-store" class="w-5 h-5" />
             </div>
             <div class="space-y-1">
               <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Attività locali</h3>
@@ -410,7 +411,7 @@ const portfolioLatest = portfolioAll
 
           <article class="flex items-start gap-4 rounded-2xl bg-white/90 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 px-5 py-5">
             <div class="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-300">
-              <i class="fas fa-briefcase text-base"></i>
+              <Icon name="tabler:briefcase" class="w-5 h-5" />
             </div>
             <div class="space-y-1">
               <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Studi e consulenti</h3>
@@ -422,12 +423,24 @@ const portfolioLatest = portfolioAll
 
           <article class="flex items-start gap-4 rounded-2xl bg-white/90 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 px-5 py-5">
             <div class="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-pink-50 dark:bg-pink-500/10 text-pink-600 dark:text-pink-300">
-              <i class="fas fa-bed text-base"></i>
+              <Icon name="tabler:bed" class="w-5 h-5" />
             </div>
             <div class="space-y-1">
               <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Turismo e ricettivo</h3>
               <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
                 Meno dipendenza dai portali: UX e pagine orientate alla prenotazione.
+              </p>
+            </div>
+          </article>
+
+          <article class="flex items-start gap-4 rounded-2xl bg-white/90 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 px-5 py-5">
+            <div class="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-300">
+              <Icon name="tabler:shopping-cart" class="w-5 h-5" />
+            </div>
+            <div class="space-y-1">
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">E-commerce e brand online</h3>
+              <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                Pagine prodotto, checkout e SEO: più vendite, meno attrito.
               </p>
             </div>
           </article>
@@ -437,7 +450,7 @@ const portfolioLatest = portfolioAll
   </section>
 
   <!-- SERVIZI -->
-  <section id="servizi" class="mt-12 md:mt-16">
+  <section id="servizi" class="mt-12 md:mt-16 scroll-mt-24">
     <div class="mx-auto max-w-screen-xl px-6 md:px-8">
       <p class="text-center text-xs font-semibold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400">
         Servizi LS Web Agency
@@ -545,64 +558,81 @@ const portfolioLatest = portfolioAll
   </section>
 
   <!-- ULTIMI LAVORI -->
-  <section id="ultimi-lavori" class="py-12 md:py-14">
-    <div class="mx-auto max-w-screen-xl px-6 md:px-8">
-      <div class="mb-6 flex items-end justify-between gap-4">
-        <div>
-          <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Ultimi lavori</h2>
-          <p class="mt-1 text-base md:text-lg text-slate-500 dark:text-slate-400">
-            Alcuni progetti realizzati: siti web, grafica e comunicazione digitale.
-          </p>
-        </div>
-        <a href="/portfolio" class="text-base md:text-lg underline text-slate-700 dark:text-slate-300">
-          Guarda il portfolio completo
-        </a>
+<!-- BANNER PORTFOLIO (sostituisce la griglia) -->
+<section id="portfolio" class="py-12 md:py-14 scroll-mt-24">
+  <div class="mx-auto max-w-screen-xl px-6 md:px-8">
+    <div
+      class="relative overflow-hidden rounded-[32px]
+             border border-slate-200 dark:border-slate-800
+             bg-white dark:bg-slate-900/55
+             ring-1 ring-slate-900/5 dark:ring-slate-50/10
+             shadow-[0_18px_60px_rgba(15,23,42,0.10)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.35)]"
+    >
+      <!-- decor -->
+      <div aria-hidden="true" class="absolute inset-0 -z-10">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-pink-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950"></div>
+        <div class="absolute inset-0 opacity-70 dark:opacity-35 bg-[radial-gradient(900px_circle_at_15%_20%,rgba(59,130,246,0.18),transparent_55%),radial-gradient(700px_circle_at_85%_30%,rgba(236,72,153,0.18),transparent_55%)]"></div>
       </div>
 
-      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        {portfolioLatest.map((item) => {
-          const hrefRaw = item.data.permalink ?? `/portfolio/${item.data.slug}`;
-          const href = hrefRaw.replace(/\/+$/, '');
-          const img = item.data.image as
-            | { src: string; alt?: string; width?: number; height?: number }
-            | undefined;
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)] items-center px-6 md:px-10 py-10 md:py-12">
+        <!-- testo -->
+        <div class="space-y-5">
+          <p class="text-xs md:text-sm font-semibold tracking-[0.22em] uppercase text-slate-500 dark:text-slate-400">
+            Portfolio & casi reali
+          </p>
 
-          return (
-            <article class="rounded-xl overflow-hidden transition-shadow hover:shadow-md bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-              <a href={href} aria-label={`Apri: ${item.data.title}`} class="block">
-                {img?.src && (
-                  <img
-                    src={img.src}
-                    alt={img.alt ?? item.data.title}
-                    width={img.width ?? 1200}
-                    height={img.height ?? 800}
-                    loading="lazy"
-                    decoding="async"
-                    class="w-full object-cover aspect-[3/2]"
-                  />
-                )}
-                <div class="p-4">
-                  <h3 class="text-base md:text-lg font-semibold mb-1 line-clamp-2 text-slate-900 dark:text-slate-100">
-                    {item.data.title}
-                  </h3>
-                  {item.data.category && (
-                    <p class="text-[12px] uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">
-                      {item.data.category}
-                    </p>
-                  )}
-                  {item.data.description && (
-                    <p class="text-sm md:text-base text-slate-700 dark:text-slate-300 line-clamp-2">
-                      {item.data.description}
-                    </p>
-                  )}
-                </div>
-              </a>
-            </article>
-          );
-        })}
+          <h2 class="text-3xl md:text-4xl font-extrabold leading-tight text-slate-900 dark:text-slate-100">
+            Vuoi vedere come trasformiamo
+            <span class="text-slate-700 dark:text-slate-300">un sito “bello” in un sito che converte?</span>
+          </h2>
+
+          <p class="text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl">
+            Ti mostro alcuni esempi e il ragionamento dietro: struttura, UX, SEO e scelte di copy.
+            Se ti riconosci, possiamo partire da un audit o da una landing.
+          </p>
+
+          <div class="flex flex-wrap gap-2 text-sm md:text-base text-slate-700 dark:text-slate-300">
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> Prima/dopo chiaro
+            </span>
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> Focus su richieste reali
+            </span>
+            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-slate-900/55 border border-slate-200/70 dark:border-slate-800">
+              <Icon name="tabler:check" class="w-4 h-4 opacity-90" /> Metodo replicabile
+            </span>
+          </div>
+        </div>
+
+        <!-- box CTA -->
+        <div class="lg:justify-self-end w-full">
+          <div
+            class="rounded-2xl bg-white/90 dark:bg-slate-950/35
+                   border border-slate-200 dark:border-slate-800
+                   px-6 py-6 md:px-7 md:py-7
+                   shadow-sm"
+          >
+            <p class="text-base md:text-lg font-semibold text-slate-900 dark:text-slate-100">
+              Preferisci un passo rapido?
+            </p>
+            <p class="mt-2 text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+              Ti preparo un check sintetico e ti dico le 2–3 priorità su cui intervenire subito.
+            </p>
+
+            <div class="mt-5 grid gap-3">
+              <a href="/portfolio" class="btn-primary w-full text-center">Vedi il portfolio</a>
+              <a href="/contatti" class="btn-secondary w-full text-center">Richiedi una call</a>
+            </div>
+
+            <p class="mt-4 text-xs md:text-sm text-slate-500 dark:text-slate-400">
+              Nessun impegno: indicazioni pratiche, senza tecnicismi inutili.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- CTA CENTRALE -->
   <section class="my-14 md:my-16">
@@ -642,7 +672,7 @@ const portfolioLatest = portfolioAll
   </BlogLatestPosts>
 
   <!-- FAQ -->
-  <section id="faq" class="mt-20 md:mt-24 px-6 md:px-8 max-w-4xl mx-auto">
+  <section id="faq" class="mt-20 md:mt-24 px-6 md:px-8 max-w-4xl mx-auto scroll-mt-24">
     <h2 class="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Domande frequenti</h2>
 
     <div class="space-y-8 border-t border-slate-200 dark:border-slate-800 pt-6">
