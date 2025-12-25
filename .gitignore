@@ -3,32 +3,12 @@
 node_modules/
 .astro/
 dist/# Dipendenze e build
-node_modules/
-.astro/
-dist/
-
-node_modules/
-
-.astro/
-
 dist/
 
 .env*.local
-
 # lock non usati
 pnpm-lock.yaml
 yarn.lock
-
-# lock non usati
-pnpm-lock.yaml
-yarn.lock
-
-# lock non usati
-pnpm-lock.yaml
-yarn.lock
-
 .DS_Store
 **/.DS_Store
-
 # macOS
-.DS_Store
