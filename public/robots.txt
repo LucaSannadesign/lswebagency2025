@@ -1,18 +1,11 @@
 User-agent: *
-Disallow: /404
 Disallow: /grazie
 Disallow: /admin
-Disallow: /private
+Disallow: /private/
 Disallow: /api/
 Disallow: /cgi-bin/
-Disallow: /*?*
-Disallow: /*.php$
+Disallow: /search
 Disallow: /cart
 Disallow: /checkout
-Disallow: /search
-Disallow: /landing/
-Disallow: /homes/
-
-# Tutto il resto è consentito (incluso /local/*)
 
 Sitemap: https://www.lswebagency.com/sitemap.xml
