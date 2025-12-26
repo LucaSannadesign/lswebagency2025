@@ -51,13 +51,42 @@ const portfolioLatest = portfolioAll
 <section class="relative isolate bg-white dark:bg-slate-950">
   <div class="mx-auto max-w-screen-xl px-6 md:px-8 pt-10 md:pt-14 pb-10 md:pb-14">
     <div class="grid lg:grid-cols-2 gap-10 items-center">
-      <!-- Testo -->
+
+      <!-- TESTO -->
       <div class="max-w-2xl">
         <p class="text-sm md:text-base font-semibold tracking-[0.22em] uppercase text-slate-500 dark:text-slate-400">
           Siti web • SEO • UX • Performance
         </p>
 
-        <h1 class="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-slate-900 dark:text-slate-100">
+        <!-- IMMAGINE (MOBILE) -->
+        <div class="mt-6 lg:hidden">
+          <div class="relative w-full">
+            <div
+              aria-hidden="true"
+              class="absolute -inset-5 rounded-[28px] bg-gradient-to-tr from-blue-100 via-indigo-100 to-pink-100 blur-2xl opacity-70
+                     dark:from-slate-800/30 dark:via-slate-800/10 dark:to-slate-800/30"
+            ></div>
+
+            <div
+              class="relative overflow-hidden rounded-3xl bg-white/70 dark:bg-slate-900/40
+                     border border-slate-200 dark:border-slate-800
+                     shadow-2xl ring-1 ring-slate-900/5 dark:ring-slate-50/10"
+            >
+              <img
+                src="/images/lswebagency-hero-serp-contatti.webp"
+                alt="Illustrazione: crescita contatti e richieste da SEO e UX"
+                width="1600"
+                height="900"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                class="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        <h1 class="mt-6 lg:mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-slate-900 dark:text-slate-100">
           Siti web che generano contatti e richieste
           <span
             class="block text-gradient
@@ -70,7 +99,14 @@ const portfolioLatest = portfolioAll
         </h1>
 
         <p class="mt-4 text-base md:text-lg text-slate-600 dark:text-slate-300">
-          Gestiamo progetti <span class="font-semibold">da remoto in tutta Italia</span>. In Sardegna, anche in presenza quando serve.
+          Gestiamo progetti <span class="font-semibold">da remoto in tutta Italia</span>.
+          In Sardegna, anche in presenza quando serve.
+          <a
+            href="/local/sassari"
+            class="ml-1 underline underline-offset-4 decoration-slate-300 hover:decoration-slate-500 dark:decoration-slate-600"
+          >
+            Pagina dedicata a Sassari →
+          </a>
         </p>
 
         <p class="mt-6 text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -97,20 +133,17 @@ const portfolioLatest = portfolioAll
         </div>
       </div>
 
-      <!-- Immagine (card elegante) -->
-      <div class="relative flex lg:justify-end">
+      <!-- IMMAGINE (DESKTOP) -->
+      <div class="relative hidden lg:flex lg:justify-end">
         <div class="relative w-full max-w-xl">
-          <!-- glow -->
           <div
             aria-hidden="true"
             class="absolute -inset-6 rounded-[32px] bg-gradient-to-tr from-blue-100 via-indigo-100 to-pink-100 blur-2xl opacity-70
                    dark:from-slate-800/30 dark:via-slate-800/10 dark:to-slate-800/30"
           ></div>
 
-          <!-- card -->
-          <figure
-            class="relative overflow-hidden rounded-3xl
-                   bg-white/70 dark:bg-slate-900/40
+          <div
+            class="relative overflow-hidden rounded-3xl bg-white/70 dark:bg-slate-900/40
                    border border-slate-200 dark:border-slate-800
                    shadow-2xl ring-1 ring-slate-900/5 dark:ring-slate-50/10"
           >
@@ -124,17 +157,10 @@ const portfolioLatest = portfolioAll
               fetchpriority="high"
               class="w-full h-auto object-cover"
             />
-
-            <!-- overlay leggero per “riempire” e integrare col layout (facoltativo) -->
-            <div
-              aria-hidden="true"
-              class="pointer-events-none absolute inset-0
-                     bg-gradient-to-tr from-white/0 via-white/0 to-white/0
-                     dark:from-slate-950/10 dark:to-slate-950/10"
-            ></div>
-          </figure>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>

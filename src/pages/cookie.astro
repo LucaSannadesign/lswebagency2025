@@ -1,0 +1,40 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Cookie Policy | LS Web Agency',
+  description:
+    'Informazioni sull’uso dei cookie e su come gestire le preferenze di consenso su lswebagency.com.',
+  canonical: '/cookie',
+  robots: { index: true, follow: true },
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="mx-auto max-w-screen-md px-6 md:px-8 py-10 md:py-14">
+    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Cookie Policy</h1>
+    <p class="mt-4 text-base md:text-lg text-slate-700 dark:text-slate-300">
+      Usiamo cookie e tecnologie simili per far funzionare il sito e, solo se autorizzati, per misurazione e marketing.
+      Puoi aggiornare le preferenze in qualunque momento.
+    </p>
+
+    <div class="mt-8 space-y-6">
+      <div>
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Tipologie di cookie</h2>
+        <ul class="mt-3 space-y-2 text-base md:text-lg text-slate-700 dark:text-slate-300">
+          <li><strong>Necessari:</strong> indispensabili per funzioni base e sicurezza (sempre attivi).</li>
+          <li><strong>Statistiche (Analytics):</strong> misurano utilizzo e performance (solo con consenso).</li>
+          <li><strong>Marketing:</strong> tracciamento e remarketing (solo con consenso).</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Gestione preferenze</h2>
+        <p class="mt-3 text-base md:text-lg text-slate-700 dark:text-slate-300">
+          Usa il pulsante “Gestisci preferenze cookie” (nel footer o nella Privacy) per modificare le scelte.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

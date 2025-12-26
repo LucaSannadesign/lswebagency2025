@@ -2,6 +2,7 @@
 import Document from '@/layouts/Layout.astro';
 import Header from '@/components/widgets/Header.astro';
 import Footer from '@/components/widgets/Footer.astro';
+import CookieBanner from '@/components/CookieBanner.astro'; // ✅ ADD
 import type { MetaData } from '@/types';
 
 export interface Props { metadata?: MetaData }
@@ -16,6 +17,9 @@ const metadata = (Astro.props.metadata ?? {}) as MetaData;
   </main>
 
   <Footer />
+
+  <!-- ✅ Cookie banner / preferenze -->
+  <CookieBanner />
 
   <!-- Scroll to top -->
   <button
@@ -49,11 +53,8 @@ const metadata = (Astro.props.metadata ?? {}) as MetaData;
       };
 
       btn.addEventListener('click', () => {
-        try {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } catch {
-          window.scrollTo(0, 0);
-        }
+        try { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        catch { window.scrollTo(0, 0); }
       });
 
       window.addEventListener('scroll', onScroll, { passive: true });
