@@ -3,27 +3,39 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 ---
 
 <div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-[60] hidden">
-  <div class="mx-auto max-w-screen-xl px-4 md:px-8 pb-4">
+  <div class="mx-auto max-w-screen-xl px-3 sm:px-4 md:px-8 pb-3 sm:pb-4">
     <div class="rounded-2xl border border-slate-200 bg-white/95 backdrop-blur shadow-2xl
                 dark:border-slate-800 dark:bg-slate-950/85">
-      <div class="p-5 md:p-6 grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
-        <div class="space-y-2">
-          <p class="text-sm font-semibold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400">
+      <div class="p-3 sm:p-4 md:p-6 grid gap-3 md:gap-4 md:grid-cols-[1fr_auto] md:items-center">
+        <div class="space-y-1.5 sm:space-y-2">
+          <p class="text-[11px] sm:text-sm font-semibold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400">
             Cookie e preferenze
           </p>
-          <p class="text-base md:text-lg text-slate-700 dark:text-slate-200">
-            Usiamo cookie necessari per il funzionamento del sito. Con il tuo consenso possiamo usare anche cookie
+
+          <p class="text-sm sm:text-base md:text-lg text-slate-700 dark:text-slate-200 leading-snug sm:leading-normal">
+            Usiamo cookie necessari. Con il tuo consenso attiviamo anche cookie
             <strong>statistici</strong> e <strong>marketing</strong>.
           </p>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
+
+          <p class="text-[12px] sm:text-sm text-slate-500 dark:text-slate-400">
             Leggi la <a class="underline underline-offset-4" href="/cookie">Cookie Policy</a>.
           </p>
         </div>
 
-        <div class="flex flex-wrap gap-2 md:justify-end">
-          <button id="cookie-reject" class="btn-secondary">Rifiuta</button>
-          <button id="cookie-prefs" class="btn-secondary">Preferenze</button>
-          <button id="cookie-accept" class="btn-primary">Accetta</button>
+        <!-- ✅ Mobile compact: griglia, bottoni piccoli -->
+        <div class="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-end md:gap-2">
+          <button id="cookie-reject" class="btn-secondary w-full !py-2 !px-3 text-sm">
+            Rifiuta
+          </button>
+
+          <button id="cookie-prefs" class="btn-secondary w-full !py-2 !px-3 text-sm">
+            Preferenze
+          </button>
+
+          <!-- su mobile occupa 2 colonne: decisione principale chiara, ma non “gigante” -->
+          <button id="cookie-accept" class="btn-primary col-span-2 w-full !py-2.5 !px-3 text-sm">
+            Accetta
+          </button>
         </div>
       </div>
     </div>
@@ -34,47 +46,55 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 <div id="cookie-modal" class="fixed inset-0 z-[70] hidden">
   <div class="absolute inset-0 bg-black/40"></div>
 
-  <div class="relative mx-auto mt-20 w-[min(92vw,720px)] rounded-2xl border border-slate-200 bg-white shadow-2xl
+  <!-- ✅ Mobile: margini e altezza controllati + scroll interno -->
+  <div class="relative mx-auto my-6 w-[min(92vw,720px)]
+              max-h-[calc(100vh-3rem)] overflow-hidden
+              rounded-2xl border border-slate-200 bg-white shadow-2xl
               dark:border-slate-800 dark:bg-slate-950">
-    <div class="p-5 md:p-6">
-      <div class="flex items-start justify-between gap-4">
+    <div class="p-4 sm:p-5 md:p-6 overflow-auto max-h-[calc(100vh-3rem)]">
+      <div class="flex items-start justify-between gap-3">
         <div>
-          <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Preferenze cookie</h2>
-          <p class="mt-2 text-base text-slate-600 dark:text-slate-300">
+          <h2 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-slate-100">Preferenze cookie</h2>
+          <p class="mt-1.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
             Scegli quali categorie attivare. I cookie necessari restano sempre attivi.
           </p>
         </div>
-        <button id="cookie-close" class="btn-secondary">Chiudi</button>
+
+        <button id="cookie-close" class="btn-secondary !py-2 !px-3 text-sm">
+          Chiudi
+        </button>
       </div>
 
-      <div class="mt-6 space-y-4">
-        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-4 dark:border-slate-800">
+      <div class="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
+        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-3 sm:p-4 dark:border-slate-800">
           <div>
-            <p class="font-semibold text-slate-900 dark:text-slate-100">Necessari</p>
-            <p class="text-sm text-slate-600 dark:text-slate-300">Sempre attivi (sicurezza, funzioni base).</p>
+            <p class="font-semibold text-slate-900 dark:text-slate-100 text-sm sm:text-base">Necessari</p>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Sempre attivi (sicurezza, funzioni base).</p>
           </div>
           <input type="checkbox" checked disabled class="h-5 w-5" />
         </label>
 
-        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-4 dark:border-slate-800">
+        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-3 sm:p-4 dark:border-slate-800">
           <div>
-            <p class="font-semibold text-slate-900 dark:text-slate-100">Statistiche (Analytics)</p>
-            <p class="text-sm text-slate-600 dark:text-slate-300">Misura visite e performance in forma aggregata.</p>
+            <p class="font-semibold text-slate-900 dark:text-slate-100 text-sm sm:text-base">Statistiche (Analytics)</p>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Misura visite e performance in forma aggregata.</p>
           </div>
           <input id="cookie-analytics" type="checkbox" class="h-5 w-5" />
         </label>
 
-        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-4 dark:border-slate-800">
+        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-3 sm:p-4 dark:border-slate-800">
           <div>
-            <p class="font-semibold text-slate-900 dark:text-slate-100">Marketing</p>
-            <p class="text-sm text-slate-600 dark:text-slate-300">Remarketing e tracciamento pubblicitario.</p>
+            <p class="font-semibold text-slate-900 dark:text-slate-100 text-sm sm:text-base">Marketing</p>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Remarketing e tracciamento pubblicitario.</p>
           </div>
           <input id="cookie-marketing" type="checkbox" class="h-5 w-5" />
         </label>
       </div>
 
-      <div class="mt-6 flex flex-wrap gap-2 justify-end">
-        <button id="cookie-save" class="btn-primary">Salva preferenze</button>
+      <div class="mt-4 sm:mt-6 flex justify-end">
+        <button id="cookie-save" class="btn-primary !py-2.5 !px-4 text-sm sm:text-base">
+          Salva preferenze
+        </button>
       </div>
     </div>
   </div>
@@ -101,7 +121,6 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 
   function writeConsent(consent) {
     localStorage.setItem(KEY, JSON.stringify(consent));
-    // cookie “segnaposto” (utile anche lato server/CDN se un domani ti serve)
     document.cookie = "ls_cookie_consent=" + encodeURIComponent(JSON.stringify(consent)) + "; Path=/; Max-Age=31536000; SameSite=Lax";
     window.dispatchEvent(new CustomEvent('ls:cookieconsent', { detail: consent }));
   }
@@ -115,7 +134,6 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
   function closeModal(){ modal.classList.add('hidden'); }
   function hideBanner(){ banner.classList.add('hidden'); }
 
-  // show banner only if no consent saved
   if (!readConsent()) banner.classList.remove('hidden');
 
   btnAccept?.addEventListener('click', () => { writeConsent({ analytics: true, marketing: true, ts: Date.now() }); hideBanner(); closeModal(); });
