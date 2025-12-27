@@ -1,0 +1,103 @@
+{
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "same-origin" },
+        { "key": "X-DNS-Prefetch-Control", "value": "on" },
+        { "key": "X-Permitted-Cross-Domain-Policies", "value": "none" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; form-action 'self' https://www.paypal.com; frame-ancestors 'none'; upgrade-insecure-requests; frame-src 'self' https://www.google.com https://*.google.com https://www.paypal.com https://*.paypal.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.paypalobjects.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleusercontent.com https://www.google.com; font-src 'self' data:;"
+        }
+      ]
+    },
+    {
+      "source": "/grazie",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/404",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/_astro/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/og/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ],
+  "redirects": [
+    { "source": "/voucher-digitali-sardegna",              "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/voucher-digitali-sardegna/",             "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/servizi/voucher-digitali-sardegna",      "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/servizi/voucher-digitali-sardegna/",     "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/servizi/voucher-digitali-sassari-2025",  "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+    { "source": "/servizi/voucher-digitali-sassari-2025/", "destination": "/servizi/voucher-digitali-sassari", "permanent": true },
+
+    { "source": "/blog/blog/:path*", "destination": "/blog/:path*", "permanent": true },
+
+    { "source": "/servizi/local/:slug",  "destination": "/local/:slug", "permanent": true },
+    { "source": "/servizi/local/:slug/", "destination": "/local/:slug", "permanent": true },
+    { "source": "/servizi/local",        "destination": "/local",       "permanent": true },
+
+    { "source": "/novita/local/:slug",      "destination": "/local/:slug", "permanent": true },
+    { "source": "/novita/local/:slug/",     "destination": "/local/:slug", "permanent": true },
+    { "source": "/novita/local-seo/:slug",  "destination": "/local/:slug", "permanent": true },
+    { "source": "/novita/local-seo/:slug/", "destination": "/local/:slug", "permanent": true },
+    { "source": "/novita/local",            "destination": "/local",       "permanent": true },
+
+    { "source": "/metodi-di-pagamento", "destination": "/pagamenti", "permanent": true },
+    { "source": "/servizi/pagamenti",   "destination": "/pagamenti", "permanent": true },
+
+    { "source": "/servizi/local-seo", "destination": "/servizi/local-seo-booster", "permanent": true },
+
+    { "source": "/privacy-policy", "destination": "/privacy", "permanent": true },
+    { "source": "/cookie-policy",  "destination": "/privacy", "permanent": true },
+
+    { "source": "/blog/perche-il-tuo-sito-web-non-porta-clienti",  "destination": "/blog/perche-sito-vetrina-non-basta-piu", "permanent": true },
+    { "source": "/blog/perche-il-tuo-sito-web-non-porta-clienti/", "destination": "/blog/perche-sito-vetrina-non-basta-piu", "permanent": true }
+  ]
+}
