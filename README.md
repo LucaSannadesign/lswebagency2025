@@ -266,6 +266,17 @@ Clone this repository on your own GitHub account and deploy to Vercel:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonwidget%2Fastrowind)
 
+**Nota per SSR (Server-Side Rendering) e API Routes:**
+
+Se il progetto usa `output: 'server'` in `astro.config.ts` (per API routes come `/api/contact`), assicurati che le Vercel Project Settings siano configurate correttamente:
+
+- **Framework Preset**: `Astro`
+- **Build Command**: `npm run build`
+- **Output Directory**: **VUOTO** (campo vuoto)
+- **Install Command**: vuoto o `npm ci`
+
+**IMPORTANTE**: Se "Output Directory" è impostato su `dist` o altro, Vercel ignorerà `.vercel/output` generato da Astro e tratterà il progetto come statico, causando 404 sulle API routes. Lascia il campo vuoto per consentire a Vercel di usare l'output SSR di Astro.
+
 <br>
 
 ## Frequently Asked Questions

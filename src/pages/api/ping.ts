@@ -5,7 +5,7 @@ export const prerender = false;
 
 export const GET: APIRoute = async () => {
   return new Response(
-    JSON.stringify({ ok: true, ts: Date.now() }),
+    JSON.stringify({ ok: true, route: '/api/ping', ts: Date.now() }),
     {
       status: 200,
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -15,7 +15,7 @@ export const GET: APIRoute = async () => {
 
 export const POST: APIRoute = async () => {
   return new Response(
-    JSON.stringify({ ok: true, ts: Date.now() }),
+    JSON.stringify({ ok: true, route: '/api/ping', ts: Date.now() }),
     {
       status: 200,
       headers: { 'Content-Type': 'application/json; charset=utf-8' },

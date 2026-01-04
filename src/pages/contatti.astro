@@ -544,28 +544,38 @@ const AGENCY = {
             throw new Error('Impossibile connettersi al server. Verifica la connessione e riprova.');
           });
 
-          // Parsing robusto: prima testo, poi JSON
-          const rawText = await response.text().catch((textError) => {
-            console.error('Text read error:', textError);
-            throw new Error('Errore durante la lettura della risposta del server.');
-          });
+          // Parsing robusto: usa content-type per decidere JSON o text
+          const contentType = response.headers.get('content-type') || '';
+          const isJSON = contentType.includes('application/json');
           
           let data = null;
-          
-          try {
-            data = JSON.parse(rawText);
-          } catch (parseError) {
-            // Se non è JSON valido, logga e gestisci
-            console.error('JSON parse error:', parseError);
-            console.error('Response status:', response.status);
-            console.error('Response raw:', rawText.substring(0, 200));
+          let rawText = '';
+
+          if (isJSON) {
+            try {
+              data = await response.json();
+            } catch (jsonError) {
+              console.error('JSON parse error:', jsonError);
+              console.error('Response status:', response.status);
+              // Se non è JSON valido ma response.ok, gestisci come errore
+              if (!response.ok) {
+                throw new Error('Errore durante l\'invio. Riprova più tardi.');
+              }
+              throw new Error('Risposta del server non valida.');
+            }
+          } else {
+            // Non è JSON, leggi come testo
+            rawText = await response.text().catch((textError) => {
+              console.error('Text read error:', textError);
+              throw new Error('Errore durante la lettura della risposta del server.');
+            });
             
-            // Se la risposta non è OK e non è JSON, mostra errore generico
+            // Se non è OK e non è JSON, mostra errore chiaro
             if (!response.ok) {
-              throw new Error('Errore durante l\'invio. Riprova più tardi.');
+              throw new Error(rawText || 'Errore durante l\'invio. Riprova più tardi.');
             }
             // Se è OK ma non JSON, è strano ma gestiamolo
-            throw new Error('Risposta non valida dal server.');
+            throw new Error('Risposta del server non valida.');
           }
 
           // Verifica struttura risposta (ok/message o error)

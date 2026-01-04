@@ -68,11 +68,12 @@ export const GET: APIRoute = async () => {
   return new Response(
     JSON.stringify({
       ok: true,
+      route: '/api/contact',
       message: 'Contact API endpoint. Use POST method to send a message.',
     }),
     {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
     },
   );
 };
