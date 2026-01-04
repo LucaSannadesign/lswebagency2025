@@ -1,0 +1,84 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  bullets?: string[];
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+
+const {
+  title = 'Vuoi ottenere più contatti dal tuo sito?',
+  subtitle = 'Raccontaci cosa fai e dove operi: ti rispondiamo con una valutazione chiara e con le priorità reali per aumentare richieste, chiamate e appuntamenti.',
+  bullets = [
+    'Analisi rapida della situazione',
+    'Priorità tecniche + contenuti',
+    'Nessuna promessa irrealistica',
+  ],
+  primaryLabel = 'Richiedi una valutazione',
+  primaryHref = '/contatti',
+  secondaryLabel = 'Scopri i servizi',
+  secondaryHref = '/servizi',
+} = Astro.props;
+---
+
+<div class="mt-12 mb-6">
+  <div class="relative rounded-2xl bg-gradient-to-br from-violet-50 via-indigo-50 to-blue-50 dark:from-violet-950/30 dark:via-indigo-950/30 dark:to-blue-950/30 border border-violet-200/60 dark:border-violet-800/40 shadow-md p-8 md:p-10">
+    <!-- Titolo -->
+    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-4">
+      {title}
+    </h2>
+
+    <!-- Sottotitolo -->
+    <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
+      {subtitle}
+    </p>
+
+    <!-- Bullet points -->
+    {bullets && bullets.length > 0 && (
+      <ul class="space-y-3 mb-8">
+        {bullets.map((bullet) => (
+          <li class="flex items-start gap-3">
+            <Icon
+              name="tabler:check"
+              class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
+            <span class="text-base md:text-lg text-slate-700 dark:text-slate-300">
+              {bullet}
+            </span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4">
+      <!-- Primary CTA -->
+      <a
+        href={primaryHref}
+        class="inline-flex items-center justify-center min-h-[48px] px-8 py-3.5 text-base sm:text-lg font-semibold text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+        aria-label={primaryLabel}
+      >
+        {primaryLabel}
+        <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" aria-hidden="true" />
+      </a>
+
+      <!-- Secondary CTA -->
+      {secondaryLabel && secondaryHref && (
+        <a
+          href={secondaryHref}
+          class="inline-flex items-center justify-center min-h-[48px] px-6 sm:px-8 py-3 sm:py-4 text-base font-semibold text-slate-900 dark:text-white bg-white/60 dark:bg-slate-800/60 border-2 border-violet-300 dark:border-violet-700 hover:bg-white dark:hover:bg-slate-800 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+          aria-label={secondaryLabel}
+        >
+          {secondaryLabel}
+        </a>
+      )}
+    </div>
+  </div>
+</div>
+
