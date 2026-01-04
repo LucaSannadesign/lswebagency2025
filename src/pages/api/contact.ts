@@ -65,10 +65,16 @@ function isSuspiciousUA(userAgent: string): boolean {
 }
 
 export const GET: APIRoute = async () => {
-  return new Response(JSON.stringify({ status: 'ok' }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return new Response(
+    JSON.stringify({
+      ok: true,
+      message: 'Contact API endpoint. Use POST method to send a message.',
+    }),
+    {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
 };
 
 export const POST: APIRoute = async ({ request }) => {
@@ -77,7 +83,10 @@ export const POST: APIRoute = async ({ request }) => {
     const rateLimitKey = getRateLimitKey(request);
     if (!checkRateLimit(rateLimitKey)) {
       return new Response(
-        JSON.stringify({ error: 'Troppi tentativi. Riprova più tardi.' }),
+        JSON.stringify({
+          ok: false,
+          message: 'Troppi tentativi. Riprova più tardi.',
+        }),
         {
           status: 429,
           headers: { 'Content-Type': 'application/json' },
@@ -88,10 +97,16 @@ export const POST: APIRoute = async ({ request }) => {
     // User agent check
     const userAgent = request.headers.get('user-agent') || '';
     if (isSuspiciousUA(userAgent)) {
-      return new Response(JSON.stringify({ error: 'Request non valida.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          message: 'Request non valida.',
+        }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
     }
 
     const data = await request.formData();
@@ -100,10 +115,16 @@ export const POST: APIRoute = async ({ request }) => {
     const honeypot = data.get('company');
     if (typeof honeypot === 'string' && honeypot.trim() !== '') {
       console.warn('[contact] Honeypot triggered:', rateLimitKey);
-      return new Response(JSON.stringify({ error: 'Spam rilevato.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          message: 'Spam rilevato.',
+        }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
     }
 
     // Estrazione e sanitizzazione dati
@@ -117,7 +138,10 @@ export const POST: APIRoute = async ({ request }) => {
     // Validazione
     if (!name || name.length < 2) {
       return new Response(
-        JSON.stringify({ error: 'Il nome deve contenere almeno 2 caratteri.' }),
+        JSON.stringify({
+          ok: false,
+          message: 'Il nome deve contenere almeno 2 caratteri.',
+        }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -127,7 +151,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!email || !validateEmail(email)) {
       return new Response(
-        JSON.stringify({ error: 'Inserisci un indirizzo email valido.' }),
+        JSON.stringify({
+          ok: false,
+          message: 'Inserisci un indirizzo email valido.',
+        }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -137,7 +164,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!message || message.length < 10) {
       return new Response(
-        JSON.stringify({ error: 'Il messaggio deve contenere almeno 10 caratteri.' }),
+        JSON.stringify({
+          ok: false,
+          message: 'Il messaggio deve contenere almeno 10 caratteri.',
+        }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -147,7 +177,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!privacy) {
       return new Response(
-        JSON.stringify({ error: 'Devi accettare la privacy policy.' }),
+        JSON.stringify({
+          ok: false,
+          message: 'Devi accettare la privacy policy.',
+        }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -170,15 +203,22 @@ export const POST: APIRoute = async ({ request }) => {
           service,
           message,
         });
-        return new Response(JSON.stringify({ success: true }), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        });
+        return new Response(
+          JSON.stringify({
+            ok: true,
+            message: 'Messaggio inviato con successo.',
+          }),
+          {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          },
+        );
       }
 
       return new Response(
         JSON.stringify({
-          error: 'Configurazione email non valida. Contatta l\'amministratore.',
+          ok: false,
+          message: 'Configurazione email non valida. Contatta l\'amministratore.',
         }),
         {
           status: 500,
@@ -235,15 +275,22 @@ ${message}
       `,
     });
 
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        message: 'Messaggio inviato con successo.',
+      }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
   } catch (err) {
     console.error('[contact] Errore invio email:', err);
     return new Response(
       JSON.stringify({
-        error: "Errore durante l'invio. Riprova più tardi.",
+        ok: false,
+        message: "Errore durante l'invio. Riprova più tardi.",
       }),
       {
         status: 500,

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 // Adapter e integrazioni Astro
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';

@@ -533,19 +533,62 @@ const AGENCY = {
 
         try {
           const formData = new FormData(form);
+          
+          // Fetch con timeout implicito (browser gestisce)
           const response = await fetch('/api/contact', {
             method: 'POST',
             body: formData,
+          }).catch((networkError) => {
+            // Gestione errori di rete (offline, CORS, timeout, etc)
+            console.error('Network error:', networkError);
+            throw new Error('Impossibile connettersi al server. Verifica la connessione e riprova.');
           });
 
-          const data = await response.json();
+          // Parsing robusto: prima testo, poi JSON
+          const rawText = await response.text().catch((textError) => {
+            console.error('Text read error:', textError);
+            throw new Error('Errore durante la lettura della risposta del server.');
+          });
+          
+          let data = null;
+          
+          try {
+            data = JSON.parse(rawText);
+          } catch (parseError) {
+            // Se non è JSON valido, logga e gestisci
+            console.error('JSON parse error:', parseError);
+            console.error('Response status:', response.status);
+            console.error('Response raw:', rawText.substring(0, 200));
+            
+            // Se la risposta non è OK e non è JSON, mostra errore generico
+            if (!response.ok) {
+              throw new Error('Errore durante l\'invio. Riprova più tardi.');
+            }
+            // Se è OK ma non JSON, è strano ma gestiamolo
+            throw new Error('Risposta non valida dal server.');
+          }
 
+          // Verifica struttura risposta (ok/message o error)
           if (!response.ok) {
-            throw new Error(data.error || 'Errore durante l\'invio');
+            const errorMessage = data?.message || data?.error || rawText || 'Errore durante l\'invio';
+            console.error('API error response:', { status: response.status, data, rawText: rawText.substring(0, 200) });
+            throw new Error(errorMessage);
+          }
+
+          // Verifica che la risposta sia di successo
+          if (data && data.ok === false) {
+            throw new Error(data.message || 'Errore durante l\'invio');
+          }
+
+          // Verifica che data esista e abbia struttura valida
+          if (!data || typeof data !== 'object') {
+            console.error('Invalid response data:', data);
+            throw new Error('Risposta del server non valida.');
           }
 
           // Successo
-          showSuccess('Messaggio inviato con successo! Ti risponderemo il prima possibile.');
+          const successMessage = data?.message || 'Messaggio inviato con successo! Ti risponderemo il prima possibile.';
+          showSuccess(successMessage);
           form.reset();
           
           // Redirect dopo 2 secondi
@@ -555,7 +598,9 @@ const AGENCY = {
 
         } catch (error) {
           console.error('Form error:', error);
-          showError(error.message || 'Errore durante l\'invio. Riprova più tardi.');
+          // Messaggio utente sempre chiaro e non tecnico
+          const errorMessage = error.message || 'Errore durante l\'invio. Riprova più tardi.';
+          showError(errorMessage);
         } finally {
           setLoading(false);
         }

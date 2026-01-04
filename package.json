@@ -20,7 +20,8 @@
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
-    "sync": "astro sync"
+    "sync": "astro sync",
+    "vercel:inspect": "npm run build && node scripts/verify-functions.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.2.1",
