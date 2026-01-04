@@ -138,7 +138,7 @@ const AGENCY = {
       <form
         id="contact-form"
         method="POST"
-        action="/api/contact"
+        action="/api/contatti"
         class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full"
         novalidate
       >
@@ -532,12 +532,25 @@ const AGENCY = {
         setLoading(true);
 
         try {
+          // Prepara dati JSON dal form
           const formData = new FormData(form);
+          const data = {
+            name: formData.get('name') || '',
+            email: formData.get('email') || '',
+            phone: formData.get('phone') || '',
+            service: formData.get('service') || '',
+            message: formData.get('message') || '',
+            privacy: formData.get('privacy') === 'on',
+            company: formData.get('company') || '', // honeypot
+          };
           
           // Fetch con timeout implicito (browser gestisce)
-          const response = await fetch('/api/contact', {
+          const response = await fetch('/api/contatti', {
             method: 'POST',
-            body: formData,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
           }).catch((networkError) => {
             // Gestione errori di rete (offline, CORS, timeout, etc)
             console.error('Network error:', networkError);

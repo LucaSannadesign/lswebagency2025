@@ -36,7 +36,7 @@ const whenExternalScripts = (items: () => any | Array<() => any>) =>
 export default defineConfig({
   // NECESSARIO per avere le API (/api/contact, ecc.) su Vercel
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({ mode: 'serverless' }),
 
   // Dominio canonico
   site: 'https://www.lswebagency.com',

@@ -1,0 +1,9 @@
+# Ignora file non necessari per il deploy Vercel
+# Vercel deve usare .vercel/output generato da Astro, non dist/
+
+dist/
+node_modules/
+.env.local
+.env.*.local
+
+
