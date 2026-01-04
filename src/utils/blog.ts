@@ -190,6 +190,26 @@ export const findLatestPosts = async ({ count }: { count?: number }): Promise<Ar
   return posts ? posts.slice(0, _count) : [];
 };
 
+export const findPopularPosts = async ({ count }: { count?: number }): Promise<Array<Post>> => {
+  const _count = count || 5;
+  const posts = await fetchPosts();
+  
+  // Prova a usare lista manuale di slug popolari
+  try {
+    const { popularPostSlugs } = await import('@/config/popularPosts');
+    if (popularPostSlugs && popularPostSlugs.length > 0) {
+      const popularPosts = await findPostsBySlugs(popularPostSlugs);
+      // Mantieni l'ordine della lista e limita al count richiesto
+      return popularPosts.slice(0, _count);
+    }
+  } catch (e) {
+    // Se il file non esiste, usa fallback
+  }
+  
+  // Fallback: usa i primi N post più recenti (già ordinati per data)
+  return posts ? posts.slice(0, _count) : [];
+};
+
 export const getStaticPathsBlogList = async ({ paginate }: { paginate: PaginateFunction }) => {
   if (!isBlogEnabled || !isBlogListRouteEnabled) return [];
   return paginate(await fetchPosts(), {

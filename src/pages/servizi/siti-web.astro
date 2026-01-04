@@ -1,0 +1,204 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: 'Siti Web Professionali Sassari | Sviluppo Siti Moderni che Portano Clienti',
+  description:
+    'Siti web professionali a Sassari: moderni, veloci e ottimizzati per portarti clienti. Design personalizzato, SEO integrata e orientato alle conversioni. Prezzi trasparenti.',
+  canonical: '/servizi/siti-web',
+  robots: { index: true, follow: true },
+};
+
+const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sui%20siti%20web%20professionali.';
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden isolate">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-blue-100/80 via-white to-white dark:from-blue-900/30 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 md:pt-20 pb-14">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+            <span class="block text-neutral-900 dark:text-white">
+              Siti Web Professionali
+            </span>
+            <span class="block text-blue-600 dark:text-blue-400">
+              Moderni, Responsive e Ottimizzati per SEO
+            </span>
+          </h1>
+
+          <p class="mt-5 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            Siti web che <strong>portano clienti reali</strong>, non solo visite. 
+            Design moderno, <strong>ottimizzato per Google</strong> e <strong>veloce</strong>. 
+            Ogni elemento è pensato per convertire i visitatori in clienti.
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg transition">
+              Richiedi un preventivo
+              <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full transition">
+              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 text-emerald-600" />
+              WhatsApp
+            </a>
+          </div>
+
+          <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              Design Moderno
+            </div>
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              SEO Integrata
+            </div>
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              Performance
+            </div>
+          </div>
+        </div>
+
+        <div class="relative hidden md:block">
+          <div class="rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/40 shadow-xl">
+            <img
+              src="/images/creazione-sito-web-professionale.webp"
+              alt="Siti web professionali moderni e responsive"
+              width="800"
+              height="600"
+              loading="eager"
+              decoding="async"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA INCLUDIAMO -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa includiamo nel tuo sito</h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        Ogni sito che realizziamo include questi elementi essenziali per il successo online
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {[
+        {
+          icon: 'tabler:palette',
+          title: 'Design Moderno e Responsive',
+          desc: 'Interfaccia pulita e professionale, perfettamente funzionante su desktop, tablet e mobile. Design personalizzato che riflette la tua identità aziendale.',
+        },
+        {
+          icon: 'tabler:search',
+          title: 'Ottimizzazione SEO',
+          desc: 'Struttura SEO-friendly con meta tag, heading ottimizzati, schema markup e sitemap. Pronto per essere trovato su Google.',
+        },
+        {
+          icon: 'tabler:gauge',
+          title: 'Performance e Velocità',
+          desc: 'Siti veloci e leggeri, con Core Web Vitals ottimizzati. Caricamento rapido per migliorare l\'esperienza utente e il ranking.',
+        },
+        {
+          icon: 'tabler:target-arrow',
+          title: 'Orientato alle Conversioni',
+          desc: 'Layout progettato per guidare i visitatori verso l\'azione: contatti, preventivi, vendite. Call to action chiari e visibili.',
+        },
+        {
+          icon: 'tabler:shield-check',
+          title: 'Sicurezza e Backup',
+          desc: 'Siti sicuri con certificati SSL, backup automatici e aggiornamenti di sicurezza. I tuoi dati sono protetti.',
+        },
+        {
+          icon: 'tabler:device-mobile',
+          title: 'Mobile-First',
+          desc: 'Approccio mobile-first: il sito è progettato prima per mobile, garantendo un\'esperienza ottimale su tutti i dispositivi.',
+        },
+      ].map((item) => (
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+          <Icon name={item.icon} class="w-10 h-10 text-blue-600 dark:text-blue-400 mb-4" />
+          <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- PERCHÉ SCEGLIERCI -->
+  <section class="bg-neutral-50 dark:bg-neutral-900/50 py-12">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Perché scegliere LS Web Agency</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
+              Approccio Personalizzato
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-300">
+              Non usiamo template pre-confezionati. Ogni sito è sviluppato su misura per le tue esigenze specifiche, 
+              con un'attenta analisi dei tuoi obiettivi e del tuo target.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
+              Supporto Continuo
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-300">
+              Dopo la consegna, siamo sempre disponibili per supporto, aggiornamenti e manutenzione. 
+              Il tuo sito rimane sempre aggiornato e performante.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
+              Risultati Misurabili
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-300">
+              Integriamo strumenti di analisi per monitorare le performance, il traffico e le conversioni. 
+              Potrai vedere i risultati concreti del tuo investimento.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
+              Tecnologie Moderne
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-300">
+              Utilizziamo tecnologie all'avanguardia per creare siti veloci, sicuri e scalabili. 
+              Stack moderno che garantisce performance e facilità di manutenzione.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="container mx-auto px-6 py-16">
+    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 text-white">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Pronto a far crescere il tuo business online?</h2>
+        <p class="text-lg text-blue-100 mb-8">
+          Contattaci per una consulenza gratuita. Analizziamo insieme le tue esigenze e progettiamo 
+          il sito web perfetto per la tua attività.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white hover:bg-blue-50 rounded-full shadow-lg transition">
+            Richiedi un preventivo
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          </a>
+          <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-blue-700/50 hover:bg-blue-700 border-2 border-white/30 rounded-full transition">
+            <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
+            Scrivici su WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+

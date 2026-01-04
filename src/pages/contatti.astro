@@ -127,147 +127,161 @@ const AGENCY = {
       <h2 class="text-2xl md:text-3xl font-bold mb-1">Richiedi una consulenza</h2>
       <p class="text-neutral-600 dark:text-neutral-300 mb-6">Ti rispondiamo entro 24h lavorative.</p>
 
-    <form
-      method="POST"
-      action="https://formspree.io/f/mldgyarp"
-      class="grid grid-cols-1 md:grid-cols-2 gap-4"
-    >
-      <!-- Honeypot anti-spam -->
-      <input
-        type="text"
-        name="company"
-        tabindex="-1"
-        autocomplete="off"
-        class="hidden"
-        aria-hidden="true"
-      />
+      <!-- Messaggi di feedback -->
+      <div id="form-feedback" class="hidden mb-6 rounded-xl p-4 border" role="alert">
+        <div id="form-feedback-content" class="flex items-center gap-3">
+          <span id="form-feedback-icon"></span>
+          <span id="form-feedback-text"></span>
+        </div>
+      </div>
 
-      <div class="col-span-1">
-        <label for="name" class="block text-sm font-medium mb-1">
-          Nome e cognome
-        </label>
+      <form
+        id="contact-form"
+        method="POST"
+        action="/api/contact"
+        class="grid grid-cols-1 md:grid-cols-2 gap-4"
+        novalidate
+      >
+        <!-- Honeypot anti-spam -->
         <input
-          id="name"
-          name="name"
           type="text"
-          required
-          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          name="company"
+          tabindex="-1"
+          autocomplete="off"
+          class="hidden"
+          aria-hidden="true"
         />
-      </div>
 
-      <div class="col-span-1">
-        <label for="email" class="block text-sm font-medium mb-1">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          inputmode="email"
-          autocomplete="email"
-          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-        />
-      </div>
-
-      <div class="col-span-1">
-        <label for="phone" class="block text-sm font-medium mb-1">
-          Telefono (opzionale)
-        </label>
-        <input
-          id="phone"
-          name="phone"
-          type="tel"
-          inputmode="tel"
-          autocomplete="tel"
-          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-        />
-      </div>
-
-      <div class="col-span-1">
-        <label for="service" class="block text-sm font-medium mb-1">
-          Servizio di interesse
-        </label>
-        <select
-          id="service"
-          name="service"
-          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-        >
-          <option value="" selected>Seleziona…</option>
-          <option value="sito">Creazione sito web</option>
-          <option value="ecommerce">E-commerce</option>
-          <option value="seo">SEO / Local SEO</option>
-          <option value="branding">Branding &amp; grafica</option>
-          <option value="ai">AI / Assistenti</option>
-          <option value="altro">Altro</option>
-        </select>
-      </div>
-
-      <div class="col-span-1 md:col-span-2">
-        <label for="message" class="block text-sm font-medium mb-1">
-          Messaggio
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          rows="6"
-          required
-          class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
-        ></textarea>
-      </div>
-
-      <!-- BLOCCO PRIVACY -->
-      <div class="col-span-1 md:col-span-2">
-        <label
-          for="privacy"
-          class="flex items-center gap-3 rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800
-                 bg-gradient-to-r from-violet-50/60 to-white dark:from-violet-950/20
-                 p-4 cursor-pointer"
-        >
-          <Icon
-            name="tabler:shield-check"
-            class="text-xl text-violet-600 shrink-0"
-            aria-hidden="true"
-          />
+        <div class="col-span-1">
+          <label for="name" class="block text-sm font-medium mb-1">
+            Nome e cognome <span class="text-red-500">*</span>
+          </label>
           <input
-            id="privacy"
-            name="privacy"
-            type="checkbox"
+            id="name"
+            name="name"
+            type="text"
             required
-            class="size-5 rounded-md accent-violet-600 shadow-sm
-                   focus:outline-none focus:ring-2 focus:ring-violet-500"
+            minlength="2"
+            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500"
+            aria-describedby="name-error"
           />
-          <span class="text-sm">
-            Ho letto e accetto la
-            <a
-              href="/privacy"
-              class="font-medium underline decoration-2 underline-offset-2 decoration-violet-500 hover:decoration-violet-600"
-            >
-              Privacy Policy
-            </a>.
-          </span>
-        </label>
-      </div>
+          <span id="name-error" class="hidden text-sm text-red-600 dark:text-red-400 mt-1" role="alert"></span>
+        </div>
 
-      <!-- Campi nascosti utili per Formspree -->
-      <input
-        type="hidden"
-        name="_subject"
-        value="Nuovo contatto dal sito LS Web Agency"
-      />
-      <input type="hidden" name="_captcha" value="false" />
-      <input
-        type="hidden"
-        name="_redirect"
-        value="https://www.lswebagency.com/contatti?success=1"
-      />
+        <div class="col-span-1">
+          <label for="email" class="block text-sm font-medium mb-1">
+            Email <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            inputmode="email"
+            autocomplete="email"
+            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500"
+            aria-describedby="email-error"
+          />
+          <span id="email-error" class="hidden text-sm text-red-600 dark:text-red-400 mt-1" role="alert"></span>
+        </div>
 
-      <div class="col-span-1 md:col-span-2 mt-2">
-        <Button type="submit" variant="primary">
-          Invia richiesta
-        </Button>
-      </div>
-    </form>
+        <div class="col-span-1">
+          <label for="phone" class="block text-sm font-medium mb-1">
+            Telefono (opzionale)
+          </label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
+        </div>
+
+        <div class="col-span-1">
+          <label for="service" class="block text-sm font-medium mb-1">
+            Servizio di interesse
+          </label>
+          <select
+            id="service"
+            name="service"
+            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          >
+            <option value="" selected>Seleziona…</option>
+            <option value="siti-web">Siti Web Professionali</option>
+            <option value="seo-locale">SEO Locale</option>
+            <option value="assistenza">Assistenza & Manutenzione</option>
+            <option value="ecommerce">E-commerce</option>
+            <option value="seo">SEO / Local SEO</option>
+            <option value="branding">Branding &amp; grafica</option>
+            <option value="ai">AI / Assistenti</option>
+            <option value="altro">Altro</option>
+          </select>
+        </div>
+
+        <div class="col-span-1 md:col-span-2">
+          <label for="message" class="block text-sm font-medium mb-1">
+            Messaggio <span class="text-red-500">*</span>
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            rows="6"
+            required
+            minlength="10"
+            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500 resize-y"
+            aria-describedby="message-error"
+          ></textarea>
+          <span id="message-error" class="hidden text-sm text-red-600 dark:text-red-400 mt-1" role="alert"></span>
+        </div>
+
+        <!-- BLOCCO PRIVACY -->
+        <div class="col-span-1 md:col-span-2">
+          <label
+            for="privacy"
+            class="flex items-center gap-3 rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800
+                   bg-gradient-to-r from-violet-50/60 to-white dark:from-violet-950/20
+                   p-4 cursor-pointer"
+          >
+            <Icon
+              name="tabler:shield-check"
+              class="text-xl text-violet-600 shrink-0"
+              aria-hidden="true"
+            />
+            <input
+              id="privacy"
+              name="privacy"
+              type="checkbox"
+              required
+              class="size-5 rounded-md accent-violet-600 shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-violet-500"
+              aria-describedby="privacy-error"
+            />
+            <span class="text-sm">
+              Ho letto e accetto la
+              <a
+                href="/privacy"
+                class="font-medium underline decoration-2 underline-offset-2 decoration-violet-500 hover:decoration-violet-600"
+                target="_blank"
+              >
+                Privacy Policy
+              </a>.
+              <span class="text-red-500">*</span>
+            </span>
+          </label>
+          <span id="privacy-error" class="hidden text-sm text-red-600 dark:text-red-400 mt-1 ml-12" role="alert"></span>
+        </div>
+
+        <div class="col-span-1 md:col-span-2 mt-2">
+          <Button type="submit" variant="primary" id="submit-btn">
+            <span id="submit-text">Invia richiesta</span>
+            <span id="submit-loading" class="hidden">
+              Invio in corso...
+            </span>
+          </Button>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -378,4 +392,207 @@ const AGENCY = {
       sameAs: AGENCY.sameAs,
     })}
   />
+
+  <!-- Form handling script -->
+  <script is:inline>
+    (function() {
+      const form = document.getElementById('contact-form');
+      const submitBtn = document.getElementById('submit-btn');
+      const submitText = document.getElementById('submit-text');
+      const submitLoading = document.getElementById('submit-loading');
+      const feedback = document.getElementById('form-feedback');
+      const feedbackContent = document.getElementById('form-feedback-content');
+      const feedbackText = document.getElementById('form-feedback-text');
+
+      if (!form || !submitBtn) return;
+
+      // Reset feedback
+      function resetFeedback() {
+        feedback?.classList.add('hidden');
+        feedback?.classList.remove('bg-emerald-50', 'border-emerald-200', 'text-emerald-800', 'dark:bg-emerald-900/20', 'dark:border-emerald-800', 'dark:text-emerald-200');
+        feedback?.classList.remove('bg-red-50', 'border-red-200', 'text-red-800', 'dark:bg-red-900/20', 'dark:border-red-800', 'dark:text-red-200');
+      }
+
+      // Show error
+      function showError(message) {
+        if (!feedback || !feedbackText) return;
+        feedback.classList.remove('hidden');
+        feedback.classList.remove('bg-emerald-50', 'border-emerald-200', 'text-emerald-800');
+        feedback.classList.add('bg-red-50', 'border-red-200', 'text-red-800', 'dark:bg-red-900/20', 'dark:border-red-800', 'dark:text-red-200');
+        feedbackText.textContent = message;
+        const iconEl = document.getElementById('form-feedback-icon');
+        if (iconEl) {
+          iconEl.innerHTML = '<svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>';
+        }
+        feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Show success
+      function showSuccess(message) {
+        if (!feedback || !feedbackText) return;
+        feedback.classList.remove('hidden');
+        feedback.classList.remove('bg-red-50', 'border-red-200', 'text-red-800');
+        feedback.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-800', 'dark:bg-emerald-900/20', 'dark:border-emerald-800', 'dark:text-emerald-200');
+        feedbackText.textContent = message;
+        feedbackContent.innerHTML = '<svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span>' + message + '</span>';
+        feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Clear field errors
+      function clearFieldErrors() {
+        document.querySelectorAll('[id$="-error"]').forEach(el => {
+          el.classList.add('hidden');
+          el.textContent = '';
+        });
+        document.querySelectorAll('input, textarea, select').forEach(el => {
+          el.classList.remove('border-red-500');
+        });
+      }
+
+      // Validate field
+      function validateField(field) {
+        const errorId = field.id + '-error';
+        const errorEl = document.getElementById(errorId);
+        
+        if (!field.checkValidity()) {
+          field.classList.add('border-red-500');
+          if (errorEl) {
+            errorEl.classList.remove('hidden');
+            if (field.validity.valueMissing) {
+              errorEl.textContent = 'Campo obbligatorio';
+            } else if (field.validity.tooShort) {
+              errorEl.textContent = field.id === 'message' ? 'Il messaggio deve contenere almeno 10 caratteri' : 'Troppo corto';
+            } else if (field.validity.typeMismatch) {
+              errorEl.textContent = 'Email non valida';
+            } else {
+              errorEl.textContent = 'Valore non valido';
+            }
+          }
+          return false;
+        } else {
+          field.classList.remove('border-red-500');
+          if (errorEl) {
+            errorEl.classList.add('hidden');
+          }
+          return true;
+        }
+      }
+
+      // Validate form
+      function validateForm() {
+        clearFieldErrors();
+        const name = document.getElementById('name');
+        const email = document.getElementById('email');
+        const message = document.getElementById('message');
+        const privacy = document.getElementById('privacy');
+
+        let isValid = true;
+        if (name && !validateField(name)) isValid = false;
+        if (email && !validateField(email)) isValid = false;
+        if (message && !validateField(message)) isValid = false;
+        if (privacy && !privacy.checked) {
+          isValid = false;
+          const errorEl = document.getElementById('privacy-error');
+          if (errorEl) {
+            errorEl.classList.remove('hidden');
+            errorEl.textContent = 'Devi accettare la privacy policy';
+          }
+        }
+
+        return isValid;
+      }
+
+      // Set loading state
+      function setLoading(loading) {
+        if (submitBtn) {
+          submitBtn.disabled = loading;
+          if (loading) {
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            submitText?.classList.add('hidden');
+            submitLoading?.classList.remove('hidden');
+          } else {
+            submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            submitText?.classList.remove('hidden');
+            submitLoading?.classList.add('hidden');
+          }
+        }
+      }
+
+      // Form submit
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        resetFeedback();
+        clearFieldErrors();
+
+        if (!validateForm()) {
+          showError('Compila correttamente tutti i campi obbligatori.');
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          const formData = new FormData(form);
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            body: formData,
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || 'Errore durante l\'invio');
+          }
+
+          // Successo
+          showSuccess('Messaggio inviato con successo! Ti risponderemo il prima possibile.');
+          form.reset();
+          
+          // Redirect dopo 2 secondi
+          setTimeout(() => {
+            window.location.href = '/grazie';
+          }, 2000);
+
+        } catch (error) {
+          console.error('Form error:', error);
+          showError(error.message || 'Errore durante l\'invio. Riprova più tardi.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // Real-time validation on blur
+      ['name', 'email', 'message'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) {
+          field.addEventListener('blur', () => validateField(field));
+          field.addEventListener('input', () => {
+            if (field.classList.contains('border-red-500')) {
+              validateField(field);
+            }
+          });
+        }
+      });
+
+      // Privacy checkbox validation
+      const privacy = document.getElementById('privacy');
+      if (privacy) {
+        privacy.addEventListener('change', () => {
+          const errorEl = document.getElementById('privacy-error');
+          if (privacy.checked && errorEl) {
+            errorEl.classList.add('hidden');
+          }
+        });
+      }
+    })();
+  </script>
+
+  <style>
+    #form-feedback {
+      border: 1px solid;
+    }
+    #submit-btn:disabled {
+      pointer-events: none;
+    }
+  </style>
 </Layout>

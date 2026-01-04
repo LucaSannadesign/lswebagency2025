@@ -1,0 +1,205 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: 'Assistenza Siti Web Sassari | Manutenzione e Supporto Tecnico Continuo',
+  description:
+    'Assistenza e manutenzione siti web a Sassari. Supporto tecnico dedicato, aggiornamenti automatici e monitoraggio continuo. Il tuo sito funziona sempre, senza problemi.',
+  canonical: '/servizi/assistenza-manutenzione',
+  robots: { index: true, follow: true },
+};
+
+const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sull%27assistenza%20e%20manutenzione.';
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden isolate">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100/80 via-white to-white dark:from-violet-900/30 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 md:pt-20 pb-14">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+            <span class="block text-neutral-900 dark:text-white">
+              Assistenza & Manutenzione
+            </span>
+            <span class="block text-violet-600 dark:text-violet-400">
+              Supporto Tecnico Continuo per il Tuo Sito
+            </span>
+          </h1>
+
+          <p class="mt-5 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            Il tuo sito funziona sempre, <strong>senza problemi</strong>. 
+            Supporto tecnico dedicato, aggiornamenti automatici e monitoraggio continuo. 
+            Tu ti concentri sul business, noi manteniamo il sito perfetto.
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <a href="/contatti?servizio=assistenza" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-full shadow-lg transition">
+              Richiedi informazioni
+              <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full transition">
+              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 text-emerald-600" />
+              WhatsApp
+            </a>
+          </div>
+
+          <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              Supporto Dedicato
+            </div>
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              Aggiornamenti
+            </div>
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              Monitoraggio
+            </div>
+          </div>
+        </div>
+
+        <div class="relative hidden md:block">
+          <div class="rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/40 shadow-xl">
+            <img
+              src="/images/assistenza-manutenzione-siti-web-supporto-tecnico.webp"
+              alt="Assistenza e manutenzione siti web – supporto tecnico continuo"
+              width="800"
+              height="600"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA OFFRIAMO -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa include il servizio</h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+        Un supporto completo per mantenere il tuo sito sempre al top
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {[
+        {
+          icon: 'tabler:headset',
+          title: 'Supporto Tecnico',
+          desc: 'Assistenza dedicata per risolvere problemi tecnici, bug e malfunzionamenti. Risposta rapida e soluzioni efficaci.',
+        },
+        {
+          icon: 'tabler:refresh',
+          title: 'Aggiornamenti e Backup',
+          desc: 'Aggiornamenti regolari di sicurezza, plugin e contenuti. Backup automatici per proteggere i tuoi dati.',
+        },
+        {
+          icon: 'tabler:chart-line',
+          title: 'Monitoraggio Performance',
+          desc: 'Monitoraggio continuo delle performance, velocità e uptime. Report periodici e ottimizzazioni quando necessario.',
+        },
+        {
+          icon: 'tabler:shield-check',
+          title: 'Sicurezza',
+          desc: 'Protezione da malware, vulnerabilità e attacchi. Certificati SSL sempre attivi e aggiornamenti di sicurezza tempestivi.',
+        },
+        {
+          icon: 'tabler:edit',
+          title: 'Modifiche e Miglioramenti',
+          desc: 'Piccole modifiche e miglioramenti del sito: aggiornamento contenuti, aggiunta nuove sezioni, ottimizzazioni.',
+        },
+        {
+          icon: 'tabler:report-analytics',
+          title: 'Report e Analisi',
+          desc: 'Report periodici su traffico, performance e conversioni. Analisi dei dati per migliorare continuamente.',
+        },
+      ].map((item) => (
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+          <Icon name={item.icon} class="w-10 h-10 text-violet-600 dark:text-violet-400 mb-4" />
+          <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- VANTAGGI -->
+  <section class="bg-neutral-50 dark:bg-neutral-900/50 py-12">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Perché scegliere il nostro supporto</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
+              Disponibilità Continua
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-300">
+              Siamo sempre disponibili per supportarti. Rispondiamo rapidamente alle tue richieste 
+              e risolviamo i problemi in tempi brevi, minimizzando i disagi.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
+              Prevenzione Problemi
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-300">
+              Monitoriamo proattivamente il tuo sito per individuare e risolvere problemi prima 
+              che possano causare interruzioni o perdite di performance.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
+              Conoscenza del Tuo Sito
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-300">
+              Conosciamo ogni aspetto del tuo sito, quindi possiamo intervenire rapidamente 
+              e in modo mirato, senza perdere tempo in analisi preliminari.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
+              Costi Prevedibili
+            </h3>
+            <p class="text-neutral-600 dark:text-neutral-300">
+              Con un piano di manutenzione mensile, hai costi prevedibili e accesso illimitato 
+              al supporto, senza sorprese per interventi straordinari.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="container mx-auto px-6 py-16">
+    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-600 via-purple-600 to-violet-700 text-white">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Mantieni il tuo sito sempre al top</h2>
+        <p class="text-lg text-violet-100 mb-8">
+          Contattaci per informazioni sui nostri piani di assistenza e manutenzione. 
+          Troveremo la soluzione più adatta alle tue esigenze.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contatti?servizio=assistenza" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-violet-600 bg-white hover:bg-violet-50 rounded-full shadow-lg transition">
+            Richiedi informazioni
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          </a>
+          <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-violet-700/50 hover:bg-violet-700 border-2 border-white/30 rounded-full transition">
+            <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
+            Scrivici su WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+

@@ -1,0 +1,425 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import PayLink from '@/components/ui/PayLink.astro';
+
+const metadata = {
+  title: 'Landing Page Professionale | Design & Conversion — LS Web Agency',
+  description:
+    'Landing page progettate per convertire: UX orientata all’azione, copy chiaro, CTA visibili, performance e SEO. Consegna 7-10 giorni. Da 690€.',
+  canonical: '/servizi/landing-page-professionale',
+  robots: { index: true, follow: true },
+  openGraph: {
+    url: '/servizi/landing-page-professionale',
+    type: 'website',
+  },
+};
+
+// PayPal links (da configurare in .env)
+const linkLandingStarter =
+  import.meta.env.PUBLIC_PAYPAL_LANDING_STARTER ||
+  'https://www.paypal.com/ncp/payment/XXXXX';
+
+const linkLandingPlus =
+  import.meta.env.PUBLIC_PAYPAL_LANDING_PLUS ||
+  'https://www.paypal.com/ncp/payment/XXXXX';
+
+const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sulla%20landing%20page.';
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden isolate">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100/80 via-white to-transparent dark:from-violet-900/30 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 md:pt-20 pb-14">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
+            <Icon name="tabler:target-arrow" class="w-4 h-4" />
+            Servizio mirato · 7-10 giorni
+          </span>
+
+          <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+            <span class="block text-neutral-900 dark:text-white">
+              Landing page che
+            </span>
+            <span class="block text-violet-600 dark:text-violet-400">
+              convertono visite in contatti
+            </span>
+          </h1>
+
+          <p class="mt-5 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            Se il tuo sito o i tuoi social portano traffico ma <strong>zero richieste</strong>, il problema spesso è la pagina:
+            non guida l'utente verso un'azione chiara. Creo landing essenziali, credibili e orientate alla conversione.
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <a href="/contatti?servizio=landing-page" class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold">
+              Richiedi preventivo
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
+              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
+              WhatsApp
+            </a>
+            <a href="#prezzi" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
+              Vedi prezzi
+            </a>
+          </div>
+
+          <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              Focus conversione
+            </div>
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              Performance
+            </div>
+            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+              SEO essenziale
+            </div>
+          </div>
+        </div>
+
+        <div class="relative hidden md:block">
+          <div class="rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/40 shadow-xl">
+            <div class="aspect-[4/3] bg-gradient-to-br from-violet-50 via-pink-50 to-indigo-50 dark:from-violet-950/30 dark:via-pink-950/20 dark:to-indigo-950/30 relative flex items-center justify-center p-8">
+              <!-- SVG illustrativo landing page -->
+              <svg viewBox="0 0 400 300" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background shapes -->
+                <rect x="20" y="20" width="360" height="260" rx="12" fill="white" class="dark:fill-neutral-800" opacity="0.9"/>
+                <rect x="20" y="20" width="360" height="60" rx="12" fill="url(#grad1)"/>
+                
+                <!-- Header -->
+                <rect x="40" y="35" width="80" height="12" rx="6" fill="white" opacity="0.8"/>
+                <rect x="130" y="35" width="60" height="12" rx="6" fill="white" opacity="0.6"/>
+                <rect x="200" y="35" width="60" height="12" rx="6" fill="white" opacity="0.6"/>
+                
+                <!-- Hero section -->
+                <rect x="40" y="100" width="320" height="30" rx="6" fill="url(#grad2)"/>
+                <rect x="40" y="140" width="280" height="16" rx="4" fill="url(#grad3)" opacity="0.7"/>
+                <rect x="40" y="165" width="240" height="16" rx="4" fill="url(#grad3)" opacity="0.5"/>
+                
+                <!-- CTA Button -->
+                <rect x="40" y="200" width="140" height="40" rx="20" fill="url(#grad4)"/>
+                <text x="110" y="225" text-anchor="middle" fill="white" font-size="14" font-weight="600">Contattaci</text>
+                
+                <!-- WhatsApp icon -->
+                <circle cx="320" cy="220" r="25" fill="#25D366"/>
+                <path d="M310 220 L315 225 L320 220" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                
+                <!-- Decorative elements -->
+                <circle cx="340" cy="100" r="8" fill="url(#grad5)" opacity="0.6"/>
+                <circle cx="350" cy="120" r="6" fill="url(#grad5)" opacity="0.4"/>
+                
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.9" />
+                    <stop offset="100%" style="stop-color:#6366F1;stop-opacity:0.9" />
+                  </linearGradient>
+                  <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.5" />
+                    <stop offset="100%" style="stop-color:#EC4899;stop-opacity:0.5" />
+                  </linearGradient>
+                  <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.6" />
+                    <stop offset="100%" style="stop-color:#EC4899;stop-opacity:0.6" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA INCLUDE -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa include</h2>
+      <p class="text-neutral-700 dark:text-neutral-300">
+        Una pagina progettata per <strong>ridurre dubbi e aumentare fiducia</strong>. Ogni elemento ha un motivo preciso.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        {
+          icon: 'tabler:layout',
+          title: 'Struttura UX orientata all’azione',
+          desc: 'Gerarchia chiara, sezioni essenziali, CTA ripetute con criterio. Niente dispersione.',
+        },
+        {
+          icon: 'tabler:writing',
+          title: 'Copy e microcopy',
+          desc: 'Titoli, benefici, obiezioni e CTA scritti per essere capiti al volo. Messaggio chiaro.',
+        },
+        {
+          icon: 'tabler:brand-whatsapp',
+          title: 'WhatsApp + Form contatti',
+          desc: 'Due strade rapide: contatto immediato (WhatsApp) e richiesta completa (form).',
+        },
+        {
+          icon: 'tabler:gauge',
+          title: 'Performance & leggerezza',
+          desc: 'Caricamento rapido, layout pulito, Core Web Vitals ottimizzati. Niente "peso" inutile.',
+        },
+        {
+          icon: 'tabler:search',
+          title: 'SEO essenziale',
+          desc: 'Title/description, heading puliti, intent chiaro, struttura leggibile per Google.',
+        },
+        {
+          icon: 'tabler:activity',
+          title: 'Tracking base',
+          desc: 'Eventi principali: click WhatsApp e invio form. Per misurare davvero cosa funziona.',
+        },
+      ].map((item) => (
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+          <Icon name={item.icon} class="w-8 h-8 text-violet-600 dark:text-violet-400 mb-3" />
+          <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Come lavoriamo</h2>
+        <p class="text-neutral-700 dark:text-neutral-300">
+          Un flusso breve e controllato: decisioni veloci, consegna rapida, revisioni mirate.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-4">
+        {[
+          { n: '1', title: 'Call di allineamento', desc: '15-20 min: obiettivo, offerta, pubblico, CTA principale.' },
+          { n: '2', title: 'Bozza struttura + copy', desc: 'Hero, benefici, prove, obiezioni, CTA. Revisione rapida.' },
+          { n: '3', title: 'Design + sviluppo', desc: 'Layout, componenti, performance e accessibilità base.' },
+          { n: '4', title: 'Pubblicazione + tracking', desc: 'Eventi principali configurati e controlli finali.' },
+        ].map((step) => (
+          <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-violet-600 text-white font-bold text-sm">
+                {step.n}
+              </span>
+              <h3 class="font-semibold">{step.title}</h3>
+            </div>
+            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PREZZI -->
+  <section id="prezzi" class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Prezzi</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        <em>Prezzi indicativi, IVA esclusa. Il costo finale dipende da complessità contenuti e integrazioni.</em>
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-5xl">
+      <!-- STARTER -->
+      <article class="rounded-3xl p-7 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/85 dark:bg-neutral-900/55 shadow-sm">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <span class="inline-flex px-3 py-1 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 text-xs font-semibold">
+              Starter
+            </span>
+            <h3 class="mt-3 text-xl font-bold">Landing Base</h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">La landing essenziale per iniziare a convertire.</p>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-neutral-500">Da</div>
+            <div class="text-3xl font-extrabold">690€</div>
+            <div class="text-sm text-neutral-500">7-10 giorni</div>
+          </div>
+        </div>
+
+        <ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300 mb-6">
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>1 pagina completa (hero, benefici, prove, FAQ, CTA)</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>CTA WhatsApp + modulo contatti</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>Tracking base (click WhatsApp + invio form)</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>SEO essenziale + performance</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>2 revisioni mirate</span>
+          </li>
+        </ul>
+
+        <PayLink href={linkLandingStarter} label="Acquista ora" variant="green" class="w-full" />
+        <a href="/contatti?servizio=landing-page&pacchetto=starter" class="mt-3 block text-center text-sm text-neutral-600 dark:text-neutral-400 underline">
+          Oppure richiedi preventivo
+        </a>
+      </article>
+
+      <!-- PLUS -->
+      <article class="rounded-3xl p-7 ring-2 ring-violet-400 dark:ring-violet-600 bg-gradient-to-b from-violet-50/70 to-white/80 dark:from-violet-900/10 dark:to-neutral-900/55 shadow-md relative">
+        <span class="absolute -top-3 left-4 text-xs font-semibold px-2 py-1 rounded-full bg-violet-600 text-white">
+          Più richiesto
+        </span>
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <span class="inline-flex px-3 py-1 rounded-full bg-violet-600 text-white text-xs font-semibold">
+              Plus
+            </span>
+            <h3 class="mt-3 text-xl font-bold">Landing Plus</h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Per chi vuole misurare e migliorare con metodo.</p>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-neutral-500">Da</div>
+            <div class="text-3xl font-extrabold">990€</div>
+            <div class="text-sm text-neutral-500">7-10 giorni</div>
+          </div>
+        </div>
+
+        <ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300 mb-6">
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>Tutto il pacchetto Starter</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>Variante A/B del blocco Hero o CTA</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>Sezione "prove" potenziata (case, numeri, recensioni)</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>Setup eventi e obiettivi più completo</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-violet-600 dark:text-violet-400 shrink-0" />
+            <span>3 revisioni mirate</span>
+          </li>
+        </ul>
+
+        <PayLink href={linkLandingPlus} label="Acquista ora" variant="accent" class="w-full" />
+        <a href="/contatti?servizio=landing-page&pacchetto=plus" class="mt-3 block text-center text-sm text-neutral-600 dark:text-neutral-400 underline">
+          Oppure richiedi preventivo
+        </a>
+      </article>
+    </div>
+
+    <div class="mt-8 rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-neutral-50 dark:bg-neutral-900/40">
+      <h3 class="font-semibold mb-2">Add-on disponibili</h3>
+      <ul class="text-sm text-neutral-600 dark:text-neutral-300 space-y-1">
+        <li>• Local SEO Booster (Google Business Profile) — da 490€</li>
+        <li>• Integrazioni calendario/prenotazioni — da 200€</li>
+        <li>• Versione multilingua — da 300€</li>
+        <li>• Mini-campagna Google Ads setup — da 150€</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container mx-auto px-6 pb-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Domande frequenti</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 max-w-5xl">
+      {[
+        {
+          q: 'Devo avere già testi e immagini?',
+          a: 'Meglio sì, ma non è obbligatorio. Se hai poco materiale, lavoriamo su una base essenziale e ti diciamo cosa serve per rendere credibile l\'offerta.',
+        },
+        {
+          q: 'Posso usare questa pagina per Ads e social?',
+          a: 'Sì: è pensata per essere condivisa ovunque. Se fai campagne, consigliamo la versione Plus per un tracciamento più completo.',
+        },
+        {
+          q: 'È utile anche se ho già un sito?',
+          a: 'Spesso sì. Una landing "snella" converte meglio di un sito multipagina quando l\'obiettivo è una sola azione (contatto, preventivo, call).',
+        },
+        {
+          q: 'Cosa NON include?',
+          a: 'Non include e-commerce completo o contenuti multipagina. È un servizio mirato: un obiettivo, una pagina, una conversione.',
+        },
+      ].map((faq) => (
+        <details class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between gap-4">
+            <span>{faq.q}</span>
+            <Icon name="tabler:chevron-down" class="w-5 h-5 opacity-70 shrink-0" />
+          </summary>
+          <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="container mx-auto px-6 pb-16">
+    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-950 via-neutral-900 to-emerald-950 text-white">
+      <div class="max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Vuoi più richieste in tempi brevi?</h2>
+        <p class="text-lg text-white/80 leading-relaxed mb-6">
+          In 15 minuti capiamo cosa vendi, a chi e qual è la CTA migliore. Se ha senso, preparo la landing e la mettiamo online in <strong>7-10 giorni</strong>.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="/contatti?servizio=landing-page" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
+            Richiedi preventivo
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          </a>
+          <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold border border-white/30 hover:bg-white/10">
+            <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
+            Scrivimi su WhatsApp
+          </a>
+        </div>
+        <p class="mt-4 text-sm text-white/70">Call gratuita · Nessun vincolo</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Landing Page Professionale',
+    description: 'Landing page progettate per convertire: UX orientata all\'azione, copy chiaro, CTA visibili, performance e SEO.',
+    provider: {
+      '@type': 'Organization',
+      name: 'LS Web Agency',
+      url: 'https://www.lswebagency.com',
+    },
+    areaServed: 'IT',
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+      price: '690',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        price: '690',
+        priceCurrency: 'EUR',
+      },
+    },
+  })} />
+</Layout>
+

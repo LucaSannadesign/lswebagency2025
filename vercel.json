@@ -92,7 +92,15 @@
     { "source": "/metodi-di-pagamento", "destination": "/pagamenti", "permanent": true },
     { "source": "/servizi/pagamenti",   "destination": "/pagamenti", "permanent": true },
 
-    { "source": "/servizi/local-seo", "destination": "/servizi/local-seo-booster", "permanent": true },
+    { "source": "/servizi/local-seo", "destination": "/servizi/seo-locale", "permanent": true },
+    { "source": "/servizi/local-seo-booster", "destination": "/servizi/seo-locale", "permanent": true },
+    { "source": "/servizi/local-seo-booster/", "destination": "/servizi/seo-locale", "permanent": true },
+
+    { "source": "/servizi/creazione-siti-web-sassari", "destination": "/servizi/siti-web", "permanent": true },
+    { "source": "/servizi/creazione-siti-web-sassari/", "destination": "/servizi/siti-web", "permanent": true },
+
+    { "source": "/servizi/assistenza-e-manutenzione", "destination": "/servizi/assistenza-manutenzione", "permanent": true },
+    { "source": "/servizi/assistenza-e-manutenzione/", "destination": "/servizi/assistenza-manutenzione", "permanent": true },
 
     { "source": "/privacy-policy", "destination": "/privacy", "permanent": true },
     { "source": "/cookie-policy",  "destination": "/privacy", "permanent": true },

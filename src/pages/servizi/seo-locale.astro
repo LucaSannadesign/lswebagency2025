@@ -1,0 +1,334 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+// === SEO ===
+const metadata = {
+  title: 'SEO Locale Sassari | Google Business Profile & Local Pack — Più Clienti dalla Tua Zona',
+  description:
+    'SEO Locale a Sassari: ottimizziamo Google Business Profile e Local Pack per portarti clienti dalla tua zona. Appari nelle ricerche "vicino a me" su Google Maps. Setup + piani mensili.',
+  canonical: '/servizi/seo-locale',
+  robots: { index: true, follow: true },
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO TIPOGRAFICO -->
+  <section class="relative overflow-hidden isolate">
+    <!-- Sfondo con gradiente soft + pattern minimale -->
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-b from-emerald-50 via-white to-white dark:from-emerald-950/40 dark:via-slate-950 dark:to-slate-950"></div>
+      <!-- Pattern minimale simulato con opacity -->
+      <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] bg-[radial-gradient(circle_at_1px_1px,rgb(0,0,0)_1px,transparent_0)] [background-size:24px_24px]"></div>
+    </div>
+
+    <div class="container mx-auto px-6 pt-20 md:pt-28 pb-16 md:pb-20">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Badge/Eyebrow -->
+        <span class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-200 ring-1 ring-emerald-200/60 dark:ring-emerald-700/50 mb-6">
+          Local SEO · Google Business Profile
+        </span>
+
+        <!-- H1 con gradiente elegante -->
+        <h1
+          class="mt-4 text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight
+                 text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
+                 bg-gradient-to-r from-neutral-900 via-emerald-700 to-emerald-600
+                 dark:from-white dark:via-emerald-300 dark:to-emerald-400">
+          SEO Locale: Più Clienti dalla Tua Zona
+        </h1>
+
+        <!-- Sottotitolo orientato al beneficio -->
+        <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          Quando cercano <strong class="text-emerald-700 dark:text-emerald-400">"vicino a me"</strong> su Google, <strong>troveranno te</strong>. 
+          Più chiamate, più visite in negozio, più richieste preventivo. 
+          Ottimizziamo Google Business Profile e il tuo sito per apparire nel Local Pack.
+        </p>
+
+        <!-- CTA Primaria e Secondaria -->
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a 
+            href="/contatti?servizio=seo-locale" 
+            class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            Richiedi una valutazione Local SEO
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          </a>
+          <a 
+            href="#come-funziona" 
+            class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-neutral-900 dark:text-white bg-white dark:bg-slate-800 border-2 border-neutral-300 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 rounded-full transition-all duration-200"
+          >
+            Vedi come lavoriamo
+            <Icon name="tabler:chevron-down" class="w-5 h-5 ml-2" />
+          </a>
+        </div>
+
+        <!-- Mini-CTA sotto hero -->
+        <p class="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
+          Operi a Sassari o in Italia? <strong class="text-emerald-700 dark:text-emerald-400">Ti rispondiamo entro 24h.</strong>
+        </p>
+
+        <!-- Micro-pill/Feature -->
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+          <div class="rounded-2xl px-5 py-3 ring-1 ring-neutral-200/80 dark:ring-neutral-700/80 bg-white/60 dark:bg-slate-900/40 backdrop-blur-sm text-neutral-700 dark:text-neutral-300 font-medium">
+            Ottimizzazione Google Maps
+          </div>
+          <div class="rounded-2xl px-5 py-3 ring-1 ring-neutral-200/80 dark:ring-neutral-700/80 bg-white/60 dark:bg-slate-900/40 backdrop-blur-sm text-neutral-700 dark:text-neutral-300 font-medium">
+            Recensioni &amp; Reputazione
+          </div>
+          <div class="rounded-2xl px-5 py-3 ring-1 ring-neutral-200/80 dark:ring-neutral-700/80 bg-white/60 dark:bg-slate-900/40 backdrop-blur-sm text-neutral-700 dark:text-neutral-300 font-medium">
+            Tracking KPI Locali
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHI PUÒ USARE QUESTO SERVIZIO -->
+  <section class="container mx-auto px-6 py-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="rounded-2xl p-6 bg-emerald-50 dark:bg-emerald-950/20 ring-1 ring-emerald-200 dark:ring-emerald-900">
+        <p class="text-sm md:text-base text-emerald-900 dark:text-emerald-100 leading-relaxed">
+          Questo servizio è <strong>ideale per attività locali</strong> che vogliono apparire nelle ricerche "vicino a me" su Google. 
+          È valido anche per <strong>professionisti e aziende in tutta Italia</strong> con sedi fisiche o punti vendita, 
+          che cercano maggiore visibilità nel loro territorio.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA INCLUDE -->
+  <section class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Cosa include</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        ['Audit & setup GBP','Verifica categorie, NAP, servizi, foto, attributi e policy. Correzione incongruenze.'],
+        ['Ottimizzazioni locale on-page','Titoli/H1 locali, schema LocalBusiness, NAP coerente, map embed, pagine sede/servizio.'],
+        ['Strategia contenuti locali','Piano post mensili GBP e FAQ locali per catturare ricerche “vicino a me”.'],
+        ['Recensioni & reputazione','Template richiesta, risposta e gestione criticità secondo linee guida Google.'],
+        ['Citazioni & directory','Short-list directory locali / settoriali ad alto trust.'],
+        ['Tracking & KPI','Setup tracciamento click chiamata, indicazioni stradali, UTM e report baseline.'],
+      ].map(([t,d]) => (
+        <div class="rounded-2xl p-6 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-900/40 dark:to-neutral-900 ring-1 ring-neutral-200 dark:ring-neutral-800 shadow-sm">
+          <div class="mb-2 font-semibold">{t}</div>
+          <p class="text-neutral-600 dark:text-neutral-300">{d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- FASI -->
+  <section id="come-funziona" class="container mx-auto px-6 py-6">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Come lavoriamo</h2>
+    <div class="grid md:grid-cols-4 gap-4">
+      {[
+        ['Onboarding','Raccolta accessi GBP, siti e materiali. Obiettivi e zone di interesse.'],
+        ['Setup & correzioni','Fix NAP, categorie, servizi, foto, schema. Allineamento directory principali.'],
+        ['Boost contenuti locali','Linee guida per pagine/sedi, calendario post GBP, recensioni.'],
+        ['Report & next steps','Baseline KPI locali e roadmap 90 giorni.'],
+      ].map(([title,desc],i)=>(
+        <div class="relative rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-emerald-600 text-white font-bold">{i+1}</span>
+            <h3 class="font-semibold">{title}</h3>
+          </div>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300">{desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- PROSSIMO PASSO -->
+  <section class="container mx-auto px-6 py-10">
+    <div class="max-w-4xl mx-auto">
+      <div class="rounded-3xl p-8 md:p-10 ring-1 ring-emerald-200 dark:ring-emerald-900 bg-gradient-to-br from-emerald-50 via-white to-white dark:from-emerald-950/30 dark:via-slate-900 dark:to-slate-900 shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-neutral-900 dark:text-white">
+          Vuoi capire se sei già nel Local Pack?
+        </h2>
+        <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-300 mb-6">
+          Verifichiamo insieme la tua presenza locale e individuiamo le opportunità per migliorare la visibilità.
+        </p>
+        <ul class="space-y-3 mb-8 text-neutral-700 dark:text-neutral-300">
+          <li class="flex items-start gap-3">
+            <Icon name="tabler:check" class="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+            <span><strong>Audit Google Business Profile:</strong> verifica categorie, NAP, foto e attributi</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <Icon name="tabler:check" class="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+            <span><strong>Controllo coerenza NAP:</strong> nome, indirizzo e telefono allineati su web e directory</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <Icon name="tabler:check" class="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+            <span><strong>Opportunità keyword "vicino a me":</strong> analisi ricerche locali e posizionamento attuale</span>
+          </li>
+        </ul>
+        <a
+          href="/contatti?servizio=seo-locale"
+          class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+        >
+          Richiedi una valutazione gratuita
+          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREZZI -->
+  <section id="prezzi" class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Prezzi</h2>
+    <p class="text-neutral-600 dark:text-neutral-300 mb-6"><em>Prezzi indicativi, IVA esclusa.</em></p>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Audit SEO Locale Express -->
+      <div class="relative rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <span class="absolute -top-3 left-4 text-xs font-semibold px-2 py-1 rounded-full bg-blue-600 text-white">Entry Level</span>
+        <h3 class="text-xl font-semibold mb-2">Audit SEO Locale Express</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3">Analisi rapida e report in 48 ore.</p>
+        <div class="text-3xl font-extrabold mb-1">99 €</div>
+        <div class="text-xs text-neutral-500 dark:text-neutral-400 mb-4">Consegna in 48h · Senza vincoli</div>
+        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+          <li>• Audit completo Google Business Profile</li>
+          <li>• Analisi NAP e coerenza dati</li>
+          <li>• Check categorie, foto e attributi</li>
+          <li>• Report prioritizzato con azioni immediate</li>
+          <li>• Lista criticità e opportunità</li>
+          <li>• Indicazioni per ottimizzazioni rapide</li>
+        </ul>
+        <a
+          href="/contatti"
+          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 transition"
+        >
+          Richiedi Audit
+        </a>
+        <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+          <strong>Se poi passi al Setup, l'importo viene scalato</strong>. Proposta iniziale, attivazione dopo contatto.
+        </p>
+      </div>
+
+      <!-- Setup una tantum -->
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <h3 class="text-xl font-semibold mb-2">Setup</h3>
+        <div class="text-3xl font-extrabold mb-1">da 490 €</div>
+        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+          <li>• Audit &amp; setup GBP + correzioni NAP</li>
+          <li>• Ottimizzazioni locali on-page &amp; schema</li>
+          <li>• Linee guida contenuti locali e recensioni</li>
+          <li>• Report baseline KPI locali</li>
+        </ul>
+        <a
+          href="/contatti"
+          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90 transition"
+        >
+          Richiedi Setup
+        </a>
+        <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+          <strong>Se acquisti prima l'Audit Express, l'importo viene scalato dal Setup</strong>. Proposta iniziale, attivazione dopo contatto.
+        </p>
+      </div>
+
+      <!-- Manutenzione -->
+      <div class="relative rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
+        <span class="absolute -top-3 right-4 text-xs font-semibold px-2 py-1 rounded-full bg-emerald-600 text-white">Più scelto</span>
+        <h3 class="text-xl font-semibold mb-2">Manutenzione (opzionale)</h3>
+        <div class="text-3xl font-extrabold mb-1">49 € / mese</div>
+        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+          <li>• Monitor Local Pack &amp; query principali</li>
+          <li>• 1 post/mese su GBP (promo, novità)</li>
+          <li>• Mini-report mensile (azioni consigliate)</li>
+          <li>• Richieste aggiornamenti prioritarie</li>
+          <li>• Supporto su policy e ottimizzazioni GBP</li>
+          <li>• Recensioni Booster incluso</li>
+        </ul>
+        <a
+          href="/contatti"
+          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-emerald-600 text-white hover:bg-emerald-700 active:bg-emerald-800 transition"
+        >
+          Valuta Manutenzione
+        </a>
+        <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+          Facoltativa, mese per mese. <strong>Disattivabile quando vuoi</strong>. Comprende Recensioni Booster.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">FAQ</h2>
+    <div class="space-y-3">
+      {[
+        ['Cos\'è l\'Audit SEO Locale Express e quando è utile?',
+         'È un\'analisi rapida del tuo Google Business Profile consegnata in 48 ore. Ideale per capire subito cosa migliorare senza investire nel Setup completo. Se poi passi al Setup, i 99€ vengono scalati. Perfetto per iniziare con basso rischio.'],
+        ['Cosa significa "da 490 €" per il Setup?',
+         'Il prezzo parte da 490€ per una sede. Se hai più sedi o esigenze specifiche, il prezzo viene preventivato a parte. Inoltre, se hai già acquistato l\'Audit Express (99€), l\'importo viene scalato dal Setup: paghi 391€ invece di 490€.'],
+        ['Quando vedrò i primi risultati?',
+         'Con l\'Audit Express avrai il report in 48h. Con il Setup completo, per la maggior parte delle realtà locali si notano segnali entro 2–6 settimane (più chiamate, richieste indicazioni, crescita delle impressions su Maps). I tempi dipendono da concorrenza e qualità dei materiali.'],
+        ['Cosa vi serve per iniziare?',
+         'Per l\'Audit Express: accesso "Manager" al Google Business Profile. Per il Setup completo: accesso al sito (o al CMS), logo/foto aggiornate, elenco servizi e aree servite. Per multi-sede, un foglio con NAP e categorie per ogni sede.'],
+        ['Non ho una sede aperta al pubblico: posso farlo?',
+         'Sì, per attività "service-area" è possibile verificare il profilo e mostrare solo le aree servite nascondendo l\'indirizzo (se le policy lo consentono).'],
+        ['Local SEO è diverso dalla SEO organica?',
+         'Sì: il Local SEO lavora su Mappe/Local Pack e segnali di prossimità; la SEO organica lavora sui risultati "classici". Sono attività complementari.'],
+        ['Quante sedi sono incluse?',
+         'Il prezzo di setup si riferisce a 1 sede. Sedi aggiuntive vengono preventivate a parte in base a complessità e volumi.'],
+        ['Cosa include la manutenzione mensile e come si disdice?',
+         'Include 1 post/mese su GBP, monitor Local Pack & query principali, mini-report, richieste prioritarie e Recensioni Booster. La manutenzione è facoltativa, mese per mese, e può essere interrotta in qualsiasi momento.'],
+        ['Serve un contratto lungo?',
+         'No. L\'Audit Express è una tantum. Il Setup è una tantum. La manutenzione è mese per mese; puoi interrompere quando vuoi. Nessun vincolo.'],
+        ['Emettete fattura?',
+         'Certo. Dopo il contatto e la conferma del servizio, ricevi conferma via email e i dati per la fatturazione; in alternativa puoi indicarli nel form di contatto.'],
+      ].map(([q,a]) => (
+        <details class="rounded-2xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+          <summary class="font-semibold cursor-pointer">{q}</summary>
+          <p class="mt-2 text-neutral-600 dark:text-neutral-300">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+
+  <!-- JSON-LD: Service + OfferCatalog -->
+  <script type="application/ld+json" is:inline>
+  {
+    "@context":"https://schema.org",
+    "@type":"Service",
+    "name":"Local SEO Booster",
+    "areaServed":"IT",
+    "provider":{"@type":"Organization","name":"LS Web Agency"},
+    "description":"Ottimizzazione Google Business Profile e Local Pack per attività locali. Setup una tantum e piani mensili (manutenzione e recensioni).",
+    "offers":{
+      "@type":"AggregateOffer",
+      "lowPrice":"99",
+      "highPrice":"490",
+      "priceCurrency":"EUR"
+    },
+    "hasOfferCatalog":{
+      "@type":"OfferCatalog",
+      "name":"Piani Local SEO",
+      "itemListElement":[
+        {
+          "@type":"Offer",
+          "name":"Audit SEO Locale Express",
+          "price":"99",
+          "priceCurrency":"EUR",
+          "description":"Analisi rapida Google Business Profile consegnata in 48 ore. Report prioritizzato con azioni immediate. Importo scalabile dal Setup."
+        },
+        {
+          "@type":"Offer",
+          "name":"Setup",
+          "price":"490",
+          "priceCurrency":"EUR",
+          "description":"Audit & setup GBP, correzioni NAP, ottimizzazioni on-page locali, schema, baseline KPI. Prezzo da 490€, scalabile se si acquista prima l'Audit Express."
+        },
+        {
+          "@type":"Offer",
+          "name":"Manutenzione",
+          "price":"49",
+          "priceCurrency":"EUR",
+          "description":"Monitor Local Pack, 1 post/mese su GBP, mini-report, richieste prioritarie, supporto policy. Comprende Recensioni Booster. Facoltativa, mese per mese."
+        }
+      ]
+    }
+  }
+  </script>
+</Layout>
