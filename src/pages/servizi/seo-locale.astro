@@ -16,7 +16,7 @@ const metadata = {
   <!-- HERO TIPOGRAFICO -->
   <section class="relative overflow-hidden isolate">
     <!-- Sfondo con gradiente soft + pattern minimale -->
-    <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 -z-10 overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-b from-emerald-50 via-white to-white dark:from-emerald-950/40 dark:via-slate-950 dark:to-slate-950"></div>
       <!-- Pattern minimale simulato con opacity -->
       <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] bg-[radial-gradient(circle_at_1px_1px,rgb(0,0,0)_1px,transparent_0)] [background-size:24px_24px]"></div>
@@ -31,7 +31,7 @@ const metadata = {
 
         <!-- H1 con gradiente elegante -->
         <h1
-          class="mt-4 text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight
+          class="mt-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight break-words
                  text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
                  bg-gradient-to-r from-neutral-900 via-emerald-700 to-emerald-600
                  dark:from-white dark:via-emerald-300 dark:to-emerald-400">
@@ -49,17 +49,17 @@ const metadata = {
         <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
           <a 
             href="/contatti?servizio=seo-locale" 
-            class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+            class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
           >
-            Richiedi una valutazione Local SEO
-            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+            <span class="whitespace-nowrap">Richiedi una valutazione Local SEO</span>
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
           </a>
           <a 
             href="#come-funziona" 
-            class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-neutral-900 dark:text-white bg-white dark:bg-slate-800 border-2 border-neutral-300 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 rounded-full transition-all duration-200"
+            class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-neutral-900 dark:text-white bg-white dark:bg-slate-800 border-2 border-neutral-300 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 rounded-full transition-all duration-200"
           >
-            Vedi come lavoriamo
-            <Icon name="tabler:chevron-down" class="w-5 h-5 ml-2" />
+            <span class="whitespace-nowrap">Vedi come lavoriamo</span>
+            <Icon name="tabler:chevron-down" class="w-5 h-5 ml-2 shrink-0" />
           </a>
         </div>
 
@@ -164,10 +164,10 @@ const metadata = {
         </ul>
         <a
           href="/contatti?servizio=seo-locale"
-          class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+          class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
         >
-          Richiedi una valutazione gratuita
-          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          <span class="whitespace-nowrap">Richiedi una valutazione gratuita</span>
+          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
         </a>
       </div>
     </div>
@@ -178,7 +178,7 @@ const metadata = {
     <h2 class="text-2xl md:text-3xl font-bold mb-6">Prezzi</h2>
     <p class="text-neutral-600 dark:text-neutral-300 mb-6"><em>Prezzi indicativi, IVA esclusa.</em></p>
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-6">
       <!-- Audit SEO Locale Express -->
       <div class="relative rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
         <span class="absolute -top-3 left-4 text-xs font-semibold px-2 py-1 rounded-full bg-blue-600 text-white">Entry Level</span>
@@ -196,7 +196,7 @@ const metadata = {
         </ul>
         <a
           href="/contatti"
-          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 transition"
+          class="inline-flex w-full items-center justify-center min-h-[44px] rounded-full px-5 py-3 text-base font-semibold bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 transition"
         >
           Richiedi Audit
         </a>
@@ -217,7 +217,7 @@ const metadata = {
         </ul>
         <a
           href="/contatti"
-          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-black text-white hover:opacity-90 transition"
+          class="inline-flex w-full items-center justify-center min-h-[44px] rounded-full px-5 py-3 text-base font-semibold bg-black text-white hover:opacity-90 transition"
         >
           Richiedi Setup
         </a>
@@ -241,7 +241,7 @@ const metadata = {
         </ul>
         <a
           href="/contatti"
-          class="inline-flex w-full items-center justify-center rounded-full px-5 py-3 bg-emerald-600 text-white hover:bg-emerald-700 active:bg-emerald-800 transition"
+          class="inline-flex w-full items-center justify-center min-h-[44px] rounded-full px-5 py-3 text-base font-semibold bg-emerald-600 text-white hover:bg-emerald-700 active:bg-emerald-800 transition"
         >
           Valuta Manutenzione
         </a>

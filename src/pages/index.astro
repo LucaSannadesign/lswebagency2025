@@ -64,16 +64,16 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 <Layout metadata={metadata}>
   <!-- HERO -->
   <section class="relative isolate bg-white dark:bg-slate-950 overflow-hidden">
-    <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 -z-10 overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950"></div>
-      <div class="absolute inset-0 opacity-60 dark:opacity-40 bg-[radial-gradient(1200px_circle_at_30%_20%,rgba(59,130,246,0.15),transparent_50%),radial-gradient(1000px_circle_at_70%_40%,rgba(139,92,246,0.15),transparent_50%)]"></div>
+      <div class="absolute inset-0 opacity-60 dark:opacity-40 bg-[radial-gradient(closest-side_at_30%_20%,rgba(59,130,246,0.15),transparent_50%),radial-gradient(closest-side_at_70%_40%,rgba(139,92,246,0.15),transparent_50%)] md:bg-[radial-gradient(1200px_circle_at_30%_20%,rgba(59,130,246,0.15),transparent_50%),radial-gradient(1000px_circle_at_70%_40%,rgba(139,92,246,0.15),transparent_50%)]"></div>
     </div>
 
     <div class="mx-auto max-w-screen-xl px-6 md:px-8 pt-16 md:pt-24 pb-16 md:pb-24">
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start lg:items-center">
         <!-- Testo Hero -->
-        <div class="text-center lg:text-left">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+        <div class="text-center lg:text-left order-1 lg:order-1">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight break-words">
             <span class="block text-slate-900 dark:text-white">
               Siti Web che Portano
             </span>
@@ -82,24 +82,28 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             </span>
           </h1>
 
-          <p class="mt-6 text-lg md:text-xl lg:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-            Operativi da Sassari, lavoriamo da remoto in tutta Italia. 
+          <p class="mt-8 text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
             Sviluppiamo <strong>siti web professionali</strong> che portano clienti, 
             ottimizziamo la tua presenza su Google Maps e offriamo supporto continuo. 
-            Risultati concreti per il tuo business.
+            <span class="hidden sm:inline">Operativi da Sassari, lavoriamo da remoto in tutta Italia.</span>
           </p>
 
           <!-- CTA Principali -->
           <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <a href="/contatti" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
+            <a href="/contatti" class="inline-flex items-center justify-center min-h-[48px] px-8 py-3.5 text-base sm:text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
               Richiedi un preventivo
-              <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+              <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
             </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full transition-all duration-200">
-              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 text-emerald-600" />
-              Contattaci su WhatsApp
+            <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full transition-all duration-200">
+              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 text-emerald-600 shrink-0" />
+              <span class="whitespace-nowrap">Contattaci su WhatsApp</span>
             </a>
           </div>
+
+          <!-- Micro-copy rassicurante -->
+          <p class="mt-4 text-sm text-slate-500 dark:text-slate-400 text-center lg:text-left">
+            Risposta entro 24h · Nessun impegno
+          </p>
 
           <!-- Trust badges -->
           <div class="mt-10 flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-slate-600 dark:text-slate-400">
@@ -119,10 +123,10 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
         </div>
 
         <!-- Immagine Hero -->
-        <div class="relative hidden lg:block">
+        <div class="relative order-2 lg:order-2 mt-12 lg:mt-0">
           <div class="relative">
-            <div class="absolute -inset-4 bg-gradient-to-r from-blue-600 to-violet-600 rounded-3xl blur-2xl opacity-20"></div>
-            <div class="relative rounded-3xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-2xl">
+            <div class="absolute -inset-3 bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl blur-xl opacity-15"></div>
+            <div class="relative rounded-2xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-lg">
               <img
                 src="/images/lswebagency-hero-serp-contatti.webp"
                 alt="Sviluppo siti web professionali e SEO"
@@ -352,7 +356,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 
   <!-- CTA FINALE -->
   <section class="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 py-16 md:py-24">
-    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-20"></div>
     <div class="mx-auto max-w-4xl px-6 md:px-8 text-center relative z-10">
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6">
         Vuoi più clienti dal web?
@@ -361,13 +365,13 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
         Prenota una consulenza gratuita. Analizziamo insieme come far crescere il tuo business online e ti proponiamo la soluzione più efficace.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/contatti" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white hover:bg-blue-50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
-          Richiedi consulenza gratuita
-          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+        <a href="/contatti" class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-blue-600 bg-white hover:bg-blue-50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
+          <span class="whitespace-nowrap">Richiedi consulenza gratuita</span>
+          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
         </a>
-        <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-blue-700/50 hover:bg-blue-700 border-2 border-white/30 rounded-full transition-all duration-200">
-          <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
-          Scrivici su WhatsApp
+        <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white bg-blue-700/50 hover:bg-blue-700 border-2 border-white/30 rounded-full transition-all duration-200">
+          <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 shrink-0" />
+          <span class="whitespace-nowrap">Scrivici su WhatsApp</span>
         </a>
       </div>
     </div>

@@ -64,17 +64,17 @@ const AGENCY = {
           </p>
 
           <div class="mt-5 flex flex-wrap gap-3">
-            <a href="#contact" class="inline-flex items-center justify-center rounded-full px-6 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
+            <a href="#contact" class="inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 text-base font-semibold text-white bg-violet-600 hover:bg-violet-700 transition">
               Invia una richiesta
             </a>
-            <a href="/servizi" class="inline-flex items-center justify-center rounded-full px-6 py-3 ring-1 ring-neutral-300 text-neutral-900 hover:bg-neutral-100 dark:text-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800 transition">
+            <a href="/servizi" class="inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 text-base font-semibold ring-1 ring-neutral-300 text-neutral-900 hover:bg-neutral-100 dark:text-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800 transition">
               Vedi i servizi
             </a>
           </div>
         </div>
 
         <!-- Contatti rapidi -->
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <a href={`tel:${AGENCY.phoneIntl}`} class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
             <div class="flex items-center gap-3">
               <Icon name="tabler:phone" class="text-2xl opacity-80" aria-hidden="true" />
@@ -139,7 +139,7 @@ const AGENCY = {
         id="contact-form"
         method="POST"
         action="/api/contact"
-        class="grid grid-cols-1 md:grid-cols-2 gap-4"
+        class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full"
         novalidate
       >
         <!-- Honeypot anti-spam -->
@@ -152,7 +152,7 @@ const AGENCY = {
           aria-hidden="true"
         />
 
-        <div class="col-span-1">
+        <div class="col-span-1 min-w-0">
           <label for="name" class="block text-sm font-medium mb-1">
             Nome e cognome <span class="text-red-500">*</span>
           </label>
@@ -162,13 +162,13 @@ const AGENCY = {
             type="text"
             required
             minlength="2"
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500"
+            class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500"
             aria-describedby="name-error"
           />
           <span id="name-error" class="hidden text-sm text-red-600 dark:text-red-400 mt-1" role="alert"></span>
         </div>
 
-        <div class="col-span-1">
+        <div class="col-span-1 min-w-0">
           <label for="email" class="block text-sm font-medium mb-1">
             Email <span class="text-red-500">*</span>
           </label>
@@ -179,13 +179,13 @@ const AGENCY = {
             required
             inputmode="email"
             autocomplete="email"
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500"
+            class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500"
             aria-describedby="email-error"
           />
           <span id="email-error" class="hidden text-sm text-red-600 dark:text-red-400 mt-1" role="alert"></span>
         </div>
 
-        <div class="col-span-1">
+        <div class="col-span-1 min-w-0">
           <label for="phone" class="block text-sm font-medium mb-1">
             Telefono (opzionale)
           </label>
@@ -195,18 +195,18 @@ const AGENCY = {
             type="tel"
             inputmode="tel"
             autocomplete="tel"
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
         </div>
 
-        <div class="col-span-1">
+        <div class="col-span-1 min-w-0">
           <label for="service" class="block text-sm font-medium mb-1">
             Servizio di interesse
           </label>
           <select
             id="service"
             name="service"
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500"
           >
             <option value="" selected>Seleziona…</option>
             <option value="siti-web">Siti Web Professionali</option>
@@ -220,7 +220,7 @@ const AGENCY = {
           </select>
         </div>
 
-        <div class="col-span-1 md:col-span-2">
+        <div class="col-span-1 md:col-span-2 min-w-0">
           <label for="message" class="block text-sm font-medium mb-1">
             Messaggio <span class="text-red-500">*</span>
           </label>
@@ -230,7 +230,7 @@ const AGENCY = {
             rows="6"
             required
             minlength="10"
-            class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500 resize-y"
+            class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500 resize-y"
             aria-describedby="message-error"
           ></textarea>
           <span id="message-error" class="hidden text-sm text-red-600 dark:text-red-400 mt-1" role="alert"></span>
@@ -274,7 +274,7 @@ const AGENCY = {
         </div>
 
         <div class="col-span-1 md:col-span-2 mt-2">
-          <Button type="submit" variant="primary" id="submit-btn">
+          <Button type="submit" variant="primary" id="submit-btn" class="w-full sm:w-auto min-h-[44px]">
             <span id="submit-text">Invia richiesta</span>
             <span id="submit-loading" class="hidden">
               Invio in corso...
