@@ -1,184 +1,138 @@
-// src/pages/api/contatti.ts
-import nodemailer from "nodemailer";
+import type { APIRoute } from "astro";
+import { Resend } from "resend";
 
 export const prerender = false;
 
-// Helper robusto: funziona sia in locale (astro dev) sia su Vercel (process.env)
-function env(key: string, fallback?: string): string | undefined {
-  return (import.meta as any)?.env?.[key] ?? process.env[key] ?? fallback;
+/**
+ * Legge variabili d'ambiente sia in locale (Astro) sia su Vercel (process.env)
+ */
+function env(key: string): string | undefined {
+  return (import.meta as any)?.env?.[key] ?? process.env[key];
 }
 
 function isEmail(value: string): boolean {
-  // Regex semplice ma affidabile per form contatti
-  const re =
-    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-  return re.test(value);
+  // Regex base, affidabile per form contatti (non “perfetta” RFC, ma pratica)
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(value);
 }
 
-function hasHeaderInjection(value: string): boolean {
-  return value.includes("\n") || value.includes("\r");
-}
-
-function escapeHtml(input: string): string {
-  return input
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function jsonResponse(
-  status: number,
-  body: Record<string, unknown>,
-  extraHeaders?: Record<string, string>
-) {
+function json(status: number, body: Record<string, unknown>) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
-      "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
-      ...(extraHeaders ?? {}),
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
     },
   });
 }
 
-export async function GET() {
-  // Healthcheck (utile per test curl e per verificare in prod)
-  return jsonResponse(200, { ok: true, route: "/api/contatti" });
+function getContentType(req: Request): string {
+  return (req.headers.get("content-type") || "").toLowerCase();
 }
 
-export async function POST({ request }: { request: Request }) {
+export const GET: APIRoute = async () => {
+  return json(200, { ok: true, route: "/api/contatti" });
+};
+
+export const POST: APIRoute = async ({ request }) => {
   // 1) Accetta SOLO JSON
-  const contentType = request.headers.get("content-type") || "";
-  if (!contentType.toLowerCase().includes("application/json")) {
-    return jsonResponse(415, {
-      ok: false,
-      error: "Unsupported Media Type. Usa Content-Type: application/json",
-    });
+  const ct = getContentType(request);
+  if (!ct.includes("application/json")) {
+    return json(415, { ok: false, error: "UNSUPPORTED_MEDIA_TYPE" });
   }
 
-  // 2) Parse JSON (fallback pulito)
-  let payload: any;
+  // 2) Parse JSON robusto
+  let data: any;
   try {
-    payload = await request.json();
+    data = await request.json();
   } catch {
-    return jsonResponse(400, { ok: false, error: "JSON non valido." });
+    return json(400, { ok: false, error: "INVALID_JSON" });
   }
 
-  // 3) Normalizza input
-  const name = String(payload?.name ?? "").trim();
-  const email = String(payload?.email ?? "").trim().toLowerCase();
-  const message = String(payload?.message ?? "").trim();
-  const privacy = payload?.privacy === true;
-
-  // 4) Validazione richiesta
-  const errors: Record<string, string> = {};
-
-  if (name.length < 2) errors.name = "name deve avere almeno 2 caratteri.";
-  if (name.length > 120) errors.name = "name troppo lungo (max 120).";
-
-  if (!isEmail(email)) errors.email = "email non valida.";
-  if (email.length > 254) errors.email = "email troppo lunga (max 254).";
-
-  if (message.length < 10) errors.message = "message deve avere almeno 10 caratteri.";
-  if (message.length > 5000) errors.message = "message troppo lungo (max 5000).";
-
-  if (privacy !== true) errors.privacy = "Devi accettare la privacy.";
-
-  // Protezione base header injection (Reply-To, Subject, ecc.)
-  if (hasHeaderInjection(name)) errors.name = "Valore non valido.";
-  if (hasHeaderInjection(email)) errors.email = "Valore non valido.";
-
-  if (Object.keys(errors).length > 0) {
-    return jsonResponse(400, { ok: false, errors });
+  // 3) Honeypot anti-spam (campo "company")
+  // Se valorizzato -> non inviare, ma rispondere 200 ok (graceful)
+  const company = typeof data?.company === "string" ? data.company.trim() : "";
+  if (company.length > 0) {
+    return json(200, { ok: true, emailSent: false });
   }
 
-  // 5) ENV SMTP (Hostinger) + mail routing
-  const SMTP_HOST = env("SMTP_HOST");
-  const SMTP_PORT = Number(env("SMTP_PORT", "465"));
-  const SMTP_USER = env("SMTP_USER");
-  const SMTP_PASS = env("SMTP_PASS");
+  // 4) Campi richiesti
+  const name = typeof data?.name === "string" ? data.name.trim() : "";
+  const email = typeof data?.email === "string" ? data.email.trim() : "";
+  const message = typeof data?.message === "string" ? data.message.trim() : "";
+  const privacy = data?.privacy === true;
 
-  const MAIL_FROM = env("MAIL_FROM"); // es: "LS Web Agency <info@lswebagency.com>"
-  const MAIL_TO = env("MAIL_TO");     // es: "info@lswebagency.com"
-  const MAIL_SUBJECT_PREFIX = env("MAIL_SUBJECT_PREFIX", "Contatto sito");
+  // 5) Validazione
+  const fields: Record<string, string> = {};
+  if (name.length < 2) fields.name = "Nome non valido (min 2 caratteri).";
+  if (!isEmail(email)) fields.email = "Email non valida.";
+  if (message.length < 10) fields.message = "Messaggio troppo corto (min 10 caratteri).";
+  if (!privacy) fields.privacy = "È necessario accettare la Privacy Policy.";
 
-  const missing = [
-    !SMTP_HOST ? "SMTP_HOST" : null,
-    !SMTP_USER ? "SMTP_USER" : null,
-    !SMTP_PASS ? "SMTP_PASS" : null,
-    !MAIL_FROM ? "MAIL_FROM" : null,
-    !MAIL_TO ? "MAIL_TO" : null,
-  ].filter(Boolean);
+  if (Object.keys(fields).length > 0) {
+    return json(400, { ok: false, error: "VALIDATION_ERROR", fields });
+  }
 
-  if (missing.length) {
-    // In prod meglio fallire chiaramente: la tua “soluzione definitiva” deve essere verificabile.
-    console.error("[contatti] ENV mancanti:", missing);
-    return jsonResponse(500, {
-      ok: false,
-      error: "Configurazione server incompleta (ENV mancanti).",
-      missing,
+  // 6) ENV (Resend + destinatari)
+  const RESEND_API_KEY = env("RESEND_API_KEY");
+  const MAIL_FROM = env("MAIL_FROM");
+  const MAIL_TO = env("MAIL_TO");
+  const MAIL_SUBJECT_PREFIX = env("MAIL_SUBJECT_PREFIX") || "Nuovo contatto dal sito";
+
+  if (!RESEND_API_KEY || !MAIL_FROM || !MAIL_TO) {
+    // NON loggare mai la key: solo booleani
+    console.error("[contatti] SERVER_MISCONFIGURED missing env:", {
+      hasResendKey: Boolean(RESEND_API_KEY),
+      hasMailFrom: Boolean(MAIL_FROM),
+      hasMailTo: Boolean(MAIL_TO),
     });
+    return json(500, { ok: false, error: "SERVER_MISCONFIGURED" });
   }
 
-  const secure = SMTP_PORT === 465; // 465 = SSL, 587 = STARTTLS
+  // 7) Invio email via Resend HTTP API
+  const resend = new Resend(RESEND_API_KEY);
 
-  // 6) Invio email (Nodemailer)
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST!,
-    port: SMTP_PORT,
-    secure,
-    auth: { user: SMTP_USER!, pass: SMTP_PASS! },
-    // Timeouts utili su serverless
-    connectionTimeout: 10_000,
-    greetingTimeout: 10_000,
-    socketTimeout: 20_000,
-  });
-
-  const safeName = escapeHtml(name);
-  const safeEmail = escapeHtml(email);
-  const safeMessage = escapeHtml(message).replaceAll("\n", "<br/>");
-
-  const subject = `${MAIL_SUBJECT_PREFIX}: ${name} <${email}>`;
-
-  const mail = {
-    from: MAIL_FROM!,
-    to: MAIL_TO!,
-    replyTo: `${name} <${email}>`,
-    subject,
-    text: `Nuovo messaggio dal sito\n\nNome: ${name}\nEmail: ${email}\n\nMessaggio:\n${message}\n`,
-    html: `
-      <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5">
-        <h2>Nuovo messaggio dal sito</h2>
-        <p><strong>Nome:</strong> ${safeName}<br/>
-           <strong>Email:</strong> ${safeEmail}</p>
-        <p><strong>Messaggio:</strong><br/>${safeMessage}</p>
-      </div>
-    `,
-  };
+  const subject = `${MAIL_SUBJECT_PREFIX} — ${name}`;
+  const text =
+    `Nuovo messaggio dal sito\n\n` +
+    `Nome: ${name}\n` +
+    `Email: ${email}\n\n` +
+    `Messaggio:\n${message}\n`;
 
   try {
-    const info = await transporter.sendMail(mail);
-
-    return jsonResponse(200, {
-      ok: true,
-      emailSent: true,
-      id: info.messageId ?? null,
+    const { data: sent, error } = await resend.emails.send({
+      from: MAIL_FROM,
+      to: [MAIL_TO],
+      replyTo: email, // Reply al cliente
+      subject,
+      text,
     });
+
+    // 8) Resend può restituire error senza lanciare eccezione
+    if (error) {
+      console.error("[contatti] Resend error:", {
+        name: error.name,
+        message: error.message,
+      });
+      return json(200, {
+        ok: true,
+        emailSent: false,
+        message:
+          "Richiesta ricevuta. Se non ricevi risposta, riprova o contattaci via email.",
+      });
+    }
+
+    return json(200, { ok: true, emailSent: true, id: sent?.id ?? null });
   } catch (err: any) {
-    // 7) Fallback pulito: log completo server-side, risposta “graceful”
-    console.error("[contatti] Invio email fallito:", {
+    // 9) Fallback pulito: log server-side + risposta 200 “graceful”
+    console.error("[contatti] Resend exception:", {
+      name: err?.name,
       message: err?.message,
-      code: err?.code,
-      response: err?.response,
     });
-
-    // Graceful: la richiesta è valida e ricevuta, ma invio non confermato
-    return jsonResponse(200, {
+    return json(200, {
       ok: true,
       emailSent: false,
-      message: "Richiesta ricevuta. Se non ricevi risposta, riprova o contattaci via email.",
+      message:
+        "Richiesta ricevuta. Se non ricevi risposta, riprova o contattaci via email.",
     });
   }
-}
+};
