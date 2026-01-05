@@ -521,18 +521,9 @@ const AGENCY = {
       // Flag per evitare doppio invio
       let isSubmitting = false;
 
-      // Verifica se fetch è disponibile
-      const hasFetch = typeof fetch !== 'undefined' && typeof FormData !== 'undefined';
-
-      // Form submit
+      // Form submit - sempre usa fetch JSON, disabilita submit classico
       form.addEventListener('submit', async (e) => {
-        // Se fetch non è disponibile, lascia che il form faccia submit normale
-        if (!hasFetch) {
-          // Nessun preventDefault, il form farà submit classico
-          return;
-        }
-
-        // Previeni SEMPRE submit normale quando usiamo fetch (evita doppio invio)
+        // Previeni SEMPRE submit classico (evita "Cross-site POST form submissions are forbidden" su Vercel)
         e.preventDefault();
         e.stopPropagation();
         

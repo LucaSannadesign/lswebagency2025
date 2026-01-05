@@ -1,7 +1,11 @@
 // src/pages/api/contatti.ts
 import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
+export const prerender = false;
 
+export const config = {
+  runtime: "nodejs",
+};
 export const prerender = false;
 
 interface ContactRequestBody {
