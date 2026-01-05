@@ -1,15 +1,21 @@
 .vercel
+
 # Dipendenze e build
 node_modules/
 .astro/
-dist/# Dipendenze e build
 dist/
 
+# Env locali (mai su git)
+.env
 .env*.local
+
 # lock non usati
 pnpm-lock.yaml
 yarn.lock
+
+# OS files
 .DS_Store
 **/.DS_Store
-# macOS
+
+# backup
 *.bak
