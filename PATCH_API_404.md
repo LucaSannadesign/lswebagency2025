@@ -202,3 +202,4 @@ Vercel deve usare `.vercel/output/` direttamente (quando "Output Directory" è v
 Se "Output Directory" = `dist`, Vercel cerca solo file statici in `dist/` e ignora `.vercel/output/`, causando 404 sulle API.
 
 
+

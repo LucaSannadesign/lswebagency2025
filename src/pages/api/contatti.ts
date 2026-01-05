@@ -4,10 +4,24 @@ import nodemailer from 'nodemailer';
 
 export const prerender = false;
 
+// Interfaccia per il body della richiesta
+interface ContactRequestBody {
+  name?: string;
+  email?: string;
+  phone?: string;
+  service?: string;
+  message?: string;
+  privacy?: boolean;
+  privacyAccepted?: boolean;
+  company?: string; // honeypot
+}
+
 // Rate limiting semplice in-memory (in produzione usare Redis/database)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 ora
 const RATE_LIMIT_MAX = 5; // max 5 invii per ora per IP
+
+const isDev = import.meta.env.DEV;
 
 function getRateLimitKey(request: Request): string {
   const forwarded = request.headers.get('x-forwarded-for');
@@ -45,6 +59,37 @@ function validateEmail(email: string): boolean {
   return re.test(email);
 }
 
+// Parsing del body JSON (solo application/json supportato)
+async function parseRequestBody(request: Request): Promise<ContactRequestBody> {
+  const contentType = request.headers.get('content-type') || '';
+  
+  if (isDev) {
+    console.log('[contatti] Content-Type ricevuto:', contentType);
+  }
+
+  // Verifica Content-Type: solo application/json
+  if (!contentType.includes('application/json')) {
+    if (isDev) {
+      console.warn('[contatti] Content-Type non supportato:', contentType);
+    }
+    throw new Error('Content-Type deve essere application/json');
+  }
+
+  // Parse JSON body
+  try {
+    const body = await request.json();
+    if (isDev) {
+      console.log('[contatti] Body JSON parsato:', Object.keys(body));
+    }
+    return body;
+  } catch (parseError) {
+    if (isDev) {
+      console.error('[contatti] Errore parsing JSON:', parseError);
+    }
+    throw new Error('Body JSON non valido');
+  }
+}
+
 export const GET: APIRoute = async () => {
   return new Response(
     JSON.stringify({
@@ -64,6 +109,9 @@ export const POST: APIRoute = async ({ request }) => {
     // Rate limiting
     const rateLimitKey = getRateLimitKey(request);
     if (!checkRateLimit(rateLimitKey)) {
+      if (isDev) {
+        console.warn('[contatti] Rate limit exceeded per:', rateLimitKey);
+      }
       return new Response(
         JSON.stringify({
           ok: false,
@@ -76,13 +124,18 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Verifica Content-Type
-    const contentType = request.headers.get('content-type') || '';
-    if (!contentType.includes('application/json')) {
+    // Parsing del body JSON
+    let body: ContactRequestBody;
+    try {
+      body = await parseRequestBody(request);
+    } catch (parseError: any) {
+      if (isDev) {
+        console.error('[contatti] Errore parsing body:', parseError.message);
+      }
       return new Response(
         JSON.stringify({
           ok: false,
-          message: 'Content-Type deve essere application/json',
+          message: parseError.message || 'Errore durante la lettura dei dati inviati.',
         }),
         {
           status: 400,
@@ -91,26 +144,15 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Parse JSON body
-    let body: any;
-    try {
-      body = await request.json();
-    } catch (parseError) {
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          message: 'Body JSON non valido',
-        }),
-        {
-          status: 400,
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        },
-      );
+    if (isDev) {
+      console.log('[contatti] Body ricevuto (keys):', Object.keys(body));
     }
 
     // Honeypot anti-spam (campo "company" nascosto nel form)
     if (body.company && typeof body.company === 'string' && body.company.trim() !== '') {
-      console.warn('[contatti] Honeypot triggered:', rateLimitKey);
+      if (isDev) {
+        console.warn('[contatti] Honeypot triggered:', rateLimitKey);
+      }
       return new Response(
         JSON.stringify({
           ok: false,
@@ -124,15 +166,30 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Estrazione e sanitizzazione dati
-    const name = sanitizeString((body.name || '').toString());
-    const email = sanitizeString((body.email || '').toString());
-    const phone = sanitizeString((body.phone || '').toString());
-    const service = sanitizeString((body.service || '').toString());
-    const message = sanitizeString((body.message || '').toString());
-    const privacy = body.privacy;
+    const name = sanitizeString(String(body.name || '').trim());
+    const email = sanitizeString(String(body.email || '').trim());
+    const phone = sanitizeString(String(body.phone || '').trim());
+    const service = sanitizeString(String(body.service || '').trim());
+    const message = sanitizeString(String(body.message || '').trim());
+    // Accetta sia privacy che privacyAccepted come boolean
+    const privacyOk = body.privacy === true || body.privacyAccepted === true;
 
-    // Validazione
+    if (isDev) {
+      console.log('[contatti] Dati estratti:', {
+        name: name.substring(0, 20) + '...',
+        email: email.substring(0, 20) + '...',
+        phone: phone || '—',
+        service: service || '—',
+        messageLength: message.length,
+        privacyOk,
+      });
+    }
+
+    // Validazione campi minimi
     if (!name || name.length < 2) {
+      if (isDev) {
+        console.warn('[contatti] Validazione fallita: nome troppo corto');
+      }
       return new Response(
         JSON.stringify({
           ok: false,
@@ -146,6 +203,9 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     if (!email || !validateEmail(email)) {
+      if (isDev) {
+        console.warn('[contatti] Validazione fallita: email non valida', email);
+      }
       return new Response(
         JSON.stringify({
           ok: false,
@@ -159,6 +219,9 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     if (!message || message.length < 10) {
+      if (isDev) {
+        console.warn('[contatti] Validazione fallita: messaggio troppo corto', message.length);
+      }
       return new Response(
         JSON.stringify({
           ok: false,
@@ -171,7 +234,10 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    if (!privacy) {
+    if (!privacyOk) {
+      if (isDev) {
+        console.warn('[contatti] Validazione fallita: privacy non accettata');
+      }
       return new Response(
         JSON.stringify({
           ok: false,
@@ -322,8 +388,11 @@ ${message}
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
       },
     );
-  } catch (err) {
+  } catch (err: any) {
     console.error('[contatti] Errore:', err);
+    if (isDev) {
+      console.error('[contatti] Stack trace:', err.stack);
+    }
     return new Response(
       JSON.stringify({
         ok: false,
@@ -337,3 +406,33 @@ ${message}
   }
 };
 
+// Gestione metodi non supportati
+export const ALL: APIRoute = async ({ request }) => {
+  const method = request.method;
+  if (method !== 'GET' && method !== 'POST') {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        message: `Metodo ${method} non supportato. Usa GET o POST.`,
+      }),
+      {
+        status: 405,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Allow': 'GET, POST',
+        },
+      },
+    );
+  }
+  // Se è GET o POST, non dovremmo arrivare qui (gestiti da export specifici)
+  return new Response(
+    JSON.stringify({
+      ok: false,
+      message: 'Errore interno.',
+    }),
+    {
+      status: 500,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    },
+  );
+};
