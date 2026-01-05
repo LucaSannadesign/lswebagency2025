@@ -181,3 +181,4 @@ export async function POST({ request }: { request: Request }) {
       message: "Richiesta ricevuta. Se non ricevi risposta, riprova o contattaci via email.",
     });
   }
+}
