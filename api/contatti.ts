@@ -1,105 +1,114 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-function isEmail(value: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(value);
+function setCors(res: VercelResponse) {
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  // Se vuoi limitare l'origine, sostituisci "*" con "https://www.lswebagency.com"
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
 }
 
-function json(res: VercelResponse, status: number, body: any) {
-  res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.setHeader('Cache-Control', 'no-store');
-  res.status(status).send(JSON.stringify(body));
+function isEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // (Opzionale) CORS soft per sicurezza (non dà fastidio in same-origin)
-  const origin = req.headers.origin as string | undefined;
-  const allowed = new Set(['https://www.lswebagency.com', 'https://lswebagency.com']);
-  if (origin && allowed.has(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Vary', 'Origin');
-  }
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  setCors(res);
 
+  // Preflight CORS
   if (req.method === 'OPTIONS') return res.status(204).end();
 
+  // GET = health/info (utile per curl)
   if (req.method === 'GET') {
-    return json(res, 200, { ok: true, route: '/api/contatti' });
+    return res.status(200).json({ ok: true, route: '/api/contatti' });
   }
 
   if (req.method !== 'POST') {
-    return json(res, 405, { ok: false, error: 'METHOD_NOT_ALLOWED' });
+    return res.status(405).json({ ok: false, error: 'METHOD_NOT_ALLOWED' });
   }
 
-  const ct = (req.headers['content-type'] || '').toString().toLowerCase();
-  if (!ct.includes('application/json')) {
-    return json(res, 415, { ok: false, error: 'UNSUPPORTED_MEDIA_TYPE' });
-  }
-
-  // Vercel di solito parse-a già il body JSON, ma gestiamo entrambi i casi
-  let data: any = req.body;
-  if (!data || typeof data === 'string') {
-    try {
-      data = data ? JSON.parse(data) : {};
-    } catch {
-      return json(res, 400, { ok: false, error: 'INVALID_JSON' });
-    }
-  }
-
-  // Honeypot anti-spam (accetta "company" o "azienda")
-  const company =
-    (typeof data?.company === 'string' ? data.company.trim() : '') ||
-    (typeof data?.azienda === 'string' ? data.azienda.trim() : '');
-  if (company.length > 0) {
-    return json(res, 200, { ok: true, emailSent: false });
-  }
-
-  // Accetta sia name/message che nome/messaggio (così i test curl non impazziscono)
-  const name =
-    (typeof data?.name === 'string' ? data.name.trim() : '') ||
-    (typeof data?.nome === 'string' ? data.nome.trim() : '');
-  const email = typeof data?.email === 'string' ? data.email.trim() : '';
-  const message =
-    (typeof data?.message === 'string' ? data.message.trim() : '') ||
-    (typeof data?.messaggio === 'string' ? data.messaggio.trim() : '');
-
-  // privacy opzionale: se presente deve essere true
-  const privacy =
-    data?.privacy === undefined || data?.privacy === null ? true : data?.privacy === true;
-
-  const fields: Record<string, string> = {};
-  if (name.length < 2) fields.name = 'Nome non valido (min 2 caratteri).';
-  if (!isEmail(email)) fields.email = 'Email non valida.';
-  if (message.length < 10) fields.message = 'Messaggio troppo corto (min 10 caratteri).';
-  if (!privacy) fields.privacy = 'È necessario accettare la Privacy Policy.';
-
-  if (Object.keys(fields).length > 0) {
-    return json(res, 400, { ok: false, error: 'VALIDATION_ERROR', fields });
-  }
-
+  // --- ENV check
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const MAIL_FROM = process.env.MAIL_FROM;
   const MAIL_TO = process.env.MAIL_TO;
-  const MAIL_SUBJECT_PREFIX = process.env.MAIL_SUBJECT_PREFIX || 'Nuovo contatto dal sito';
+  const MAIL_FROM = process.env.MAIL_FROM;
 
-  if (!RESEND_API_KEY || !MAIL_FROM || !MAIL_TO) {
-    console.error('[contatti] Missing env:', {
-      hasResendKey: Boolean(RESEND_API_KEY),
-      hasMailFrom: Boolean(MAIL_FROM),
-      hasMailTo: Boolean(MAIL_TO),
+  if (!RESEND_API_KEY || !MAIL_TO || !MAIL_FROM) {
+    return res.status(500).json({
+      ok: false,
+      error: 'SERVER_MISCONFIGURED',
+      missing: {
+        RESEND_API_KEY: !RESEND_API_KEY,
+        MAIL_TO: !MAIL_TO,
+        MAIL_FROM: !MAIL_FROM,
+      },
     });
-    return json(res, 500, { ok: false, error: 'SERVER_MISCONFIGURED' });
   }
 
-  const subject = `${MAIL_SUBJECT_PREFIX} — ${name}`;
-  const text =
-    `Nuovo messaggio dal sito\n\n` +
-    `Nome: ${name}\n` +
-    `Email: ${email}\n\n` +
-    `Messaggio:\n${message}\n`;
+  // --- Body parse (Vercel di solito lo fa già; qui gestiamo anche stringa raw)
+  let body: any = req.body;
+  try {
+    if (typeof body === 'string') body = JSON.parse(body);
+  } catch {
+    return res.status(400).json({ ok: false, error: 'INVALID_JSON' });
+  }
+
+  const nome = String(body?.nome ?? '').trim();
+  const email = String(body?.email ?? '').trim();
+  const messaggio = String(body?.messaggio ?? '').trim();
+  const privacy = Boolean(body?.privacy);
+  // Honeypot: se valorizzato -> bot
+  const company = String(body?.company ?? '').trim();
+
+  if (company) {
+    return res.status(200).json({ ok: true, spam: true }); // “soft-success”
+  }
+
+  if (!privacy) {
+    return res.status(400).json({ ok: false, error: 'PRIVACY_REQUIRED' });
+  }
+
+  if (nome.length < 2) {
+    return res.status(400).json({ ok: false, error: 'NAME_REQUIRED' });
+  }
+
+  if (!isEmail(email)) {
+    return res.status(400).json({ ok: false, error: 'EMAIL_INVALID' });
+  }
+
+  if (messaggio.length < 10) {
+    return res.status(400).json({ ok: false, error: 'MESSAGE_TOO_SHORT' });
+  }
+
+  // --- Email content
+  const subject = `Nuovo contatto dal sito: ${nome}`;
+  const text = [
+    `Nome: ${nome}`,
+    `Email: ${email}`,
+    ``,
+    `Messaggio:`,
+    `${messaggio}`,
+    ``,
+    `--`,
+    `Inviato da /api/contatti (${new Date().toISOString()})`,
+  ].join('\n');
+
+  const html = `
+    <div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5">
+      <h2>Nuovo contatto dal sito</h2>
+      <p><strong>Nome:</strong> ${escapeHtml(nome)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+      <hr/>
+      <p><strong>Messaggio:</strong></p>
+      <pre style="white-space:pre-wrap;background:#f6f6f6;padding:12px;border-radius:8px">${escapeHtml(
+        messaggio
+      )}</pre>
+      <p style="color:#666;font-size:12px">Inviato da /api/contatti – ${new Date().toISOString()}</p>
+    </div>
+  `;
 
   try {
-    const r = await fetch('https://api.resend.com/emails', {
+    const resp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${RESEND_API_KEY}`,
@@ -108,30 +117,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       body: JSON.stringify({
         from: MAIL_FROM,
         to: [MAIL_TO],
-        reply_to: email,
+        reply_to: email, // così rispondi direttamente all’utente
         subject,
         text,
+        html,
       }),
     });
 
-    const out = await r.json().catch(() => ({}));
+    const data = await resp.json().catch(() => ({}));
 
-    if (!r.ok) {
-      console.error('[contatti] Resend error:', out);
-      return json(res, 200, {
-        ok: true,
-        emailSent: false,
-        message: 'Richiesta ricevuta. Se non ricevi risposta, riprova o contattaci via email.',
+    if (!resp.ok) {
+      // utile per capire subito se è un problema di FROM domain / key / policy
+      return res.status(502).json({
+        ok: false,
+        error: 'EMAIL_PROVIDER_ERROR',
+        status: resp.status,
+        details: data,
       });
     }
 
-    return json(res, 200, { ok: true, emailSent: true, id: out?.id ?? null });
-  } catch (err: any) {
-    console.error('[contatti] Resend exception:', { name: err?.name, message: err?.message });
-    return json(res, 200, {
+    return res.status(200).json({
       ok: true,
-      emailSent: false,
-      message: 'Richiesta ricevuta. Se non ricevi risposta, riprova o contattaci via email.',
+      emailSent: true,
+      provider: 'resend',
+      id: data?.id ?? null,
+    });
+  } catch (err: any) {
+    return res.status(500).json({
+      ok: false,
+      error: 'UNEXPECTED_ERROR',
+      message: err?.message ?? String(err),
     });
   }
+}
+
+function escapeHtml(input: string) {
+  return input
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
