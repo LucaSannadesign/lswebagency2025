@@ -1,27 +1,11 @@
-interface VercelRequest {
-  method?: string;
-  headers: Record<string, string | string[] | undefined>;
-  body?: any;
-  query?: Record<string, string | string[]>;
-}
-
-interface VercelResponse {
-  status: (code: number) => VercelResponse;
-  json: (data: any) => void;
-  end: () => void;
-  setHeader: (name: string, value: string) => void;
-}
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.setHeader('Allow', 'GET, HEAD');
+    return res.status(405).json({ ok: false, error: 'Method Not Allowed' });
+  }
+
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  
-  if (req.method === 'HEAD') {
-    return res.status(200).end();
-  }
-  
-  if (req.method === 'GET') {
-    return res.status(200).json({ ok: true, ts: new Date().toISOString() });
-  }
-  
-  return res.status(405).json({ ok: false, error: 'METHOD_NOT_ALLOWED' });
+  return res.status(200).json({ ok: true, ts: new Date().toISOString() });
 }

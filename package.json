@@ -79,6 +79,7 @@
     "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
+    "@vercel/node": "^3.2.29",
     "astro": "^5.13.3",
     "astro-compress": "^2.3.8",
     "astro-eslint-parser": "^1.1.0",
