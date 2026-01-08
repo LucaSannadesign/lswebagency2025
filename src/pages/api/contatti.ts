@@ -55,10 +55,12 @@ export const POST: APIRoute = async ({ request }) => {
     return json(200, { ok: true, emailSent: false });
   }
 
-  // 4) Campi richiesti
-  const name = typeof data?.name === "string" ? data.name.trim() : "";
+  // 4) Normalizzazione input (supporta sinonimi: name/nome, message/messaggio/body)
+  const nameRaw = data?.name ?? data?.nome ?? "";
+  const name = typeof nameRaw === "string" ? nameRaw.trim() : "";
   const email = typeof data?.email === "string" ? data.email.trim() : "";
-  const message = typeof data?.message === "string" ? data.message.trim() : "";
+  const messageRaw = data?.message ?? data?.messaggio ?? data?.body ?? "";
+  const message = typeof messageRaw === "string" ? messageRaw.trim() : "";
   const privacy = data?.privacy === true;
 
   // 5) Validazione
@@ -72,22 +74,22 @@ export const POST: APIRoute = async ({ request }) => {
     return json(400, { ok: false, error: "VALIDATION_ERROR", fields });
   }
 
-  // 6) ENV (Resend + destinatari)
+  // 6) Normalizzazione ENV (supporta CONTACT_* e fallback MAIL_* per retrocompatibilità)
   const RESEND_API_KEY = env("RESEND_API_KEY");
-  const CONTACT_TO_EMAIL = env("CONTACT_TO_EMAIL");
-  const CONTACT_FROM_EMAIL = env("CONTACT_FROM_EMAIL") || "onboarding@resend.dev";
+  const TO = env("CONTACT_TO_EMAIL") || env("MAIL_TO");
+  const FROM = env("CONTACT_FROM_EMAIL") || env("MAIL_FROM") || "onboarding@resend.dev";
   const MAIL_SUBJECT_PREFIX = env("MAIL_SUBJECT_PREFIX") || "Nuovo contatto dal sito";
 
-  if (!RESEND_API_KEY || !CONTACT_TO_EMAIL) {
+  if (!RESEND_API_KEY || !TO) {
     // NON loggare mai la key: solo booleani
     console.error("[contatti] SERVER_MISCONFIGURED missing env:", {
       hasResendKey: Boolean(RESEND_API_KEY),
-      hasContactToEmail: Boolean(CONTACT_TO_EMAIL),
+      hasToEmail: Boolean(TO),
     });
     return json(500, { ok: false, error: "SERVER_MISCONFIGURED" });
   }
 
-  // 7) Invio email via Resend HTTP API
+  // 7) Invio email via Resend
   const resend = new Resend(RESEND_API_KEY);
 
   const subject = `${MAIL_SUBJECT_PREFIX} — ${name}`;
@@ -99,9 +101,9 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const { data: sent, error } = await resend.emails.send({
-      from: CONTACT_FROM_EMAIL,
-      to: [CONTACT_TO_EMAIL],
-      replyTo: email, // Reply al cliente
+      from: FROM,
+      to: [TO],
+      replyTo: email,
       subject,
       text,
     });
@@ -112,26 +114,16 @@ export const POST: APIRoute = async ({ request }) => {
         name: error.name,
         message: error.message,
       });
-      return json(200, {
-        ok: true,
-        emailSent: false,
-        message:
-          "Richiesta ricevuta. Se non ricevi risposta, riprova o contattaci via email.",
-      });
+      return json(502, { ok: false, error: "EMAIL_PROVIDER_ERROR" });
     }
 
-    return json(200, { ok: true, emailSent: true, id: sent?.id ?? null });
+    return json(200, { ok: true, emailSent: true, provider: "resend", id: sent?.id ?? null });
   } catch (err: any) {
-    // 9) Fallback pulito: log server-side + risposta 200 “graceful”
+    // 9) Error handling: log info non sensibili e return 502
     console.error("[contatti] Resend exception:", {
       name: err?.name,
       message: err?.message,
     });
-    return json(200, {
-      ok: true,
-      emailSent: false,
-      message:
-        "Richiesta ricevuta. Se non ricevi risposta, riprova o contattaci via email.",
-    });
+    return json(502, { ok: false, error: "EMAIL_PROVIDER_ERROR" });
   }
 };
