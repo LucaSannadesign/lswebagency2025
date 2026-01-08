@@ -3,6 +3,8 @@ import { Resend } from "resend";
 
 export const prerender = false;
 
+const BUILD_FINGERPRINT = "contatti-v3-2026-01-08-1047";
+
 /**
  * Legge variabili d'ambiente sia in locale (Astro) sia su Vercel (process.env)
  */
@@ -30,14 +32,14 @@ function getContentType(req: Request): string {
 }
 
 export const GET: APIRoute = async () => {
-  return json(200, { ok: true, route: "/api/contatti" });
+  return json(200, { ok: true, route: "/api/contatti", build: BUILD_FINGERPRINT });
 };
 
 export const POST: APIRoute = async ({ request }) => {
   // 1) Accetta SOLO JSON
   const ct = getContentType(request);
   if (!ct.includes("application/json")) {
-    return json(415, { ok: false, error: "UNSUPPORTED_MEDIA_TYPE" });
+    return json(415, { ok: false, error: "UNSUPPORTED_MEDIA_TYPE", build: BUILD_FINGERPRINT });
   }
 
   // 2) Parse JSON robusto
@@ -45,14 +47,14 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     data = await request.json();
   } catch {
-    return json(400, { ok: false, error: "INVALID_JSON" });
+    return json(400, { ok: false, error: "INVALID_JSON", build: BUILD_FINGERPRINT });
   }
 
   // 3) Honeypot anti-spam (campo "company")
   // Se valorizzato -> non inviare, ma rispondere 200 ok (graceful)
   const company = typeof data?.company === "string" ? data.company.trim() : "";
   if (company.length > 0) {
-    return json(200, { ok: true, emailSent: false });
+    return json(200, { ok: true, emailSent: false, build: BUILD_FINGERPRINT });
   }
 
   // 4) Normalizzazione input (supporta sinonimi: name/nome, message/messaggio/body)
@@ -71,7 +73,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (!privacy) fields.privacy = "È necessario accettare la Privacy Policy.";
 
   if (Object.keys(fields).length > 0) {
-    return json(400, { ok: false, error: "VALIDATION_ERROR", fields });
+    return json(400, { ok: false, error: "VALIDATION_ERROR", fields, build: BUILD_FINGERPRINT });
   }
 
   // 6) Normalizzazione ENV (supporta CONTACT_* e fallback MAIL_* per retrocompatibilità)
@@ -86,7 +88,7 @@ export const POST: APIRoute = async ({ request }) => {
       hasResendKey: Boolean(RESEND_API_KEY),
       hasToEmail: Boolean(TO),
     });
-    return json(500, { ok: false, error: "SERVER_MISCONFIGURED" });
+    return json(500, { ok: false, error: "SERVER_MISCONFIGURED", build: BUILD_FINGERPRINT });
   }
 
   // 7) Invio email via Resend
@@ -114,16 +116,16 @@ export const POST: APIRoute = async ({ request }) => {
         name: error.name,
         message: error.message,
       });
-      return json(502, { ok: false, error: "EMAIL_PROVIDER_ERROR" });
+      return json(502, { ok: false, error: "EMAIL_PROVIDER_ERROR", build: BUILD_FINGERPRINT });
     }
 
-    return json(200, { ok: true, emailSent: true, provider: "resend", id: sent?.id ?? null });
+    return json(200, { ok: true, emailSent: true, provider: "resend", id: sent?.id ?? null, build: BUILD_FINGERPRINT });
   } catch (err: any) {
     // 9) Error handling: log info non sensibili e return 502
     console.error("[contatti] Resend exception:", {
       name: err?.name,
       message: err?.message,
     });
-    return json(502, { ok: false, error: "EMAIL_PROVIDER_ERROR" });
+    return json(502, { ok: false, error: "EMAIL_PROVIDER_ERROR", build: BUILD_FINGERPRINT });
   }
 };
