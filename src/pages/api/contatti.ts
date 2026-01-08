@@ -74,16 +74,15 @@ export const POST: APIRoute = async ({ request }) => {
 
   // 6) ENV (Resend + destinatari)
   const RESEND_API_KEY = env("RESEND_API_KEY");
-  const MAIL_FROM = env("MAIL_FROM");
-  const MAIL_TO = env("MAIL_TO");
+  const CONTACT_TO_EMAIL = env("CONTACT_TO_EMAIL");
+  const CONTACT_FROM_EMAIL = env("CONTACT_FROM_EMAIL") || "onboarding@resend.dev";
   const MAIL_SUBJECT_PREFIX = env("MAIL_SUBJECT_PREFIX") || "Nuovo contatto dal sito";
 
-  if (!RESEND_API_KEY || !MAIL_FROM || !MAIL_TO) {
+  if (!RESEND_API_KEY || !CONTACT_TO_EMAIL) {
     // NON loggare mai la key: solo booleani
     console.error("[contatti] SERVER_MISCONFIGURED missing env:", {
       hasResendKey: Boolean(RESEND_API_KEY),
-      hasMailFrom: Boolean(MAIL_FROM),
-      hasMailTo: Boolean(MAIL_TO),
+      hasContactToEmail: Boolean(CONTACT_TO_EMAIL),
     });
     return json(500, { ok: false, error: "SERVER_MISCONFIGURED" });
   }
@@ -100,8 +99,8 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const { data: sent, error } = await resend.emails.send({
-      from: MAIL_FROM,
-      to: [MAIL_TO],
+      from: CONTACT_FROM_EMAIL,
+      to: [CONTACT_TO_EMAIL],
       replyTo: email, // Reply al cliente
       subject,
       text,
