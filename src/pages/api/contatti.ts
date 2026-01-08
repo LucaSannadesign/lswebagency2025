@@ -31,6 +31,38 @@ function getContentType(req: Request): string {
   return (req.headers.get("content-type") || "").toLowerCase();
 }
 
+/**
+ * Analizza l'errore Resend e restituisce un codice diagnostico specifico
+ */
+function diagnoseResendError(error: any): string {
+  const message = String(error?.message || "");
+  const name = String(error?.name || "");
+  const combined = `${message} ${name}`;
+
+  // Unauthorized/Forbidden/API Key issues
+  if (/unauthorized|forbidden|api key/i.test(combined)) {
+    return "RESEND_UNAUTHORIZED";
+  }
+
+  // From domain/sender verification issues
+  if (/from.*verif|domain.*verif|sender.*verif/i.test(combined)) {
+    return "FROM_NOT_VERIFIED";
+  }
+
+  // To/recipient validation issues
+  if (/to.*invalid|recipient|address/i.test(combined)) {
+    return "TO_INVALID";
+  }
+
+  // Rate limiting
+  if (/rate limit|429/i.test(combined)) {
+    return "RESEND_RATE_LIMIT";
+  }
+
+  // Fallback
+  return "EMAIL_PROVIDER_ERROR";
+}
+
 export const GET: APIRoute = async () => {
   return json(200, { ok: true, route: "/api/contatti", build: BUILD_FINGERPRINT });
 };
@@ -112,20 +144,26 @@ export const POST: APIRoute = async ({ request }) => {
 
     // 8) Resend può restituire error senza lanciare eccezione
     if (error) {
+      const errorCode = diagnoseResendError(error);
+      const errorMessage = String(error?.message || "").slice(0, 200);
       console.error("[contatti] Resend error:", {
-        name: error.name,
-        message: error.message,
+        code: errorCode,
+        name: error?.name,
+        message: errorMessage,
       });
-      return json(502, { ok: false, error: "EMAIL_PROVIDER_ERROR", build: BUILD_FINGERPRINT });
+      return json(502, { ok: false, error: errorCode, build: BUILD_FINGERPRINT });
     }
 
     return json(200, { ok: true, emailSent: true, provider: "resend", id: sent?.id ?? null, build: BUILD_FINGERPRINT });
   } catch (err: any) {
-    // 9) Error handling: log info non sensibili e return 502
+    // 9) Error handling: diagnostica dettagliata e return 502
+    const errorCode = diagnoseResendError(err);
+    const errorMessage = String(err?.message || "").slice(0, 200);
     console.error("[contatti] Resend exception:", {
+      code: errorCode,
       name: err?.name,
-      message: err?.message,
+      message: errorMessage,
     });
-    return json(502, { ok: false, error: "EMAIL_PROVIDER_ERROR", build: BUILD_FINGERPRINT });
+    return json(502, { ok: false, error: errorCode, build: BUILD_FINGERPRINT });
   }
 };
