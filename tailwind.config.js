@@ -12,6 +12,12 @@ export default {
         accent: 'var(--aw-color-accent)',
         default: 'var(--aw-color-text-default)',
         muted: 'var(--aw-color-text-muted)',
+        brand: {
+          purple: 'rgb(var(--brand-purple) / <alpha-value>)',
+          blue: 'rgb(var(--brand-blue) / <alpha-value>)',
+          ink: 'rgb(var(--brand-ink) / <alpha-value>)',
+          surface: 'rgb(var(--brand-surface) / <alpha-value>)',
+        },
       },
       fontFamily: {
         sans: ['var(--aw-font-sans, ui-sans-serif)', ...defaultTheme.fontFamily.sans],

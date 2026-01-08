@@ -4,6 +4,18 @@
 @tailwind utilities;
 
 /* =========================
+   Design Tokens - Brand Colors
+   ========================= */
+@layer base {
+  :root {
+    --brand-purple: 134 36 151;
+    --brand-blue: 55 98 227;
+    --brand-ink: 37 33 87;
+    --brand-surface: 230 234 251;
+  }
+}
+
+/* =========================
    Utilities personalizzate
    ========================= */
 @layer utilities {
