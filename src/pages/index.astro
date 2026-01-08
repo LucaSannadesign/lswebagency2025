@@ -62,81 +62,113 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO -->
-  <section class="relative isolate bg-white dark:bg-slate-950 overflow-hidden">
-    <div class="absolute inset-0 -z-10 overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950"></div>
-      <div class="absolute inset-0 opacity-60 dark:opacity-40 bg-[radial-gradient(closest-side_at_30%_20%,rgba(59,130,246,0.15),transparent_50%),radial-gradient(closest-side_at_70%_40%,rgba(139,92,246,0.15),transparent_50%)] md:bg-[radial-gradient(1200px_circle_at_30%_20%,rgba(59,130,246,0.15),transparent_50%),radial-gradient(1000px_circle_at_70%_40%,rgba(139,92,246,0.15),transparent_50%)]"></div>
+  <!-- HERO - Variante A: Brand + Credibilità -->
+  <section class="relative isolate bg-brand-surface dark:bg-slate-950 overflow-hidden">
+    <!-- Glow effects -->
+    <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-purple/20 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-blue/20 rounded-full blur-3xl"></div>
     </div>
 
-    <div class="mx-auto max-w-screen-xl px-6 md:px-8 pt-16 md:pt-24 pb-16 md:pb-24">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start lg:items-center">
+    <div class="mx-auto max-w-screen-xl px-6 md:px-8 py-16 lg:py-24">
+      <div class="grid lg:grid-cols-2 gap-12 items-start lg:items-center">
         <!-- Testo Hero -->
-        <div class="text-center lg:text-left order-1 lg:order-1">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight break-words">
-            <span class="block text-slate-900 dark:text-white">
-              Siti Web che Portano
+        <div class="text-center lg:text-left">
+          <!-- Micro-badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-white/70 dark:bg-white/10 backdrop-blur-sm rounded-full ring-1 ring-brand-ink/10 text-sm text-brand-ink dark:text-slate-300">
+            <span class="w-2 h-2 rounded-full bg-brand-blue"></span>
+            <span>Siti Web + SEO Locale · Operativi da Sassari, in tutta Italia</span>
+          </div>
+
+          <!-- H1 con gradiente -->
+          <h1 class="text-5xl sm:text-6xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight break-words">
+            <span class="block text-brand-ink dark:text-white">
+              Siti Web che portano
             </span>
-            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400">
-              Clienti Reali
+            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-blue">
+              clienti reali
             </span>
           </h1>
 
-          <p class="mt-8 text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
+          <!-- Paragrafo descrittivo -->
+          <p class="mt-6 text-lg md:text-xl text-brand-ink/80 dark:text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
             Sviluppiamo <strong>siti web professionali</strong> che portano clienti, 
             ottimizziamo la tua presenza su Google Maps e offriamo supporto continuo. 
-            <span class="hidden sm:inline">Operativi da Sassari, lavoriamo da remoto in tutta Italia.</span>
+            Operativi da Sassari, lavoriamo da remoto in tutta Italia.
           </p>
 
-          <!-- CTA Principali -->
-          <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <a href="/contatti" class="inline-flex items-center justify-center min-h-[48px] px-8 py-3.5 text-base sm:text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
+          <!-- CTA -->
+          <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <!-- Primary CTA -->
+            <a 
+              href="/contatti" 
+              class="inline-flex items-center justify-center min-h-[48px] px-7 py-4 text-base sm:text-lg font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+            >
               Richiedi un preventivo
               <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
             </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full transition-all duration-200">
-              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 text-emerald-600 shrink-0" />
-              <span class="whitespace-nowrap">Contattaci su WhatsApp</span>
+            <!-- Secondary CTA -->
+            <a 
+              href="/portfolio" 
+              class="inline-flex items-center justify-center min-h-[48px] px-7 py-4 text-base sm:text-lg font-semibold text-brand-ink dark:text-white bg-white dark:bg-slate-800 hover:bg-white/80 dark:hover:bg-slate-700 rounded-full ring-1 ring-brand-ink/15 dark:ring-slate-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-ink/20 focus:ring-offset-2"
+            >
+              Vedi esempi reali
             </a>
           </div>
 
-          <!-- Micro-copy rassicurante -->
-          <p class="mt-4 text-sm text-slate-500 dark:text-slate-400 text-center lg:text-left">
-            Risposta entro 24h · Nessun impegno
-          </p>
+          <!-- WhatsApp terziario -->
+          <div class="mt-4 flex justify-center lg:justify-start">
+            <a 
+              href={WHATSAPP} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 text-sm text-brand-ink/70 dark:text-slate-400 hover:text-brand-ink dark:hover:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:ring-offset-2 rounded-lg px-2 py-1"
+            >
+              <span class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                <Icon name="tabler:brand-whatsapp" class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              </span>
+              <span>Scrivici su WhatsApp</span>
+            </a>
+          </div>
 
-          <!-- Trust badges -->
-          <div class="mt-10 flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-slate-600 dark:text-slate-400">
-            <div class="flex items-center gap-2">
-              <Icon name="tabler:check" class="w-5 h-5 text-emerald-600" />
-              <span>Clienti in tutta Italia</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <Icon name="tabler:check" class="w-5 h-5 text-emerald-600" />
-              <span>Risultati misurabili</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <Icon name="tabler:check" class="w-5 h-5 text-emerald-600" />
-              <span>Supporto continuo incluso</span>
-            </div>
+          <!-- Proof pills -->
+          <div class="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
+            <span class="inline-flex items-center px-4 py-2 bg-white/70 dark:bg-white/10 backdrop-blur-sm rounded-full ring-1 ring-brand-ink/10 text-sm font-medium text-brand-ink dark:text-slate-300">
+              SEO Locale + Maps
+            </span>
+            <span class="inline-flex items-center px-4 py-2 bg-white/70 dark:bg-white/10 backdrop-blur-sm rounded-full ring-1 ring-brand-ink/10 text-sm font-medium text-brand-ink dark:text-slate-300">
+              Performance / Core Web Vitals
+            </span>
+            <span class="inline-flex items-center px-4 py-2 bg-white/70 dark:bg-white/10 backdrop-blur-sm rounded-full ring-1 ring-brand-ink/10 text-sm font-medium text-brand-ink dark:text-slate-300">
+              Assistenza continua
+            </span>
           </div>
         </div>
 
-        <!-- Immagine Hero -->
-        <div class="relative order-2 lg:order-2 mt-12 lg:mt-0">
-          <div class="relative">
-            <div class="absolute -inset-3 bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl blur-xl opacity-15"></div>
-            <div class="relative rounded-2xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-lg">
-              <img
-                src="/images/lswebagency-hero-serp-contatti.webp"
-                alt="Sviluppo siti web professionali e SEO"
-                width="800"
-                height="600"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                class="w-full h-auto"
-              />
+        <!-- Visual Card -->
+        <div class="relative order-first lg:order-last mt-8 lg:mt-0">
+          <div class="relative aspect-[16/10] rounded-3xl overflow-hidden bg-gradient-to-br from-brand-ink via-brand-purple/40 to-brand-blue/30 shadow-2xl">
+            <!-- Immagine hero esistente -->
+            <img
+              src="/images/lswebagency-hero-serp-contatti.webp"
+              alt="Sviluppo siti web professionali e SEO"
+              width="800"
+              height="600"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              class="w-full h-full object-cover"
+            />
+            
+            <!-- Overlay gradient per coerenza brand -->
+            <div class="absolute inset-0 bg-gradient-to-br from-brand-ink/20 via-brand-purple/10 to-brand-blue/10 pointer-events-none"></div>
+            
+            <!-- Mini-card sovrapposta -->
+            <div class="absolute bottom-6 left-6 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg ring-1 ring-brand-ink/10">
+              <div class="flex items-center gap-2">
+                <Icon name="tabler:clock" class="w-5 h-5 text-brand-blue" />
+                <span class="text-sm font-semibold text-brand-ink dark:text-white">Risposta entro 24h</span>
+              </div>
             </div>
           </div>
         </div>
