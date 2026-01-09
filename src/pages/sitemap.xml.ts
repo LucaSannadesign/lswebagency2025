@@ -15,7 +15,6 @@ export async function GET({ site }: { site: URL }) {
   // Collezioni
   const posts = await getCollection('post', (e) => !e.data?.draft);
   const portfolio = await getCollection('portfolio', (e) => !(e.data as any)?.draft);
-  const cities = await getCollection('cities').catch(() => []); // opzionale
 
   // Pagine statiche principali
   const staticPages = [
@@ -25,7 +24,6 @@ export async function GET({ site }: { site: URL }) {
     '/portfolio',
     '/contatti',
     '/blog',
-    '/local',
   ];
 
   // Pagine Servizi (rotte effettive)
@@ -54,13 +52,6 @@ export async function GET({ site }: { site: URL }) {
   // Statiche + Servizi
   staticPages.forEach((p) => push(p));
   servicePages.forEach((p) => push(p));
-
-  // Local dinamiche (solo published:true)
-  if (cities.length) {
-    cities
-      .filter((c: any) => c?.data?.published)
-      .forEach((c) => push(`/local/${c.slug}`));
-  }
 
   // Blog: /blog/<slug> (lo slug in Content Collections è già "pulito")
   posts.forEach((p) => {

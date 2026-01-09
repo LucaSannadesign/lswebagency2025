@@ -27,14 +27,13 @@ const staticPages = [
   { title: 'Portfolio', url: '/portfolio' },
   { title: 'Contatti', url: '/contatti' },
   { title: 'Blog', url: '/blog' },
-  { title: 'Local', url: '/local' },
 ];
 
 /* ---------------- SEO ---------------- */
 const metadata = {
   title: 'Mappa del Sito — LS Web Agency',
   description:
-    'Elenco completo di pagine, articoli del blog, progetti portfolio e pagine Local.',
+    'Elenco completo di pagine, articoli del blog e progetti portfolio.',
   canonical: '/mappa-del-sito',
   robots: { index: true, follow: true },
 };
@@ -44,7 +43,7 @@ const metadata = {
   <section class="container mx-auto px-6 py-12">
     <h1 class="text-4xl font-bold text-center mb-8">Mappa del Sito</h1>
     <p class="text-center text-lg text-muted mb-10">
-      Qui trovi l'elenco di tutte le pagine del sito, inclusi articoli, portfolio e pagine Local.
+      Qui trovi l'elenco di tutte le pagine del sito, inclusi articoli e portfolio.
     </p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -105,82 +104,7 @@ const metadata = {
         </ul>
       </div>
 
-      <!-- Pagine Local (collassabile) -->
-      <div>
-        <h2 class="text-2xl font-semibold mb-4">Pagine Local</h2>
-
-        <!-- Grid: 2 colonne su md, 3 su lg -->
-        <div id="localList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-          {cities
-            .slice()
-            .sort((a: any, b: any) => {
-              // prima per priority (più basso prima), poi alfabetico per nome/slug
-              const pa = Number.isFinite(a?.data?.priority) ? a.data.priority : 999;
-              const pb = Number.isFinite(b?.data?.priority) ? b.data.priority : 999;
-              return pa - pb ||
-                String(a?.data?.name ?? a?.data?.slug ?? a.id)
-                  .localeCompare(String(b?.data?.name ?? b?.data?.slug ?? b.id));
-            })
-            .map((c, i) => {
-              const slug = normalizeEntrySlug(c as any);
-              const label = (c as any).data?.name ?? slug;
-              // mostriamo solo i primi 24, gli altri hanno data-hidden="true"
-              const hidden = i >= 24;
-              return (
-                <a
-                  href={`/local/${slug}`}
-                  class:list={[
-                    'text-blue-600 hover:underline',
-                    { 'hidden': hidden, 'block': !hidden }
-                  ]}
-                  data-hidden={hidden ? 'true' : 'false'}
-                >
-                  {label}
-                </a>
-              );
-            })}
-        </div>
-
-        {/* Toggle Mostra tutte / Mostra meno */}
-        {cities.length > 24 && (
-          <div class="mt-4">
-            <button
-              id="toggleLocal"
-              type="button"
-              class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-sm font-medium"
-              aria-expanded="false"
-              aria-controls="localList"
-            >
-              Mostra tutte
-            </button>
-          </div>
-        )}
-      </div>
     </div>
   </section>
 
-  {/* Script inline per il toggle */}
-  <script is:inline>
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('toggleLocal');
-      const grid = document.getElementById('localList');
-      if (!btn || !grid) return;
-
-      const update = (expanded) => {
-        grid.querySelectorAll('[data-hidden="true"]').forEach((el) => {
-          el.classList.toggle('hidden', !expanded);
-          el.classList.toggle('block', expanded);
-        });
-        btn.setAttribute('aria-expanded', String(expanded));
-        btn.textContent = expanded ? 'Mostra meno' : 'Mostra tutte';
-      };
-
-      let expanded = false;
-      update(expanded);
-      btn.addEventListener('click', () => {
-        expanded = !expanded;
-        update(expanded);
-      });
-    });
-  </script>
 </Layout>

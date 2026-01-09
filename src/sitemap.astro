@@ -1,7 +1,6 @@
 ---
 // src/sitemap.astro
 import Layout from '@/layouts/PageLayout.astro';
-import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 
 export const prerender = true;
@@ -14,13 +13,6 @@ const fileSlug = (id: string) =>
 const posts = await getCollection('post');
 const portfolio = await getCollection('portfolio');
 
-let cities: CollectionEntry<'cities'>[] = [];
-try {
-  cities = (await getCollection('cities')) as CollectionEntry<'cities'>[];
-} catch {
-  // se la collection non esiste, ignora
-}
-
 /* Pagine statiche principali */
 const staticPages = [
   { title: 'Home', url: '/' },
@@ -30,14 +22,13 @@ const staticPages = [
   { title: 'Blog', url: '/blog' },
   { title: 'Contatti', url: '/contatti' },
   { title: 'Pagamenti', url: '/pagamenti' },
-  { title: 'Local (città)', url: '/local' },
 ];
 
 /* SEO della pagina */
 const metadata = {
   title: 'Mappa del Sito | LS Web Agency',
   description:
-    'Elenco completo delle pagine del sito: principali, articoli del blog, progetti portfolio e local (città).',
+    'Elenco completo delle pagine del sito: principali, articoli del blog e progetti portfolio.',
   canonical: '/sitemap',
   robots: { index: true, follow: true },
 };
@@ -47,7 +38,7 @@ const metadata = {
   <section class="container mx-auto px-6 py-12">
     <h1 class="text-4xl font-bold text-center mb-8">Mappa del Sito</h1>
     <p class="text-center text-lg text-gray-600 dark:text-gray-300 mb-10">
-      Naviga tutte le pagine del sito, inclusi articoli del blog, progetti e sezioni locali.
+      Naviga tutte le pagine del sito, inclusi articoli del blog e progetti.
     </p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -101,38 +92,6 @@ const metadata = {
         </ul>
       </div>
 
-      <!-- Local (Città) - mostrata solo se la collection esiste -->
-      {cities.length > 0 && (
-        <div>
-          <h2 class="text-2xl font-semibold mb-4">Local (Città)</h2>
-          <ul class="grid sm:grid-cols-2 gap-2">
-            {cities
-              .map((entry) => {
-                const routeSlug =
-                  (entry.data as any)?.slug?.trim?.() || fileSlug(entry.id);
-                return {
-                  name: entry.data.name,
-                  routeSlug,
-                  priority: entry.data.priority ?? 999,
-                };
-              })
-              .sort(
-                (a, b) =>
-                  a.priority - b.priority || a.name.localeCompare(b.name)
-              )
-              .map((c) => (
-                <li>
-                  <a
-                    href={`/local/${c.routeSlug}`}
-                    class="text-blue-600 hover:underline"
-                  >
-                    {c.name}
-                  </a>
-                </li>
-              ))}
-          </ul>
-        </div>
-      )}
     </div>
   </section>
 </Layout>
