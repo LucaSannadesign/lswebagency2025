@@ -43,6 +43,7 @@
     "@supabase/supabase-js": "^2.74.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@vercel/analytics": "^1.6.1",
     "@vercel/routing-utils": "^4.0.0",
     "@vercel/speed-insights": "^1.2.0",
     "astro-embed": "^0.7.4",
