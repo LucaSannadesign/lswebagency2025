@@ -20,19 +20,19 @@ const excerpt = (post?.excerpt ?? '').trim();
 ---
 
 <article class="mb-6 transition">
-  <div class="relative w-full overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-700 aspect-[16/10] mb-6">
+  <div class="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-700 mb-6">
     {
       image &&
         (link ? (
           <a href={link} class="absolute inset-0">
             <Image
               src={image}
-              class="absolute inset-0 h-full w-full object-cover object-center"
+              class="absolute inset-0 !h-full !w-full object-cover object-center"
               widths={[400, 900]}
               width={400}
               sizes="(max-width: 900px) 400px, 900px"
               alt={post.title}
-              aspectRatio="16:9"
+              aspectRatio="16:10"
               layout="cover"
               loading="lazy"
               decoding="async"
@@ -41,12 +41,12 @@ const excerpt = (post?.excerpt ?? '').trim();
         ) : (
           <Image
             src={image}
-            class="absolute inset-0 h-full w-full object-cover object-center"
+            class="absolute inset-0 !h-full !w-full object-cover object-center"
             widths={[400, 900]}
             width={400}
             sizes="(max-width: 900px) 400px, 900px"
             alt={post.title}
-            aspectRatio="16:9"
+            aspectRatio="16:10"
             layout="cover"
             loading="lazy"
             decoding="async"
