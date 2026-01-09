@@ -17,7 +17,7 @@ export const footerData = {
   links: [
     { text: 'Home', href: '/' },
     { text: 'Servizi', href: '/servizi' },
-    { text: 'Local', href: '/local' },
+    { text: 'SEO Locale', href: '/servizi/seo-locale' },
     { text: 'Pagamenti', href: '/pagamenti' },
     { text: 'Portfolio', href: '/portfolio' },
     { text: 'Blog', href: '/blog' },
