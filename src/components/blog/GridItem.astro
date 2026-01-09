@@ -20,14 +20,14 @@ const excerpt = (post?.excerpt ?? '').trim();
 ---
 
 <article class="mb-6 transition">
-  <div class="relative md:h-64 bg-gray-400 dark:bg-slate-700 rounded-xl shadow-lg mb-6 overflow-hidden">
+  <div class="relative w-full overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-700 aspect-[16/10] mb-6">
     {
       image &&
         (link ? (
-          <a href={link}>
+          <a href={link} class="absolute inset-0">
             <Image
               src={image}
-              class="w-full md:h-full rounded-xl shadow-lg bg-gray-400 dark:bg-slate-700"
+              class="absolute inset-0 h-full w-full object-cover object-center"
               widths={[400, 900]}
               width={400}
               sizes="(max-width: 900px) 400px, 900px"
@@ -41,7 +41,7 @@ const excerpt = (post?.excerpt ?? '').trim();
         ) : (
           <Image
             src={image}
-            class="w-full md:h-full rounded-xl shadow-lg bg-gray-400 dark:bg-slate-700"
+            class="absolute inset-0 h-full w-full object-cover object-center"
             widths={[400, 900]}
             width={400}
             sizes="(max-width: 900px) 400px, 900px"
