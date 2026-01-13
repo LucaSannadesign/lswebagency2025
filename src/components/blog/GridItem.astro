@@ -37,7 +37,7 @@ const excerpt = (post?.excerpt ?? '').trim();
         style={`background-image: url(${imageUrl});`}
       >
         {/* Immagine nascosta per accessibilità */}
-        <img src={imageUrl} alt={post.title} class="sr-only" />
+        <img src={imageUrl} alt={post.title} class="sr-only" loading="lazy" />
         {link && (
           <a href={link} class="absolute inset-0" aria-label={`Leggi: ${post.title}`}></a>
         )}

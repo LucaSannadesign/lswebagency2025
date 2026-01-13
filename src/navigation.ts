@@ -3,9 +3,17 @@
 export const headerData = {
   links: [
     { text: 'Home', href: '/' },
-    { text: 'Siti Web', href: '/servizi/siti-web' },
-    { text: 'SEO Locale', href: '/servizi/seo-locale' },
-    { text: 'Assistenza', href: '/servizi/assistenza-manutenzione' },
+    {
+      text: 'Servizi',
+      href: '/servizi',
+      links: [
+        { text: 'Siti Web', href: '/servizi#siti-web' },
+        { text: 'SEO', href: '/servizi#seo' },
+        { text: 'AI & Automazioni', href: '/servizi#ai' },
+        { text: 'divider' },
+        { text: 'Tutti i servizi', href: '/servizi#tutti-servizi' },
+      ],
+    },
     { text: 'Portfolio', href: '/portfolio' },
     { text: 'Blog', href: '/blog' },
     { text: 'Contatti', href: '/contatti' },
