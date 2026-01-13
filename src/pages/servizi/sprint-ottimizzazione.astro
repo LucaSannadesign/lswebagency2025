@@ -1,0 +1,306 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import Hero from '@/components/widgets/Hero.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: 'Sprint di Ottimizzazione | Conversione, Performance e Misurazione — LS Web Agency',
+  description:
+    'Interventi mirati in 10-15 giorni per migliorare conversione, performance e misurazione del tuo sito. Per cliniche, studi e e-commerce.',
+  canonical: '/servizi/sprint-ottimizzazione',
+  robots: { index: true, follow: true },
+  openGraph: {
+    url: '/servizi/sprint-ottimizzazione',
+    images: [{ url: '/images/hero-sprint-ottimizzazione.webp', width: 1920, height: 1080 }],
+    type: 'website',
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+    handle: '@lswebagency',
+    site: '@lswebagency',
+  },
+};
+
+const heroImage = {
+  src: '/images/hero-sprint-ottimizzazione.webp',
+  alt: 'Sprint di Ottimizzazione - Dashboard con metriche di performance e conversione',
+  width: 1920,
+  height: 1080,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO -->
+  <Hero
+    tagline="Intervento mirato · 10-15 giorni"
+    image={heroImage}
+    actions={[
+      { text: 'Richiedi una valutazione', href: '/contatti', variant: 'primary' },
+    ]}
+    gradientClass="from-indigo-600/15 via-violet-500/10 to-transparent dark:from-indigo-500/25 dark:via-violet-400/15"
+  >
+    <span slot="title">Sprint di Ottimizzazione</span>
+    <span slot="subtitle">Conversione, performance e misurazione: interventi mirati in 10–15 giorni.</span>
+  </Hero>
+
+  <!-- PER CHI È -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Per chi è</h2>
+      <p class="text-neutral-700 dark:text-neutral-300">
+        Sprint di ottimizzazione mirato per <strong>cliniche, studi professionali ed e-commerce</strong> che vogliono migliorare risultati concreti in tempi rapidi.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Cliniche/Studi -->
+      <article id="cliniche-studi" class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+          <Icon name="tabler:medical-cross" class="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+          <h3 class="text-xl font-semibold">Cliniche e Studi</h3>
+        </div>
+        <p class="text-neutral-700 dark:text-neutral-300 mb-4">
+          Ottimizzazioni mirate per aumentare prenotazioni online, migliorare l'esperienza utente e misurare l'efficacia del sito.
+        </p>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>Ottimizzazione form prenotazioni e CTA</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>Velocità e Core Web Vitals</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>Setup tracking conversioni (Google Analytics, pixel)</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>Ottimizzazione mobile-first</span>
+          </li>
+        </ul>
+      </article>
+
+      <!-- E-commerce -->
+      <article id="ecommerce" class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+          <Icon name="tabler:shopping-cart" class="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+          <h3 class="text-xl font-semibold">E-commerce</h3>
+        </div>
+        <p class="text-neutral-700 dark:text-neutral-300 mb-4">
+          Interventi mirati su funnel di conversione, performance e misurazione per aumentare vendite e ridurre abbandoni.
+        </p>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>Ottimizzazione checkout e carrello</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>Performance pagine prodotto e categoria</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>Setup e-commerce tracking (GA4, conversioni)</span>
+          </li>
+          <li class="flex gap-2">
+            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>Ottimizzazione immagini e caricamento</span>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- COSA OTTIENI -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa ottieni</h2>
+        <p class="text-neutral-700 dark:text-neutral-300">
+          Deliverable concreti e misurabili al termine dello sprint di ottimizzazione.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        {[
+          {
+            icon: 'tabler:chart-line',
+            title: 'Report performance',
+            items: [
+              'Metriche prima/dopo (Core Web Vitals, velocità)',
+              'Analisi conversioni e funnel',
+              'Raccomandazioni prioritarie',
+            ],
+          },
+          {
+            icon: 'tabler:settings',
+            title: 'Ottimizzazioni implementate',
+            items: [
+              'Fix tecnici e miglioramenti UX',
+              'Configurazione tracking e analytics',
+              'Documentazione interventi',
+            ],
+          },
+          {
+            icon: 'tabler:file-text',
+            title: 'Piano di miglioramento',
+            items: [
+              'Roadmap priorità future',
+              'Quick wins identificati',
+              'Linee guida per il team interno',
+            ],
+          },
+        ].map((deliverable) => (
+          <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+            <Icon name={deliverable.icon} class="w-8 h-8 text-indigo-600 dark:text-indigo-400 mb-3" />
+            <h3 class="font-semibold text-lg mb-4">{deliverable.title}</h3>
+            <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+              {deliverable.items.map((item) => (
+                <li class="flex gap-2">
+                  <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- COME LAVORO -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Come lavoro</h2>
+      <p class="text-neutral-700 dark:text-neutral-300">
+        Processo strutturato in 5 step per massimizzare risultati in 10-15 giorni.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-5 gap-4">
+      {[
+        { n: '1', title: 'Analisi iniziale', desc: 'Audit rapido: performance, conversioni, tracking. Identifico priorità e quick wins.' },
+        { n: '2', title: 'Piano d\'azione', desc: 'Roadmap interventi con stima impatto. Approvazione e allineamento obiettivi.' },
+        { n: '3', title: 'Implementazione', desc: 'Ottimizzazioni mirate: fix tecnici, UX, configurazione analytics e tracking.' },
+        { n: '4', title: 'Test e verifica', desc: 'Validazione miglioramenti, test conversioni e verifica metriche.' },
+        { n: '5', title: 'Report finale', desc: 'Documentazione completa: prima/dopo, metriche, raccomandazioni future.' },
+      ].map((step) => (
+        <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-indigo-600 text-white font-bold text-sm">
+              {step.n}
+            </span>
+            <h3 class="font-semibold text-sm">{step.title}</h3>
+          </div>
+          <p class="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed">{step.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- COSA NON INCLUDE -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa non include</h2>
+        <p class="text-neutral-700 dark:text-neutral-300 mb-6">
+          Per trasparenza, ecco cosa <strong>non è incluso</strong> nello sprint di ottimizzazione:
+        </p>
+        <ul class="space-y-3 text-neutral-700 dark:text-neutral-300">
+          <li class="flex gap-3">
+            <Icon name="tabler:x" class="w-5 h-5 text-neutral-400 shrink-0 mt-0.5" />
+            <span><strong>Consulenza legale o normativa:</strong> non fornisco pareri su GDPR, privacy policy o normative specifiche.</span>
+          </li>
+          <li class="flex gap-3">
+            <Icon name="tabler:x" class="w-5 h-5 text-neutral-400 shrink-0 mt-0.5" />
+            <span><strong>Promesse garantite:</strong> miglioramenti basati su best practice, ma non posso garantire risultati specifici (es. "X% conversioni in Y giorni").</span>
+          </li>
+          <li class="flex gap-3">
+            <Icon name="tabler:x" class="w-5 h-5 text-neutral-400 shrink-0 mt-0.5" />
+            <span><strong>Rifacimento completo del sito:</strong> interventi mirati, non redesign totale.</span>
+          </li>
+          <li class="flex gap-3">
+            <Icon name="tabler:x" class="w-5 h-5 text-neutral-400 shrink-0 mt-0.5" />
+            <span><strong>Supporto continuativo post-sprint:</strong> report e raccomandazioni, ma supporto operativo richiede piano separato.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Domande frequenti</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 max-w-5xl">
+      {[
+        {
+          q: 'Quanto tempo serve per vedere i risultati?',
+          a: 'Performance e velocità: immediati. Conversioni: dipende da traffico e stagionalità, tipicamente 2-4 settimane per trend significativi. Ti fornisco metriche prima/dopo per misurare i miglioramenti.',
+        },
+        {
+          q: 'Serve un audit completo prima dello sprint?',
+          a: 'Non obbligatorio. Lo sprint include un\'analisi rapida mirata agli obiettivi. Se hai già un audit, possiamo partire direttamente con le ottimizzazioni.',
+        },
+        {
+          q: 'Posso scegliere su cosa concentrarmi?',
+          a: 'Sì, possiamo focalizzarci su una sola area (es. solo conversione o solo performance). Il piano si adatta agli obiettivi prioritari del tuo business.',
+        },
+        {
+          q: 'Cosa succede dopo lo sprint?',
+          a: 'Ricevi report completo, metriche e raccomandazioni. Se vuoi supporto continuativo o implementazione di ulteriori miglioramenti, possiamo attivare un piano di manutenzione separato.',
+        },
+      ].map((faq) => (
+        <details class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between gap-4">
+            <span>{faq.q}</span>
+            <Icon name="tabler:chevron-down" class="w-5 h-5 opacity-70 shrink-0" />
+          </summary>
+          <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="container mx-auto px-6 pb-16">
+    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-indigo-950 via-neutral-900 to-violet-950 text-white">
+      <div class="max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Pronto a ottimizzare conversione e performance?</h2>
+        <p class="text-lg text-white/80 leading-relaxed mb-6">
+          Interventi mirati in <strong>10-15 giorni</strong> per migliorare risultati concreti del tuo sito. Analisi, implementazione e misurazione.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="/contatti" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
+            Richiedi una valutazione
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          </a>
+        </div>
+        <p class="mt-4 text-sm text-white/70">Intervento mirato · Risultati misurabili · 10-15 giorni</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Sprint di Ottimizzazione',
+    description: 'Interventi mirati in 10-15 giorni per migliorare conversione, performance e misurazione del tuo sito.',
+    provider: {
+      '@type': 'Organization',
+      name: 'LS Web Agency',
+      url: 'https://www.lswebagency.com',
+    },
+    areaServed: 'IT',
+    serviceType: 'Web Optimization',
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+    },
+  })} />
+</Layout>

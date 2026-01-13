@@ -48,7 +48,7 @@ const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
 
     <Hero
       actions={[
-        { variant: 'primary', text: 'Parla con noi', href: '/contatti' },
+        { variant: 'primary', text: 'Parla con Luca', href: '/contatti' },
         { text: 'Scopri i servizi', href: '#servizi' },
       ]}
       image={{
@@ -74,75 +74,217 @@ const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
     </Hero>
   </section>
 
-  <!-- SERVIZI CORE (in evidenza) -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
+  <!-- SITI WEB -->
+  <section id="siti-web" class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
     <div class="mb-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-2">Servizi Core</h2>
+      <h2 class="text-2xl md:text-3xl font-bold mb-2">Siti Web</h2>
       <p class="text-neutral-600 dark:text-neutral-300">
-        Servizi mirati ed efficienti: landing page, SEO locale, audit e fix. Focus su risultati misurabili.
+        Progetto e ottimizzo siti e landing focalizzati su contatti e richieste, con UX pulita, microcopy efficace e struttura misurabile.
       </p>
     </div>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <article class="rounded-3xl p-6 ring-2 ring-neutral-200 dark:ring-neutral-800 bg-white/90 dark:bg-neutral-900/60 shadow-sm hover:shadow-md transition hover:-translate-y-0.5">
-        <div class="text-2xl mb-3 text-violet-600 dark:text-violet-400">
-          <Icon name="tabler:layout" />
-        </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">Creazione Siti Web</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Siti moderni, veloci, orientati alla conversione.
+        </p>
+        <a href="/servizi/creazione-siti-web-sassari" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">E-commerce</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          WooCommerce o headless, checkout ottimizzati.
+        </p>
+        <a href="/servizi/realizzazione-siti-ecommerce" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
         <h3 class="font-semibold text-lg mb-2">Landing Page</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
-          Pagina che converte: UX, copy, CTA, performance. Da 690€.
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Pagina che converte: UX, copy, CTA, performance.
         </p>
-        <a href="/servizi/landing-page-professionale" class="inline-flex items-center text-sm font-semibold text-neutral-900 dark:text-white hover:underline">
+        <a href="/servizi/landing-page-professionale" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
         </a>
       </article>
 
-      <article class="rounded-3xl p-6 ring-2 ring-neutral-200 dark:ring-neutral-800 bg-white/90 dark:bg-neutral-900/60 shadow-sm hover:shadow-md transition hover:-translate-y-0.5">
-        <div class="text-2xl mb-3 text-emerald-600 dark:text-emerald-400">
-          <Icon name="tabler:map-pin" />
-        </div>
-        <h3 class="font-semibold text-lg mb-2">Local SEO Booster</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
-          Google Business Profile, Local Pack, recensioni. Setup + manutenzione.
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">WordPress Slim</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Statici/headless: veloci, sicuri, SEO-ready.
         </p>
-        <a href="/servizi/seo-locale" class="inline-flex items-center text-sm font-semibold text-neutral-900 dark:text-white hover:underline">
+        <a href="/servizi/wordpress-slim-siti-statici-headless" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
         </a>
       </article>
-
-      <article class="rounded-3xl p-6 ring-2 ring-neutral-200 dark:ring-neutral-800 bg-white/90 dark:bg-neutral-900/60 shadow-sm hover:shadow-md transition hover:-translate-y-0.5">
-        <div class="text-2xl mb-3 text-blue-600 dark:text-blue-400">
-          <Icon name="tabler:search" />
-        </div>
-        <h3 class="font-semibold text-lg mb-2">Audit Rapido</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
-          Diagnosi UX, SEO e performance. Priorità chiare in 48 ore. Da 299€.
-        </p>
-        <a href="/servizi/audit-rapido" class="inline-flex items-center text-sm font-semibold text-neutral-900 dark:text-white hover:underline">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article class="rounded-3xl p-6 ring-2 ring-neutral-200 dark:ring-neutral-800 bg-white/90 dark:bg-neutral-900/60 shadow-sm hover:shadow-md transition hover:-translate-y-0.5">
-        <div class="text-2xl mb-3 text-pink-600 dark:text-pink-400">
-          <Icon name="tabler:tool" />
-        </div>
-        <h3 class="font-semibold text-lg mb-2">Fix Performance & SEO</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
-          Correzioni mirate su velocità, SEO tecnica e bug. Da 399€.
-        </p>
-        <a href="/servizi/fix-performance-seo" class="inline-flex items-center text-sm font-semibold text-neutral-900 dark:text-white hover:underline">
-          Scopri di più →
-        </a>
-      </article>
-    </div>
     </div>
   </section>
 
-  <!-- SERVIZI (griglia completa) -->
+  <!-- SEO -->
+  <section id="seo" class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
+    <div class="mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2">SEO (Tecnica + Locale)</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        SEO tecnica e SEO locale per essere trovati nel modo giusto: struttura, performance, indicizzazione e presenza local misurata.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">Ottimizzazione SEO</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Analisi tecnica, contenuti e link building.
+        </p>
+        <a href="/servizi/ottimizzazione-seo-siti-web" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">SEO Locale</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Hub SEO locale: approccio e priorità.
+        </p>
+        <a href="/servizi/seo-locale" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">Local SEO Booster</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Pacchetto operativo per risultati locali misurabili.
+        </p>
+        <a href="/servizi/local-seo-booster" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">Audit Rapido</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Diagnosi operativa: baseline, priorità e next step.
+        </p>
+        <a href="/servizi/audit-rapido" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- AI & AUTOMAZIONI -->
+  <section id="ai" class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
+    <div class="mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2">AI & Automazioni</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        Assistenti e automazioni leggere per ridurre tempo sprecato e migliorare la gestione dei contatti, senza complicare lo stack.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">Assistente AI</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          FAQ 24/7, prenotazioni, lead qualificati.
+        </p>
+        <a href="/servizi/assistente-ai-sito-whatsapp" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">UX con AI</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Esperienze personalizzate e dinamiche.
+        </p>
+        <a href="/servizi/personalizzazione-ux-intelligenza-artificiale" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">AI Blog Engine</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Contenuti blog generati e ottimizzati con AI.
+        </p>
+        <a href="/servizi/ai-blog-engine" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+    </div>
+  </section>
+
+
+  <!-- PACCHETTI RAPIDI (entry point) -->
+  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
+    <div class="mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2">Pacchetti rapidi (entry point)</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Audit Rapido (48h)</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Diagnosi operativa: baseline, priorità e next step.
+        </p>
+        <a href="/servizi/audit-rapido" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Fix Performance & SEO</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Intervento mirato quando le priorità sono già chiare.
+        </p>
+        <a href="/servizi/fix-performance-seo" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Local SEO Booster</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Pacchetto operativo per risultati locali misurabili (GBP + local pack + tracking).
+        </p>
+        <a href="/servizi/local-seo-booster" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-lg mb-2">Sprint di Ottimizzazione</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+          Audit + fix + misurazione in un percorso breve. È il metodo 'ombrello' che mette ordine.
+        </p>
+        <a href="/servizi/sprint-ottimizzazione" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- TUTTI I SERVIZI -->
+  <section id="tutti-servizi" class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
+    <div class="mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2">Tutti i servizi</h2>
+      <p class="text-neutral-600 dark:text-neutral-300 mb-4">
+        Strategie e realizzazioni per aumentare visibilità, lead e vendite.
+      </p>
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+        Se non sai da dove partire, scegli un pacchetto rapido: riduce ambiguità e accelera le decisioni.
+      </p>
+    </div>
+  </section>
   <Features2
-    id="servizi"
-    title="Tutti i Servizi"
+    id="tutti-servizi-grid"
+    title=""
     subtitle="Strategie e realizzazioni per aumentare visibilità, lead e vendite."
     columns={4}
     classes={{
@@ -157,14 +299,25 @@ const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
     items={[
       { title: 'Creazione siti web', description: 'Siti moderni, veloci, orientati alla conversione.', icon: 'tabler:device-desktop', href: '/servizi/creazione-siti-web-sassari' },
       { title: 'Realizzazione E-commerce', description: 'WooCommerce o headless, checkout ottimizzati.', icon: 'tabler:shopping-cart', href: '/servizi/realizzazione-siti-ecommerce' },
+      { title: 'Landing Page', description: 'Pagina che converte: UX, copy, CTA, performance.', icon: 'tabler:layout', href: '/servizi/landing-page-professionale' },
+      { title: 'WordPress Slim', description: 'Statici/headless: veloci, sicuri, SEO-ready.', icon: 'tabler:rocket', href: '/servizi/wordpress-slim-siti-statici-headless' },
+      { title: 'Siti Web', description: 'Hub servizi siti web.', icon: 'tabler:device-desktop', href: '/servizi/siti-web' },
+      
       { title: 'Ottimizzazione SEO', description: 'Analisi tecnica, contenuti e link building.', icon: 'tabler:chart-line', href: '/servizi/ottimizzazione-seo-siti-web' },
-
+      { title: 'SEO Locale', description: 'Hub SEO locale: approccio e priorità.', icon: 'tabler:map-pin', href: '/servizi/seo-locale' },
+      { title: 'Local SEO Booster', description: 'Pacchetto operativo per risultati locali misurabili.', icon: 'tabler:map-pin', href: '/servizi/local-seo-booster' },
+      { title: 'Audit Rapido', description: 'Diagnosi operativa: baseline, priorità e next step.', icon: 'tabler:search', href: '/servizi/audit-rapido' },
+      { title: 'Fix Performance & SEO', description: 'Intervento mirato quando le priorità sono già chiare.', icon: 'tabler:tool', href: '/servizi/fix-performance-seo' },
+      { title: 'Sprint di Ottimizzazione', description: 'Audit + fix + misurazione in un percorso breve.', icon: 'tabler:rocket', href: '/servizi/sprint-ottimizzazione' },
+      
+      { title: 'Assistente AI (Sito & WhatsApp)', description: 'FAQ 24/7, prenotazioni, lead qualificati.', icon: 'tabler:message-chatbot', href: '/servizi/assistente-ai-sito-whatsapp' },
+      { title: 'UX con Intelligenza Artificiale', description: 'Esperienze personalizzate e dinamiche.', icon: 'tabler:brain', href: '/servizi/personalizzazione-ux-intelligenza-artificiale' },
+      { title: 'AI Blog Engine', description: 'Contenuti blog generati e ottimizzati con AI.', icon: 'tabler:article', href: '/servizi/ai-blog-engine' },
+      
       { title: 'Branding e Grafica', description: 'Identità visiva, UI e materiali promozionali.', icon: 'tabler:palette', href: '/servizi/branding-e-grafica-siti-web' },
       { title: 'Accessibilità Digitale', description: 'Adeguamenti WCAG/AgID e remediation.', icon: 'tabler:wheelchair', href: '/servizi/accessibilita-digitale-avanzata' },
-      { title: 'UX con Intelligenza Artificiale', description: 'Esperienze personalizzate e dinamiche.', icon: 'tabler:brain', href: '/servizi/personalizzazione-ux-intelligenza-artificiale' },
-      { title: 'Assistente AI (Sito & WhatsApp)', description: 'FAQ 24/7, prenotazioni, lead qualificati.', icon: 'tabler:message-chatbot', href: '/servizi/assistente-ai-sito-whatsapp' },
       { title: 'Web Design Etico & Sostenibile', description: 'Performance, privacy e leggerezza.', icon: 'tabler:leaf', href: '/servizi/web-design-etico-sostenibile' },
-      { title: 'WordPress Slim', description: 'Statici/headless: veloci, sicuri, SEO-ready.', icon: 'tabler:rocket', href: '/servizi/wordpress-slim-siti-statici-headless' },
+      { title: 'Assistenza e Manutenzione', description: 'Supporto continuativo e aggiornamenti.', icon: 'tabler:settings', href: '/servizi/assistenza-manutenzione' },
     ]}
   />
 
@@ -264,6 +417,17 @@ const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
     <p class="text-center text-sm mt-6 text-neutral-500 dark:text-neutral-400">
       Pagamenti con PayPal/carte o bonifico: <a class="underline decoration-indigo-600 underline-offset-2" href={PAGAMENTI_URL}>metodi di pagamento</a>.
     </p>
+  </section>
+
+  <!-- STUDIO GUIDATO DA LUCA -->
+  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
+    <div class="max-w-3xl mx-auto">
+      <div class="rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-900/40 ring-1 ring-neutral-200 dark:ring-neutral-800">
+        <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          LS Web Agency è uno studio guidato da Luca Sanna. Lavoro in prima persona su analisi, UX e implementazione tecnica. Quando serve, attivo una rete di collaboratori specializzati, mantenendo un unico referente e un processo chiaro.
+        </p>
+      </div>
+    </div>
   </section>
 
   <CallToAction
