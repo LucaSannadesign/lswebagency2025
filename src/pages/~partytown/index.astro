@@ -1,0 +1,13 @@
+---
+// Endpoint Partytown: rispondi 410 Gone (risorsa rimossa permanentemente)
+// Motivazione: Partytown non è più utilizzato, vogliamo che GSC smetta di indicizzarlo
+// Status 410 indica che la risorsa è stata rimossa e non sarà più disponibile
+
+return new Response('Gone', {
+  status: 410,
+  headers: {
+    'Content-Type': 'text/plain; charset=utf-8',
+    'Cache-Control': 'public, max-age=31536000, immutable',
+  },
+});
+---

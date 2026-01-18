@@ -1,0 +1,10 @@
+---
+// Redirect 301 permanente per /blog/velocizzare-wordpress-2025
+// Destinazione: servizio WordPress Slim (pagina altamente pertinente sul tema WordPress e performance)
+// Motivazione: il post potrebbe non essere generato correttamente in produzione, 
+// quindi redirigiamo a una pagina pertinente che esiste sicuramente
+
+const DESTINATION = '/servizi/wordpress-slim-siti-statici-headless';
+
+return Astro.redirect(DESTINATION, 301);
+---
