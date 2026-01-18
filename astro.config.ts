@@ -27,7 +27,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // abilita/disabilita caricamento script esterni con Partytown
-const hasExternalScripts = true;
+// DISABILITATO: Google Analytics non è configurato (id: null), quindi Partytown non è necessario
+const hasExternalScripts = false;
 const whenExternalScripts = (items: () => any | Array<() => any>) =>
   hasExternalScripts
     ? (Array.isArray(items) ? items.map((fn) => fn()) : [items()])
