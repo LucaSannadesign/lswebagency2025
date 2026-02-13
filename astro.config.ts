@@ -1,6 +1,3 @@
-// Updated Astro configuration file
-// This version adds trailingSlash to unify URL format and retains the canonical domain.
-
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -26,8 +23,7 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// abilita/disabilita caricamento script esterni con Partytown
-// DISABILITATO: Google Analytics non è configurato (id: null), quindi Partytown non è necessario
+// attiva/disattiva caricamento script esterni con Partytown
 const hasExternalScripts = false;
 const whenExternalScripts = (items: () => any | Array<() => any>) =>
   hasExternalScripts
@@ -35,14 +31,10 @@ const whenExternalScripts = (items: () => any | Array<() => any>) =>
     : [];
 
 export default defineConfig({
-  // NECESSARIO per avere le API (/api/contact, ecc.) su Vercel
   output: 'server',
   adapter: vercel({ mode: 'serverless' }),
 
-  // Dominio canonico
   site: 'https://www.lswebagency.com',
-
-  // Gestione degli slash finali: produce URL senza slash finale
   trailingSlash: 'never',
 
   integrations: [
@@ -50,13 +42,11 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     mdx(),
 
-    // Icone locali + Tabler
     icon({
       iconDir: 'src/icons',
       include: { local: ['*'], tabler: ['*'] },
     }),
 
-    // Script terzi gestiti con Partytown (dopo consenso)
     ...whenExternalScripts(() =>
       partytown({
         config: {
@@ -65,7 +55,6 @@ export default defineConfig({
       })
     ),
 
-    // Compressione "safe"
     compress({
       CSS: true,
       HTML: { 'html-minifier-terser': { removeAttributeQuotes: false } },
@@ -75,10 +64,8 @@ export default defineConfig({
       Logger: 1,
     }),
 
-    // Integrazione AstroWind
     astrowind({ config: './src/config.yaml' }),
 
-    // Sitemap coerente con `site`
     sitemap({
       serialize(item) {
         return {
@@ -126,6 +113,4 @@ export default defineConfig({
       tsconfigRaw: { compilerOptions: {} },
     },
   },
-
-  // GA e altri script sono gestiti dal layout globale (niente headScripts qui)
 });

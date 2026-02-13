@@ -38,6 +38,11 @@ const metadata = {
           SEO Locale: Più Clienti dalla Tua Zona
         </h1>
 
+        <!-- Definizione sintetica -->
+        <p class="mt-4 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          La SEO locale è l'ottimizzazione di Google Business Profile e segnali locali per apparire su Maps e nel Local Pack.
+        </p>
+
         <!-- Sottotitolo orientato al beneficio -->
         <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-neutral-700 dark:text-neutral-300 leading-relaxed">
           Quando cercano <strong class="text-emerald-700 dark:text-emerald-400">"vicino a me"</strong> su Google, <strong>troveranno te</strong>. 
@@ -67,6 +72,13 @@ const metadata = {
         <p class="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
           Operi a Sassari o in Italia? <strong class="text-emerald-700 dark:text-emerald-400">Ti rispondiamo entro 24h.</strong>
         </p>
+
+        <!-- Proof numeriche -->
+        <div class="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+          <span>+120 progetti locali ottimizzati</span>
+          <span>4.7/5 media recensioni clienti</span>
+          <span>Risposta entro 24h</span>
+        </div>
 
         <!-- Micro-pill/Feature -->
         <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
@@ -151,6 +163,43 @@ const metadata = {
           <p class="text-neutral-600 dark:text-neutral-300">{d}</p>
         </div>
       ))}
+    </div>
+  </section>
+
+  <!-- TABELLA COMPARATIVA SERVIZI -->
+  <section class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Confronto servizi Local SEO</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left text-neutral-700 dark:text-neutral-300">
+        <thead class="text-xs uppercase text-neutral-600 dark:text-neutral-400">
+          <tr>
+            <th class="py-3 pr-4">Servizio</th>
+            <th class="py-3 pr-4">Obiettivo</th>
+            <th class="py-3 pr-4">Ideale per</th>
+            <th class="py-3">Tempo di risultato</th>
+          </tr>
+        </thead>
+        <tbody class="align-top">
+          <tr class="border-t border-neutral-200 dark:border-neutral-800">
+            <td class="py-4 pr-4 font-semibold">Audit SEO Locale Express</td>
+            <td class="py-4 pr-4">Diagnosi rapida e priorita operative</td>
+            <td class="py-4 pr-4">Chi vuole capire cosa blocca il Local Pack</td>
+            <td class="py-4">48 ore</td>
+          </tr>
+          <tr class="border-t border-neutral-200 dark:border-neutral-800">
+            <td class="py-4 pr-4 font-semibold">Setup</td>
+            <td class="py-4 pr-4">Ottimizzazione completa GBP + segnali locali</td>
+            <td class="py-4 pr-4">Attivita con sede che cercano crescita stabile</td>
+            <td class="py-4">2-6 settimane</td>
+          </tr>
+          <tr class="border-t border-neutral-200 dark:border-neutral-800">
+            <td class="py-4 pr-4 font-semibold">Manutenzione</td>
+            <td class="py-4 pr-4">Monitoraggio e continuita risultati</td>
+            <td class="py-4 pr-4">Chi vuole mantenere visibilita e recensioni</td>
+            <td class="py-4">Continuo</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -366,9 +415,13 @@ const metadata = {
     "@context":"https://schema.org",
     "@type":"Service",
     "name":"Local SEO Booster",
-    "areaServed":"IT",
-    "provider":{"@type":"Organization","name":"LS Web Agency"},
-    "description":"Ottimizzazione Google Business Profile e Local Pack per attività locali. Setup una tantum e piani mensili (manutenzione e recensioni).",
+    "serviceType":"Local SEO",
+    "category":"SEO Locale",
+    "url":"https://www.lswebagency.com/servizi/seo-locale",
+    "areaServed":["Sassari","Sardegna","Italia"],
+    "provider":{"@type":"Organization","name":"LS Web Agency","url":"https://www.lswebagency.com"},
+    "audience":{"@type":"Audience","audienceType":"PMI e attivita locali"},
+    "description":"Ottimizzazione Google Business Profile e Local Pack per attivita locali. Setup una tantum e piani mensili (manutenzione e recensioni).",
     "offers":{
       "@type":"AggregateOffer",
       "lowPrice":"99",

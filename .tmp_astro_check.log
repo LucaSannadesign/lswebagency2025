@@ -1,0 +1,29 @@
+
+> @onwidget/astrowind@1.0.0-beta.50 astro /Users/lucasanna/lswebagency
+> astro check
+
+11:58:16 AM [vite] (ssr) Error when evaluating SSR module /Users/lucasanna/lswebagency/astro.config.ts: Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension.
+  Plugin: vite:import-analysis
+  File: /Users/lucasanna/lswebagency/node_modules/@vercel/analytics/dist/astro/index.astro:13:57
+  11 |    data-props={propsStr}
+  12 |    data-params={paramsStr}
+  13 |    data-pathname={Astro.url.pathname}></vercel-analytics>
+     |                                                          ^
+  14 |  
+  15 |  <script>
+      at TransformPluginContext._formatLog (file:///Users/lucasanna/lswebagency/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:42528:41)
+      at TransformPluginContext.error (file:///Users/lucasanna/lswebagency/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:42525:16)
+      at TransformPluginContext.transform (file:///Users/lucasanna/lswebagency/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:40455:14)
+      at async EnvironmentPluginContainer.transform (file:///Users/lucasanna/lswebagency/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:42323:18)
+      at async loadAndTransform (file:///Users/lucasanna/lswebagency/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:35739:27)
+[astro] Unable to load your Astro config
+
+Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension.
+  Location:
+    /Users/lucasanna/lswebagency/node_modules/@vercel/analytics/dist/astro/index.astro:13:57
+  Stack trace:
+    at TransformPluginContext._formatLog (file:///Users/lucasanna/lswebagency/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:42528:41)
+    at TransformPluginContext.transform (file:///Users/lucasanna/lswebagency/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:40455:14)
+    at async loadAndTransform (file:///Users/lucasanna/lswebagency/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:35739:27)
+ ELIFECYCLE  Command failed with exit code 1.
+EXIT_CODE:1

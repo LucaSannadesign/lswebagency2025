@@ -1,0 +1,189 @@
+---
+/* === Global HEAD + SEO sane defaults ===================================== */
+
+import "@/assets/styles/tailwind.css";
+import { I18N } from "astrowind:config";
+
+import Favicons from "@/components/Favicons.astro";
+import CustomStyles from "@/components/CustomStyles.astro";
+import ApplyColorMode from "@/components/common/ApplyColorMode.astro";
+import SiteVerification from "@/components/common/SiteVerification.astro";
+import BasicScripts from "@/components/common/BasicScripts.astro";
+
+import { ClientRouter } from "astro:transitions";
+import { Analytics } from "@vercel/analytics/astro";
+import type { MetaData as MetaDataType } from "@/types";
+
+export interface Props {
+  metadata?: MetaDataType & {
+    /** Uno o più blocchi JSON-LD da iniettare nel <head> della singola pagina */
+    jsonLd?: Record<string, any> | Record<string, any>[];
+  };
+}
+
+/* ----------------------------- Helpers ---------------------------------- */
+const SITE_TITLE = "LS Web Agency";
+const siteBase = (Astro.site?.toString?.() || "https://lswebagency.com").replace(/\/+$/, "");
+
+const toAbs = (val: unknown): string => {
+  if (typeof val !== "string") return "";
+  const s = val.trim();
+  if (!s) return "";
+  if (/^(?:https?:)?\/\//i.test(s) || s.startsWith("data:")) return s;
+  return `${siteBase}${s.startsWith("/") ? "" : "/"}${s}`;
+};
+
+const md = (Astro.props.metadata ?? {}) as Props["metadata"];
+
+/* ------------------------------ Title ----------------------------------- */
+const rawTitle = (md?.title ?? SITE_TITLE).trim();
+const useTemplate = md?.ignoreTitleTemplate ? false : true;
+const pageTitle =
+  useTemplate && rawTitle !== SITE_TITLE && !rawTitle.includes(SITE_TITLE)
+    ? `${rawTitle} — ${SITE_TITLE}`
+    : rawTitle;
+
+/* --------------------------- Description -------------------------------- */
+const pageDescription =
+  md?.description ??
+  "Creazione siti web professionali, SEO e marketing digitale. Soluzioni su misura per aziende e professionisti.";
+
+/* ----------------------------- Robots ----------------------------------- */
+const robotsCfg = md?.robots ?? { index: true, follow: true };
+const robotsContent = [
+  robotsCfg.index === false ? "noindex" : "index",
+  robotsCfg.follow === false ? "nofollow" : "follow",
+].join(", ");
+
+/* ---------------------------- Canonical --------------------------------- */
+const canonicalIn = (md?.canonical ?? Astro.url?.pathname ?? "/") as string;
+const canonicalUrl = toAbs(canonicalIn) || `${siteBase}/`;
+
+/* ----------------------- Open Graph / Twitter --------------------------- */
+const og = md?.openGraph ?? {};
+const ogType = og.type ?? "website";
+const ogSiteName = og.siteName ?? SITE_TITLE;
+const ogUrl = toAbs((og as any).url ?? canonicalUrl) || canonicalUrl;
+
+type OGImg = { url: string; width?: number; height?: number; alt?: string };
+const ogImagesInput = Array.isArray((og as any).images) ? (og as any).images : [];
+const ogImagesParsed = ogImagesInput
+  .map((v: any): OGImg | null => {
+    if (typeof v === "string") return { url: v };
+    if (v && typeof v === "object" && typeof v.url === "string") return v as OGImg;
+    return null;
+  })
+  .filter(Boolean) as OGImg[];
+
+const ogImages: OGImg[] =
+  ogImagesParsed.length > 0
+    ? ogImagesParsed.map((img) => ({
+        ...img,
+        url: toAbs(img.url) || `${siteBase}/images/default-og-image.jpg`,
+      }))
+    : [
+        {
+          url: toAbs("/images/default-og-image.jpg") || `${siteBase}/images/default-og-image.jpg`,
+          width: 1200,
+          height: 628,
+        },
+      ];
+
+const tw = md?.twitter ?? {};
+const twCard = tw.cardType ?? "summary_large_image";
+const twImage = ogImages[0]?.url || `${siteBase}/images/default-og-image.jpg`;
+const twHandle = tw.handle ?? "@lswebagency";
+const twSite = tw.site ?? "@lswebagency";
+
+/* --------------------------- JSON-LD per pagina ------------------------- */
+const jsonLdBlocks = md?.jsonLd
+  ? (Array.isArray(md.jsonLd) ? md.jsonLd : [md.jsonLd]).filter(Boolean)
+  : [];
+---
+
+<!doctype html>
+<html lang={I18N.language} dir={I18N.textDirection} class="2xl:text-[20px]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Primary meta -->
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content={robotsContent} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:site_name" content={ogSiteName} />
+    {ogImages.map((img) => (
+      <>
+        <meta property="og:image" content={img.url} />
+        <meta property="og:image:secure_url" content={img.url} />
+        {img.width && <meta property="og:image:width" content={String(img.width)} />}
+        {img.height && <meta property="og:image:height" content={String(img.height)} />}
+        {img.alt && <meta property="og:image:alt" content={img.alt} />}
+      </>
+    ))}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content={twCard} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={twImage} />
+    <meta name="twitter:site" content={twSite} />
+    <meta name="twitter:creator" content={twHandle} />
+
+    <!-- Favicons / Styles / Color mode -->
+    <Favicons />
+    <CustomStyles />
+    <ApplyColorMode />
+
+    <!-- Site verification -->
+    <SiteVerification />
+
+    <!-- Perf hints -->
+    <link rel="preconnect" href="https://www.paypal.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.paypal.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+    <!-- Client-side transitions -->
+    <ClientRouter fallback="swap" />
+
+    <!-- JSON-LD per pagina -->
+    {jsonLdBlocks.map((block) => (
+      <script type="application/ld+json" is:inline>{JSON.stringify(block)}</script>
+    ))}
+
+    <!-- Google Tag Manager -->
+    <script is:inline>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-T8LF93LT');
+    </script>
+    <!-- End Google Tag Manager -->
+  </head>
+
+  <body class="antialiased text-default bg-page tracking-tight overflow-x-hidden">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-T8LF93LT"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <slot />
+    <BasicScripts />
+    <Analytics />
+  </body>
+</html>
