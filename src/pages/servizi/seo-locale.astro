@@ -83,14 +83,40 @@ const metadata = {
         <!-- Image/Mockup Block -->
         <div class="relative hidden lg:flex items-center justify-center">
           <!-- Atmospheric glow background -->
-          <div class="absolute inset-0 bg-gradient-radial from-emerald-400/20 via-blue-300/10 to-transparent rounded-full blur-3xl opacity-30 dark:opacity-20 scale-125"></div>
+          <div class="absolute inset-0 bg-gradient-radial from-purple-400/15 via-indigo-300/8 to-transparent rounded-full blur-3xl opacity-25 dark:opacity-15 scale-125"></div>
           
-          <!-- Mockup container -->
-          <div class="relative w-full max-w-lg aspect-square rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-50 dark:from-emerald-950/30 dark:to-emerald-900/20 ring-1 ring-emerald-200/60 dark:ring-emerald-800/40 drop-shadow-sm flex items-center justify-center">
-            <!-- Replace this div with actual image component -->
-            <div class="text-center">
-              <Icon name="tabler:map" class="w-16 h-16 text-emerald-600 dark:text-emerald-400 mx-auto mb-4" />
-              <p class="text-neutral-600 dark:text-neutral-400 font-medium">Google Maps & Local Pack</p>
+          <!-- Mockup container - Ready for premium 3D render -->
+          <div class="relative w-full max-w-xl aspect-video">
+            <!-- 
+              INSERT HERO MOCKUP IMAGE HERE
+              
+              Expected image specs:
+              - True 16:9 aspect ratio
+              - Min 1920x1080px (high resolution)
+              - Left 45% empty for text overlay
+              - Right 55% contains device composition
+              - Premium 3D render with soft lighting
+              - Transparent or matching gradient background
+              
+              Recommended format: WebP with PNG fallback
+              
+              Example implementation:
+              <img 
+                src="/images/hero/seo-locale-mockup.webp" 
+                alt="Modern SEO dashboard interface on multiple devices"
+                class="w-full h-full object-contain"
+                loading="eager"
+                decoding="async"
+              />
+            -->
+            
+            <!-- Temporary placeholder (remove when adding real image) -->
+            <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-100/30 to-indigo-50/20 dark:from-purple-950/20 dark:to-indigo-900/10 ring-1 ring-purple-200/40 dark:ring-purple-800/30 backdrop-blur-sm flex items-center justify-center">
+              <div class="text-center px-6">
+                <Icon name="tabler:device-desktop-analytics" class="w-20 h-20 text-purple-600/70 dark:text-purple-400/60 mx-auto mb-4" />
+                <p class="text-sm text-neutral-500 dark:text-neutral-400 font-medium">SEO Dashboard Mockup</p>
+                <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-1">Replace with 3D render</p>
+              </div>
             </div>
           </div>
         </div>
