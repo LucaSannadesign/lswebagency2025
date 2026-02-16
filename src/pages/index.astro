@@ -82,15 +82,15 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           </div>
 
           <header>
-            <!-- H1 con gradiente -->
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white drop-shadow-sm">
-              <span class="block text-brand-ink dark:text-white">
-                Siti web che portano
-              </span>
-              <span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-blue">
-                clienti in modo costante
-              </span>
-            </h1>
+            <!-- H1 con keyword in violet -->
+           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-brand-ink dark:text-slate-100">
+  <span class="block">
+    <span class="hero-h1-keyword">Siti web</span> che portano
+  </span>
+  <span class="block">
+    <span class="hero-h1-keyword">clienti</span> in modo costante
+  </span>
+</h1>
 
             <!-- Paragrafo descrittivo -->
             <p class="mt-5 text-lg md:text-xl text-brand-ink/80 dark:text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
@@ -404,8 +404,8 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
   <section class="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 py-16 md:py-24">
     <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-20"></div>
     <div class="mx-auto max-w-4xl px-6 md:px-8 text-center relative z-10">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6">
-        Più clienti dal web, in modo misurabile
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6 leading-tight">
+        <span class="cta-keyword">Più clienti</span> dal web, in modo <span class="cta-keyword">misurabile</span>
       </h2>
       <p class="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
         Prenota una consulenza gratuita. Analizziamo come aumentare richieste e visibilita locale con un piano chiaro e realistico.
@@ -437,4 +437,24 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
       </div>
     </div>
   </section>
+</Layout>
+
+<style>
+    /* H1 keywords in brand violet */
+    .hero-h1-keyword {
+      color: rgb(120, 81, 255);
+      font-weight: 900;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .hero-h1-keyword {
+        color: rgb(168, 85, 247);
+      }
+    }
+    /* CTA headline keywords - light violet for contrast over gradient background */
+    .cta-keyword {
+      color: rgb(220, 200, 255);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }  </style>
 </Layout>
