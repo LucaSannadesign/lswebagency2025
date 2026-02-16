@@ -31,7 +31,7 @@ import Grid from '@/components/blog/Grid.astro';
 import { getBlogPermalink } from '@/utils/permalinks';
 
 // Carica post per homepage (8 post più recenti)
-const latestPosts = APP_BLOG.isEnabled ? await findLatestPosts({ count: 8 }) : [];
+const latestPosts = APP_BLOG.isEnabled ? await findLatestPosts({ count: 4 }) : [];
 
 // DEBUG TEMPORANEO - Rimuovere dopo verifica
 if (import.meta.env.DEV) {
@@ -97,6 +97,9 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
               Sviluppiamo <strong>siti web professionali</strong> per aumentare richieste e vendite,
               ottimizziamo Google Maps per farti trovare prima dei concorrenti e misuriamo i risultati.
               Agenzia web a Sassari, operativa in tutta Italia.
+            </p>
+            <p class="mt-4 inline-block px-4 py-2 rounded-full bg-brand-blue/10 dark:bg-brand-blue/20 text-sm font-semibold text-brand-blue">
+              ✓ +40% average increase in local inquiries
             </p>
           </header>
 
@@ -297,8 +300,14 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             </a>
           </div>
         </article>
-      </div>
-    </div>
+      </div>      <!-- Micro-CTA sotto servizi -->
+      <div class="mt-10 text-center">
+        <p class="text-slate-600 dark:text-slate-300 mb-4 text-base">Non sai quale servizio fa per te?</p>
+        <a href="/contatti" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200">
+          <span>Richiedi una mini analisi gratuita</span>
+          <Icon name="tabler:arrow-right" class="w-4 h-4" />
+        </a>
+      </div>    </div>
   </section>
 
   <!-- PER CHI È -->
@@ -308,44 +317,44 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
         <div class="rounded-2xl p-6 bg-emerald-50 dark:bg-emerald-950/20 ring-1 ring-emerald-200 dark:ring-emerald-900">
           <h3 class="text-xl font-bold text-emerald-900 dark:text-emerald-100 mb-3 flex items-center gap-2">
             <Icon name="tabler:check" class="w-6 h-6" />
-            Per chi è questo servizio
+            È adatto a te se:
           </h3>
           <ul class="space-y-2 text-emerald-800 dark:text-emerald-200">
             <li class="flex items-start gap-2">
-              <span class="text-emerald-600 mt-1">•</span>
+              <span class="text-emerald-600 mt-0 leading-none">•</span>
               <span>PMI e professionisti che vogliono piu richieste online</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-emerald-600 mt-1">•</span>
+              <span class="text-emerald-600 mt-0 leading-none">•</span>
               <span>Attivita locali che vogliono comparire su Google Maps</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-emerald-600 mt-1">•</span>
+              <span class="text-emerald-600 mt-0 leading-none">•</span>
               <span>Chi cerca un'agenzia web con supporto costante</span>
             </li>
           </ul>
         </div>
-        <div class="rounded-2xl p-6 bg-slate-50 dark:bg-slate-900/50 ring-1 ring-slate-200 dark:ring-slate-800">
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-            <Icon name="tabler:info-circle" class="w-6 h-6 text-slate-600" />
-            Cosa ti offriamo
+        <div class="rounded-2xl p-6 bg-red-50 dark:bg-red-950/20 ring-1 ring-red-200 dark:ring-red-900">
+          <h3 class="text-xl font-bold text-red-900 dark:text-red-100 mb-3 flex items-center gap-2">
+            <Icon name="tabler:x" class="w-6 h-6" />
+            Non è adatto se:
           </h3>
-          <ul class="space-y-2 text-slate-700 dark:text-slate-300">
+          <ul class="space-y-2 text-red-800 dark:text-red-200">
             <li class="flex items-start gap-2">
-              <span class="text-slate-500 mt-1">•</span>
-              <span>Consulenza gratuita prima di partire</span>
+              <span class="text-red-600 mt-0 leading-none">•</span>
+              <span>Cerchi solo un sito economico senza qualità</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-slate-500 mt-1">•</span>
-              <span>Preventivo trasparente senza costi nascosti</span>
+              <span class="text-red-600 mt-0 leading-none">•</span>
+              <span>Non sei disposto a investire in risultati</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-slate-500 mt-1">•</span>
-              <span>Supporto continuo incluso dopo la consegna</span>
+              <span class="text-red-600 mt-0 leading-none">•</span>
+              <span>Preferisci una soluzione fai-da-te senza supporto</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-slate-500 mt-1">•</span>
-              <span>Risultati misurabili con report periodici</span>
+              <span class="text-red-600 mt-0 leading-none">•</span>
+              <span>Vuoi solo una landing page statica</span>
             </li>
           </ul>
         </div>
@@ -376,6 +385,16 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             </a>
           </div>
           <Grid posts={latestPosts} />
+          <!-- CTA sotto griglia -->
+          <div class="flex justify-center mt-12">
+            <a
+              href={getBlogPermalink()}
+              class="inline-flex items-center px-8 py-3 text-base font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border-2 border-blue-600 dark:border-blue-400 rounded-full transition-colors duration-200"
+            >
+              Vedi tutti gli articoli
+              <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+            </a>
+          </div>
         </div>
       </section>
     )
@@ -388,9 +407,24 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6">
         Più clienti dal web, in modo misurabile
       </h2>
-      <p class="text-lg md:text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+      <p class="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
         Prenota una consulenza gratuita. Analizziamo come aumentare richieste e visibilita locale con un piano chiaro e realistico.
       </p>
+      <!-- Trust signals -->
+      <ul class="flex flex-col sm:flex-row justify-center gap-6 mb-10 max-w-2xl mx-auto">
+        <li class="flex items-center gap-2 text-sm text-blue-100">
+          <Icon name="tabler:check" class="w-5 h-5 text-white shrink-0" />
+          <span>Analisi gratuita senza impegno</span>
+        </li>
+        <li class="flex items-center gap-2 text-sm text-blue-100">
+          <Icon name="tabler:check" class="w-5 h-5 text-white shrink-0" />
+          <span>Plan chiaro e trasparente</span>
+        </li>
+        <li class="flex items-center gap-2 text-sm text-blue-100">
+          <Icon name="tabler:check" class="w-5 h-5 text-white shrink-0" />
+          <span>Risposta entro 24h</span>
+        </li>
+      </ul>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="/contatti" class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-blue-600 bg-white hover:bg-blue-50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
           <span class="whitespace-nowrap">Prenota consulenza gratuita</span>

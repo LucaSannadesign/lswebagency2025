@@ -164,7 +164,7 @@ const metadata = {
   <section class="container mx-auto px-6 py-6">
     <div class="max-w-4xl mx-auto">
       <h3 class="text-lg font-semibold mb-4">Da dove partire</h3>
-      <ul class="space-y-3 text-neutral-700 dark:text-neutral-300">
+      <ul class="space-y-3 [&>li]:mt-0 text-neutral-700 dark:text-neutral-300">
         <li class="flex gap-3">
           <Icon name="tabler:check" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
           <span><strong>Local SEO Booster:</strong> Hai già un'offerta chiara e vuoi sistemare presenza locale + tracking in modo operativo.</span>
@@ -282,7 +282,7 @@ const metadata = {
         <p class="text-base md:text-lg text-neutral-700 dark:text-neutral-300 mb-6">
           Verifichiamo insieme la tua presenza locale e individuiamo le opportunità per migliorare la visibilità.
         </p>
-        <ul class="space-y-3 mb-8 text-neutral-700 dark:text-neutral-300">
+        <ul class="space-y-3 [&>li]:mt-0 mb-8 text-neutral-700 dark:text-neutral-300">
           <li class="flex items-start gap-3">
             <Icon name="tabler:check" class="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
             <span><strong>Audit Google Business Profile:</strong> verifica categorie, NAP, foto e attributi</span>
@@ -320,7 +320,7 @@ const metadata = {
         <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3">Analisi rapida e report in 48 ore.</p>
         <div class="text-3xl font-extrabold mb-1">99 €</div>
         <div class="text-xs text-neutral-500 dark:text-neutral-400 mb-4">Consegna in 48h · Senza vincoli</div>
-        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+        <ul class="text-sm space-y-2 [&>li]:mt-0 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
           <li>• Audit completo Google Business Profile</li>
           <li>• Analisi NAP e coerenza dati</li>
           <li>• Check categorie, foto e attributi</li>
@@ -343,7 +343,7 @@ const metadata = {
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
         <h3 class="text-xl font-semibold mb-2">Setup</h3>
         <div class="text-3xl font-extrabold mb-1">da 490 €</div>
-        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+        <ul class="text-sm space-y-2 [&>li]:mt-0 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
           <li>• Audit &amp; setup GBP + correzioni NAP</li>
           <li>• Ottimizzazioni locali on-page &amp; schema</li>
           <li>• Linee guida contenuti locali e recensioni</li>
@@ -365,7 +365,7 @@ const metadata = {
         <span class="absolute -top-3 right-4 text-xs font-semibold px-2 py-1 rounded-full bg-emerald-600 text-white">Più scelto</span>
         <h3 class="text-xl font-semibold mb-2">Manutenzione (opzionale)</h3>
         <div class="text-3xl font-extrabold mb-1">49 € / mese</div>
-        <ul class="text-sm space-y-2 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
+        <ul class="text-sm space-y-2 [&>li]:mt-0 mt-4 mb-6 text-neutral-700 dark:text-neutral-300">
           <li>• Monitor Local Pack &amp; query principali</li>
           <li>• 1 post/mese su GBP (promo, novità)</li>
           <li>• Mini-report mensile (azioni consigliate)</li>
@@ -391,22 +391,52 @@ const metadata = {
     <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
       <div class="rounded-2xl p-6 bg-emerald-50/50 dark:bg-emerald-950/20 ring-1 ring-emerald-200 dark:ring-emerald-900">
         <h3 class="font-semibold text-lg mb-4">Cosa include</h3>
-        <ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
-          <li>• Audit e setup Google Business Profile</li>
-          <li>• Ottimizzazioni on-page locali e schema</li>
-          <li>• Strategia contenuti locali e recensioni</li>
-          <li>• Tracking KPI locali e baseline</li>
-          <li>• Supporto su policy e best practice</li>
+        <ul class="space-y-2 [&>li]:mt-0 text-sm text-neutral-700 dark:text-neutral-300">
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0 mt-2.5"></span>
+            <span>Audit e setup Google Business Profile</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0 mt-2.5"></span>
+            <span>Ottimizzazioni on-page locali e schema</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0 mt-2.5"></span>
+            <span>Strategia contenuti locali e recensioni</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0 mt-2.5"></span>
+            <span>Tracking KPI locali e baseline</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0 mt-2.5"></span>
+            <span>Supporto su policy e best practice</span>
+          </li>
         </ul>
       </div>
       <div class="rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-900/40 ring-1 ring-neutral-200 dark:ring-neutral-800">
         <h3 class="font-semibold text-lg mb-4">Cosa non include</h3>
-        <ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
-          <li>• SEO organica generale (non local)</li>
-          <li>• Creazione contenuti blog/articoli</li>
-          <li>• Link building esterna</li>
-          <li>• Gestione campagne Google Ads</li>
-          <li>• Promesse garantite su posizionamenti</li>
+        <ul class="space-y-2 [&>li]:mt-0 text-sm text-neutral-700 dark:text-neutral-300">
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-neutral-500 dark:bg-neutral-500 shrink-0 mt-2.5"></span>
+            <span>SEO organica generale (non local)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-neutral-500 dark:bg-neutral-500 shrink-0 mt-2.5"></span>
+            <span>Creazione contenuti blog/articoli</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-neutral-500 dark:bg-neutral-500 shrink-0 mt-2.5"></span>
+            <span>Link building esterna</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-neutral-500 dark:bg-neutral-500 shrink-0 mt-2.5"></span>
+            <span>Gestione campagne Google Ads</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="h-2 w-2 rounded-full bg-neutral-500 dark:bg-neutral-500 shrink-0 mt-2.5"></span>
+            <span>Promesse garantite su posizionamenti</span>
+          </li>
         </ul>
       </div>
     </div>
