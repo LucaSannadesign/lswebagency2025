@@ -83,12 +83,12 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 
           <header>
             <!-- H1 con keyword in violet -->
-           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight gradient-text">
+           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight hero-title">
   <span class="block">
-    Siti web che portano
+    <span class="t-dark">Siti web</span> <span class="t-violet">che portano</span>
   </span>
   <span class="block">
-    più clienti in modo costante
+    <span class="t-grad">più clienti in modo costante</span>
   </span>
 </h1>
 
@@ -682,23 +682,36 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
   </section>
 
 <style>
-    /* H1 gradient text - matches logo gradient exactly */
-    .gradient-text {
-      background: linear-gradient(135deg, #6C2BD9 0%, #9E3AF2 50%, #C026D3 100%);
+    /* H1 three-tone styling */
+    .t-dark {
+      color: #000;
+    }
+
+    .t-violet {
+      color: #9333ea;
+    }
+
+    .t-grad {
+      background: linear-gradient(135deg, #6d28d9, #9333ea, #c026d3);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-clip: text;
       color: transparent;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .gradient-text {
-        background: linear-gradient(135deg, #6C2BD9 0%, #9E3AF2 50%, #C026D3 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-      }
+    /* Dark mode adjustments */
+    .dark .t-dark {
+      color: #ffffff;
+    }
+
+    .dark .t-violet {
+      color: #a78bfa;
+    }
+
+    .dark .t-grad {
+      background: linear-gradient(135deg, #7c3aed, #9333ea, #c026d3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     /* CTA headline keywords - light violet for contrast over gradient background */
