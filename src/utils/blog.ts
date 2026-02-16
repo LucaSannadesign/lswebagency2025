@@ -2,6 +2,7 @@ import type { PaginateFunction } from 'astro';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import type { Post } from '@/types';
+import type { ImageMetadata } from 'astro';
 import { APP_BLOG } from 'astrowind:config';
 import {
   cleanSlug,
@@ -48,6 +49,60 @@ const generatePermalink = async ({
     .map((el) => trimSlash(el))
     .filter((el) => !!el)
     .join('/');
+};
+
+/* -------------------------------------------------------------------------- */
+/* Normalizzazione immagini post                                              */
+/* -------------------------------------------------------------------------- */
+/**
+ * Normalizza l'immagine di un post gestendo diversi formati:
+ * - string (path assoluto come "/images/blog/...")
+ * - ImageMetadata (dalla build di astro:assets)
+ * - undefined/null (nessuna immagine)
+ *
+ * Ritorna:
+ * - string (path valido per fallback img tag)
+ * - ImageMetadata (per ottimizzazione astro:assets)
+ * - undefined (nessuna immagine disponibile)
+ */
+export const getPostImageForComponent = (
+  image?: ImageMetadata | string | null,
+): ImageMetadata | string | undefined => {
+  // Se è undefined o null, ritorna undefined
+  if (!image) {
+    return undefined;
+  }
+
+  // Se è ImageMetadata, ritorna così com'è (ha le proprietà esatte per astro:assets)
+  if (typeof image !== 'string' && 'src' in image) {
+    return image;
+  }
+
+  // Se è una stringa, verificiamo che sia un path valido
+  if (typeof image === 'string') {
+    // Path assoluto pubblico: /images/... → ritorna così (fallback img tag)
+    if (image.startsWith('/')) {
+      return image;
+    }
+
+    // Path relativo che inizia con @/ o ~/: potrebbe essere ESM asset
+    // Ritorna così, findImage lo risolverà
+    if (image.startsWith('@/') || image.startsWith('~/')) {
+      return image;
+    }
+
+    // URL remoto http(s): ritorna così
+    if (image.startsWith('http://') || image.startsWith('https://')) {
+      return image;
+    }
+
+    // Altrimenti: potrebbe essere un path relativo non valido
+    // Ritorna undefined per evitare broken image
+    return undefined;
+  }
+
+  // Fallback per qualsiasi altro tipo
+  return undefined;
 };
 
 /* -------------------------------------------------------------------------- */

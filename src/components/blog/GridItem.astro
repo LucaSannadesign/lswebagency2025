@@ -3,8 +3,10 @@ import { APP_BLOG } from 'astrowind:config';
 import type { Post } from '@/types';
 
 import Image from '@/components/common/Image.astro';
+import { Icon } from 'astro-icon/components';
 
 import { findImage } from '@/utils/images';
+import { getPostImageForComponent } from '@/utils/blog';
 import { getPermalink } from '@/utils/permalinks';
 
 export interface Props {
@@ -13,21 +15,24 @@ export interface Props {
 
 const { post } = Astro.props;
 
-const image = await findImage(post.image);
+// Normalizza l'immagine gestendo diversi formati
+const normalizedImage = getPostImageForComponent(post.image);
+const image = normalizedImage ? await findImage(normalizedImage) : undefined;
 const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
 
 const excerpt = (post?.excerpt ?? '').trim();
 ---
 
 <article class="mb-6 transition">
-  <div class="relative w-full aspect-[16/9] bg-gray-400 dark:bg-slate-700 rounded-xl shadow-lg mb-6 overflow-hidden">
+  <!-- Container immagine con fallback -->
+  <div class="relative w-full aspect-[16/9] bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 rounded-xl shadow-lg mb-6 overflow-hidden group">
     {
-      image &&
-        (link ? (
-          <a href={link}>
+      image ? (
+        link ? (
+          <a href={link} class="block w-full h-full">
             <Image
               src={image}
-              class="w-full h-full object-cover rounded-xl shadow-lg bg-gray-400 dark:bg-slate-700"
+              class="w-full h-full object-cover rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300"
               widths={[400, 900]}
               width={400}
               sizes="(max-width: 900px) 400px, 900px"
@@ -41,7 +46,7 @@ const excerpt = (post?.excerpt ?? '').trim();
         ) : (
           <Image
             src={image}
-            class="w-full h-full object-cover rounded-xl shadow-lg bg-gray-400 dark:bg-slate-700"
+            class="w-full h-full object-cover rounded-xl shadow-lg"
             widths={[400, 900]}
             width={400}
             sizes="(max-width: 900px) 400px, 900px"
@@ -51,7 +56,16 @@ const excerpt = (post?.excerpt ?? '').trim();
             loading="lazy"
             decoding="async"
           />
-        ))
+        )
+      ) : (
+        /* Fallback visuale quando l'immagine non è disponibile */
+        <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700">
+          <div class="text-center">
+            <Icon name="tabler:image-off" class="w-12 h-12 text-slate-400 dark:text-slate-500 mx-auto mb-2" />
+            <p class="text-sm text-slate-500 dark:text-slate-400">Immagine non disponibile</p>
+          </div>
+        </div>
+      )
     }
   </div>
 
