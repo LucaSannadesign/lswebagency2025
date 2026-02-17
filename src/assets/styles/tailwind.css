@@ -192,3 +192,16 @@
   
 }
 
+.dark .t-dark{
+  color:#ffffff !important;
+}
+
+.kw{
+  color:#140a2e;
+  background:none !important;
+}
+
+html.dark .kw{
+  color:#ffffff !important;
+}
+
