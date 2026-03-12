@@ -18,17 +18,17 @@ const metadata = {
     </div>
 
     <div class="max-w-4xl mx-auto px-6 md:px-8 text-center">
-      <!-- Badge -->
+      <!-- Badge migliorato -->
       <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-white/70 dark:bg-white/10 backdrop-blur-sm rounded-full ring-1 ring-brand-ink/10 text-xs text-brand-ink dark:text-slate-300">
-        <span class="w-2 h-2 rounded-full bg-brand-blue shrink-0"></span>
-        <span>Tool gratuito per business locali</span>
+        <Icon name="tabler:sparkles" class="w-4 h-4 text-brand-blue shrink-0" />
+        <span class="font-medium">Tool gratuito specializzato per attività locali</span>
       </div>
 
       <h1 class="text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-slate-900 dark:text-white mb-5 leading-tight">
-        Analisi completa della tua homepage
+        Analisi SEO <span class="text-brand-blue">completa</span> e gratuita
       </h1>
-      <p class="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
-        Verifichiamo insieme punti di forza e aree di miglioramento per aumentare contatti e conversioni
+      <p class="text-xl text-slate-700 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
+        Scopri cosa migliorare nella tua homepage per ottenere più contatti e clienti dal web
       </p>
 
       <!-- Micro-benefit -->
@@ -63,9 +63,12 @@ const metadata = {
             Analizza
           </button>
         </div>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-3 text-center">
-          Analisi iniziale gratuita. Nessuna registrazione obbligatoria.
-        </p>
+        <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+          <p class="text-xs text-slate-500 dark:text-slate-400 text-center flex items-center justify-center gap-2">
+            <Icon name="tabler:shield-check" class="w-3.5 h-3.5 text-emerald-600" />
+            <span>Analisi 100% gratuita · Nessuna registrazione · GDPR compliant</span>
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -73,13 +76,30 @@ const metadata = {
   <!-- Placeholder report -->
   <section class="py-16 bg-white dark:bg-slate-950">
     <div class="max-w-4xl mx-auto px-6 md:px-8 text-center">
-      <div class="p-8 md:p-12 rounded-2xl bg-slate-50/50 dark:bg-slate-900/30 ring-1 ring-slate-200/50 dark:ring-slate-700/30">
-        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3">
-          Il tuo report apparirà qui
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-          Riceverai un'analisi dettagliata con punti di forza e suggerimenti per migliorare la tua homepage in meno di 1 minuto.
-        </p>
+      <div class="p-8 md:p-12 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/50 dark:to-slate-900/30 ring-1 ring-slate-200/70 dark:ring-slate-700/30">
+        <div class="max-w-xl mx-auto">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 flex items-center justify-center gap-2">
+            <Icon name="tabler:report-analytics" class="w-6 h-6 text-brand-blue" />
+            <span>Il tuo report completo</span>
+          </h2>
+          <p class="text-slate-600 dark:text-slate-400 mb-6">
+            Riceverai un'analisi dettagliata con:
+          </p>
+          <ul class="space-y-3 text-slate-700 dark:text-slate-300 text-sm">
+            <li class="flex items-start gap-2">
+              <Icon name="tabler:check" class="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+              <span>Punteggio prestazioni e SEO</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <Icon name="tabler:check" class="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+              <span>Indicatori di usabilità e conversione</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <Icon name="tabler:check" class="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+              <span>Suggerimenti pratici per migliorare</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
