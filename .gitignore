@@ -19,3 +19,7 @@ yarn.lock
 
 # backup
 *.bak
+.aider*
+.env
+.env
+.env
