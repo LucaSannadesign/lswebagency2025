@@ -71,85 +71,64 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
     </div>
 
     <div class="mx-auto max-w-screen-xl px-6 md:px-8 pt-12 sm:pt-16 pb-12 lg:pb-16">
-      <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-center">
+      <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
         <!-- Testo Hero -->
         <div class="text-center lg:text-left order-1 lg:order-1 min-w-0">
           <!-- Micro-badge / Eyebrow -->
           <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-white/70 dark:bg-white/10 backdrop-blur-sm rounded-full ring-1 ring-brand-ink/10 text-xs max-w-full whitespace-nowrap overflow-hidden text-ellipsis text-brand-ink dark:text-slate-300">
             <span class="w-2 h-2 rounded-full bg-brand-blue shrink-0"></span>
             <span class="font-semibold">LS Web Agency</span>
-            <span class="sm:hidden">· Agenzia web Sassari</span>
             <span class="hidden sm:inline">· Realizzazione siti web e SEO a Sassari</span>
           </div>
 
           <header>
-            <!-- H1 locale orientato a SEO -->
-            <h1 class="text-4xl sm:text-5xl lg:text-[3rem] xl:text-[3.5rem] font-extrabold tracking-tight leading-[1.1] hero-title">
+            <!-- H1 in massimo 2 righe -->
+            <h1 class="text-4xl sm:text-5xl lg:text-[3rem] xl:text-[3.5rem] font-extrabold tracking-tight leading-[1.05] hero-title">
               <span class="block">
-                <span class="t-dark">Agenzia web Sassari</span>
+                <span class="t-dark">Realizzazione siti web</span>
               </span>
               <span class="block">
-                <span class="t-violet">Realizzazione siti e SEO locale</span>
+                <span class="t-violet">e SEO locale a Sassari</span>
               </span>
             </h1>
 
             <!-- Paragrafo descrittivo -->
-            <p class="mt-4 text-lg md:text-xl text-brand-ink/80 dark:text-slate-300 leading-normal max-w-xl mx-auto lg:mx-0">
-              Creiamo siti web professionali per aiutare attività, studi e piccole imprese a presentarsi meglio online
-              e ricevere più richieste da Google. Operiamo da Sassari e collaboriamo anche da remoto con clienti in tutta Italia.
+            <p class="mt-5 text-lg md:text-xl text-brand-ink/80 dark:text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
+              Realizziamo siti web veloci e strategie SEO locali per aiutare attività, studi e professionisti a ricevere più richieste da Google. Operiamo da Sassari e collaboriamo anche da remoto in tutta Italia.
             </p>
             <p class="mt-4 inline-block px-4 py-2 rounded-full bg-brand-blue/10 dark:bg-brand-blue/20 text-sm font-semibold text-brand-blue">
-              ✓ Operiamo da Sassari · Collaboriamo da remoto in tutta Italia
+              Operiamo da Sassari · Collaboriamo da remoto in tutta Italia
             </p>
           </header>
 
           <!-- CTA -->
-          <div class="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-2" aria-label="Azioni principali">
+          <div class="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-3" aria-label="Azioni principali">
             <!-- Primary CTA -->
             <a 
               href="/contatti" 
-              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-5 py-3 text-sm sm:px-7 sm:py-4 sm:text-base font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full shadow-sm hover:shadow-md transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-6 py-3 text-sm sm:px-8 sm:py-4 sm:text-base font-semibold text-white bg-brand-blue hover:bg-brand-blue/90 rounded-full shadow-sm hover:shadow-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
             >
-              Richiedi un preventivo
+              Richiedi analisi gratuita
               <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
             </a>
             <!-- Secondary CTA -->
             <a 
               href="/servizi" 
-              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-5 py-3 text-sm sm:px-7 sm:py-4 sm:text-base font-semibold text-brand-ink dark:text-white bg-white dark:bg-slate-800 hover:bg-white/80 dark:hover:bg-slate-700 rounded-full ring-1 ring-brand-ink/15 dark:ring-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2"
+              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-6 py-3 text-sm sm:px-8 sm:py-4 sm:text-base font-semibold text-brand-ink dark:text-white bg-white dark:bg-slate-900/60 hover:bg-white/90 dark:hover:bg-slate-800 rounded-full ring-1 ring-brand-ink/10 dark:ring-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2"
             >
-              Scopri i servizi
+              Guarda esempi e servizi
             </a>
           </div>
 
-          <!-- Proof items -->
-          <div class="mt-4">
-            <p class="text-xs uppercase tracking-wide text-brand-ink/60 dark:text-slate-400 mb-1">Perché fidarsi</p>
-            <ul class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-brand-ink/70 dark:text-slate-400">
-            <li class="inline-flex items-center gap-2 whitespace-nowrap">
-              <span class="h-2 w-2 rounded-full bg-brand-blue"></span>
-              <span>Siti web e SEO locale per attività in Sardegna</span>
-            </li>
-            <li class="inline-flex items-center gap-2 whitespace-nowrap">
-              <span class="h-2 w-2 rounded-full bg-brand-blue"></span>
-              <span>Esperienza con negozi, studi e PMI</span>
-            </li>
-            <li class="inline-flex items-center gap-2 whitespace-nowrap">
-              <span class="h-2 w-2 rounded-full bg-brand-blue"></span>
-              <span>Operiamo da Sassari, collaboriamo in tutta Italia</span>
-            </li>
-            </ul>
-          </div>
         </div>
 
         <!-- Visual Card -->
-        <div class="relative order-2 lg:order-2 mt-8 lg:mt-0 hidden sm:block">
-          <div class="relative aspect-[16/10] rounded-3xl overflow-hidden bg-gradient-to-br from-brand-ink via-brand-purple/40 to-brand-blue/30 shadow-2xl">
-            <!-- TODO: Replace with new minimal glass dashboard illustration (brand purple/blue) -->
-            <!-- Current placeholder: using existing hero image -->
+        <div class="relative order-2 lg:order-2 mt-10 lg:mt-0 hidden sm:block">
+          <div class="relative aspect-[16/10] rounded-3xl overflow-hidden bg-gradient-to-br from-brand-ink via-brand-purple/40 to-brand-blue/30 shadow-2xl ring-1 ring-white/10">
+            <!-- Visual mockup -->
             <img
               src="/images/lswebagency-hero-serp-contatti.webp"
-              alt="Sviluppo siti web professionali e SEO"
+              alt="Anteprima del posizionamento su Google e delle richieste dal sito"
               width="800"
               height="600"
               loading="lazy"
@@ -159,7 +138,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             />
             
             <!-- Overlay gradient per coerenza brand -->
-            <div class="absolute inset-0 bg-gradient-to-br from-brand-ink/20 via-brand-purple/10 to-brand-blue/10 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-brand-ink/40 via-brand-purple/20 to-brand-blue/20 pointer-events-none mix-blend-multiply"></div>
             
             <!-- Mini-card sovrapposta -->
             <div class="absolute bottom-6 left-6 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg ring-1 ring-brand-ink/10">
