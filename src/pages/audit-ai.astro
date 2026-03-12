@@ -47,29 +47,147 @@ const metadata = {
         </li>
       </ul>
 
-      <!-- Card form migliorata -->
-      <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl ring-1 ring-slate-200/50 dark:ring-slate-700/30 max-w-md mx-auto">
-        <p class="text-center text-lg font-medium text-slate-900 dark:text-slate-100 mb-5">
-          Inserisci l'URL da analizzare
-        </p>
-        <div class="flex gap-3">
-          <input 
-            type="url" 
-            placeholder="https://tuesempio.com" 
-            class="flex-1 px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue"
-            required
-          />
-          <button class="px-6 py-3 bg-brand-blue hover:bg-brand-blue/90 text-white font-medium rounded-xl transition-colors shadow-sm">
-            Analizza
-          </button>
+      <!-- Form MVP -->
+      <form id="auditForm" class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl ring-1 ring-slate-200/50 dark:ring-slate-700/30 max-w-md mx-auto">
+        <h3 class="text-center text-xl font-semibold text-slate-900 dark:text-slate-100 mb-6">
+          Informazioni base per l'analisi
+        </h3>
+
+        <div class="space-y-4">
+          <!-- URL -->
+          <div>
+            <label for="websiteUrl" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+              URL del sito<span class="text-red-500">*</span>
+            </label>
+            <input 
+              id="websiteUrl"
+              name="websiteUrl" 
+              type="url" 
+              placeholder="https://tuo-nutrizionista.com" 
+              class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue bg-white dark:bg-slate-900"
+              required
+            />
+            <p id="urlError" class="mt-1 text-xs text-red-500 hidden">Inserisci un URL valido (es: https://tuo-sito.com)</p>
+          </div>
+
+          <!-- Nome Attività -->
+          <div>
+            <label for="businessName" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+              Nome attività<span class="text-red-500">*</span>
+            </label>
+            <input 
+              id="businessName"
+              name="businessName" 
+              type="text" 
+              placeholder="Es: Studio Dentistico Bianchi" 
+              class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue bg-white dark:bg-slate-900"
+              required
+            />
+          </div>
+
+          <!-- Città / Area -->
+          <div>
+            <label for="location" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+              Città / Area geografica<span class="text-red-500">*</span>
+            </label>
+            <input 
+              id="location"
+              name="location" 
+              type="text" 
+              placeholder="Es: Sassari centro" 
+              class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue bg-white dark:bg-slate-900"
+              required
+            />
+          </div>
+
+          <!-- Categoria -->
+          <div>
+            <label for="category" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+              Categoria business<span class="text-red-500">*</span>
+            </label>
+            <select 
+              id="category"
+              name="category" 
+              class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue bg-white dark:bg-slate-900"
+              required
+            >
+              <option value="" disabled selected>Seleziona categoria</option>
+              <option value="Professionista">Professionista (avvocato, dentista, etc.)</option>
+              <option value="Negozio">Negozio fisico</option>
+              <option value="Servizi">Servizi locali</option>
+              <option value="Turismo">Turismo / Hotel</option>
+              <option value="Ristorazione">Ristorazione</option>
+              <option value="Altro">Altro</option>
+            </select>
+          </div>
+
+          <!-- Keyword -->
+          <div>
+            <label for="mainKeyword" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+              Keyword principale locale<span class="text-red-500">*</span>
+            </label>
+            <input 
+              id="mainKeyword"
+              name="mainKeyword" 
+              type="text" 
+              placeholder="Es: nutrizionista a Sassari" 
+              class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue bg-white dark:bg-slate-900"
+              required
+            />
+          </div>
         </div>
+
+        <!-- Button -->
+        <button type="submit" class="mt-6 w-full px-6 py-3 bg-brand-blue hover:bg-brand-blue/90 text-white font-medium rounded-xl transition-colors shadow-sm">
+          Analizza Gratuitamente
+        </button>
+
+        <!-- Privacy Note -->
         <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
           <p class="text-xs text-slate-500 dark:text-slate-400 text-center flex items-center justify-center gap-2">
             <Icon name="tabler:shield-check" class="w-3.5 h-3.5 text-emerald-600" />
             <span>Analisi 100% gratuita · Nessuna registrazione · GDPR compliant</span>
           </p>
         </div>
-      </div>
+
+        <!-- Client-side JS -->
+        <script>
+          const form = document.getElementById('auditForm');
+          
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Basic validation
+            const urlInput = form.elements.websiteUrl;
+            const urlError = document.getElementById('urlError');
+            
+            if (!urlInput.checkValidity()) {
+              urlError.classList.remove('hidden');
+              return;
+            }
+            
+            // Get form data
+            const formData = {
+              url: form.elements.websiteUrl.value,
+              business: form.elements.businessName.value,
+              location: form.elements.location.value,
+              category: form.elements.category.value,
+              keyword: form.elements.mainKeyword.value
+            };
+            
+            console.log('[Audit AI] Form submitted:', formData);
+            
+            // For now just show an alert
+            alert(`Analisi richiesta per: ${formData.business}\nVerrai reindirizzato al report tra qualche secondo`);
+          });
+
+          // Validate URL on blur
+          form.elements.websiteUrl.addEventListener('blur', (e) => {
+            const urlError = document.getElementById('urlError');
+            urlError.classList.toggle('hidden', e.target.checkValidity());
+          });
+        </script>
+      </form>
     </div>
   </section>
 
