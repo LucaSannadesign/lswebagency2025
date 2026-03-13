@@ -1,6 +1,5 @@
 ---
 import CallToAction from '@/components/widgets/CallToAction.astro';
-import Features2 from '@/components/widgets/Features2.astro';
 import Hero from '@/components/widgets/Hero.astro';
 import Layout from '@/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
@@ -25,38 +24,41 @@ const metadata = {
 };
 
 // URL utili
-const SEO_BOOSTER_URL = '/servizi/seo-locale';
-const PAGAMENTI_URL = '/pagamenti';
-
-// ✅ Landing “pacchetto rapido”
-const CONTATTI_RAPIDI_URL = '/lp/contatti-rapidi';
-const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO + bg gradient: più tenue e più basso -->
-  <section class="relative isolate">
+  <!-- HERO: background premium con gradient radiale morbido -->
+  <section class="relative isolate services-hero overflow-hidden">
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[340px] sm:h-[400px] md:h-[440px]"
+      class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[360px] sm:h-[420px] md:h-[460px]"
     >
-      <div
-        class="h-full bg-gradient-to-b from-violet-600/10 via-fuchsia-500/8 to-white
-               dark:from-violet-500/20 dark:via-fuchsia-400/10 dark:to-neutral-950"
-      />
+      <div class="hero-services-bg h-full w-full" />
     </div>
 
     <Hero
+      tagline="Servizi digitali per attività locali e imprese"
       actions={[
-        { variant: 'primary', text: 'Richiedi una consulenza', href: '/contatti' },
-        { text: 'Scopri i servizi', href: '#servizi-principali' },
+        {
+          variant: 'primary',
+          text: 'Richiedi una consulenza',
+          href: '/contatti',
+          class: 'px-6 md:px-7 py-3 text-sm md:text-base shadow-sm hover:shadow-md',
+        },
+        {
+          text: 'Scopri i servizi',
+          href: '#servizi-principali',
+          class: 'px-5 md:px-6 py-3 text-sm md:text-base border border-neutral-300/70 dark:border-neutral-600/70 bg-white/60 dark:bg-neutral-900/40 hover:bg-white dark:hover:bg-neutral-900',
+        },
       ]}
       image={{
         src: servicesHero.src,
         alt: 'Servizi web, SEO e marketing digitale',
         width: servicesHero.width,
         height: servicesHero.height,
+        class: 'hero-services-image',
       }}
+      gradient={false}
     >
       <span slot="title">
         Servizi digitali per far crescere la tua presenza online
@@ -150,7 +152,7 @@ const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
     <div class="mb-8 text-center">
       <h2 class="text-2xl md:text-3xl font-bold mb-3">Soluzioni specialistiche</h2>
       <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Servizi avanzati per esigenze specifiche
+        Interventi mirati per esigenze particolari, quando serve qualcosa di più specifico del servizio base.
       </p>
     </div>
 
@@ -214,7 +216,7 @@ const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
     <div class="mb-8 text-center">
       <h2 class="text-2xl md:text-3xl font-bold mb-3">Pacchetti rapidi</h2>
       <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Soluzioni veloci e mirate per interventi specifici
+        Interventi rapidi, circoscritti e orientati al risultato quando hai già un problema chiaro da risolvere.
       </p>
     </div>
 
@@ -265,7 +267,7 @@ const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
     <div class="mb-8 text-center">
       <h2 class="text-2xl md:text-3xl font-bold mb-3">Soluzioni per esigenze specifiche</h2>
       <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Percorsi dedicati per settori e necessità particolari
+        Percorsi dedicati quando il progetto richiede un focus settoriale o un approccio più verticale.
       </p>
     </div>
 
@@ -297,166 +299,111 @@ const CONTATTI_RAPIDI_CTA = '/contatti?servizio=contatti-rapidi&azione=call';
       </article>
     </div>
   </section>
-  <Features2
-    id="tutti-servizi-grid"
-    title=""
-    subtitle="Strategie e realizzazioni per aumentare visibilità, lead e vendite."
-    columns={4}
-    classes={{
-      container:
-        'max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 xl:gap-8 px-6 md:px-8',
-      panel:
-        'h-full rounded-2xl p-5 md:p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition hover:-translate-y-0.5',
-      title: 'mt-1 font-semibold text-lg',
-      description: 'mt-1 text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed',
-      icon: 'text-2xl mb-2 opacity-80',
-    }}
-    items={[
-      { title: 'Creazione siti web', description: 'Siti moderni, veloci, orientati alla conversione.', icon: 'tabler:device-desktop', href: '/servizi/creazione-siti-web-sassari' },
-      { title: 'Realizzazione E-commerce', description: 'WooCommerce o headless, checkout ottimizzati.', icon: 'tabler:shopping-cart', href: '/servizi/realizzazione-siti-ecommerce' },
-      { title: 'Landing Page', description: 'Pagina che converte: UX, copy, CTA, performance.', icon: 'tabler:layout', href: '/servizi/landing-page-professionale' },
-      { title: 'WordPress Slim', description: 'Statici/headless: veloci, sicuri, SEO-ready.', icon: 'tabler:rocket', href: '/servizi/wordpress-slim-siti-statici-headless' },
-      { title: 'Siti Web', description: 'Hub servizi siti web.', icon: 'tabler:device-desktop', href: '/servizi/siti-web' },
-      
-      { title: 'Ottimizzazione SEO', description: 'Analisi tecnica, contenuti e link building.', icon: 'tabler:chart-line', href: '/servizi/ottimizzazione-seo-siti-web' },
-      { title: 'SEO Locale', description: 'Hub SEO locale: approccio e priorità.', icon: 'tabler:map-pin', href: '/servizi/seo-locale' },
-      { title: 'Local SEO Booster', description: 'Pacchetto operativo per risultati locali misurabili.', icon: 'tabler:map-pin', href: '/servizi/local-seo-booster' },
-      { title: 'Audit Rapido', description: 'Diagnosi operativa: baseline, priorità e next step.', icon: 'tabler:search', href: '/servizi/audit-rapido' },
-      { title: 'Fix Performance & SEO', description: 'Intervento mirato quando le priorità sono già chiare.', icon: 'tabler:tool', href: '/servizi/fix-performance-seo' },
-      { title: 'Sprint di Ottimizzazione', description: 'Audit + fix + misurazione in un percorso breve.', icon: 'tabler:rocket', href: '/servizi/sprint-ottimizzazione' },
-      
-      { title: 'Assistente AI (Sito & WhatsApp)', description: 'FAQ 24/7, prenotazioni, lead qualificati.', icon: 'tabler:message-chatbot', href: '/servizi/assistente-ai-sito-whatsapp' },
-      { title: 'UX con Intelligenza Artificiale', description: 'Esperienze personalizzate e dinamiche.', icon: 'tabler:brain', href: '/servizi/personalizzazione-ux-intelligenza-artificiale' },
-      { title: 'AI Blog Engine', description: 'Contenuti blog generati e ottimizzati con AI.', icon: 'tabler:article', href: '/servizi/ai-blog-engine' },
-      
-      { title: 'Branding e Grafica', description: 'Identità visiva, UI e materiali promozionali.', icon: 'tabler:palette', href: '/servizi/branding-e-grafica-siti-web' },
-      { title: 'Accessibilità Digitale', description: 'Adeguamenti WCAG/AgID e remediation.', icon: 'tabler:wheelchair', href: '/servizi/accessibilita-digitale-avanzata' },
-      { title: 'Web Design Etico & Sostenibile', description: 'Performance, privacy e leggerezza.', icon: 'tabler:leaf', href: '/servizi/web-design-etico-sostenibile' },
-      { title: 'Assistenza e Manutenzione', description: 'Supporto continuativo e aggiornamenti.', icon: 'tabler:settings', href: '/servizi/assistenza-manutenzione' },
-      { title: 'Transizione Digitale per il Turismo', description: 'Un servizio pensato per B&B, agriturismi, piccoli hotel e attività turistiche che vogliono migliorare visibilità online, richieste dirette e presenza digitale.', icon: 'tabler:building-store', href: '/transizione-digitale-turismo' },
-    ]}
-  />
 
-  <!-- PACCHETTI RAPIDI (conversione) -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-bold">Pacchetti rapidi</h2>
-        <p class="text-neutral-600 dark:text-neutral-300">
-          Soluzioni snelle per uscire dall’urgenza: una pagina, un obiettivo, più richieste.
+
+
+  <!-- CTA FINALE -->
+  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-16">
+    <div class="relative isolate overflow-hidden rounded-2xl bg-neutral-950">
+      <div class="absolute inset-0 -z-10 opacity-90 bg-[radial-gradient(circle_at_18%_28%,rgba(168,85,247,0.34),transparent_34%),radial-gradient(circle_at_82%_72%,rgba(34,211,238,0.22),transparent_32%),radial-gradient(circle_at_58%_42%,rgba(236,72,153,0.20),transparent_28%),linear-gradient(135deg,rgba(10,10,12,0.96),rgba(5,8,18,0.98))]"></div>
+      <div class="max-w-3xl mx-auto text-center px-6 py-12 md:py-16">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">Non sai da dove partire?</h2>
+        <p class="text-neutral-200 mb-6">
+          Possiamo aiutarti a capire da quale intervento partire, in base al tuo obiettivo, allo stato del sito e alle priorità del progetto.
         </p>
-      </div>
-
-      <div class="flex gap-2">
-        <a
-          href={CONTATTI_RAPIDI_URL}
-          class="inline-flex items-center justify-center rounded-full px-5 py-3 font-semibold ring-1 ring-neutral-200 bg-white/70 hover:bg-white dark:bg-neutral-900/40 dark:ring-neutral-800 dark:hover:bg-neutral-900/60"
-        >
-          Vedi la landing
-        </a>
-        <a
-          href={CONTATTI_RAPIDI_CTA}
-          class="btn-primary inline-flex items-center justify-center rounded-full px-5 py-3 font-semibold"
-        >
-          Prenota una call
+        <a href="/contatti" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors">
+          Richiedi una consulenza
           <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
         </a>
       </div>
     </div>
-
-    <div class="grid gap-6 md:grid-cols-3">
-      <article class="rounded-3xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="text-2xl opacity-80"><Icon name="tabler:bolt" /></div>
-        <h3 class="mt-2 font-semibold text-lg">Contatti Rapidi</h3>
-        <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-          Landing orientata alla conversione con CTA WhatsApp + form, microcopy, SEO essenziale e tracking base.
-        </p>
-        <div class="mt-4 flex flex-col gap-2">
-          <a href={CONTATTI_RAPIDI_URL} class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
-            Scopri di più →
-          </a>
-          <a href={CONTATTI_RAPIDI_CTA} class="inline-flex items-center text-sm font-semibold text-neutral-900 dark:text-white">
-            Prenota la call (15 min)
-            <Icon name="tabler:arrow-right" class="w-4 h-4 ml-1" />
-          </a>
-        </div>
-      </article>
-
-      <article class="rounded-3xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
-        <div class="text-2xl opacity-80"><Icon name="tabler:target-arrow" /></div>
-        <h3 class="mt-2 font-semibold text-lg">Perché funziona</h3>
-        <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-          Riduce dubbi, aumenta fiducia, guida l’utente verso un’azione unica. Meno dispersione, più contatti.
-        </p>
-      </article>
-
-      <article class="rounded-3xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-b from-emerald-50/70 to-white/80 dark:from-emerald-400/10 dark:to-neutral-900/55 shadow-sm">
-        <div class="text-2xl opacity-80"><Icon name="tabler:clock" /></div>
-        <h3 class="mt-2 font-semibold text-lg">Tempi rapidi</h3>
-        <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-          Ideale quando serve monetizzare: consegna veloce, revisioni mirate, pubblicazione e controlli finali.
-        </p>
-      </article>
-    </div>
-  </section>
-
-  <!-- NOVITÀ -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
-    <div class="text-center mb-6">
-      <h2 class="text-2xl md:text-3xl font-bold">Novità</h2>
-      <p class="text-neutral-600 dark:text-neutral-300">Servizi introdotti o aggiornati di recente.</p>
-    </div>
-
-    <div class="grid gap-5 md:gap-6 xl:gap-8 md:grid-cols-3">
-      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
-        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-indigo-600 text-white">Nuovo</span>
-        <h3 class="mt-2 font-semibold">Local SEO Booster</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300">GBP, Local Pack, recensioni. Piani mensili + setup.</p>
-        <a href={SEO_BOOSTER_URL} class="mt-3 inline-flex items-center text-sm font-medium text-indigo-700 hover:text-indigo-800">Scopri di più →</a>
-      </article>
-
-      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
-        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-indigo-600 text-white">Nuovo</span>
-        <h3 class="mt-2 font-semibold">Accessibilità Digitale</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300">Audit, remediation e conformità WCAG/AgID.</p>
-        <a href="/servizi/accessibilita-digitale-avanzata" class="mt-3 inline-flex items-center text-sm font-medium text-indigo-700 hover:text-indigo-800">Scopri di più →</a>
-      </article>
-
-      <article class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
-        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-indigo-600 text-white">Nuovo</span>
-        <h3 class="mt-2 font-semibold">UX con AI</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300">Percorsi dinamici per aumentare le conversioni.</p>
-        <a href="/servizi/personalizzazione-ux-intelligenza-artificiale" class="mt-3 inline-flex items-center text-sm font-medium text-indigo-700 hover:text-indigo-800">Scopri di più →</a>
-      </article>
-    </div>
-
-    <p class="text-center text-sm mt-6 text-neutral-500 dark:text-neutral-400">
-      Pagamenti con PayPal/carte o bonifico: <a class="underline decoration-indigo-600 underline-offset-2" href={PAGAMENTI_URL}>metodi di pagamento</a>.
-    </p>
-  </section>
-
-  <!-- STUDIO GUIDATO DA LUCA -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-10">
-    <div class="max-w-3xl mx-auto">
-      <div class="rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-900/40 ring-1 ring-neutral-200 dark:ring-neutral-800">
-        <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          LS Web Agency è uno studio guidato da Luca Sanna. Lavoro in prima persona su analisi, UX e implementazione tecnica. Quando serve, attivo una rete di collaboratori specializzati, mantenendo un unico referente e un processo chiaro.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA FINALE -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-16">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Non sai da dove partire?</h2>
-      <p class="text-neutral-600 dark:text-neutral-300 mb-6">
-        Ti aiutiamo a capire quale servizio è più adatto ai tuoi obiettivi, al tuo sito attuale e alle priorità del tuo progetto.
-      </p>
-      <a href="/contatti" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors">
-        Richiedi una consulenza
-        <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
-      </a>
-    </div>
   </section>
 </Layout>
+<style>
+  .services-hero {
+    background-color: #f9fafb;
+  }
+
+  .services-hero .hero-services-bg {
+    position: relative;
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(129, 140, 248, 0.14), transparent 60%),
+      radial-gradient(circle at 90% 0%, rgba(236, 72, 153, 0.12), transparent 60%),
+      linear-gradient(to bottom, #f9fafb, #ffffff);
+    background-size: 120% 120%;
+    background-position: 0% 0%;
+  }
+
+  .dark .services-hero .hero-services-bg {
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(129, 140, 248, 0.24), transparent 60%),
+      radial-gradient(circle at 90% 0%, rgba(236, 72, 153, 0.18), transparent 60%),
+      linear-gradient(to bottom, #020617, #020617);
+  }
+
+  /* Badge/tagline sopra il titolo: pill elegante, più piccola */
+  .services-hero
+    :global(
+      p.text-xs.font-semibold.uppercase.tracking-wide.text-indigo-700\/90.dark\:text-indigo-300
+    ) {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.8rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(129, 140, 248, 0.28);
+    background: rgba(249, 250, 251, 0.96);
+    color: rgb(55, 48, 163);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    backdrop-filter: blur(6px);
+  }
+
+  .dark
+    .services-hero
+    :global(
+      p.text-xs.font-semibold.uppercase.tracking-wide.text-indigo-700\/90.dark\:text-indigo-300
+    ) {
+    background: rgba(15, 23, 42, 0.86);
+    border-color: rgba(129, 140, 248, 0.5);
+    color: rgb(191, 219, 254);
+  }
+
+  /* CTA: più respiro e micro-riga informativa più discreta */
+  .services-hero :global(.mt-5.flex.flex-wrap.gap-3) {
+    margin-top: 1.5rem;
+    column-gap: 1rem;
+    row-gap: 0.8rem;
+  }
+
+  .services-hero :global(.mt-5.flex.flex-wrap.gap-3)::after {
+    content: 'Siti web \2022  SEO & visibilità \2022  Automazioni leggere';
+    display: block;
+    width: 100%;
+    margin-top: 0.55rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(55, 65, 81, 0.65);
+  }
+
+  .dark .services-hero :global(.mt-5.flex.flex-wrap.gap-3)::after {
+    color: rgba(209, 213, 219, 0.7);
+  }
+
+  /* Contenitore immagine: ring e ombra morbidi e integrati */
+  .services-hero :global(img.hero-services-image) {
+    border-radius: 1.5rem;
+    box-shadow:
+      0 22px 45px rgba(15, 23, 42, 0.18),
+      0 0 0 1px rgba(148, 163, 184, 0.25);
+    background-color: rgba(248, 250, 252, 0.9);
+  }
+
+  .dark .services-hero :global(img.hero-services-image) {
+    box-shadow:
+      0 24px 52px rgba(15, 23, 42, 0.55),
+      0 0 0 1px rgba(148, 163, 184, 0.45);
+  }
+</style>

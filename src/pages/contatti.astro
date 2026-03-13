@@ -199,26 +199,88 @@ const AGENCY = {
           />
         </div>
 
-        <div class="col-span-1 min-w-0">
-          <label for="service" class="block text-sm font-medium mb-1">
-            Servizio di interesse
-          </label>
-          <select
-            id="service"
-            name="service"
-            class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500"
-          >
-            <option value="" selected>Seleziona…</option>
-            <option value="siti-web">Siti Web Professionali</option>
-            <option value="seo-locale">SEO Locale</option>
-            <option value="assistenza">Assistenza & Manutenzione</option>
-            <option value="ecommerce">E-commerce</option>
-            <option value="seo">SEO / Local SEO</option>
-            <option value="branding">Branding &amp; grafica</option>
-            <option value="ai">AI / Assistenti</option>
-            <option value="altro">Altro</option>
-          </select>
-        </div>
+     <div class="col-span-1 min-w-0">
+  <label for="service" class="block text-sm font-medium mb-1">
+    Servizio di interesse
+  </label>
+  <select
+    id="service"
+    name="service"
+    class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500"
+  >
+    <option value="" selected>Seleziona…</option>
+    <option value="sito-web">Sito web</option>
+    <option value="ecommerce">E-commerce</option>
+    <option value="visibilita-online">Visibilità online</option>
+    <option value="branding">Branding &amp; grafica</option>
+    <option value="ai-automazioni">AI / automazioni</option>
+    <option value="assistenza">Assistenza &amp; manutenzione</option>
+    <option value="altro">Altro</option>
+  </select>
+</div>
+
+        <fieldset id="web-project-options" class="col-span-1 md:col-span-2 min-w-0 hidden">
+          <legend class="block text-sm font-medium mb-2">
+            Tipo di progetto web <span class="text-neutral-500 font-normal">(opzionale)</span>
+          </legend>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3">
+            Se stai richiedendo un sito web, indica il tipo di progetto per aiutarci a capire meglio da dove partire.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="flex items-start gap-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-3 cursor-pointer">
+              <input
+                type="checkbox"
+                name="websitePackage"
+                value="Nuovo sito vetrina"
+                class="mt-1 size-4 rounded accent-violet-600"
+              />
+              <span class="text-sm">
+                <span class="font-medium block">Nuovo sito vetrina</span>
+                <span class="text-neutral-600 dark:text-neutral-300">Per presentare attività, servizi, contatti e presenza online in modo chiaro.</span>
+              </span>
+            </label>
+
+            <label class="flex items-start gap-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-3 cursor-pointer">
+              <input
+                type="checkbox"
+                name="websitePackage"
+                value="Landing page"
+                class="mt-1 size-4 rounded accent-violet-600"
+              />
+              <span class="text-sm">
+                <span class="font-medium block">Landing page</span>
+                <span class="text-neutral-600 dark:text-neutral-300">Pagina focalizzata su un obiettivo preciso, una campagna o una richiesta contatti.</span>
+              </span>
+            </label>
+
+            <label class="flex items-start gap-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-3 cursor-pointer">
+              <input
+                type="checkbox"
+                name="websitePackage"
+                value="Sito multipagina / business"
+                class="mt-1 size-4 rounded accent-violet-600"
+              />
+              <span class="text-sm">
+                <span class="font-medium block">Sito multipagina / business</span>
+                <span class="text-neutral-600 dark:text-neutral-300">Per aziende o professionisti che hanno bisogno di più pagine e una struttura più completa.</span>
+              </span>
+            </label>
+
+            <label class="flex items-start gap-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-3 cursor-pointer">
+              <input
+                type="checkbox"
+                name="websitePackage"
+                value="Restyling sito esistente"
+                class="mt-1 size-4 rounded accent-violet-600"
+              />
+              <span class="text-sm">
+                <span class="font-medium block">Restyling sito esistente</span>
+                <span class="text-neutral-600 dark:text-neutral-300">Per migliorare design, chiarezza, conversione o struttura di un sito già online.</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
 
         <div class="col-span-1 md:col-span-2 min-w-0">
           <label for="message" class="block text-sm font-medium mb-1">
@@ -403,8 +465,26 @@ const AGENCY = {
       const feedback = document.getElementById('form-feedback');
       const feedbackContent = document.getElementById('form-feedback-content');
       const feedbackText = document.getElementById('form-feedback-text');
+      const serviceSelect = document.getElementById('service');
+      const webProjectOptions = document.getElementById('web-project-options');
 
       if (!form || !submitBtn) return;
+
+      function toggleWebProjectOptions() {
+        if (!serviceSelect || !webProjectOptions) return;
+        const show = serviceSelect.value === 'sito-web';
+        webProjectOptions.classList.toggle('hidden', !show);
+
+        if (!show) {
+          webProjectOptions
+            .querySelectorAll('input[name="websitePackage"]')
+            .forEach((input) => {
+              input.checked = false;
+            });
+        }
+      }
+
+      toggleWebProjectOptions();
 
       // Reset feedback
       function resetFeedback() {
@@ -546,12 +626,20 @@ const AGENCY = {
         try {
           // Prepara dati JSON dal form
           const formData = new FormData(form);
+          const selectedPackages = Array.from(form.querySelectorAll('input[name="websitePackage"]:checked'))
+            .map((el) => el.value);
+
+          const originalMessage = String(formData.get('message') || '');
+          const enrichedMessage = selectedPackages.length
+            ? `${originalMessage}\n\nPacchetto sito di interesse: ${selectedPackages.join(', ')}`
+            : originalMessage;
+
           const data = {
             name: formData.get('name') || '',
             email: formData.get('email') || '',
             phone: formData.get('phone') || '',
             service: formData.get('service') || '',
-            message: formData.get('message') || '',
+            message: enrichedMessage,
             privacy: formData.get('privacy') === 'on',
             company: formData.get('company') || '', // honeypot
           };
@@ -653,6 +741,10 @@ const AGENCY = {
           });
         }
       });
+
+      if (serviceSelect) {
+        serviceSelect.addEventListener('change', toggleWebProjectOptions);
+      }
 
       // Privacy checkbox validation
       const privacy = document.getElementById('privacy');
