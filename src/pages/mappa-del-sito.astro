@@ -1,13 +1,12 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
+import { fetchPosts } from '@/utils/blog';
 import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
 /* ---------------- Utils ---------------- */
 const norm = (v: unknown) => String(v ?? '').trim();
-const normalizeBlogSlug = (slug: unknown) =>
-  norm(slug).replace(/^\/?blog\/?/i, '').replace(/^\/+|\/+$/g, '');
 const normalizeEntrySlug = (entry: any) =>
   norm(entry?.data?.slug ?? entry?.slug ?? entry?.id)
     .replace(/^\/+|\/+$/g, '')
@@ -15,7 +14,7 @@ const normalizeEntrySlug = (entry: any) =>
     .toLowerCase();
 
 /* ---------------- Dati dinamici ---------------- */
-const posts = await getCollection('post').catch(() => []);
+const posts = await fetchPosts().catch(() => []);
 const portfolioItems = await getCollection('portfolio').catch(() => []);
 const cities = await getCollection('cities').catch(() => []);
 
@@ -64,23 +63,11 @@ const metadata = {
       <div>
         <h2 class="text-2xl font-semibold mb-4">Articoli del Blog</h2>
         <ul class="space-y-2">
-          {posts
-            .slice()
-            // Ordina per data desc, poi per titolo
-            .sort((a: any, b: any) => {
-              const da = new Date(a?.data?.publishDate ?? 0).getTime();
-              const db = new Date(b?.data?.publishDate ?? 0).getTime();
-              return db - da || String(a?.data?.title ?? a.id).localeCompare(String(b?.data?.title ?? b.id));
-            })
-            .map((post) => {
-              const slug = normalizeBlogSlug((post as any).data?.slug ?? post.id);
-              const title = (post as any).data?.title ?? slug;
-              return (
-                <li>
-                  <a href={`/blog/${slug}`} class="text-blue-600 hover:underline">{title}</a>
-                </li>
-              );
-            })}
+          {posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.slug}`} class="text-blue-600 hover:underline">{post.title}</a>
+            </li>
+          ))}
         </ul>
       </div>
 
