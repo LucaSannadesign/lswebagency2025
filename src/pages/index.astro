@@ -106,7 +106,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             <!-- Primary CTA -->
             <a 
               href="/contatti" 
-              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-6 py-3 text-sm sm:px-8 sm:py-4 sm:text-base font-semibold text-white bg-brand-blue hover:bg-brand-blue/90 rounded-full shadow-sm hover:shadow-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-6 py-3 text-sm sm:px-8 sm:py-4 sm:text-base font-semibold text-white bg-brand-blue hover:bg-brand-blue/90 rounded-full shadow-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
             >
               Richiedi analisi gratuita
               <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
@@ -114,7 +114,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             <!-- Secondary CTA -->
             <a 
               href="/servizi" 
-              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-6 py-3 text-sm sm:px-8 sm:py-4 sm:text-base font-semibold text-brand-ink dark:text-white bg-white dark:bg-slate-900/60 hover:bg-white/90 dark:hover:bg-slate-800 rounded-full ring-1 ring-brand-ink/10 dark:ring-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2"
+              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-6 py-3 text-sm sm:px-8 sm:py-4 sm:text-base font-semibold text-brand-ink dark:text-white bg-white dark:bg-slate-900/60 hover:bg-white/90 dark:hover:bg-slate-800 rounded-full ring-1 ring-brand-ink/10 dark:ring-slate-600 shadow-xs hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2"
             >
               Guarda esempi e servizi
             </a>
@@ -125,6 +125,11 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
         <!-- Visual Card -->
         <div class="relative order-2 lg:order-2 mt-10 lg:mt-0 hidden sm:block">
           <div class="relative aspect-[16/10] rounded-3xl overflow-hidden bg-gradient-to-br from-brand-ink via-brand-purple/40 to-brand-blue/30 shadow-2xl ring-1 ring-white/10">
+            <!-- Radial glow dietro l'immagine -->
+            <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div class="h-72 w-72 rounded-full bg-brand-blue/40 blur-3xl opacity-80"></div>
+            </div>
+
             <!-- Visual mockup -->
             <img
               src="/images/lswebagency-hero-serp-contatti.webp"
@@ -134,7 +139,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
               loading="lazy"
               decoding="async"
               fetchpriority="auto"
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover hero-image-floating"
             />
             
             <!-- Overlay gradient per coerenza brand -->
@@ -703,6 +708,30 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
       color: rgb(220, 200, 255);
       font-weight: 900;
       letter-spacing: -0.02em;
+    }
+
+    /* Hero image floating animation */
+    .hero-image-floating {
+      animation: hero-float 12s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    @keyframes hero-float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-16px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-image-floating {
+        animation: none;
+      }
     }
   </style>
 </Layout>
