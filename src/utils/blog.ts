@@ -113,8 +113,10 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
   const { Content, remarkPluginFrontmatter } = await render(post);
 
   const {
-    publishDate: rawPublishDate = new Date(),
+    publishDate: rawPublishDate,
     updateDate: rawUpdateDate,
+    pubDate: rawPubDate,
+    updatedDate: rawUpdatedDate,
     title,
     excerpt,
     image,
@@ -127,8 +129,9 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
 
   // NB: con content v5 lo slug non è garantito sugli entry: usiamo l'id normalizzato
   const slug = cleanSlug(id);
-  const publishDate = new Date(rawPublishDate);
-  const updateDate = rawUpdateDate ? new Date(rawUpdateDate) : undefined;
+  // Solo pubDate/publishDate per l'ordine; updatedDate non influenza il sorting
+  const publishDate = new Date(rawPublishDate ?? rawPubDate ?? new Date());
+  const updateDate = (rawUpdateDate ?? rawUpdatedDate) ? new Date(rawUpdateDate ?? rawUpdatedDate) : undefined;
 
   const category = rawCategory
     ? {

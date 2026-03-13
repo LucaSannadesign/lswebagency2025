@@ -42,6 +42,8 @@ const postCollection = defineCollection({
     title: z.string(),
     publishDate: z.union([z.string(), z.coerce.date()]).optional(),
     updateDate: z.union([z.string(), z.coerce.date()]).optional(),
+    pubDate: z.union([z.string(), z.coerce.date()]).optional(),
+    updatedDate: z.union([z.string(), z.coerce.date()]).optional(),
     draft: z.boolean().optional(),
     slug: z.string().optional(),
     excerpt: z.string().optional(),
