@@ -298,7 +298,16 @@ const metadata = {
               });
 
               if (!response.ok) {
-                throw new Error('Errore nella risposta API');
+                let errorMessage = 'Non è stato possibile generare il report. Riprova tra poco.';
+                try {
+                  const errorData = await response.json();
+                  if (errorData.error) {
+                    errorMessage = errorData.error;
+                  }
+                } catch {
+                  // Mantieni il messaggio generico se non riesci a leggere il JSON
+                }
+                throw new Error(errorMessage);
               }
 
               const report = await response.json();
@@ -312,6 +321,7 @@ const metadata = {
               reportEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } catch (error) {
               loadingEl.classList.add('hidden');
+              errorEl.textContent = error.message;
               errorEl.classList.remove('hidden');
               placeholderEl.classList.remove('hidden');
               console.error('[Homepage Audit AI] Error:', error);
