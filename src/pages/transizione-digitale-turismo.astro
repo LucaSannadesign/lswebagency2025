@@ -1,0 +1,329 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Transizione Digitale per il Turismo | LS Web Agency',
+  description: 'Supportiamo le imprese turistiche nella transizione digitale. Analisi, ottimizzazione presenza online, visibilità locale e supporto operativo.',
+  canonical: 'https://www.lswebagency.com/transizione-digitale-turismo',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
+          Transizione Digitale per il <span class="text-blue-600">Turismo</span>
+        </h1>
+        <p class="text-xl lg:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          Trasformiamo la tua attività turistica con soluzioni digitali innovative. 
+          Aumenta visibilità, prenotazioni e soddisfazione dei clienti.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contatti" class="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+            Richiedi Consulenza Gratuita
+          </a>
+          <a href="#servizi" class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+            Scopri i Servizi
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione Problema -->
+  <section class="py-16 lg:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+          Le Sfide del Turismo Digitale
+        </h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Le imprese turistiche affrontano sfide complesse nella trasformazione digitale
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-red-50 p-6 rounded-lg">
+          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Visibilità Online Limitata</h3>
+          <p class="text-gray-600">Difficoltà a emergere tra la concorrenza e raggiungere i potenziali clienti online.</p>
+        </div>
+
+        <div class="bg-orange-50 p-6 rounded-lg">
+          <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Gestione Prenotazioni Complessa</h3>
+          <p class="text-gray-600">Sistemi di prenotazione obsoleti che creano inefficienze e perdite di clienti.</p>
+        </div>
+
+        <div class="bg-yellow-50 p-6 rounded-lg">
+          <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Marketing Digitale Inefficace</h3>
+          <p class="text-gray-600">Strategie di marketing non ottimizzate che non generano il ritorno sull'investimento desiderato.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione Servizi -->
+  <section id="servizi" class="py-16 lg:py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+          I Nostri Servizi per il Turismo
+        </h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Soluzioni complete per trasformare digitalmente la tua attività turistica
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white p-8 rounded-lg shadow-sm">
+          <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-gray-900 mb-4">Analisi Iniziale</h3>
+          <p class="text-gray-600 mb-4">
+            Valutiamo la tua presenza digitale attuale, identificando opportunità di miglioramento e definendo una strategia personalizzata.
+          </p>
+          <ul class="text-gray-600 space-y-2">
+            <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>Audit completo della presenza online</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>Analisi della concorrenza</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>Identificazione target di mercato</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-8 rounded-lg shadow-sm">
+          <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-gray-900 mb-4">Ottimizzazione Presenza Online</h3>
+          <p class="text-gray-600 mb-4">
+            Miglioriamo il tuo sito web e le piattaforme digitali per massimizzare conversioni e user experience.
+          </p>
+          <ul class="text-gray-600 space-y-2">
+            <li class="flex items-center"><span class="w-2 h-2 bg-green-600 rounded-full mr-3"></span>Ottimizzazione SEO per il turismo</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-green-600 rounded-full mr-3"></span>Miglioramento UX/UI</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-green-600 rounded-full mr-3"></span>Integrazione sistemi di prenotazione</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-8 rounded-lg shadow-sm">
+          <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-gray-900 mb-4">Visibilità Locale</h3>
+          <p class="text-gray-600 mb-4">
+            Aumentiamo la tua visibilità nelle ricerche locali e sulle mappe per attrarre turisti nella tua zona.
+          </p>
+          <ul class="text-gray-600 space-y-2">
+            <li class="flex items-center"><span class="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>Ottimizzazione Google My Business</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>Gestione recensioni online</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>Local SEO specializzato</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-8 rounded-lg shadow-sm">
+          <div class="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 109.75 9.75A9.75 9.75 0 0012 2.25z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-gray-900 mb-4">Supporto Operativo</h3>
+          <p class="text-gray-600 mb-4">
+            Forniamo supporto continuo per mantenere e migliorare costantemente la tua presenza digitale.
+          </p>
+          <ul class="text-gray-600 space-y-2">
+            <li class="flex items-center"><span class="w-2 h-2 bg-orange-600 rounded-full mr-3"></span>Monitoraggio performance</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-orange-600 rounded-full mr-3"></span>Aggiornamenti contenuti</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-orange-600 rounded-full mr-3"></span>Assistenza tecnica dedicata</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione Processo -->
+  <section class="py-16 lg:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+          Il Nostro Processo
+        </h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Un approccio strutturato in 4 fasi per garantire il successo della tua transizione digitale
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">
+            1
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Analisi</h3>
+          <p class="text-gray-600">
+            Studiamo la tua attività, il mercato di riferimento e definiamo obiettivi chiari e misurabili.
+          </p>
+        </div>
+
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">
+            2
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Proposta Operativa</h3>
+          <p class="text-gray-600">
+            Creiamo una strategia personalizzata con timeline, budget e KPI specifici per la tua realtà.
+          </p>
+        </div>
+
+        <div class="text-center">
+          <div class="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">
+            3
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Implementazione</h3>
+          <p class="text-gray-600">
+            Realizziamo le soluzioni digitali pianificate con il massimo della qualità e attenzione ai dettagli.
+          </p>
+        </div>
+
+        <div class="text-center">
+          <div class="w-16 h-16 bg-orange-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">
+            4
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Ottimizzazione</h3>
+          <p class="text-gray-600">
+            Monitoriamo i risultati e ottimizziamo continuamente per massimizzare il ROI.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione Vantaggi -->
+  <section class="py-16 lg:py-24 bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+          I Vantaggi della Transizione Digitale
+        </h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Trasforma la tua attività turistica e ottieni risultati concreti
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">Aumento Prenotazioni</h3>
+          </div>
+          <p class="text-gray-600">Incremento medio del 40% nelle prenotazioni dirette attraverso canali digitali ottimizzati.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">Riduzione Costi</h3>
+          </div>
+          <p class="text-gray-600">Diminuzione delle commissioni da intermediari e ottimizzazione dei processi operativi.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">Maggiore Visibilità</h3>
+          </div>
+          <p class="text-gray-600">Posizionamento migliore sui motori di ricerca e maggiore presenza sui social media.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">Esperienza Cliente</h3>
+          </div>
+          <p class="text-gray-600">Miglioramento dell'esperienza utente e aumento della soddisfazione dei clienti.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">Dati e Analytics</h3>
+          </div>
+          <p class="text-gray-600">Accesso a dati dettagliati per prendere decisioni informate e strategiche.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">Competitività</h3>
+          </div>
+          <p class="text-gray-600">Vantaggio competitivo duraturo nel mercato turistico sempre più digitalizzato.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Finale -->
+  <section class="py-16 lg:py-24 bg-blue-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">
+        Pronto a Trasformare la Tua Attività Turistica?
+      </h2>
+      <p class="text-xl text-blue-100 mb-8">
+        Contattaci oggi per una consulenza gratuita e scopri come possiamo aiutarti a crescere nel digitale.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/contatti" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+          Richiedi Consulenza Gratuita
+        </a>
+        <a href="tel:+393791957946" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+          Chiamaci Ora
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
