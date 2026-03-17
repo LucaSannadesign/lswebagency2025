@@ -11,7 +11,7 @@ export const headerData = {
         { text: 'SEO', href: '/servizi#seo' },
         { text: 'AI & Automazioni', href: '/servizi#ai' },
         { text: 'divider' },
-        { text: 'Tutti i servizi', href: '/servizi#tutti-servizi' },
+        { text: 'Tutti i servizi', href: '/servizi#servizi-principali' },
       ],
     },
     { text: 'Portfolio', href: '/portfolio' },

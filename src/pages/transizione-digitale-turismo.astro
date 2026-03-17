@@ -1,398 +1,1088 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 
-const metadata = {
-  title: 'Transizione Digitale per il Turismo | LS Web Agency',
-  description: 'Supportiamo le imprese turistiche nella transizione digitale. Analisi, ottimizzazione presenza online, visibilità locale e supporto operativo.',
-  canonical: 'https://www.lswebagency.com/transizione-digitale-turismo',
+const pageTitle =
+  "Transizione Digitale Turismo | Più visibilità e richieste dirette | LS Web Agency";
+const pageDescription =
+  "Aiuto B&B, affittacamere, agriturismi, case vacanza, piccoli hotel indipendenti e attività turistiche locali a migliorare sito, call to action, modulo richieste ed esperienza mobile per ottenere più richieste dirette.";
+const canonical = "https://www.lswebagency.com/transizione-digitale-turismo";
+const ogImage =
+  "https://www.lswebagency.com/images/og/transizione-digitale-turismo.jpg";
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://www.lswebagency.com/#localbusiness",
+  name: "LS Web Agency",
+  url: "https://www.lswebagency.com/",
+  image: ogImage,
+  description:
+    "LS Web Agency aiuta attività locali e strutture ricettive a migliorare presenza online, conversione e raccolta contatti.",
+  telephone: "+39 340 3223494",
+  email: "info@lswebagency.com",
+  areaServed: [
+    { "@type": "AdministrativeArea", name: "Sassari" },
+    { "@type": "AdministrativeArea", name: "Nord Sardegna" },
+    { "@type": "Country", name: "Italia" },
+  ],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Sassari",
+    addressRegion: "SS",
+    addressCountry: "IT",
+  },
+  sameAs: [
+    "https://www.linkedin.com/in/lucasanna-art/",
+    "https://www.facebook.com/lucasannadesign/",
+    "https://www.instagram.com/lucasanna_art/",
+    "https://it.pinterest.com/lucasanna_art/",
+  ],
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://www.lswebagency.com/transizione-digitale-turismo#service",
+  name: "Transizione Digitale Turismo",
+  serviceType:
+    "Ottimizzazione richieste dirette e conversione per strutture ricettive",
+  provider: {
+    "@type": "LocalBusiness",
+    "@id": "https://www.lswebagency.com/#localbusiness",
+  },
+  url: canonical,
+  description:
+    "Servizio dedicato a B&B, affittacamere, agriturismi, case vacanza, piccoli hotel indipendenti e attività turistiche locali per migliorare richieste dirette, call to action, modulo richieste, esperienza mobile e gestione contatti senza rifare il sito da zero.",
+  areaServed: [
+    { "@type": "AdministrativeArea", name: "Sassari" },
+    { "@type": "AdministrativeArea", name: "Nord Sardegna" },
+    { "@type": "Country", name: "Italia" },
+  ],
+  audience: {
+    "@type": "Audience",
+    audienceType:
+      "B&B, affittacamere, agriturismi, case vacanza, piccoli hotel indipendenti, attività turistiche locali",
+  },
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Audit richieste dirette",
+      price: "99",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: canonical,
+    },
+    {
+      "@type": "Offer",
+      name: "Setup conversione",
+      price: "590",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: canonical,
+    },
+    {
+      "@type": "Offer",
+      name: "Monitoraggio richieste",
+      price: "79",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: canonical,
+    },
+  ],
 };
 ---
 
-<Layout metadata={metadata}>
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-950 dark:to-slate-900 py-16 lg:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center">
-        <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-          Più visibilità e più richieste dirette per la tua <span class="text-blue-600 dark:text-blue-300">attività turistica</span>
-        </h1>
-        <p class="text-xl lg:text-2xl text-gray-600 dark:text-neutral-200 mb-8 max-w-3xl mx-auto">
-          Aiutiamo B&B, agriturismi, piccoli hotel e attività turistiche a migliorare sito, presenza online e acquisizione contatti con interventi digitali pratici e sostenibili.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/contatti" class="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors">
-            Richiedi una verifica preliminare
-          </a>
-          <a
-            href="#servizi"
-            class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 dark:border-blue-300 dark:text-blue-200 dark:hover:bg-blue-950/40 transition-colors"
-          >
-            Scopri come lavoriamo
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+<Layout
+  metadata={{
+    title: pageTitle,
+    description: pageDescription,
+    canonical: canonical,
+    openGraph: {
+      url: canonical,
+      images: [{ url: ogImage }],
+      type: 'article',
+    },
+    twitter: {
+      cardType: 'summary_large_image',
+    },
+    jsonLd: [localBusinessSchema, serviceSchema],
+  }}
+>
+  <main>
+      <section class="hero">
+        <div class="container">
+          <span class="eyebrow">Servizi digitali per turismo e ospitalità</span>
 
-  <!-- Sezione A chi è rivolto -->
-  <section class="py-16 lg:py-24 bg-white dark:bg-neutral-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-          A chi è rivolto
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-neutral-200 max-w-3xl mx-auto">
-          Questo servizio è pensato per realtà turistiche che vogliono migliorare la propria presenza online in modo concreto, chiaro e professionale.
-        </p>
-      </div>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        <div class="text-center p-6 bg-white dark:bg-neutral-900/80 rounded-lg shadow-sm dark:shadow-black/25 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-blue-100 dark:bg-blue-950/40 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">B&B e affittacamere</h3>
-          <p class="text-gray-600 dark:text-neutral-300">Strutture ricettive familiari che vogliono aumentare le prenotazioni dirette</p>
-        </div>
+          <h1>Più visibilità e più richieste dirette per la tua attività turistica</h1>
 
-        <div class="text-center p-6 bg-white dark:bg-neutral-900/80 rounded-lg shadow-sm dark:shadow-black/25 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-green-100 dark:bg-green-950/40 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Agriturismi</h3>
-          <p class="text-gray-600 dark:text-neutral-300">Aziende agricole con ospitalità che desiderano valorizzare la propria offerta</p>
-        </div>
-
-        <div class="text-center p-6 bg-white dark:bg-neutral-900/80 rounded-lg shadow-sm dark:shadow-black/25 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-purple-100 dark:bg-purple-950/40 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-purple-600 dark:text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Piccoli hotel indipendenti</h3>
-          <p class="text-gray-600 dark:text-neutral-300">Strutture alberghiere che vogliono competere con le grandi catene</p>
-        </div>
-
-        <div class="text-center p-6 bg-white dark:bg-neutral-900/80 rounded-lg shadow-sm dark:shadow-black/25 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-orange-100 dark:bg-orange-950/40 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-orange-600 dark:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-5-10V3a1 1 0 011-1h1a1 1 0 011 1v1M5 7a2 2 0 012-2h10a2 2 0 012 2v11a2 2 0 01-2 2H7a2 2 0 01-2-2V7z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Attività esperienziali</h3>
-          <p class="text-gray-600 dark:text-neutral-300">Guide, escursioni, degustazioni e servizi turistici specializzati</p>
-        </div>
-
-        <div class="text-center p-6 bg-white dark:bg-neutral-900/80 rounded-lg shadow-sm dark:shadow-black/25 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-red-100 dark:bg-red-950/40 rounded-lg flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-red-600 dark:text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Operatori turistici locali</h3>
-          <p class="text-gray-600 dark:text-neutral-300">Agenzie e tour operator che operano sul territorio</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sezione Problema -->
-  <section class="py-16 lg:py-24 bg-white dark:bg-neutral-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-          Le principali difficoltà che incontriamo
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-neutral-200 max-w-3xl mx-auto">
-          Molte attività turistiche si trovano ad affrontare questi problemi concreti nella gestione della presenza online
-        </p>
-      </div>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-red-50 dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Sito poco visibile</h3>
-          <p class="text-gray-600 dark:text-neutral-300">Il sito non compare nelle prime posizioni di Google quando i clienti cercano strutture nella zona.</p>
-        </div>
-
-        <div class="bg-orange-50 dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Troppe richieste via telefono</h3>
-          <p class="text-gray-600 dark:text-neutral-300">I clienti non trovano facilmente informazioni e contatti chiari, generando chiamate ripetitive.</p>
-        </div>
-
-        <div class="bg-yellow-50 dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Dipendenza da intermediari</h3>
-          <p class="text-gray-600 dark:text-neutral-300">Eccessiva dipendenza da portali di prenotazione che applicano commissioni elevate.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sezione Servizi -->
-  <section id="servizi" class="py-16 lg:py-24 bg-gray-50 dark:bg-neutral-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-          I Nostri Servizi per il Turismo
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-neutral-200 max-w-3xl mx-auto">
-          Soluzioni complete per trasformare digitalmente la tua attività turistica
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="bg-white dark:bg-neutral-900/80 p-8 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-blue-100 dark:bg-blue-950/40 rounded-lg flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Analisi Iniziale</h3>
-          <p class="text-gray-600 dark:text-neutral-300 mb-4">
-            Esaminiamo il tuo sito, la visibilità su Google e i canali di contatto per identificare le aree di miglioramento più importanti.
+          <p class="lead">
+            Aiuto B&amp;B, affittacamere, agriturismi, case vacanza, piccoli hotel indipendenti
+            e attività turistiche locali a migliorare il sito, il percorso di contatto
+            e la raccolta delle richieste, così da trasformare meglio le visite in contatti utili,
+            senza rifare tutto da zero.
           </p>
-          <ul class="text-gray-600 dark:text-neutral-300 space-y-2">
-            <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>Audit completo della presenza online</li>
-            <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>Analisi della concorrenza</li>
-            <li class="flex items-center"><span class="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>Identificazione target di mercato</li>
+
+          <div class="hero-actions">
+            <a href="#form" class="btn btn-primary">Richiedi un audit</a>
+            <a href="#come-funziona" class="btn btn-secondary">Scopri come funziona</a>
+          </div>
+
+          <ul class="hero-points">
+            <li>Call to action più efficaci</li>
+            <li>Modulo richieste più chiaro</li>
+            <li>Esperienza mobile migliorata</li>
+            <li>Flusso contatti più ordinato</li>
           </ul>
         </div>
+      </section>
 
-        <div class="bg-white dark:bg-neutral-900/80 p-8 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-green-100 dark:bg-green-950/40 rounded-lg flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Ottimizzazione Presenza Online</h3>
-          <p class="text-gray-600 dark:text-neutral-300 mb-4">
-            Miglioriamo il sito web, le informazioni di contatto e la presentazione dei servizi per facilitare le prenotazioni dirette.
+      <section class="section">
+        <div class="container narrow">
+          <h2>Il problema non è solo essere online. È far lavorare davvero il sito.</h2>
+          <p>
+            Molte strutture turistiche hanno già un sito, una scheda Google o una presenza
+            sui portali, ma questo non basta per ottenere richieste dirette in modo costante.
           </p>
-          <ul class="text-gray-600 dark:text-neutral-300 space-y-2">
-            <li class="flex items-center"><span class="w-2 h-2 bg-green-600 rounded-full mr-3"></span>Miglioramento posizionamento Google</li>
-            <li class="flex items-center"><span class="w-2 h-2 bg-green-600 rounded-full mr-3"></span>Ottimizzazione contenuti e immagini</li>
-            <li class="flex items-center"><span class="w-2 h-2 bg-green-600 rounded-full mr-3"></span>Semplificazione contatti e prenotazioni</li>
+          <p>
+            Spesso il visitatore arriva sulla pagina, guarda alcune informazioni, ma non trova
+            un percorso chiaro per contattarti, chiedere disponibilità o compiere il passo successivo.
+          </p>
+          <p>
+            Il risultato è semplice: visite che non si trasformano in richieste, contatti poco chiari,
+            gestione dispersiva e maggiore dipendenza da intermediari e commissioni.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <h2>Le difficoltà più frequenti nelle attività turistiche</h2>
+
+          <div class="grid grid-3">
+            <article class="card card-accent">
+              <h3>Sito poco chiaro o poco visibile</h3>
+              <p>
+                La struttura online esiste, ma non comunica bene il valore della tua attività
+                e non accompagna il visitatore verso un’azione concreta.
+              </p>
+            </article>
+
+            <article class="card card-accent">
+              <h3>Call to action poco efficaci</h3>
+              <p>
+                I pulsanti e gli inviti al contatto non sono abbastanza visibili, convincenti
+                o posizionati nei punti giusti della pagina.
+              </p>
+            </article>
+
+            <article class="card card-accent">
+              <h3>Modulo richieste troppo generico</h3>
+              <p>
+                Molti form raccolgono poche informazioni utili oppure creano attrito,
+                rendendo più difficile capire e gestire bene la richiesta.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Troppe richieste via telefono o in modo dispersivo</h3>
+              <p>
+                Quando il sito non organizza bene il contatto, le informazioni arrivano in modo
+                frammentato e richiedono più tempo per essere gestite.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Esperienza mobile poco efficace</h3>
+              <p>
+                Su smartphone testi, pulsanti e campi possono risultare scomodi o poco leggibili,
+                con il rischio di perdere richieste utili.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Dipendenza da portali e intermediari</h3>
+              <p>
+                Se il sito non converte bene, la struttura resta più esposta a commissioni,
+                intermediazioni e minore controllo sul flusso delle richieste.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container narrow">
+          <h2>A chi è rivolto questo servizio</h2>
+          <p>
+            Questo servizio è pensato per realtà turistiche che vogliono migliorare la propria
+            presenza online in modo concreto, con un focus sulle richieste dirette e sulla gestione dei contatti.
+          </p>
+          <ul class="list-clean">
+            <li>B&amp;B e affittacamere</li>
+            <li>Agriturismi</li>
+            <li>Case vacanza</li>
+            <li>Piccoli hotel indipendenti</li>
+            <li>Attività esperienziali e operatori turistici locali</li>
           </ul>
-        </div>
-
-        <div class="bg-white dark:bg-neutral-900/80 p-8 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-purple-100 dark:bg-purple-950/40 rounded-lg flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-purple-600 dark:text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Visibilità Locale</h3>
-          <p class="text-gray-600 dark:text-neutral-300 mb-4">
-            Miglioriamo la presenza su Google Maps e nelle ricerche locali per intercettare i turisti che cercano strutture nella zona.
-          </p>
-          <ul class="text-gray-600 dark:text-neutral-300 space-y-2">
-            <li class="flex items-center"><span class="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>Ottimizzazione Google My Business</li>
-            <li class="flex items-center"><span class="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>Gestione recensioni online</li>
-            <li class="flex items-center"><span class="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>Local SEO specializzato</li>
-          </ul>
-        </div>
-
-        <div class="bg-white dark:bg-neutral-900/80 p-8 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="w-16 h-16 bg-orange-100 dark:bg-orange-950/40 rounded-lg flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-orange-600 dark:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 109.75 9.75A9.75 9.75 0 0012 2.25z"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Supporto Operativo</h3>
-          <p class="text-gray-600 dark:text-neutral-300 mb-4">
-            Assistenza continuativa per aggiornamenti, manutenzione e piccole modifiche senza dover gestire aspetti tecnici.
-          </p>
-          <ul class="text-gray-600 dark:text-neutral-300 space-y-2">
-            <li class="flex items-center"><span class="w-2 h-2 bg-orange-600 rounded-full mr-3"></span>Controllo mensile posizionamento</li>
-            <li class="flex items-center"><span class="w-2 h-2 bg-orange-600 rounded-full mr-3"></span>Aggiornamenti stagionali</li>
-            <li class="flex items-center"><span class="w-2 h-2 bg-orange-600 rounded-full mr-3"></span>Supporto tecnico quando serve</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sezione Processo -->
-  <section class="py-16 lg:py-24 bg-white dark:bg-neutral-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-          Il Nostro Processo
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-neutral-200 max-w-3xl mx-auto">
-          Un approccio strutturato in 4 fasi per garantire il successo della tua transizione digitale
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="text-center">
-          <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">
-            1
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Analisi</h3>
-          <p class="text-gray-600 dark:text-neutral-300">
-            Studiamo la tua attività, il mercato di riferimento e definiamo obiettivi chiari e misurabili.
+          <p>
+            È una soluzione adatta soprattutto a chi vuole migliorare ciò che già esiste,
+            senza affrontare subito un rifacimento completo del sito.
           </p>
         </div>
+      </section>
 
-        <div class="text-center">
-          <div class="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">
-            2
+      <section id="come-funziona" class="section section-alt">
+        <div class="container">
+          <h2>Come funziona</h2>
+
+          <div class="grid grid-3">
+            <article class="card step-card card-accent">
+              <span class="step-number">1</span>
+              <h3>Richiedi l’audit</h3>
+              <p>
+                Compili il form con il sito della tua struttura, la città e il tuo obiettivo principale.
+                In questo modo posso analizzare la situazione con un contesto chiaro.
+              </p>
+            </article>
+
+            <article class="card step-card card-accent">
+              <span class="step-number">2</span>
+              <h3>Ricevi una valutazione iniziale</h3>
+              <p>
+                Analizzo struttura della pagina, call to action, modulo richieste, esperienza mobile
+                e principali punti che possono frenare le richieste dirette.
+              </p>
+            </article>
+
+            <article class="card step-card card-accent">
+              <span class="step-number">3</span>
+              <h3>Decidi se attivare il setup</h3>
+              <p>
+                Se vuoi, posso occuparmi io delle ottimizzazioni principali, intervenendo in modo leggero
+                e mirato per migliorare conversione, contatti e chiarezza del percorso utente.
+              </p>
+            </article>
           </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Proposta Operativa</h3>
-          <p class="text-gray-600 dark:text-neutral-300">
-            Creiamo una strategia personalizzata con timeline, budget e KPI specifici per la tua realtà.
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <h2>Un percorso semplice, con un primo passo chiaro</h2>
+          <p class="section-intro">
+            L’obiettivo non è complicare il tuo sito, ma renderlo più efficace.
+            Per questo il servizio è organizzato in tre livelli progressivi.
+          </p>
+
+          <div class="grid grid-3 pricing-grid">
+            <article class="card pricing-card">
+              <h3>Audit richieste dirette</h3>
+              <p class="price">99 €</p>
+              <p class="price-copy">
+                Una valutazione iniziale per capire cosa sta frenando richieste,
+                contatti e conversione del sito.
+              </p>
+              <ul>
+                <li>Analisi homepage</li>
+                <li>Verifica call to action</li>
+                <li>Analisi modulo richieste</li>
+                <li>Controllo esperienza mobile</li>
+                <li>3 criticità principali</li>
+                <li>3 priorità operative</li>
+              </ul>
+            </article>
+
+            <article class="card pricing-card featured card-accent">
+              <span class="mini-badge">Consigliato</span>
+              <h3>Setup conversione</h3>
+              <p class="price">590 €</p>
+              <p class="price-copy">
+                Implementazione delle ottimizzazioni principali per migliorare
+                il percorso di contatto e la qualità delle richieste.
+              </p>
+              <ul>
+                <li>Ottimizzazione CTA principali</li>
+                <li>Revisione o miglioramento modulo richieste</li>
+                <li>Thank-you page più efficace</li>
+                <li>Email automatica di risposta</li>
+                <li>Micro miglioramenti UX</li>
+                <li>Flusso contatti più ordinato</li>
+              </ul>
+            </article>
+
+            <article class="card pricing-card">
+              <h3>Monitoraggio richieste</h3>
+              <p class="price">79 €/mese</p>
+              <p class="price-copy">
+                Un supporto leggero per controllare il funzionamento del flusso richieste
+                e continuare a migliorarlo nel tempo.
+              </p>
+              <ul>
+                <li>Controllo del flusso contatti</li>
+                <li>Mini report mensile</li>
+                <li>Una micro-ottimizzazione al mese</li>
+                <li>Verifica form e autoresponder</li>
+                <li>Supporto leggero continuativo</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <h2>Cosa puoi ottenere</h2>
+
+          <div class="grid grid-2">
+            <article class="card card-accent">
+              <h3>Più richieste dirette</h3>
+              <p>
+                Un percorso più chiaro aiuta il visitatore a compiere il passo successivo
+                e a contattarti con maggiore facilità.
+              </p>
+            </article>
+
+            <article class="card card-accent">
+              <h3>Contatti più leggibili e utili</h3>
+              <p>
+                Un modulo meglio progettato raccoglie informazioni più utili,
+                riduce la dispersione e facilita la gestione.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Meno tempo perso</h3>
+              <p>
+                Con un flusso più ordinato, diminuiscono richieste incomplete,
+                passaggi confusi e attività ripetitive.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Più controllo sui risultati</h3>
+              <p>
+                Migliorare sito, CTA e raccolta contatti aiuta la struttura
+                a lavorare con maggiore consapevolezza e autonomia.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Minore dipendenza da portali</h3>
+              <p>
+                Rafforzare il canale diretto significa dare più valore al tuo sito
+                e ridurre la dipendenza da intermediazioni esterne.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Un miglioramento concreto, non dispersivo</h3>
+              <p>
+                Il primo obiettivo non è rifare tutto, ma intervenire sui punti
+                che oggi possono limitare risultati e gestione.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container narrow">
+          <h2>Non un rifacimento totale. Un miglioramento mirato.</h2>
+          <p>
+            Questo servizio non nasce per complicare la tua presenza online con strumenti inutili
+            o interventi troppo pesanti.
+          </p>
+          <p>
+            Nasce per aiutarti a capire dove il sito perde opportunità e per intervenire
+            in modo concreto su ciò che conta davvero: chiarezza, contatto, usabilità e richieste dirette.
+          </p>
+          <p>
+            Il primo obiettivo non è rifare tutto, ma migliorare i punti che oggi possono limitare
+            risultati e gestione.
           </p>
         </div>
+      </section>
 
-        <div class="text-center">
-          <div class="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">
-            3
+      <section class="section section-alt">
+        <div class="container narrow">
+          <h2>Domande frequenti</h2>
+
+          <div class="faq">
+            <article class="faq-item">
+              <h3>Devo rifare il sito?</h3>
+              <p>
+                No. L’obiettivo iniziale è lavorare su miglioramenti mirati:
+                call to action, modulo richieste, esperienza mobile e flusso contatti.
+              </p>
+            </article>
+
+            <article class="faq-item">
+              <h3>Lavori anche su WordPress?</h3>
+              <p>
+                Sì. Posso intervenire su WordPress e su altre configurazioni comuni,
+                valutando caso per caso la soluzione più adatta.
+              </p>
+            </article>
+
+            <article class="faq-item">
+              <h3>Quanto tempo richiede l’audit?</h3>
+              <p>
+                In genere la valutazione iniziale può essere restituita entro 24–48 ore lavorative,
+                salvo casi particolari.
+              </p>
+            </article>
+
+            <article class="faq-item">
+              <h3>È adatto anche a strutture piccole?</h3>
+              <p>
+                Sì. È pensato soprattutto per realtà che vogliono migliorare richieste dirette
+                e gestione contatti senza affrontare subito interventi più complessi.
+              </p>
+            </article>
+
+            <article class="faq-item">
+              <h3>Posso acquistare solo l’audit?</h3>
+              <p>
+                Sì. L’audit è il primo passo e può essere richiesto anche senza attivare subito il setup.
+              </p>
+            </article>
+
+            <article class="faq-item">
+              <h3>Cosa succede dopo l’audit?</h3>
+              <p>
+                Ricevi una valutazione con criticità e priorità operative. Da lì puoi decidere
+                se implementare da solo o affidare a me il setup delle ottimizzazioni principali.
+              </p>
+            </article>
           </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Implementazione</h3>
-          <p class="text-gray-600 dark:text-neutral-300">
-            Realizziamo le soluzioni digitali pianificate con il massimo della qualità e attenzione ai dettagli.
+        </div>
+      </section>
+
+      <section id="form" class="section cta-section">
+        <div class="container narrow">
+          <h2>Richiedi una valutazione iniziale del sito della tua struttura</h2>
+          <p>
+            Compila il form per ricevere un primo riscontro su call to action, modulo richieste,
+            esperienza mobile e punti che possono ridurre le richieste dirette.
           </p>
-        </div>
 
-        <div class="text-center">
-          <div class="w-16 h-16 bg-orange-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">
-            4
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Ottimizzazione</h3>
-          <p class="text-gray-600 dark:text-neutral-300">
-            Monitoriamo i risultati e ottimizziamo continuamente per massimizzare il ROI.
+          <form method="POST" action="/api/richieste-dirette" class="lead-form">
+            <div class="form-grid">
+              <div class="field">
+                <label for="nome">Nome e cognome</label>
+                <input id="nome" name="nome" type="text" required />
+              </div>
+
+              <div class="field">
+                <label for="struttura">Nome struttura</label>
+                <input id="struttura" name="struttura" type="text" required />
+              </div>
+
+              <div class="field">
+                <label for="sito">Sito web</label>
+                <input id="sito" name="sito" type="url" required />
+              </div>
+
+              <div class="field">
+                <label for="citta">Città</label>
+                <input id="citta" name="citta" type="text" required />
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required />
+              </div>
+
+              <div class="field">
+                <label for="telefono">Telefono</label>
+                <input id="telefono" name="telefono" type="tel" />
+              </div>
+
+              <div class="field field-full">
+                <label for="obiettivo">Obiettivo principale</label>
+                <select id="obiettivo" name="obiettivo" required>
+                  <option value="">Seleziona un obiettivo</option>
+                  <option value="aumentare-richieste-dirette">Aumentare richieste dirette</option>
+                  <option value="migliorare-modulo-richieste">Migliorare modulo richieste</option>
+                  <option value="capire-conversione-bassa">Capire perché il sito converte poco</option>
+                  <option value="migliorare-esperienza-mobile">Migliorare esperienza mobile</option>
+                  <option value="altro">Altro</option>
+                </select>
+              </div>
+
+              <div class="field field-full">
+                <label for="messaggio">Messaggio</label>
+                <textarea id="messaggio" name="messaggio" rows="5"></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Invia richiesta</button>
+            <p class="form-note">
+              Riceverai un primo riscontro orientativo entro 24–48 ore lavorative.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section final-cta">
+        <div class="container narrow center">
+          <h2>Vuoi capire se il tuo sito sta perdendo richieste utili?</h2>
+          <p>
+            Parti da una valutazione iniziale e individua i punti che possono migliorare
+            contatti, chiarezza e richieste dirette.
           </p>
+          <a href="#form" class="btn btn-primary">Richiedi un audit</a>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
+    </main>
+  </Layout>
 
-  <!-- Sezione Vantaggi -->
-  <section class="py-16 lg:py-24 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-950 dark:to-slate-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-          I risultati che puoi ottenere
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-neutral-200 max-w-3xl mx-auto">
-          Miglioramenti concreti che noterai nella gestione quotidiana della tua attività
-        </p>
-      </div>
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="flex items-center mb-4">
-            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Più richieste dirette</h3>
-          </div>
-          <p class="text-gray-600 dark:text-neutral-300">Maggiori contatti e prenotazioni che arrivano direttamente dal tuo sito web.</p>
-        </div>
+  :global(*) {
+    box-sizing: border-box;
+  }
 
-        <div class="bg-white dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="flex items-center mb-4">
-            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Meno commissioni</h3>
-          </div>
-          <p class="text-gray-600 dark:text-neutral-300">Riduzione della dipendenza da portali di prenotazione e delle relative commissioni.</p>
-        </div>
+  .container {
+    width: min(1120px, calc(100% - 2rem));
+    margin: 0 auto;
+  }
 
-        <div class="bg-white dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="flex items-center mb-4">
-            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Più visibilità online</h3>
-          </div>
-          <p class="text-gray-600 dark:text-neutral-300">La tua struttura compare più facilmente quando i clienti cercano alloggi nella zona.</p>
-        </div>
+  .narrow {
+    width: min(820px, calc(100% - 2rem));
+    margin: 0 auto;
+  }
 
-        <div class="bg-white dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="flex items-center mb-4">
-            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Clienti più informati</h3>
-          </div>
-          <p class="text-gray-600 dark:text-neutral-300">I clienti trovano facilmente informazioni, prezzi e contatti, riducendo le chiamate ripetitive.</p>
-        </div>
+  .center {
+    text-align: center;
+  }
 
-        <div class="bg-white dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="flex items-center mb-4">
-            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Controllo dei risultati</h3>
-          </div>
-          <p class="text-gray-600 dark:text-neutral-300">Monitoraggio semplice e chiaro di visite al sito, richieste e posizionamento Google.</p>
-        </div>
+  .section {
+    padding: 5rem 0;
+  }
 
-        <div class="bg-white dark:bg-neutral-900/80 p-6 rounded-lg shadow-sm dark:shadow-black/20 dark:ring-1 dark:ring-neutral-800">
-          <div class="flex items-center mb-4">
-            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Gestione semplificata</h3>
-          </div>
-          <p class="text-gray-600 dark:text-neutral-300">Meno tempo dedicato a problemi tecnici, più tempo per accogliere i tuoi ospiti.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  .section-alt {
+    /* usa il background ereditato dal body/layout */
+  }
 
-  <!-- CTA Finale -->
-  <section class="py-16 lg:py-24 bg-blue-600 dark:bg-blue-700">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">
-        Richiedi una prima analisi della tua presenza digitale
-      </h2>
-      <p class="text-xl text-blue-100 mb-8">
-        Valutiamo insieme sito, visibilità online e modalità di contatto per individuare le principali aree di miglioramento.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/contatti" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-          Richiedi una verifica preliminare
-        </a>
-        <a href="/contatti" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
-          Contattaci
-        </a>
-      </div>
-    </div>
-  </section>
-</Layout>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 0 5rem;
+    /* background gestito dal body/layout */
+  }
+
+  .hero .container {
+    position: relative;
+    z-index: 1;
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: min(42%, 460px);
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(42vw, 620px);
+    height: 100%;
+    background: url("/images/turismo-hero-right.webp");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    pointer-events: none;
+    opacity: 1;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 30px;
+    padding: 0.2rem 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #2b5fe8;
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.14);
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0 0 1rem;
+    line-height: 1.15;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.7rem);
+    max-width: 12ch;
+    letter-spacing: -0.035em;
+  }
+
+  .section h2 {
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .section h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.14em;
+    width: 4px;
+    height: 1.08em;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #2563eb 0%, #60a5fa 100%);
+  }
+
+  h2 {
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
+  }
+
+  h3 {
+    font-size: 1.12rem;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+    max-width: 64ch;
+  }
+
+  .section-intro {
+    max-width: 64ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin: 1.8rem 0;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0.92rem 1.45rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    border: 1px solid transparent;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+    box-shadow: none;
+  }
+
+  .btn-primary:hover {
+    background: #111827;
+    border-color: #111827;
+  }
+
+  .btn-secondary {
+    background: #ffffff;
+    color: #111827;
+    border-color: #cbd5e1;
+    box-shadow: none;
+  }
+
+  .btn-secondary:hover {
+    border-color: #94a3b8;
+    background: #ffffff;
+  }
+
+  .hero-points,
+  .list-clean {
+    padding: 0;
+    margin: 1.25rem 0 0;
+    list-style: none;
+  }
+
+  .hero-points {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.95rem 1rem;
+    max-width: 780px;
+  }
+
+  .hero-points li,
+  .list-clean li,
+  .pricing-card ul li {
+    position: relative;
+    padding-left: 1.15rem;
+  }
+
+  .hero-points li::before,
+  .list-clean li::before,
+  .pricing-card ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.58em;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.09);
+  }
+
+  .list-clean li {
+    margin-bottom: 0.6rem;
+  }
+
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 1.25rem;
+    padding: 1.35rem;
+    box-shadow: 0 6px 22px rgba(15, 23, 42, 0.04);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.07);
+    border-color: rgba(148, 163, 184, 0.36);
+  }
+
+  :global(.dark) .card {
+    background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.92), rgba(15, 23, 42, 1));
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow:
+      0 18px 45px rgba(15, 23, 42, 0.68),
+      0 0 0 1px rgba(15, 23, 42, 0.7);
+  }
+
+  :global(.dark) .card:hover {
+    box-shadow:
+      0 22px 60px rgba(15, 23, 42, 0.8),
+      0 0 0 1px rgba(59, 130, 246, 0.3);
+    border-color: rgba(59, 130, 246, 0.65);
+  }
+
+  .card-accent {
+    overflow: hidden;
+  }
+
+  .card-accent::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, #2563eb 0%, #93c5fd 100%);
+  }
+
+  .card h3 {
+    position: relative;
+    padding-bottom: 0.55rem;
+  }
+
+  .card h3::after {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 2px;
+    margin-top: 0.55rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #60a5fa 0%, rgba(37, 99, 235, 0.2) 100%);
+  }
+
+  .card p {
+    color: #475569;
+  }
+
+  :global(.dark) .card p {
+    color: #9ca3af;
+  }
+
+  .step-number {
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #dbeafe;
+    color: #2563eb;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .pricing-card {
+    padding: 1.7rem 1.6rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .pricing-card h3 {
+    margin-bottom: 0.15rem;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+  }
+
+  .pricing-card .price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    margin-top: 0.15rem;
+    margin-bottom: 0.85rem;
+    line-height: 1;
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  :global(.dark) .pricing-card .price {
+    color: #f9fafb;
+  }
+
+  .price-copy {
+    margin-bottom: 1.05rem;
+    color: #4b5563;
+  }
+
+  :global(.dark) .price-copy {
+    color: #9ca3af;
+  }
+
+  .pricing-card ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .pricing-card li {
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-card.featured {
+    background:
+      linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+    border-color: rgba(37, 99, 235, 0.26);
+    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.08);
+  }
+
+  :global(.dark) .pricing-card.featured {
+    background:
+      radial-gradient(circle at top left, rgba(37, 99, 235, 0.36) 0%, transparent 60%),
+      radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.16) 0%, transparent 55%),
+      linear-gradient(180deg, #020617 0%, #020617 100%);
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow:
+      0 18px 52px rgba(15, 23, 42, 0.9),
+      0 0 0 1px rgba(59, 130, 246, 0.4);
+  }
+
+  .mini-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0.2rem 0.7rem;
+    margin-bottom: 0.9rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #bfdbfe;
+    background: rgba(37, 99, 235, 0.2);
+    border: 1px solid rgba(37, 99, 235, 0.4);
+  }
+
+  .faq {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .faq-item {
+    position: relative;
+    padding: 1.25rem 0 1.25rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .faq-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.35rem;
+    width: 3px;
+    height: 1.1rem;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #93c5fd 0%, #2563eb 100%);
+  }
+
+  .faq-item h3 {
+    margin-bottom: 0.45rem;
+  }
+
+  .faq-item p {
+    color: #9ca3af;
+  }
+
+  .cta-section {
+    background:
+      radial-gradient(circle at top right, rgba(37, 99, 235, 0.26) 0%, transparent 30%),
+      linear-gradient(180deg, #020617 0%, #020617 100%);
+  }
+
+  .lead-form {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 1.35rem;
+    background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    box-shadow:
+      0 22px 60px rgba(15, 23, 42, 0.95),
+      0 0 0 1px rgba(15, 23, 42, 0.9);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.42rem;
+  }
+
+  .field-full {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #e5e7eb;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.85rem 0.95rem;
+    border: 1px solid #334155;
+    border-radius: 0.95rem;
+    font: inherit;
+    background: #020617;
+    color: #e5e7eb;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: #475569;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.32);
+    background: #020617;
+  }
+
+  .form-note {
+    margin-top: 0.9rem;
+    font-size: 0.95rem;
+    color: #9ca3af;
+  }
+
+  .final-cta {
+    background:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.4) 0%, transparent 40%),
+      linear-gradient(180deg, #020617 0%, #020617 100%);
+  }
+
+  @media (max-width: 900px) {
+    .grid-3,
+    .grid-2,
+    .form-grid,
+    .hero-points {
+      grid-template-columns: 1fr;
+    }
+
+    .section {
+      padding: 4rem 0;
+    }
+
+    .hero {
+      padding: 5rem 0 4rem;
+    }
+
+    .hero .container {
+      min-height: auto;
+      padding-right: 0;
+    }
+
+    .hero::after {
+      display: none;
+    }
+
+    .section h2 {
+      padding-left: 0.85rem;
+    }
+  }
+</style>
