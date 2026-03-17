@@ -968,6 +968,10 @@ const serviceSchema = {
   }
 
   .cta-section {
+    background: #f9fafb;
+  }
+
+  :global(.dark) .cta-section {
     background:
       radial-gradient(circle at top right, rgba(37, 99, 235, 0.26) 0%, transparent 30%),
       linear-gradient(180deg, #020617 0%, #020617 100%);
@@ -977,6 +981,12 @@ const serviceSchema = {
     margin-top: 1.5rem;
     padding: 1.5rem;
     border-radius: 1.35rem;
+    background: #ffffff;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  :global(.dark) .lead-form {
     background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
     border: 1px solid rgba(148, 163, 184, 0.45);
     box-shadow:
@@ -1004,6 +1014,10 @@ const serviceSchema = {
   label {
     font-weight: 700;
     font-size: 0.95rem;
+    color: #0f172a;
+  }
+
+  :global(.dark) label {
     color: #e5e7eb;
   }
 
@@ -1013,11 +1027,11 @@ const serviceSchema = {
     width: 100%;
     min-height: 48px;
     padding: 0.85rem 0.95rem;
-    border: 1px solid #334155;
+    border: 1px solid #d1d5db;
     border-radius: 0.95rem;
     font: inherit;
-    background: #020617;
-    color: #e5e7eb;
+    background: #ffffff;
+    color: #0f172a;
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease,
@@ -1032,13 +1046,35 @@ const serviceSchema = {
   input:hover,
   select:hover,
   textarea:hover {
-    border-color: #475569;
+    border-color: #cbd5e1;
   }
 
   input:focus,
   select:focus,
   textarea:focus {
     outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.16);
+    background: #ffffff;
+  }
+
+  :global(.dark) input,
+  :global(.dark) select,
+  :global(.dark) textarea {
+    border-color: #334155;
+    background: #020617;
+    color: #e5e7eb;
+  }
+
+  :global(.dark) input:hover,
+  :global(.dark) select:hover,
+  :global(.dark) textarea:hover {
+    border-color: #475569;
+  }
+
+  :global(.dark) input:focus,
+  :global(.dark) select:focus,
+  :global(.dark) textarea:focus {
     border-color: #60a5fa;
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.32);
     background: #020617;
@@ -1051,6 +1087,10 @@ const serviceSchema = {
   }
 
   .final-cta {
+    background: #f9fafb;
+  }
+
+  :global(.dark) .final-cta {
     background:
       radial-gradient(circle at top, rgba(37, 99, 235, 0.4) 0%, transparent 40%),
       linear-gradient(180deg, #020617 0%, #020617 100%);
