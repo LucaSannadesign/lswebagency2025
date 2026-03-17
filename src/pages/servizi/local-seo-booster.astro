@@ -32,38 +32,56 @@ const metadata = {
   <!-- HERO -->
   <section class="relative overflow-hidden">
     <div class="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-100 via-white to-white dark:from-emerald-900/30 dark:via-transparent"></div>
-    <div class="container mx-auto px-6 pt-16 pb-10 text-center">
-      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200 ring-1 ring-emerald-200/60 dark:ring-emerald-700/50">
-        Local SEO · Google Business Profile
-      </span>
+    <div class="container mx-auto px-6 pt-16 pb-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <!-- Colonna sinistra: testo + CTA -->
+        <div class="text-center lg:text-left">
+          <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200 ring-1 ring-emerald-200/60 dark:ring-emerald-700/50">
+            Local SEO · Google Business Profile
+          </span>
 
-      <!-- H1 con gradiente nero → verde (dark: bianco → verde chiaro) -->
-      <h1
-        class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight
-               text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
-               bg-gradient-to-r from-black via-emerald-700 to-emerald-300
-               dark:from-white dark:via-emerald-400 dark:to-emerald-200">
-        Local SEO Booster
-      </h1>
+          <!-- H1 con gradiente nero → verde (dark: bianco → verde chiaro) -->
+          <h1
+            class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight
+                   text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
+                   bg-gradient-to-r from-black via-emerald-700 to-emerald-300
+                   dark:from-white dark:via-emerald-400 dark:to-emerald-200">
+            Local SEO Booster
+          </h1>
 
-      <p class="mt-3 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
-        Più visite local, più chiamate e richieste via Google. Setup completo del
-        profilo, ottimizzazioni on-page locali e crescita costante nel Local Pack.
-      </p>
+          <p class="mt-3 max-w-3xl mx-auto lg:mx-0 text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+            Più visite local, più chiamate e richieste via Google. Setup completo del
+            profilo, ottimizzazioni on-page locali e crescita costante nel Local Pack.
+          </p>
 
-      <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <a href="#prezzi" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-emerald-600 hover:bg-emerald-700 transition">
-          Vedi prezzi
-        </a>
-        <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-          Parla con Luca
-        </a>
-      </div>
+          <div class="mt-6 flex flex-wrap justify-center lg:justify-start gap-3">
+            <a href="#prezzi" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-emerald-600 hover:bg-emerald-700 transition">
+              Vedi prezzi
+            </a>
+            <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              Parla con Luca
+            </a>
+          </div>
 
-      <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-neutral-600 dark:text-neutral-300">
-        <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Per attività locali &amp; multi-sede</div>
-        <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Focus su GBP + Local Pack</div>
-        <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Risultati misurabili</div>
+          <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-neutral-600 dark:text-neutral-300">
+            <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Per attività locali &amp; multi-sede</div>
+            <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Focus su GBP + Local Pack</div>
+            <div class="rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Risultati misurabili</div>
+          </div>
+        </div>
+
+        <!-- Colonna destra: immagine hero -->
+        <div class="relative flex items-center justify-center">
+          <div class="relative w-full max-w-xl aspect-video">
+            <img
+              src="/images/seo-locale-dashboard-transparent.webp"
+              alt="Dashboard SEO locale con Google Business Profile, ranking locali, click al sito e chiamate"
+              class="w-full h-full object-contain"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </section>

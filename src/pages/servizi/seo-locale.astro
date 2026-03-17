@@ -25,7 +25,7 @@ const metadata = {
     <!-- Container globale: allineato perfettamente con header (max-w-7xl + px-3 md:px-6) -->
     <div class="relative mx-auto w-full max-w-7xl px-3 md:px-6 py-12 md:py-16 lg:py-20">
       <!-- Main Grid: Text Left, Image Right -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh] lg:min-h-[80vh]">
+      <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-8 lg:gap-16 items-center min-h-[60vh] lg:min-h-[80vh]">
         
         <!-- Text Block -->
         <div class="flex flex-col justify-center space-y-6">
@@ -82,42 +82,14 @@ const metadata = {
 
         <!-- Image/Mockup Block -->
         <div class="relative hidden lg:flex items-center justify-center">
-          <!-- Atmospheric glow background -->
-          <div class="absolute inset-0 bg-gradient-radial from-purple-400/15 via-indigo-300/8 to-transparent rounded-full blur-3xl opacity-25 dark:opacity-15 scale-125"></div>
-          
-          <!-- Mockup container - Ready for premium 3D render -->
-          <div class="relative w-full max-w-xl aspect-video">
-            <!-- 
-              INSERT HERO MOCKUP IMAGE HERE
-              
-              Expected image specs:
-              - True 16:9 aspect ratio
-              - Min 1920x1080px (high resolution)
-              - Left 45% empty for text overlay
-              - Right 55% contains device composition
-              - Premium 3D render with soft lighting
-              - Transparent or matching gradient background
-              
-              Recommended format: WebP with PNG fallback
-              
-              Example implementation:
-              <img 
-                src="/images/hero/seo-locale-mockup.webp" 
-                alt="Modern SEO dashboard interface on multiple devices"
-                class="w-full h-full object-contain"
-                loading="eager"
-                decoding="async"
-              />
-            -->
-            
-            <!-- Temporary placeholder (remove when adding real image) -->
-            <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-100/30 to-indigo-50/20 dark:from-purple-950/20 dark:to-indigo-900/10 ring-1 ring-purple-200/40 dark:ring-purple-800/30 backdrop-blur-sm flex items-center justify-center">
-              <div class="text-center px-6">
-                <Icon name="tabler:device-desktop-analytics" class="w-20 h-20 text-purple-600/70 dark:text-purple-400/60 mx-auto mb-4" />
-                <p class="text-sm text-neutral-500 dark:text-neutral-400 font-medium">SEO Dashboard Mockup</p>
-                <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-1">Replace with 3D render</p>
-              </div>
-            </div>
+          <div class="relative w-full max-w-2xl aspect-video">
+            <img
+              src="/images/seo-locale-dashboard-transparent.webp"
+              alt="Dashboard SEO locale con Google Business Profile, ranking locali, click al sito e chiamate"
+              class="w-full h-full object-contain"
+              loading="eager"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
