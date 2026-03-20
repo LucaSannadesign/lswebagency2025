@@ -1,0 +1,870 @@
+---
+const slides = [
+  {
+    chipLabel: "Voucher digitali",
+    title: "Sito, presenza online e conversione",
+    text: "Una soluzione per attività e professionisti che vogliono comunicare meglio, trasmettere fiducia e semplificare i contatti.",
+    points: ["Messaggio più chiaro", "Pagine strutturate", "Presenza credibile"],
+    ctaLabel: "Richiedi una valutazione",
+    ctaHref: "/contatti",
+    colorKey: "blue"
+  },
+  {
+    chipLabel: "Per chi è utile",
+    title: "Imprese, studi e professionisti locali",
+    text: "Un sito poco chiaro o datato ha un effetto immediato: meno fiducia, meno richieste, meno opportunità.",
+    points: ["Attività locali", "Studi professionali", "Piccole imprese"],
+    ctaLabel: "Scopri se fa per te",
+    ctaHref: "/contatti",
+    colorKey: "green"
+  },
+  {
+    chipLabel: "Cosa si migliora",
+    title: "Design, UX, contenuti e struttura",
+    text: "Piccoli interventi mirati possono migliorare percezione, leggibilità e qualità dei contatti senza complicare il sito.",
+    points: ["Gerarchia visiva", "CTA efficaci", "Navigazione semplice"],
+    ctaLabel: "Valuta il tuo sito",
+    ctaHref: "/audit-ai",
+    colorKey: "purple"
+  },
+  {
+    chipLabel: "Primo passo",
+    title: "Analisi chiara, non promesse generiche",
+    text: "Ti aiuto a capire priorità, margini di miglioramento e direzione corretta prima di investire budget in modo dispersivo.",
+    points: ["Analisi mirata", "Indicazioni concrete", "Approccio sostenibile"],
+    ctaLabel: "Contattami",
+    ctaHref: "/contatti",
+    colorKey: "amber"
+  }
+];
+---
+
+<section class="vs" aria-label="Slider voucher e opportunità digitali">
+  <div class="vs__nav">
+    <span class="vs__eyebrow">Opportunità digitali</span>
+
+    <div class="vs__nav-arrows">
+      <button type="button" class="vs__arrow" data-prev aria-label="Slide precedente">←</button>
+      <button type="button" class="vs__arrow" data-next aria-label="Slide successiva">→</button>
+    </div>
+  </div>
+
+  <div class="vs__progress" aria-hidden="true">
+    {slides.map((_, i) => (
+      <button class={`vs__bar${i === 0 ? " is-active" : ""}`} data-bar={i} aria-label={`Progress slide ${i + 1}`}>
+        <span class="vs__bar-fill"></span>
+      </button>
+    ))}
+  </div>
+
+  <div class="vs__viewport" data-viewport>
+    {slides.map((slide, i) => (
+      <article
+        class={`vs__slide vs__slide--${slide.colorKey}${i === 0 ? " is-active" : ""}`}
+        data-slide={i}
+        aria-label={`Slide ${i + 1} di ${slides.length}`}
+        aria-hidden={i !== 0 ? "true" : "false"}
+      >
+        <div class="vs__content">
+          <div class="vs__chip">
+            <span class="vs__chip-dot" aria-hidden="true"></span>
+            {slide.chipLabel}
+          </div>
+
+          <div class="vs__body">
+            <h3 class="vs__title">{slide.title}</h3>
+            <p class="vs__text">{slide.text}</p>
+
+            <ul class="vs__points" aria-label="Punti chiave">
+              {slide.points.map((p) => <li>{p}</li>)}
+            </ul>
+          </div>
+
+          <div class="vs__bottom">
+            <a class="vs__cta" href={slide.ctaHref}>
+              {slide.ctaLabel}
+              <span class="vs__cta-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="vs__visual" aria-hidden="true">
+          <div class="vs__bignum">{String(i + 1).padStart(2, "0")}</div>
+          <div class="vs__glow"></div>
+
+          <div class="vs__art">
+            {i === 0 && (
+              <svg viewBox="0 0 300 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="60" x2="300" y2="60" stroke="rgba(99,102,241,.12)" stroke-width=".8"/>
+                <line x1="0" y1="120" x2="300" y2="120" stroke="rgba(99,102,241,.12)" stroke-width=".8"/>
+                <line x1="0" y1="180" x2="300" y2="180" stroke="rgba(99,102,241,.12)" stroke-width=".8"/>
+                <line x1="0" y1="240" x2="300" y2="240" stroke="rgba(99,102,241,.12)" stroke-width=".8"/>
+                <line x1="60" y1="0" x2="60" y2="280" stroke="rgba(99,102,241,.12)" stroke-width=".8"/>
+                <line x1="120" y1="0" x2="120" y2="280" stroke="rgba(99,102,241,.12)" stroke-width=".8"/>
+                <line x1="180" y1="0" x2="180" y2="280" stroke="rgba(99,102,241,.12)" stroke-width=".8"/>
+                <line x1="240" y1="0" x2="240" y2="280" stroke="rgba(99,102,241,.12)" stroke-width=".8"/>
+
+                <g class="vs-art-float-up">
+                  <rect x="28" y="44" width="180" height="116" rx="10" stroke="rgba(99,102,241,.4)" stroke-width="1.2" fill="rgba(99,102,241,.05)"/>
+                  <rect x="28" y="44" width="180" height="28" rx="10" fill="rgba(99,102,241,.12)"/>
+                  <rect x="28" y="58" width="180" height="14" fill="rgba(99,102,241,.12)"/>
+                  <rect x="40" y="84" width="100" height="5" rx="2.5" fill="rgba(99,102,241,.3)"/>
+                  <rect x="40" y="96" width="70" height="4" rx="2" fill="rgba(99,102,241,.18)"/>
+                  <rect x="40" y="110" width="140" height="4" rx="2" fill="rgba(99,102,241,.18)"/>
+                  <rect x="40" y="122" width="90" height="4" rx="2" fill="rgba(99,102,241,.12)"/>
+                  <rect x="40" y="138" width="68" height="14" rx="7" fill="rgba(99,102,241,.35)" stroke="rgba(99,102,241,.5)" stroke-width=".8"/>
+                </g>
+
+                <g class="vs-art-float-down">
+                  <rect x="148" y="128" width="124" height="88" rx="8" stroke="rgba(56,189,248,.3)" stroke-width="1" fill="rgba(56,189,248,.04)"/>
+                  <rect x="160" y="144" width="60" height="4" rx="2" fill="rgba(56,189,248,.3)"/>
+                  <rect x="160" y="155" width="90" height="3" rx="1.5" fill="rgba(56,189,248,.18)"/>
+                  <rect x="160" y="164" width="72" height="3" rx="1.5" fill="rgba(56,189,248,.14)"/>
+                  <circle cx="200" cy="188" r="12" stroke="rgba(56,189,248,.3)" stroke-width="1" fill="rgba(56,189,248,.08)"/>
+                  <line x1="194" y1="188" x2="206" y2="188" stroke="rgba(56,189,248,.5)" stroke-width="1.5"/>
+                  <line x1="200" y1="182" x2="200" y2="194" stroke="rgba(56,189,248,.5)" stroke-width="1.5"/>
+                </g>
+
+                <circle cx="60" cy="60" r="3" fill="rgba(99,102,241,.45)"/>
+                <circle cx="120" cy="60" r="2" fill="rgba(56,189,248,.35)"/>
+                <circle cx="180" cy="180" r="3" fill="rgba(99,102,241,.35)"/>
+                <circle cx="240" cy="120" r="2" fill="rgba(56,189,248,.4)"/>
+                <circle cx="60" cy="240" r="2.5" fill="rgba(167,139,250,.35)"/>
+              </svg>
+            )}
+
+            {i === 1 && (
+              <svg viewBox="0 0 300 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="150" y1="140" x2="80" y2="80" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+                <line x1="150" y1="140" x2="220" y2="80" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+                <line x1="150" y1="140" x2="60" y2="190" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+                <line x1="150" y1="140" x2="240" y2="190" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+                <line x1="150" y1="140" x2="150" y2="230" stroke="rgba(16,185,129,.2)" stroke-width="1"/>
+                <line x1="80" y1="80" x2="60" y2="190" stroke="rgba(16,185,129,.1)" stroke-width=".8"/>
+                <line x1="220" y1="80" x2="240" y2="190" stroke="rgba(16,185,129,.1)" stroke-width=".8"/>
+
+                <g class="vs-art-pulse">
+                  <circle cx="150" cy="140" r="28" fill="rgba(16,185,129,.1)" stroke="rgba(16,185,129,.4)" stroke-width="1.2"/>
+                  <circle cx="150" cy="140" r="18" fill="rgba(16,185,129,.15)" stroke="rgba(16,185,129,.5)" stroke-width="1"/>
+                  <circle cx="150" cy="140" r="7" fill="rgba(16,185,129,.7)"/>
+                </g>
+
+                <g class="vs-art-float-up">
+                  <circle cx="80" cy="80" r="18" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.35)" stroke-width="1"/>
+                  <circle cx="80" cy="80" r="6" fill="rgba(52,211,153,.5)"/>
+                  <rect x="60" y="100" width="40" height="10" rx="5" fill="rgba(16,185,129,.18)"/>
+                </g>
+
+                <g class="vs-art-float-down">
+                  <circle cx="220" cy="80" r="14" fill="rgba(45,212,191,.08)" stroke="rgba(45,212,191,.3)" stroke-width="1"/>
+                  <circle cx="220" cy="80" r="5" fill="rgba(45,212,191,.5)"/>
+                </g>
+
+                <g class="vs-art-float-up" style="animation-delay:1.2s">
+                  <circle cx="60" cy="190" r="16" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.3)" stroke-width="1"/>
+                  <circle cx="60" cy="190" r="6" fill="rgba(16,185,129,.5)"/>
+                </g>
+
+                <g class="vs-art-float-down" style="animation-delay:.3s">
+                  <circle cx="240" cy="190" r="20" fill="rgba(52,211,153,.06)" stroke="rgba(52,211,153,.28)" stroke-width="1"/>
+                  <circle cx="240" cy="190" r="7" fill="rgba(52,211,153,.4)"/>
+                </g>
+
+                <g class="vs-art-float-up" style="animation-delay:.9s">
+                  <circle cx="150" cy="230" r="12" fill="rgba(45,212,191,.08)" stroke="rgba(45,212,191,.3)" stroke-width=".8"/>
+                  <circle cx="150" cy="230" r="4" fill="rgba(45,212,191,.5)"/>
+                </g>
+
+                <circle cx="150" cy="140" r="56" stroke="rgba(16,185,129,.1)" stroke-width=".8" stroke-dasharray="5 4"/>
+              </svg>
+            )}
+
+            {i === 2 && (
+              <svg viewBox="0 0 300 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="150" cy="140" r="90" stroke="rgba(139,92,246,.06)" stroke-width="1"/>
+                <circle cx="150" cy="140" r="60" stroke="rgba(139,92,246,.08)" stroke-width=".8"/>
+
+                <g class="vs-art-float-up">
+                  <rect x="60" y="170" width="180" height="50" rx="10" fill="rgba(109,40,217,.08)" stroke="rgba(109,40,217,.2)" stroke-width="1"/>
+                  <rect x="72" y="183" width="80" height="4" rx="2" fill="rgba(139,92,246,.25)"/>
+                  <rect x="72" y="194" width="110" height="3" rx="1.5" fill="rgba(139,92,246,.15)"/>
+                  <rect x="72" y="203" width="60" height="3" rx="1.5" fill="rgba(139,92,246,.1)"/>
+
+                  <rect x="44" y="122" width="180" height="52" rx="10" fill="rgba(124,58,237,.1)" stroke="rgba(124,58,237,.28)" stroke-width="1"/>
+                  <rect x="56" y="135" width="60" height="5" rx="2.5" fill="rgba(167,139,250,.4)"/>
+                  <rect x="56" y="148" width="130" height="3.5" rx="1.5" fill="rgba(139,92,246,.22)"/>
+                  <rect x="56" y="159" width="90" height="3" rx="1.5" fill="rgba(139,92,246,.14)"/>
+                  <rect x="166" y="134" width="44" height="14" rx="7" fill="rgba(139,92,246,.28)" stroke="rgba(167,139,250,.3)" stroke-width=".8"/>
+
+                  <rect x="28" y="70" width="180" height="56" rx="10" fill="rgba(139,92,246,.12)" stroke="rgba(167,139,250,.35)" stroke-width="1.1"/>
+                  <rect x="28" y="70" width="180" height="22" rx="10" fill="rgba(167,139,250,.1)"/>
+                  <rect x="28" y="82" width="180" height="10" fill="rgba(167,139,250,.1)"/>
+                  <rect x="40" y="106" width="100" height="5" rx="2.5" fill="rgba(167,139,250,.45)"/>
+                  <rect x="40" y="116" width="70" height="4" rx="2" fill="rgba(167,139,250,.25)"/>
+                  <rect x="148" y="102" width="46" height="14" rx="7" fill="rgba(139,92,246,.5)" stroke="rgba(196,181,253,.4)" stroke-width=".8"/>
+                </g>
+
+                <circle cx="218" cy="130" r="3" fill="rgba(167,139,250,.5)"/>
+                <circle cx="230" cy="150" r="2" fill="rgba(167,139,250,.35)"/>
+                <circle cx="218" cy="168" r="3" fill="rgba(139,92,246,.4)"/>
+                <line x1="218" y1="133" x2="225" y2="147" stroke="rgba(167,139,250,.25)" stroke-width=".8"/>
+                <line x1="227" y1="153" x2="220" y2="165" stroke="rgba(139,92,246,.2)" stroke-width=".8"/>
+              </svg>
+            )}
+
+            {i === 3 && (
+              <svg viewBox="0 0 300 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 60 60 C 60 60, 110 60, 110 110 C 110 160, 60 160, 60 210" stroke="rgba(245,158,11,.15)" stroke-width="12" stroke-linecap="round"/>
+                <path d="M 150 50 L 150 230" stroke="rgba(245,158,11,.08)" stroke-width="2" stroke-dasharray="6 5"/>
+                <path d="M 240 70 C 240 70, 190 70, 190 120 C 190 170, 240 170, 240 220" stroke="rgba(251,191,36,.12)" stroke-width="10" stroke-linecap="round"/>
+
+                <g class="vs-art-float-up">
+                  <rect x="34" y="38" width="90" height="44" rx="9" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.28)" stroke-width="1"/>
+                  <rect x="42" y="50" width="40" height="4" rx="2" fill="rgba(251,191,36,.45)"/>
+                  <rect x="42" y="60" width="70" height="3" rx="1.5" fill="rgba(245,158,11,.25)"/>
+                  <rect x="42" y="68" width="50" height="3" rx="1.5" fill="rgba(245,158,11,.15)"/>
+                  <circle cx="108" cy="60" r="10" fill="rgba(245,158,11,.18)" stroke="rgba(251,191,36,.4)" stroke-width="1"/>
+                </g>
+
+                <g class="vs-art-float-down" style="animation-delay:.5s">
+                  <rect x="34" y="138" width="90" height="44" rx="9" fill="rgba(249,115,22,.08)" stroke="rgba(249,115,22,.22)" stroke-width="1"/>
+                  <rect x="42" y="150" width="50" height="4" rx="2" fill="rgba(251,191,36,.4)"/>
+                  <rect x="42" y="160" width="72" height="3" rx="1.5" fill="rgba(245,158,11,.22)"/>
+                  <rect x="42" y="168" width="45" height="3" rx="1.5" fill="rgba(245,158,11,.14)"/>
+                  <circle cx="108" cy="160" r="10" fill="rgba(249,115,22,.15)" stroke="rgba(251,191,36,.3)" stroke-width="1"/>
+                </g>
+
+                <g class="vs-art-float-up" style="animation-delay:1s">
+                  <rect x="178" y="88" width="90" height="44" rx="9" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="1"/>
+                  <rect x="186" y="100" width="60" height="4" rx="2" fill="rgba(251,191,36,.42)"/>
+                  <rect x="186" y="110" width="74" height="3" rx="1.5" fill="rgba(245,158,11,.22)"/>
+                  <rect x="186" y="118" width="50" height="3" rx="1.5" fill="rgba(245,158,11,.14)"/>
+                  <circle cx="192" cy="110" r="10" fill="rgba(245,158,11,.15)" stroke="rgba(251,191,36,.35)" stroke-width="1"/>
+                </g>
+
+                <path d="M 150 105 L 178 115" stroke="rgba(245,158,11,.2)" stroke-width="1" stroke-dasharray="4 3"/>
+                <path d="M 150 155 L 178 140" stroke="rgba(245,158,11,.15)" stroke-width="1" stroke-dasharray="4 3"/>
+
+                <g class="vs-art-pulse" style="animation-delay:.4s">
+                  <rect x="88" y="228" width="124" height="34" rx="17" fill="rgba(245,158,11,.12)" stroke="rgba(251,191,36,.35)" stroke-width="1"/>
+                  <rect x="100" y="239" width="60" height="4" rx="2" fill="rgba(251,191,36,.45)"/>
+                  <rect x="166" y="237" width="8" height="8" rx="4" fill="rgba(245,158,11,.6)"/>
+                </g>
+              </svg>
+            )}
+          </div>
+
+          <div class="vs__badges">
+            <span>UX</span>
+            <span>SEO</span>
+            <span>AI</span>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="vs__footer">
+    <div class="vs__mobile-arrows">
+      <button type="button" class="vs__arrow" data-prev aria-label="Slide precedente">←</button>
+      <button type="button" class="vs__arrow" data-next aria-label="Slide successiva">→</button>
+    </div>
+
+    <span class="vs__counter" data-counter>01 / 04</span>
+
+    <div class="vs__dots" aria-label="Indicatori slide">
+      {slides.map((_, i) => (
+        <button
+          type="button"
+          class={`vs__dot${i === 0 ? " is-active" : ""}`}
+          data-dot={i}
+          aria-label={`Vai alla slide ${i + 1}`}
+          aria-pressed={i === 0 ? "true" : "false"}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll('.vs').forEach((root) => {
+      const slides = Array.from(root.querySelectorAll('[data-slide]'));
+      const bars = Array.from(root.querySelectorAll('[data-bar]'));
+      const dots = Array.from(root.querySelectorAll('[data-dot]'));
+      const counter = root.querySelector('[data-counter]');
+      const DELAY = 4800;
+      let current = 0;
+      let autoTimer = null;
+      const total = slides.length;
+
+      const pad = (n) => String(n + 1).padStart(2, '0');
+
+      function syncBars(active) {
+        bars.forEach((bar, i) => {
+          const fill = bar.querySelector('.vs__bar-fill');
+          bar.classList.remove('is-active', 'is-done');
+          fill.classList.remove('is-animating');
+          fill.style.width = '';
+
+          if (i < active) {
+            bar.classList.add('is-done');
+          } else if (i === active) {
+            bar.classList.add('is-active');
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => fill.classList.add('is-animating'));
+            });
+          }
+        });
+      }
+
+      function updateDotsAndCounter() {
+        dots.forEach((d, i) => {
+          d.classList.toggle('is-active', i === current);
+          d.setAttribute('aria-pressed', i === current ? 'true' : 'false');
+        });
+
+        if (counter) counter.textContent = `${pad(current)} / ${pad(total - 1)}`;
+      }
+
+      function goTo(next) {
+        const target = ((next % total) + total) % total;
+        if (target === current) return;
+
+        const leaving = slides[current];
+        leaving.classList.remove('is-active');
+        leaving.classList.add('is-leaving');
+        leaving.setAttribute('aria-hidden', 'true');
+
+        setTimeout(() => leaving.classList.remove('is-leaving'), 480);
+
+        current = target;
+
+        slides[current].classList.add('is-active');
+        slides[current].setAttribute('aria-hidden', 'false');
+
+        updateDotsAndCounter();
+        syncBars(current);
+      }
+
+      function stopAuto() {
+        clearInterval(autoTimer);
+        autoTimer = null;
+
+        const fill = bars[current]?.querySelector('.vs__bar-fill');
+        if (fill) {
+          const computed = window.getComputedStyle(fill).width;
+          fill.classList.remove('is-animating');
+          fill.style.width = computed;
+        }
+      }
+
+      function startAuto() {
+        stopAuto();
+        syncBars(current);
+        autoTimer = setInterval(() => goTo(current + 1), DELAY);
+      }
+
+      root.querySelectorAll('[data-prev]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          stopAuto();
+          goTo(current - 1);
+          startAuto();
+        });
+      });
+
+      root.querySelectorAll('[data-next]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          stopAuto();
+          goTo(current + 1);
+          startAuto();
+        });
+      });
+
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          stopAuto();
+          goTo(Number(dot.dataset.dot));
+          startAuto();
+        });
+      });
+
+      bars.forEach((bar) => {
+        bar.addEventListener('click', () => {
+          stopAuto();
+          goTo(Number(bar.dataset.bar));
+          startAuto();
+        });
+      });
+
+      root.addEventListener('mouseenter', stopAuto);
+      root.addEventListener('mouseleave', startAuto);
+      root.addEventListener('focusin', stopAuto);
+      root.addEventListener('focusout', startAuto);
+
+      updateDotsAndCounter();
+      syncBars(0);
+      startAuto();
+    });
+  })();
+</script>
+
+<style is:global>
+  @property --vs-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes vs-spin { to { --vs-angle: 360deg; } }
+  @keyframes vs-float-up { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  @keyframes vs-float-down { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+  @keyframes vs-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+  .vs,
+  .vs * {
+    box-sizing: border-box;
+  }
+
+  .vs {
+    position: relative;
+    border-radius: 28px;
+    background: #0a0d18;
+    overflow: hidden;
+    --vs-angle: 0deg;
+  }
+
+  .vs::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--vs-angle),
+      rgba(99,102,241,.6),
+      rgba(56,189,248,.5),
+      rgba(167,139,250,.6),
+      rgba(99,102,241,.6)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 10;
+    animation: vs-spin 8s linear infinite;
+  }
+
+  .vs__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.4rem 0;
+    position: relative;
+    z-index: 5;
+  }
+
+  .vs__eyebrow {
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(148,163,184,.55);
+    font-weight: 500;
+  }
+
+  .vs__nav-arrows {
+    display: flex;
+    gap: .5rem;
+  }
+
+  .vs__arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    color: rgba(255,255,255,.7);
+    cursor: pointer;
+    font-size: .9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s ease;
+    backdrop-filter: blur(8px);
+    line-height: 1;
+  }
+
+  .vs__arrow:hover,
+  .vs__arrow:focus-visible {
+    border-color: rgba(99,102,241,.5);
+    background: rgba(99,102,241,.12);
+    color: #fff;
+    outline: none;
+  }
+
+  .vs__progress {
+    display: flex;
+    gap: 6px;
+    padding: .9rem 1.4rem .6rem;
+    position: relative;
+    z-index: 5;
+  }
+
+  .vs__bar {
+    flex: 1;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.08);
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .vs__bar-fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #6366f1, #38bdf8);
+  }
+
+  .vs__bar.is-done .vs__bar-fill {
+    width: 100%;
+    background: rgba(99,102,241,.45);
+  }
+
+  .vs__bar.is-active .vs__bar-fill.is-animating {
+    width: 100%;
+    transition: width 4.8s linear;
+  }
+
+  .vs__viewport {
+    position: relative;
+    overflow: hidden;
+    min-height: 440px;
+  }
+
+  .vs__slide {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 0;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity .55s cubic-bezier(.4,0,.2,1), transform .55s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+
+  .vs__slide.is-active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .vs__slide.is-leaving {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity .4s ease, transform .4s ease;
+  }
+
+  .vs__content {
+    padding: 1.4rem 1.4rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .vs__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    width: fit-content;
+    padding: .3rem .75rem .3rem .55rem;
+    border-radius: 999px;
+    font-size: .68rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .vs__chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .vs__slide--blue .vs__chip { color: #bfdbfe; background: rgba(59,130,246,.12); border: 1px solid rgba(147,197,253,.18); }
+  .vs__slide--blue .vs__chip-dot { background: #60a5fa; }
+
+  .vs__slide--green .vs__chip { color: #a7f3d0; background: rgba(16,185,129,.12); border: 1px solid rgba(110,231,183,.18); }
+  .vs__slide--green .vs__chip-dot { background: #34d399; }
+
+  .vs__slide--purple .vs__chip { color: #ddd6fe; background: rgba(139,92,246,.12); border: 1px solid rgba(196,181,253,.18); }
+  .vs__slide--purple .vs__chip-dot { background: #a78bfa; }
+
+  .vs__slide--amber .vs__chip { color: #fde68a; background: rgba(245,158,11,.1); border: 1px solid rgba(252,211,77,.18); }
+  .vs__slide--amber .vs__chip-dot { background: #fbbf24; }
+
+  .vs__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .vs__title {
+    font-weight: 800;
+    font-size: clamp(1.5rem, 2.8vw, 2.3rem);
+    line-height: 1.02;
+    letter-spacing: -.04em;
+    color: #f8fafc;
+    max-width: 14ch;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .vs__text {
+    color: rgba(203,213,225,.7);
+    font-size: .9rem;
+    line-height: 1.7;
+    max-width: 44ch;
+    margin: 0;
+  }
+
+  .vs__points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    list-style: none;
+    margin-top: .25rem;
+    padding: 0;
+  }
+
+  .vs__points li {
+    font-size: .7rem;
+    letter-spacing: .04em;
+    padding: .3rem .7rem;
+    border-radius: 6px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.07);
+    color: rgba(226,232,240,.75);
+  }
+
+  .vs__bottom { padding-top: .25rem; }
+
+  .vs__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .65rem 1.1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .88rem;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+
+  .vs__slide--blue .vs__cta {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    box-shadow: 0 8px 24px rgba(99,102,241,.25);
+  }
+
+  .vs__slide--green .vs__cta {
+    background: linear-gradient(135deg,#059669,#10b981);
+    box-shadow: 0 8px 24px rgba(16,185,129,.25);
+  }
+
+  .vs__slide--purple .vs__cta {
+    background: linear-gradient(135deg,#7c3aed,#8b5cf6);
+    box-shadow: 0 8px 24px rgba(139,92,246,.25);
+  }
+
+  .vs__slide--amber .vs__cta {
+    background: linear-gradient(135deg,#d97706,#f59e0b);
+    box-shadow: 0 8px 24px rgba(245,158,11,.22);
+  }
+
+  .vs__cta:hover,
+  .vs__cta:focus-visible {
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  .vs__cta-arrow {
+    display: inline-block;
+    transition: transform .2s;
+  }
+
+  .vs__cta:hover .vs__cta-arrow,
+  .vs__cta:focus-visible .vs__cta-arrow {
+    transform: translateX(3px);
+  }
+
+  .vs__visual {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .vs__bignum {
+    position: absolute;
+    bottom: -0.15em;
+    right: -0.05em;
+    font-weight: 800;
+    font-size: 14rem;
+    line-height: 1;
+    letter-spacing: -.06em;
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
+  }
+
+  .vs__slide--blue .vs__bignum { color: rgba(59,130,246,.07); }
+  .vs__slide--green .vs__bignum { color: rgba(16,185,129,.07); }
+  .vs__slide--purple .vs__bignum { color: rgba(139,92,246,.07); }
+  .vs__slide--amber .vs__bignum { color: rgba(245,158,11,.07); }
+
+  .vs__glow {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 999px;
+    filter: blur(36px);
+    opacity: .7;
+    z-index: 0;
+    animation: vs-float-up 5s ease-in-out infinite;
+  }
+
+  .vs__slide--blue .vs__glow { background: radial-gradient(circle, rgba(96,165,250,.22), rgba(129,140,248,.14), transparent 70%); }
+  .vs__slide--green .vs__glow { background: radial-gradient(circle, rgba(52,211,153,.20), rgba(45,212,191,.12), transparent 70%); }
+  .vs__slide--purple .vs__glow { background: radial-gradient(circle, rgba(167,139,250,.22), rgba(129,140,248,.14), transparent 70%); }
+  .vs__slide--amber .vs__glow { background: radial-gradient(circle, rgba(251,191,36,.18), rgba(249,115,22,.10), transparent 70%); }
+
+  .vs__art {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .vs__art svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .vs__badges {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    z-index: 2;
+    display: flex;
+    gap: .4rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 160px;
+  }
+
+  .vs__badges span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 .7rem;
+    border-radius: 999px;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: rgba(224,242,254,.8);
+    background: rgba(10,13,24,.5);
+    border: 1px solid rgba(148,163,184,.12);
+    backdrop-filter: blur(8px);
+  }
+
+  .vs__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .8rem 1.4rem 1.1rem;
+    position: relative;
+    z-index: 5;
+    gap: 1rem;
+  }
+
+  .vs__counter {
+    font-size: .68rem;
+    color: rgba(148,163,184,.4);
+    letter-spacing: .08em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vs__dots {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+  }
+
+  .vs__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    cursor: pointer;
+    transition: all .25s;
+    border: 0;
+    padding: 0;
+  }
+
+  .vs__dot.is-active {
+    background: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.2);
+    transform: scale(1.3);
+  }
+
+  .vs__mobile-arrows {
+    display: none;
+    gap: .5rem;
+  }
+
+  .vs-art-float-up { animation: vs-float-up 4s ease-in-out infinite; }
+  .vs-art-float-down { animation: vs-float-down 3.5s ease-in-out infinite; }
+  .vs-art-pulse { animation: vs-pulse 3s ease-in-out infinite; transform-origin: center; }
+
+  .vs :focus-visible {
+    outline: 2px solid rgba(147,197,253,.6);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 760px) {
+    .vs__slide {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+    }
+
+    .vs__visual {
+      min-height: 220px;
+      order: -1;
+      border-top: 1px solid rgba(255,255,255,.04);
+    }
+
+    .vs__bignum { font-size: 9rem; }
+    .vs__nav-arrows { display: none; }
+    .vs__mobile-arrows { display: flex; }
+
+    .vs__footer {
+      flex-wrap: wrap;
+      gap: .75rem;
+    }
+  }
+</style>
+

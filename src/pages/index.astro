@@ -1,54 +1,48 @@
 ---
 /**
- * HOMEPAGE - SEO + CRO Audit
- * 
- * Focus Keyword: "agenzia web Sassari"
- * Keyword secondarie: "siti web professionali Sassari", "SEO locale Sassari", "sviluppo siti web Sardegna"
- * 
- * MODIFICHE APPLICATE:
- * - Sottotitolo hero: aggiunta keyword "agenzia web" + localizzazione più esplicita
- * - H2 servizi: keyword "siti web professionali" aggiunta
- * - Aggiunta sezione "Per chi è questo servizio" (micro-proof)
- * - Trust badges: più specifici con focus locale
- * - CTA finale: più action-oriented
- * - Keyword integrate in modo naturale (no stuffing)
- * - Sezione blog: Ultimi articoli (8 post) aggiunta
- * 
- * ACCORCIATO:
- * - Nulla (testi già concisi)
- * 
- * POTENZIATO:
- * - Value proposition hero (più specifica)
- * - Trust signals (localizzazione + specificità)
- * - Sezione servizi (keyword naturali)
- * - Blog sections (ultimi articoli + popolari)
+ * HOMEPAGE — lswebagency.com
+ *
+ * Focus Keyword : "agenzia web Sassari"
+ * Keyword sec.  : "siti web professionali Sassari", "SEO locale Sassari",
+ *                 "sviluppo siti web Sardegna"
  */
+
 import Layout from '@/layouts/PageLayout.astro';
+import VoucherSlider from "../components/VoucherSlider.astro";
 import { Icon } from 'astro-icon/components';
 import { findLatestPosts } from '@/utils/blog';
 import { APP_BLOG } from 'astrowind:config';
 import Grid from '@/components/blog/Grid.astro';
 import { getBlogPermalink } from '@/utils/permalinks';
 
-// Carica post per homepage (8 post più recenti)
 const latestPosts = APP_BLOG.isEnabled ? await findLatestPosts({ count: 4 }) : [];
 
-// DEBUG TEMPORANEO - Rimuovere dopo verifica
 if (import.meta.env.DEV) {
   console.log('[DEBUG HOME] APP_BLOG.isEnabled:', APP_BLOG.isEnabled);
   console.log('[DEBUG HOME] latestPosts.length:', latestPosts.length);
   console.log('[DEBUG HOME] latestPosts:', latestPosts.map(p => ({ title: p.title, slug: p.slug })));
 }
 
+/* ─────────────────────────────────────────────
+   META + SEO
+───────────────────────────────────────────── */
 const metadata = {
-  title: 'Realizzazione Siti Web e SEO Locale a Sassari | LS Web Agency',
+  title: 'Agenzia Web Sassari — Siti Web Professionali e SEO Locale | LS Web Agency',
   description:
-    'Creiamo siti web professionali e strategie SEO per attività locali, professionisti e PMI a Sassari, con collaborazioni da remoto in tutta Italia.',
+    'LS Web Agency Sassari: realizziamo siti web professionali e strategie SEO locale per attività, studi e PMI. Analisi gratuita, risposta in 24h.',
   canonical: '/',
   robots: { index: true, follow: true },
   openGraph: {
     url: 'https://www.lswebagency.com/',
     type: 'website',
+    images: [
+      {
+        url: 'https://www.lswebagency.com/images/og-home.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'LS Web Agency Sassari — Realizzazione siti web e SEO locale',
+      },
+    ],
   },
   twitter: {
     cardType: 'summary_large_image',
@@ -58,13 +52,153 @@ const metadata = {
   ignoreTitleTemplate: true,
 };
 
-const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sui%20servizi%20LS%20Web%20Agency.';
+/* ─────────────────────────────────────────────
+   SCHEMA — LocalBusiness
+───────────────────────────────────────────── */
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['ProfessionalService', 'LocalBusiness'],
+  '@id': 'https://www.lswebagency.com/#organization',
+  name: 'LS Web Agency di Luca Sanna',
+  alternateName: 'LS Web Agency',
+  url: 'https://www.lswebagency.com',
+  telephone: '+393403223494',
+  email: 'info@lswebagency.com',
+  priceRange: '€€',
+  image: 'https://www.lswebagency.com/images/og-home.jpg',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Via Alcide De Gasperi, 3',
+    addressLocality: 'Sassari',
+    postalCode: '07100',
+    addressRegion: 'SS',
+    addressCountry: 'IT',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 40.7259,
+    longitude: 8.5556,
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Sassari' },
+    { '@type': 'AdministrativeArea', name: 'Sardegna' },
+    { '@type': 'Country', name: 'Italia' },
+  ],
+  founder: {
+    '@type': 'Person',
+    name: 'Luca Sanna',
+    url: 'https://www.lucasanna.eu',
+  },
+  sameAs: [
+    'https://www.linkedin.com/in/lucasanna-art/',
+    'https://www.facebook.com/lucasannadesign/',
+    'https://www.instagram.com/lucasanna_art/',
+    'https://it.pinterest.com/lucasanna_art/',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    telephone: '+393403223494',
+    email: 'info@lswebagency.com',
+    areaServed: 'IT',
+    availableLanguage: ['it', 'en'],
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servizi LS Web Agency',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: 'Realizzazione siti web professionali a Sassari' },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: 'SEO locale Sassari' },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: 'AI e automazioni per PMI' },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: 'Strategia digitale e supporto continuativo' },
+      },
+    ],
+  },
+};
+
+/* ─────────────────────────────────────────────
+   SCHEMA — FAQPage
+───────────────────────────────────────────── */
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Quanto tempo serve per vedere risultati con la SEO?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Un sito nuovo è online in 2–4 settimane. Per Google Maps i primi miglioramenti si vedono in 30–60 giorni; i risultati SEO più solidi arrivano dopo 3–6 mesi di lavoro continuativo.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quanto costa un sito web professionale a Sassari?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Ogni progetto è diverso e dipende dalle esigenze dell'attività. Dopo l'analisi gratuita prepariamo un preventivo chiaro e dettagliato, senza sorprese.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Devo fornire testi e immagini per il sito?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No, non è necessario. Ci occupiamo noi di testi e immagini. Se hai già del materiale, lo usiamo e lo miglioriamo.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: "LS Web Agency lavora solo a Sassari o in tutta Italia?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Siamo a Sassari ma lavoriamo con clienti in tutta Italia. La maggior parte del lavoro avviene online, con aggiornamenti via video o telefono.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Posso modificare il sito da solo dopo la consegna?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Sì. Ti mostriamo come fare le modifiche base (testi, immagini, prezzi). Se preferisci, possiamo gestirle noi nel servizio di assistenza continuativa.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Cosa succede se il sito non porta risultati?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Lavoriamo finché non funziona. Seguiamo ogni progetto nel tempo, monitoriamo i dati e miglioriamo la strategia se i risultati attesi non arrivano.',
+      },
+    },
+  ],
+};
+
+const WHATSAPP =
+  'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sui%20servizi%20LS%20Web%20Agency.';
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO - Variante A: Brand + Credibilità -->
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
   <section class="relative isolate bg-brand-surface dark:bg-slate-950 overflow-hidden">
-    <!-- Glow effects -->
     <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
       <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-purple/20 rounded-full blur-3xl"></div>
       <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-blue/20 rounded-full blur-3xl"></div>
@@ -72,80 +206,73 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 
     <div class="mx-auto max-w-screen-xl px-6 md:px-8 pt-12 sm:pt-16 pb-12 lg:pb-16">
       <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
-        <!-- Testo Hero -->
-        <div class="text-center lg:text-left order-1 lg:order-1 min-w-0">
-          <!-- Micro-badge / Eyebrow -->
+        <div class="text-center lg:text-left order-1 min-w-0">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-white/70 dark:bg-white/10 backdrop-blur-sm rounded-full ring-1 ring-brand-ink/10 text-xs max-w-full whitespace-nowrap overflow-hidden text-ellipsis text-brand-ink dark:text-slate-300">
             <span class="w-2 h-2 rounded-full bg-brand-blue shrink-0"></span>
             <span class="font-semibold">LS Web Agency</span>
-            <span class="hidden sm:inline">· Realizzazione siti web e SEO a Sassari</span>
+            <span class="hidden sm:inline">· Agenzia web a Sassari</span>
           </div>
 
           <header>
-            <!-- H1 in massimo 2 righe -->
             <h1 class="text-4xl sm:text-5xl lg:text-[3rem] xl:text-[3.5rem] font-extrabold tracking-tight leading-[1.05] hero-title">
-              <span class="block">
-                <span class="t-dark">Realizzazione siti web</span>
-              </span>
-              <span class="block">
-                <span class="t-violet">e SEO locale a Sassari</span>
-              </span>
+              <span class="block"><span class="t-dark">Realizzazione siti web</span></span>
+              <span class="block"><span class="t-violet">e SEO locale a Sassari</span></span>
             </h1>
 
-            <!-- Paragrafo descrittivo -->
             <p class="mt-5 text-lg md:text-xl text-brand-ink/80 dark:text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
-              Realizziamo siti web veloci e strategie SEO locali per aiutare attività, studi e professionisti a ricevere più richieste da Google. Operiamo da Sassari e collaboriamo anche da remoto in tutta Italia.
+              Siamo un'agenzia web a Sassari. Realizziamo siti veloci e strategie SEO locali per aiutare attività, studi e professionisti a ricevere più richieste da Google.
             </p>
+
             <p class="mt-4 inline-block px-4 py-2 rounded-full bg-brand-blue/10 dark:bg-brand-blue/20 text-sm font-semibold text-brand-blue">
               Operiamo da Sassari · Collaboriamo da remoto in tutta Italia
             </p>
           </header>
 
-          <!-- CTA -->
-          <div class="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-3" aria-label="Azioni principali">
-            <!-- Primary CTA -->
-            <a 
-              href="/contatti" 
-              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-6 py-3 text-sm sm:px-8 sm:py-4 sm:text-base font-semibold text-white bg-brand-blue hover:bg-brand-blue/90 rounded-full shadow-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+          <div
+            class="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-3"
+            aria-label="Azioni principali"
+          >
+            <a
+              href="/contatti"
+              class="w-full max-w-sm sm:w-auto inline-flex items-center justify-center whitespace-nowrap px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white bg-brand-blue hover:bg-brand-blue/90 rounded-full shadow-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
             >
               Richiedi analisi gratuita
               <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
             </a>
-            <!-- Secondary CTA -->
-            <a 
-              href="/servizi" 
-              class="w-full max-w-sm sm:w-auto sm:max-w-none inline-flex items-center justify-center whitespace-nowrap px-6 py-3 text-sm sm:px-8 sm:py-4 sm:text-base font-semibold text-brand-ink dark:text-white bg-white dark:bg-slate-900/60 hover:bg-white/90 dark:hover:bg-slate-800 rounded-full ring-1 ring-brand-ink/10 dark:ring-slate-600 shadow-xs hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2"
+
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener"
+              class="w-full max-w-sm sm:w-auto inline-flex items-center justify-center whitespace-nowrap px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-brand-ink dark:text-white bg-white dark:bg-slate-900/60 hover:bg-white/90 dark:hover:bg-slate-800 rounded-full ring-1 ring-brand-ink/10 dark:ring-slate-600 shadow-xs hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2"
             >
-              Guarda esempi e servizi
+              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 shrink-0 text-green-500" />
+              Scrivici su WhatsApp
             </a>
           </div>
 
+     
         </div>
 
-        <!-- Visual Card -->
-        <div class="relative order-2 lg:order-2 mt-10 lg:mt-0 hidden sm:block">
+        <div class="relative order-2 mt-10 lg:mt-0 hidden sm:block">
           <div class="relative aspect-[16/10] rounded-3xl overflow-hidden bg-gradient-to-br from-brand-ink via-brand-purple/40 to-brand-blue/30 shadow-2xl ring-1 ring-white/10">
-            <!-- Radial glow dietro l'immagine -->
             <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
               <div class="h-72 w-72 rounded-full bg-brand-blue/40 blur-3xl opacity-80"></div>
             </div>
 
-            <!-- Visual mockup -->
             <img
               src="/images/lswebagency-hero-serp-contatti.webp"
-              alt="Anteprima del posizionamento su Google e delle richieste dal sito"
+              alt="Schermata del posizionamento su Google per un cliente LS Web Agency a Sassari"
               width="800"
-              height="600"
-              loading="lazy"
-              decoding="async"
-              fetchpriority="auto"
+              height="500"
+              loading="eager"
+              fetchpriority="high"
+              decoding="sync"
               class="w-full h-full object-cover hero-image-floating"
             />
-            
-            <!-- Overlay gradient per coerenza brand -->
+
             <div class="absolute inset-0 bg-gradient-to-br from-brand-ink/40 via-brand-purple/20 to-brand-blue/20 pointer-events-none mix-blend-multiply"></div>
-            
-            <!-- Mini-card sovrapposta -->
+
             <div class="absolute bottom-6 left-6 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg ring-1 ring-brand-ink/10">
               <div class="flex items-center gap-2">
                 <Icon name="tabler:clock" class="w-5 h-5 text-brand-blue" />
@@ -158,7 +285,9 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
     </div>
   </section>
 
-  <!-- SERVIZI PRINCIPALI / FOCUS LOCALE -->
+  <!-- ═══════════════════════════════════════
+       SERVIZI
+  ════════════════════════════════════════ -->
   <section id="servizi" class="relative bg-slate-50 dark:bg-slate-900/50 py-16 md:py-24">
     <div class="mx-auto max-w-screen-xl px-6 md:px-8">
       <div class="text-center mb-12">
@@ -171,7 +300,6 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
-        <!-- Siti Web Professionali -->
         <article class="group relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200 dark:border-slate-700 hover:-translate-y-2">
           <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full opacity-10 group-hover:opacity-20 transition-opacity"></div>
           <div class="relative">
@@ -209,7 +337,6 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           </div>
         </article>
 
-        <!-- SEO Locale -->
         <article class="group relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200 dark:border-slate-700 hover:-translate-y-2">
           <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full opacity-10 group-hover:opacity-20 transition-opacity"></div>
           <div class="relative">
@@ -247,7 +374,6 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           </div>
         </article>
 
-        <!-- Assistenza & Manutenzione -->
         <article class="group relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200 dark:border-slate-700 hover:-translate-y-2">
           <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-violet-500 to-violet-600 rounded-full opacity-10 group-hover:opacity-20 transition-opacity"></div>
           <div class="relative">
@@ -284,17 +410,24 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             </a>
           </div>
         </article>
-      </div>      <!-- Micro-CTA sotto servizi -->
+      </div>
+
       <div class="mt-10 text-center">
         <p class="text-slate-600 dark:text-slate-300 mb-4 text-base">Non sai da dove iniziare?</p>
-        <a href="/contatti" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200">
+        <a
+          href="/contatti"
+          class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200"
+        >
           <span>Parliamone insieme, gratis</span>
           <Icon name="tabler:arrow-right" class="w-4 h-4" />
         </a>
-      </div>    </div>
+      </div>
+    </div>
   </section>
 
-  <!-- COME FUNZIONA -->
+  <!-- ═══════════════════════════════════════
+       COME FUNZIONA
+  ════════════════════════════════════════ -->
   <section class="relative bg-white dark:bg-slate-950 py-16 md:py-24">
     <div class="mx-auto max-w-screen-xl px-6 md:px-8">
       <div class="text-center mb-12">
@@ -306,98 +439,66 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
         </p>
       </div>
 
-      <div class="max-w-4xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- Step 1 -->
+      <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+        {[
+          {
+            n: '1',
+            title: 'Ci contatti',
+            text: 'Compila il form o scrivici su WhatsApp. Ci racconti cosa fai e cosa vuoi ottenere.',
+          },
+          {
+            n: '2',
+            title: 'Analizziamo insieme',
+            text: 'Guardiamo la tua situazione attuale e ti diciamo cosa si può migliorare. Gratis.',
+          },
+          {
+            n: '3',
+            title: 'Piano su misura',
+            text: 'Ti prepariamo un piano chiaro: cosa facciamo, quanto tempo serve, quanto costa.',
+          },
+          {
+            n: '4',
+            title: 'Iniziamo a lavorare',
+            text: 'Partiamo subito. Ti teniamo aggiornato ogni settimana sui progressi.',
+          },
+        ].map(({ n, title, text }) => (
           <div class="flex gap-4">
             <div class="flex-shrink-0">
               <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-bold">
-                1
+                {n}
               </div>
             </div>
             <div>
-              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                Ci contatti
-              </h3>
-              <p class="text-slate-600 dark:text-slate-300">
-                Compila il form o scrivici su WhatsApp. Ci racconti cosa fai e cosa vuoi ottenere.
-              </p>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{title}</h3>
+              <p class="text-slate-600 dark:text-slate-300">{text}</p>
             </div>
           </div>
-
-          <!-- Step 2 -->
-          <div class="flex gap-4">
-            <div class="flex-shrink-0">
-              <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-bold">
-                2
-              </div>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                Analizziamo insieme
-              </h3>
-              <p class="text-slate-600 dark:text-slate-300">
-                Guardiamo la tua situazione attuale e ti diciamo cosa si può migliorare. Gratis.
-              </p>
-            </div>
-          </div>
-
-          <!-- Step 3 -->
-          <div class="flex gap-4">
-            <div class="flex-shrink-0">
-              <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-bold">
-                3
-              </div>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                Piano su misura
-              </h3>
-              <p class="text-slate-600 dark:text-slate-300">
-                Ti prepariamo un piano chiaro: cosa facciamo, quanto tempo serve, quanto costa.
-              </p>
-            </div>
-          </div>
-
-          <!-- Step 4 -->
-          <div class="flex gap-4">
-            <div class="flex-shrink-0">
-              <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-bold">
-                4
-              </div>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                Iniziamo a lavorare
-              </h3>
-              <p class="text-slate-600 dark:text-slate-300">
-                Partiamo subito. Ti teniamo aggiornato ogni settimana sui progressi.
-              </p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- PERCHÉ IMPORTA -->
+  <!-- ═══════════════════════════════════════
+       PERCHÉ IMPORTA
+  ════════════════════════════════════════ -->
   <section class="relative bg-slate-50 dark:bg-slate-900/50 py-16 md:py-24">
     <div class="mx-auto max-w-screen-xl px-6 md:px-8">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
           Perché è importante avere un sito che funziona
         </h2>
+
         <div class="space-y-6 text-lg text-slate-600 dark:text-slate-300 text-left">
           <p>
-            <strong class="text-slate-900 dark:text-white">Il 90% delle persone cerca online prima di comprare.</strong>
+            <strong class="text-slate-900 dark:text-white">Il 90% delle persone cerca online prima di comprare.</strong>{' '}
             Se non ti trovano, vanno dai tuoi concorrenti.
           </p>
           <p>
-            <strong class="text-slate-900 dark:text-white">Un sito lento o confuso fa scappare i clienti.</strong>
+            <strong class="text-slate-900 dark:text-white">Un sito lento o confuso fa scappare i clienti.</strong>{' '}
             Bastano 3 secondi di attesa per perdere metà dei visitatori.
           </p>
           <p>
-            <strong class="text-slate-900 dark:text-white">Apparire su Google Maps porta clienti veri.</strong>
+            <strong class="text-slate-900 dark:text-white">Apparire su Google Maps porta clienti veri.</strong>{' '}
             Chi cerca nella tua zona è pronto a comprare, non sta solo guardando.
           </p>
           <p class="pt-4 text-center">
@@ -410,7 +511,9 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
     </div>
   </section>
 
-  <!-- PER CHI È -->
+  <!-- ═══════════════════════════════════════
+       PER CHI È
+  ════════════════════════════════════════ -->
   <section class="container mx-auto px-6 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-8">
@@ -421,6 +524,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           Lavoriamo meglio con attività locali, professionisti e PMI che cercano risultati concreti, non solo un sito carino.
         </p>
       </div>
+
       <div class="grid md:grid-cols-2 gap-8">
         <div class="rounded-2xl p-6 bg-emerald-50 dark:bg-emerald-950/20 ring-1 ring-emerald-200 dark:ring-emerald-900">
           <h3 class="text-xl font-bold text-emerald-900 dark:text-emerald-100 mb-3 flex items-center gap-2">
@@ -429,23 +533,25 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           </h3>
           <ul class="space-y-2 text-emerald-800 dark:text-emerald-200">
             <li class="flex items-start gap-2">
-              <span class="text-emerald-600 mt-0 leading-none">•</span>
+              <span class="text-emerald-600 leading-none mt-0.5">•</span>
               <span>Hai un'attività locale o uno studio professionale e vuoi più clienti</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-emerald-600 mt-0 leading-none">•</span>
+              <span class="text-emerald-600 leading-none mt-0.5">•</span>
               <span>Vuoi apparire su Google e su Google Maps quando cercano nella tua zona</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-emerald-600 mt-0 leading-none">•</span>
+              <span class="text-emerald-600 leading-none mt-0.5">•</span>
               <span>Cerchi qualcuno che ti segua nel tempo</span>
             </li>
           </ul>
           <p class="mt-4 text-sm text-emerald-900 dark:text-emerald-100">
-            Puoi iniziare da un <a href="/servizi/siti-web" class="underline hover:no-underline">sito web professionale</a> o dalla
+            Puoi iniziare da un{' '}
+            <a href="/servizi/siti-web" class="underline hover:no-underline">sito web professionale</a> o dalla{' '}
             <a href="/servizi/seo-locale" class="underline hover:no-underline">SEO locale a Sassari</a>.
           </p>
         </div>
+
         <div class="rounded-2xl p-6 bg-red-50 dark:bg-red-950/20 ring-1 ring-red-200 dark:ring-red-900">
           <h3 class="text-xl font-bold text-red-900 dark:text-red-100 mb-3 flex items-center gap-2">
             <Icon name="tabler:x" class="w-6 h-6" />
@@ -453,19 +559,19 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           </h3>
           <ul class="space-y-2 text-red-800 dark:text-red-200">
             <li class="flex items-start gap-2">
-              <span class="text-red-600 mt-0 leading-none">•</span>
+              <span class="text-red-600 leading-none mt-0.5">•</span>
               <span>Cerchi la soluzione più economica</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-red-600 mt-0 leading-none">•</span>
+              <span class="text-red-600 leading-none mt-0.5">•</span>
               <span>Vuoi fare tutto da solo</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-red-600 mt-0 leading-none">•</span>
+              <span class="text-red-600 leading-none mt-0.5">•</span>
               <span>Non hai tempo di collaborare</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-red-600 mt-0 leading-none">•</span>
+              <span class="text-red-600 leading-none mt-0.5">•</span>
               <span>Vuoi risultati immediati senza investire</span>
             </li>
           </ul>
@@ -474,7 +580,27 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
     </div>
   </section>
 
-  <!-- ULTIMI ARTICOLI -->
+  <!-- ═══════════════════════════════════════
+       VOUCHER / OPPORTUNITÀ DIGITALI
+  ════════════════════════════════════════ -->
+<section class="container mx-auto px-6 py-12 md:py-16">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-8">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2">
+        Voucher e opportunità digitali
+      </h2>
+      <p class="text-lg text-slate-600 dark:text-slate-300 max-w-3xl">
+        Una panoramica sintetica per capire come migliorare sito, visibilità locale e presenza online con un approccio più chiaro e strategico.
+      </p>
+    </div>
+
+    <VoucherSlider />
+  </div>
+</section>
+
+  <!-- ═══════════════════════════════════════
+       ULTIMI ARTICOLI
+  ════════════════════════════════════════ -->
   {
     APP_BLOG.isEnabled && latestPosts.length > 0 && (
       <section class="container mx-auto px-6 py-16 md:py-24">
@@ -496,8 +622,9 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
               <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
             </a>
           </div>
+
           <Grid posts={latestPosts} />
-          <!-- CTA sotto griglia -->
+
           <div class="flex justify-center mt-12">
             <a
               href={getBlogPermalink()}
@@ -512,7 +639,9 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
     )
   }
 
-  <!-- FAQ SEMPLIFICATE -->
+  <!-- ═══════════════════════════════════════
+       FAQ
+  ════════════════════════════════════════ -->
   <section class="container mx-auto px-6 py-16 md:py-24">
     <div class="max-w-3xl mx-auto">
       <div class="text-center mb-12">
@@ -524,102 +653,61 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
         </p>
       </div>
 
-      <div class="space-y-6">
-        <!-- FAQ 1 -->
-        <details class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-          <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-lg text-slate-900 dark:text-white">
-            Quanto tempo serve per vedere risultati?
-            <Icon name="tabler:chevron-down" class="w-5 h-5 transition-transform group-open:rotate-180" />
-          </summary>
-          <div class="mt-4 text-slate-600 dark:text-slate-300 space-y-2">
-            <p>
-              Dipende da cosa facciamo. Un sito nuovo è online in 2-4 settimane.
-            </p>
-            <p>
-              Per Google Maps, i primi miglioramenti si vedono in 30-60 giorni. I risultati migliori arrivano dopo 3-6 mesi.
-            </p>
-          </div>
-        </details>
-
-        <!-- FAQ 2 -->
-        <details class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-          <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-lg text-slate-900 dark:text-white">
-            Quanto costa?
-            <Icon name="tabler:chevron-down" class="w-5 h-5 transition-transform group-open:rotate-180" />
-          </summary>
-          <div class="mt-4 text-slate-600 dark:text-slate-300 space-y-2">
-            <p>
-              Ogni progetto è diverso. Dipende da cosa serve alla tua attività.
-            </p>
-            <p>
-              Dopo l'analisi gratuita, ti diamo un preventivo chiaro. Niente sorprese.
-            </p>
-          </div>
-        </details>
-
-        <!-- FAQ 3 -->
-        <details class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-          <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-lg text-slate-900 dark:text-white">
-            Devo fornire testi e immagini?
-            <Icon name="tabler:chevron-down" class="w-5 h-5 transition-transform group-open:rotate-180" />
-          </summary>
-          <div class="mt-4 text-slate-600 dark:text-slate-300 space-y-2">
-            <p>
-              No, non serve. Possiamo scrivere i testi e trovare le immagini giuste per te.
-            </p>
-            <p>
-              Se hai già materiale, ottimo. Lo usiamo e lo miglioriamo.
-            </p>
-          </div>
-        </details>
-
-        <!-- FAQ 4 -->
-        <details class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-          <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-lg text-slate-900 dark:text-white">
-            Lavorate solo a Sassari?
-            <Icon name="tabler:chevron-down" class="w-5 h-5 transition-transform group-open:rotate-180" />
-          </summary>
-          <div class="mt-4 text-slate-600 dark:text-slate-300 space-y-2">
-            <p>
-              No, lavoriamo in tutta Italia. Siamo a Sassari ma operiamo ovunque.
-            </p>
-            <p>
-              La maggior parte del lavoro è online. Ci sentiamo via video o telefono.
-            </p>
-          </div>
-        </details>
-
-        <!-- FAQ 5 -->
-        <details class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-          <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-lg text-slate-900 dark:text-white">
-            Posso modificare il sito da solo dopo?
-            <Icon name="tabler:chevron-down" class="w-5 h-5 transition-transform group-open:rotate-180" />
-          </summary>
-          <div class="mt-4 text-slate-600 dark:text-slate-300 space-y-2">
-            <p>
-              Sì. Ti mostriamo come fare le modifiche base (testi, immagini, prezzi).
-            </p>
-            <p>
-              Se preferisci, possiamo farlo noi. Fa parte del servizio di assistenza.
-            </p>
-          </div>
-        </details>
-
-        <!-- FAQ 6 -->
-        <details class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
-          <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-lg text-slate-900 dark:text-white">
-            Cosa succede se non funziona?
-            <Icon name="tabler:chevron-down" class="w-5 h-5 transition-transform group-open:rotate-180" />
-          </summary>
-          <div class="mt-4 text-slate-600 dark:text-slate-300 space-y-2">
-            <p>
-              Lavoriamo finché non funziona. Non ti abbandoniamo mai.
-            </p>
-            <p>
-              Seguiamo ogni progetto nel tempo e lo miglioriamo se serve.
-            </p>
-          </div>
-        </details>
+      <div class="space-y-4">
+        {[
+          {
+            q: 'Quanto tempo serve per vedere risultati?',
+            a: [
+              'Un sito nuovo è online in 2–4 settimane.',
+              'Per Google Maps i primi miglioramenti si vedono in 30–60 giorni. I risultati SEO più solidi arrivano dopo 3–6 mesi.',
+            ],
+          },
+          {
+            q: 'Quanto costa un sito web professionale a Sassari?',
+            a: [
+              "Ogni progetto è diverso e dipende da cosa serve alla tua attività.",
+              "Dopo l'analisi gratuita, ti diamo un preventivo chiaro. Niente sorprese.",
+            ],
+          },
+          {
+            q: 'Devo fornire testi e immagini?',
+            a: [
+              'No, non serve. Possiamo scrivere i testi e trovare le immagini giuste per te.',
+              'Se hai già materiale, ottimo. Lo usiamo e lo miglioriamo.',
+            ],
+          },
+          {
+            q: 'Lavorate solo a Sassari?',
+            a: [
+              'No, lavoriamo in tutta Italia. Siamo a Sassari ma operiamo ovunque.',
+              'La maggior parte del lavoro è online. Ci sentiamo via video o telefono.',
+            ],
+          },
+          {
+            q: 'Posso modificare il sito da solo dopo?',
+            a: [
+              'Sì. Ti mostriamo come fare le modifiche base (testi, immagini, prezzi).',
+              'Se preferisci, possiamo farlo noi. Fa parte del servizio di assistenza.',
+            ],
+          },
+          {
+            q: 'Cosa succede se non funziona?',
+            a: [
+              'Lavoriamo finché non funziona. Non ti abbandoniamo mai.',
+              'Seguiamo ogni progetto nel tempo e lo miglioriamo se serve.',
+            ],
+          },
+        ].map(({ q, a }) => (
+          <details class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+            <summary class="flex justify-between items-center cursor-pointer list-none font-semibold text-lg text-slate-900 dark:text-white">
+              {q}
+              <Icon name="tabler:chevron-down" class="w-5 h-5 transition-transform group-open:rotate-180 shrink-0 ml-4" />
+            </summary>
+            <div class="mt-4 text-slate-600 dark:text-slate-300 space-y-2">
+              {a.map((line) => <p>{line}</p>)}
+            </div>
+          </details>
+        ))}
       </div>
 
       <div class="mt-10 text-center">
@@ -632,106 +720,79 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
     </div>
   </section>
 
-  <!-- CTA FINALE -->
-  <section class="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 py-16 md:py-24">
-    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-20"></div>
+  <!-- ═══════════════════════════════════════
+       CTA FINALE
+  ════════════════════════════════════════ -->
+  <section class="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 py-16 md:py-24 overflow-hidden">
+    <div
+      class="absolute inset-0 opacity-20"
+      style="background-image:url('data:image/svg+xml,%3Csvg width%3D%2260%22 height%3D%2260%22 viewBox%3D%220 0 60 60%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg fill%3D%22none%22 fill-rule%3D%22evenodd%22%3E%3Cg fill%3D%22%23ffffff%22 fill-opacity%3D%220.05%22%3E%3Cpath d%3D%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')"
+    ></div>
+
     <div class="mx-auto max-w-4xl px-6 md:px-8 text-center relative z-10">
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6 leading-tight">
         Inizia ad attrarre <span class="cta-keyword">nuovi clienti</span> questo mese
       </h2>
+
       <p class="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
         Ti mostriamo come far crescere la tua attività online. Analisi gratuita, nessun impegno.
       </p>
-      <!-- Trust signals -->
+
       <ul class="flex flex-col sm:flex-row justify-center gap-6 mb-10 max-w-2xl mx-auto">
-        <li class="flex items-center gap-2 text-sm text-blue-100">
-          <Icon name="tabler:check" class="w-5 h-5 text-white shrink-0" />
-          <span>Analisi gratuita</span>
-        </li>
-        <li class="flex items-center gap-2 text-sm text-blue-100">
-          <Icon name="tabler:check" class="w-5 h-5 text-white shrink-0" />
-          <span>Piano chiaro</span>
-        </li>
-        <li class="flex items-center gap-2 text-sm text-blue-100">
-          <Icon name="tabler:check" class="w-5 h-5 text-white shrink-0" />
-          <span>Ti rispondiamo in 24 ore</span>
-        </li>
+        {['Analisi gratuita', 'Piano chiaro', 'Risposta in 24 ore'].map((label) => (
+          <li class="flex items-center gap-2 text-sm text-blue-100">
+            <Icon name="tabler:check" class="w-5 h-5 text-white shrink-0" />
+            <span>{label}</span>
+          </li>
+        ))}
       </ul>
+
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/contatti" class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-blue-600 bg-white hover:bg-blue-50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
+        <a
+          href="/contatti"
+          class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-blue-600 bg-white hover:bg-blue-50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+        >
           <span class="whitespace-nowrap">Richiedi analisi gratuita</span>
           <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" />
         </a>
-        <a href={WHATSAPP} target="_blank" rel="noopener" class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white bg-blue-700/50 hover:bg-blue-700 border-2 border-white/30 rounded-full transition-all duration-200">
+        <a
+          href={WHATSAPP}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white bg-blue-700/50 hover:bg-blue-700 border-2 border-white/30 rounded-full transition-all duration-200"
+        >
           <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 shrink-0" />
           <span class="whitespace-nowrap">Scrivi su WhatsApp</span>
         </a>
       </div>
     </div>
   </section>
+</Layout>
 
 <style>
-    /* H1 three-tone styling */
-    .t-dark {
-      color: #140a2e;
-    }
+  .t-dark  { color: #140a2e; }
+  .t-violet { color: #9333ea; }
 
-    .t-violet {
-      color: #9333ea;
-    }
+  .dark .t-dark  { color: #ffffff; }
+  .dark .t-violet { color: #a78bfa; }
 
-    .t-grad {
-      background: linear-gradient(135deg, #6d28d9, #9333ea, #c026d3);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+  .cta-keyword {
+    color: rgb(220 200 255);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
 
-    /* Dark mode adjustments */
-    .dark .t-dark {
-      color: #ffffff;
-    }
+  .hero-image-floating {
+    animation: hero-float 12s ease-in-out infinite;
+    will-change: transform;
+  }
 
-    .dark .t-violet {
-      color: #a78bfa;
-    }
+  @keyframes hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
 
-    .dark .t-grad {
-      background: linear-gradient(135deg, #7c3aed, #9333ea, #c026d3);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    /* CTA headline keywords - light violet for contrast over gradient background */
-    .cta-keyword {
-      color: rgb(220, 200, 255);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-
-    /* Hero image floating animation */
-    .hero-image-floating {
-      animation: hero-float 12s ease-in-out infinite;
-      will-change: transform;
-    }
-
-    @keyframes hero-float {
-      0% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-16px);
-      }
-      100% {
-        transform: translateY(0);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .hero-image-floating {
-        animation: none;
-      }
-    }
-  </style>
-</Layout>
+  @media (prefers-reduced-motion: reduce) {
+    .hero-image-floating { animation: none; }
+  }
+</style>
