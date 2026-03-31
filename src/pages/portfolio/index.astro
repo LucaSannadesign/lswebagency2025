@@ -54,7 +54,7 @@ const pageItems = sorted.slice(start, end);
         </span>
       </h1>
       <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
-        Gli ultimi progetti pubblicati: siti web, e-commerce e soluzioni su misura.
+        Una selezione di progetti web e digitali realizzati per attività locali, professionisti e brand che avevano bisogno di una presenza online più chiara, credibile e utile ai propri obiettivi.
       </p>
     </div>
   </section>
@@ -87,6 +87,11 @@ const pageItems = sorted.slice(start, end);
                   />
                 )}
                 <div class="p-4">
+                  {item.data.category && (
+                    <p class="text-[11px] font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">
+                      {item.data.category}
+                    </p>
+                  )}
                   <h2 class="text-base font-semibold mb-1 line-clamp-2">{item.data.title}</h2>
                   {item.data.description && (
                     <p class="text-sm text-neutral-700 dark:text-neutral-300 line-clamp-3">{item.data.description}</p>
@@ -98,6 +103,23 @@ const pageItems = sorted.slice(start, end);
         })}
       </div>
     )}
+  </section>
+
+  <section class="container mx-auto px-6 pb-10" aria-labelledby="portfolio-cta-heading">
+    <div class="max-w-2xl mx-auto text-center rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-neutral-50/90 dark:bg-neutral-900/50 px-6 py-8">
+      <h2 id="portfolio-cta-heading" class="text-lg md:text-xl font-semibold text-neutral-900 dark:text-white mb-3">
+        Hai un progetto simile o un sito da migliorare?
+      </h2>
+      <p class="text-sm md:text-base text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">
+        Se vuoi capire come rendere il tuo sito più chiaro, più credibile e più utile ai tuoi obiettivi, possiamo partire da un confronto semplice sul tuo progetto.
+      </p>
+      <a
+        href="/contatti"
+        class="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white bg-violet-600 hover:bg-violet-700 transition-colors"
+      >
+        Parliamo del tuo sito
+      </a>
+    </div>
   </section>
 
   <!-- Paginazione -->

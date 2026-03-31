@@ -8,7 +8,7 @@ import { Icon } from 'astro-icon/components';
 import servicesHero from '@/assets/images/servizi-seo-grafica-branding-siti-web.webp';
 
 const metadata = {
-  title: 'Servizi Web, SEO e Marketing | LS Web Agency',
+  title: 'Servizi per Siti Web, SEO e Audit | LS Web Agency',
   description:
     'Siti web performanti, SEO (anche locale) e marketing digitale. Nuovi servizi: Local SEO Booster, Accessibilità avanzata, UX con AI e Web Design Etico.',
   canonical: '/servizi',
@@ -37,16 +37,16 @@ const metadata = {
     </div>
 
     <Hero
-      tagline="Servizi digitali per attività locali e imprese"
+      tagline="Servizi per attività locali e piccoli studi"
       actions={[
         {
           variant: 'primary',
-          text: 'Richiedi una consulenza',
+          text: 'Richiedi l’audit rapido',
           href: '/contatti',
           class: 'px-6 md:px-7 py-3 text-sm md:text-base shadow-sm hover:shadow-md',
         },
         {
-          text: 'Scopri i servizi',
+          text: 'Scopri i servizi principali',
           href: '#servizi-principali',
           class: 'px-5 md:px-6 py-3 text-sm md:text-base border border-neutral-300/70 dark:border-neutral-600/70 bg-white/60 dark:bg-neutral-900/40 hover:bg-white dark:hover:bg-neutral-900',
         },
@@ -61,11 +61,11 @@ const metadata = {
       gradient={false}
     >
       <span slot="title">
-        Servizi digitali per far crescere la tua presenza online
+        Servizi per rendere il tuo sito più chiaro, credibile e utile
       </span>
 
       <span slot="subtitle">
-        Progettiamo siti, SEO, automazioni e soluzioni digitali concrete per attività locali, professionisti e imprese che vogliono più visibilità, più contatti e una presenza online più efficace.
+        Lavoro con attività locali, piccoli studi e professionisti che vogliono migliorare il proprio sito con un percorso concreto: analisi iniziale, priorità chiare e, quando serve, un intervento più completo.
       </span>
     </Hero>
   </section>
@@ -73,13 +73,26 @@ const metadata = {
   <!-- SERVIZI PRINCIPALI -->
   <section id="servizi-principali" class="container mx-auto max-w-7xl px-6 md:px-8 py-16 scroll-mt-32">
     <div class="mb-12 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">Servizi principali</h2>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">Da dove partire</h2>
       <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-        I servizi core per costruire e far crescere la tua presenza digitale
+        Se non sai ancora quale intervento serve davvero, il primo passo più utile è capire cosa non sta funzionando nel sito attuale. Da lì si decide se basta ottimizzare oppure se serve un progetto più completo.
       </p>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <article id="audit-rapido" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-6">
+          <Icon name="tabler:search" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+        </div>
+        <h3 class="font-semibold text-xl mb-3">Audit Rapido</h3>
+        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
+          Un primo passo concreto per capire dove il sito è poco chiaro, poco credibile o poco efficace nel trasformare visite in contatti.
+        </p>
+        <a href="/servizi/audit-rapido" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
       <article id="siti-web" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
         <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-6">
           <Icon name="tabler:device-desktop" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -94,19 +107,6 @@ const metadata = {
       </article>
 
       <article id="seo" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
-        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-6">
-          <Icon name="tabler:shopping-cart" class="w-6 h-6 text-green-600 dark:text-green-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">E-commerce</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Negozi online con WooCommerce o soluzioni headless, checkout ottimizzati per vendere.
-        </p>
-        <a href="/servizi/realizzazione-siti-ecommerce" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
         <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-6">
           <Icon name="tabler:chart-line" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
         </div>
@@ -115,6 +115,19 @@ const metadata = {
           Analisi tecnica, contenuti e strategie per essere trovati su Google dai tuoi clienti.
         </p>
         <a href="/servizi/ottimizzazione-seo-siti-web" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-6">
+          <Icon name="tabler:shopping-cart" class="w-6 h-6 text-green-600 dark:text-green-400" />
+        </div>
+        <h3 class="font-semibold text-xl mb-3">E-commerce</h3>
+        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
+          Negozi online con WooCommerce o soluzioni headless, checkout ottimizzati per vendere.
+        </p>
+        <a href="/servizi/realizzazione-siti-ecommerce" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
         </a>
       </article>
@@ -214,27 +227,13 @@ const metadata = {
   <!-- PACCHETTI RAPIDI -->
   <section class="container mx-auto max-w-7xl px-6 md:px-8 py-12">
     <div class="mb-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold mb-3">Pacchetti rapidi</h2>
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Interventi mirati</h2>
       <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Interventi rapidi, circoscritti e orientati al risultato quando hai già un problema chiaro da risolvere.
+        Servizi rapidi e circoscritti, pensati per intervenire su problemi specifici quando sai già dove serve migliorare.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4">
-          <Icon name="tabler:search" class="w-5 h-5 text-blue-600 dark:text-blue-400" />
-        </div>
-        <h3 class="font-semibold text-lg mb-1">Audit Rapido Sito Web</h3>
-        <p class="text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">Da 299 €</p>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
-          Diagnosi operativa in 48h su UX, SEO tecnica e performance del sito.
-        </p>
-        <a href="/servizi/audit-rapido" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
-          Scopri di più →
-        </a>
-      </article>
-
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
       <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
         <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4">
           <Icon name="tabler:tool" class="w-5 h-5 text-green-600 dark:text-green-400" />
@@ -266,9 +265,9 @@ const metadata = {
   <!-- SOLUZIONI PER ESIGENZE SPECIFICHE -->
   <section class="container mx-auto max-w-7xl px-6 md:px-8 py-12 bg-neutral-50/50 dark:bg-neutral-900/20">
     <div class="mb-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold mb-3">Soluzioni per esigenze specifiche</h2>
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Percorsi specifici</h2>
       <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Percorsi dedicati quando il progetto richiede un focus settoriale o un approccio più verticale.
+        Servizi pensati per progetti che richiedono un focus settoriale o un approccio più verticale.
       </p>
     </div>
 
@@ -308,12 +307,12 @@ const metadata = {
     <div class="relative isolate overflow-hidden rounded-2xl bg-neutral-950">
       <div class="absolute inset-0 -z-10 opacity-90 bg-[radial-gradient(circle_at_18%_28%,rgba(168,85,247,0.34),transparent_34%),radial-gradient(circle_at_82%_72%,rgba(34,211,238,0.22),transparent_32%),radial-gradient(circle_at_58%_42%,rgba(236,72,153,0.20),transparent_28%),linear-gradient(135deg,rgba(10,10,12,0.96),rgba(5,8,18,0.98))]"></div>
       <div class="max-w-3xl mx-auto text-center px-6 py-12 md:py-16">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">Non sai da dove partire?</h2>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">Capire da dove partire è già un buon primo passo</h2>
         <p class="text-neutral-200 mb-6">
-          Possiamo aiutarti a capire da quale intervento partire, in base al tuo obiettivo, allo stato del sito e alle priorità del progetto.
+          Se non sei sicuro di cosa serva davvero al tuo sito, possiamo capire insieme se basta migliorare alcune aree oppure se serve un intervento più completo.
         </p>
         <a href="/contatti" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors">
-          Richiedi una consulenza
+          Parliamo del tuo sito
           <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
         </a>
       </div>
