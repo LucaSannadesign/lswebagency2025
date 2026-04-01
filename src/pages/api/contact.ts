@@ -310,6 +310,14 @@ export const POST: APIRoute = async ({ request }) => {
       throw new Error('SMTP_USER non configurato: impossibile inviare email');
     }
 
+    console.log('[contact] sendMail envelope', {
+      smtpUser: smtpUser?.trim(),
+      contactFromName: contactFromName?.trim(),
+      fromEmail,
+      fromName,
+      mailTo,
+    });
+
     await transporter.sendMail({
       from: `"${fromName}" <${fromEmail}>`,
       to: mailTo,
