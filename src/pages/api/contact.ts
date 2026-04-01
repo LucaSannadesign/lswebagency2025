@@ -33,17 +33,48 @@ function checkRateLimit(key: string): boolean {
   return true;
 }
 
-// Sanitizzazione base
-function sanitizeString(str: string): string {
+// Sanitizzazione base (campi su una riga)
+function sanitizePlain(str: string, maxLen: number): string {
   return str
     .trim()
-    .replace(/[<>]/g, '') // Rimuove < e >
-    .slice(0, 1000); // Limita lunghezza
+    .replace(/[<>]/g, '')
+    .replace(/[\u0000-\u0009\u000B\u000C\u000E-\u001F\u007F]/g, '')
+    .replace(/\s+/g, ' ')
+    .slice(0, maxLen);
 }
 
+// Messaggio: mantiene \n / \r, rimuove altri controlli
+function sanitizeMultiline(str: string, maxLen: number): string {
+  return str
+    .trim()
+    .replace(/[<>]/g, '')
+    .replace(/[\u0000-\u0009\u000B\u000C\u000E-\u001F\u007F]/g, '')
+    .slice(0, maxLen);
+}
+
+function sanitizeEmailInput(str: string): string {
+  return str
+    .trim()
+    .replace(/[<>]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '')
+    .slice(0, 254);
+}
+
+/** Validazione email formale (RFC-like, senza quoted-string nel local-part) */
 function validateEmail(email: string): boolean {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
+  if (!email || email.length > 254) return false;
+  const at = email.indexOf('@');
+  if (at <= 0 || at !== email.lastIndexOf('@')) return false;
+  const local = email.slice(0, at);
+  const domain = email.slice(at + 1);
+  if (local.length > 64 || local.length === 0) return false;
+  if (domain.length > 253 || domain.length === 0) return false;
+  if (local.startsWith('.') || local.endsWith('.') || local.includes('..')) return false;
+  if (domain.startsWith('.') || domain.endsWith('.') || domain.includes('..')) return false;
+  if (!/^[a-z0-9._%+-]+$/.test(local)) return false;
+  if (!/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/i.test(domain)) return false;
+  return true;
 }
 
 // User agent sospetti
@@ -129,11 +160,11 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Estrazione e sanitizzazione dati
-    const name = sanitizeString((data.get('name') || '').toString());
-    const email = sanitizeString((data.get('email') || '').toString());
-    const phone = sanitizeString((data.get('phone') || '').toString());
-    const service = sanitizeString((data.get('service') || '').toString());
-    const message = sanitizeString((data.get('message') || '').toString());
+    const name = sanitizePlain((data.get('name') || '').toString(), 200);
+    const email = sanitizeEmailInput((data.get('email') || '').toString());
+    const phone = sanitizePlain((data.get('phone') || '').toString(), 80);
+    const service = sanitizePlain((data.get('service') || '').toString(), 120);
+    const message = sanitizeMultiline((data.get('message') || '').toString(), 4000);
     const privacy = data.get('privacy');
 
     // Validazione
@@ -286,17 +317,13 @@ export const POST: APIRoute = async ({ request }) => {
         <p><strong>Messaggio:</strong></p>
         <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
       `,
-      text: `
-Nuova richiesta di contatto
-
-Nome: ${name}
-Email: ${email}
-Telefono: ${phone || '—'}
-Servizio: ${service || '—'}
-
-Messaggio:
-${message}
-      `,
+      text:
+        `Nuova richiesta di contatto\n\n` +
+        `Nome: ${name}\n` +
+        `Email: ${email}\n` +
+        `Telefono: ${phone || '—'}\n` +
+        `Servizio: ${service || '—'}\n\n` +
+        `Messaggio:\n${message}\n`,
     });
 
     return new Response(
