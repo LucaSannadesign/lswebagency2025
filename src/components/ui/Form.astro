@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button.astro';
 const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } = Astro.props;
 ---
 
-<form>
+<form id="contact-form">
   {
     inputs &&
       inputs.map(
@@ -69,10 +69,18 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
 
   {
     button && (
-      <div class="mt-10 grid">
-        <Button variant="primary" type="submit">
-          {button}
-        </Button>
+      <div class="mt-10">
+        <div
+          id="contact-form-status"
+          class="mb-4 min-h-[1.25rem] text-sm text-center"
+          role="status"
+          aria-live="polite"
+        />
+        <div class="grid">
+          <Button variant="primary" type="submit">
+            {button}
+          </Button>
+        </div>
       </div>
     )
   }
@@ -85,3 +93,68 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
     )
   }
 </form>
+
+<script>
+  function setStatus(el: HTMLElement | null, text: string, kind: 'idle' | 'load' | 'ok' | 'err') {
+    if (!el) return;
+    el.textContent = text;
+    const base = 'mb-4 min-h-[1.25rem] text-sm text-center ';
+    if (kind === 'idle') el.className = base;
+    else if (kind === 'load') el.className = base + 'text-gray-600 dark:text-gray-400';
+    else if (kind === 'ok') el.className = base + 'text-green-600 dark:text-green-400';
+    else el.className = base + 'text-red-600 dark:text-red-400';
+  }
+
+  function attachContactFormHandler() {
+    const form = document.getElementById('contact-form');
+    if (!form || !(form instanceof HTMLFormElement)) return;
+
+    const statusEl = document.getElementById('contact-form-status');
+    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (form.dataset.contactFetchBound === '1') return;
+    form.dataset.contactFetchBound = '1';
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (submitBtn) submitBtn.disabled = true;
+      setStatus(statusEl, 'Invio in corso…', 'load');
+
+      const formData = new FormData(form);
+      if (formData.has('disclaimer')) {
+        const v = formData.get('disclaimer');
+        formData.delete('disclaimer');
+        if (v !== null && v !== '') formData.set('privacy', typeof v === 'string' ? v : 'on');
+      }
+
+      try {
+        const res = await fetch('/api/contact', { method: 'POST', body: formData });
+        let body: { ok?: boolean; message?: string } = {};
+        try {
+          body = await res.json();
+        } catch {
+          body = {};
+        }
+        const fallback = res.ok ? 'Messaggio inviato con successo.' : 'Richiesta non riuscita.';
+        const msg = typeof body.message === 'string' ? body.message : fallback;
+
+        if (res.ok && body.ok !== false) {
+          setStatus(statusEl, msg, 'ok');
+          form.reset();
+        } else {
+          setStatus(statusEl, msg, 'err');
+        }
+      } catch {
+        setStatus(statusEl, 'Connessione non riuscita. Riprova.', 'err');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attachContactFormHandler);
+  } else {
+    attachContactFormHandler();
+  }
+</script>
