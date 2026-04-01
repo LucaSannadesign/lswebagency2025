@@ -303,8 +303,11 @@ export const POST: APIRoute = async ({ request }) => {
       return text.replace(/[&<>"']/g, m => map[m]);
     };
 
+    const fromEmail = smtpUser?.trim() || 'info@lswebagency.com';
+    const fromName = contactFromName?.trim() || 'LS Web Agency';
+
     await transporter.sendMail({
-      from: `"${contactFromName!.trim()}" <${smtpUser!.trim()}>`,
+      from: `"${fromName}" <${fromEmail}>`,
       to: mailTo,
       replyTo: email,
       subject: `Nuovo contatto dal sito — ${escapeHtml(name)}`,
