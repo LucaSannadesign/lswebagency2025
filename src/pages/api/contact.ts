@@ -189,13 +189,33 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Config email (Gmail o fallback)
-    const gmailUser = import.meta.env.GMAIL_USER;
-    const gmailPass = import.meta.env.GMAIL_APP_PASS;
+    // Config SMTP (Hostinger / env)
+    const smtpHost = import.meta.env.SMTP_HOST as string | undefined;
+    const smtpPortRaw = import.meta.env.SMTP_PORT as string | undefined;
+    const smtpSecureRaw = import.meta.env.SMTP_SECURE as string | undefined;
+    const smtpUser = import.meta.env.SMTP_USER as string | undefined;
+    const smtpPass = import.meta.env.SMTP_PASS as string | undefined;
+    const contactToEnv = import.meta.env.CONTACT_TO as string | undefined;
+    const contactFromName = import.meta.env.CONTACT_FROM_NAME as string | undefined;
 
-    if (!gmailUser || !gmailPass) {
-      console.error('[contact] GMAIL_USER / GMAIL_APP_PASS mancanti');
-      // In sviluppo, logga invece di fallire
+    const smtpPort = smtpPortRaw ? Number.parseInt(String(smtpPortRaw), 10) : NaN;
+    const secureStr = String(smtpSecureRaw ?? '').trim().toLowerCase();
+    const smtpSecureConfigured =
+      secureStr === 'true' || secureStr === '1' || secureStr === 'false' || secureStr === '0';
+    const smtpSecure = secureStr === 'true' || secureStr === '1';
+
+    const smtpConfigOk =
+      Boolean(smtpHost?.trim()) &&
+      !Number.isNaN(smtpPort) &&
+      smtpSecureConfigured &&
+      Boolean(smtpUser?.trim()) &&
+      Boolean(smtpPass) &&
+      Boolean(contactFromName?.trim());
+
+    if (!smtpConfigOk) {
+      console.error(
+        '[contact] Variabili SMTP mancanti o non valide: SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, CONTACT_FROM_NAME',
+      );
       if (import.meta.env.DEV) {
         console.log('[contact] Dev mode - Email would be sent:', {
           name,
@@ -228,12 +248,15 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Config SMTP (Gmail)
+    const mailTo = contactToEnv?.trim() || smtpUser!;
+
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: smtpHost!.trim(),
+      port: smtpPort,
+      secure: smtpSecure,
       auth: {
-        user: gmailUser,
-        pass: gmailPass,
+        user: smtpUser!.trim(),
+        pass: smtpPass,
       },
     });
 
@@ -250,8 +273,8 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     await transporter.sendMail({
-      from: `"LS Web Agency" <${gmailUser}>`,
-      to: gmailUser,
+      from: `"${contactFromName!.trim()}" <${smtpUser!.trim()}>`,
+      to: mailTo,
       replyTo: email,
       subject: `Nuovo contatto dal sito — ${escapeHtml(name)}`,
       html: `
