@@ -303,8 +303,12 @@ export const POST: APIRoute = async ({ request }) => {
       return text.replace(/[&<>"']/g, m => map[m]);
     };
 
-    const fromEmail = smtpUser?.trim() || 'info@lswebagency.com';
+    const fromEmail = smtpUser?.trim();
     const fromName = contactFromName?.trim() || 'LS Web Agency';
+
+    if (!fromEmail) {
+      throw new Error('SMTP_USER non configurato: impossibile inviare email');
+    }
 
     await transporter.sendMail({
       from: `"${fromName}" <${fromEmail}>`,
