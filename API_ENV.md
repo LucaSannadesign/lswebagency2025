@@ -50,7 +50,7 @@ Questo documento elenca le variabili d'ambiente necessarie per le funzioni API s
 ```bash
 RESEND_API_KEY=re_1234567890abcdefghijklmnopqrstuvwxyz
 CONTACT_TO_EMAIL=info@lswebagency.com
-CONTACT_FROM_EMAIL=noreply@lswebagency.com
+CONTACT_FROM_EMAIL=info@lswebagency.com
 ALLOWED_ORIGIN=https://www.lswebagency.com
 ```
 
