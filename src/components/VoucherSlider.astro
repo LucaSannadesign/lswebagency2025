@@ -294,8 +294,13 @@ const slides = [
       const dots = Array.from(root.querySelectorAll('[data-dot]'));
       const counter = root.querySelector('[data-counter]');
       const DELAY = 4800;
+      const prefersReducedMotion =
+        window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      /** Allineato alle durate CSS (.vs__slide 0.5s, reduced-motion 0.12s) */
+      const SLIDE_MS = prefersReducedMotion ? 120 : 560;
       let current = 0;
       let autoTimer = null;
+      let leaveTimer = null;
       const total = slides.length;
 
       const pad = (n) => String(n + 1).padStart(2, '0');
@@ -311,9 +316,13 @@ const slides = [
             bar.classList.add('is-done');
           } else if (i === active) {
             bar.classList.add('is-active');
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => fill.classList.add('is-animating'));
-            });
+            if (prefersReducedMotion) {
+              fill.style.width = '100%';
+            } else {
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => fill.classList.add('is-animating'));
+              });
+            }
           }
         });
       }
@@ -328,28 +337,45 @@ const slides = [
       }
 
       function goTo(next) {
+        if (!total) return;
         const target = ((next % total) + total) % total;
         if (target === current) return;
 
         const leaving = slides[current];
+        const entering = slides[target];
+
+        if (leaveTimer) {
+          window.clearTimeout(leaveTimer);
+          leaveTimer = null;
+        }
+
         leaving.classList.remove('is-active');
         leaving.classList.add('is-leaving');
         leaving.setAttribute('aria-hidden', 'true');
 
-        setTimeout(() => leaving.classList.remove('is-leaving'), 480);
-
         current = target;
 
-        slides[current].classList.add('is-active');
-        slides[current].setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            entering.classList.add('is-active');
+            entering.setAttribute('aria-hidden', 'false');
+          });
+        });
+
+        leaveTimer = window.setTimeout(() => {
+          leaving.classList.remove('is-leaving');
+          leaveTimer = null;
+        }, SLIDE_MS);
 
         updateDotsAndCounter();
         syncBars(current);
       }
 
       function stopAuto() {
-        clearInterval(autoTimer);
-        autoTimer = null;
+        if (autoTimer !== null) {
+          window.clearInterval(autoTimer);
+          autoTimer = null;
+        }
 
         const fill = bars[current]?.querySelector('.vs__bar-fill');
         if (fill) {
@@ -360,9 +386,10 @@ const slides = [
       }
 
       function startAuto() {
+        if (prefersReducedMotion) return;
         stopAuto();
         syncBars(current);
-        autoTimer = setInterval(() => goTo(current + 1), DELAY);
+        autoTimer = window.setInterval(() => goTo(current + 1), DELAY);
       }
 
       root.querySelectorAll('[data-prev]').forEach((btn) => {
@@ -400,7 +427,11 @@ const slides = [
       root.addEventListener('mouseenter', stopAuto);
       root.addEventListener('mouseleave', startAuto);
       root.addEventListener('focusin', stopAuto);
-      root.addEventListener('focusout', startAuto);
+      root.addEventListener('focusout', (e) => {
+        const next = e.relatedTarget;
+        if (next && root.contains(next)) return;
+        startAuto();
+      });
 
       updateDotsAndCounter();
       syncBars(0);
@@ -546,25 +577,62 @@ const slides = [
   .vs__slide {
     position: absolute;
     inset: 0;
+    z-index: 0;
     display: grid;
     grid-template-columns: 1.15fr .85fr;
     gap: 0;
     opacity: 0;
-    transform: translateX(30px);
-    transition: opacity .55s cubic-bezier(.4,0,.2,1), transform .55s cubic-bezier(.4,0,.2,1);
+    transform: translate3d(24px, 0, 0);
+    transition:
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     pointer-events: none;
   }
 
   .vs__slide.is-active {
+    z-index: 2;
     opacity: 1;
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
     pointer-events: auto;
   }
 
   .vs__slide.is-leaving {
+    z-index: 1;
     opacity: 0;
-    transform: translateX(-30px);
-    transition: opacity .4s ease, transform .4s ease;
+    transform: translate3d(-22px, 0, 0);
+    transition:
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vs::before {
+      animation: none;
+    }
+
+    .vs__slide {
+      transform: none;
+      transition: opacity 0.12s ease-out;
+    }
+
+    .vs__slide.is-active {
+      transform: none;
+    }
+
+    .vs__slide.is-leaving {
+      transform: none;
+      transition: opacity 0.12s ease-out;
+    }
+
+    .vs__bar.is-active .vs__bar-fill {
+      transition: none;
+    }
+
+    .vs-art-float-up,
+    .vs-art-float-down,
+    .vs-art-pulse {
+      animation: none;
+    }
   }
 
   .vs__content {
