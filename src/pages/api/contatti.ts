@@ -3,7 +3,7 @@ import { Resend } from "resend";
 
 export const prerender = false;
 
-const BUILD_FINGERPRINT = "contatti-v3-2026-01-08-1047";
+const BUILD_FINGERPRINT = "contatti-v4-test-deploy";
 
 /** Rate limit in-memory per IP (vedi limiti su deploy serverless) */
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
