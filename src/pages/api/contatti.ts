@@ -5,6 +5,37 @@ export const prerender = false;
 
 const BUILD_FINGERPRINT = "contatti-v3-2026-01-08-1047";
 
+/** Rate limit in-memory per IP (vedi limiti su deploy serverless) */
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const RATE_LIMIT_MAX = 3;
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+
+function getClientIp(request: Request): string {
+  const xff = request.headers.get("x-forwarded-for");
+  if (xff) {
+    const first = xff.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  const realIp = request.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+  const cf = request.headers.get("cf-connecting-ip")?.trim();
+  if (cf) return cf;
+  return "unknown";
+}
+
+function checkRateLimit(ipKey: string): boolean {
+  const now = Date.now();
+  const key = ipKey || "unknown";
+  const record = rateLimitMap.get(key);
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(key, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+  if (record.count >= RATE_LIMIT_MAX) return false;
+  record.count++;
+  return true;
+}
+
 /**
  * Legge variabili d'ambiente sia in locale (Astro) sia su Vercel (process.env)
  */
@@ -89,6 +120,16 @@ export const POST: APIRoute = async ({ request }) => {
     return json(200, { ok: true, emailSent: false, build: BUILD_FINGERPRINT });
   }
 
+  const clientIp = getClientIp(request);
+  if (!checkRateLimit(clientIp)) {
+    return json(429, {
+      ok: false,
+      error: "RATE_LIMIT_EXCEEDED",
+      message: "Troppi invii da questo indirizzo. Riprova tra qualche minuto.",
+      build: BUILD_FINGERPRINT,
+    });
+  }
+
   // 4) Normalizzazione input (supporta sinonimi: name/nome, message/messaggio/body)
   const nameRaw = data?.name ?? data?.nome ?? "";
   const name = typeof nameRaw === "string" ? nameRaw.trim() : "";
@@ -106,6 +147,17 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (Object.keys(fields).length > 0) {
     return json(400, { ok: false, error: "VALIDATION_ERROR", fields, build: BUILD_FINGERPRINT });
+  }
+
+  // Preview Vercel: niente invio reale senza consenso esplicito (production invariata)
+  if (env("VERCEL_ENV") === "preview" && env("CONTACT_ALLOW_EMAIL_IN_PREVIEW") !== "true") {
+    return json(403, {
+      ok: false,
+      error: "PREVIEW_EMAIL_DISABLED",
+      message:
+        "Invio email disabilitato in preview. Imposta CONTACT_ALLOW_EMAIL_IN_PREVIEW=true se necessario.",
+      build: BUILD_FINGERPRINT,
+    });
   }
 
   // 6) Normalizzazione ENV (supporta CONTACT_* e fallback MAIL_* per retrocompatibilità)
