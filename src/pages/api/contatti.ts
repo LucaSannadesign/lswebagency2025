@@ -249,17 +249,19 @@ export const POST: APIRoute = async ({ request }) => {
       `Email: ${email}\n\n` +
       `Messaggio:\n${message}\n`;
 
-    console.log("[contatti] pre-resend: chiamata provider", {
+    // TEMP test: destinatario fisso per isolare problemi API/account vs inbox di produzione
+    const tempResendTo = ["lucasannadesign@gmail.com"] as const;
+    console.log("[contatti] TEMP pre-resend", {
+      from: "onboarding@resend.dev",
+      to: tempResendTo,
       subjectLen: subject.length,
-      textLen: text.length,
-      toDomain: TO.includes("@") ? TO.split("@").pop() : "(n/a)",
     });
 
     try {
       // TEMP test: usare mittente Resend di default per isolare problemi di dominio mittente
       const { data: sent, error } = await resend.emails.send({
         from: "onboarding@resend.dev",
-        to: [TO],
+        to: [...tempResendTo],
         replyTo: email,
         subject,
         text,
@@ -267,6 +269,10 @@ export const POST: APIRoute = async ({ request }) => {
 
       // 8) Resend può restituire error senza lanciare eccezione
       if (error) {
+        console.error(
+          "[contatti] Resend error (full serialized)",
+          JSON.stringify(error),
+        );
         const errorCode = diagnoseResendError(error);
         const errorMessage = String(error?.message || "").slice(0, 200);
         console.error("[contatti] Resend risposta errore (oggetto error)", {
