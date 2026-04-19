@@ -258,7 +258,7 @@ export const POST: APIRoute = async ({ request }) => {
     try {
       // TEMP test: usare mittente Resend di default per isolare problemi di dominio mittente
       const { data: sent, error } = await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: FROM,
         to: [TO],
         replyTo: email,
         subject,
