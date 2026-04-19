@@ -249,19 +249,17 @@ export const POST: APIRoute = async ({ request }) => {
       `Email: ${email}\n\n` +
       `Messaggio:\n${message}\n`;
 
-    // TEMP test: destinatario fisso per isolare problemi API/account vs inbox di produzione
-    const tempResendTo = ["onboarding@resend.dev"] as const;
-    console.log("[contatti] TEMP pre-resend", {
-      from: "onboarding@resend.dev",
-      to: tempResendTo,
+    console.log("[contatti] pre-resend: chiamata provider", {
       subjectLen: subject.length,
+      textLen: text.length,
+      toDomain: TO.includes("@") ? TO.split("@").pop() : "(n/a)",
     });
 
     try {
       // TEMP test: usare mittente Resend di default per isolare problemi di dominio mittente
       const { data: sent, error } = await resend.emails.send({
         from: "onboarding@resend.dev",
-        to: [...tempResendTo],
+        to: [TO],
         replyTo: email,
         subject,
         text,
