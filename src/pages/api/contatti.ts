@@ -250,7 +250,7 @@ export const POST: APIRoute = async ({ request }) => {
       `Messaggio:\n${message}\n`;
 
     // TEMP test: destinatario fisso per isolare problemi API/account vs inbox di produzione
-    const tempResendTo = ["lucasannadesign@gmail.com"] as const;
+    const tempResendTo = ["onboarding@resend.dev"] as const;
     console.log("[contatti] TEMP pre-resend", {
       from: "onboarding@resend.dev",
       to: tempResendTo,
