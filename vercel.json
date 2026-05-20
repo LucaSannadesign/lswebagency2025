@@ -8,12 +8,12 @@
   "redirects": [
     {
       "source": "/blog/blog/scegliere-tipo-sito-web",
-      "destination": "/scegliere-tipo-sito-web",
+      "destination": "/blog/scegliere-tipo-sito-web",
       "permanent": true
     },
     {
       "source": "/blog/blog/manus-ai-nuova-intelligenza-artificiale",
-      "destination": "/manus-ai-nuova-intelligenza-artificiale",
+      "destination": "/blog/manus-ai-nuova-intelligenza-artificiale",
       "permanent": true
     },
     {
@@ -43,12 +43,12 @@
     },
     {
       "source": "/blog/blog/blog/intelligenza-artificiale-web-design-italia",
-      "destination": "/intelligenza-artificiale-web-design-italia",
+      "destination": "/blog/intelligenza-artificiale-web-design-italia",
       "permanent": true
     },
     {
       "source": "/blog/blog/intelligenza-artificiale-web-design-italia",
-      "destination": "/intelligenza-artificiale-web-design-italia",
+      "destination": "/blog/intelligenza-artificiale-web-design-italia",
       "permanent": true
     },
     {
