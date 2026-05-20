@@ -4,6 +4,127 @@
       "source": "/api/:path*",
       "destination": "/_render"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/blog/blog/scegliere-tipo-sito-web",
+      "destination": "/scegliere-tipo-sito-web",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/manus-ai-nuova-intelligenza-artificiale",
+      "destination": "/manus-ai-nuova-intelligenza-artificiale",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/strategie-contenuti-sito-web",
+      "destination": "/strategie-contenuti-sito-web",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/voucher-digitali-sassari-2025",
+      "destination": "/voucher-digitali-sassari-2025",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/come-scegliere-web-agency",
+      "destination": "/come-scegliere-web-agency",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/sito-lento-clienti-persi",
+      "destination": "/sito-lento-clienti-persi",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/prima-di-rifare-il-sito-mini-audit-chiarezza",
+      "destination": "/prima-di-rifare-il-sito-mini-audit-chiarezza",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/blog/intelligenza-artificiale-web-design-italia",
+      "destination": "/intelligenza-artificiale-web-design-italia",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/intelligenza-artificiale-web-design-italia",
+      "destination": "/intelligenza-artificiale-web-design-italia",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/strumenti-risorse-creare-sito-web-professionale",
+      "destination": "/strumenti-risorse-creare-sito-web-professionale",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/perche-sito-vetrina-non-basta-piu",
+      "destination": "/perche-sito-vetrina-non-basta-piu",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/nuova-versione-sito-ls-web-agency-veloce-ux-seo",
+      "destination": "/nuova-versione-sito-ls-web-agency-veloce-ux-seo",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/come-creare-landing-page-perfetta",
+      "destination": "/come-creare-landing-page-perfetta",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/ai-overviews-zero-click-geo-conversione",
+      "destination": "/ai-overviews-zero-click-geo-conversione",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/ai-overviews-italia-seo-2026",
+      "destination": "/ai-overviews-italia-seo-2026",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/landing-page-contatti-whatsapp-form",
+      "destination": "/landing-page-contatti-whatsapp-form",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/mobile-first-ottimizzazione-sito",
+      "destination": "/mobile-first-ottimizzazione-sito",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/intelligenza-artificiale-web-design",
+      "destination": "/intelligenza-artificiale-web-design",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/guida-copywriting-seo",
+      "destination": "/guida-copywriting-seo",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/come-misurare-velocita-sito-web",
+      "destination": "/come-misurare-velocita-sito-web",
+      "permanent": true
+    },
+    {
+      "source": "/blog/blog/seo-tecnica-ottimizzazione-sito",
+      "destination": "/seo-tecnica-ottimizzazione-sito",
+      "permanent": true
+    },
+    {
+      "source": "/blog/sito-lento-clienti-persi",
+      "destination": "/sito-lento-clienti-persi",
+      "permanent": true
+    },
+    {
+      "source": "/blog/prima-di-rifare-il-sito-mini-audit-chiarezza",
+      "destination": "/prima-di-rifare-il-sito-mini-audit-chiarezza",
+      "permanent": true
+    },
+    {
+      "source": "/blog/perche-il-tuo-sito-non-trasmette-fiducia-in-5-secondi",
+      "destination": "/perche-il-tuo-sito-non-trasmette-fiducia-in-5-secondi",
+      "permanent": true
+    }
   ]
 }
-
