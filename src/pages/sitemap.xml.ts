@@ -38,7 +38,7 @@ export async function GET({ site }: { site: URL }) {
     '/servizi/personalizzazione-ux-intelligenza-artificiale',
     '/servizi/web-design-etico-sostenibile',
     '/servizi/wordpress-slim-siti-statici-headless',
-    // '/servizi/assistente-ai-sito-whatsapp',
+    '/servizi/assistente-ai-sito-whatsapp',
   ];
 
   type Entry = { loc: string; lastmod?: string };

@@ -45,8 +45,12 @@ const idx = ordered.findIndex((e) => String(e.data?.slug) === String(slug));
 const prev = idx > 0 ? ordered[idx - 1] : null;
 const next = idx < ordered.length - 1 ? ordered[idx + 1] : null;
 
-// SEO base: usa eventuale d.metadata, fallback al titolo
-const metadata = d.metadata ?? { title: d.title };
+// SEO: unisce metadata del frontmatter con title/description di pagina
+const metadata = {
+  ...(d.metadata ?? {}),
+  title: d.metadata?.title ?? d.title,
+  description: d.metadata?.description ?? d.description,
+};
 ---
 
 <Layout metadata={metadata}>

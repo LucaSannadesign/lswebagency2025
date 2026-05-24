@@ -27,7 +27,7 @@ const metadata = notFound
   ? {
       title: "Local — pagina non trovata | LS Web Agency",
       description: "La pagina richiesta non è disponibile.",
-      canonical: "https://lswebagency.com/local",
+      canonical: "/local",
       robots: { index: false, follow: true }
     }
   : {
@@ -35,8 +35,7 @@ const metadata = notFound
       description:
         d.metadata?.description ??
         `Siti web, SEO locale e automazioni AI per attività a ${name}.`,
-      canonical:
-        d.metadata?.canonical ?? `https://lswebagency.com/local/${slug}`,
+      canonical: `/local/${slug}`,
       robots: d.metadata?.robots ?? { index: true, follow: true }
     };
 
