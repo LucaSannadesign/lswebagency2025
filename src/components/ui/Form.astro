@@ -41,8 +41,12 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
           name={textarea.name ? textarea.name : 'message'}
           rows={textarea.rows ? textarea.rows : 4}
           placeholder={textarea.placeholder}
+          minlength="10"
           class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
         />
+        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          Scrivi almeno 10 caratteri.
+        </p>
       </div>
     )
   }
