@@ -40,7 +40,18 @@ function checkRateLimit(ipKey: string): boolean {
  * Legge variabili d'ambiente sia in locale (Astro) sia su Vercel (process.env)
  */
 function env(key: string): string | undefined {
-  return (import.meta as any)?.env?.[key] ?? process.env[key];
+  const values: Record<string, string | undefined> = {
+    RESEND_API_KEY: import.meta.env.RESEND_API_KEY,
+    CONTACT_TO_EMAIL: import.meta.env.CONTACT_TO_EMAIL,
+    CONTACT_FROM_EMAIL: import.meta.env.CONTACT_FROM_EMAIL,
+    MAIL_TO: import.meta.env.MAIL_TO,
+    MAIL_FROM: import.meta.env.MAIL_FROM,
+    MAIL_SUBJECT_PREFIX: import.meta.env.MAIL_SUBJECT_PREFIX,
+    VERCEL_ENV: import.meta.env.VERCEL_ENV,
+    CONTACT_ALLOW_EMAIL_IN_PREVIEW: import.meta.env.CONTACT_ALLOW_EMAIL_IN_PREVIEW,
+  };
+
+  return values[key];
 }
 
 function isEmail(value: string): boolean {
