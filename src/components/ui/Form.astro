@@ -121,27 +121,38 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
       setStatus(statusEl, 'Invio in corso…', 'load');
 
       const formData = new FormData(form);
-      if (formData.has('disclaimer')) {
-        const v = formData.get('disclaimer');
-        formData.delete('disclaimer');
-        if (v !== null && v !== '') formData.set('privacy', typeof v === 'string' ? v : 'on');
-      }
+      const payload = {
+        name: String(formData.get('name') || ''),
+        email: String(formData.get('email') || ''),
+        phone: String(formData.get('phone') || ''),
+        service: String(formData.get('service') || ''),
+        message: String(formData.get('message') || ''),
+        privacy: formData.get('disclaimer') === 'on',
+        company: '',
+      };
 
       try {
-        const res = await fetch('/api/contact', { method: 'POST', body: formData });
+        const res = await fetch('/api/contatti', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
         let body: { ok?: boolean; message?: string } = {};
         try {
           body = await res.json();
         } catch {
           body = {};
         }
-        const fallback = res.ok ? 'Messaggio inviato con successo.' : 'Richiesta non riuscita.';
-        const msg = typeof body.message === 'string' ? body.message : fallback;
 
-        if (res.ok && body.ok !== false) {
+        if (res.ok && body.ok === true) {
+          const msg =
+            typeof body.message === 'string' ? body.message : 'Messaggio inviato con successo.';
           setStatus(statusEl, msg, 'ok');
           form.reset();
         } else {
+          const msg = typeof body.message === 'string' ? body.message : 'Richiesta non riuscita.';
           setStatus(statusEl, msg, 'err');
         }
       } catch {
