@@ -8,7 +8,7 @@
  */
 
 import Layout from '@/layouts/PageLayout.astro';
-import ContactForm from '@/components/ui/Form.astro';
+import Button from '@/components/ui/Button.astro';
 import { Icon } from 'astro-icon/components';
 import { findLatestPosts } from '@/utils/blog';
 import { APP_BLOG } from 'astrowind:config';
@@ -1770,25 +1770,212 @@ const WHATSAPP =
       id="contatto"
       class="relative z-10 mt-12 md:mt-16 max-w-xl mx-auto text-left rounded-2xl bg-white/95 dark:bg-slate-900/95 p-6 md:p-8 shadow-xl ring-1 ring-white/20"
     >
-      <ContactForm
-        client:visible
-        button="Richiedi analisi rapida"
-        inputs={[
-          { type: 'text', name: 'name', label: 'Nome e cognome', autocomplete: 'name', placeholder: 'Il tuo nome' },
-          { type: 'email', name: 'email', label: 'Email', autocomplete: 'email', placeholder: 'nome@esempio.it' },
-          { type: 'tel', name: 'phone', label: 'Telefono (opzionale)', autocomplete: 'tel', placeholder: '' },
-        ]}
-        textarea={{
-          label: 'Messaggio',
-          name: 'message',
-          placeholder: 'Parlaci del tuo sito o della tua attività…',
-          rows: 5,
-        }}
-        disclaimer={{
-          label:
-            'Ho letto e accetto la Privacy Policy (obbligatorio).',
-        }}
-      />
+      <form id="contact-form">
+        <div class="mb-6">
+          <label for="name" class="block text-sm font-medium">Nome e cognome</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            autocomplete="name"
+            placeholder="Il tuo nome"
+            class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          />
+        </div>
+        <div class="mb-6">
+          <label for="email" class="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            autocomplete="email"
+            placeholder="nome@esempio.it"
+            class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          />
+        </div>
+        <div class="mb-6">
+          <label for="phone" class="block text-sm font-medium">Telefono (opzionale)</label>
+          <input
+            type="tel"
+            name="phone"
+            id="phone"
+            autocomplete="tel"
+            class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          />
+        </div>
+        <div class="mb-6">
+          <label for="need" class="block text-sm font-medium">Di cosa hai bisogno?</label>
+          <select
+            id="need"
+            name="need"
+            class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          >
+            <option value="">Seleziona una voce</option>
+            <option value="Ho già un sito da migliorare">Ho già un sito da migliorare</option>
+            <option value="Devo creare un sito da zero">Devo creare un sito da zero</option>
+            <option value="Voglio più visibilità locale">Voglio più visibilità locale</option>
+            <option value="Vorrei un audit o una prima analisi">Vorrei un audit o una prima analisi</option>
+            <option value="Altro">Altro</option>
+          </select>
+        </div>
+        <div class="mb-6">
+          <label for="budget" class="block text-sm font-medium">Budget indicativo</label>
+          <select
+            id="budget"
+            name="budget"
+            class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          >
+            <option value="Preferisco indicarlo dopo">Preferisco indicarlo dopo</option>
+            <option value="Meno di 500 €">Meno di 500 €</option>
+            <option value="500–1.000 €">500–1.000 €</option>
+            <option value="1.000–2.000 €">1.000–2.000 €</option>
+            <option value="Oltre 2.000 €">Oltre 2.000 €</option>
+            <option value="Non lo so ancora">Non lo so ancora</option>
+          </select>
+          <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+            Serve solo a capire quale percorso proporti, non è un vincolo definitivo.
+          </p>
+        </div>
+        <div>
+          <label for="textarea" class="block text-sm font-medium">Messaggio</label>
+          <textarea
+            id="textarea"
+            name="message"
+            rows={5}
+            placeholder="Parlaci del tuo sito o della tua attività…"
+            minlength="10"
+            class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          />
+          <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Scrivi almeno 10 caratteri.</p>
+        </div>
+        <div class="mt-3 flex items-start">
+          <div class="flex mt-0.5">
+            <input
+              id="disclaimer"
+              name="disclaimer"
+              type="checkbox"
+              class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+            />
+          </div>
+          <div class="ml-3">
+            <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
+              Ho letto e accetto la Privacy Policy (obbligatorio).
+            </label>
+          </div>
+        </div>
+        <div class="mt-10">
+          <div
+            id="contact-form-status"
+            class="mb-4 min-h-[1.25rem] text-sm text-center"
+            role="status"
+            aria-live="polite"
+          />
+          <div class="grid">
+            <Button variant="primary" type="submit">Richiedi analisi rapida</Button>
+          </div>
+        </div>
+      </form>
+
+      <div class="mt-8 pt-6 border-t border-slate-200/80 dark:border-slate-700 text-center">
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Oppure preferisci un primo contatto più rapido?
+        </p>
+        <a
+          href={WHATSAPP}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+        >
+          Scrivimi su WhatsApp
+        </a>
+      </div>
+
+      <script>
+        function setStatus(el: HTMLElement | null, text: string, kind: 'idle' | 'load' | 'ok' | 'err') {
+          if (!el) return;
+          el.textContent = text;
+          const base = 'mb-4 min-h-[1.25rem] text-sm text-center ';
+          if (kind === 'idle') el.className = base;
+          else if (kind === 'load') el.className = base + 'text-gray-600 dark:text-gray-400';
+          else if (kind === 'ok') el.className = base + 'text-green-600 dark:text-green-400';
+          else el.className = base + 'text-red-600 dark:text-red-400';
+        }
+
+        function buildMessage(formData: FormData): string {
+          const lines: string[] = [];
+          const need = String(formData.get('need') || '').trim();
+          const budget = String(formData.get('budget') || '').trim();
+          const phone = String(formData.get('phone') || '').trim();
+          if (need) lines.push(`Bisogno: ${need}`);
+          if (budget && budget !== 'Preferisco indicarlo dopo') lines.push(`Budget indicativo: ${budget}`);
+          if (phone) lines.push(`Telefono: ${phone}`);
+          const body = String(formData.get('message') || '').trim();
+          if (lines.length) return `${lines.join('\n')}\n\n${body}`;
+          return body;
+        }
+
+        function attachContactFormHandler() {
+          const form = document.getElementById('contact-form');
+          if (!form || !(form instanceof HTMLFormElement)) return;
+
+          const statusEl = document.getElementById('contact-form-status');
+          const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+          if (form.dataset.contactFetchBound === '1') return;
+          form.dataset.contactFetchBound = '1';
+
+          form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            if (submitBtn) submitBtn.disabled = true;
+            setStatus(statusEl, 'Invio in corso…', 'load');
+
+            const formData = new FormData(form);
+            const payload = {
+              name: String(formData.get('name') || ''),
+              email: String(formData.get('email') || ''),
+              message: buildMessage(formData),
+              privacy: formData.get('disclaimer') === 'on',
+              company: '',
+            };
+
+            try {
+              const res = await fetch('/api/contatti', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+              });
+              let body: { ok?: boolean; message?: string } = {};
+              try {
+                body = await res.json();
+              } catch {
+                body = {};
+              }
+
+              if (res.ok && body.ok === true) {
+                const msg =
+                  typeof body.message === 'string' ? body.message : 'Messaggio inviato con successo.';
+                setStatus(statusEl, msg, 'ok');
+                form.reset();
+              } else {
+                const msg = typeof body.message === 'string' ? body.message : 'Richiesta non riuscita.';
+                setStatus(statusEl, msg, 'err');
+              }
+            } catch {
+              setStatus(statusEl, 'Connessione non riuscita. Riprova.', 'err');
+            } finally {
+              if (submitBtn) submitBtn.disabled = false;
+            }
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', attachContactFormHandler);
+        } else {
+          attachContactFormHandler();
+        }
+      </script>
     </section>
   </section>
 </Layout>
