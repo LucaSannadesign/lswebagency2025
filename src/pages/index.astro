@@ -1399,8 +1399,10 @@ const WHATSAPP =
         ))}
       </div>
 
-      <div class="mt-12 md:mt-14 max-w-6xl mx-auto">
-        <div class="text-center mb-10 md:mb-12">
+      <div
+        class="mt-12 md:mt-16 max-w-6xl mx-auto rounded-3xl bg-gradient-to-b from-slate-50 via-violet-50/50 to-blue-50/40 px-5 py-10 md:px-10 md:py-12 ring-1 ring-slate-200/90 dark:from-slate-900/90 dark:via-violet-950/25 dark:to-slate-900/90 dark:ring-slate-700/60"
+      >
+        <div class="text-center mb-8 md:mb-10">
           <h3 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3">
             Scegli da dove partire
           </h3>
@@ -1409,12 +1411,14 @@ const WHATSAPP =
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-left">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-stretch text-left">
           <div
-            class="flex flex-col rounded-2xl bg-gradient-to-br from-white to-slate-50/95 p-6 md:p-7 ring-1 ring-slate-200/90 shadow-[0_22px_55px_-18px_rgba(15,23,42,0.14)] dark:from-slate-800 dark:to-slate-900/95 dark:ring-slate-600/55 dark:shadow-[0_22px_55px_-18px_rgba(0,0,0,0.48)]"
+            class="flex h-full min-h-[22rem] flex-col rounded-2xl bg-white/95 p-6 md:p-7 shadow-sm ring-1 ring-slate-200/90 dark:bg-slate-800/95 dark:ring-slate-600/55"
           >
             <h4 class="text-lg font-bold text-slate-900 dark:text-white">Audit rapido sito web</h4>
-            <p class="mt-2 text-sm font-semibold text-brand-blue dark:text-blue-400">Da 149 €</p>
+            <p class="mt-3 text-base font-bold tabular-nums tracking-tight text-slate-800 dark:text-slate-100">
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Da </span>149 €
+            </p>
             <p class="mt-3 text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Per capire cosa frena chiarezza, fiducia e richieste di contatto nel tuo sito attuale.
             </p>
@@ -1434,7 +1438,7 @@ const WHATSAPP =
             </ul>
             <a
               href="/contatti"
-              class="mt-6 inline-flex w-full items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200"
+              class="mt-auto pt-6 inline-flex w-full items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200"
             >
               <span>Prenota audit rapido</span>
               <Icon name="tabler:arrow-right" class="w-4 h-4 shrink-0" />
@@ -1442,10 +1446,17 @@ const WHATSAPP =
           </div>
 
           <div
-            class="flex flex-col rounded-2xl bg-gradient-to-br from-white to-slate-50/95 p-6 md:p-7 ring-1 ring-slate-200/90 shadow-[0_22px_55px_-18px_rgba(15,23,42,0.14)] dark:from-slate-800 dark:to-slate-900/95 dark:ring-slate-600/55 dark:shadow-[0_22px_55px_-18px_rgba(0,0,0,0.48)]"
+            class="relative flex h-full min-h-[22rem] flex-col rounded-2xl bg-gradient-to-br from-white to-violet-50/80 p-6 pt-9 md:p-7 md:pt-10 shadow-md ring-2 ring-brand-purple/25 dark:from-slate-800 dark:to-violet-950/30 dark:ring-violet-400/30"
           >
+            <span
+              class="absolute -top-3 left-1/2 -translate-x-1/2 max-w-[calc(100%-2rem)] px-3 py-1 rounded-full bg-brand-purple/10 dark:bg-brand-purple/20 text-xs font-semibold text-brand-purple dark:text-violet-300 ring-1 ring-brand-purple/15 text-center"
+            >
+              Percorso più richiesto
+            </span>
             <h4 class="text-lg font-bold text-slate-900 dark:text-white">Sito per attività locali</h4>
-            <p class="mt-2 text-sm font-semibold text-brand-blue dark:text-blue-400">Da 790 €</p>
+            <p class="mt-3 text-base font-bold tabular-nums tracking-tight text-slate-800 dark:text-slate-100">
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Da </span>790 €
+            </p>
             <p class="mt-3 text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Per creare o rifare un sito chiaro, leggero e pensato per presentare bene servizi, valori e contatti.
             </p>
@@ -1465,7 +1476,7 @@ const WHATSAPP =
             </ul>
             <a
               href="/contatti"
-              class="mt-6 inline-flex w-full items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200"
+              class="mt-auto pt-6 inline-flex w-full items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200"
             >
               <span>Richiedi preventivo sito</span>
               <Icon name="tabler:arrow-right" class="w-4 h-4 shrink-0" />
@@ -1473,10 +1484,12 @@ const WHATSAPP =
           </div>
 
           <div
-            class="flex flex-col rounded-2xl bg-gradient-to-br from-white to-slate-50/95 p-6 md:p-7 ring-1 ring-slate-200/90 shadow-[0_22px_55px_-18px_rgba(15,23,42,0.14)] dark:from-slate-800 dark:to-slate-900/95 dark:ring-slate-600/55 dark:shadow-[0_22px_55px_-18px_rgba(0,0,0,0.48)]"
+            class="flex h-full min-h-[22rem] flex-col rounded-2xl bg-white/95 p-6 md:p-7 shadow-sm ring-1 ring-slate-200/90 dark:bg-slate-800/95 dark:ring-slate-600/55"
           >
             <h4 class="text-lg font-bold text-slate-900 dark:text-white">SEO locale starter</h4>
-            <p class="mt-2 text-sm font-semibold text-brand-blue dark:text-blue-400">Da 99 €</p>
+            <p class="mt-3 text-base font-bold tabular-nums tracking-tight text-slate-800 dark:text-slate-100">
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Da </span>99 €
+            </p>
             <p class="mt-3 text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Per migliorare la presenza della tua attività nelle ricerche locali e su Google Maps.
             </p>
@@ -1496,7 +1509,7 @@ const WHATSAPP =
             </ul>
             <a
               href="/servizi/seo-locale"
-              class="mt-6 inline-flex w-full items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200"
+              class="mt-auto pt-6 inline-flex w-full items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-brand-blue hover:opacity-95 rounded-full transition-all duration-200"
             >
               <span>Verifica SEO locale</span>
               <Icon name="tabler:arrow-right" class="w-4 h-4 shrink-0" />
