@@ -61,7 +61,7 @@ export async function GET({ site }: { site: URL }) {
   if (cities.length) {
     cities
       .filter((c: any) => c?.data?.published)
-      .forEach((c) => push(`/local/${c.slug}`));
+      .forEach((c) => push(`/local/${c.data.slug}`));
   }
 
   // Blog: permalink effettivo della route pubblicata
@@ -73,7 +73,7 @@ export async function GET({ site }: { site: URL }) {
   // Portfolio items
   portfolio.forEach((i) => {
     const last = i.data?.updateDate ?? i.data?.publishDate ?? (i as any).data?.pubDate;
-    push(`/portfolio/${i.slug}`, last as any);
+    push(`/portfolio/${i.data.slug}`, last as any);
   });
 
   // Paginazione Portfolio
