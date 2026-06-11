@@ -80,7 +80,7 @@ const headerItems = sanitize(links);
   >
     <!-- Left: logo + hamburger -->
     <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex items-center justify-between gap-2']}>
-      <a class="flex items-center" href={getHomePermalink()}>
+      <a class="flex items-center" href={getHomePermalink()} aria-label="Torna alla home">
         <img src="/images/logo-ls-webdesignagency-2025.svg" alt="LS Web Design Agency" class="h-10 w-auto dark:hidden" />
         <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="LS Web Design Agency" class="h-10 w-auto hidden dark:block" />
       </a>

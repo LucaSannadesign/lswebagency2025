@@ -2,6 +2,7 @@
 // src/pages/sitemap.astro
 import Layout from '@/layouts/PageLayout.astro';
 import { fetchPosts } from '@/utils/blog';
+import { getPermalink } from '@/utils/permalinks';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 
@@ -70,7 +71,7 @@ const metadata = {
         <ul class="space-y-2">
           {posts.map((post) => (
             <li>
-              <a href={`/blog/${post.slug}`} class="text-blue-600 hover:underline">
+              <a href={getPermalink(post.permalink, 'post')} class="text-blue-600 hover:underline">
                 {post.title}
               </a>
             </li>

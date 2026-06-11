@@ -1,5 +1,7 @@
 // src/pages/sitemap.xml.ts
 import { getCollection } from 'astro:content';
+import { fetchPosts } from '@/utils/blog';
+import { getPermalink } from '@/utils/permalinks';
 
 function esc(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -13,7 +15,7 @@ export async function GET({ site }: { site: URL }) {
   const origin = site?.origin ?? 'https://www.lswebagency.com';
 
   // Collezioni
-  const posts = await getCollection('post', (e) => !e.data?.draft);
+  const posts = await fetchPosts();
   const portfolio = await getCollection('portfolio', (e) => !(e.data as any)?.draft);
   const cities = await getCollection('cities').catch(() => []); // opzionale
 
@@ -62,10 +64,10 @@ export async function GET({ site }: { site: URL }) {
       .forEach((c) => push(`/local/${c.slug}`));
   }
 
-  // Blog: /blog/<slug> (lo slug in Content Collections è già "pulito")
+  // Blog: permalink effettivo della route pubblicata
   posts.forEach((p) => {
-    const last = p.data?.updateDate ?? p.data?.publishDate ?? (p as any).data?.pubDate;
-    push(`/blog/${p.slug}`, last as any);
+    const last = p.updateDate ?? p.publishDate;
+    push(String(getPermalink(p.permalink, 'post')), last as any);
   });
 
   // Portfolio items

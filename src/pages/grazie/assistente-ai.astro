@@ -26,13 +26,13 @@ const calendarLink = import.meta.env.PUBLIC_ONBOARDING_CALENDAR_URL || '#'; // e
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
         {onboardingForm !== '#' && (
-          <a href={onboardingForm} target="_blank" rel="noopener"
+          <a href={onboardingForm} target="_blank" rel="noopener noreferrer"
              class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-emerald-600 hover:bg-emerald-700 transition">
             Compila il modulo di onboarding
           </a>
         )}
         {calendarLink !== '#' && (
-          <a href={calendarLink} target="_blank" rel="noopener"
+          <a href={calendarLink} target="_blank" rel="noopener noreferrer"
              class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
             Prenota la call di avvio
           </a>
@@ -76,7 +76,7 @@ const calendarLink = import.meta.env.PUBLIC_ONBOARDING_CALENDAR_URL || '#'; // e
         Riceverai una email di conferma PayPal. Per assistenza rapida, scrivici su WhatsApp.
       </p>
       <div class="mt-3">
-        <a href={wa} target="_blank" rel="noopener"
+        <a href={wa} target="_blank" rel="noopener noreferrer"
            class="inline-flex items-center rounded-full px-4 py-2 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
           Contatta supporto su WhatsApp
         </a>

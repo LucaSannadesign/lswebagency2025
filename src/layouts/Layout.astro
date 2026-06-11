@@ -23,7 +23,7 @@ export interface Props {
 
 /* ----------------------------- Helpers ---------------------------------- */
 const SITE_TITLE = "LS Web Agency";
-const siteBase = (Astro.site?.toString?.() || "https://lswebagency.com").replace(/\/+$/, "");
+const siteBase = (Astro.site?.toString?.() || "https://www.lswebagency.com").replace(/\/+$/, "");
 
 const toAbs = (val: unknown): string => {
   if (typeof val !== "string") return "";
