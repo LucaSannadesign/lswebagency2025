@@ -150,8 +150,9 @@ const metadata = {
   </section>
 
   <!-- JSON-LD -->
-  <script type="application/ld+json" is:inline>
-    {JSON.stringify({
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Service",
       "name": "Ottimizzazione SEO per Siti Web",
@@ -160,5 +161,5 @@ const metadata = {
       "description": "SEO tecnica, contenuti e link building per migliorare posizionamento e conversioni.",
       "offers": { "@type": "AggregateOffer", "priceCurrency": "EUR", "lowPrice": "0", "highPrice": "0" }
     })}
-  </script>
+  />
 </Layout>

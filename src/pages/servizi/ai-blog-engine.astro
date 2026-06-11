@@ -150,8 +150,9 @@ const metadata = {
   </section>
 
   <!-- JSON-LD -->
-  <script type="application/ld+json" is:inline>
-    {JSON.stringify({
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Service",
       "name": "AI Blog Engine",
@@ -159,5 +160,5 @@ const metadata = {
       "areaServed": "IT",
       "description": "Piano editoriale, brief, stesura assistita dall’AI e revisione umana per contenuti SEO di qualità."
     })}
-  </script>
+  />
 </Layout>

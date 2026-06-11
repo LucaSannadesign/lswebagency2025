@@ -156,7 +156,7 @@ const jsonLdBlocks = md?.jsonLd
 
     <!-- JSON-LD per pagina -->
     {jsonLdBlocks.map((block) => (
-      <script type="application/ld+json" is:inline>{JSON.stringify(block)}</script>
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
     ))}
 
     <!-- Google Tag Manager -->

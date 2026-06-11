@@ -94,8 +94,9 @@ const metadata = {
   </section>
 
   <!-- JSON-LD -->
-  <script type="application/ld+json" is:inline>
-    {JSON.stringify({
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Privacy Policy | LS Web Agency",
@@ -107,5 +108,5 @@ const metadata = {
         "logo": "https://www.lswebagency.com/images/logo.png"
       }
     })}
-  </script>
+  />
 </Layout>
