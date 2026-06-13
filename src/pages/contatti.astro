@@ -3,6 +3,42 @@ import Layout from '@/layouts/PageLayout.astro';
 import Button from '@/components/ui/Button.astro';
 import { Icon } from 'astro-icon/components';
 
+const SERVIZIO_LABELS: Record<string, string> = {
+  'assistente-ai': 'Assistente AI (Sito & WhatsApp)',
+  'audit-rapido': 'Audit Rapido',
+  'landing-page': 'Landing Page Professionale',
+  'fix-performance-seo': 'Fix Performance & SEO',
+  'local-seo-booster': 'Local SEO Booster',
+  ecommerce: 'Realizzazione E-commerce',
+};
+
+const PACCHETTO_LABELS: Record<string, string> = {
+  starter: 'Starter',
+  pro: 'Pro',
+  plus: 'Plus',
+  base: 'Base',
+  completo: 'Completo',
+  setup: 'Setup',
+  manutenzione: 'Manutenzione',
+  'recensioni-booster': 'Recensioni Booster',
+  start: 'Start',
+};
+
+function slugToFallbackLabel(slug: string): string {
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function resolveLabel(slug: string, map: Record<string, string>): string {
+  if (!slug) return '';
+  return map[slug] ?? slugToFallbackLabel(slug);
+}
+
+const requestedServizioSlug = Astro.url.searchParams.get('servizio')?.trim() ?? '';
+const requestedPacchettoSlug = Astro.url.searchParams.get('pacchetto')?.trim() ?? '';
+const requestedServizioLabel = resolveLabel(requestedServizioSlug, SERVIZIO_LABELS);
+const requestedPacchettoLabel = resolveLabel(requestedPacchettoSlug, PACCHETTO_LABELS);
+const showServizioBanner = requestedServizioSlug.length > 0;
+
 const metadata = {
   title: 'Parliamo del tuo sito | LS Web Agency',
   description:
@@ -126,6 +162,17 @@ const AGENCY = {
       <h2 class="text-2xl md:text-3xl font-bold mb-1 dark:text-neutral-100">Richiedi una consulenza</h2>
       <p class="text-neutral-600 dark:text-neutral-200 mb-6">Tempo di compilazione: 2–3 minuti • Nessun impegno</p>
 
+      {showServizioBanner && (
+        <div class="mb-6 rounded-xl p-4 ring-1 ring-violet-200 dark:ring-violet-800 bg-violet-50/80 dark:bg-violet-950/30 text-neutral-800 dark:text-neutral-200">
+          <p class="text-sm md:text-base leading-relaxed">
+            Stai richiedendo informazioni su: <strong>{requestedServizioLabel}</strong>
+            {requestedPacchettoSlug && (
+              <> — <strong>{requestedPacchettoLabel}</strong></>
+            )}. Compila il modulo e ti ricontatterò con disponibilità, tempi e preventivo.
+          </p>
+        </div>
+      )}
+
       <!-- Messaggi di feedback -->
       <div id="form-feedback" class="hidden mb-6 rounded-xl p-4 border" role="alert">
         <div id="form-feedback-content" class="flex items-center gap-3">
@@ -150,6 +197,11 @@ const AGENCY = {
           class="hidden"
           aria-hidden="true"
         />
+
+        <input type="hidden" name="requestedServizioSlug" value={requestedServizioSlug} />
+        <input type="hidden" name="requestedPacchettoSlug" value={requestedPacchettoSlug} />
+        <input type="hidden" name="requestedServizioLabel" value={requestedServizioLabel} />
+        <input type="hidden" name="requestedPacchettoLabel" value={requestedPacchettoLabel} />
 
         <div class="col-span-1 min-w-0">
           <label for="name" class="block text-sm font-medium mb-1">
@@ -631,9 +683,23 @@ const AGENCY = {
             .map((el) => el.value);
 
           const originalMessage = String(formData.get('message') || '');
-          const enrichedMessage = selectedPackages.length
-            ? `${originalMessage}\n\nPacchetto sito di interesse: ${selectedPackages.join(', ')}`
-            : originalMessage;
+          const requestedServizioSlug = String(formData.get('requestedServizioSlug') || '').trim();
+          const requestedPacchettoSlug = String(formData.get('requestedPacchettoSlug') || '').trim();
+          const requestedServizioLabel = String(formData.get('requestedServizioLabel') || '').trim();
+          const requestedPacchettoLabel = String(formData.get('requestedPacchettoLabel') || '').trim();
+
+          let enrichedMessage = originalMessage;
+          if (requestedServizioSlug) {
+            const servizioDisplay = requestedServizioLabel || requestedServizioSlug;
+            const pacchettoDisplay = requestedPacchettoLabel || requestedPacchettoSlug;
+            const ctaLine = pacchettoDisplay
+              ? `Richiesta da CTA: ${servizioDisplay} — ${pacchettoDisplay}`
+              : `Richiesta da CTA: ${servizioDisplay}`;
+            enrichedMessage = `${ctaLine}\n\n${originalMessage}`;
+          }
+          if (selectedPackages.length) {
+            enrichedMessage += `\n\nPacchetto sito di interesse: ${selectedPackages.join(', ')}`;
+          }
 
           const data = {
             name: formData.get('name') || '',
@@ -643,6 +709,10 @@ const AGENCY = {
             message: enrichedMessage,
             privacy: formData.get('privacy') === 'on',
             company: formData.get('company') || '', // honeypot
+            requestedServizioSlug,
+            requestedPacchettoSlug,
+            requestedServizioLabel,
+            requestedPacchettoLabel,
           };
           
           // Log diagnostico (solo in dev)

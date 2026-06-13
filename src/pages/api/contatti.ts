@@ -198,6 +198,16 @@ export const POST: APIRoute = async ({ request }) => {
     const messageRaw = data?.message ?? data?.messaggio ?? data?.body ?? "";
     const message = typeof messageRaw === "string" ? messageRaw.trim() : "";
     const privacy = data?.privacy === true;
+    const phone = typeof data?.phone === "string" ? data.phone.trim().slice(0, 80) : "";
+    const service = typeof data?.service === "string" ? data.service.trim().slice(0, 120) : "";
+    const requestedServizioSlug =
+      typeof data?.requestedServizioSlug === "string" ? data.requestedServizioSlug.trim().slice(0, 120) : "";
+    const requestedPacchettoSlug =
+      typeof data?.requestedPacchettoSlug === "string" ? data.requestedPacchettoSlug.trim().slice(0, 120) : "";
+    const requestedServizioLabel =
+      typeof data?.requestedServizioLabel === "string" ? data.requestedServizioLabel.trim().slice(0, 200) : "";
+    const requestedPacchettoLabel =
+      typeof data?.requestedPacchettoLabel === "string" ? data.requestedPacchettoLabel.trim().slice(0, 200) : "";
 
     // 5) Validazione
     const fields: Record<string, string> = {};
@@ -254,11 +264,26 @@ export const POST: APIRoute = async ({ request }) => {
     const resend = new Resend(RESEND_API_KEY);
 
     const subject = `${MAIL_SUBJECT_PREFIX} — ${name}`;
-    const text =
-      `Nuovo messaggio dal sito\n\n` +
-      `Nome: ${name}\n` +
-      `Email: ${email}\n\n` +
-      `Messaggio:\n${message}\n`;
+    const textLines = [
+      "Nuovo messaggio dal sito",
+      "",
+      `Nome: ${name}`,
+      `Email: ${email}`,
+      `Telefono: ${phone || "—"}`,
+      `Servizio (form): ${service || "—"}`,
+    ];
+    if (requestedServizioSlug || requestedServizioLabel) {
+      textLines.push(`Servizio richiesto (CTA): ${requestedServizioLabel || requestedServizioSlug}`);
+    } else {
+      textLines.push("Servizio richiesto (CTA): —");
+    }
+    if (requestedPacchettoSlug || requestedPacchettoLabel) {
+      textLines.push(`Pacchetto richiesto (CTA): ${requestedPacchettoLabel || requestedPacchettoSlug}`);
+    } else {
+      textLines.push("Pacchetto richiesto (CTA): —");
+    }
+    textLines.push("", "Messaggio:", message);
+    const text = textLines.join("\n");
 
     console.log("[contatti] pre-resend: chiamata provider", {
       subjectLen: subject.length,
