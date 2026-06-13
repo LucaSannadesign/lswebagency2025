@@ -103,12 +103,17 @@ const headerItems = sanitize(links);
       </div>
     </div>
 
+    <!-- Mobile: pannello compatto (nav + CTA) — desktop: lg:contents lascia il grid invariato -->
+    <div
+      data-aw-mobile-menu-panel
+      class="hidden lg:contents max-lg:absolute max-lg:top-full max-lg:right-3 max-lg:mt-2 max-lg:z-50 max-lg:w-[min(22rem,calc(100vw-2rem))] max-lg:max-h-[min(70vh,calc(100dvh-5rem))] max-lg:overflow-y-auto max-lg:rounded-2xl max-lg:border max-lg:border-neutral-200 max-lg:dark:border-neutral-700 max-lg:bg-white/95 max-lg:dark:bg-neutral-900/95 max-lg:shadow-xl max-lg:backdrop-blur-md"
+    >
     <!-- Center: nav -->
     <nav
-      class="hidden lg:flex items-center w-full lg:w-auto lg:mx-5 text-default overflow-y-auto overflow-x-hidden lg:overflow-y-visible lg:overflow-x-visible lg:justify-self-center min-w-0"
+      class="flex flex-col lg:flex lg:flex-row items-stretch lg:items-center w-full lg:w-auto lg:mx-5 text-default lg:overflow-y-visible lg:overflow-x-visible lg:justify-self-center min-w-0 max-lg:py-2"
       aria-label="Main navigation"
     >
-      <ul class="flex flex-col lg:flex-row text-xl lg:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center w-full lg:w-auto">
+      <ul class="flex flex-col lg:flex-row text-base lg:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center w-full lg:w-auto">
         {headerItems.map(({ text, href, links }) => (
           <li class={links?.length ? 'dropdown' : ''}>
             {links?.length ? (
@@ -180,10 +185,10 @@ const headerItems = sanitize(links);
     <div
       class:list={[
         { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden lg:flex items-center fixed bottom-0 lg:static w-full lg:w-auto justify-end p-3 lg:p-0 lg:justify-self-end',
+        'flex flex-col lg:flex lg:flex-row items-stretch lg:items-center w-full lg:w-auto justify-end max-lg:border-t max-lg:border-neutral-200 max-lg:dark:border-neutral-700 max-lg:p-3 lg:p-0 lg:justify-self-end',
       ]}
     >
-      <div class="flex items-center w-full lg:w-auto justify-between">
+      <div class="hidden lg:flex items-center w-full lg:w-auto justify-between">
         <div class="flex items-center gap-2">
           {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" />}
           {showRssFeed && (
@@ -207,6 +212,15 @@ const headerItems = sanitize(links);
           </span>
         )}
       </div>
+
+      {actions.length > 0 && (
+        <div class="lg:hidden w-full pt-1">
+          {actions.map((btn) => (
+            <Button {...btn} class="w-full justify-center py-2.5 px-5.5 font-semibold text-sm shadow-none" />
+          ))}
+        </div>
+      )}
+    </div>
     </div>
   </div>
 </header>

@@ -93,13 +93,16 @@
   box-shadow: none;
 }
 
-#header.expanded nav {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  right: 0;
-  bottom: 70px !important;
-  padding: 0 5px;
+@media (max-width: 1023px) {
+  #header.expanded [data-aw-mobile-menu-panel] .dropdown-menu {
+    position: static;
+    display: block;
+    box-shadow: none;
+    background: transparent;
+    backdrop-filter: none;
+    padding-left: 1rem;
+    min-width: 0;
+  }
 }
 
 /* =========================
