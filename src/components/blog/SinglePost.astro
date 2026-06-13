@@ -55,8 +55,10 @@ if (!coverSrc && post?.image && typeof post.image.url === 'string') {
 }
 
 // dimensioni fallback sicure (niente CLS con /public)
-if (!coverW) coverW = Number(post?.imageWidth) || 1200;
-if (!coverH) coverH = Number(post?.imageHeight) || 675;
+if (!coverW) coverW = Number(post?.imageWidth) || undefined;
+if (!coverH) coverH = Number(post?.imageHeight) || undefined;
+
+const hasExplicitDimensions = Boolean(coverW && coverH);
 
 // URL per lo share
 const shareUrl = typeof url === 'string' ? url : url?.toString?.() ?? '';
@@ -94,15 +96,14 @@ const shareUrl = typeof url === 'string' ? url : url?.toString?.() ?? '';
 
     <!-- Unica cover (solo se presente) -->
     {coverSrc && (
-      <div class="mt-10 overflow-hidden rounded-2xl shadow-md">
+      <div class="mt-10 overflow-hidden rounded-2xl shadow-md bg-slate-100 dark:bg-slate-900/40 ring-1 ring-slate-200/70 dark:ring-slate-700/50">
         <img
           src={coverSrc}
           alt={coverAlt}
-          width={coverW}
-          height={coverH}
+          {...(hasExplicitDimensions ? { width: coverW, height: coverH } : {})}
           loading="eager"
           decoding="async"
-          class="w-full h-auto"
+          class="block w-full h-auto max-w-full object-contain"
         />
       </div>
     )}
