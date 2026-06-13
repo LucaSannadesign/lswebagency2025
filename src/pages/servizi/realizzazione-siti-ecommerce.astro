@@ -12,19 +12,6 @@ const metadata = {
     'Soluzioni E-commerce scalabili, ottimizzate per SEO e conversioni. Dallo shop essenziale a progetti complessi integrati con gestionale e automazioni.',
   canonical: '/servizi/realizzazione-siti-ecommerce',
 };
-
-// ⚙️ PayPal Hosted Buttons (se non presenti -> fallback ai contatti)
-const paypalEnv = (import.meta.env.PUBLIC_PAYPAL_ENV || 'live').toLowerCase();
-const paypalAction =
-  paypalEnv === 'sandbox'
-    ? 'https://www.sandbox.paypal.com/cgi-bin/webscr'
-    : 'https://www.paypal.com/cgi-bin/webscr';
-
-const PP_START = import.meta.env.PUBLIC_PAYPAL_ECOM_START_BTN_ID || '';
-const PP_PRO   = import.meta.env.PUBLIC_PAYPAL_ECOM_PRO_BTN_ID || '';
-
-// Dove atterrare post-acquisto / annullamento (aggiorna col tuo dominio)
-const RETURN_BASE = 'https://www.tuodominio.it';
 ---
 
 <Layout metadata={metadata}>
@@ -161,34 +148,16 @@ const RETURN_BASE = 'https://www.tuodominio.it';
           <li>• Formazione 1h + manuale rapido</li>
         </ul>
 
-        <!-- CTA: PayPal (se ID presente) + contatto -->
+        <!-- CTA -->
         <div class="mt-5 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-          {PP_START
-            ? (
-              <form action={paypalAction} method="post" target="_top" class="inline-block">
-                <input type="hidden" name="cmd" value="_s-xclick" />
-                <input type="hidden" name="hosted_button_id" value={PP_START} />
-                <input type="hidden" name="currency_code" value="EUR" />
-                <input type="hidden" name="return" value={`${RETURN_BASE}/grazie?prodotto=ecom-start`} />
-                <input type="hidden" name="cancel_return" value={`${RETURN_BASE}/servizi/realizzazione-siti-ecommerce#pacchetti`} />
-                <button type="submit" aria-label="Acquista ora — E-commerce Start (PayPal)">
-                  <img src="https://www.paypalobjects.com/it_IT/i/btn/btn_buynowCC_LG.gif" alt="Paga adesso con PayPal" />
-                </button>
-              </form>
-            )
-            : (
-              <a href="/contatti" class="inline-flex justify-center rounded-full px-5 py-3 bg-indigo-600 text-white hover:bg-indigo-700">
-                Richiedi preventivo
-              </a>
-            )
-          }
+          <a href="/contatti?servizio=ecommerce&pacchetto=start" class="inline-flex justify-center rounded-full px-5 py-3 bg-indigo-600 text-white hover:bg-indigo-700 font-semibold">
+            Richiedi un preventivo e-commerce
+          </a>
 
-          <a href="/contatti" class="inline-flex justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-            Parla con Luca
+          <a href="/contatti?servizio=ecommerce" class="inline-flex justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+            Parliamo del tuo e-commerce
           </a>
         </div>
-
-        <p class="mt-2 text-xs text-neutral-500">Pagamento con PayPal.</p>
       </article>
 
       <!-- PRO -->
@@ -207,36 +176,22 @@ const RETURN_BASE = 'https://www.tuodominio.it';
           <li>• Supporto e reportistica mensile</li>
         </ul>
 
-        <!-- CTA: PayPal (se ID presente) + contatto -->
+        <!-- CTA -->
         <div class="mt-5 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-          {PP_PRO
-            ? (
-              <form action={paypalAction} method="post" target="_top" class="inline-block">
-                <input type="hidden" name="cmd" value="_s-xclick" />
-                <input type="hidden" name="hosted_button_id" value={PP_PRO} />
-                <input type="hidden" name="currency_code" value="EUR" />
-                <input type="hidden" name="return" value={`${RETURN_BASE}/grazie?prodotto=ecom-pro`} />
-                <input type="hidden" name="cancel_return" value={`${RETURN_BASE}/servizi/realizzazione-siti-ecommerce#pacchetti`} />
-                <button type="submit" aria-label="Acquista ora — E-commerce Pro (PayPal)">
-                  <img src="https://www.paypalobjects.com/it_IT/i/btn/btn_buynowCC_LG.gif" alt="Paga adesso con PayPal" />
-                </button>
-              </form>
-            )
-            : (
-              <a href="/contatti" class="inline-flex justify-center rounded-full px-5 py-3 bg-indigo-600 text-white hover:bg-indigo-700">
-                Richiedi preventivo
-              </a>
-            )
-          }
+          <a href="/contatti?servizio=ecommerce&pacchetto=pro" class="inline-flex justify-center rounded-full px-5 py-3 bg-indigo-600 text-white hover:bg-indigo-700 font-semibold">
+            Richiedi disponibilità
+          </a>
 
-          <a href="/contatti" class="inline-flex justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-            Parla con Luca
+          <a href="/contatti?servizio=ecommerce" class="inline-flex justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+            Parliamo del tuo e-commerce
           </a>
         </div>
-
-        <p class="mt-2 text-xs text-neutral-300">Pagamento sicuro con PayPal.</p>
       </article>
     </div>
+
+    <p class="mt-6 max-w-5xl text-sm text-neutral-600 dark:text-neutral-400">
+      Il pagamento viene concordato dopo la conferma del servizio e l'accettazione del preventivo.
+    </p>
   </section>
 
   <!-- TECNOLOGIE & CMS -->
