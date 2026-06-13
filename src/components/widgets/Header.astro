@@ -161,6 +161,7 @@ const headerItems = sanitize(links);
             ) : (
               <a
                 href={href}
+                {...(href === '/blog' ? { 'data-astro-reload': true } : {})}
                 class:list={[
                   'hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap',
                   { 'aw-link-active': href === currentPath },

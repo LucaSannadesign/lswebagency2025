@@ -111,6 +111,7 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
               <li>
                 <a
                   href={href}
+                  {...(href === '/blog' ? { 'data-astro-reload': true } : {})}
                   class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/30"
                 >
                   {text}
