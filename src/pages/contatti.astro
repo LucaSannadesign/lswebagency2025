@@ -39,6 +39,26 @@ const requestedServizioLabel = resolveLabel(requestedServizioSlug, SERVIZIO_LABE
 const requestedPacchettoLabel = resolveLabel(requestedPacchettoSlug, PACCHETTO_LABELS);
 const showServizioBanner = requestedServizioSlug.length > 0;
 
+const SERVICE_SELECT_VALUES = new Set([
+  'sito-web',
+  'landing-page',
+  'ecommerce',
+  'wordpress-slim',
+  'seo-locale',
+  'local-seo-booster',
+  'audit-rapido',
+  'fix-performance-seo',
+  'assistente-ai',
+  'ai-automazioni',
+  'ux-ai',
+  'ai-blog-engine',
+  'branding',
+  'manutenzione',
+  'altro',
+]);
+
+const preselectedService = SERVICE_SELECT_VALUES.has(requestedServizioSlug) ? requestedServizioSlug : '';
+
 const metadata = {
   title: 'Parliamo del tuo sito | LS Web Agency',
   description:
@@ -250,25 +270,45 @@ const AGENCY = {
           />
         </div>
 
-     <div class="col-span-1 min-w-0">
-  <label for="service" class="block text-sm font-medium mb-1">
-    Servizio di interesse
-  </label>
-  <select
-    id="service"
-    name="service"
-    class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500"
-  >
-    <option value="" selected>Seleziona…</option>
-    <option value="sito-web">Sito web</option>
-    <option value="ecommerce">E-commerce</option>
-    <option value="visibilita-online">Visibilità online</option>
-    <option value="branding">Branding &amp; grafica</option>
-    <option value="ai-automazioni">AI / automazioni</option>
-    <option value="assistenza">Assistenza &amp; manutenzione</option>
-    <option value="altro">Altro</option>
-  </select>
-</div>
+        <div class="col-span-1 min-w-0">
+          <label for="service" class="block text-sm font-medium mb-1">
+            Servizio di interesse
+          </label>
+          <select
+            id="service"
+            name="service"
+            class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500"
+          >
+            <option value="" selected={preselectedService === ''}>Seleziona…</option>
+
+            <optgroup label="Siti web e sviluppo">
+              <option value="sito-web" selected={preselectedService === 'sito-web'}>Sito web strategico</option>
+              <option value="landing-page" selected={preselectedService === 'landing-page'}>Landing page professionale</option>
+              <option value="ecommerce" selected={preselectedService === 'ecommerce'}>E-commerce</option>
+              <option value="wordpress-slim" selected={preselectedService === 'wordpress-slim'}>WordPress / sito statico headless</option>
+            </optgroup>
+
+            <optgroup label="SEO e visibilità">
+              <option value="seo-locale" selected={preselectedService === 'seo-locale'}>SEO locale</option>
+              <option value="local-seo-booster" selected={preselectedService === 'local-seo-booster'}>Local SEO Booster</option>
+              <option value="audit-rapido" selected={preselectedService === 'audit-rapido'}>Audit rapido</option>
+              <option value="fix-performance-seo" selected={preselectedService === 'fix-performance-seo'}>Fix Performance &amp; SEO</option>
+            </optgroup>
+
+            <optgroup label="AI e automazioni">
+              <option value="assistente-ai" selected={preselectedService === 'assistente-ai'}>Assistente AI (Sito &amp; WhatsApp)</option>
+              <option value="ai-automazioni" selected={preselectedService === 'ai-automazioni'}>AI / automazioni</option>
+              <option value="ux-ai" selected={preselectedService === 'ux-ai'}>UX con Intelligenza Artificiale</option>
+              <option value="ai-blog-engine" selected={preselectedService === 'ai-blog-engine'}>AI Blog Engine</option>
+            </optgroup>
+
+            <optgroup label="Brand e supporto">
+              <option value="branding" selected={preselectedService === 'branding'}>Branding &amp; grafica</option>
+              <option value="manutenzione" selected={preselectedService === 'manutenzione'}>Assistenza &amp; manutenzione</option>
+              <option value="altro" selected={preselectedService === 'altro'}>Altro</option>
+            </optgroup>
+          </select>
+        </div>
 
         <fieldset id="web-project-options" class="col-span-1 md:col-span-2 min-w-0 hidden">
           <legend class="block text-sm font-medium mb-2">
