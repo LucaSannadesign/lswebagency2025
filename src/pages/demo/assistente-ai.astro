@@ -1,22 +1,9 @@
 ---
-// src/pages/servizi/assistente-ai-sito-whatsapp.astro
+// src/pages/demo/assistente-ai.astro
 import Layout from '@/layouts/PageLayout.astro';
 
-/* ===== Variabili lette da .env.local =====
-PUBLIC_PAYPAL_CLIENT_ID         -> SDK PayPal (necessario solo per Pro/Hosted Button)
-PUBLIC_PAYPAL_SETUP_STARTER     -> Link NCP PayPal (Starter)
-PUBLIC_PAYPAL_HOSTED_BUTTON_PRO -> ID Hosted Button (Pro)
-PUBLIC_PAYPAL_SETUP_PRO         -> Link NCP PayPal fallback (Pro)
-PUBLIC_PAYPAL_SETUP_PLUS        -> Link NCP PayPal (Plus)
-PUBLIC_WHATSAPP_DEMO_LINK       -> Link wa.me per demo rapida
-*/
-
-const demoUrl         = "/demo/assistente-ai";
-
-const linkStarter     = import.meta.env.PUBLIC_PAYPAL_SETUP_STARTER || "";
-const linkProFallback = import.meta.env.PUBLIC_PAYPAL_SETUP_PRO || "";
-const linkPlus        = import.meta.env.PUBLIC_PAYPAL_SETUP_PLUS || "";
-const waDemo          = import.meta.env.PUBLIC_WHATSAPP_DEMO_LINK || "";
+const demoUrl = '/demo/assistente-ai';
+const waDemo = import.meta.env.PUBLIC_WHATSAPP_DEMO_LINK || '';
 
 const metadata = {
   title: 'Assistente AI (Sito & WhatsApp) — Risposte 24/7 per PMI',
@@ -61,8 +48,8 @@ const metadata = {
             Chatta su WhatsApp
           </a>
         )}
-        <a href="#prezzi-pro" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition">
-          Attiva Pro
+        <a href="/contatti?servizio=assistente-ai" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-black hover:opacity-90 transition">
+          Parliamo dell'assistente AI
         </a>
         <a href="#prezzi" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition">
           Vedi prezzi
@@ -174,7 +161,7 @@ const metadata = {
   <!-- PRICING -->
   <section id="prezzi" class="container mx-auto px-6 py-10">
     <h2 class="text-2xl md:text-3xl font-bold mb-6">Piani &amp; prezzi</h2>
-    <p class="text-neutral-600 dark:text-neutral-300 mb-6"><em>Indicativi, personalizzabili in base a canali e volumi.</em></p>
+    <p class="text-neutral-600 dark:text-neutral-300 mb-6"><em>Prezzi indicativi, personalizzabili in base a canali e volumi. I prezzi sono indicativi e vengono confermati dopo la valutazione del progetto.</em></p>
     <div class="grid md:grid-cols-3 gap-6">
 
       <!-- Starter -->
@@ -198,14 +185,10 @@ const metadata = {
                    border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
           >Demo</a>
           <a
-            href={linkStarter || "#"}
-            target={linkStarter ? "_blank" : undefined}
-            rel={linkStarter ? "noopener noreferrer" : undefined}
-            referrerpolicy={linkStarter ? "no-referrer" : undefined}
-            data-plan="Starter"
+            href="/contatti?servizio=assistente-ai&pacchetto=starter"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
                    bg-black text-white hover:opacity-90 transition"
-          >Attiva</a>
+          >Richiedi Starter</a>
         </div>
       </div>
 
@@ -224,35 +207,20 @@ const metadata = {
           <li>Log avanzati &amp; tuning</li>
         </ul>
 
-        <!-- CTA allineati come negli altri piani -->
         <div class="mt-auto flex gap-2">
-          <!-- Demo (outline) -->
           <a
             href={demoUrl}
             data-plan="Demo"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
                    border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
           >Demo</a>
-
-          <!-- Slot PayPal / Fallback gradiente -->
-          <div class="flex-1">
-            <!-- nascosto finché l’SDK non renderizza -->
-            <div id="paypal-pro" class="w-full" style="display:none"></div>
-
-            <!-- Fallback “Attiva” viola→rosa -->
-            <a
-              id="paypal-pro-fallback"
-              href={linkProFallback || "#prezzi-pro"}
-              target={linkProFallback ? "_blank" : undefined}
-              rel={linkProFallback ? "noopener noreferrer" : undefined}
-              referrerpolicy={linkProFallback ? "no-referrer" : undefined}
-              data-plan="Pro"
-              class="inline-flex w-full items-center justify-center rounded-full px-4 py-2
-                     text-white bg-gradient-to-r from-violet-600 to-pink-500
-                     hover:from-violet-500 hover:to-pink-400
-                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 transition"
-            >Attiva</a>
-          </div>
+          <a
+            href="/contatti?servizio=assistente-ai&pacchetto=pro"
+            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
+                   text-white bg-gradient-to-r from-violet-600 to-pink-500
+                   hover:from-violet-500 hover:to-pink-400
+                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 transition"
+          >Richiedi Pro</a>
         </div>
       </div>
 
@@ -277,18 +245,18 @@ const metadata = {
                    border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
           >Demo</a>
           <a
-            href={linkPlus || "#"}
-            target={linkPlus ? "_blank" : undefined}
-            rel={linkPlus ? "noopener noreferrer" : undefined}
-            referrerpolicy={linkPlus ? "no-referrer" : undefined}
-            data-plan="Plus"
+            href="/contatti?servizio=assistente-ai&pacchetto=plus"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
                    bg-black text-white hover:opacity-90 transition"
-          >Attiva</a>
+          >Richiedi Plus</a>
         </div>
       </div>
 
     </div>
+
+    <p class="mt-6 max-w-5xl text-sm text-neutral-600 dark:text-neutral-400">
+      Il pagamento viene concordato dopo la conferma del servizio e l'accettazione del preventivo.
+    </p>
   </section>
 
   <!-- COMPARISON -->
@@ -365,7 +333,7 @@ const metadata = {
           WhatsApp
         </a>
       )}
-      <a href="#prezzi-pro" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-black text-white hover:opacity-90 transition">Attiva Pro</a>
+      <a href="/contatti?servizio=assistente-ai" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-black text-white hover:opacity-90 transition">Contatti</a>
     </div>
   </div>
 
@@ -426,62 +394,5 @@ const metadata = {
       {"@type":"ListItem","position":2,"name":"Assistente AI (Sito & WhatsApp)","item":"/servizi/assistente-ai-sito-whatsapp"}
     ]
   }]
-  </script>
-
-  <!-- PayPal SDK: render Hosted Button Pro (una sola volta) -->
-  <script is:inline>
-    (function () {
-      function track(event, data) {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event, ...data });
-      }
-
-      document.addEventListener('click', (e) => {
-        const a = e.target.closest('a[data-plan]');
-        if (!a) return;
-        track('cta_click', { plan: a.dataset.plan, href: a.getAttribute('href') });
-      });
-
-      const CLIENT_ID = "${paypalClientId}";
-      const HOSTED_ID_PRO = "${hostedPro}";
-
-      if (!CLIENT_ID || !HOSTED_ID_PRO) return;
-
-      try {
-        const link = document.createElement('link');
-        link.rel = 'preconnect';
-        link.href = 'https://www.paypal.com';
-        link.crossOrigin = 'anonymous';
-        document.head.appendChild(link);
-      } catch (_) {}
-
-      const s = document.createElement('script');
-      s.src = "https://www.paypal.com/sdk/js?client-id=" + encodeURIComponent(CLIENT_ID)
-            + "&components=hosted-buttons&currency=EUR";
-      s.async = true;
-      s.onload = function () {
-        try {
-          const slot = document.getElementById('paypal-pro');
-          const fb   = document.getElementById('paypal-pro-fallback');
-          if (window.paypal && slot) {
-            paypal.HostedButtons({ hostedButtonId: HOSTED_ID_PRO })
-              .render('#paypal-pro')
-              .then(() => {
-                slot.style.display = 'block';
-                if (fb) fb.style.display = 'none';
-                track('paypal_hosted_loaded', { plan: 'Pro' });
-              })
-              .catch(() => {
-                if (slot) slot.style.display = 'none';
-                if (fb) fb.style.display = 'inline-flex';
-                track('paypal_hosted_error', { plan: 'Pro' });
-              });
-          }
-        } catch (err) {
-          track('paypal_script_error', { plan: 'Pro', msg: String(err) });
-        }
-      };
-      document.head.appendChild(s);
-    })();
   </script>
 </Layout>
