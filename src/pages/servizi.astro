@@ -8,9 +8,9 @@ import { Icon } from 'astro-icon/components';
 import servicesHero from '@/assets/images/servizi-seo-grafica-branding-siti-web.webp';
 
 const metadata = {
-  title: 'Servizi per Siti Web, SEO e Audit | LS Web Agency',
+  title: 'Siti Web Strategici e Servizi Digitali | LS Web Agency',
   description:
-    'Siti web performanti, SEO (anche locale) e marketing digitale. Nuovi servizi: Local SEO Booster, Accessibilità avanzata, UX con AI e Web Design Etico.',
+    'Siti web strategici per acquisire e gestire richieste clienti: audit iniziale, form, SEO, tracciamento e automazioni leggere integrate nel sito. Da Sassari in tutta Italia.',
   canonical: '/servizi',
   ignoreTitleTemplate: true,
   openGraph: {
@@ -37,23 +37,23 @@ const metadata = {
     </div>
 
     <Hero
-      tagline="Servizi per attività locali e piccoli studi"
+      tagline="Siti web strategici · da Sassari in tutta Italia"
       actions={[
         {
           variant: 'primary',
-          text: 'Richiedi l’audit rapido',
+          text: 'Richiedi analisi del progetto',
           href: '/contatti',
           class: 'px-6 md:px-7 py-3 text-sm md:text-base shadow-sm hover:shadow-md',
         },
         {
-          text: 'Scopri i servizi principali',
+          text: 'Scopri il percorso',
           href: '#servizi-principali',
           class: 'px-5 md:px-6 py-3 text-sm md:text-base border border-neutral-300/70 dark:border-neutral-600/70 bg-white/60 dark:bg-neutral-900/40 hover:bg-white dark:hover:bg-neutral-900',
         },
       ]}
       image={{
         src: servicesHero.src,
-        alt: 'Servizi web, SEO e marketing digitale',
+        alt: 'Siti web strategici e componenti digitali integrati nel sito',
         width: servicesHero.width,
         height: servicesHero.height,
         class: 'hero-services-image',
@@ -61,11 +61,11 @@ const metadata = {
       gradient={false}
     >
       <span slot="title">
-        Servizi per rendere il tuo sito più chiaro, credibile e utile
+        Siti web strategici per acquisire e gestire richieste clienti
       </span>
 
       <span slot="subtitle">
-        Lavoro con attività locali, piccoli studi e professionisti che vogliono migliorare il proprio sito con un percorso concreto: analisi iniziale, priorità chiare e, quando serve, un intervento più completo.
+        Il sito web è il prodotto centrale: audit, form, SEO, tracciamento e automazioni leggere si integrano nel percorso — non servizi scollegati da aggiungere dopo.
       </span>
     </Hero>
   </section>
@@ -75,33 +75,40 @@ const metadata = {
     <div class="mb-12 text-center">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">Da dove partire</h2>
       <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-        Se non sai ancora quale intervento serve davvero, il primo passo più utile è capire cosa non sta funzionando nel sito attuale. Da lì si decide se basta ottimizzare oppure se serve un progetto più completo.
+        Il percorso ruota intorno al sito web strategico. Se hai già un sito online, l’audit rapido è il primo passo per capire cosa migliorare; SEO, form, landing e tracciamento sono moduli integrabili nel progetto, non interventi paralleli scollegati.
       </p>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      <article id="audit-rapido" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
-        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-6">
-          <Icon name="tabler:search" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Audit Rapido</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Un primo passo concreto per capire dove il sito è poco chiaro, poco credibile o poco efficace nel trasformare visite in contatti.
-        </p>
-        <a href="/servizi/audit-rapido" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
-          Scopri di più →
-        </a>
-      </article>
-
       <article id="siti-web" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
         <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-6">
           <Icon name="tabler:device-desktop" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
         </div>
-        <h3 class="font-semibold text-xl mb-3">Creazione siti web</h3>
+        <h3 class="font-semibold text-xl mb-3">Sito web strategico</h3>
         <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Siti moderni, veloci e orientati alla conversione per attività locali e professionisti.
+          Prodotto centrale del percorso: sito veloce e chiaro per acquisire richieste e gestire i contatti con ordine.
+          Per chi opera a Sassari, c’è una
+          <a
+            href="/servizi/creazione-siti-web-sassari"
+            class="font-medium text-indigo-700 hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-200 underline underline-offset-2"
+          >
+            pagina dedicata ai siti web a Sassari
+          </a>.
         </p>
-        <a href="/servizi/creazione-siti-web-sassari" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+        <a href="/servizi/siti-web" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
+          Scopri di più →
+        </a>
+      </article>
+
+      <article id="audit-rapido" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-6">
+          <Icon name="tabler:search" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+        </div>
+        <h3 class="font-semibold text-xl mb-3">Audit rapido — primo passo</h3>
+        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
+          Punto di partenza se il sito è già online: capire cosa frena contatti, chiarezza e conversioni prima di decidere se ottimizzare o ripartire con un sito strategico.
+        </p>
+        <a href="/servizi/audit-rapido" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
         </a>
       </article>
@@ -110,9 +117,9 @@ const metadata = {
         <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-6">
           <Icon name="tabler:chart-line" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
         </div>
-        <h3 class="font-semibold text-xl mb-3">Ottimizzazione SEO</h3>
+        <h3 class="font-semibold text-xl mb-3">SEO integrata nel sito</h3>
         <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Analisi tecnica, contenuti e strategie per essere trovati su Google dai tuoi clienti.
+          Modulo del percorso: visibilità, contenuti e base tecnica per farti trovare dalle ricerche che contano, integrati nel sito strategico.
         </p>
         <a href="/servizi/ottimizzazione-seo-siti-web" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -125,7 +132,7 @@ const metadata = {
         </div>
         <h3 class="font-semibold text-xl mb-3">E-commerce</h3>
         <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Negozi online con WooCommerce o soluzioni headless, checkout ottimizzati per vendere.
+          Estensione del sito strategico quando serve vendere online: catalogo, checkout e percorsi d’acquisto integrati.
         </p>
         <a href="/servizi/realizzazione-siti-ecommerce" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -138,7 +145,7 @@ const metadata = {
         </div>
         <h3 class="font-semibold text-xl mb-3">Branding e Grafica</h3>
         <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Identità visiva, logo, materiali promozionali e design coordinato per il tuo brand.
+          Identità visiva coordinata al sito e ai materiali di contatto, per un’immagine coerente lungo tutto il percorso.
         </p>
         <a href="/servizi/branding-e-grafica-siti-web" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -151,7 +158,7 @@ const metadata = {
         </div>
         <h3 class="font-semibold text-xl mb-3">Assistenza e Manutenzione</h3>
         <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Supporto continuativo, aggiornamenti e manutenzione per mantenere il sito sempre efficiente.
+          Supporto e aggiornamenti per mantenere il sito efficiente, sicuro e allineato alle richieste che arrivano nel tempo.
         </p>
         <a href="/servizi/assistenza-manutenzione" class="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -163,9 +170,9 @@ const metadata = {
   <!-- SOLUZIONI SPECIALISTICHE -->
   <section id="ai" class="container mx-auto max-w-7xl px-6 md:px-8 py-12 bg-neutral-50/50 dark:bg-neutral-900/20 scroll-mt-32">
     <div class="mb-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold mb-3">Soluzioni specialistiche</h2>
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Componenti integrabili nel sito</h2>
       <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Interventi mirati per esigenze particolari, quando serve qualcosa di più specifico del servizio base.
+        Moduli da aggiungere al sito strategico quando servono — landing, form avanzati, automazioni leggere — senza stravolgere il percorso di base.
       </p>
     </div>
 
@@ -176,7 +183,7 @@ const metadata = {
         </div>
         <h3 class="font-semibold mb-2">Landing Page</h3>
         <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Pagine ottimizzate per convertire visitatori in clienti.
+          Pagina dedicata integrata al sito per campagne, promozioni e conversioni mirate.
         </p>
         <a href="/servizi/landing-page-professionale" class="text-xs font-medium text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -189,7 +196,7 @@ const metadata = {
         </div>
         <h3 class="font-semibold mb-2">Assistente AI</h3>
         <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          FAQ automatiche, prenotazioni e lead qualificati 24/7.
+          Automazione leggera sul sito: FAQ, prenotazioni e qualificazione lead, integrata nel flusso di richieste.
         </p>
         <a href="/servizi/assistente-ai-sito-whatsapp" class="text-xs font-medium text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -202,7 +209,7 @@ const metadata = {
         </div>
         <h3 class="font-semibold mb-2">Accessibilità Digitale</h3>
         <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Adeguamenti WCAG/AgID per siti accessibili a tutti.
+          Adeguamenti WCAG/AgID integrati nel sito, per un’esperienza accessibile a tutti.
         </p>
         <a href="/servizi/accessibilita-digitale-avanzata" class="text-xs font-medium text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -215,7 +222,7 @@ const metadata = {
         </div>
         <h3 class="font-semibold mb-2">UX con AI</h3>
         <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Esperienze personalizzate e dinamiche per ogni utente.
+          Personalizzazione leggera dell’esperienza sul sito, quando serve guidare meglio il visitatore verso il contatto.
         </p>
         <a href="/servizi/personalizzazione-ux-intelligenza-artificiale" class="text-xs font-medium text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -228,7 +235,7 @@ const metadata = {
         </div>
         <h3 class="font-semibold mb-2">Web Design Etico</h3>
         <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Accessibile, trasparente e sostenibile.
+          Accessibilità, trasparenza e sostenibilità integrate nel progetto del sito.
         </p>
         <a href="/servizi/web-design-etico-sostenibile" class="text-xs font-medium text-indigo-700 hover:text-indigo-800 dark:text-indigo-300">
           Scopri di più →
@@ -320,12 +327,12 @@ const metadata = {
     <div class="relative isolate overflow-hidden rounded-2xl bg-neutral-950">
       <div class="absolute inset-0 -z-10 opacity-90 bg-[radial-gradient(circle_at_18%_28%,rgba(168,85,247,0.34),transparent_34%),radial-gradient(circle_at_82%_72%,rgba(34,211,238,0.22),transparent_32%),radial-gradient(circle_at_58%_42%,rgba(236,72,153,0.20),transparent_28%),linear-gradient(135deg,rgba(10,10,12,0.96),rgba(5,8,18,0.98))]"></div>
       <div class="max-w-3xl mx-auto text-center px-6 py-12 md:py-16">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">Capire da dove partire è già un buon primo passo</h2>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">Vuoi un sito web che gestisca davvero le richieste?</h2>
         <p class="text-neutral-200 mb-6">
-          Se non sei sicuro di cosa serva davvero al tuo sito, possiamo capire insieme se basta migliorare alcune aree oppure se serve un intervento più completo.
+          Raccontaci obiettivi e come gestisci oggi i contatti: ti rispondiamo con un’analisi del progetto e una proposta di sito strategico su misura.
         </p>
         <a href="/contatti" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors">
-          Parliamo del tuo sito
+          Richiedi analisi del progetto
           <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
         </a>
       </div>
@@ -395,7 +402,7 @@ const metadata = {
   }
 
   .services-hero :global(.mt-5.flex.flex-wrap.gap-3)::after {
-    content: 'Siti web \2022  SEO & visibilità \2022  Automazioni leggere';
+    content: 'Sito strategico \2022  Richieste clienti \2022  Moduli integrati';
     display: block;
     width: 100%;
     margin-top: 0.55rem;
