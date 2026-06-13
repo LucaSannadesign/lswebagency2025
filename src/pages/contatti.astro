@@ -10,6 +10,18 @@ const SERVIZIO_LABELS: Record<string, string> = {
   'fix-performance-seo': 'Fix Performance & SEO',
   'local-seo-booster': 'Local SEO Booster',
   ecommerce: 'Realizzazione E-commerce',
+  'seo-locale': 'SEO locale',
+  assistenza: 'Assistenza & manutenzione',
+  'siti-web': 'Siti web',
+  'creazione-siti-web-sassari': 'Creazione siti web — Sassari',
+  'contatti-rapidi': 'Contatti rapidi',
+};
+
+const SERVICE_PARAM_ALIASES: Record<string, string> = {
+  assistenza: 'manutenzione',
+  'siti-web': 'sito-web',
+  'creazione-siti-web-sassari': 'sito-web',
+  'contatti-rapidi': 'landing-page',
 };
 
 const PACCHETTO_LABELS: Record<string, string> = {
@@ -33,11 +45,12 @@ function resolveLabel(slug: string, map: Record<string, string>): string {
   return map[slug] ?? slugToFallbackLabel(slug);
 }
 
-const requestedServizioSlug = Astro.url.searchParams.get('servizio')?.trim() ?? '';
+const rawServizioSlug = Astro.url.searchParams.get('servizio')?.trim() ?? '';
+const requestedServizioSlug = SERVICE_PARAM_ALIASES[rawServizioSlug] ?? rawServizioSlug;
 const requestedPacchettoSlug = Astro.url.searchParams.get('pacchetto')?.trim() ?? '';
-const requestedServizioLabel = resolveLabel(requestedServizioSlug, SERVIZIO_LABELS);
+const requestedServizioLabel = resolveLabel(rawServizioSlug, SERVIZIO_LABELS);
 const requestedPacchettoLabel = resolveLabel(requestedPacchettoSlug, PACCHETTO_LABELS);
-const showServizioBanner = requestedServizioSlug.length > 0;
+const showServizioBanner = rawServizioSlug.length > 0;
 
 const SERVICE_SELECT_VALUES = new Set([
   'sito-web',
@@ -218,7 +231,7 @@ const AGENCY = {
           aria-hidden="true"
         />
 
-        <input type="hidden" name="requestedServizioSlug" value={requestedServizioSlug} />
+        <input type="hidden" name="requestedServizioSlug" value={rawServizioSlug} />
         <input type="hidden" name="requestedPacchettoSlug" value={requestedPacchettoSlug} />
         <input type="hidden" name="requestedServizioLabel" value={requestedServizioLabel} />
         <input type="hidden" name="requestedPacchettoLabel" value={requestedPacchettoLabel} />
