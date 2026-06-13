@@ -73,8 +73,8 @@ const headerItems = sanitize(links);
   <div
     class:list={[
       'relative text-default py-3 px-3 md:px-6 mx-auto w-full',
-      { 'md:flex md:justify-between': position !== 'center' },
-      { 'md:grid md:grid-cols-3 md:items-center': position === 'center' },
+      { 'lg:flex lg:justify-between': position !== 'center' },
+      { 'lg:grid lg:grid-cols-3 lg:items-center': position === 'center' },
       { 'max-w-7xl': !isFullWidth },
     ]}
   >
@@ -86,7 +86,7 @@ const headerItems = sanitize(links);
       </a>
 
       <!-- Mobile: azioni rapide (tema + RSS) + menù -->
-      <div class="flex items-center md:hidden gap-2">
+      <div class="flex items-center lg:hidden gap-2">
         {showToggleTheme && <ToggleTheme iconClass="w-6 h-6" />}
         {showRssFeed && (
           <a
@@ -105,19 +105,19 @@ const headerItems = sanitize(links);
 
     <!-- Center: nav -->
     <nav
-      class="hidden md:flex items-center w-full md:w-auto md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center min-w-0"
+      class="hidden lg:flex items-center w-full lg:w-auto lg:mx-5 text-default overflow-y-auto overflow-x-hidden lg:overflow-y-visible lg:overflow-x-visible lg:justify-self-center min-w-0"
       aria-label="Main navigation"
     >
-      <ul class="flex flex-col md:flex-row text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium md:justify-center w-full md:w-auto">
+      <ul class="flex flex-col lg:flex-row text-xl lg:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center w-full lg:w-auto">
         {headerItems.map(({ text, href, links }) => (
           <li class={links?.length ? 'dropdown' : ''}>
             {links?.length ? (
               <>
                 <a href={href} class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap">
                   {text}
-                  <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 hidden md:inline" />
+                  <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 hidden lg:inline" />
                 </a>
-                <ul class="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] drop-shadow-xl">
+                <ul class="dropdown-menu lg:backdrop-blur-md dark:lg:bg-dark rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
                   {links.map(({ text: subText, href: subHref }) => {
                     // Smart "Tutti i servizi" link: se già su /servizi, usa solo anchor
                     const isTuttiServizi = subText === 'Tutti i servizi';
@@ -164,10 +164,10 @@ const headerItems = sanitize(links);
     <div
       class:list={[
         { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden md:flex items-center fixed bottom-0 md:static w-full md:w-auto justify-end p-3 md:p-0 md:justify-self-end',
+        'hidden lg:flex items-center fixed bottom-0 lg:static w-full lg:w-auto justify-end p-3 lg:p-0 lg:justify-self-end',
       ]}
     >
-      <div class="flex items-center w-full md:w-auto justify-between">
+      <div class="flex items-center w-full lg:w-auto justify-between">
         <div class="flex items-center gap-2">
           {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" />}
           {showRssFeed && (
@@ -184,9 +184,9 @@ const headerItems = sanitize(links);
         </div>
 
         {actions.length > 0 && (
-          <span class="ml-4 md:ml-0">
+          <span class="ml-4 lg:ml-0">
             {actions.map((btn) => (
-              <Button {...btn} class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold text-sm shadow-none" />
+              <Button {...btn} class="ml-2 py-2.5 px-5.5 lg:px-6 font-semibold text-sm shadow-none" />
             ))}
           </span>
         )}
