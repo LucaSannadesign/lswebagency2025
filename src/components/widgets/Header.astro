@@ -113,7 +113,7 @@ const headerItems = sanitize(links);
       class="flex flex-col lg:flex lg:flex-row items-stretch lg:items-center w-full lg:w-auto lg:mx-5 text-default lg:overflow-y-visible lg:overflow-x-visible lg:justify-self-center min-w-0 max-lg:py-2"
       aria-label="Main navigation"
     >
-      <ul class="flex flex-col lg:flex-row text-base lg:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center w-full lg:w-auto">
+      <ul class="flex flex-col lg:flex-row list-none m-0 p-0 text-base lg:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center w-full lg:w-auto">
         {headerItems.map(({ text, href, links }) => (
           <li class={links?.length ? 'dropdown' : ''}>
             {links?.length ? (
@@ -136,20 +136,18 @@ const headerItems = sanitize(links);
                     <Icon name="tabler:chevron-down" class="w-3.5 h-3.5" aria-hidden="true" />
                   </button>
                 </div>
-                <ul class="dropdown-menu lg:backdrop-blur-md dark:lg:bg-dark rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
+                <ul class="dropdown-menu list-none m-0 lg:backdrop-blur-md dark:lg:bg-dark rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
                   {links.map(({ text: subText, href: subHref }, index) => {
                     if (subText === 'divider') return null;
 
-                    // Smart "Tutti i servizi" link: se già su /servizi, usa solo anchor
                     const isTuttiServizi = subText === 'Tutti i servizi';
                     const isOnServiziPage = currentPath === '/servizi';
-                    const finalHref = isTuttiServizi && isOnServiziPage 
-                      ? '#tutti-servizi' 
-                      : subHref;
+                    const finalHref =
+                      isTuttiServizi && isOnServiziPage ? '#servizi-principali' : subHref;
                     const afterDivider = index > 0 && links[index - 1]?.text === 'divider';
-                    
+
                     return (
-                      <li class:list={[afterDivider && 'border-t border-gray-200 dark:border-gray-700 mt-1 pt-1']}>
+                      <li class:list={['list-none', afterDivider && 'border-t border-gray-200 dark:border-gray-700 mt-1 pt-1']}>
                         <a
                           href={finalHref}
                           class:list={[
