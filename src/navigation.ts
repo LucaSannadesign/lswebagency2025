@@ -7,9 +7,9 @@ export const headerData = {
       text: 'Servizi',
       href: '/servizi',
       links: [
-        { text: 'Siti Web', href: '/servizi#siti-web' },
-        { text: 'SEO', href: '/servizi#seo' },
-        { text: 'AI & Automazioni', href: '/servizi#ai' },
+        { text: 'Sito web strategico', href: '/servizi/siti-web' },
+        { text: 'SEO integrata', href: '/servizi#seo' },
+        { text: 'Moduli AI e automazioni', href: '/servizi#ai' },
         { text: 'divider' },
         { text: 'Tutti i servizi', href: '/servizi#servizi-principali' },
       ],
@@ -18,7 +18,7 @@ export const headerData = {
     { text: 'Blog', href: '/blog' },
     { text: 'Contatti', href: '/contatti' },
   ],
-  actions: [{ text: 'Richiedi un Preventivo', href: '/contatti' }],
+  actions: [{ text: 'Richiedi analisi del progetto', href: '/contatti' }],
 };
 
 export const footerData = {
