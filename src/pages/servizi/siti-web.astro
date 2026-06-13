@@ -3,14 +3,14 @@ import Layout from '@/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 
 const metadata = {
-  title: 'Siti Web Professionali per Aziende e Professionisti | LS Web Agency',
+  title: 'Siti Web Strategici per Acquisire Clienti | LS Web Agency',
   description:
-    'Realizzo siti web professionali per aziende, professionisti e piccole imprese: progetti responsive, veloci, chiari e pensati per generare contatti.',
+    'Siti web strategici per acquisire richieste e gestire i contatti con ordine: form, SEO, tracciamento e automazioni leggere già integrati nel sito.',
   canonical: '/servizi/siti-web',
   robots: { index: true, follow: true },
 };
 
-const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sui%20siti%20web%20professionali.';
+const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20su%20un%20sito%20web%20strategico.';
 ---
 
 <Layout metadata={metadata}>
@@ -22,18 +22,17 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
         <div>
           <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
             <span class="block text-neutral-900 dark:text-white">
-              Siti web professionali per aziende,
+              Siti web strategici
             </span>
             <span class="block text-blue-600 dark:text-blue-400">
-              professionisti e piccole imprese
+              per acquisire e gestire richieste clienti
             </span>
           </h1>
 
           <p class="mt-5 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
-            Un sito web professionale non deve essere solo bello: deve comunicare in modo chiaro, caricarsi
-            velocemente, funzionare bene da mobile e aiutare l’utente a contattarti. LS Web Agency progetta siti
-            web responsive, curati nella UX e costruiti con basi SEO solide, pensati per attività che vogliono
-            migliorare la propria presenza online.
+            Il sito web è il prodotto centrale: non una vetrina statica, ma uno strumento per trasformare visite in
+            richieste qualificate e gestirle con ordine. Progettiamo siti veloci e chiari, con form, CTA, SEO e
+            tracciamento già integrati — senza moduli scollegati da collegare dopo.
           </p>
           <p class="mt-3 text-sm md:text-base text-neutral-600 dark:text-neutral-400">
             Se operi a Sassari, consulta la
@@ -47,7 +46,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 
           <div class="mt-8 flex flex-col sm:flex-row gap-3">
             <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg transition">
-              Contattaci per il tuo sito
+              Richiedi analisi del progetto
               <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
             </a>
             <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full transition">
@@ -58,13 +57,13 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 
           <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
             <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              Design Moderno
+              Richieste clienti
             </div>
             <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              SEO Integrata
+              Form &amp; CTA
             </div>
             <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              Performance
+              SEO &amp; tracking
             </div>
           </div>
         </div>
@@ -73,7 +72,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           <div class="rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/40 shadow-xl">
             <img
               src="/images/creazione-sito-web-professionale.webp"
-              alt="Siti web professionali moderni e responsive"
+              alt="Sito web strategico orientato ad acquisire e gestire richieste clienti"
               width="800"
               height="600"
               loading="eager"
@@ -86,46 +85,41 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
     </div>
   </section>
 
-  <!-- COSA INCLUDIAMO -->
+  <!-- COSA INCLUDE UN SITO WEB STRATEGICO -->
   <section class="container mx-auto px-6 py-12">
     <div class="text-center mb-12">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa includiamo nel tuo sito</h2>
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa include un sito web strategico</h2>
       <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-        Ogni sito che realizziamo include questi elementi essenziali per il successo online
+        Form, SEO, tracciamento e gestione richieste fanno parte del sito — non servizi separati da aggiungere in un secondo momento.
       </p>
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
       {[
         {
-          icon: 'tabler:palette',
-          title: 'Design Moderno e Responsive',
-          desc: 'Interfaccia pulita e professionale, perfettamente funzionante su desktop, tablet e mobile. Design personalizzato che riflette la tua identità aziendale.',
-        },
-        {
-          icon: 'tabler:search',
-          title: 'Ottimizzazione SEO',
-          desc: 'Struttura SEO-friendly con meta tag, heading ottimizzati, schema markup e sitemap. Pronto per essere trovato su Google.',
-        },
-        {
-          icon: 'tabler:gauge',
-          title: 'Performance e Velocità',
-          desc: 'Siti veloci e leggeri, con Core Web Vitals ottimizzati. Caricamento rapido per migliorare l\'esperienza utente e il ranking.',
+          icon: 'tabler:layout',
+          title: 'Struttura orientata alle richieste',
+          desc: 'Pagine e percorsi pensati per guidare il visitatore verso un contatto: messaggio chiaro, priorità visive e nessun passaggio superfluo.',
         },
         {
           icon: 'tabler:target-arrow',
-          title: 'Orientato alle Conversioni',
-          desc: 'Layout progettato per guidare i visitatori verso l\'azione: contatti, preventivi, vendite. Call to action chiari e visibili.',
+          title: 'Form e CTA più chiari',
+          desc: 'Moduli semplici, WhatsApp e call to action visibili: l’utente capisce subito come richiedere informazioni o un preventivo.',
         },
         {
-          icon: 'tabler:shield-check',
-          title: 'Sicurezza e Backup',
-          desc: 'Siti sicuri con certificati SSL, backup automatici e aggiornamenti di sicurezza. I tuoi dati sono protetti.',
+          icon: 'tabler:mail',
+          title: 'Gestione ordinata dei contatti',
+          desc: 'Le richieste arrivano in modo strutturato, con i dati utili per rispondere in tempi brevi e senza perdere lead.',
         },
         {
-          icon: 'tabler:device-mobile',
-          title: 'Mobile-First',
-          desc: 'Approccio mobile-first: il sito è progettato prima per mobile, garantendo un\'esperienza ottimale su tutti i dispositivi.',
+          icon: 'tabler:search',
+          title: 'SEO tecnica e contenuti essenziali',
+          desc: 'Base tecnica solida, meta tag, struttura leggibile e testi mirati per farti trovare dalle ricerche che contano.',
+        },
+        {
+          icon: 'tabler:chart-line',
+          title: 'Tracciamento e automazioni leggere',
+          desc: 'Monitoraggio delle conversioni e piccoli flussi automatici — notifiche, reminder, risposte iniziali — integrati nel sito.',
         },
       ].map((item) => (
         <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
@@ -146,41 +140,41 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           <div>
             <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
               <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
-              Approccio Personalizzato
+              Progetto orientato alle richieste
             </h3>
             <p class="text-neutral-600 dark:text-neutral-300">
-              Non usiamo template pre-confezionati. Ogni sito è sviluppato su misura per le tue esigenze specifiche, 
-              con un'attenta analisi dei tuoi obiettivi e del tuo target.
+              Partiamo da come arrivano i contatti oggi e da come vuoi gestirli domani. Ogni scelta — struttura,
+              contenuti, form — serve a generare e qualificare richieste, non a riempire pagine.
             </p>
           </div>
           <div>
             <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
               <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
-              Supporto Continuo
+              Percorso utente chiaro
             </h3>
             <p class="text-neutral-600 dark:text-neutral-300">
-              Dopo la consegna, siamo sempre disponibili per supporto, aggiornamenti e manutenzione. 
-              Il tuo sito rimane sempre aggiornato e performante.
+              Messaggio, gerarchia visiva e CTA pensati per ridurre attriti: il visitatore capisce subito cosa offri
+              e come contattarti, da qualsiasi dispositivo.
             </p>
           </div>
           <div>
             <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
               <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
-              Risultati Misurabili
+              Contatti gestiti con ordine
             </h3>
             <p class="text-neutral-600 dark:text-neutral-300">
-              Integriamo strumenti di analisi per monitorare le performance, il traffico e le conversioni. 
-              Potrai vedere i risultati concreti del tuo investimento.
+              Form strutturati, notifiche e flusso di risposta definiti fin dall’inizio: le richieste non restano
+              disperse tra email, WhatsApp e moduli scollegati.
             </p>
           </div>
           <div>
             <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
               <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
-              Tecnologie Moderne
+              Misurazione e crescita modulare
             </h3>
             <p class="text-neutral-600 dark:text-neutral-300">
-              Utilizziamo tecnologie all'avanguardia per creare siti veloci, sicuri e scalabili. 
-              Stack moderno che garantisce performance e facilità di manutenzione.
+              Tracciamento delle conversioni integrato e base solida da cui partire: puoi aggiungere SEO, automazioni
+              o nuove sezioni nel tempo, senza rifare il sito da zero.
             </p>
           </div>
         </div>
@@ -192,14 +186,14 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
   <section class="container mx-auto px-6 py-16">
     <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 text-white">
       <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Pronto a far crescere il tuo business online?</h2>
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Vuoi un sito web che gestisca davvero le richieste?</h2>
         <p class="text-lg text-blue-100 mb-8">
-          Contattaci per una consulenza gratuita. Analizziamo insieme le tue esigenze e progettiamo 
-          il sito web perfetto per la tua attività.
+          Raccontaci obiettivi, tipologia di clienti e come gestisci oggi i contatti: ti rispondiamo con un’analisi
+          del progetto e una proposta di sito strategico su misura.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white hover:bg-blue-50 rounded-full shadow-lg transition">
-            Parliamo del tuo progetto
+            Richiedi analisi del progetto
             <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
           </a>
           <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-blue-700/50 hover:bg-blue-700 border-2 border-white/30 rounded-full transition">
