@@ -132,18 +132,19 @@ const headerItems = sanitize(links);
                   </button>
                 </div>
                 <ul class="dropdown-menu lg:backdrop-blur-md dark:lg:bg-dark rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
-                  {links.map(({ text: subText, href: subHref }) => {
+                  {links.map(({ text: subText, href: subHref }, index) => {
+                    if (subText === 'divider') return null;
+
                     // Smart "Tutti i servizi" link: se già su /servizi, usa solo anchor
                     const isTuttiServizi = subText === 'Tutti i servizi';
                     const isOnServiziPage = currentPath === '/servizi';
                     const finalHref = isTuttiServizi && isOnServiziPage 
                       ? '#tutti-servizi' 
                       : subHref;
+                    const afterDivider = index > 0 && links[index - 1]?.text === 'divider';
                     
-                    return subText === 'divider' ? (
-                      <li class="border-t border-gray-200 dark:border-gray-700 my-1"></li>
-                    ) : (
-                      <li>
+                    return (
+                      <li class:list={[afterDivider && 'border-t border-gray-200 dark:border-gray-700 mt-1 pt-1']}>
                         <a
                           href={finalHref}
                           class:list={[
