@@ -107,7 +107,8 @@
    ========================= */
 .dropdown:focus .dropdown-menu,
 .dropdown:focus-within .dropdown-menu,
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu,
+.dropdown.is-open .dropdown-menu {
   display: block;
 }
 

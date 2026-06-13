@@ -45,6 +45,13 @@ import { UI } from 'astrowind:config';
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
 
+    function closeHeaderDropdowns() {
+      document.querySelectorAll('#header .dropdown.is-open').forEach((li) => {
+        li.classList.remove('is-open');
+        li.querySelector('[data-aw-dropdown-toggle]')?.setAttribute('aria-expanded', 'false');
+      });
+    }
+
     attachEvent('#header nav', 'click', function () {
       document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
       document.body.classList.remove('overflow-hidden');
@@ -63,6 +70,34 @@ import { UI } from 'astrowind:config';
       header?.classList.toggle('bg-page');
       document.querySelector('#header nav')?.classList.toggle('hidden');
       document.querySelector('#header > div > div:last-child')?.classList.toggle('hidden');
+    });
+
+    attachEvent('[data-aw-dropdown-toggle]', 'click', function (e, btn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const li = btn.closest('.dropdown');
+      if (!li) return;
+      const wasOpen = li.classList.contains('is-open');
+      closeHeaderDropdowns();
+      if (!wasOpen) {
+        li.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    attachEvent('[data-aw-dropdown-toggle]', 'keydown', function (e, btn) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+
+    attachEvent(document, 'click', function (e) {
+      if (!e.target.closest('#header .dropdown')) closeHeaderDropdowns();
+    });
+
+    attachEvent(document, 'keydown', function (e) {
+      if (e.key === 'Escape') closeHeaderDropdowns();
     });
 
     attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
@@ -95,6 +130,7 @@ import { UI } from 'astrowind:config';
 
     const screenSize = window.matchMedia('(max-width: 1023px)');
     screenSize.addEventListener('change', function () {
+      closeHeaderDropdowns();
       document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
       document.body.classList.remove('overflow-hidden');
       const header = document.getElementById('header');

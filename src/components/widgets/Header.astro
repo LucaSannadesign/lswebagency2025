@@ -113,10 +113,24 @@ const headerItems = sanitize(links);
           <li class={links?.length ? 'dropdown' : ''}>
             {links?.length ? (
               <>
-                <a href={href} class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap">
-                  {text}
-                  <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 hidden lg:inline" />
-                </a>
+                <div class="flex items-center">
+                  <a
+                    href={href}
+                    class="hover:text-link dark:hover:text-white px-4 py-3 lg:pr-1 flex items-center whitespace-nowrap"
+                  >
+                    {text}
+                  </a>
+                  <button
+                    type="button"
+                    class="hidden lg:inline-flex items-center justify-center self-stretch py-3 pr-3 pl-0.5 text-default hover:text-link dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    aria-label={`Apri sottomenu ${text}`}
+                    data-aw-dropdown-toggle
+                  >
+                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5" aria-hidden="true" />
+                  </button>
+                </div>
                 <ul class="dropdown-menu lg:backdrop-blur-md dark:lg:bg-dark rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
                   {links.map(({ text: subText, href: subHref }) => {
                     // Smart "Tutti i servizi" link: se già su /servizi, usa solo anchor
