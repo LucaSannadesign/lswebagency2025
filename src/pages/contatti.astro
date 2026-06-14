@@ -268,7 +268,7 @@ const AGENCY = {
         id="contact-form"
         method="POST"
         action="/api/contatti"
-        class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full"
+        class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-x-6 md:gap-y-5 w-full"
         novalidate
       >
         <!-- Honeypot anti-spam -->
@@ -333,7 +333,7 @@ const AGENCY = {
           />
         </div>
 
-        <div class="col-span-1 md:col-span-2 min-w-0">
+        <div class="col-span-1 min-w-0">
           <label for="service-category" class="block text-sm font-medium mb-1">
             Di cosa hai bisogno?
           </label>
@@ -354,7 +354,7 @@ const AGENCY = {
         <div
           id="service-options-wrap"
           class:list={[
-            'col-span-1 md:col-span-2 min-w-0',
+            'col-span-1 md:col-span-2 min-w-0 pt-1 md:pt-2',
             preselectedCategory ? '' : 'hidden',
           ]}
         >
@@ -454,7 +454,7 @@ const AGENCY = {
           </div>
         </fieldset>
 
-        <div class="col-span-1 md:col-span-2 min-w-0">
+        <div class="col-span-1 md:col-span-2 min-w-0 pt-1">
           <label for="message" class="block text-sm font-medium mb-1">
             Messaggio <span class="text-red-500">*</span>
           </label>
