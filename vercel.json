@@ -125,6 +125,11 @@
       "source": "/blog/perche-il-tuo-sito-non-trasmette-fiducia-in-5-secondi",
       "destination": "/perche-il-tuo-sito-non-trasmette-fiducia-in-5-secondi",
       "permanent": true
+    },
+    {
+      "source": "/sito-web-cta-coerenti-interesse-visitatore",
+      "destination": "/blog/sito-web-cta-coerenti-interesse-visitatore",
+      "permanent": true
     }
   ]
 }
