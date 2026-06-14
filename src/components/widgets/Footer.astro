@@ -23,25 +23,28 @@ const {
   footNote,
 } = Astro.props;
 
-/** Navigazione footer */
-const NAV = [
-  { text: 'Home Page', href: '/' },
-  { text: 'Chi Siamo', href: '/chi-siamo' },
+/** Navigazione principale footer */
+const NAV_MAIN = [
+  { text: 'Home', href: '/' },
+  { text: 'Chi siamo', href: '/chi-siamo' },
   { text: 'Servizi', href: '/servizi' },
-  { text: 'Sito web strategico', href: '/servizi/siti-web' },
-  { text: 'Ottimizzazione SEO', href: '/servizi/ottimizzazione-seo-siti-web' },
-  { text: 'Transizione Digitale Turismo', href: '/transizione-digitale-turismo' },
   { text: 'Portfolio', href: '/portfolio' },
   { text: 'Blog', href: '/blog' },
-  { text: 'Metodi di pagamento', href: '/pagamenti' },
   { text: 'Contatti', href: '/contatti' },
+];
+
+/** Link servizi strategici (max 3) */
+const NAV_SERVICES = [
+  { text: 'Sito web strategico', href: '/servizi/siti-web' },
+  { text: 'Ottimizzazione SEO', href: '/servizi/ottimizzazione-seo-siti-web' },
+  { text: 'AI e automazioni', href: '/servizi/assistente-ai-sito-whatsapp' },
 ];
 
 /** Social di default aggiornati */
 const DEFAULT_SOCIAL: Link[] = [
   { href: 'https://www.linkedin.com/in/lucasannadesign', icon: 'tabler:brand-linkedin', ariaLabel: 'LinkedIn' },
-  { href: 'https://www.instagram.com/ls_web_agency',      icon: 'tabler:brand-instagram', ariaLabel: 'Instagram' },
-  { href: 'https://www.facebook.com/lswebdesignagency',   icon: 'tabler:brand-facebook',  ariaLabel: 'Facebook' },
+  { href: 'https://www.instagram.com/ls_web_agency', icon: 'tabler:brand-instagram', ariaLabel: 'Instagram' },
+  { href: 'https://www.facebook.com/lswebdesignagency', icon: 'tabler:brand-facebook', ariaLabel: 'Facebook' },
 ];
 
 const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
@@ -51,33 +54,31 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
   <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-gray-200">
-    <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
-      <!-- Colonna 1: Logo + descrizione + Social -->
-      <div class="col-span-12 lg:col-span-3">
-        <a class="flex items-center mb-2" href={getHomePermalink()} aria-label="Torna alla Home">
-          <img src="/images/logo-ls-webdesignagency-2025.svg" alt="LS Web Agency" class="h-10 w-auto dark:hidden" />
-          <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="LS Web Agency" class="h-10 w-auto hidden dark:block" />
+    <div class="grid grid-cols-12 gap-x-6 gap-y-6 py-6 md:py-8 lg:gap-y-6">
+      <!-- Colonna 1 — Brand -->
+      <div class="col-span-12 order-1 lg:col-span-3">
+        <a class="inline-flex items-center mb-2" href={getHomePermalink()} aria-label="Torna alla Home">
+          <img src="/images/logo-ls-webdesignagency-2025.svg" alt="LS Web Agency" class="h-9 w-auto dark:hidden" />
+          <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="LS Web Agency" class="h-9 w-auto hidden dark:block" />
         </a>
 
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-          LS Web Agency – sede a Sassari, clienti in tutta Italia.
-          Siti web strategici per acquisire e gestire richieste clienti, con SEO e componenti digitali integrate.
+        <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-400 max-w-xs">
+          Siti web strategici, SEO e soluzioni digitali per professionisti e piccole imprese.
         </p>
 
-        <!-- Social sotto al box del logo -->
         {SOCIAL.length > 0 && (
-          <div class="mt-4">
-            <span class="font-semibold text-gray-800 dark:text-gray-200">Seguici</span>
-            <div class="mt-2 flex items-center gap-3">
+          <div class="mt-3">
+            <span class="sr-only">Social</span>
+            <div class="flex items-center gap-2.5">
               {SOCIAL.map(({ href, icon, ariaLabel }) => (
                 <a
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={ariaLabel}
-                  class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
                 >
-                  {icon && <Icon name={icon} class="w-5 h-5" />}
+                  {icon && <Icon name={icon} class="w-4 h-4" />}
                 </a>
               ))}
             </div>
@@ -85,12 +86,12 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
         )}
       </div>
 
-      <!-- Colonna 2: Indirizzo -->
-      <div class="col-span-6 md:col-span-3">
-        <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Dove siamo</div>
-        <address class="not-italic text-sm text-gray-600 dark:text-gray-400">
-          <strong>LS Web Agency</strong><br />
-          di <a
+      <!-- Colonna 2 — Azienda -->
+      <div class="col-span-12 order-4 sm:col-span-6 lg:order-2 lg:col-span-3">
+        <div class="font-medium mb-1.5 text-gray-800 dark:text-gray-200">Dove siamo</div>
+        <address class="not-italic text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          LS Web Agency di{' '}
+          <a
             href="https://www.lucasanna.eu/"
             target="_blank"
             rel="noopener noreferrer"
@@ -102,17 +103,32 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
         </address>
       </div>
 
-      <!-- Colonna 3: Navigazione -->
-      <div class="col-span-6 md:col-span-3">
-        <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Navigazione</div>
+      <!-- Colonna 3 — Navigazione / Servizi -->
+      <div class="col-span-12 order-3 sm:col-span-6 lg:order-3 lg:col-span-3">
+        <div class="font-medium mb-1.5 text-gray-800 dark:text-gray-200">Navigazione</div>
         <nav aria-label="Navigazione footer">
-          <ul class="space-y-1">
-            {NAV.map(({ text, href }) => (
+          <ul class="space-y-0.5 text-sm">
+            {NAV_MAIN.map(({ text, href }) => (
               <li>
                 <a
                   href={href}
                   {...(href === '/blog' ? { 'data-astro-reload': true } : {})}
-                  class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/30"
+                  class="text-gray-700 dark:text-gray-300 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/30"
+                >
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-3 mb-1 text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            Servizi principali
+          </p>
+          <ul class="space-y-0.5 text-sm">
+            {NAV_SERVICES.map(({ text, href }) => (
+              <li>
+                <a
+                  href={href}
+                  class="text-gray-600 dark:text-gray-400 hover:underline hover:text-gray-900 dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/30"
                 >
                   {text}
                 </a>
@@ -122,47 +138,55 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
         </nav>
       </div>
 
-      <!-- Colonna 4: Contatti -->
-      <div class="col-span-12 md:col-span-3">
-        <div class="font-medium mb-2 text-gray-800 dark:text-gray-200">Per richieste di preventivi</div>
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-          Scrivi a:
+      <!-- Colonna 4 — Contatto / CTA -->
+      <div class="col-span-12 order-2 lg:order-4 lg:col-span-3">
+        <div class="font-medium mb-1.5 text-gray-800 dark:text-gray-200">Richiedi una consulenza</div>
+        <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          Hai un progetto web, SEO o AI? Scrivimi per una prima valutazione.
+        </p>
+        <p class="mt-2 text-sm">
           <a
             href="mailto:info@lswebagency.com"
-            class="font-medium text-link hover:underline text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white ml-1 transition"
+            class="font-medium text-gray-800 dark:text-gray-200 hover:underline transition"
           >
             info@lswebagency.com
           </a>
         </p>
 
-        <div class="mt-4 font-semibold text-gray-800 dark:text-gray-200">Contatti diretti</div>
-        <div class="mt-2 flex items-center gap-3">
+        <div class="mt-3 flex items-center gap-2.5">
           <a
             href="https://wa.me/393403223494"
             aria-label="Scrivici su WhatsApp"
-            class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
           >
-            <Icon name="tabler:brand-whatsapp" class="w-5 h-5" />
+            <Icon name="tabler:brand-whatsapp" class="w-4 h-4" />
           </a>
           <a
             href="https://t.me/lswebagency"
             aria-label="Scrivici su Telegram"
-            class="w-10 h-10 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
           >
-            <Icon name="tabler:brand-telegram" class="w-5 h-5" />
+            <Icon name="tabler:brand-telegram" class="w-4 h-4" />
           </a>
         </div>
 
+        <a
+          href="/contatti"
+          class="mt-4 inline-flex items-center justify-center min-h-[40px] rounded-full px-4 py-2 text-sm font-semibold bg-violet-600 text-white hover:bg-violet-700 dark:bg-violet-600 dark:hover:bg-violet-500 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+        >
+          Vai al form contatti
+        </a>
+
         {secondaryLinks.length > 0 && (
-          <div class="mt-4 flex flex-col space-y-2">
+          <div class="mt-3 flex flex-col space-y-1.5">
             {secondaryLinks.map(({ href, icon, text }) => (
               <a
                 href={href}
                 rel="noopener noreferrer"
                 target="_blank"
-                class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:underline transition"
+                class="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:underline transition"
               >
-                {icon && <Icon name={icon} class="w-5 h-5" />}
+                {icon && <Icon name={icon} class="w-4 h-4" />}
                 <span>{text}</span>
               </a>
             ))}
@@ -172,20 +196,23 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
     </div>
 
     <!-- Bottom bar -->
-    <div class="py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+    <div class="py-4 md:py-5 border-t border-gray-200 dark:border-slate-800 max-md:pb-16">
+      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <p class="text-sm text-gray-600 dark:text-gray-400">
           © {new Date().getFullYear()} <strong class="text-gray-800 dark:text-gray-200">LS Web Agency</strong>. Tutti i diritti riservati.
         </p>
 
-        <nav class="text-sm text-gray-700 dark:text-gray-300 flex flex-wrap items-center gap-x-3 gap-y-1">
+        <nav
+          aria-label="Link legali footer"
+          class="text-sm text-gray-700 dark:text-gray-300 flex flex-wrap items-center gap-x-3 gap-y-2 md:justify-end"
+        >
           <a href="/privacy" class="hover:underline">Privacy & Cookie Policy</a>
-          <span class="select-none hidden md:inline">|</span>
+          <span class="select-none hidden md:inline text-gray-400" aria-hidden="true">|</span>
           <a href="/mappa-del-sito" class="hover:underline">Mappa del sito</a>
-          <span class="select-none hidden md:inline">|</span>
+          <span class="select-none hidden md:inline text-gray-400" aria-hidden="true">|</span>
           <button
             type="button"
-            class="hover:underline underline-offset-2"
+            class="hover:underline underline-offset-2 text-left md:text-right"
             onclick="(window.__openConsentBanner ? window.__openConsentBanner() : (location.href='/privacy#cookie'))"
           >
             Gestisci preferenze cookie
@@ -194,7 +221,7 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
       </div>
 
       {footNote && (
-        <p class="text-center text-xs text-gray-600 dark:text-gray-400 mt-4">
+        <p class="text-center text-xs text-gray-600 dark:text-gray-400 mt-3">
           {footNote}
         </p>
       )}
