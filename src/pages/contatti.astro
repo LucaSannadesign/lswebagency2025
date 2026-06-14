@@ -5,15 +5,15 @@ import { Icon } from 'astro-icon/components';
 
 const SERVIZIO_LABELS: Record<string, string> = {
   'assistente-ai': 'Assistente AI (Sito & WhatsApp)',
-  'audit-rapido': 'Audit Rapido',
-  'landing-page': 'Landing Page Professionale',
+  'audit-rapido': 'Audit rapido',
+  'landing-page': 'Landing page professionale',
   'fix-performance-seo': 'Fix Performance & SEO',
   'local-seo-booster': 'Local SEO Booster',
-  ecommerce: 'Realizzazione E-commerce',
+  ecommerce: 'E-commerce',
   'seo-locale': 'SEO locale',
-  assistenza: 'Assistenza & manutenzione',
-  'siti-web': 'Siti web',
-  'creazione-siti-web-sassari': 'Creazione siti web — Sassari',
+  assistenza: 'Assistenza e manutenzione',
+  'siti-web': 'Sito web',
+  'creazione-siti-web-sassari': 'Sito web — Sassari',
   'contatti-rapidi': 'Contatti rapidi',
 };
 
@@ -301,7 +301,7 @@ const AGENCY = {
               <option value="wordpress-slim" selected={preselectedService === 'wordpress-slim'}>WordPress / sito statico headless</option>
             </optgroup>
 
-            <optgroup label="SEO e visibilità">
+            <optgroup label="SEO">
               <option value="seo-locale" selected={preselectedService === 'seo-locale'}>SEO locale</option>
               <option value="local-seo-booster" selected={preselectedService === 'local-seo-booster'}>Local SEO Booster</option>
               <option value="audit-rapido" selected={preselectedService === 'audit-rapido'}>Audit rapido</option>
@@ -310,14 +310,14 @@ const AGENCY = {
 
             <optgroup label="AI e automazioni">
               <option value="assistente-ai" selected={preselectedService === 'assistente-ai'}>Assistente AI (Sito &amp; WhatsApp)</option>
-              <option value="ai-automazioni" selected={preselectedService === 'ai-automazioni'}>AI / automazioni</option>
-              <option value="ux-ai" selected={preselectedService === 'ux-ai'}>UX con Intelligenza Artificiale</option>
+              <option value="ai-automazioni" selected={preselectedService === 'ai-automazioni'}>Altre automazioni AI</option>
+              <option value="ux-ai" selected={preselectedService === 'ux-ai'}>UX con AI</option>
               <option value="ai-blog-engine" selected={preselectedService === 'ai-blog-engine'}>AI Blog Engine</option>
             </optgroup>
 
             <optgroup label="Brand e supporto">
-              <option value="branding" selected={preselectedService === 'branding'}>Branding &amp; grafica</option>
-              <option value="manutenzione" selected={preselectedService === 'manutenzione'}>Assistenza &amp; manutenzione</option>
+              <option value="branding" selected={preselectedService === 'branding'}>Branding e grafica</option>
+              <option value="manutenzione" selected={preselectedService === 'manutenzione'}>Assistenza e manutenzione</option>
               <option value="altro" selected={preselectedService === 'altro'}>Altro</option>
             </optgroup>
           </select>

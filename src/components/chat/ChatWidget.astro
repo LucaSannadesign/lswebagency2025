@@ -194,18 +194,18 @@ const WIDGET_ID = 'ls-chat-widget';
 
     if (hasSite && hasBrand) {
       return `Possiamo occuparci sia del <b>sito</b> sia del <b>logo/brand kit</b>.<br>
-        • Pacchetti Sito 👉 <a class="underline" href="${URL_SITI}">Siti Web</a><br>
-        • Branding/Logo 👉 <a class="underline" href="${URL_BRAND}">Branding & Grafica</a><br>
+        • Sito web 👉 <a class="underline" href="${URL_SITI}">Tipi di siti web</a><br>
+        • Branding/Logo 👉 <a class="underline" href="${URL_BRAND}">Branding e grafica</a><br>
         Se vuoi, ti proponiamo un pacchetto coordinato sito + identità visiva.`;
     }
     if (hasEcom && hasBrand) {
       return `Perfetto: <b>e-commerce</b> con <b>logo/brand kit</b> ✨<br>
         • Pacchetti E-commerce 👉 <a class="underline" href="${URL_ECOM}">E-commerce</a><br>
-        • Branding/Logo 👉 <a class="underline" href="${URL_BRAND}">Branding & Grafica</a>`;
+        • Branding/Logo 👉 <a class="underline" href="${URL_BRAND}">Branding e grafica</a>`;
     }
     if (hasBrand) {
       return `Per <b>logo</b>, palette e <b>brand kit</b> trovi tutto qui 👉
-        <a class="underline" href="${URL_BRAND}">Branding & Grafica</a>.<br>
+        <a class="underline" href="${URL_BRAND}">Branding e grafica</a>.<br>
         Possiamo coordinare immagine e sito per un lancio coerente.`;
     }
     if (hasEcom) {
@@ -215,12 +215,12 @@ const WIDGET_ID = 'ls-chat-widget';
     }
     if (hasSite) {
       return `Per i <b>siti vetrina/aziendali</b> trovi tutto qui 👉
-        <a class="underline" href="${URL_SITI}">Pacchetti & Prezzi Siti Web</a>.<br>
+        <a class="underline" href="${URL_SITI}">Tipi di siti web</a>.<br>
         Posso aiutarti a scegliere in base a pagine e obiettivi.`;
     }
     if (hasPrice) {
-      return `Ecco i prezzi e cosa include ogni pacchetto:<br>
-        • <b>Siti Web</b> 👉 <a class="underline" href="${URL_SITI}">Pacchetti & Prezzi</a><br>
+      return `Ecco cosa include ogni soluzione:<br>
+        • <b>Sito web</b> 👉 <a class="underline" href="${URL_SITI}">Tipi di siti web</a><br>
         • <b>E-commerce</b> 👉 <a class="underline" href="${URL_ECOM}">Pacchetti & Prezzi</a>`;
     }
     if (hasLead) {
@@ -234,8 +234,8 @@ const WIDGET_ID = 'ls-chat-widget';
         Dimmi pure cosa ti serve e ti indico la pagina giusta.`;
     }
     return `Grazie! Ti rispondiamo il prima possibile negli orari indicati.
-      Intanto puoi dare un’occhiata ai pacchetti:<br>
-      👉 <a class="underline" href="${URL_SITI}">Siti Web</a> ·
+      Intanto puoi dare un’occhiata ai servizi:<br>
+      👉 <a class="underline" href="${URL_SITI}">Tipi di siti web</a> ·
       <a class="underline" href="${URL_ECOM}">E-commerce</a>`;
   }
 

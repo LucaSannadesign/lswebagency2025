@@ -8,8 +8,8 @@ export const headerData = {
       href: '/servizi',
       links: [
         { text: 'Sito web strategico', href: '/servizi/siti-web' },
-        { text: 'SEO integrata', href: '/servizi#seo' },
-        { text: 'Moduli AI e automazioni', href: '/servizi#ai' },
+        { text: 'Ottimizzazione SEO', href: '/servizi#seo' },
+        { text: 'AI e automazioni', href: '/servizi#ai' },
         { text: 'divider' },
         { text: 'Tutti i servizi', href: '/servizi#servizi-principali' },
       ],
