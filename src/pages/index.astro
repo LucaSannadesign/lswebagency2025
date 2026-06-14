@@ -9,6 +9,7 @@
 
 import Layout from '@/layouts/PageLayout.astro';
 import Button from '@/components/ui/Button.astro';
+import PersonalizedCta from '@/components/ux/PersonalizedCta.astro';
 import { Icon } from 'astro-icon/components';
 import { findLatestPosts } from '@/utils/blog';
 import { APP_BLOG } from 'astrowind:config';
@@ -492,6 +493,8 @@ const WHATSAPP =
       </div>
     </div>
   </section>
+
+  <PersonalizedCta />
 
   <!-- ═══════════════════════════════════════
        SERVIZI

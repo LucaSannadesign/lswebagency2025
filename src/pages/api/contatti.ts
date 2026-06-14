@@ -199,7 +199,7 @@ export const POST: APIRoute = async ({ request }) => {
     const message = typeof messageRaw === "string" ? messageRaw.trim() : "";
     const privacy = data?.privacy === true;
     const phone = typeof data?.phone === "string" ? data.phone.trim().slice(0, 80) : "";
-    const service = typeof data?.service === "string" ? data.service.trim().slice(0, 120) : "";
+    const service = typeof data?.service === "string" ? data.service.trim().slice(0, 400) : "";
     const requestedServizioSlug =
       typeof data?.requestedServizioSlug === "string" ? data.requestedServizioSlug.trim().slice(0, 120) : "";
     const requestedPacchettoSlug =

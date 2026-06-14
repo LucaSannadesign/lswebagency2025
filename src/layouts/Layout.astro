@@ -9,6 +9,7 @@ import CustomStyles from "@/components/CustomStyles.astro";
 import ApplyColorMode from "@/components/common/ApplyColorMode.astro";
 import SiteVerification from "@/components/common/SiteVerification.astro";
 import BasicScripts from "@/components/common/BasicScripts.astro";
+import PersonalizationTracker from "@/components/ux/PersonalizationTracker.astro";
 
 import { ClientRouter } from "astro:transitions";
 import Analytics from "@vercel/analytics/astro";
@@ -181,6 +182,7 @@ const jsonLdBlocks = md?.jsonLd
     <!-- End Google Tag Manager (noscript) -->
 
     <slot />
+    <PersonalizationTracker />
     <BasicScripts />
     <Analytics />
   </body>

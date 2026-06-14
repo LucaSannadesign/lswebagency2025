@@ -1,0 +1,59 @@
+---
+// First-party UX tracking: salva l'ultimo servizio visitato in localStorage.
+// Nessuna chiamata a server esterni, cookie di terze parti o backend.
+---
+
+<script is:inline>
+  const STORAGE_KEY = 'lswa_last_service_interest';
+
+  /** path (senza trailing slash) → service + label */
+  const SERVICE_PATH_MAP = {
+    '/servizi/personalizzazione-ux-intelligenza-artificiale': {
+      service: 'ux-ai',
+      label: 'Personalizzazione UX con AI',
+    },
+    '/servizi/ottimizzazione-seo-siti-web': {
+      service: 'seo',
+      label: 'Ottimizzazione SEO',
+    },
+    '/servizi/seo-locale': {
+      service: 'seo-locale',
+      label: 'SEO Locale e Google Business',
+    },
+    '/servizi/assistente-ai-sito-whatsapp': {
+      service: 'ai',
+      label: 'Assistenti AI',
+    },
+    '/servizi/siti-web': {
+      service: 'siti-web',
+      label: 'Siti Web',
+    },
+    '/servizi/realizzazione-siti-ecommerce': {
+      service: 'ecommerce',
+      label: 'E-commerce',
+    },
+  };
+
+  function trackServiceInterest() {
+    const path = window.location.pathname.replace(/\/+$/, '') || '/';
+    const entry = SERVICE_PATH_MAP[path];
+    if (!entry) return;
+
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          service: entry.service,
+          label: entry.label,
+          path,
+          timestamp: Date.now(),
+        })
+      );
+    } catch {
+      // localStorage non disponibile (modalità privata, quota, ecc.)
+    }
+  }
+
+  trackServiceInterest();
+  document.addEventListener('astro:page-load', trackServiceInterest);
+</script>

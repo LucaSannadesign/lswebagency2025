@@ -1,0 +1,109 @@
+---
+// CTA first-party basata su lswa_last_service_interest (localStorage, solo browser).
+---
+
+<div class="container mx-auto px-6 py-6 md:py-8">
+  <aside
+    id="lswa-personalized-cta"
+    class="hidden max-w-4xl mx-auto rounded-2xl border border-violet-200/80 bg-violet-50/60 dark:border-violet-800/50 dark:bg-violet-950/30 p-6 md:p-8 shadow-sm"
+    aria-labelledby="lswa-personalized-cta-title"
+  >
+    <h2 id="lswa-personalized-cta-title" class="text-xl md:text-2xl font-semibold text-brand-ink dark:text-white leading-snug"></h2>
+    <p id="lswa-personalized-cta-text" class="mt-3 text-base text-brand-ink/80 dark:text-slate-300 leading-relaxed"></p>
+    <a
+      id="lswa-personalized-cta-link"
+      href="/contatti"
+      class="mt-5 inline-flex items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 dark:bg-violet-600 dark:hover:bg-violet-500 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2"
+    ></a>
+  </aside>
+</div>
+
+<script is:inline>
+  (function () {
+    var STORAGE_KEY = 'lswa_last_service_interest';
+
+    var CTA_BY_SERVICE = {
+      'ux-ai': {
+        title: 'Vuoi applicare l\u2019AI alla UX del tuo sito?',
+        text: 'Hai visitato il servizio dedicato alla personalizzazione UX con Intelligenza Artificiale. Possiamo partire da una versione leggera, misurabile e realmente utile.',
+        href: '/contatti?servizio=ux-ai',
+        cta: 'Richiedi una valutazione UX AI',
+      },
+      seo: {
+        title: 'Vuoi migliorare la visibilit\u00e0 del tuo sito?',
+        text: 'Hai mostrato interesse per l\u2019ottimizzazione SEO. Possiamo analizzare struttura, contenuti e criticit\u00e0 tecniche del tuo sito.',
+        href: '/contatti?servizio=fix-performance-seo',
+        cta: 'Richiedi una valutazione SEO',
+      },
+      'seo-locale': {
+        title: 'Vuoi farti trovare meglio nella tua zona?',
+        text: 'Hai visitato il servizio SEO Locale e Google Business. Possiamo lavorare su presenza locale, scheda Google e pagine territoriali.',
+        href: '/contatti?servizio=seo-locale',
+        cta: 'Richiedi una valutazione locale',
+      },
+      ai: {
+        title: 'Vuoi integrare un assistente AI nel tuo sito?',
+        text: 'Hai mostrato interesse per gli assistenti AI. Possiamo progettare una soluzione utile per contatti, domande frequenti e richieste clienti.',
+        href: '/contatti?servizio=assistente-ai',
+        cta: 'Valuta un assistente AI',
+      },
+      'siti-web': {
+        title: 'Vuoi realizzare un sito pi\u00f9 efficace?',
+        text: 'Hai visitato il servizio dedicato ai siti web. Possiamo progettare una struttura chiara, veloce e orientata alla conversione.',
+        href: '/contatti?servizio=sito-web',
+        cta: 'Richiedi una consulenza sito',
+      },
+      ecommerce: {
+        title: 'Vuoi vendere online con una struttura pi\u00f9 chiara?',
+        text: 'Hai mostrato interesse per l\u2019e-commerce. Possiamo ragionare su catalogo, UX, pagamenti e percorso d\u2019acquisto.',
+        href: '/contatti?servizio=ecommerce',
+        cta: 'Valuta un progetto e-commerce',
+      },
+    };
+
+    function hideCta(el) {
+      el.classList.add('hidden');
+    }
+
+    function renderPersonalizedCta() {
+      var el = document.getElementById('lswa-personalized-cta');
+      if (!el) return;
+
+      var titleEl = document.getElementById('lswa-personalized-cta-title');
+      var textEl = document.getElementById('lswa-personalized-cta-text');
+      var linkEl = document.getElementById('lswa-personalized-cta-link');
+      if (!titleEl || !textEl || !linkEl) return;
+
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          hideCta(el);
+          return;
+        }
+
+        var data = JSON.parse(raw);
+        if (!data || !data.service) {
+          hideCta(el);
+          return;
+        }
+
+        var content = CTA_BY_SERVICE[data.service];
+        if (!content) {
+          hideCta(el);
+          return;
+        }
+
+        titleEl.textContent = content.title;
+        textEl.textContent = content.text;
+        linkEl.textContent = content.cta;
+        linkEl.setAttribute('href', content.href);
+        el.classList.remove('hidden');
+      } catch {
+        hideCta(el);
+      }
+    }
+
+    renderPersonalizedCta();
+    document.addEventListener('astro:page-load', renderPersonalizedCta);
+  })();
+</script>

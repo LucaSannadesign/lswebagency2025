@@ -70,7 +70,57 @@ const SERVICE_SELECT_VALUES = new Set([
   'altro',
 ]);
 
+const SERVICE_CATEGORIES = [
+  {
+    id: 'sviluppo',
+    label: 'Sito web e sviluppo',
+    services: [
+      { slug: 'sito-web', label: 'Sito web strategico' },
+      { slug: 'landing-page', label: 'Landing page professionale' },
+      { slug: 'ecommerce', label: 'E-commerce' },
+      { slug: 'wordpress-slim', label: 'WordPress / sito statico headless' },
+    ],
+  },
+  {
+    id: 'seo',
+    label: 'SEO',
+    services: [
+      { slug: 'seo-locale', label: 'SEO locale' },
+      { slug: 'local-seo-booster', label: 'Local SEO Booster' },
+      { slug: 'audit-rapido', label: 'Audit rapido' },
+      { slug: 'fix-performance-seo', label: 'Fix Performance & SEO' },
+    ],
+  },
+  {
+    id: 'ai',
+    label: 'AI e automazioni',
+    services: [
+      { slug: 'assistente-ai', label: 'Assistente AI (Sito & WhatsApp)' },
+      { slug: 'ai-automazioni', label: 'Altre automazioni AI' },
+      { slug: 'ux-ai', label: 'UX con AI' },
+      { slug: 'ai-blog-engine', label: 'AI Blog Engine' },
+    ],
+  },
+  {
+    id: 'brand',
+    label: 'Brand e supporto',
+    services: [
+      { slug: 'branding', label: 'Branding e grafica' },
+      { slug: 'manutenzione', label: 'Assistenza e manutenzione' },
+      { slug: 'altro', label: 'Non sono sicuro / voglio un consiglio' },
+    ],
+  },
+] as const;
+
+const SERVICE_TO_CATEGORY: Record<string, string> = {};
+for (const category of SERVICE_CATEGORIES) {
+  for (const service of category.services) {
+    SERVICE_TO_CATEGORY[service.slug] = category.id;
+  }
+}
+
 const preselectedService = SERVICE_SELECT_VALUES.has(requestedServizioSlug) ? requestedServizioSlug : '';
+const preselectedCategory = preselectedService ? (SERVICE_TO_CATEGORY[preselectedService] ?? '') : '';
 
 const metadata = {
   title: 'Parliamo del tuo sito | LS Web Agency',
@@ -283,44 +333,62 @@ const AGENCY = {
           />
         </div>
 
-        <div class="col-span-1 min-w-0">
-          <label for="service" class="block text-sm font-medium mb-1">
-            Servizio di interesse
+        <div class="col-span-1 md:col-span-2 min-w-0">
+          <label for="service-category" class="block text-sm font-medium mb-1">
+            Di cosa hai bisogno?
           </label>
           <select
-            id="service"
-            name="service"
+            id="service-category"
+            name="serviceCategory"
             class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500"
           >
-            <option value="" selected={preselectedService === ''}>Seleziona…</option>
-
-            <optgroup label="Siti web e sviluppo">
-              <option value="sito-web" selected={preselectedService === 'sito-web'}>Sito web strategico</option>
-              <option value="landing-page" selected={preselectedService === 'landing-page'}>Landing page professionale</option>
-              <option value="ecommerce" selected={preselectedService === 'ecommerce'}>E-commerce</option>
-              <option value="wordpress-slim" selected={preselectedService === 'wordpress-slim'}>WordPress / sito statico headless</option>
-            </optgroup>
-
-            <optgroup label="SEO">
-              <option value="seo-locale" selected={preselectedService === 'seo-locale'}>SEO locale</option>
-              <option value="local-seo-booster" selected={preselectedService === 'local-seo-booster'}>Local SEO Booster</option>
-              <option value="audit-rapido" selected={preselectedService === 'audit-rapido'}>Audit rapido</option>
-              <option value="fix-performance-seo" selected={preselectedService === 'fix-performance-seo'}>Fix Performance &amp; SEO</option>
-            </optgroup>
-
-            <optgroup label="AI e automazioni">
-              <option value="assistente-ai" selected={preselectedService === 'assistente-ai'}>Assistente AI (Sito &amp; WhatsApp)</option>
-              <option value="ai-automazioni" selected={preselectedService === 'ai-automazioni'}>Altre automazioni AI</option>
-              <option value="ux-ai" selected={preselectedService === 'ux-ai'}>UX con AI</option>
-              <option value="ai-blog-engine" selected={preselectedService === 'ai-blog-engine'}>AI Blog Engine</option>
-            </optgroup>
-
-            <optgroup label="Brand e supporto">
-              <option value="branding" selected={preselectedService === 'branding'}>Branding e grafica</option>
-              <option value="manutenzione" selected={preselectedService === 'manutenzione'}>Assistenza e manutenzione</option>
-              <option value="altro" selected={preselectedService === 'altro'}>Altro</option>
-            </optgroup>
+            <option value="" selected={preselectedCategory === ''}>Seleziona un'area</option>
+            {SERVICE_CATEGORIES.map((category) => (
+              <option value={category.id} selected={preselectedCategory === category.id}>
+                {category.label}
+              </option>
+            ))}
           </select>
+        </div>
+
+        <div
+          id="service-options-wrap"
+          class:list={[
+            'col-span-1 md:col-span-2 min-w-0',
+            preselectedCategory ? '' : 'hidden',
+          ]}
+        >
+          <fieldset id="service-options" class="min-w-0 border-0 p-0 m-0">
+            <legend class="block text-sm font-medium mb-1">Servizi di interesse</legend>
+            <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3">
+              Puoi selezionare più opzioni. Se hai dubbi, scegli “Non sono sicuro / voglio un consiglio”.
+            </p>
+
+            {SERVICE_CATEGORIES.map((category) => (
+              <div
+                id={`service-checkboxes-${category.id}`}
+                class:list={[
+                  'grid grid-cols-1 sm:grid-cols-2 gap-2 min-w-0',
+                  preselectedCategory === category.id ? '' : 'hidden',
+                ]}
+                data-service-category={category.id}
+              >
+                {category.services.map((service) => (
+                  <label class="flex items-center gap-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-2.5 cursor-pointer min-h-[44px]">
+                    <input
+                      type="checkbox"
+                      name="service"
+                      value={service.label}
+                      data-service-slug={service.slug}
+                      checked={preselectedService === service.slug}
+                      class="size-4 shrink-0 rounded accent-violet-600"
+                    />
+                    <span class="text-sm leading-snug">{service.label}</span>
+                  </label>
+                ))}
+              </div>
+            ))}
+          </fieldset>
         </div>
 
         <fieldset id="web-project-options" class="col-span-1 md:col-span-2 min-w-0 hidden">
@@ -571,14 +639,17 @@ const AGENCY = {
       const feedback = document.getElementById('form-feedback');
       const feedbackContent = document.getElementById('form-feedback-content');
       const feedbackText = document.getElementById('form-feedback-text');
-      const serviceSelect = document.getElementById('service');
+      const serviceCategorySelect = document.getElementById('service-category');
+      const serviceOptionsWrap = document.getElementById('service-options-wrap');
       const webProjectOptions = document.getElementById('web-project-options');
 
       if (!form || !submitBtn) return;
 
       function toggleWebProjectOptions() {
-        if (!serviceSelect || !webProjectOptions) return;
-        const show = serviceSelect.value === 'sito-web';
+        if (!webProjectOptions) return;
+        const show = Boolean(
+          form.querySelector('input[name="service"][data-service-slug="sito-web"]:checked')
+        );
         webProjectOptions.classList.toggle('hidden', !show);
 
         if (!show) {
@@ -588,6 +659,25 @@ const AGENCY = {
               input.checked = false;
             });
         }
+      }
+
+      function onServiceCategoryChange() {
+        if (!serviceCategorySelect || !serviceOptionsWrap) return;
+        const category = serviceCategorySelect.value;
+
+        serviceOptionsWrap.classList.toggle('hidden', !category);
+
+        document.querySelectorAll('[data-service-category]').forEach((panel) => {
+          const isActive = panel.getAttribute('data-service-category') === category;
+          panel.classList.toggle('hidden', !isActive);
+          if (!isActive) {
+            panel.querySelectorAll('input[name="service"]').forEach((input) => {
+              input.checked = false;
+            });
+          }
+        });
+
+        toggleWebProjectOptions();
       }
 
       toggleWebProjectOptions();
@@ -735,6 +825,9 @@ const AGENCY = {
           const selectedPackages = Array.from(form.querySelectorAll('input[name="websitePackage"]:checked'))
             .map((el) => el.value);
 
+          const selectedServices = Array.from(form.querySelectorAll('input[name="service"]:checked'))
+            .map((el) => el.value);
+
           const originalMessage = String(formData.get('message') || '');
           const requestedServizioSlug = String(formData.get('requestedServizioSlug') || '').trim();
           const requestedPacchettoSlug = String(formData.get('requestedPacchettoSlug') || '').trim();
@@ -758,7 +851,7 @@ const AGENCY = {
             name: formData.get('name') || '',
             email: formData.get('email') || '',
             phone: formData.get('phone') || '',
-            service: formData.get('service') || '',
+            service: selectedServices.join(', '),
             message: enrichedMessage,
             privacy: formData.get('privacy') === 'on',
             company: formData.get('company') || '', // honeypot
@@ -834,6 +927,13 @@ const AGENCY = {
           const successMessage = responseData.message || 'Messaggio inviato con successo! Ti risponderemo il prima possibile.';
           showSuccess(successMessage);
           form.reset();
+          if (serviceOptionsWrap) {
+            serviceOptionsWrap.classList.add('hidden');
+          }
+          document.querySelectorAll('[data-service-category]').forEach((panel) => {
+            panel.classList.add('hidden');
+          });
+          toggleWebProjectOptions();
           
           // Redirect dopo 2 secondi
           setTimeout(() => {
@@ -866,9 +966,13 @@ const AGENCY = {
         }
       });
 
-      if (serviceSelect) {
-        serviceSelect.addEventListener('change', toggleWebProjectOptions);
+      if (serviceCategorySelect) {
+        serviceCategorySelect.addEventListener('change', onServiceCategoryChange);
       }
+
+      form.querySelectorAll('input[name="service"]').forEach((input) => {
+        input.addEventListener('change', toggleWebProjectOptions);
+      });
 
       // Privacy checkbox validation
       const privacy = document.getElementById('privacy');
