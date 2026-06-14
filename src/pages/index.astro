@@ -210,6 +210,13 @@ const faqSchema = {
 
 const WHATSAPP =
   'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sui%20servizi%20LS%20Web%20Agency.';
+
+const HERO_METHOD_STEPS = [
+  { n: '01', title: 'Analisi', desc: 'Obiettivi, pubblico e criticità del sito.' },
+  { n: '02', title: 'Struttura', desc: 'Pagine, contenuti e percorso utente.' },
+  { n: '03', title: 'CTA', desc: 'Form e inviti all’azione chiari.' },
+  { n: '04', title: 'Contatti', desc: 'Richieste raccolte con ordine.' },
+];
 ---
 
 <Layout metadata={metadata}>
@@ -224,269 +231,111 @@ const WHATSAPP =
   <section
     class="relative isolate overflow-hidden bg-brand-surface dark:bg-slate-950"
   >
-    <div class="mx-auto max-w-screen-xl px-6 md:px-8 pt-10 sm:pt-12 lg:pt-8 pb-10 lg:pb-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-center lg:items-start">
-        <div class="text-center lg:text-left order-1 min-w-0 relative z-10 lg:max-w-lg xl:max-w-xl">
+    <!-- Sfondo decorativo blu/viola (contenuto da overflow-hidden: nessun overflow orizzontale) -->
+    <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+      <div class="absolute -top-24 -right-16 h-80 w-80 rounded-full bg-brand-blue/[0.07] blur-3xl dark:bg-brand-blue/[0.10]"></div>
+      <div class="absolute -left-20 top-1/3 h-72 w-72 rounded-full bg-brand-purple/[0.06] blur-3xl dark:bg-brand-purple/[0.09]"></div>
+    </div>
+
+    <div class="mx-auto flex lg:min-h-[calc(100svh-72px)] max-w-screen-xl items-center px-6 md:px-8 py-10 sm:py-14 lg:py-16">
+      <div class="grid w-full grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
+        <div class="text-center lg:text-left order-1 min-w-0 relative z-10 lg:max-w-xl">
           <header>
-            <p class="mb-4 flex flex-wrap justify-center lg:justify-start gap-2">
+            <p class="mb-3 sm:mb-4 flex flex-wrap justify-center lg:justify-start gap-2">
               <span class="px-3 py-1.5 rounded-full bg-brand-purple/10 dark:bg-brand-purple/20 text-xs font-semibold text-brand-purple dark:text-violet-300 ring-1 ring-brand-purple/15">
                 Sassari · da remoto in tutta Italia
               </span>
             </p>
 
-            <h1 class="text-4xl sm:text-5xl md:text-5xl lg:text-[clamp(2.8rem,4.1vw,3.45rem)] font-extrabold tracking-tight leading-[1] hero-title">
+            <h1 class="text-[2rem] sm:text-5xl lg:text-[clamp(2.75rem,4vw,3.5rem)] font-extrabold tracking-tight leading-[1.1] sm:leading-[1.08] hero-title">
               <span class="block"><span class="t-dark">Siti web strategici</span></span>
-              <span class="block"><span class="t-violet">per acquisire e gestire richieste clienti</span></span>
+              <span class="block mt-1"><span class="t-violet">per acquisire e gestire richieste clienti</span></span>
             </h1>
 
-            <p class="mt-4 lg:mt-4 text-lg md:text-xl text-brand-ink/80 dark:text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0">
+            <p class="mt-4 sm:mt-5 text-base sm:text-lg md:text-xl text-brand-ink/80 dark:text-slate-300 leading-[1.55] sm:leading-[1.65] max-w-xl mx-auto lg:mx-0">
               Il sito web è il prodotto centrale: non una vetrina statica, ma uno strumento per trasformare visite in
               richieste qualificate e gestirle con ordine. Per attività a Sassari, in Sardegna e da remoto in tutta
               Italia, con form, CTA, SEO e tracciamento già integrati nel sito.
             </p>
           </header>
 
-          <div
-            class="mt-5 lg:mt-5 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-start sm:gap-3 lg:justify-start"
-            aria-label="Azioni principali"
-          >
-            <a
-              href="#contatti"
-              class="w-full max-w-sm sm:w-auto inline-flex items-center justify-center whitespace-nowrap px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white bg-brand-blue hover:bg-brand-blue/90 rounded-full shadow-lg ring-1 ring-white/20 hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
-            >
-              Richiedi analisi del progetto
-              <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" aria-hidden="true" />
-            </a>
+          <div class="mt-6 sm:mt-8" aria-label="Azioni principali">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3">
+              <a
+                href="#contatti"
+                class="inline-flex items-center justify-center whitespace-nowrap px-6 py-3.5 sm:px-8 text-base font-semibold text-white bg-brand-blue hover:bg-brand-blue/90 rounded-full shadow-lg ring-1 ring-white/20 hover:shadow-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+              >
+                Richiedi analisi gratuita
+                <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2 shrink-0" aria-hidden="true" />
+              </a>
 
-            <a
-              href="#servizi"
-              class="w-full max-w-sm sm:w-auto inline-flex items-center justify-center whitespace-nowrap px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-brand-ink dark:text-white bg-transparent hover:bg-brand-blue/10 dark:hover:bg-brand-blue/20 rounded-full ring-1 ring-brand-ink/10 dark:ring-slate-600 transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2"
-            >
-              Scopri come funziona
-            </a>
+              <a
+                href="#analisi-audit"
+                class="inline-flex items-center justify-center whitespace-nowrap px-6 py-3.5 sm:px-8 text-base font-semibold text-brand-ink dark:text-white bg-white/80 dark:bg-slate-900/60 hover:bg-brand-blue/10 dark:hover:bg-brand-blue/20 rounded-full ring-1 ring-brand-ink/10 dark:ring-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2"
+              >
+                Vedi il metodo
+              </a>
+            </div>
 
-            <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-full max-w-sm sm:w-auto inline-flex items-center justify-center whitespace-nowrap px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-brand-ink dark:text-white bg-transparent hover:bg-brand-blue/10 dark:hover:bg-brand-blue/20 rounded-full ring-1 ring-brand-ink/10 dark:ring-slate-600 transform hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ink/20 focus-visible:ring-offset-2 gap-1"
-            >
-              💬 Scrivici su WhatsApp
-            </a>
+            <p class="mt-3 sm:mt-4 text-sm text-slate-600 dark:text-slate-400 text-center lg:text-left">
+              Analisi del progetto gratuita · Risposta in 24h · Nessun impegno
+            </p>
+
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 text-center lg:text-left">
+              Preferisci WhatsApp?{' '}
+              <a
+                href={WHATSAPP}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium text-brand-blue dark:text-blue-400 hover:underline underline-offset-2"
+              >
+                Scrivimi qui
+              </a>
+            </p>
           </div>
-
-          <p class="mt-5 text-sm text-slate-600 dark:text-slate-400 text-center lg:text-left">
-            Analisi del progetto gratuita · Risposta in 24h · Nessun impegno
-          </p>
         </div>
 
         <div
-          class="order-2 w-full min-w-0 max-w-[34rem] lg:max-w-[30rem] mx-auto lg:mx-0 lg:ml-auto relative z-10 lg:-mt-2"
-          aria-label="Metodo LS Web Agency: analisi, struttura, design e pubblicazione del sito"
+          class="order-2 w-full min-w-0 max-w-lg mx-auto lg:mx-0 lg:ml-auto relative z-10"
+          aria-label="Metodo LS Web Agency: analisi, struttura, CTA e contatti"
         >
-          <div
-            class="relative w-full overflow-hidden lg:overflow-visible py-4 sm:py-5 lg:py-0 pointer-events-none select-none"
-            aria-hidden="true"
-          >
+          <div class="relative overflow-hidden rounded-2xl border border-slate-200/70 dark:border-slate-700/75 bg-white/90 dark:bg-slate-900/85 backdrop-blur-sm p-5 sm:p-6 shadow-[0_16px_48px_-20px_rgba(15,23,42,0.18)] dark:shadow-[0_16px_48px_-20px_rgba(0,0,0,0.45)] ring-1 ring-slate-900/[0.04] dark:ring-white/[0.05]">
             <div
-              class="pointer-events-none absolute top-[18%] left-[12%] h-44 w-44 rounded-full bg-violet-200/40 dark:bg-indigo-500/15 blur-3xl opacity-30"
-            >
-            </div>
-            <div
-              class="pointer-events-none absolute bottom-8 right-6 h-36 w-36 rounded-full bg-indigo-300/35 dark:bg-indigo-400/20 blur-3xl opacity-35"
+              class="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-violet-200/40 dark:bg-indigo-500/15 blur-3xl"
+              aria-hidden="true"
             >
             </div>
 
-            <div class="relative flex flex-col gap-4 sm:gap-5 lg:hidden">
-              <article
-                class="relative rounded-2xl border border-slate-200/60 dark:border-slate-700/75 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-5 py-4 pr-14 shadow-[0_10px_40px_-12px_rgba(15,23,42,0.12)] dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.45)] ring-1 ring-slate-900/[0.04] dark:ring-white/[0.05]"
-              >
-                <div
-                  class="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-xl bg-brand-purple/[0.07] dark:bg-brand-purple/15 ring-1 ring-brand-purple/10"
-                  aria-hidden="true"
-                >
-                  <svg class="h-4 w-4 text-brand-purple dark:text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="10.5" cy="10.5" r="5"></circle>
-                    <path d="M14.2 14.2 18.5 18.5"></path>
-                    <path d="M7.5 12.5 9 10.5 10.8 11.8 13 8.5"></path>
-                  </svg>
-                </div>
-                <p class="text-[11px] font-semibold tracking-[0.18em] tabular-nums text-brand-purple">01</p>
-                <p class="mt-2.5 text-lg font-semibold tracking-tight text-slate-950 dark:text-white">Analisi</p>
-                <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Obiettivi, pubblico, criticità.</p>
-              </article>
-              <article
-                class="relative rounded-2xl border border-slate-200/60 dark:border-slate-700/75 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-5 py-4 pr-14 shadow-[0_10px_40px_-12px_rgba(15,23,42,0.12)] dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.45)] ring-1 ring-slate-900/[0.04] dark:ring-white/[0.05]"
-              >
-                <div
-                  class="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-xl bg-brand-purple/[0.07] dark:bg-brand-purple/15 ring-1 ring-brand-purple/10"
-                  aria-hidden="true"
-                >
-                  <svg class="h-4 w-4 text-brand-purple dark:text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="4" y="5" width="6.5" height="4.5" rx="1"></rect>
-                    <rect x="13.5" y="5" width="6.5" height="4.5" rx="1"></rect>
-                    <rect x="8.5" y="14.5" width="7" height="5.5" rx="1"></rect>
-                    <path d="M7.25 9.5v2.75M10.25 12.25v2.25M13.75 9.5v2.75M17.25 12.25v2.25"></path>
-                  </svg>
-                </div>
-                <p class="text-[11px] font-semibold tracking-[0.18em] tabular-nums text-brand-purple">02</p>
-                <p class="mt-2.5 text-lg font-semibold tracking-tight text-slate-950 dark:text-white">Struttura</p>
-                <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Pagine, contenuti, percorso utente.</p>
-              </article>
-              <article
-                class="relative rounded-2xl border border-slate-200/60 dark:border-slate-700/75 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-5 py-4 pr-14 shadow-[0_10px_40px_-12px_rgba(15,23,42,0.12)] dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.45)] ring-1 ring-slate-900/[0.04] dark:ring-white/[0.05]"
-              >
-                <div
-                  class="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-xl bg-brand-purple/[0.07] dark:bg-brand-purple/15 ring-1 ring-brand-purple/10"
-                  aria-hidden="true"
-                >
-                  <svg class="h-4 w-4 text-brand-purple dark:text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="4" y="5" width="16" height="14" rx="2"></rect>
-                    <path d="M4 10h16"></path>
-                    <path d="M10 10v9"></path>
-                    <path d="M4 15h5.5"></path>
-                    <path d="M17.5 16.5 19.5 18.5"></path>
-                  </svg>
-                </div>
-                <p class="text-[11px] font-semibold tracking-[0.18em] tabular-nums text-brand-purple">03</p>
-                <p class="mt-2.5 text-lg font-semibold tracking-tight text-slate-950 dark:text-white">Design</p>
-                <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Identità, leggibilità, fiducia.</p>
-              </article>
-              <div class="relative">
-                <div
-                  class="pointer-events-none absolute -inset-1 rounded-2xl bg-indigo-400/20 dark:bg-indigo-500/15 blur-xl opacity-50"
-                >
-                </div>
+            <p class="relative text-xs font-semibold uppercase tracking-wide text-brand-purple dark:text-violet-300 mb-3 sm:mb-4">
+              Il metodo in 4 passi
+            </p>
+
+            <div class="relative grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 sm:auto-rows-fr">
+              {HERO_METHOD_STEPS.map((step, index) => (
                 <article
-                  class="relative rounded-2xl border border-brand-purple/25 dark:border-violet-400/30 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-5 py-4 pr-14 shadow-[0_10px_40px_-12px_rgba(15,23,42,0.14)] dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.45)] ring-1 ring-brand-purple/10"
+                  class:list={[
+                    'rounded-xl border px-4 py-3 sm:py-3.5 sm:min-h-[5.5rem]',
+                    index === 3
+                      ? 'border-brand-purple/25 dark:border-violet-400/30 bg-brand-purple/[0.04] dark:bg-brand-purple/10'
+                      : 'border-slate-200/70 dark:border-slate-700/75 bg-slate-50/80 dark:bg-slate-800/50',
+                  ]}
                 >
-                  <div
-                    class="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-xl bg-brand-purple/[0.09] dark:bg-brand-purple/20 ring-1 ring-brand-purple/15"
-                    aria-hidden="true"
+                  <p class="text-[10px] font-semibold tracking-[0.16em] tabular-nums text-brand-purple dark:text-violet-300">
+                    {step.n}
+                  </p>
+                  <p
+                    class:list={[
+                      'mt-1 text-base font-semibold tracking-tight leading-snug',
+                      index === 3 ? 'text-brand-purple dark:text-violet-300' : 'text-slate-950 dark:text-white',
+                    ]}
                   >
-                    <svg class="h-4 w-4 text-brand-purple dark:text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <rect x="3.5" y="6" width="17" height="12.5" rx="2"></rect>
-                      <path d="M3.5 10h17"></path>
-                      <path d="M15.5 15.5 17 17 20.5 13.5"></path>
-                    </svg>
-                  </div>
-                  <p class="text-[11px] font-semibold tracking-[0.18em] tabular-nums text-brand-purple">04</p>
-                  <p class="mt-2.5 text-lg font-semibold tracking-tight text-brand-purple dark:text-violet-300">Online</p>
-                  <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Pubblicazione e contatti.</p>
+                    {step.title}
+                  </p>
+                  <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                    {step.desc}
+                  </p>
                 </article>
-              </div>
-            </div>
-
-            <div class="relative hidden lg:block w-full min-h-[22rem] xl:min-h-[23rem]">
-              <svg
-                class="pointer-events-none absolute inset-0 hidden h-full w-full text-violet-400/25 dark:text-violet-400/15 xl:block"
-                viewBox="0 0 560 440"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid meet"
-                aria-hidden="true"
-              >
-                <path
-                  d="M152 92 C228 88, 318 78, 388 112"
-                  stroke="currentColor"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M388 152 C332 188, 252 208, 172 252"
-                  stroke="currentColor"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M172 300 C268 318, 352 338, 408 360"
-                  stroke="currentColor"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                />
-              </svg>
-
-              <article
-                class="absolute top-10 left-4 z-10 w-[12.5rem] -rotate-1 rounded-2xl border border-slate-200/60 bg-white/90 p-4 pr-11 shadow-[0_12px_44px_-14px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.04] backdrop-blur-sm dark:border-slate-700/75 dark:bg-slate-900/90 dark:shadow-[0_12px_44px_-14px_rgba(0,0,0,0.5)] dark:ring-white/[0.05]"
-              >
-                <div
-                  class="absolute top-3 right-3 flex h-7 w-7 items-center justify-center rounded-xl bg-brand-purple/[0.07] ring-1 ring-brand-purple/10 dark:bg-brand-purple/15"
-                  aria-hidden="true"
-                >
-                  <svg class="h-3.5 w-3.5 text-brand-purple dark:text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="10.5" cy="10.5" r="5"></circle>
-                    <path d="M14.2 14.2 18.5 18.5"></path>
-                    <path d="M7.5 12.5 9 10.5 10.8 11.8 13 8.5"></path>
-                  </svg>
-                </div>
-                <p class="text-[10px] font-semibold tracking-[0.18em] tabular-nums text-brand-purple">01</p>
-                <p class="mt-1.5 text-base font-semibold tracking-tight text-slate-950 leading-snug dark:text-white">Analisi</p>
-                <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Obiettivi, pubblico, criticità.</p>
-              </article>
-
-              <article
-                class="absolute top-12 right-2 z-20 w-[12.5rem] rotate-1 rounded-2xl border border-slate-200/60 bg-white/90 p-4 pr-11 shadow-[0_12px_44px_-14px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.04] backdrop-blur-sm dark:border-slate-700/75 dark:bg-slate-900/90 dark:shadow-[0_12px_44px_-14px_rgba(0,0,0,0.5)] dark:ring-white/[0.05]"
-              >
-                <div
-                  class="absolute top-3 right-3 flex h-7 w-7 items-center justify-center rounded-xl bg-brand-purple/[0.07] ring-1 ring-brand-purple/10 dark:bg-brand-purple/15"
-                  aria-hidden="true"
-                >
-                  <svg class="h-3.5 w-3.5 text-brand-purple dark:text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="4" y="5" width="6.5" height="4.5" rx="1"></rect>
-                    <rect x="13.5" y="5" width="6.5" height="4.5" rx="1"></rect>
-                    <rect x="8.5" y="14.5" width="7" height="5.5" rx="1"></rect>
-                    <path d="M7.25 9.5v2.75M10.25 12.25v2.25M13.75 9.5v2.75M17.25 12.25v2.25"></path>
-                  </svg>
-                </div>
-                <p class="text-[10px] font-semibold tracking-[0.18em] tabular-nums text-brand-purple">02</p>
-                <p class="mt-1.5 text-base font-semibold tracking-tight text-slate-950 leading-snug dark:text-white">Struttura</p>
-                <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Pagine, contenuti, percorso utente.</p>
-              </article>
-
-              <article
-                class="absolute top-[48%] left-0 z-10 w-[12.5rem] rotate-1 rounded-2xl border border-slate-200/60 bg-white/90 p-4 pr-11 shadow-[0_12px_44px_-14px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.04] backdrop-blur-sm dark:border-slate-700/75 dark:bg-slate-900/90 dark:shadow-[0_12px_44px_-14px_rgba(0,0,0,0.5)] dark:ring-white/[0.05]"
-              >
-                <div
-                  class="absolute top-3 right-3 flex h-7 w-7 items-center justify-center rounded-xl bg-brand-purple/[0.07] ring-1 ring-brand-purple/10 dark:bg-brand-purple/15"
-                  aria-hidden="true"
-                >
-                  <svg class="h-3.5 w-3.5 text-brand-purple dark:text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="4" y="5" width="16" height="14" rx="2"></rect>
-                    <path d="M4 10h16"></path>
-                    <path d="M10 10v9"></path>
-                    <path d="M4 15h5.5"></path>
-                    <path d="M17.5 16.5 19.5 18.5"></path>
-                  </svg>
-                </div>
-                <p class="text-[10px] font-semibold tracking-[0.18em] tabular-nums text-brand-purple">03</p>
-                <p class="mt-1.5 text-base font-semibold tracking-tight text-slate-950 leading-snug dark:text-white">Design</p>
-                <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Identità, leggibilità, fiducia.</p>
-              </article>
-
-              <div class="absolute top-[63%] right-0 z-30 w-[12.5rem] -rotate-1">
-                <div
-                  class="pointer-events-none absolute -inset-1 rounded-2xl bg-indigo-400/20 opacity-40 blur-xl dark:bg-indigo-500/15"
-                  aria-hidden="true"
-                >
-                </div>
-                <article
-                  class="relative rounded-2xl border border-brand-purple/25 bg-white/90 p-4 pr-11 shadow-[0_12px_44px_-14px_rgba(15,23,42,0.16)] ring-1 ring-brand-purple/10 backdrop-blur-sm dark:border-violet-400/30 dark:bg-slate-900/90 dark:shadow-[0_12px_44px_-14px_rgba(0,0,0,0.5)]"
-                >
-                  <div
-                    class="absolute top-3 right-3 flex h-7 w-7 items-center justify-center rounded-xl bg-brand-purple/[0.09] ring-1 ring-brand-purple/15 dark:bg-brand-purple/20"
-                    aria-hidden="true"
-                  >
-                    <svg class="h-3.5 w-3.5 text-brand-purple dark:text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <rect x="3.5" y="6" width="17" height="12.5" rx="2"></rect>
-                      <path d="M3.5 10h17"></path>
-                      <path d="M15.5 15.5 17 17 20.5 13.5"></path>
-                    </svg>
-                  </div>
-                  <p class="text-[10px] font-semibold tracking-[0.18em] tabular-nums text-brand-purple">04</p>
-                  <p class="mt-1.5 text-base font-semibold tracking-tight leading-snug text-brand-purple dark:text-violet-300">Online</p>
-                  <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Pubblicazione e contatti.</p>
-                </article>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -494,7 +343,11 @@ const WHATSAPP =
     </div>
   </section>
 
-  <PersonalizedCta />
+  <!-- Transizione morbida hero → servizi: colma lo stacco bianco con una sfumatura lilla → grigio freddo
+       (da brand-surface, fondo della hero, a slate-50, inizio sezione servizi). -->
+  <div class="bg-gradient-to-b from-brand-surface to-slate-50 dark:from-slate-950 dark:to-slate-950">
+    <PersonalizedCta />
+  </div>
 
   <!-- ═══════════════════════════════════════
        SERVIZI
@@ -1866,33 +1719,45 @@ const WHATSAPP =
         </div>
         <div class="mb-6">
           <label for="need" class="block text-sm font-medium">Di cosa hai bisogno?</label>
-          <select
-            id="need"
-            name="need"
-            class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-          >
-            <option value="">Seleziona una voce</option>
-            <option value="Ho già un sito da migliorare">Ho già un sito da migliorare</option>
-            <option value="Devo creare un sito da zero">Devo creare un sito da zero</option>
-            <option value="Voglio più visibilità locale">Voglio più visibilità locale</option>
-            <option value="Vorrei un audit o una prima analisi">Vorrei un audit o una prima analisi</option>
-            <option value="Altro">Altro</option>
-          </select>
+          <div class="relative">
+            <select
+              id="need"
+              name="need"
+              class="peer block w-full min-h-[48px] appearance-none [-webkit-appearance:none] cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 py-3 pl-4 pr-11 text-md transition-colors hover:border-brand-blue/60 focus:border-brand-purple focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/40"
+            >
+              <option value="">Seleziona una voce</option>
+              <option value="Ho già un sito da migliorare">Ho già un sito da migliorare</option>
+              <option value="Devo creare un sito da zero">Devo creare un sito da zero</option>
+              <option value="Voglio più visibilità locale">Voglio più visibilità locale</option>
+              <option value="Vorrei un audit o una prima analisi">Vorrei un audit o una prima analisi</option>
+              <option value="Altro">Altro</option>
+            </select>
+            <Icon
+              name="tabler:chevron-down"
+              class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500 transition-colors peer-focus:text-brand-purple"
+            />
+          </div>
         </div>
         <div class="mb-6">
           <label for="budget" class="block text-sm font-medium">Budget indicativo</label>
-          <select
-            id="budget"
-            name="budget"
-            class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-          >
-            <option value="Preferisco indicarlo dopo">Preferisco indicarlo dopo</option>
-            <option value="Meno di 500 €">Meno di 500 €</option>
-            <option value="500–1.000 €">500–1.000 €</option>
-            <option value="1.000–2.000 €">1.000–2.000 €</option>
-            <option value="Oltre 2.000 €">Oltre 2.000 €</option>
-            <option value="Non lo so ancora">Non lo so ancora</option>
-          </select>
+          <div class="relative">
+            <select
+              id="budget"
+              name="budget"
+              class="peer block w-full min-h-[48px] appearance-none [-webkit-appearance:none] cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 py-3 pl-4 pr-11 text-md transition-colors hover:border-brand-blue/60 focus:border-brand-purple focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/40"
+            >
+              <option value="Preferisco indicarlo dopo">Preferisco indicarlo dopo</option>
+              <option value="Meno di 500 €">Meno di 500 €</option>
+              <option value="500–1.000 €">500–1.000 €</option>
+              <option value="1.000–2.000 €">1.000–2.000 €</option>
+              <option value="Oltre 2.000 €">Oltre 2.000 €</option>
+              <option value="Non lo so ancora">Non lo so ancora</option>
+            </select>
+            <Icon
+              name="tabler:chevron-down"
+              class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500 transition-colors peer-focus:text-brand-purple"
+            />
+          </div>
           <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
             Serve solo a capire quale percorso proporti, non è un vincolo definitivo.
           </p>
