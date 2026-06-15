@@ -1,0 +1,77 @@
+[
+  {
+    "key": "siteStatus",
+    "text": "Hai già un sito online o parti da zero?",
+    "options": [
+      "Ho già un sito",
+      "Parto da zero",
+      "Solo presenza social",
+      "Non sono sicuro"
+    ]
+  },
+  {
+    "key": "businessType",
+    "text": "Che tipo di attività hai?",
+    "options": [
+      "Professionista",
+      "Azienda locale",
+      "E‑commerce",
+      "Altro"
+    ]
+  },
+  {
+    "key": "mainGoal",
+    "text": "Qual è l’obiettivo principale?",
+    "options": [
+      "Ricevere più richieste",
+      "Essere trovato su Google",
+      "Migliorare immagine e fiducia",
+      "Vendere online",
+      "Automatizzare risposte",
+      "Altro"
+    ]
+  },
+  {
+    "key": "primaryNeed",
+    "text": "Di cosa pensi di aver più bisogno?",
+    "options": [
+      "Sito strategico nuovo",
+      "Restyling del sito",
+      "Audit rapido / SEO locale",
+      "Landing page",
+      "Automazioni AI",
+      "Non so ancora"
+    ]
+  },
+  {
+    "key": "assets",
+    "text": "Hai già testi, logo o immagini?",
+    "options": [
+      "Testi e logo pronti",
+      "Solo logo",
+      "Nessun contenuto pronto"
+    ]
+  },
+  {
+    "key": "contactMethod",
+    "text": "Come gestisci oggi le richieste?",
+    "options": [
+      "Email",
+      "Telefono",
+      "WhatsApp",
+      "Form sul sito",
+      "Social",
+      "In modo poco ordinato"
+    ]
+  },
+  {
+    "key": "urgency",
+    "text": "Quanto è urgente il progetto?",
+    "options": [
+      "Entro 1 mese",
+      "1–3 mesi",
+      "3–6 mesi",
+      "Non c’è scadenza"
+    ]
+  }
+]
