@@ -123,7 +123,7 @@ export default function MiniAnalisi() {
     return (
       <div className="rounded-2xl p-6 md:p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
         <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
-          Analisi completata
+          Valutazione completata
         </span>
         <h3 className="mt-4 text-2xl md:text-3xl font-bold">{result.headline}</h3>
         <p className="mt-3 text-neutral-600 dark:text-neutral-300">{result.intro}</p>
@@ -163,14 +163,14 @@ export default function MiniAnalisi() {
         {submitState === 'success' ? (
           <div className="mt-6 rounded-xl p-5 ring-1 ring-emerald-200 dark:ring-emerald-800/60 bg-emerald-50/70 dark:bg-emerald-900/20">
             <p className="font-semibold text-emerald-800 dark:text-emerald-200">
-              Analisi inviata correttamente. Ti ricontatterò entro 24–48 ore.
+              Valutazione inviata correttamente. Ti ricontatterò entro 24–48 ore.
             </p>
             <button
               type="button"
               onClick={restart}
               className="mt-4 inline-flex items-center justify-center rounded-full px-5 py-2.5 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold"
             >
-              {'Rifai l’analisi'}
+              {'Rifai la valutazione'}
             </button>
           </div>
         ) : (
@@ -269,14 +269,14 @@ export default function MiniAnalisi() {
                 disabled={submitState === 'sending'}
                 className="inline-flex items-center justify-center rounded-full px-5 py-3 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {submitState === 'sending' ? 'Invio in corso…' : 'Invia la mia mini-analisi'}
+                {submitState === 'sending' ? 'Invio in corso…' : 'Invia la mia valutazione'}
               </button>
               <button
                 type="button"
                 onClick={restart}
                 className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold"
               >
-                {'Rifai l’analisi'}
+                {'Rifai la valutazione'}
               </button>
             </div>
           </form>

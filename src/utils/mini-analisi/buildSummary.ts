@@ -59,13 +59,13 @@ export default function buildSummary(answers: Answers, profile: Profile): Summar
       : `In base alle tue risposte, per ${business} possiamo costruire un percorso chiaro verso l’obiettivo “${goal}”.`;
 
   return {
-    headline: 'Ecco la tua Mini‑Analisi',
+    headline: 'Ecco la tua valutazione guidata',
     intro,
     topPriorities,
     service: profile.service,
     reason: profile.reason,
     level: profile.level,
     levelNote: LEVEL_NOTES[profile.level] ?? '',
-    cta: 'Questa è una stima orientativa, non un preventivo. Lasciami i tuoi contatti e ti preparo una proposta personalizzata.',
+    cta: 'Questo è un primo orientamento basato sulle informazioni che hai inserito, non un preventivo. Lasciami i tuoi contatti e ti preparo una proposta personalizzata.',
   };
 }
