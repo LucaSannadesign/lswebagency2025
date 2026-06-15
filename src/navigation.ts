@@ -18,7 +18,11 @@ export const headerData = {
     { text: 'Blog', href: '/blog' },
     { text: 'Contatti', href: '/contatti' },
   ],
-  actions: [{ text: 'Richiedi analisi del progetto', href: '/contatti' }],
+  actions: [
+    // CTA autonoma: strumento gratuito di acquisizione lead, distinto dai servizi.
+    { text: 'Analisi Gratuita', href: '/mini-analisi', variant: 'primary' },
+    { text: 'Parliamo del progetto', href: '/contatti' },
+  ],
 };
 
 export const footerData = {
