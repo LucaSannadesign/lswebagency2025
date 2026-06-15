@@ -139,6 +139,175 @@ function diagnoseResendError(error: any): string {
   return "EMAIL_PROVIDER_ERROR";
 }
 
+type CrmLeadInput = {
+  name: string;
+  email: string;
+  phone: string;
+  service: string;
+  message: string;
+  requestedServizioLabel: string;
+  requestedServizioSlug: string;
+  requestedPacchettoLabel: string;
+  requestedPacchettoSlug: string;
+};
+
+/**
+ * Salva il lead nel CRM (public.leads) in modo best-effort.
+ * Import dinamico + try/catch: un eventuale problema Supabase (env mancanti,
+ * errore di rete o insert) NON deve mai propagarsi né bloccare l'invio email.
+ * Ritorna true solo se l'insert è andato a buon fine.
+ */
+async function saveLeadToCrm(input: CrmLeadInput): Promise<boolean> {
+  try {
+    const { supabaseAdmin } = await import("../../lib/supabase.server");
+
+    const serviceInterest =
+      input.service ||
+      input.requestedServizioLabel ||
+      input.requestedServizioSlug ||
+      input.requestedPacchettoLabel ||
+      input.requestedPacchettoSlug ||
+      "Contatto generico";
+
+    const notes = [
+      "Lead generato dal form Contatti (sito LS Web Agency).",
+      'Origine: form-contatti (mappata su source="altro").',
+      "",
+      `Nome: ${input.name}`,
+      `Email: ${input.email}`,
+      `Telefono: ${input.phone || "—"}`,
+      `Servizio (form): ${input.service || "—"}`,
+      `Servizio richiesto (CTA): ${input.requestedServizioLabel || input.requestedServizioSlug || "—"}`,
+      `Pacchetto richiesto (CTA): ${input.requestedPacchettoLabel || input.requestedPacchettoSlug || "—"}`,
+      "",
+      "Messaggio:",
+      input.message,
+    ].join("\n");
+
+    const payload = {
+      business_name: "Richiesta da form contatti",
+      contact_name: input.name,
+      email: input.email,
+      phone: input.phone || null,
+      sector: "altro",
+      service_interest: serviceInterest,
+      status: "nuovo",
+      priority: "media",
+      source: "altro",
+      problem_detected: [] as string[],
+      notes,
+      estimated_value: 0,
+      archived: false,
+    };
+
+    const { error } = await supabaseAdmin.from("leads").insert(payload);
+    if (error) {
+      console.error("[contatti] CRM insert error", error.message);
+      return false;
+    }
+    console.log("[contatti] CRM lead salvato");
+    return true;
+  } catch (e) {
+    console.error("[contatti] CRM save eccezione", e instanceof Error ? e.message : String(e));
+    return false;
+  }
+}
+
+/**
+ * Invia la email di notifica via Resend. Incapsula preview-guard, controllo env
+ * e gestione errori, restituendo un esito strutturato SENZA mai lanciare:
+ * così l'invio email non può interrompere il flusso né il salvataggio CRM.
+ */
+async function sendNotificationEmail(
+  input: CrmLeadInput
+): Promise<{ emailSent: boolean; errorCode?: string; id?: string | null }> {
+  // Preview Vercel: niente invio reale senza consenso esplicito (production invariata)
+  if (env("VERCEL_ENV") === "preview" && env("CONTACT_ALLOW_EMAIL_IN_PREVIEW") !== "true") {
+    console.warn("[contatti] preview: invio email disabilitato senza CONTACT_ALLOW_EMAIL_IN_PREVIEW");
+    return { emailSent: false, errorCode: "PREVIEW_EMAIL_DISABLED" };
+  }
+
+  const RESEND_API_KEY = env("RESEND_API_KEY");
+  const TO = env("CONTACT_TO_EMAIL") || env("MAIL_TO");
+  const FROM = env("CONTACT_FROM_EMAIL") || env("MAIL_FROM") || "onboarding@resend.dev";
+  const MAIL_SUBJECT_PREFIX = env("MAIL_SUBJECT_PREFIX") || "Nuovo contatto dal sito";
+
+  console.log("[contatti] env richieste (presenza, mai valori segreti)", {
+    hasResendKey: Boolean(RESEND_API_KEY),
+    hasToEmail: Boolean(TO),
+    hasFromExplicit: Boolean(env("CONTACT_FROM_EMAIL") || env("MAIL_FROM")),
+    fromUsesDefault: FROM === "onboarding@resend.dev",
+    vercelEnv: env("VERCEL_ENV") ?? "(unset)",
+  });
+
+  if (!RESEND_API_KEY || !TO) {
+    console.error("[contatti] SERVER_MISCONFIGURED missing env:", {
+      hasResendKey: Boolean(RESEND_API_KEY),
+      hasToEmail: Boolean(TO),
+    });
+    return { emailSent: false, errorCode: "SERVER_MISCONFIGURED" };
+  }
+
+  const resend = new Resend(RESEND_API_KEY);
+  const subject = `${MAIL_SUBJECT_PREFIX} — ${input.name}`;
+  const textLines = [
+    "Nuovo messaggio dal sito",
+    "",
+    `Nome: ${input.name}`,
+    `Email: ${input.email}`,
+    `Telefono: ${input.phone || "—"}`,
+    `Servizio (form): ${input.service || "—"}`,
+  ];
+  if (input.requestedServizioSlug || input.requestedServizioLabel) {
+    textLines.push(`Servizio richiesto (CTA): ${input.requestedServizioLabel || input.requestedServizioSlug}`);
+  } else {
+    textLines.push("Servizio richiesto (CTA): —");
+  }
+  if (input.requestedPacchettoSlug || input.requestedPacchettoLabel) {
+    textLines.push(`Pacchetto richiesto (CTA): ${input.requestedPacchettoLabel || input.requestedPacchettoSlug}`);
+  } else {
+    textLines.push("Pacchetto richiesto (CTA): —");
+  }
+  textLines.push("", "Messaggio:", input.message);
+  const text = textLines.join("\n");
+
+  console.log("[contatti] pre-resend: chiamata provider", {
+    subjectLen: subject.length,
+    textLen: text.length,
+    toDomain: TO.includes("@") ? TO.split("@").pop() : "(n/a)",
+  });
+
+  try {
+    const { data: sent, error } = await resend.emails.send({
+      from: FROM,
+      to: [TO],
+      replyTo: input.email,
+      subject,
+      text,
+    });
+    if (error) {
+      console.error("[contatti] Resend error (full serialized)", JSON.stringify(error));
+      const errorCode = diagnoseResendError(error);
+      console.error("[contatti] Resend risposta errore (oggetto error)", {
+        code: errorCode,
+        name: (error as any)?.name,
+        message: String((error as any)?.message || "").slice(0, 200),
+      });
+      return { emailSent: false, errorCode };
+    }
+    console.log("[contatti] Resend ok", { id: sent?.id ?? null });
+    return { emailSent: true, id: sent?.id ?? null };
+  } catch (err: any) {
+    const errorCode = diagnoseResendError(err);
+    console.error("[contatti] Resend eccezione", {
+      code: errorCode,
+      name: err?.name,
+      message: String(err?.message || "").slice(0, 200),
+    });
+    return { emailSent: false, errorCode };
+  }
+}
+
 export const GET: APIRoute = async () => {
   return json(200, { ok: true, route: "/api/contatti", build: BUILD_FINGERPRINT });
 };
@@ -221,130 +390,85 @@ export const POST: APIRoute = async ({ request }) => {
       return json(400, { ok: false, error: "VALIDATION_ERROR", fields, build: BUILD_FINGERPRINT });
     }
 
-    // Preview Vercel: niente invio reale senza consenso esplicito (production invariata)
-    if (env("VERCEL_ENV") === "preview" && env("CONTACT_ALLOW_EMAIL_IN_PREVIEW") !== "true") {
-      console.warn("[contatti] preview: invio email disabilitato senza CONTACT_ALLOW_EMAIL_IN_PREVIEW");
-      return json(403, {
-        ok: false,
-        error: "PREVIEW_EMAIL_DISABLED",
-        message:
-          "Invio email disabilitato in preview. Imposta CONTACT_ALLOW_EMAIL_IN_PREVIEW=true se necessario.",
-        build: BUILD_FINGERPRINT,
-      });
-    }
+    // 6) CRM ed email sono INDIPENDENTI: il salvataggio non dipende dall'esito
+    //    dell'email, così una richiesta valida non può andare persa.
+    const leadInput: CrmLeadInput = {
+      name,
+      email,
+      phone,
+      service,
+      message,
+      requestedServizioLabel,
+      requestedServizioSlug,
+      requestedPacchettoLabel,
+      requestedPacchettoSlug,
+    };
 
-    // 6) Normalizzazione ENV (supporta CONTACT_* e fallback MAIL_* per retrocompatibilità)
-    const RESEND_API_KEY = env("RESEND_API_KEY");
-    const TO = env("CONTACT_TO_EMAIL") || env("MAIL_TO");
-    const FROM = env("CONTACT_FROM_EMAIL") || env("MAIL_FROM") || "onboarding@resend.dev";
-    const MAIL_SUBJECT_PREFIX = env("MAIL_SUBJECT_PREFIX") || "Nuovo contatto dal sito";
+    // 6a) Salvataggio CRM (prima dell'email, non bloccante)
+    const leadSaved = await saveLeadToCrm(leadInput);
 
-    console.log("[contatti] env richieste (presenza, mai valori segreti)", {
-      hasResendKey: Boolean(RESEND_API_KEY),
-      hasToEmail: Boolean(TO),
-      hasFromExplicit: Boolean(env("CONTACT_FROM_EMAIL") || env("MAIL_FROM")),
-      fromUsesDefault: FROM === "onboarding@resend.dev",
-      vercelEnv: env("VERCEL_ENV") ?? "(unset)",
-    });
+    // 6b) Invio email via Resend (non blocca né dipende dal salvataggio)
+    const emailResult = await sendNotificationEmail(leadInput);
+    const emailSent = emailResult.emailSent;
 
-    if (!RESEND_API_KEY || !TO) {
-      console.error("[contatti] SERVER_MISCONFIGURED missing env:", {
-        hasResendKey: Boolean(RESEND_API_KEY),
-        hasToEmail: Boolean(TO),
-      });
-      return json(500, {
-        ok: false,
-        error: "SERVER_MISCONFIGURED",
-        message: GENERIC_BACKEND_MESSAGE,
-        build: BUILD_FINGERPRINT,
-      });
-    }
-
-    // 7) Invio email via Resend
-    const resend = new Resend(RESEND_API_KEY);
-
-    const subject = `${MAIL_SUBJECT_PREFIX} — ${name}`;
-    const textLines = [
-      "Nuovo messaggio dal sito",
-      "",
-      `Nome: ${name}`,
-      `Email: ${email}`,
-      `Telefono: ${phone || "—"}`,
-      `Servizio (form): ${service || "—"}`,
-    ];
-    if (requestedServizioSlug || requestedServizioLabel) {
-      textLines.push(`Servizio richiesto (CTA): ${requestedServizioLabel || requestedServizioSlug}`);
-    } else {
-      textLines.push("Servizio richiesto (CTA): —");
-    }
-    if (requestedPacchettoSlug || requestedPacchettoLabel) {
-      textLines.push(`Pacchetto richiesto (CTA): ${requestedPacchettoLabel || requestedPacchettoSlug}`);
-    } else {
-      textLines.push("Pacchetto richiesto (CTA): —");
-    }
-    textLines.push("", "Messaggio:", message);
-    const text = textLines.join("\n");
-
-    console.log("[contatti] pre-resend: chiamata provider", {
-      subjectLen: subject.length,
-      textLen: text.length,
-      toDomain: TO.includes("@") ? TO.split("@").pop() : "(n/a)",
-    });
-
-    try {
-      // TEMP test: usare mittente Resend di default per isolare problemi di dominio mittente
-      const { data: sent, error } = await resend.emails.send({
-        from: FROM,
-        to: [TO],
-        replyTo: email,
-        subject,
-        text,
-      });
-
-      // 8) Resend può restituire error senza lanciare eccezione
-      if (error) {
-        console.error(
-          "[contatti] Resend error (full serialized)",
-          JSON.stringify(error),
-        );
-        const errorCode = diagnoseResendError(error);
-        const errorMessage = String(error?.message || "").slice(0, 200);
-        console.error("[contatti] Resend risposta errore (oggetto error)", {
-          code: errorCode,
-          name: error?.name,
-          message: errorMessage,
-        });
-        return json(500, {
-          ok: false,
-          error: errorCode,
-          message: GENERIC_BACKEND_MESSAGE,
-          build: BUILD_FINGERPRINT,
-        });
-      }
-
-      console.log("[contatti] Resend ok", { id: sent?.id ?? null });
+    // 7) Risposta controllata in base agli esiti combinati
+    if (leadSaved && emailSent) {
       return json(200, {
         ok: true,
+        received: true,
+        leadSaved: true,
         emailSent: true,
         provider: "resend",
-        id: sent?.id ?? null,
-        build: BUILD_FINGERPRINT,
-      });
-    } catch (err: any) {
-      const errorCode = diagnoseResendError(err);
-      const errorMessage = String(err?.message || "").slice(0, 200);
-      console.error("[contatti] Resend eccezione", {
-        code: errorCode,
-        name: err?.name,
-        message: errorMessage,
-      });
-      return json(500, {
-        ok: false,
-        error: errorCode,
-        message: GENERIC_BACKEND_MESSAGE,
+        id: emailResult.id ?? null,
         build: BUILD_FINGERPRINT,
       });
     }
+
+    if (leadSaved && !emailSent) {
+      // Richiesta registrata nel CRM ma notifica email non partita: NON persa.
+      console.warn("[contatti] lead salvato ma email NON inviata", {
+        emailError: emailResult.errorCode ?? "UNKNOWN",
+      });
+      return json(200, {
+        ok: true,
+        received: true,
+        leadSaved: true,
+        emailSent: false,
+        emailError: emailResult.errorCode ?? "EMAIL_NOT_SENT",
+        message:
+          "Richiesta ricevuta e registrata correttamente. La notifica email non è stata inviata, ma la tua richiesta è stata salvata e verrai ricontattato.",
+        build: BUILD_FINGERPRINT,
+      });
+    }
+
+    if (!leadSaved && emailSent) {
+      // Email inviata ma salvataggio CRM fallito: successo controllato.
+      console.warn("[contatti] email inviata ma lead NON salvato nel CRM");
+      return json(200, {
+        ok: true,
+        received: true,
+        leadSaved: false,
+        emailSent: true,
+        provider: "resend",
+        id: emailResult.id ?? null,
+        build: BUILD_FINGERPRINT,
+      });
+    }
+
+    // Entrambi falliti: richiesta né salvata né notificata → errore reale.
+    console.error("[contatti] FALLIMENTO totale: CRM ed email entrambi falliti", {
+      emailError: emailResult.errorCode ?? "UNKNOWN",
+    });
+    return json(500, {
+      ok: false,
+      received: false,
+      leadSaved: false,
+      emailSent: false,
+      error: "DELIVERY_FAILED",
+      emailError: emailResult.errorCode ?? "EMAIL_NOT_SENT",
+      message: GENERIC_BACKEND_MESSAGE,
+      build: BUILD_FINGERPRINT,
+    });
   } catch (unexpected: unknown) {
     const msg =
       unexpected instanceof Error ? unexpected.message : String(unexpected);
