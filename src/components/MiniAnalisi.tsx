@@ -1,22 +1,38 @@
 import { useState } from 'react';
 import questionsData from '@/utils/mini-analisi/questions.json';
-import computeProfile, { type Answers } from '@/utils/mini-analisi/computeProfile';
+import computeProfile, { type Answers, type Profile } from '@/utils/mini-analisi/computeProfile';
 import buildSummary, { type Summary } from '@/utils/mini-analisi/buildSummary';
 
 type Question = { key: keyof Answers; text: string; options: string[] };
 
 const questions = questionsData as Question[];
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type SubmitState = 'idle' | 'sending' | 'success' | 'error';
+
 /**
  * Mini‑Analisi Guidata — isola React.
- * Presenta una domanda alla volta, raccoglie le risposte e, al termine,
- * calcola e mostra un riepilogo deterministico (priorità, servizio, fascia).
- * Tutto il calcolo avviene lato client: nessuna chiamata di rete, nessun costo.
+ * Presenta una domanda alla volta, calcola un riepilogo deterministico e,
+ * nella schermata finale, raccoglie i contatti inviandoli a /api/mini-analisi,
+ * che salva il lead nel CRM. Il calcolo è client‑side; il salvataggio è server‑side.
  */
 export default function MiniAnalisi() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [result, setResult] = useState<Summary | null>(null);
+
+  // Form finale
+  const [contactName, setContactName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [businessName, setBusinessName] = useState('');
+  const [message, setMessage] = useState('');
+  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
+  const [submitState, setSubmitState] = useState<SubmitState>('idle');
+  const [formError, setFormError] = useState<string | null>(null);
 
   const total = questions.length;
   const progress = Math.round((step / total) * 100);
@@ -28,8 +44,9 @@ export default function MiniAnalisi() {
     if (step < total - 1) {
       setStep(step + 1);
     } else {
-      const profile = computeProfile(next);
-      setResult(buildSummary(next, profile));
+      const p = computeProfile(next);
+      setProfile(p);
+      setResult(buildSummary(next, p));
     }
   }
 
@@ -39,11 +56,69 @@ export default function MiniAnalisi() {
 
   function restart() {
     setAnswers({});
+    setProfile(null);
     setResult(null);
     setStep(0);
+    setContactName('');
+    setEmail('');
+    setPhone('');
+    setBusinessName('');
+    setMessage('');
+    setPrivacyConsent(false);
+    setHoneypot('');
+    setSubmitState('idle');
+    setFormError(null);
   }
 
-  // === Risultato ===
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFormError(null);
+
+    if (!contactName.trim()) {
+      setFormError('Inserisci il tuo nome.');
+      return;
+    }
+    if (!EMAIL_RE.test(email.trim())) {
+      setFormError('Inserisci un’email valida.');
+      return;
+    }
+    if (!privacyConsent) {
+      setFormError('Per inviare devi accettare la privacy policy.');
+      return;
+    }
+
+    setSubmitState('sending');
+    try {
+      const res = await fetch('/api/mini-analisi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contactName: contactName.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          businessName: businessName.trim(),
+          message: message.trim(),
+          privacyConsent,
+          honeypot,
+          answers,
+          profile,
+          summary: result,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.ok) {
+        setSubmitState('success');
+      } else {
+        setSubmitState('error');
+        setFormError('Invio non riuscito. Riprova tra poco.');
+      }
+    } catch {
+      setSubmitState('error');
+      setFormError('Si è verificato un errore di rete. Riprova tra poco.');
+    }
+  }
+
+  // === Risultato + form ===
   if (result) {
     return (
       <div className="rounded-2xl p-6 md:p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
@@ -85,23 +160,127 @@ export default function MiniAnalisi() {
           </div>
         </div>
 
-        <p className="mt-5 text-sm text-neutral-600 dark:text-neutral-300">{result.cta}</p>
+        {submitState === 'success' ? (
+          <div className="mt-6 rounded-xl p-5 ring-1 ring-emerald-200 dark:ring-emerald-800/60 bg-emerald-50/70 dark:bg-emerald-900/20">
+            <p className="font-semibold text-emerald-800 dark:text-emerald-200">
+              Analisi inviata correttamente. Ti ricontatterò entro 24–48 ore.
+            </p>
+            <button
+              type="button"
+              onClick={restart}
+              className="mt-4 inline-flex items-center justify-center rounded-full px-5 py-2.5 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold"
+            >
+              {'Rifai l’analisi'}
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="mt-6 border-t border-neutral-200 dark:border-neutral-800 pt-6">
+            <p className="text-sm text-neutral-600 dark:text-neutral-300">{result.cta}</p>
 
-        <div className="mt-5 flex flex-wrap gap-3">
-          <a
-            href="/contatti"
-            className="inline-flex items-center justify-center rounded-full px-5 py-3 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold"
-          >
-            Richiedi la proposta personalizzata
-          </a>
-          <button
-            type="button"
-            onClick={restart}
-            className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold"
-          >
-            {'Rifai l’analisi'}
-          </button>
-        </div>
+            <div className="mt-4 grid sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="ma-name" className="text-sm font-medium">Nome*</label>
+                <input
+                  id="ma-name"
+                  type="text"
+                  required
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="ma-email" className="text-sm font-medium">Email*</label>
+                <input
+                  id="ma-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="ma-phone" className="text-sm font-medium">Telefono</label>
+                <input
+                  id="ma-phone"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="ma-business" className="text-sm font-medium">Nome attività</label>
+                <input
+                  id="ma-business"
+                  type="text"
+                  value={businessName}
+                  onChange={(e) => setBusinessName(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2"
+                />
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <label htmlFor="ma-message" className="text-sm font-medium">Messaggio</label>
+              <textarea
+                id="ma-message"
+                rows={3}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2"
+              />
+            </div>
+
+            {/* Honeypot anti-bot: nascosto agli utenti reali */}
+            <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+              <label htmlFor="ma-website">Lascia vuoto questo campo</label>
+              <input
+                id="ma-website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
+            </div>
+
+            <label className="mt-4 flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+              <input
+                type="checkbox"
+                required
+                checked={privacyConsent}
+                onChange={(e) => setPrivacyConsent(e.target.checked)}
+                className="mt-1"
+              />
+              <span>
+                Accetto la <a href="/privacy" className="underline">Privacy & Cookie Policy</a>.*
+              </span>
+            </label>
+
+            {formError && (
+              <p className="mt-3 text-sm font-medium text-red-600 dark:text-red-400">{formError}</p>
+            )}
+
+            <div className="mt-5 flex flex-wrap gap-3">
+              <button
+                type="submit"
+                disabled={submitState === 'sending'}
+                className="inline-flex items-center justify-center rounded-full px-5 py-3 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {submitState === 'sending' ? 'Invio in corso…' : 'Invia la mia mini-analisi'}
+              </button>
+              <button
+                type="button"
+                onClick={restart}
+                className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold"
+              >
+                {'Rifai l’analisi'}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     );
   }
