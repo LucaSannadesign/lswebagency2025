@@ -3,10 +3,23 @@ import Document from '@/layouts/Layout.astro';
 import Header from '@/components/widgets/Header.astro';
 import Footer from '@/components/widgets/Footer.astro';
 import CookieBanner from '@/components/CookieBanner.astro'; // ✅ ADD
+import SiteAssistant from '@/components/SiteAssistant';
 import type { MetaData } from '@/types';
 
 export interface Props { metadata?: MetaData }
 const metadata = (Astro.props.metadata ?? {}) as MetaData;
+
+// Assistente di sito (widget flottante): montato globalmente UNA sola volta, idratazione lazy.
+// Escluso dalla pagina che ha già demo + assistente inline (evita sovraccarico): la decisione
+// usa il pathname reale lato server, così il componente NON viene proprio renderizzato lì
+// (nessuna logica client per nasconderlo dopo il caricamento).
+const pathname = Astro.url.pathname;
+const hideSiteAssistant =
+  pathname === '/servizi/assistente-ai-sito-whatsapp' ||
+  pathname === '/servizi/assistente-ai-sito-whatsapp/';
+// WhatsApp: solo la variabile PUBLIC_ già usata nel progetto (ChatWidget, pagina servizio).
+// Se assente, il componente funziona senza WhatsApp (nessun numero hardcoded, nessuna env server).
+const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || undefined;
 ---
 
 <Document metadata={metadata}>
@@ -26,7 +39,7 @@ const metadata = (Astro.props.metadata ?? {}) as MetaData;
     id="scrollToTop"
     type="button"
     aria-label="Torna su"
-    class="fixed bottom-6 right-6 z-[80] 
+    class="fixed bottom-20 right-6 z-[65]
            h-12 w-12 rounded-full
            bg-slate-900/90 text-white
            shadow-lg ring-1 ring-white/10
@@ -36,7 +49,7 @@ const metadata = (Astro.props.metadata ?? {}) as MetaData;
            hover:bg-slate-900
            focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
            dark:bg-slate-100/90 dark:text-slate-900 dark:ring-slate-900/10 dark:hover:bg-slate-100
-           md:bottom-8 md:right-8"
+           md:bottom-24 md:right-8"
   >
     <span aria-hidden="true" class="text-xl leading-none">↑</span>
   </button>
@@ -83,4 +96,9 @@ const metadata = (Astro.props.metadata ?? {}) as MetaData;
       onScroll();
     })();
   </script>
+
+  <!-- Assistente di sito: una sola istanza, idratazione lazy (client:idle). Non montato sulla
+       pagina che ha già demo + assistente inline. Re-mount alla navigazione ClientRouter accettato
+       (la conversazione è volutamente solo nello stato React). -->
+  {!hideSiteAssistant && <SiteAssistant client:idle whatsappNumber={whatsappNumber} />}
 </Document>
