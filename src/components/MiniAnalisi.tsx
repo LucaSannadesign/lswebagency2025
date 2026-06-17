@@ -246,13 +246,13 @@ export default function MiniAnalisi() {
               />
             </div>
 
-            <label className="mt-4 flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+            <label className="mt-4 flex items-start gap-3 text-sm text-neutral-600 dark:text-neutral-300 cursor-pointer">
               <input
                 type="checkbox"
                 required
                 checked={privacyConsent}
                 onChange={(e) => setPrivacyConsent(e.target.checked)}
-                className="mt-1"
+                className="mt-0.5 h-5 w-5 shrink-0 p-0 rounded accent-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-500"
               />
               <span>
                 Accetto la <a href="/privacy" className="underline">Privacy & Cookie Policy</a>.*
