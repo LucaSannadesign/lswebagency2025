@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import questionsData from '@/utils/mini-analisi/questions.json';
 import computeProfile, { type Answers, type Profile } from '@/utils/mini-analisi/computeProfile';
 import buildSummary, { type Summary } from '@/utils/mini-analisi/buildSummary';
@@ -69,11 +69,27 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
   const [phone, setPhone] = useState('');
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [message, setMessage] = useState('');
-  const [showOptional, setShowOptional] = useState(false);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [honeypot, setHoneypot] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
   const [formError, setFormError] = useState<string | null>(null);
+
+  // Percorso di contatto progressivo dopo il risultato.
+  const [contactStep, setContactStep] = useState<'invite' | 'essential' | 'details'>('invite');
+  const [showSite, setShowSite] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
+  const [showNote, setShowNote] = useState(false);
+  const stepTitleRef = useRef<HTMLHeadingElement>(null);
+  const isFirstStepRender = useRef(true);
+
+  // Sposta il focus sul titolo del nuovo passaggio (salta il primo render: niente focus all'avvio).
+  useEffect(() => {
+    if (isFirstStepRender.current) {
+      isFirstStepRender.current = false;
+      return;
+    }
+    stepTitleRef.current?.focus();
+  }, [contactStep]);
 
   const total = questions.length;
   const progress = Math.round((step / total) * 100);
@@ -164,29 +180,42 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
     setPhone('');
     setWebsiteUrl('');
     setMessage('');
-    setShowOptional(false);
+    setContactStep('invite');
+    setShowSite(false);
+    setShowPhone(false);
+    setShowNote(false);
     setPrivacyConsent(false);
     setHoneypot('');
     setSubmitState('idle');
     setFormError(null);
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  // Validazione condivisa tra "Continua" (passaggio essenziale) e l'invio finale.
+  function validateContact(): boolean {
     setFormError(null);
-
     if (!contactName.trim()) {
       setFormError('Inserisci il tuo nome.');
-      return;
+      return false;
     }
     if (!EMAIL_RE.test(email.trim())) {
       setFormError('Inserisci un’email valida.');
-      return;
+      return false;
     }
     if (!privacyConsent) {
       setFormError('Per inviare devi accettare la privacy policy.');
-      return;
+      return false;
     }
+    return true;
+  }
+
+  function handleContinue(e: React.FormEvent) {
+    e.preventDefault();
+    if (validateContact()) setContactStep('details');
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!validateContact()) return;
 
     setSubmitState('sending');
     try {
@@ -329,153 +358,245 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="mt-6 border-t border-neutral-200 dark:border-neutral-800 pt-6">
-            <p className="text-sm text-neutral-600 dark:text-neutral-300">
-              Lascia nome ed email per ricevere un approfondimento personalizzato. Gli altri dati sono facoltativi.
-            </p>
-
-            <div className="mt-4 grid sm:grid-cols-2 gap-4">
+          <div className="mt-6 border-t border-neutral-200 dark:border-neutral-800 pt-6">
+            {/* STATO 1 — INVITO */}
+            {contactStep === 'invite' && (
               <div>
-                <label htmlFor="ma-name" className="text-sm font-medium">Nome*</label>
-                <input
-                  id="ma-name"
-                  type="text"
-                  required
-                  value={contactName}
-                  onChange={(e) => setContactName(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-                />
+                <h4
+                  ref={stepTitleRef}
+                  tabIndex={-1}
+                  className="text-xl md:text-2xl font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded"
+                >
+                  Vuoi approfondire questa valutazione?
+                </h4>
+                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+                  Posso esaminare il tuo caso e indicarti i prossimi passi più utili.
+                </p>
+                <div className="mt-4 flex flex-col sm:flex-row sm:flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() => { setFormError(null); setContactStep('essential'); }}
+                    className="inline-flex items-center justify-center rounded-full px-5 py-3 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                  >
+                    Sì, vorrei un approfondimento
+                  </button>
+                  <a
+                    href={isAssistant ? '/contatti?servizio=assistente-ai' : '/contatti'}
+                    className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                  >
+                    Parla con una persona
+                  </a>
+                </div>
+                {isAssistant && whatsappUrl && (
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex text-sm font-semibold text-emerald-700 dark:text-emerald-300 underline focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+                  >
+                    oppure scrivici su WhatsApp
+                  </a>
+                )}
+                <div>
+                  <button
+                    type="button"
+                    onClick={restart}
+                    className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-neutral-500 dark:text-neutral-400 hover:text-violet-700 dark:hover:text-violet-300 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded"
+                  >
+                    Ricomincia la valutazione
+                  </button>
+                </div>
               </div>
-              <div>
-                <label htmlFor="ma-email" className="text-sm font-medium">Email*</label>
-                <input
-                  id="ma-email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-                />
-              </div>
-            </div>
+            )}
 
-            {/* Campi facoltativi: chiusi di default e resi via render condizionale
-                (non solo CSS), così non restano raggiungibili da tastiera quando chiusi. */}
-            <button
-              type="button"
-              onClick={() => setShowOptional((v) => !v)}
-              aria-expanded={showOptional}
-              aria-controls="ma-optional"
-              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded"
-            >
-              <span aria-hidden="true" className="text-base leading-none">{showOptional ? '−' : '+'}</span>
-              Aggiungi telefono, sito o dettagli
-            </button>
+            {/* STATO 2 — CONTATTO ESSENZIALE */}
+            {contactStep === 'essential' && (
+              <form onSubmit={handleContinue}>
+                <p className="text-xs font-semibold uppercase tracking-wide text-violet-700 dark:text-violet-300" aria-current="step">Passaggio 1 di 2</p>
+                <h4
+                  ref={stepTitleRef}
+                  tabIndex={-1}
+                  className="mt-1 text-xl md:text-2xl font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded"
+                >
+                  Come posso ricontattarti?
+                </h4>
+                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+                  Ho già le informazioni principali. Servono soltanto nome ed email.
+                </p>
 
-            {showOptional && (
-              <div id="ma-optional" className="mt-4 space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="mt-4 grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="ma-phone" className="text-sm font-medium">Telefono</label>
+                    <label htmlFor="ma-name" className="text-sm font-medium">Nome*</label>
                     <input
-                      id="ma-phone"
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      id="ma-name"
+                      type="text"
+                      required
+                      value={contactName}
+                      onChange={(e) => setContactName(e.target.value)}
                       className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
                     />
                   </div>
                   <div>
-                    <label htmlFor="ma-website" className="text-sm font-medium">Sito web</label>
+                    <label htmlFor="ma-email" className="text-sm font-medium">Email*</label>
                     <input
-                      id="ma-website"
-                      type="text"
-                      inputMode="url"
-                      placeholder="esempio.it"
-                      value={websiteUrl}
-                      onChange={(e) => setWebsiteUrl(e.target.value)}
+                      id="ma-email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
                     />
                   </div>
                 </div>
-                <div>
-                  <label htmlFor="ma-message" className="text-sm font-medium">Messaggio</label>
-                  <textarea
-                    id="ma-message"
-                    rows={3}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+
+                <label className="mt-4 flex items-start gap-3 text-sm text-neutral-600 dark:text-neutral-300 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={privacyConsent}
+                    onChange={(e) => setPrivacyConsent(e.target.checked)}
+                    className="mt-0.5 h-5 w-5 shrink-0 p-0 rounded accent-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  />
+                  <span>
+                    Accetto la <a href="/privacy" className="underline">Privacy & Cookie Policy</a>.*
+                  </span>
+                </label>
+
+                {formError && (
+                  <p role="alert" aria-live="assertive" className="mt-3 text-sm font-medium text-red-600 dark:text-red-400">{formError}</p>
+                )}
+
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() => { setFormError(null); setContactStep('invite'); }}
+                    className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                  >
+                    ← Indietro
+                  </button>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center justify-center rounded-full px-5 py-3 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                  >
+                    Continua
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {/* STATO 3 — DETTAGLI FACOLTATIVI */}
+            {contactStep === 'details' && (
+              <form onSubmit={handleSubmit}>
+                <p className="text-xs font-semibold uppercase tracking-wide text-violet-700 dark:text-violet-300" aria-current="step">Passaggio 2 di 2</p>
+                <h4
+                  ref={stepTitleRef}
+                  tabIndex={-1}
+                  className="mt-1 text-xl md:text-2xl font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded"
+                >
+                  Vuoi aggiungere qualche dettaglio?
+                </h4>
+                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+                  Puoi aggiungere il sito, il telefono o una nota, oppure inviare subito.
+                </p>
+
+                {/* Chip: rivelano il relativo campo solo dopo la scelta */}
+                {(!showSite || !showPhone || !showNote) && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {!showSite && (
+                      <button type="button" onClick={() => setShowSite(true)} className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
+                        <span aria-hidden="true">+</span> Aggiungi sito
+                      </button>
+                    )}
+                    {!showPhone && (
+                      <button type="button" onClick={() => setShowPhone(true)} className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
+                        <span aria-hidden="true">+</span> Aggiungi telefono
+                      </button>
+                    )}
+                    {!showNote && (
+                      <button type="button" onClick={() => setShowNote(true)} className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
+                        <span aria-hidden="true">+</span> Aggiungi una nota
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                <div className="mt-4 space-y-4">
+                  {showSite && (
+                    <div>
+                      <label htmlFor="ma-website" className="text-sm font-medium">Sito web</label>
+                      <input
+                        id="ma-website"
+                        type="text"
+                        inputMode="url"
+                        placeholder="esempio.it"
+                        value={websiteUrl}
+                        onChange={(e) => setWebsiteUrl(e.target.value)}
+                        className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                      />
+                    </div>
+                  )}
+                  {showPhone && (
+                    <div>
+                      <label htmlFor="ma-phone" className="text-sm font-medium">Telefono</label>
+                      <input
+                        id="ma-phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                      />
+                    </div>
+                  )}
+                  {showNote && (
+                    <div>
+                      <label htmlFor="ma-message" className="text-sm font-medium">Messaggio</label>
+                      <textarea
+                        id="ma-message"
+                        rows={3}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Honeypot anti-bot: nascosto agli utenti reali */}
+                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                  <label htmlFor="ma-website-hp">Lascia vuoto questo campo</label>
+                  <input
+                    id="ma-website-hp"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
                   />
                 </div>
-              </div>
+
+                {formError && (
+                  <p role="alert" aria-live="assertive" className="mt-3 text-sm font-medium text-red-600 dark:text-red-400">{formError}</p>
+                )}
+
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() => { setFormError(null); setContactStep('essential'); }}
+                    className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                  >
+                    ← Indietro
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submitState === 'sending'}
+                    className="inline-flex items-center justify-center rounded-full px-5 py-3 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                  >
+                    {submitState === 'sending' ? 'Invio in corso…' : 'Invia la richiesta'}
+                  </button>
+                </div>
+              </form>
             )}
-
-            {/* Honeypot anti-bot: nascosto agli utenti reali */}
-            <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
-              <label htmlFor="ma-website-hp">Lascia vuoto questo campo</label>
-              <input
-                id="ma-website-hp"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-                value={honeypot}
-                onChange={(e) => setHoneypot(e.target.value)}
-              />
-            </div>
-
-            <label className="mt-4 flex items-start gap-3 text-sm text-neutral-600 dark:text-neutral-300 cursor-pointer">
-              <input
-                type="checkbox"
-                required
-                checked={privacyConsent}
-                onChange={(e) => setPrivacyConsent(e.target.checked)}
-                className="mt-0.5 h-5 w-5 shrink-0 p-0 rounded accent-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-500"
-              />
-              <span>
-                Accetto la <a href="/privacy" className="underline">Privacy & Cookie Policy</a>.*
-              </span>
-            </label>
-
-            {formError && (
-              <p role="alert" aria-live="assertive" className="mt-3 text-sm font-medium text-red-600 dark:text-red-400">{formError}</p>
-            )}
-
-            <div className="mt-5 flex flex-wrap gap-3">
-              <button
-                type="submit"
-                disabled={submitState === 'sending'}
-                className="inline-flex items-center justify-center rounded-full px-5 py-3 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-              >
-                {submitState === 'sending' ? 'Invio in corso…' : 'Richiedi un approfondimento'}
-              </button>
-              {isAssistant && (
-                <a
-                  href="/contatti?servizio=assistente-ai"
-                  className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-                >
-                  Parla con una persona
-                </a>
-              )}
-              {isAssistant && whatsappUrl && (
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-emerald-500 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-neutral-800 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-                >
-                  Scrivici su WhatsApp
-                </a>
-              )}
-              <button
-                type="button"
-                onClick={restart}
-                className="inline-flex items-center justify-center rounded-full px-5 py-3 ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-              >
-                Ricomincia
-              </button>
-            </div>
-          </form>
+          </div>
         )}
       </div>
     );
