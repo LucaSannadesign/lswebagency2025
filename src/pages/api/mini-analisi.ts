@@ -1,15 +1,21 @@
 // src/pages/api/mini-analisi.ts
-// Riceve i dati finali della Mini‑Analisi Guidata e salva un lead nel CRM (tabella public.leads).
+// Riceve i dati della Mini‑Analisi / Assistente guidato e salva un lead nel CRM (tabella public.leads).
 // La service role NON è mai esposta al client: l'insert avviene solo qui, lato server.
+// SICUREZZA: profilo, summary, fascia e pacchetto NON sono mai presi dal client; vengono
+// ri‑derivati lato server dalle sole risposte sanitizzate, da valori ammessi e controllati.
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { supabaseAdmin } from '../../lib/supabase.server';
-import type { Answers, Profile } from '../../utils/mini-analisi/computeProfile';
-import type { Summary } from '../../utils/mini-analisi/buildSummary';
+import computeProfile, { type Answers } from '../../utils/mini-analisi/computeProfile';
+import buildSummary, { type Summary } from '../../utils/mini-analisi/buildSummary';
+import { intentLabelById, deriveAssistantTier, ASSISTANT_PACKAGES, type AssistantTier } from '../../utils/mini-analisi/assistantFlow';
 
 export const prerender = false;
 
 const MAX_BODY_BYTES = 20_000; // payload ragionevole per una mini‑analisi
+const MAX_FIELD_LEN = 300; // limite per i singoli valori di testo libero
+const MAX_ANSWER_KEYS = 40; // limite difensivo sul numero di chiavi in answers
+const ALLOWED_SOURCES = new Set(['mini_analisi', 'assistente_ai']);
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -23,25 +29,74 @@ function json(body: unknown, status = 200) {
 
 const isEmail = (v: unknown): v is string => typeof v === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
-// Deriva priority dai dati del profilo, usando solo i valori validi del CRM.
-function derivePriority(profile?: Profile | null): 'alta' | 'media' | 'bassa' {
-  const us = Number(profile?.urgencyScore);
-  if (!Number.isFinite(us)) return 'media';
-  if (us >= 3) return 'alta';
-  if (us === 2) return 'media';
-  return 'bassa';
+// Tronca una stringa client a un limite ragionevole; restituisce undefined se vuota.
+function clampStr(v: unknown, max: number): string | undefined {
+  if (typeof v !== 'string') return undefined;
+  const t = v.trim();
+  return t ? t.slice(0, max) : undefined;
 }
 
-// Deriva problem_detected SOLO con valori enum esistenti nel CRM (nessun valore inventato).
-function deriveProblems(answers?: Answers | null): string[] {
+// Normalizza un URL facoltativo: accetta domini senza protocollo (→ https://), accetta
+// http/https espliciti, RIFIUTA altri schemi (ftp, javascript, mailto…) e input non validi
+// (ritorna null). Limite di lunghezza. Va nelle note CRM (nessuna nuova colonna).
+function normalizeWebsiteUrl(raw: unknown): string | null {
+  const v = (typeof raw === 'string' ? raw : '').trim().slice(0, 200);
+  if (!v) return null;
+  // Se è presente uno schema esplicito, deve essere http/https.
+  if (/^[a-z][a-z0-9+.-]*:/i.test(v) && !/^https?:\/\//i.test(v)) return null;
+  const withProto = /^https?:\/\//i.test(v) ? v : `https://${v}`;
+  try {
+    const u = new URL(withProto);
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return null;
+    if (!u.hostname.includes('.')) return null;
+    return u.toString().slice(0, 300);
+  } catch {
+    return null;
+  }
+}
+
+// Sanitizza answers ricevute dal client: solo valori stringa, troncati, numero di chiavi limitato.
+function sanitizeAnswers(raw: unknown): Answers {
+  const out: Record<string, string> = {};
+  if (raw && typeof raw === 'object') {
+    let count = 0;
+    for (const [k, val] of Object.entries(raw as Record<string, unknown>)) {
+      if (count >= MAX_ANSWER_KEYS) break;
+      if (typeof val === 'string') {
+        const t = val.trim().slice(0, MAX_FIELD_LEN);
+        if (t) {
+          out[k] = t;
+          count++;
+        }
+      }
+    }
+  }
+  return out as Answers;
+}
+
+// Priority CRM derivata SOLO dall'urgenza dichiarata (non dal profilo client).
+function derivePriorityFromAnswers(answers: Answers): 'alta' | 'media' | 'bassa' {
+  switch (answers.urgency) {
+    case 'Entro 1 mese':
+      return 'alta';
+    case '3–6 mesi':
+    case 'Non c’è scadenza':
+      return 'bassa';
+    default:
+      return 'media';
+  }
+}
+
+// problem_detected SOLO con valori enum esistenti nel CRM (nessun valore inventato).
+function deriveProblems(answers: Answers): string[] {
   const set = new Set<string>();
-  switch (answers?.siteStatus) {
+  switch (answers.siteStatus) {
     case 'Parto da zero':
     case 'Solo presenza social':
       set.add('sito_assente');
       break;
   }
-  switch (answers?.primaryNeed) {
+  switch (answers.primaryNeed) {
     case 'Audit rapido / SEO locale':
       set.add('google_debole');
       break;
@@ -52,7 +107,7 @@ function deriveProblems(answers?: Answers | null): string[] {
       set.add('sito_vecchio');
       break;
   }
-  switch (answers?.mainGoal) {
+  switch (answers.mainGoal) {
     case 'Essere trovato su Google':
       set.add('google_debole');
       break;
@@ -69,56 +124,83 @@ function deriveProblems(answers?: Answers | null): string[] {
   return [...set];
 }
 
+type AssistantPackage = { tier: AssistantTier; setup: number; monthly: number };
+
 function buildNotes(opts: {
-  answers?: Answers | null;
-  profile?: Profile | null;
-  summary?: Summary | null;
+  answers: Answers;
+  summary: Summary;
   message?: string;
+  origin: string;
+  flowPath?: string | null;
+  websiteUrl?: string | null;
+  context?: string | null;
+  assistantPackage?: AssistantPackage | null;
 }): string {
-  const { answers, profile, summary, message } = opts;
-  const priorita = (summary?.topPriorities ?? []).map((p) => `- ${p.label} (${p.score})`).join('\n') || '- (nessuna priorità dominante)';
-  const reason = profile?.reason ? `\nMotivazione: ${profile.reason}` : '';
+  const { answers, summary, message, origin, flowPath, websiteUrl, context, assistantPackage } = opts;
+  const priorita = (summary.topPriorities ?? []).map((p) => `- ${p.label} (${p.score})`).join('\n') || '- (nessuna priorità dominante)';
+  const reason = summary.reason ? `\nMotivazione: ${summary.reason}` : '';
   const msg = message?.trim() ? `Messaggio utente:\n${message.trim()}` : 'Messaggio utente: (nessuno)';
 
+  // Intestazione dipendente dall'origine reale del lead (entrambe mappate su source="altro").
+  const isAssistant = origin === 'assistente_ai';
+  const header = isAssistant
+    ? [
+        'Lead generato dall’Assistente commerciale guidato (sito LS Web Agency).',
+        'Origine: assistente_ai (mappata su source="altro").',
+        `Percorso scelto: ${flowPath || '—'}`,
+        ...(context ? [`Contesto: ${context}`] : []),
+      ]
+    : [
+        'Lead generato dalla Mini‑Analisi Guidata (sito LS Web Agency).',
+        'Origine: mini_analisi (mappata su source="altro").',
+      ];
+
+  const packageLine = assistantPackage
+    ? `Pacchetto consigliato: ${assistantPackage.tier} — ${assistantPackage.setup} € una-tantum + ${assistantPackage.monthly} €/mese`
+    : null;
+
   return [
-    'Lead generato dalla Mini‑Analisi Guidata (sito LS Web Agency).',
-    'Origine: mini_analisi (mappata su source="altro").',
+    ...header,
+    `Sito segnalato: ${websiteUrl || '—'}`,
     '',
-    `Servizio consigliato: ${summary?.service ?? profile?.service ?? '—'}${reason}`,
-    `Fascia/Livello: ${profile?.level ?? '—'}`,
+    `Servizio consigliato: ${summary.service ?? '—'}${reason}`,
+    `Fascia/Livello: ${summary.level ?? '—'}`,
+    ...(packageLine ? [packageLine] : []),
     '',
     'Priorità emerse:',
     priorita,
     '',
     'Risposte:',
-    `- Stato sito: ${answers?.siteStatus ?? '—'}`,
-    `- Tipo attività: ${answers?.businessType ?? '—'}`,
-    `- Obiettivo: ${answers?.mainGoal ?? '—'}`,
-    `- Bisogno percepito: ${answers?.primaryNeed ?? '—'}`,
-    `- Contenuti: ${answers?.assets ?? '—'}`,
-    `- Gestione richieste: ${answers?.contactMethod ?? '—'}`,
-    `- Urgenza: ${answers?.urgency ?? '—'}`,
+    `- Stato sito: ${answers.siteStatus ?? '—'}`,
+    `- Tipo attività: ${answers.businessType ?? '—'}`,
+    `- Obiettivo: ${answers.mainGoal ?? '—'}`,
+    `- Bisogno percepito: ${answers.primaryNeed ?? '—'}`,
+    `- Contenuti: ${answers.assets ?? '—'}`,
+    `- Gestione richieste: ${answers.contactMethod ?? '—'}`,
+    `- Urgenza: ${answers.urgency ?? '—'}`,
     '',
     msg,
     '',
     'Dati strutturati:',
-    JSON.stringify({ answers: answers ?? null, profile: profile ?? null, summary: summary ?? null }),
+    JSON.stringify({ answers, summary }).slice(0, 4000),
   ].join('\n');
 }
 
-// Notifica amministrativa della nuova mini‑analisi via Resend.
-// Comportamento best‑effort: non lancia mai e non blocca il flusso (ritorna solo true/false).
-// Riusa le stesse variabili ambiente del form contatti. Nessuna email automatica al potenziale cliente.
+// Notifica amministrativa via Resend. Best‑effort: non lancia mai e non blocca il flusso.
+// Riusa le stesse variabili ambiente del form contatti. Nessuna email automatica al cliente.
 async function sendMiniAnalisiNotification(input: {
   contactName: string;
   email: string;
   phone: string;
   businessName: string;
-  answers?: Answers | null;
-  profile?: Profile | null;
-  summary?: Summary | null;
+  summary: Summary;
+  answers: Answers;
   priority: string;
   message: string;
+  websiteUrl?: string | null;
+  origin: string;
+  flowPath?: string | null;
+  assistantPackage?: AssistantPackage | null;
 }): Promise<boolean> {
   try {
     // Preview Vercel: nessun invio reale senza consenso esplicito (production invariata).
@@ -143,25 +225,37 @@ async function sendMiniAnalisiNotification(input: {
       return false;
     }
 
-    const service = input.summary?.service ?? input.profile?.service ?? '—';
-    const level = input.profile?.level ?? '—';
-    const urgency = input.answers?.urgency ?? '—';
+    const service = input.summary.service ?? '—';
+    const level = input.summary.level ?? '—';
+    const urgency = input.answers.urgency ?? '—';
     const priorities =
-      (input.summary?.topPriorities ?? []).map((p) => `- ${p.label} (${p.score})`).join('\n') ||
+      (input.summary.topPriorities ?? []).map((p) => `- ${p.label} (${p.score})`).join('\n') ||
       '- (nessuna priorità dominante)';
     const userMessage = input.message.trim() ? input.message.trim() : '(nessuno)';
 
-    const subject = `Nuova mini-analisi LS Web Agency — ${input.contactName}`;
+    const isAssistant = input.origin === 'assistente_ai';
+    const packageLine = input.assistantPackage
+      ? `Pacchetto consigliato: ${input.assistantPackage.tier} — ${input.assistantPackage.setup} € una-tantum + ${input.assistantPackage.monthly} €/mese`
+      : null;
+
+    const subject = isAssistant
+      ? `Nuova richiesta assistente AI — ${input.contactName}`
+      : `Nuova mini-analisi LS Web Agency — ${input.contactName}`;
     const text = [
-      'Nuova mini‑analisi guidata dal sito LS Web Agency.',
+      isAssistant
+        ? 'Nuova richiesta dall’Assistente commerciale guidato (sito LS Web Agency).'
+        : 'Nuova mini‑analisi guidata dal sito LS Web Agency.',
+      ...(isAssistant ? [`Percorso scelto: ${input.flowPath || '—'}`] : []),
       '',
       `Nome contatto: ${input.contactName}`,
       `Email: ${input.email}`,
       `Telefono: ${input.phone || '—'}`,
       `Attività: ${input.businessName || '—'}`,
+      `Sito segnalato: ${input.websiteUrl || '—'}`,
       '',
       `Servizio consigliato: ${service}`,
       `Livello/Fascia: ${level}`,
+      ...(packageLine ? [packageLine] : []),
       `Priorità: ${input.priority}`,
       `Urgenza: ${urgency}`,
       '',
@@ -218,17 +312,13 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ ok: false, error: 'INVALID_JSON' }, 400);
     }
 
-    const contactName = typeof body.contactName === 'string' ? body.contactName.trim() : '';
+    const contactName = clampStr(body.contactName, 120) ?? '';
     const email = typeof body.email === 'string' ? body.email.trim() : '';
-    const phone = typeof body.phone === 'string' ? body.phone.trim() : '';
-    const businessName = typeof body.businessName === 'string' ? body.businessName.trim() : '';
-    const message = typeof body.message === 'string' ? body.message : '';
+    const phone = clampStr(body.phone, 40) ?? '';
+    const businessName = clampStr(body.businessName, 160) ?? '';
+    const message = clampStr(body.message, 2000) ?? '';
     const privacyConsent = body.privacyConsent === true;
     const honeypot = typeof body.honeypot === 'string' ? body.honeypot.trim() : '';
-
-    const answers = (body.answers ?? null) as Answers | null;
-    const profile = (body.profile ?? null) as Profile | null;
-    const summary = (body.summary ?? null) as Summary | null;
 
     // Honeypot: se compilato, è un bot → fingi successo senza salvare nulla.
     if (honeypot) {
@@ -240,18 +330,43 @@ export const POST: APIRoute = async ({ request }) => {
     if (!isEmail(email)) return json({ ok: false, error: 'INVALID_EMAIL' }, 400);
     if (!privacyConsent) return json({ ok: false, error: 'PRIVACY_REQUIRED' }, 400);
 
+    // === Dati derivati SOLO lato server da valori sanitizzati/whitelisted ===
+    const answers = sanitizeAnswers(body.answers);
+    const profile = computeProfile(answers);
+    const summary = buildSummary(answers, profile);
+
+    // Origine: whitelist (mai una source arbitraria dal client).
+    const rawSource = typeof body.source === 'string' ? body.source.trim() : '';
+    const origin = ALLOWED_SOURCES.has(rawSource) ? rawSource : 'mini_analisi';
+
+    // Intento: whitelist sugli id noti; flowPath derivato server‑side (non dal client).
+    const rawIntent = typeof body.initialIntent === 'string' ? body.initialIntent.trim().slice(0, 40) : '';
+    const initialIntent = intentLabelById[rawIntent] ? rawIntent : '';
+    const flowPath = initialIntent ? intentLabelById[initialIntent] : '';
+
+    const websiteUrl = normalizeWebsiteUrl(body.websiteUrl);
+    const assistantContext = clampStr(body.assistantContext, 80) ?? '';
+
+    // Pacchetto reale: SOLO per assistente_ai + percorso automazioni, derivato server‑side.
+    const assistantPackage: AssistantPackage | null =
+      origin === 'assistente_ai' && initialIntent === 'automazioni'
+        ? ASSISTANT_PACKAGES[deriveAssistantTier(answers)]
+        : null;
+
+    const priority = derivePriorityFromAnswers(answers);
+
     const payload = {
       business_name: businessName || 'Lead da Mini-Analisi',
       contact_name: contactName,
       email,
       phone: phone || null,
       sector: 'altro',
-      service_interest: summary?.service ?? profile?.service ?? null,
+      service_interest: summary.service ?? null,
       status: 'nuovo',
-      priority: derivePriority(profile),
+      priority,
       source: 'altro',
       problem_detected: deriveProblems(answers),
-      notes: buildNotes({ answers, profile, summary, message }),
+      notes: buildNotes({ answers, summary, message, origin, flowPath, websiteUrl, context: assistantContext, assistantPackage }),
       estimated_value: 0,
       archived: false,
     };
@@ -269,11 +384,14 @@ export const POST: APIRoute = async ({ request }) => {
       email,
       phone,
       businessName,
-      answers,
-      profile,
       summary,
-      priority: payload.priority,
+      answers,
+      priority,
       message,
+      websiteUrl,
+      origin,
+      flowPath,
+      assistantPackage,
     });
 
     return json({ ok: true, leadSaved: true, emailSent });

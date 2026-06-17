@@ -6,6 +6,7 @@
  */
 
 export type Answers = {
+  // Chiavi note: alimentano il calcolo deterministico (usate da computeProfile/buildSummary).
   siteStatus?: string;
   businessType?: string;
   mainGoal?: string;
@@ -13,6 +14,24 @@ export type Answers = {
   assets?: string;
   contactMethod?: string;
   urgency?: string;
+  // Chiavi opzionali dell'assistente guidato (variant="assistant"): trasportate nelle note
+  // CRM/Resend, NON usate dal calcolo. Additive: il flusso /mini-analisi non le invia.
+  initialIntent?: string;
+  websiteUrl?: string;
+  features?: string;
+  problem?: string;
+  desiredAction?: string;
+  location?: string;
+  serviceToPromote?: string;
+  googleBusiness?: string;
+  product?: string;
+  trafficSource?: string;
+  channel?: string;
+  repetitiveQuestions?: string;
+  needLeads?: string;
+  needHandover?: string;
+  sensitiveData?: string;
+  requestVolume?: string;
 };
 
 export type PriorityKey = 'chiarezza' | 'visibilita' | 'conversione' | 'contenuti' | 'automazioni';

@@ -6,6 +6,7 @@
  */
 
 import type { Answers, PriorityKey, Profile } from './computeProfile';
+import { deriveAssistantTier, formatAssistantPackage } from './assistantFlow';
 
 const PRIORITY_LABELS: Record<PriorityKey, string> = {
   chiarezza: 'Chiarezza del messaggio e della struttura',
@@ -24,6 +25,14 @@ const LEVEL_NOTES: Record<string, string> = {
     'Un progetto più completo, con diversi ambiti da coordinare per ottenere un risultato solido.',
 };
 
+// Tempi indicativi: riflettono l'urgenza dichiarata dall'utente, non promettono consegne.
+const TIMELINE_BY_URGENCY: Record<string, string> = {
+  'Entro 1 mese': 'In linea con la tua urgenza: avvio rapido, entro circa un mese.',
+  '1–3 mesi': 'Tempistica indicativa di 1–3 mesi, da definire insieme.',
+  '3–6 mesi': 'Tempistica indicativa di 3–6 mesi, con calendario condiviso.',
+  'Non c’è scadenza': 'Nessuna scadenza stringente: pianifichiamo con calma le priorità.',
+};
+
 export type SummaryPriority = {
   key: PriorityKey;
   label: string;
@@ -39,6 +48,10 @@ export type Summary = {
   level: string;
   levelNote: string;
   cta: string;
+  // Campi aggiuntivi mostrati dall'assistente guidato (variant="assistant").
+  priceBand: string;
+  priceDisclaimer: string;
+  timeline: string;
 };
 
 export default function buildSummary(answers: Answers, profile: Profile): Summary {
@@ -58,6 +71,16 @@ export default function buildSummary(answers: Answers, profile: Profile): Summar
       ? `In base alle tue risposte, per ${business} l’obiettivo “${goal}” passa soprattutto da questi punti:`
       : `In base alle tue risposte, per ${business} possiamo costruire un percorso chiaro verso l’obiettivo “${goal}”.`;
 
+  // Fascia economica: prezzi reali SOLO per il percorso "automazioni" (Assistente AI);
+  // per gli altri percorsi nessun importo inventato, valutazione rimandata all'analisi.
+  const isAutomations = answers.initialIntent === 'automazioni';
+  const priceBand = isAutomations
+    ? formatAssistantPackage(deriveAssistantTier(answers))
+    : 'Valutazione economica da definire dopo l’analisi del progetto.';
+  const priceDisclaimer = isAutomations
+    ? 'La soluzione e i costi dovranno essere confermati dopo una verifica del progetto.'
+    : '';
+
   return {
     headline: 'Ecco la tua valutazione guidata',
     intro,
@@ -67,5 +90,8 @@ export default function buildSummary(answers: Answers, profile: Profile): Summar
     level: profile.level,
     levelNote: LEVEL_NOTES[profile.level] ?? '',
     cta: 'Questo è un primo orientamento basato sulle informazioni che hai inserito, non un preventivo. Lasciami i tuoi contatti e ti preparo una proposta personalizzata.',
+    priceBand,
+    priceDisclaimer,
+    timeline: (answers.urgency && TIMELINE_BY_URGENCY[answers.urgency]) || 'Tempistica da concordare in base alle priorità.',
   };
 }
