@@ -2,8 +2,6 @@
 // src/pages/servizi/assistente-ai-sito-whatsapp.astro
 import Layout from '@/layouts/PageLayout.astro';
 
-const demoUrl = '/demo/assistente-ai';
-
 const metadata = {
   title: 'Assistente AI (Sito & WhatsApp) — Risposte 24/7 per PMI',
   description:
@@ -17,9 +15,6 @@ const metadata = {
   <section class="relative overflow-hidden">
     <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-900/40 dark:via-transparent"></div>
     <div class="container mx-auto px-6 pt-16 pb-12 text-center">
-      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
-        Novità 2025 · AI per PMI
-      </span>
       <h1
   class="text-4xl md:text-6xl font-extrabold tracking-tight
          text-neutral-900 dark:text-white            /* fallback */
@@ -28,30 +23,24 @@ const metadata = {
          bg-clip-text
          supports-[background-clip:text]:text-transparent
          supports-[-webkit-background-clip:text]:text-transparent">
-  Assistente AI (Sito &amp; WhatsApp)
+  Rispondi ai clienti anche quando non puoi farlo tu
 </h1>
       <p class="mt-4 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
-        Meno telefonate ripetitive, più clienti. Risposte 24/7 a FAQ, disponibilità e preventivi, con passaggio a un umano quando serve.
+        Un assistente per sito e WhatsApp che risponde alle domande frequenti, raccoglie le richieste e passa la conversazione a una persona quando serve.
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <a href={demoUrl} data-plan="Demo" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
-          Prova la demo
+        <a href="/mini-analisi" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
+          Trova la soluzione adatta
         </a>
         <a href="/contatti?servizio=assistente-ai" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-black hover:opacity-90 transition">
-          Parliamo dell'assistente AI
-        </a>
-        <a href="#prezzi" class="inline-flex items-center justify-center rounded-full px-5 py-3 border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition">
-          Vedi prezzi
+          Parla con una persona
         </a>
       </div>
 
       <!-- Micro-trust -->
-      <div class="mt-10 grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm text-neutral-600 dark:text-neutral-300">
-        <div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Risposte 24/7</div>
-        <div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Privacy by design</div>
-        <div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Attivazione 5–10 gg</div>
-        <div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">Fattura ITA</div>
-      </div>
+      <p class="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
+        Configurazione su misura · controllo umano · adatto a professionisti e PMI
+      </p>
     </div>
   </section>
 
@@ -168,11 +157,10 @@ const metadata = {
         </ul>
         <div class="mt-auto flex gap-2">
           <a
-            href={demoUrl}
-            data-plan="Demo"
+            href="/mini-analisi"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
                    border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
-          >Demo</a>
+          >Valuta questa soluzione</a>
           <a
             href="/contatti?servizio=assistente-ai&pacchetto=starter"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
@@ -198,11 +186,10 @@ const metadata = {
 
         <div class="mt-auto flex gap-2">
           <a
-            href={demoUrl}
-            data-plan="Demo"
+            href="/mini-analisi"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
                    border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
-          >Demo</a>
+          >Valuta questa soluzione</a>
           <a
             href="/contatti?servizio=assistente-ai&pacchetto=pro"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
@@ -228,11 +215,10 @@ const metadata = {
         </ul>
         <div class="mt-auto flex gap-2">
           <a
-            href={demoUrl}
-            data-plan="Demo"
+            href="/mini-analisi"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
                    border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800 transition"
-          >Demo</a>
+          >Valuta questa soluzione</a>
           <a
             href="/contatti?servizio=assistente-ai&pacchetto=plus"
             class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
@@ -310,8 +296,8 @@ const metadata = {
           <a href="/contatti?servizio=assistente-ai" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
             Richiedi disponibilità
           </a>
-          <a href={demoUrl} data-plan="Demo" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold border border-white/30 hover:bg-white/10">
-            Prova la demo
+          <a href="/mini-analisi" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold border border-white/30 hover:bg-white/10">
+            Trova la soluzione adatta
           </a>
         </div>
       </div>
@@ -321,7 +307,7 @@ const metadata = {
   <!-- Sticky CTA mobile -->
   <div class="fixed bottom-4 inset-x-0 px-4 md:hidden z-40">
     <div class="rounded-full bg-white/90 dark:bg-neutral-900/90 shadow-lg backdrop-blur flex gap-2 p-2 ring-1 ring-neutral-200 dark:ring-neutral-800">
-      <a href={demoUrl} data-plan="Demo" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 text-white bg-violet-600 hover:bg-violet-700 transition">Demo</a>
+      <a href="/mini-analisi" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 text-white bg-violet-600 hover:bg-violet-700 transition">Valuta</a>
       <a href="/contatti?servizio=assistente-ai" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-black text-white hover:opacity-90 transition">Contatti</a>
     </div>
   </div>
