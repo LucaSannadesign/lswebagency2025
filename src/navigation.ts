@@ -21,7 +21,6 @@ export const headerData = {
   actions: [
     // CTA autonoma: strumento gratuito di acquisizione lead, distinto dai servizi.
     { text: 'Valutazione Gratuita', href: '/mini-analisi', variant: 'primary' },
-    { text: 'Parliamo del progetto', href: '/contatti' },
   ],
 };
 
