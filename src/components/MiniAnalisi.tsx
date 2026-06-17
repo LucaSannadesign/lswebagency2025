@@ -67,9 +67,9 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
   const [contactName, setContactName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [businessName, setBusinessName] = useState('');
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [message, setMessage] = useState('');
+  const [showOptional, setShowOptional] = useState(false);
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [honeypot, setHoneypot] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
@@ -162,9 +162,9 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
     setContactName('');
     setEmail('');
     setPhone('');
-    setBusinessName('');
     setWebsiteUrl('');
     setMessage('');
+    setShowOptional(false);
     setPrivacyConsent(false);
     setHoneypot('');
     setSubmitState('idle');
@@ -197,15 +197,17 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
           contactName: contactName.trim(),
           email: email.trim(),
           phone: phone.trim(),
-          businessName: businessName.trim(),
+          // Campo "Nome attività" rimosso dall'interfaccia: l'API accetta stringa vuota
+          // (business_name ricade sul valore di default lato server). Nessuna modifica all'API.
+          businessName: '',
           message: message.trim(),
           privacyConsent,
           honeypot,
           answers,
           profile,
           summary: result,
-          // Estensioni assistente (ignorate dal flusso mini perché non valorizzate).
-          websiteUrl: isAssistant ? websiteUrl.trim() || undefined : undefined,
+          // Sito web facoltativo (campo opzionale espandibile): inviato se compilato.
+          websiteUrl: websiteUrl.trim() || undefined,
           source: isAssistant ? source ?? 'assistente_ai' : undefined,
           initialIntent: isAssistant ? answers.initialIntent : undefined,
           assistantContext: isAssistant ? context : undefined,
@@ -328,7 +330,9 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-6 border-t border-neutral-200 dark:border-neutral-800 pt-6">
-            <p className="text-sm text-neutral-600 dark:text-neutral-300">{result.cta}</p>
+            <p className="text-sm text-neutral-600 dark:text-neutral-300">
+              Lascia nome ed email per ricevere un approfondimento personalizzato. Gli altri dati sono facoltativi.
+            </p>
 
             <div className="mt-4 grid sm:grid-cols-2 gap-4">
               <div>
@@ -353,52 +357,59 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
                   className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
                 />
               </div>
-              <div>
-                <label htmlFor="ma-phone" className="text-sm font-medium">Telefono</label>
-                <input
-                  id="ma-phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="ma-business" className="text-sm font-medium">Nome attività</label>
-                <input
-                  id="ma-business"
-                  type="text"
-                  value={businessName}
-                  onChange={(e) => setBusinessName(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-                />
-              </div>
-              {isAssistant && (
-                <div className="sm:col-span-2">
-                  <label htmlFor="ma-website" className="text-sm font-medium">Sito web (facoltativo)</label>
-                  <input
-                    id="ma-website"
-                    type="text"
-                    inputMode="url"
-                    placeholder="esempio.it"
-                    value={websiteUrl}
-                    onChange={(e) => setWebsiteUrl(e.target.value)}
+            </div>
+
+            {/* Campi facoltativi: chiusi di default e resi via render condizionale
+                (non solo CSS), così non restano raggiungibili da tastiera quando chiusi. */}
+            <button
+              type="button"
+              onClick={() => setShowOptional((v) => !v)}
+              aria-expanded={showOptional}
+              aria-controls="ma-optional"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded"
+            >
+              <span aria-hidden="true" className="text-base leading-none">{showOptional ? '−' : '+'}</span>
+              Aggiungi telefono, sito o dettagli
+            </button>
+
+            {showOptional && (
+              <div id="ma-optional" className="mt-4 space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="ma-phone" className="text-sm font-medium">Telefono</label>
+                    <input
+                      id="ma-phone"
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="ma-website" className="text-sm font-medium">Sito web</label>
+                    <input
+                      id="ma-website"
+                      type="text"
+                      inputMode="url"
+                      placeholder="esempio.it"
+                      value={websiteUrl}
+                      onChange={(e) => setWebsiteUrl(e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="ma-message" className="text-sm font-medium">Messaggio</label>
+                  <textarea
+                    id="ma-message"
+                    rows={3}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                     className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
                   />
                 </div>
-              )}
-            </div>
-
-            <div className="mt-4">
-              <label htmlFor="ma-message" className="text-sm font-medium">Messaggio</label>
-              <textarea
-                id="ma-message"
-                rows={3}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-              />
-            </div>
+              </div>
+            )}
 
             {/* Honeypot anti-bot: nascosto agli utenti reali */}
             <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
@@ -436,7 +447,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
                 disabled={submitState === 'sending'}
                 className="inline-flex items-center justify-center rounded-full px-5 py-3 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
               >
-                {submitState === 'sending' ? 'Invio in corso…' : isAssistant ? 'Invia la richiesta' : 'Invia la mia valutazione'}
+                {submitState === 'sending' ? 'Invio in corso…' : 'Richiedi un approfondimento'}
               </button>
               {isAssistant && (
                 <a
