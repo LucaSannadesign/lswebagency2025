@@ -1,0 +1,384 @@
+---
+// src/pages/servizi/pre-accoglienza-digitale.astro
+import Layout from '@/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Pre-Accoglienza Digitale per studi dentistici e cliniche',
+  description:
+    'Sistema di pre-accoglienza digitale per studi dentistici e cliniche: richieste pazienti più ordinate, schede protette, supervisione umana e attenzione alla privacy.',
+  canonical: '/servizi/pre-accoglienza-digitale',
+};
+
+// Esempio di scheda di pre-accoglienza (solo illustrativa, non clinica).
+const schedaEsempio = [
+  ['Area richiesta', 'Implantologia'],
+  ['Tipo di esigenza', 'Informazioni preliminari'],
+  ['Urgenza percepita', 'Bassa'],
+  ['Documenti già disponibili', 'dichiarati dal paziente, non caricati nel sistema'],
+  ['Preventivo precedente', 'Sì'],
+  ['Canale preferito', 'WhatsApp'],
+  ['Preferenza ricontatto', 'telefonata o messaggio iniziale'],
+  ['Fascia oraria', 'Dopo le 17:00'],
+  ['Nota del paziente', 'Vorrebbe capire i costi e le possibilità di pagamento'],
+  ['Stato richiesta', 'Da ricontattare'],
+];
+
+// FAQ: stessa fonte per markup e JSON-LD (allineamento per i rich result).
+const faqs = [
+  [
+    'Il sistema sostituisce la segreteria?',
+    'No. Il sistema prepara e ordina le richieste, ma la gestione e la relazione con il paziente restano alla segreteria. Serve a farle risparmiare tempo, non a sostituirla.',
+  ],
+  [
+    'Il sistema fa diagnosi o dà valutazioni cliniche?',
+    'No. Non fa diagnosi, non valuta referti o radiografie e non suggerisce trattamenti. Raccoglie solo le informazioni utili a capire la richiesta e organizzarla.',
+  ],
+  [
+    'I dati del paziente vengono inviati via email?',
+    'No. Allo studio arriva solo una notifica neutra che segnala una nuova richiesta. I dettagli non vengono inseriti nel corpo dell’email: si consultano in un ambiente protetto.',
+  ],
+  [
+    'Dove vengono consultate le richieste?',
+    'In un’area riservata o tramite un accesso protetto, visibile solo allo studio. La scheda completa vive lì, non nei messaggi.',
+  ],
+  [
+    'I pazienti meno pratici di tecnologia riusciranno a usarlo?',
+    'Sì. Il percorso guidato è composto da poche domande chiare e c’è sempre l’alternativa del messaggio libero. Chi preferisce può continuare a contattare lo studio come ha sempre fatto.',
+  ],
+  [
+    'Il percorso guidato rischia di ridurre il numero di richieste?',
+    'È possibile che alcune richieste poco motivate non vengano completate. Per questo è sempre presente una via semplice a basso attrito. L’obiettivo non è solo il numero di contatti, ma richieste più chiare e gestibili.',
+  ],
+  [
+    'È obbligatorio usare WhatsApp Business?',
+    'No. WhatsApp può essere uno dei canali, ma non è obbligatorio. Il sistema si adatta ai canali che lo studio già utilizza.',
+  ],
+  [
+    'Come viene gestito il tema privacy e GDPR?',
+    'Il sistema è progettato con attenzione alla minimizzazione dei dati, alla riduzione della loro esposizione e alla supervisione umana. Informative, consensi, ruoli privacy ed eventuali accordi vengono definiti insieme allo studio e, quando necessario, con il supporto del suo consulente privacy.',
+  ],
+  [
+    'Si può partire solo con alcuni trattamenti?',
+    'Sì, ed è l’approccio consigliato. Il pilota parte di solito da 2-3 trattamenti e si amplia solo se i risultati lo giustificano.',
+  ],
+  [
+    'Cosa succede dopo i 90 giorni del pilota?',
+    'Valutiamo insieme i dati raccolti e il report finale. Si decide se proseguire con la gestione continuativa, ampliare i trattamenti o fermarsi. Nessun vincolo automatico.',
+  ],
+];
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-900/40 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 pb-12 text-center">
+      <p class="mb-4 text-xs font-semibold uppercase tracking-wide text-violet-700 dark:text-violet-300">
+        Studi dentistici, cliniche odontoiatriche e poliambulatori
+      </p>
+      <h1
+        class="text-4xl md:text-6xl font-extrabold tracking-tight
+               text-neutral-900 dark:text-white
+               bg-gradient-to-r from-neutral-900 via-purple-700 to-fuchsia-500
+               dark:from-neutral-100 dark:via-fuchsia-400 dark:to-pink-300
+               bg-clip-text
+               supports-[background-clip:text]:text-transparent
+               supports-[-webkit-background-clip:text]:text-transparent">
+        Meno messaggi confusi, più richieste ordinate per la segreteria del tuo studio
+      </h1>
+      <p class="mt-4 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+        Un sistema di pre-accoglienza digitale per studi dentistici e cliniche che raccoglie le richieste dai canali online dello studio, le organizza in schede protette e aiuta la segreteria a gestire il primo contatto con più ordine, riservatezza e controllo umano.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href="/contatti?servizio=pre-accoglienza-digitale" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
+          Valuta il flusso richieste del tuo studio
+        </a>
+        <a href="#come-funziona" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-black hover:opacity-90 transition">
+          Scopri come funziona
+        </a>
+      </div>
+
+      <p class="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
+        Pensato per la segreteria · controllo umano sempre attivo · attenzione a privacy e riservatezza
+      </p>
+
+      <p class="mt-6 max-w-2xl mx-auto text-base italic text-neutral-600 dark:text-neutral-300">
+        Il primo contatto online con il paziente merita la stessa cura del primo incontro in studio.
+      </p>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl mx-auto text-center mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Le richieste arrivano, ma spesso sono difficili da gestire</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        Ogni giorno lo studio riceve richieste dai pazienti: dal sito, da WhatsApp, per email, dai moduli contatti, dalle campagne. Il problema non è sempre solo quante richieste arrivano, ma in che forma arrivano.
+      </p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Richieste vaghe e incomplete</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">“Vorrei un’informazione”, “quanto costa un impianto?”, “mi richiamate?”. Messaggi senza i dettagli che servono per rispondere bene.</p>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Canali dispersi</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">WhatsApp, email, modulo del sito e telefono che non si parlano. La segreteria deve raccogliere i pezzi da posti diversi e ricostruire ogni richiesta da zero.</p>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-2">Tempo perso e richieste seguite male</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Più scambi solo per capire cosa vuole il paziente. E nei momenti di picco è facile che una richiesta resti indietro o venga seguita in ritardo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA CAMBIA -->
+  <section class="container mx-auto px-6 py-10">
+    <div class="max-w-3xl mx-auto text-center mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Da messaggio confuso a scheda ordinata</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        Il sistema non aggiunge un canale in più da controllare. Trasforma la richiesta del paziente in una scheda di pre-accoglienza chiara e già organizzata, così la segreteria sa subito di cosa si tratta e come procedere.
+      </p>
+    </div>
+    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-5">
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-neutral-50 dark:bg-neutral-900/40">
+        <div class="text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-3">Prima</div>
+        <ul class="space-y-3 text-neutral-600 dark:text-neutral-300">
+          <li>«Buongiorno, vorrei sapere per un dente che mi manca»</li>
+          <li>Richiesta da ricostruire con più messaggi</li>
+          <li>Dati sparsi tra WhatsApp, email e telefono</li>
+          <li>“Chi doveva richiamare questo paziente?”</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-violet-200 dark:ring-violet-800 bg-gradient-to-b from-white to-violet-50 dark:from-neutral-900 dark:to-violet-900/10 shadow-sm">
+        <div class="text-xs font-semibold uppercase tracking-wide text-violet-700 dark:text-violet-300 mb-3">Dopo</div>
+        <ul class="space-y-3 text-neutral-700 dark:text-neutral-200">
+          <li>Scheda: implantologia · informazioni preliminari · canale e fascia oraria indicati · nota del paziente</li>
+          <li>Informazioni essenziali già raccolte e ordinate</li>
+          <li>Una scheda unica consultata in un ambiente protetto</li>
+          <li>Stato della richiesta visibile: da ricontattare, in corso, gestita</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- COME FUNZIONA -->
+  <section id="come-funziona" class="container mx-auto px-6 py-10 scroll-mt-24">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Come funziona, in 3 passaggi</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+      {[
+        ['Il paziente fa la sua richiesta', 'Può seguire un breve percorso guidato (poche domande chiare) oppure scrivere un messaggio libero. Nessun modulo lungo o complicato.'],
+        ['Il sistema organizza le informazioni essenziali', 'Le risposte del paziente vengono raccolte in una scheda ordinata, con solo le informazioni utili a capire la richiesta. Niente diagnosi, niente valutazioni cliniche.'],
+        ['La segreteria consulta una scheda protetta e decide come proseguire', 'Lo studio riceve una notifica e accede alla scheda in un ambiente riservato. La decisione su come e quando rispondere resta sempre alle persone dello studio.'],
+      ].map(([title, desc], i) => (
+        <div class="relative rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+          <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-violet-600 text-white font-bold mb-3">{i + 1}</span>
+          <h3 class="font-semibold mb-2">{title}</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300">{desc}</p>
+        </div>
+      ))}
+    </div>
+    <p class="mt-6 max-w-3xl mx-auto text-center text-sm text-neutral-500 dark:text-neutral-400">
+      Il paziente sceglie sempre come contattarvi. Il percorso guidato serve a rendere la richiesta più chiara, non a sostituire il rapporto umano.
+    </p>
+  </section>
+
+  <!-- ESEMPIO SCHEDA -->
+  <section class="container mx-auto px-6 py-10">
+    <div class="max-w-2xl mx-auto text-center mb-6">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Un esempio concreto di scheda</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        Ecco come potrebbe presentarsi una richiesta dopo essere stata organizzata. È un riepilogo pensato per la segreteria, non una cartella clinica e non una valutazione medica.
+      </p>
+    </div>
+    <div class="max-w-2xl mx-auto rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/60">
+        <h3 class="font-semibold">Scheda di pre-accoglienza paziente</h3>
+      </div>
+      <dl class="divide-y divide-neutral-100 dark:divide-neutral-800">
+        {schedaEsempio.map(([label, value]) => (
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4 px-6 py-3">
+            <dt class="text-sm font-medium text-neutral-500 dark:text-neutral-400">{label}</dt>
+            <dd class="sm:col-span-2 text-sm text-neutral-800 dark:text-neutral-200">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+    <p class="mt-4 max-w-2xl mx-auto text-center text-sm text-neutral-500 dark:text-neutral-400">
+      I campi sono indicativi e personalizzabili in base allo studio. Le informazioni raccolte sono solo quelle utili a gestire il primo contatto: eventuali documenti vengono solo indicati dal paziente, non caricati nel sistema in questa fase.
+    </p>
+  </section>
+
+  <!-- DATI E RISERVATEZZA -->
+  <section class="container mx-auto px-6 py-10">
+    <div class="max-w-3xl mx-auto text-center mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Le richieste dei pazienti meritano riservatezza</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        Una richiesta sanitaria, anche semplice, va trattata con cura. Per questo il sistema è pensato per ridurre l’esposizione delle informazioni dove non serve.
+      </p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold mb-2">La scheda completa non viaggia via email</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Allo studio arriva solo una notifica neutra del tipo “È arrivata una nuova richiesta paziente”. I dettagli non vengono inseriti nel corpo dell’email.</p>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold mb-2">La richiesta si consulta in un ambiente protetto</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">La scheda completa è accessibile solo dallo studio, in un’area riservata o tramite accesso protetto.</p>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold mb-2">Si raccolgono solo i dati utili</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Poche informazioni, mirate a gestire il primo contatto. Nessuna raccolta superflua.</p>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold mb-2">Privacy gestita insieme al vostro consulente</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">La configurazione privacy viene definita insieme allo studio e, quando necessario, con il supporto del suo consulente.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPERVISIONE UMANA -->
+  <section class="container mx-auto px-6 py-10">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3 text-center">Uno strumento al servizio delle persone, non al loro posto</h2>
+      <p class="text-neutral-600 dark:text-neutral-300 text-center mb-8">
+        Il sistema aiuta a organizzare il primo contatto. Tutto il resto resta nelle mani dello studio.
+      </p>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <p class="font-semibold mb-3">Cosa non fa</p>
+        <ul class="space-y-2 text-neutral-600 dark:text-neutral-300">
+          <li>· Non fa diagnosi.</li>
+          <li>· Non dà valutazioni cliniche.</li>
+          <li>· Non interpreta radiografie o referti.</li>
+          <li>· Non decide i trattamenti.</li>
+          <li>· Non sostituisce la segreteria né il dentista.</li>
+        </ul>
+        <p class="font-semibold mt-5 mb-2">Cosa fa</p>
+        <p class="text-neutral-600 dark:text-neutral-300">
+          Raccoglie e ordina le richieste, in modo che le persone dello studio possano rispondere meglio e più velocemente. La relazione con il paziente resta umana, dall’inizio alla fine.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILOTA 90 GIORNI -->
+  <section class="container mx-auto px-6 py-10">
+    <div class="max-w-3xl mx-auto text-center mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Partiamo da un pilota di 90 giorni, non da un sistema complicato</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        Prima di tutto verifichiamo che funzioni davvero per il vostro studio. Per questo proponiamo un percorso pilota di 90 giorni, concreto e misurabile.
+      </p>
+    </div>
+    <div class="max-w-3xl mx-auto rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+      <ul class="grid sm:grid-cols-2 gap-3 text-neutral-700 dark:text-neutral-300">
+        <li>· Partenza su 2-3 trattamenti (ad esempio implantologia, ortodonzia invisibile, urgenze).</li>
+        <li>· Fotografia iniziale del flusso richieste attuale, come punto di partenza.</li>
+        <li>· Raccolta di dati reali durante il periodo.</li>
+        <li>· Report mensile sull’andamento.</li>
+        <li>· Ottimizzazioni progressive in base a ciò che emerge.</li>
+        <li>· Possibilità, se lo desiderate, di costruire un caso studio anonimo dai risultati.</li>
+      </ul>
+      <p class="mt-5 text-sm text-neutral-500 dark:text-neutral-400">
+        Il pilota serve a capire insieme cosa migliora davvero nella gestione delle richieste, partendo da pochi trattamenti e ampliando solo se ha senso.
+      </p>
+    </div>
+  </section>
+
+  <!-- REPORT MENSILE -->
+  <section class="container mx-auto px-6 py-10">
+    <div class="max-w-3xl mx-auto text-center mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Un servizio che continua a migliorare nel tempo</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        La gestione mensile non è semplice manutenzione tecnica. È la cura continuativa del vostro sistema di pre-accoglienza. Ogni mese ricevete un report chiaro su come stanno arrivando le richieste e cosa conviene migliorare.
+      </p>
+    </div>
+    <div class="max-w-3xl mx-auto rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+      <p class="font-semibold mb-3">Esempio di cosa contiene il report</p>
+      <ul class="grid sm:grid-cols-2 gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+        <li>· Richieste ricevute nel periodo.</li>
+        <li>· Tipologie di richiesta (per area di trattamento).</li>
+        <li>· Richieste guidate rispetto ai messaggi liberi.</li>
+        <li>· Richieste complete e richieste incomplete.</li>
+        <li>· Trattamenti più richiesti.</li>
+        <li>· Punti in cui i pazienti abbandonano la richiesta.</li>
+        <li>· Azioni consigliate per il mese successivo.</li>
+      </ul>
+      <p class="mt-5 text-sm text-neutral-500 dark:text-neutral-400">
+        Il report rende visibile il valore del servizio: non solo “quante richieste”, ma quanto sono diventate più chiare e gestibili.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container mx-auto px-6 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Domande frequenti</h2>
+    <div class="max-w-3xl mx-auto space-y-3">
+      {faqs.map(([q, a]) => (
+        <details class="rounded-2xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+          <summary class="font-semibold cursor-pointer">{q}</summary>
+          <p class="mt-2 text-neutral-600 dark:text-neutral-300">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="container mx-auto px-6 pb-10">
+    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-950 via-neutral-900 to-fuchsia-950 text-white">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Vuoi capire dove si perdono o si confondono le richieste dei pazienti?</h2>
+        <p class="text-lg text-white/80 leading-relaxed mb-6">
+          Partiamo da una valutazione del modo in cui oggi arrivano e vengono gestite le richieste nel tuo studio. Senza impegno: ti restituiamo una lettura chiara e i possibili passi successivi.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="/contatti?servizio=pre-accoglienza-digitale" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
+            Valuta il flusso richieste del tuo studio
+          </a>
+          <a href="/contatti" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold border border-white/30 hover:bg-white/10">
+            Parla con una persona
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky CTA mobile -->
+  <div class="fixed bottom-4 inset-x-0 px-4 md:hidden z-40">
+    <div class="rounded-full bg-white/90 dark:bg-neutral-900/90 shadow-lg backdrop-blur flex gap-2 p-2 ring-1 ring-neutral-200 dark:ring-neutral-800">
+      <a href="/contatti?servizio=pre-accoglienza-digitale" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 text-white bg-violet-600 hover:bg-violet-700 transition">Valuta il flusso</a>
+      <a href="/contatti" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-black text-white hover:opacity-90 transition">Contatti</a>
+    </div>
+  </div>
+
+  <!-- JSON-LD: Service + FAQPage + BreadcrumbList -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify([
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Pre-Accoglienza Digitale per studi dentistici e cliniche',
+      serviceType: 'Sistema di pre-accoglienza digitale per il primo contatto paziente',
+      areaServed: 'IT',
+      provider: { '@type': 'Organization', name: 'LS Web Agency' },
+      audience: { '@type': 'Audience', audienceType: 'Studi dentistici, cliniche odontoiatriche e poliambulatori' },
+      description:
+        'Sistema di pre-accoglienza digitale che raccoglie le richieste dai canali online dello studio e le organizza in schede protette utili alla segreteria, con supervisione umana e attenzione alla privacy.',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Servizi', item: '/servizi' },
+        { '@type': 'ListItem', position: 2, name: 'Pre-Accoglienza Digitale', item: '/servizi/pre-accoglienza-digitale' },
+      ],
+    },
+  ])} />
+</Layout>
