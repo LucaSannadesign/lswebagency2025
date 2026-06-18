@@ -233,33 +233,19 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
     if (e.key === 'Escape') setIsOpen(false);
   }
 
-  // ===== Pulsante flottante (chiuso) =====
-  if (!isOpen) {
-    return (
-      <div className="fixed bottom-4 right-4 z-[70] md:bottom-6 md:right-6">
-        <button
-          ref={fabRef}
-          type="button"
-          onClick={() => setIsOpen(true)}
-          aria-label="Apri assistente virtuale"
-          className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-4 py-3 text-white shadow-lg ring-1 ring-violet-700/30 transition hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 motion-reduce:transition-none"
-        >
-          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-          </svg>
-          <span className="text-sm font-semibold">Posso aiutarti?</span>
-        </button>
-      </div>
-    );
-  }
+  const panelMotion =
+    'transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none motion-reduce:transform-none';
+  const panelOpenClass = 'opacity-100 translate-y-0 scale-100 pointer-events-auto';
+  const panelClosedClass = 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none';
 
-  // ===== Pannello (aperto) =====
   const visibleOptions =
     currentNode && !showAllOptions ? currentNode.options.slice(0, MAX_VISIBLE_OPTIONS) : currentNode?.options ?? [];
   const hasMoreOptions = Boolean(currentNode && currentNode.options.length > MAX_VISIBLE_OPTIONS && !showAllOptions);
   const waHref = whatsappNumber
     ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Ciao, vorrei parlare con Luca di LS Web Agency.')}`
     : null;
+
+  const showPinnedInput = submitState !== 'success' && !isContactNode;
 
   const optButtonClass =
     'w-full text-left rounded-xl px-4 py-2.5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 text-sm font-medium transition hover:ring-violet-400 hover:bg-violet-50/60 dark:hover:bg-violet-900/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transition-none';
@@ -271,17 +257,36 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
     'inline-flex items-center justify-center rounded-full px-4 py-2.5 ring-1 ring-neutral-300 dark:ring-neutral-700 text-sm font-semibold transition hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transition-none';
 
   return (
-    <div className="fixed bottom-4 right-4 z-[70] max-sm:left-4 md:bottom-6 md:right-6" onKeyDown={onPanelKeyDown}>
+    <div className="fixed bottom-4 right-4 z-[70] max-sm:left-4 md:bottom-6 md:right-6">
+      <button
+        ref={fabRef}
+        type="button"
+        onClick={() => setIsOpen(true)}
+        aria-label="Apri assistente virtuale"
+        aria-expanded={isOpen}
+        className={`inline-flex items-center gap-2 rounded-full bg-violet-600 px-4 py-3 text-white shadow-lg ring-1 ring-violet-700/30 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 motion-reduce:transition-none ${
+          isOpen ? 'pointer-events-none scale-95 opacity-0' : 'scale-100 opacity-100'
+        }`}
+      >
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+        </svg>
+        <span className="text-sm font-semibold">Posso aiutarti?</span>
+      </button>
+
       <div
         role="dialog"
         aria-label="Assistente LS Web Agency"
-        className="flex flex-col w-[min(420px,calc(100vw-2rem))] h-[min(70vh,640px)] max-sm:w-auto max-sm:h-[calc(100dvh-2rem)] rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white dark:bg-neutral-900 shadow-xl overflow-hidden"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        aria-hidden={!isOpen}
+        onKeyDown={onPanelKeyDown}
+        className={`absolute bottom-0 right-0 flex flex-col w-[min(420px,calc(100vw-2rem))] h-[min(72vh,640px)] max-sm:left-0 max-sm:right-0 max-sm:w-auto max-sm:h-[min(calc(100dvh-5.5rem),640px)] rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white dark:bg-neutral-900 shadow-xl overflow-hidden origin-bottom-right max-sm:origin-bottom ${panelMotion} ${
+          isOpen ? panelOpenClass : panelClosedClass
+        }`}
       >
         {/* Header */}
-        <div className="flex items-start gap-3 p-4 border-b border-neutral-200 dark:border-neutral-800">
-          <span aria-hidden="true" className="mt-0.5 shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-500 text-white">
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <div className="shrink-0 flex items-start gap-2.5 px-3 py-3 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+          <span aria-hidden="true" className="mt-0.5 shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-500 text-white">
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
             </svg>
           </span>
@@ -289,8 +294,8 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
             <h2 ref={titleRef} tabIndex={-1} className="text-sm font-bold leading-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded">
               Assistente LS Web Agency
             </h2>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400">Risposte rapide su siti, SEO e automazioni</p>
-            <p className="text-[11px] text-neutral-400 dark:text-neutral-500">Assistente virtuale, non una persona reale</p>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-snug">Risposte rapide su siti, SEO e automazioni</p>
+            <p className="text-[11px] text-neutral-400 dark:text-neutral-500 leading-snug">Assistente virtuale, non una persona reale</p>
           </div>
           <div className="flex shrink-0 items-center gap-1">
             <button type="button" onClick={restart} className="rounded-lg px-2 py-1 text-xs font-semibold text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
@@ -304,25 +309,29 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
           </div>
         </div>
 
-        {/* Messaggi */}
-        <div ref={messagesRef} role="log" aria-live="polite" aria-label="Conversazione con l’assistente" className="flex-1 overflow-y-auto p-4 space-y-3">
-          {messages.map((m) =>
-            m.role === 'user' ? (
-              <div key={m.id} className="flex justify-end">
-                <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-violet-600 px-3.5 py-2 text-sm text-white">{m.text}</div>
-              </div>
-            ) : m.role === 'assistant' ? (
-              <div key={m.id} className="flex">
-                <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-neutral-100 px-3.5 py-2 text-sm text-neutral-800 dark:bg-neutral-800 dark:text-neutral-100">{m.text}</div>
-              </div>
-            ) : (
-              <p key={m.id} className="text-center text-xs text-neutral-500 dark:text-neutral-400">{m.text}</p>
-            ),
-          )}
-        </div>
+        {/* Corpo scrollabile: messaggi + opzioni/form */}
+        <div
+          ref={messagesRef}
+          className="flex flex-1 min-h-0 flex-col overflow-y-auto overscroll-contain"
+        >
+          <div role="log" aria-live="polite" aria-label="Conversazione con l’assistente" className="px-3 py-3 space-y-3">
+            {messages.map((m) =>
+              m.role === 'user' ? (
+                <div key={m.id} className="flex justify-end">
+                  <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-violet-600 px-3.5 py-2 text-sm text-white">{m.text}</div>
+                </div>
+              ) : m.role === 'assistant' ? (
+                <div key={m.id} className="flex">
+                  <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-neutral-100 px-3.5 py-2 text-sm text-neutral-800 dark:bg-neutral-800 dark:text-neutral-100">{m.text}</div>
+                </div>
+              ) : (
+                <p key={m.id} className="text-center text-xs text-neutral-500 dark:text-neutral-400">{m.text}</p>
+              ),
+            )}
+          </div>
 
-        {/* Zona interazione */}
-        <div className="border-t border-neutral-200 dark:border-neutral-800 p-4">
+          {/* Zona interazione (scrollabile con i messaggi) */}
+          <div className="shrink-0 border-t border-neutral-200 dark:border-neutral-800 px-3 py-3">
           {submitState === 'success' ? (
             <div role="status" aria-live="polite">
               <p className="rounded-xl bg-emerald-50 p-3 text-sm font-medium text-emerald-800 ring-1 ring-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-200 dark:ring-emerald-800/60">
@@ -439,32 +448,39 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
                   )}
                 </div>
               )}
-
-              {/* Domanda libera */}
-              <form onSubmit={handleFreeSubmit} className="mt-3 flex gap-2">
-                <label htmlFor="sa-free" className="sr-only">Scrivi la tua domanda</label>
-                <input
-                  id="sa-free"
-                  type="text"
-                  value={freeInput}
-                  onChange={(e) => setFreeInput(e.target.value)}
-                  placeholder="Scrivi la tua domanda…"
-                  className="flex-1 rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3.5 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-                />
-                <button type="submit" className="shrink-0 rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transition-none">
-                  Invia
-                </button>
-              </form>
-
-              {/* Passaggio umano discreto */}
-              <div className="mt-3 text-center">
-                <button type="button" onClick={() => navigateTo(HUMAN_NODE_ID)} className="text-xs font-semibold text-neutral-500 underline hover:text-violet-700 dark:text-neutral-400 dark:hover:text-violet-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded">
-                  Parla con Luca
-                </button>
-              </div>
             </div>
           )}
+          </div>
         </div>
+
+        {/* Input testuale ancorato in basso */}
+        {showPinnedInput && (
+          <div
+            className="shrink-0 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-3"
+            style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+          >
+            <form onSubmit={handleFreeSubmit} className="flex gap-2">
+              <label htmlFor="sa-free" className="sr-only">Scrivi la tua domanda</label>
+              <input
+                id="sa-free"
+                type="text"
+                value={freeInput}
+                onChange={(e) => setFreeInput(e.target.value)}
+                placeholder="Scrivi la tua domanda…"
+                className="min-w-0 flex-1 rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3.5 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              />
+              <button type="submit" className="shrink-0 rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transition-none">
+                Invia
+              </button>
+            </form>
+
+            <div className="mt-2 text-center">
+              <button type="button" onClick={() => navigateTo(HUMAN_NODE_ID)} className="text-xs font-semibold text-neutral-500 underline hover:text-violet-700 dark:text-neutral-400 dark:hover:text-violet-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded">
+                Parla con Luca
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
