@@ -36,6 +36,9 @@ export interface Post {
   /**  */
   draft?: boolean;
 
+  /** Nasconde la CTA blog standard quando il contenuto include una CTA editoriale dedicata. */
+  hideDefaultCTA?: boolean;
+
   /**  */
   Content?: AstroComponentFactory;
   content?: string;

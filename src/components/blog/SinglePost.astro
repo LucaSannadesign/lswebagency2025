@@ -68,11 +68,17 @@ const shareUrl = typeof url === 'string' ? url : url?.toString?.() ?? '';
   <article class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
     <!-- meta (data / autore) -->
     <div class="flex justify-between flex-col sm:flex-row sm:items-center mt-0 mb-4">
-      <p class="text-sm text-slate-600 dark:text-slate-400">
+      <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600 dark:text-slate-400">
+        {post.category && (
+          <span class="inline-flex rounded-full bg-violet-100 px-2.5 py-1 font-semibold text-violet-700 dark:bg-violet-900/40 dark:text-violet-200">
+            {post.category.title}
+          </span>
+        )}
         <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
         <time datetime={String(post.publishDate)} class="inline-block">
           {getFormattedDate(post.publishDate)}
         </time>
+        {post.readingTime && <span>· {post.readingTime} min di lettura</span>}
         {post.author && (
           <>
             {' '}· <Icon name="tabler:user" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
@@ -114,7 +120,7 @@ const shareUrl = typeof url === 'string' ? url : url?.toString?.() ?? '';
     </div>
 
     <!-- CTA -->
-    <PostCTA />
+    {!post.hideDefaultCTA && <PostCTA />}
 
     <!-- Tag + share -->
     <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex justify-between flex-col sm:flex-row gap-4">
