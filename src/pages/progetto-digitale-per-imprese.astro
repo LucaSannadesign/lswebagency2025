@@ -1,0 +1,152 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Progetto digitale per imprese: da dove iniziare — LS Web Agency',
+  description:
+    'Chiarisci cosa migliorare prima di investire: sito, CRM, automazioni, intelligenza artificiale, sicurezza informatica e processi digitali per imprese e professionisti.',
+  canonical: '/progetto-digitale-per-imprese',
+  robots: { index: true, follow: true },
+};
+
+const areas = [
+  {
+    title: 'Contatti e clienti',
+    text: 'Richieste che arrivano da canali diversi, follow-up dimenticati, preventivi sparsi tra email, WhatsApp e fogli di calcolo.',
+    solution: 'CRM leggero, moduli collegati, pipeline e promemoria.',
+  },
+  {
+    title: 'Attività ripetitive',
+    text: 'Copie manuali di dati, risposte simili, passaggi ripetuti e procedure che dipendono sempre dalla stessa persona.',
+    solution: 'Automazioni mirate, integrazioni e AI assistita con controllo umano.',
+  },
+  {
+    title: 'Dati e decisioni',
+    text: 'Numeri difficili da leggere, strumenti che non comunicano tra loro e poca visibilità su richieste, vendite o attività svolte.',
+    solution: 'Dashboard essenziali, report e collegamenti tra gli strumenti già utilizzati.',
+  },
+  {
+    title: 'Sicurezza e continuità',
+    text: 'Accessi condivisi, file non protetti, backup incerti o processi che si fermano quando manca una persona.',
+    solution: 'Gestione accessi, backup, procedure e strumenti cloud più affidabili.',
+  },
+];
+
+const steps = [
+  ['Osserva il blocco', 'Individuiamo dove si concentra la perdita di tempo, di informazioni o di opportunità.'],
+  ['Definisci il risultato', 'Trasformiamo un bisogno generico in un obiettivo operativo e misurabile.'],
+  ['Scegli gli strumenti', 'Valutiamo la soluzione più leggera: sito, CRM, automazione, AI, cloud o sicurezza.'],
+  ['Valuta l’investimento', 'Solo dopo aver chiarito il progetto ha senso verificare budget, priorità ed eventuali opportunità di incentivo.'],
+];
+---
+
+<Layout metadata={metadata}>
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-900/35 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 pb-12 text-center">
+      <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
+        Per professionisti, attività locali e PMI
+      </span>
+      <h1 class="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-white bg-gradient-to-r from-neutral-900 via-violet-700 to-fuchsia-500 dark:from-neutral-100 dark:via-violet-400 dark:to-fuchsia-300 bg-clip-text supports-[background-clip:text]:text-transparent supports-[-webkit-background-clip:text]:text-transparent">
+        Prima di investire nel digitale, chiarisci cosa deve cambiare
+      </h1>
+      <p class="mt-4 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
+        Non tutte le imprese hanno bisogno dello stesso strumento. Partiamo dal problema reale per capire se serve un sito più efficace, un CRM, automazioni, AI, sicurezza informatica o una migliore organizzazione dei processi.
+      </p>
+      <div class="mt-7 flex flex-wrap justify-center gap-3">
+        <a href="/mini-analisi?source=progetto-digitale" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
+          Metti a fuoco il tuo progetto
+        </a>
+        <a href="#come-funziona" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-neutral-900 dark:text-white ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition">
+          Come funziona
+        </a>
+      </div>
+      <p class="mt-6 text-sm text-neutral-500 dark:text-neutral-400">Orientamento iniziale · Nessun impegno · Nessuna promessa di finanziamento</p>
+    </div>
+  </section>
+
+  <section class="container mx-auto px-6 py-8">
+    <div class="max-w-3xl mx-auto rounded-2xl p-6 md:p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+      <h2 class="text-2xl md:text-3xl font-bold">Il punto non è comprare tecnologia</h2>
+      <p class="mt-4 text-neutral-600 dark:text-neutral-300">
+        Un software, un sito o uno strumento di intelligenza artificiale non risolvono automaticamente un processo confuso. Prima serve capire dove si inceppa il lavoro quotidiano: nella raccolta dei contatti, nella gestione dei clienti, nei preventivi, nei documenti, nella comunicazione interna o nella sicurezza dei dati.
+      </p>
+      <p class="mt-4 text-neutral-600 dark:text-neutral-300">
+        L’obiettivo è costruire un intervento proporzionato, utile e mantenibile: senza piattaforme sovradimensionate, abbonamenti inutili o soluzioni scollegate dal modo in cui lavori davvero.
+      </p>
+    </div>
+  </section>
+
+  <section class="container mx-auto px-6 py-8">
+    <div class="max-w-3xl mx-auto text-center mb-7">
+      <h2 class="text-2xl md:text-3xl font-bold">Da quale problema potresti partire?</h2>
+      <p class="mt-2 text-neutral-600 dark:text-neutral-300">Quattro situazioni frequenti che possono diventare un progetto digitale concreto.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5 max-w-5xl mx-auto">
+      {areas.map((area) => (
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+          <h3 class="font-semibold text-lg">{area.title}</h3>
+          <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">{area.text}</p>
+          <p class="mt-4 text-sm font-medium text-violet-700 dark:text-violet-300">Possibile direzione: {area.solution}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="come-funziona" class="container mx-auto px-6 py-10 scroll-mt-24">
+    <div class="max-w-3xl mx-auto text-center mb-7">
+      <h2 class="text-2xl md:text-3xl font-bold">Un percorso in quattro passaggi</h2>
+      <p class="mt-2 text-neutral-600 dark:text-neutral-300">Il contributo, quando esiste, viene dopo: prima rendiamo il progetto comprensibile e verificabile.</p>
+    </div>
+    <div class="grid md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+      {steps.map(([title, description], index) => (
+        <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-violet-600 text-white font-bold">{index + 1}</span>
+            <h3 class="font-semibold">{title}</h3>
+          </div>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300">{description}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container mx-auto px-6 py-8">
+    <div class="max-w-5xl mx-auto grid lg:grid-cols-[1.15fr_.85fr] gap-6 items-stretch">
+      <div class="rounded-2xl p-7 ring-1 ring-violet-200 dark:ring-violet-900 bg-gradient-to-br from-violet-50 to-white dark:from-violet-950/35 dark:to-neutral-900">
+        <h2 class="text-2xl font-bold">Hai già in mente un investimento?</h2>
+        <p class="mt-3 text-neutral-600 dark:text-neutral-300">
+          Usa la mini-analisi per ordinare priorità, obiettivo e primo intervento possibile. È un punto di partenza pratico, non un preventivo automatico e non sostituisce un audit tecnico completo.
+        </p>
+        <a href="/mini-analisi?source=progetto-digitale" class="mt-6 inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
+          Avvia la mini-analisi
+        </a>
+      </div>
+      <aside class="rounded-2xl p-7 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h2 class="text-xl font-bold">Bandi e opportunità</h2>
+        <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
+          Alcuni incentivi possono riguardare progetti su CRM, automazioni, AI, cloud, dati e cybersecurity. Requisiti, spese ammissibili e scadenze cambiano però da un avviso all’altro.
+        </p>
+        <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
+          Per le imprese del territorio, verifica sempre gli avvisi attivi e la documentazione direttamente con la Camera di Commercio di Sassari e con il tuo consulente fiscale.
+        </p>
+        <a href="https://www.ss.camcom.it/" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex text-sm font-semibold text-violet-700 hover:text-violet-900 dark:text-violet-300 dark:hover:text-violet-200">
+          Consulta la fonte ufficiale <span aria-hidden="true" class="ml-1">↗</span>
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="container mx-auto px-6 pt-4 pb-16">
+    <div class="max-w-4xl mx-auto rounded-2xl p-7 md:p-9 text-center bg-neutral-950 text-white shadow-lg">
+      <h2 class="text-2xl md:text-3xl font-bold">Non partire dallo strumento. Parti dal risultato.</h2>
+      <p class="mt-3 max-w-2xl mx-auto text-neutral-300">
+        Racconta in pochi passaggi come lavori oggi: ti restituiamo un primo orientamento sulla direzione più utile da esplorare.
+      </p>
+      <a href="/mini-analisi?source=progetto-digitale-cta" class="mt-6 inline-flex items-center justify-center rounded-full px-5 py-3 bg-white text-neutral-950 font-semibold hover:bg-neutral-100 transition">
+        Analizza il tuo progetto digitale
+      </a>
+      <p class="mt-4 text-xs text-neutral-400">La valutazione non costituisce consulenza fiscale, amministrativa o garanzia di accesso a incentivi.</p>
+    </div>
+  </section>
+</Layout>
