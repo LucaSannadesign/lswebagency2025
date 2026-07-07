@@ -1,12 +1,75 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 
+const pageUrl = 'https://www.lswebagency.com/progetto-digitale-per-imprese';
+const pageTitle = 'Progetto digitale per imprese: da dove iniziare';
+const pageDescription =
+  'Chiarisci cosa migliorare prima di investire: sito, CRM, automazioni, intelligenza artificiale, sicurezza informatica e processi digitali per imprese e professionisti.';
+
 const metadata = {
-  title: 'Progetto digitale per imprese: da dove iniziare — LS Web Agency',
-  description:
-    'Chiarisci cosa migliorare prima di investire: sito, CRM, automazioni, intelligenza artificiale, sicurezza informatica e processi digitali per imprese e professionisti.',
+  title: `${pageTitle} — LS Web Agency`,
+  description: pageDescription,
   canonical: '/progetto-digitale-per-imprese',
   robots: { index: true, follow: true },
+  openGraph: {
+    type: 'website',
+    url: pageUrl,
+    siteName: 'LS Web Agency',
+    images: [
+      {
+        url: '/images/default-og-image.jpg',
+        width: 1200,
+        height: 628,
+        alt: 'Progetto digitale per imprese — LS Web Agency',
+      },
+    ],
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+    site: '@lswebagency',
+    handle: '@lswebagency',
+  },
+  jsonLd: [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      '@id': `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: pageTitle,
+      description: pageDescription,
+      inLanguage: 'it-IT',
+      isPartOf: {
+        '@type': 'WebSite',
+        name: 'LS Web Agency',
+        url: 'https://www.lswebagency.com/',
+      },
+      about: [
+        'digitalizzazione delle imprese',
+        'CRM',
+        'automazioni',
+        'intelligenza artificiale',
+        'sicurezza informatica',
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://www.lswebagency.com/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: pageTitle,
+          item: pageUrl,
+        },
+      ],
+    },
+  ],
 };
 
 const areas = [
@@ -93,6 +156,19 @@ const steps = [
     </div>
   </section>
 
+  <section class="container mx-auto px-6 py-8">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-[.8fr_1.2fr] gap-6 rounded-2xl p-7 md:p-8 ring-1 ring-emerald-200 dark:ring-emerald-900 bg-emerald-50/60 dark:bg-emerald-950/20">
+      <div>
+        <p class="text-sm font-semibold text-emerald-800 dark:text-emerald-300">Digitale e sostenibilità</p>
+        <h2 class="mt-2 text-2xl font-bold">Ridurre sprechi è anche organizzare meglio</h2>
+      </div>
+      <div class="text-neutral-600 dark:text-neutral-300">
+        <p>La sostenibilità non coincide soltanto con impianti o materiali. Un processo digitale ben progettato può ridurre stampe, duplicazioni, spostamenti non necessari e archivi frammentati.</p>
+        <p class="mt-3">Documenti dematerializzati, flussi di approvazione ordinati, assistenza da remoto, gestione più precisa degli appuntamenti e dati leggibili aiutano a usare meno risorse e a prendere decisioni più consapevoli. Il beneficio va dimostrato sul caso reale, non dichiarato in modo generico.</p>
+      </div>
+    </div>
+  </section>
+
   <section id="come-funziona" class="container mx-auto px-6 py-10 scroll-mt-24">
     <div class="max-w-3xl mx-auto text-center mb-7">
       <h2 class="text-2xl md:text-3xl font-bold">Un percorso in quattro passaggi</h2>
@@ -125,7 +201,7 @@ const steps = [
       <aside class="rounded-2xl p-7 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
         <h2 class="text-xl font-bold">Bandi e opportunità</h2>
         <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
-          Alcuni incentivi possono riguardare progetti su CRM, automazioni, AI, cloud, dati e cybersecurity. Requisiti, spese ammissibili e scadenze cambiano però da un avviso all’altro.
+          Alcuni incentivi possono riguardare progetti su CRM, automazioni, AI, cloud, dati, cybersecurity e sostenibilità. Requisiti, spese ammissibili e scadenze cambiano però da un avviso all’altro.
         </p>
         <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
           Per le imprese del territorio, verifica sempre gli avvisi attivi e la documentazione direttamente con la Camera di Commercio di Sassari e con il tuo consulente fiscale.
