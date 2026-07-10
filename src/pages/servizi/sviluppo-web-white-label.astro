@@ -1,0 +1,514 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: 'Sviluppo Web White Label per Agenzie | LS Web Agency',
+  description:
+    'Landing page e piccoli siti in white label per agenzie e studi digitali: scope definito, lavoro asincrono, collaborazione riservata. Il cliente resta tuo.',
+  canonical: '/servizi/sviluppo-web-white-label',
+  robots: { index: true, follow: true },
+  openGraph: {
+    url: '/servizi/sviluppo-web-white-label',
+    type: 'website',
+  },
+};
+
+const CONTACT_URL = '/contatti?servizio=white-label';
+---
+
+<Layout metadata={metadata}>
+  <!-- BLOCCO 1 · HERO -->
+  <section class="relative overflow-hidden isolate">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-100/80 via-white to-transparent dark:from-indigo-900/30 dark:via-transparent"></div>
+    <div class="container mx-auto px-6 pt-16 md:pt-20 pb-14">
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200 ring-1 ring-indigo-200/60 dark:ring-indigo-700/50">
+          <Icon name="tabler:code" class="w-4 h-4" />
+          White label · Per agenzie, studi e software house
+        </span>
+
+        <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+          <span class="block text-neutral-900 dark:text-white">
+            Sviluppo web white label
+          </span>
+          <span class="block text-indigo-600 dark:text-indigo-400">
+            per agenzie
+          </span>
+        </h1>
+
+        <p class="mt-5 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          Capacità di sviluppo in più quando la tua agenzia ne ha bisogno.
+          <strong>Il cliente e il progetto restano tuoi.</strong>
+        </p>
+
+        <p class="mt-3 text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
+          Landing page e piccoli siti sviluppati dai tuoi design approvati, o sprint tecnici delimitati
+          su progetti già avviati. Scope e date per iscritto, lavoro asincrono, nessuna gestione
+          obbligatoria del cliente finale.
+        </p>
+
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href={CONTACT_URL} class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold">
+            Invia il progetto da valutare
+          </a>
+          <a href="#offerta" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
+            Scopri cosa posso sviluppare
+          </a>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
+          <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+            Verifica di compatibilità gratuita
+          </div>
+          <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+            Lavoro asincrono
+          </div>
+          <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
+            Collaborazione riservata
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCCO 2 · PROBLEMA E SOLUZIONE -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">
+        Il progetto è venduto. La capacità per consegnarlo, oggi, no.
+      </h2>
+      <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        Il design è approvato, la data è promessa al cliente, ma il reparto sviluppo è saturo — o non c'è.
+        Assumere per un picco temporaneo non ha senso, e inserire e coordinare da zero nuovi collaboratori
+        richiede proprio il tempo che in quel momento manca.
+      </p>
+
+      <div class="mt-6 rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-900/40 ring-1 ring-neutral-200 dark:ring-neutral-800">
+        <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          Lavoro come estensione della tua agenzia: tu mantieni il rapporto con il cliente finale,
+          io consegno lo sviluppo. Ogni progetto parte da uno <strong>scope concordato per iscritto</strong>,
+          con prezzo e date definiti; gli aggiornamenti sono scritti, al posto delle riunioni.
+        </p>
+        <p class="mt-3 text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          Eventuali confronti tecnici con il tuo cliente avvengono solo se concordati, sempre in modalità white label.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCCO 3 e 4 · OFFERTA PRINCIPALE + PRIMA COLLABORAZIONE -->
+  <section id="offerta" class="container mx-auto px-6 py-12 scroll-mt-24">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Landing page white label da design pronto</h2>
+      <p class="text-neutral-700 dark:text-neutral-300">
+        Il tuo design, sviluppato con precisione: una landing veloce, responsive e pronta per andare online,
+        consegnata con il codice sorgente. La presenti al cliente come lavoro della tua agenzia.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-5xl">
+      <!-- OFFERTA PRINCIPALE -->
+      <article class="rounded-3xl p-7 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/85 dark:bg-neutral-900/55 shadow-sm">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <span class="inline-flex px-3 py-1 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 text-xs font-semibold">
+              Offerta principale
+            </span>
+            <h3 class="mt-3 text-xl font-bold">Landing da design pronto</h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
+              Preventivo definito prima di iniziare, in base a complessità e design.
+            </p>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-neutral-500">Da</div>
+            <div class="text-3xl font-extrabold">1.200€</div>
+          </div>
+        </div>
+
+        <ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300 mb-6">
+          {[
+            'Fino a 7 sezioni, una lingua',
+            'Sviluppo responsive fedele al design desktop e mobile approvato',
+            'Un form semplice collegato alla destinazione indicata',
+            'SEO tecnica essenziale',
+            'Staging di verifica',
+            'Un giro di revisioni su feedback unificato',
+            'Consegna del codice al saldo',
+            'Deploy standard, se tecnicamente compatibile',
+          ].map((item) => (
+            <li class="flex gap-2">
+              <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <p class="text-sm text-neutral-600 dark:text-neutral-400 rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700">
+          <Icon name="tabler:clock" class="w-4 h-4 inline-block mr-1 -mt-0.5" />
+          Consegna in staging in 5–7 giorni lavorativi dalla ricezione completa di brief, design, testi, asset e accessi.
+        </p>
+      </article>
+
+      <!-- PRIMA COLLABORAZIONE -->
+      <article class="rounded-3xl p-7 ring-2 ring-indigo-400 dark:ring-indigo-600 bg-gradient-to-b from-indigo-50/70 to-white/80 dark:from-indigo-900/10 dark:to-neutral-900/55 shadow-md relative">
+        <span class="absolute -top-3 left-4 text-xs font-semibold px-2 py-1 rounded-full bg-indigo-600 text-white">
+          Prima collaborazione
+        </span>
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <span class="inline-flex px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-semibold">
+              White label
+            </span>
+            <h3 class="mt-3 text-xl font-bold">Prima collaborazione white label</h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
+              Il 20% in meno rispetto alla tariffa base di 1.200 €.
+            </p>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-neutral-500 line-through">1.200€</div>
+            <div class="text-3xl font-extrabold">960€</div>
+          </div>
+        </div>
+
+        <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
+          Affidare a un partner esterno il progetto di un tuo cliente richiede fiducia. Per questo la prima
+          collaborazione con una nuova agenzia ha un prezzo ridotto: un progetto delimitato per verificare
+          metodo, qualità e affidabilità.
+        </p>
+
+        <p class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-2">Il prezzo si applica esclusivamente a:</p>
+        <ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300 mb-4">
+          {[
+            'Una landing page',
+            'Massimo 7 sezioni, una lingua',
+            'Design desktop e mobile approvato',
+            'Testi e asset definitivi',
+            'Un form semplice, nessuna integrazione complessa',
+            'Un giro di revisioni',
+          ].map((item) => (
+            <li class="flex gap-2">
+              <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+          Vale una sola volta per agenzia, dopo la verifica di compatibilità dello scope.
+        </p>
+      </article>
+    </div>
+
+    <div class="mt-8 max-w-5xl">
+      <a href={CONTACT_URL} class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold">
+        Invia il progetto da valutare
+      </a>
+      <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+        Prezzi IVA esclusa. Scope, prezzo e date vengono definiti nel preventivo scritto, prima dell'avvio.
+      </p>
+    </div>
+  </section>
+
+  <!-- BLOCCO 5 · PROCESSO -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Come funziona</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          {
+            step: '1',
+            title: 'Invio e verifica',
+            desc: 'Mandi il progetto dal form; ti dico gratuitamente se è compatibile.',
+          },
+          {
+            step: '2',
+            title: 'Preventivo e avvio',
+            desc: 'Scope, prezzo e date per iscritto; acconto del 50% e consegna del materiale completo.',
+          },
+          {
+            step: '3',
+            title: 'Sviluppo e staging',
+            desc: 'Sviluppo con aggiornamenti scritti; consegna in staging con controllo qualità.',
+          },
+          {
+            step: '4',
+            title: 'Revisione e consegna',
+            desc: 'Un giro di revisioni su feedback unificato; saldo, consegna del codice e deploy.',
+          },
+        ].map((item) => (
+          <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+            <div class="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold mb-3">
+              {item.step}
+            </div>
+            <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
+            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
+        I tempi partono dalla ricezione completa del materiale: è ciò che rende le date affidabili.
+      </p>
+    </div>
+  </section>
+
+  <!-- BLOCCO 6 · INCLUSO, MATERIALI, ESCLUSIONI -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Perimetro chiaro, consegna prevedibile</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <Icon name="tabler:package" class="w-8 h-8 text-indigo-600 dark:text-indigo-400 mb-3" />
+        <h3 class="font-semibold text-lg mb-4">Sempre incluso</h3>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {[
+            'Codice sorgente consegnato al saldo, nel rispetto delle licenze delle librerie utilizzate',
+            'Staging prima del saldo',
+            'Controllo qualità su responsive, prestazioni e SEO tecnica di base',
+          ].map((item) => (
+            <li class="flex gap-2">
+              <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <Icon name="tabler:list-check" class="w-8 h-8 text-indigo-600 dark:text-indigo-400 mb-3" />
+        <h3 class="font-semibold text-lg mb-4">Materiale necessario</h3>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {[
+            'Brief (fornisco io la traccia)',
+            'Design definitivo desktop e mobile',
+            'Testi finali',
+            'Immagini, asset e font con licenze',
+            'Destinazione del form',
+            'Accessi per il deploy',
+          ].map((item) => (
+            <li class="flex gap-2">
+              <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <Icon name="tabler:circle-x" class="w-8 h-8 text-neutral-400 dark:text-neutral-500 mb-3" />
+        <h3 class="font-semibold text-lg mb-4">Non incluso</h3>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {[
+            'Design da zero',
+            'Copywriting',
+            'Backend personalizzato',
+            'E-commerce',
+            'Multilingua',
+            'Integrazioni complesse',
+            'Animazioni avanzate',
+            'Gestione continuativa',
+            'Modifiche al design dopo l’avvio',
+          ].map((item) => (
+            <li class="flex gap-2">
+              <Icon name="tabler:x" class="w-5 h-5 text-neutral-400 dark:text-neutral-500 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+    </div>
+
+    <p class="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
+      Serve qualcosa fuori elenco? Segnalalo nella richiesta: ti dico subito se e come è gestibile.
+    </p>
+  </section>
+
+  <!-- BLOCCO 7 · ALTRE MODALITÀ -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Altre modalità di collaborazione</h2>
+        <p class="text-neutral-700 dark:text-neutral-300">
+          Quando il progetto è più grande di una landing — o è già iniziato.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        {[
+          {
+            icon: 'tabler:files',
+            title: 'Piccolo sito white label',
+            price: 'da 2.200 €',
+            desc: 'Fino a 5 pagine dai tuoi design approvati, con la stessa logica della landing: scope scritto, staging, consegna del codice.',
+          },
+          {
+            icon: 'tabler:tool',
+            title: 'Sprint tecnico white label',
+            price: 'da 600 €',
+            desc: 'Un elenco chiuso di interventi su un progetto esistente: layout, responsive, prestazioni, SEO tecnica. Preventivo solo dopo la verifica del repository.',
+          },
+          {
+            icon: 'tabler:palette',
+            title: 'Progettazione UX/UI',
+            price: 'su preventivo',
+            desc: 'Quando il design non è ancora completo: si definisce l’interfaccia prima dello sviluppo.',
+          },
+        ].map((item) => (
+          <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+            <Icon name={item.icon} class="w-8 h-8 text-indigo-600 dark:text-indigo-400 mb-3" />
+            <h3 class="font-semibold text-lg mb-1">{item.title}</h3>
+            <p class="text-sm font-semibold text-indigo-700 dark:text-indigo-300 mb-3">{item.price}</p>
+            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCCO 8 · CREDIBILITÀ E COMPATIBILITÀ -->
+  <section class="container mx-auto px-6 py-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Il mio standard di consegna è pubblico</h2>
+      <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        I progetti nel portfolio sono lavori a marchio LS Web Agency: siti e applicazioni reali, online e
+        verificabili, sviluppati con Astro, React, Next.js, HTML, CSS e JavaScript — con form, integrazioni,
+        CRM e dashboard dove il progetto lo richiedeva, e attenzione costante a prestazioni, SEO tecnica e usabilità.
+      </p>
+      <p class="mt-3 text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        I lavori realizzati in white label non compaiono: restano riservati e senza attribuzione pubblica,
+        come sarà per il tuo.
+      </p>
+      <a href="/portfolio" class="mt-5 inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
+        Guarda il portfolio
+        <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-5xl">
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-4">La collaborazione funziona se</h3>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {[
+            'Il design è approvato (o quasi)',
+            'C’è un referente unico per i feedback',
+            'Lavori con strumenti condivisibili (Figma, Git, Drive)',
+            'Ti serve una consegna con data e prezzo definiti',
+          ].map((item) => (
+            <li class="flex gap-2">
+              <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+
+      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-4">Non è la formula giusta se</h3>
+        <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {[
+            'I materiali non sono definitivi e non vuoi la progettazione UX/UI',
+            'Lo scope non è delimitabile',
+            'Serve un backend complesso, un e-commerce o un’app',
+            'Per gli sprint non è possibile accedere a repository e staging',
+            'Cerchi disponibilità continuativa a ore',
+          ].map((item) => (
+            <li class="flex gap-2">
+              <Icon name="tabler:x" class="w-5 h-5 text-neutral-400 dark:text-neutral-500 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+    </div>
+
+    <p class="mt-6 text-sm text-neutral-600 dark:text-neutral-400 max-w-5xl">
+      Nel dubbio, invia comunque il progetto: la verifica di compatibilità serve esattamente a questo.
+    </p>
+  </section>
+
+  <!-- BLOCCO 9 · FAQ -->
+  <section class="container mx-auto px-6 pb-12">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Domande frequenti</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 max-w-5xl">
+      {[
+        {
+          q: 'Il mio cliente saprà che lo sviluppo non è interno?',
+          a: 'La collaborazione è riservata: nessuna attribuzione pubblica, nessun contatto con il tuo cliente se non concordato, NDA su richiesta.',
+        },
+        {
+          q: 'Come gestiamo i feedback del cliente finale?',
+          a: 'Li raccogli tu in un elenco unificato. Il giro di revisioni copre l’aderenza a design e brief; le richieste nuove vengono quotate a parte, e puoi rivenderle al tuo cliente con il tuo margine.',
+        },
+        {
+          q: 'Di chi è il codice consegnato?',
+          a: 'Il codice sviluppato per il progetto viene consegnato alla tua agenzia dopo il saldo, nel rispetto delle licenze di librerie, font e componenti utilizzati. Non è previsto alcun vincolo di manutenzione continuativa con LS Web Agency.',
+        },
+        {
+          q: 'Il design non è completo: possiamo lavorare insieme?',
+          a: 'Sì: la progettazione UX/UI si definisce su preventivo, prima dello sviluppo. La formula “da design pronto” richiede un design approvato in versione desktop e mobile.',
+        },
+        {
+          q: 'Perché i tempi partono dal materiale completo?',
+          a: 'Perché è l’unico modo per impegnarsi su date realistiche: con brief, design, testi, asset e accessi completi, i 5–7 giorni lavorativi vengono rispettati.',
+        },
+      ].map((faq) => (
+        <details class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between gap-4">
+            <span>{faq.q}</span>
+            <Icon name="tabler:chevron-down" class="w-5 h-5 opacity-70 shrink-0" />
+          </summary>
+          <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- BLOCCO 9 · CTA FINALE -->
+  <section class="container mx-auto px-6 pb-16">
+    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-indigo-950 via-neutral-900 to-slate-950 text-white">
+      <div class="max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Hai un progetto da consegnare e poca capacità interna?</h2>
+        <p class="text-lg text-white/80 leading-relaxed mb-6">
+          Inviami il progetto: ricevi una verifica di compatibilità gratuita e, se rientra nel perimetro,
+          un preventivo con scope, prezzo e date.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href={CONTACT_URL} class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
+            Invia il progetto da valutare
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          </a>
+        </div>
+        <p class="mt-4 text-sm text-white/70">Verifica gratuita e senza impegno · Collaborazione riservata</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Sviluppo Web White Label per Agenzie',
+    description:
+      'Landing page e piccoli siti in white label per agenzie e studi digitali: scope definito, lavoro asincrono, collaborazione riservata.',
+    provider: {
+      '@type': 'Organization',
+      name: 'LS Web Agency',
+      url: 'https://www.lswebagency.com',
+    },
+    areaServed: 'IT',
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+      price: '1200',
+    },
+  })} />
+</Layout>
