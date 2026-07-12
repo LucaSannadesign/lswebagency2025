@@ -6,6 +6,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { supabaseAdmin } from '../../lib/supabase.server';
+import { validateSiteRescueUrl } from '../../lib/siteRescueUrl';
 import computeProfile, { type Answers } from '../../utils/mini-analisi/computeProfile';
 import buildSummary, { type Summary } from '../../utils/mini-analisi/buildSummary';
 import { intentLabelById, deriveAssistantTier, ASSISTANT_PACKAGES, type AssistantTier } from '../../utils/mini-analisi/assistantFlow';
@@ -16,6 +17,22 @@ const MAX_BODY_BYTES = 20_000; // payload ragionevole per una mini‑analisi
 const MAX_FIELD_LEN = 300; // limite per i singoli valori di testo libero
 const MAX_ANSWER_KEYS = 40; // limite difensivo sul numero di chiavi in answers
 const ALLOWED_SOURCES = new Set(['mini_analisi', 'assistente_ai']);
+
+// Esito dell'accodamento in coda LS Site Rescue (best-effort, mai bloccante).
+type AuditOutcome = 'accodato' | 'duplicato' | 'non_accodato' | 'non_richiesto';
+const AUDIT_OUTCOME_LABEL: Record<AuditOutcome, string> = {
+  accodato: 'Audit Site Rescue: accodato',
+  duplicato: 'Audit Site Rescue: già presente in coda',
+  non_accodato: 'Audit Site Rescue: non accodato',
+  non_richiesto: 'Audit Site Rescue: non richiesto',
+};
+
+// Maschera indirizzi email e tronca un errore prima di loggarlo (mai segreti, mai PII completa).
+function sanitizeLogMessage(err: unknown): string {
+  return (err instanceof Error ? err.message : String(err))
+    .replace(/[^\s@]+@[^\s@]+/g, '[email]')
+    .slice(0, 200);
+}
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -135,8 +152,9 @@ function buildNotes(opts: {
   websiteUrl?: string | null;
   context?: string | null;
   assistantPackage?: AssistantPackage | null;
+  auditConsent?: boolean;
 }): string {
-  const { answers, summary, message, origin, flowPath, websiteUrl, context, assistantPackage } = opts;
+  const { answers, summary, message, origin, flowPath, websiteUrl, context, assistantPackage, auditConsent } = opts;
   const priorita = (summary.topPriorities ?? []).map((p) => `- ${p.label} (${p.score})`).join('\n') || '- (nessuna priorità dominante)';
   const reason = summary.reason ? `\nMotivazione: ${summary.reason}` : '';
   const msg = message?.trim() ? `Messaggio utente:\n${message.trim()}` : 'Messaggio utente: (nessuno)';
@@ -162,6 +180,7 @@ function buildNotes(opts: {
   return [
     ...header,
     `Sito segnalato: ${websiteUrl || '—'}`,
+    ...(auditConsent ? ['Consenso all’analisi tecnica: sì'] : []),
     '',
     `Servizio consigliato: ${summary.service ?? '—'}${reason}`,
     `Fascia/Livello: ${summary.level ?? '—'}`,
@@ -201,6 +220,7 @@ async function sendMiniAnalisiNotification(input: {
   origin: string;
   flowPath?: string | null;
   assistantPackage?: AssistantPackage | null;
+  auditOutcome: AuditOutcome;
 }): Promise<boolean> {
   try {
     // Preview Vercel: nessun invio reale senza consenso esplicito (production invariata).
@@ -258,6 +278,7 @@ async function sendMiniAnalisiNotification(input: {
       ...(packageLine ? [packageLine] : []),
       `Priorità: ${input.priority}`,
       `Urgenza: ${urgency}`,
+      AUDIT_OUTCOME_LABEL[input.auditOutcome],
       '',
       'Principali priorità emerse:',
       priorities,
@@ -347,6 +368,14 @@ export const POST: APIRoute = async ({ request }) => {
     const websiteUrl = normalizeWebsiteUrl(body.websiteUrl);
     const assistantContext = clampStr(body.assistantContext, 80) ?? '';
 
+    // Consenso ESPLICITO all'analisi tecnica: accettato solo come booleano true.
+    // Separato e indipendente da privacyConsent (che resta obbligatorio come sopra).
+    const auditConsent = body.auditConsent === true;
+    // URL destinato a Site Rescue: validazione STRETTA (anti-SSRF a monte).
+    const siteRescueUrl = auditConsent ? validateSiteRescueUrl(body.websiteUrl) : null;
+    // Se l'utente autorizza l'analisi, l'URL deve essere presente e valido.
+    if (auditConsent && !siteRescueUrl) return json({ ok: false, error: 'INVALID_URL' }, 400);
+
     // Pacchetto reale: SOLO per assistente_ai + percorso automazioni, derivato server‑side.
     const assistantPackage: AssistantPackage | null =
       origin === 'assistente_ai' && initialIntent === 'automazioni'
@@ -366,7 +395,7 @@ export const POST: APIRoute = async ({ request }) => {
       priority,
       source: 'altro',
       problem_detected: deriveProblems(answers),
-      notes: buildNotes({ answers, summary, message, origin, flowPath, websiteUrl, context: assistantContext, assistantPackage }),
+      notes: buildNotes({ answers, summary, message, origin, flowPath, websiteUrl: siteRescueUrl ?? websiteUrl, context: assistantContext, assistantPackage, auditConsent }),
       estimated_value: 0,
       archived: false,
     };
@@ -375,6 +404,47 @@ export const POST: APIRoute = async ({ request }) => {
     if (error) {
       console.error('[mini-analisi] supabase insert error', error.message);
       return json({ ok: false, error: 'SAVE_ERROR' }, 500);
+    }
+
+    // === Accodamento LS Site Rescue (best‑effort, MAI bloccante) ===
+    // Il lead è già salvato: da qui in poi nessun errore può trasformare la
+    // richiesta in un errore utente. Accodiamo un audit solo con consenso esplicito
+    // e URL valido, evitando duplicati recenti (queued/running negli ultimi 15 min).
+    let auditQueued = false;
+    let auditDuplicate = false;
+    let auditOutcome: AuditOutcome = 'non_richiesto';
+
+    if (auditConsent && siteRescueUrl) {
+      try {
+        const dedupeSince = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+        const { data: existing, error: dedupeError } = await supabaseAdmin
+          .from('site_audits')
+          .select('id')
+          .eq('url', siteRescueUrl)
+          .in('status', ['queued', 'running'])
+          .gte('created_at', dedupeSince)
+          .limit(1);
+
+        // Se il controllo duplicati fallisce: NON accodare alla cieca, NON bloccare il lead.
+        if (dedupeError) throw dedupeError;
+
+        if (existing && existing.length > 0) {
+          auditDuplicate = true;
+          auditOutcome = 'duplicato';
+        } else {
+          // Payload minimo: solo url/name/email. Tutti gli altri campi ai default del DB
+          // (status, max_pages, attempt_count, max_attempts, storage_bucket, timestamp…).
+          const { error: insertError } = await supabaseAdmin
+            .from('site_audits')
+            .insert({ url: siteRescueUrl, name: contactName, email });
+          if (insertError) throw insertError;
+          auditQueued = true;
+          auditOutcome = 'accodato';
+        }
+      } catch (auditError) {
+        auditOutcome = 'non_accodato';
+        console.error('[mini-analisi] site audit enqueue error', sanitizeLogMessage(auditError));
+      }
     }
 
     // Lead salvato nel CRM: invio della notifica amministrativa via Resend.
@@ -388,13 +458,14 @@ export const POST: APIRoute = async ({ request }) => {
       answers,
       priority,
       message,
-      websiteUrl,
+      websiteUrl: siteRescueUrl ?? websiteUrl,
       origin,
       flowPath,
       assistantPackage,
+      auditOutcome,
     });
 
-    return json({ ok: true, leadSaved: true, emailSent });
+    return json({ ok: true, leadSaved: true, emailSent, auditQueued, auditDuplicate });
   } catch (err) {
     console.error('[mini-analisi] unexpected', err);
     return json({ ok: false, error: 'SERVER_ERROR' }, 500);
