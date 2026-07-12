@@ -22,7 +22,7 @@
     "fix:prettier": "prettier -w .",
     "sync": "astro sync",
     "vercel:inspect": "npm run build && node scripts/verify-functions.mjs",
-    "test:unit": "node --experimental-strip-types --test tests/siteRescueUrl.test.mjs"
+    "test:unit": "node --experimental-strip-types --test tests/siteRescueUrl.test.mjs tests/structuredNotes.test.mjs tests/leadAuditLink.test.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.2.1",

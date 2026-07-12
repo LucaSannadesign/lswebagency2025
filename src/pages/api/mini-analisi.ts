@@ -7,6 +7,8 @@ import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { supabaseAdmin } from '../../lib/supabase.server';
 import { validateSiteRescueUrl } from '../../lib/siteRescueUrl';
+import { serializeStructuredNotes } from '../../lib/structuredNotes';
+import { linkLeadToAudit, type AuditLinkOutcome } from '../../lib/leadAuditLink';
 import computeProfile, { type Answers } from '../../utils/mini-analisi/computeProfile';
 import buildSummary, { type Summary } from '../../utils/mini-analisi/buildSummary';
 import { intentLabelById, deriveAssistantTier, ASSISTANT_PACKAGES, type AssistantTier } from '../../utils/mini-analisi/assistantFlow';
@@ -25,6 +27,15 @@ const AUDIT_OUTCOME_LABEL: Record<AuditOutcome, string> = {
   duplicato: 'Audit Site Rescue: già presente in coda',
   non_accodato: 'Audit Site Rescue: non accodato',
   non_richiesto: 'Audit Site Rescue: non richiesto',
+};
+
+// Esito interno del collegamento lead↔audit in lead_site_audits (best-effort,
+// mai bloccante). Mostrato in email solo come etichetta, mai con ID tecnici.
+const AUDIT_LINK_OUTCOME_LABEL: Record<AuditLinkOutcome, string> = {
+  collegato: 'Collegamento CRM: collegato',
+  gia_collegato: 'Collegamento CRM: già collegato',
+  non_collegato: 'Collegamento CRM: non collegato',
+  non_applicabile: 'Collegamento CRM: non applicabile',
 };
 
 // Maschera indirizzi email e tronca un errore prima di loggarlo (mai segreti, mai PII completa).
@@ -158,6 +169,7 @@ function buildNotes(opts: {
   const priorita = (summary.topPriorities ?? []).map((p) => `- ${p.label} (${p.score})`).join('\n') || '- (nessuna priorità dominante)';
   const reason = summary.reason ? `\nMotivazione: ${summary.reason}` : '';
   const msg = message?.trim() ? `Messaggio utente:\n${message.trim()}` : 'Messaggio utente: (nessuno)';
+  const structuredData = serializeStructuredNotes(answers, summary);
 
   // Intestazione dipendente dall'origine reale del lead (entrambe mappate su source="altro").
   const isAssistant = origin === 'assistente_ai';
@@ -199,9 +211,10 @@ function buildNotes(opts: {
     `- Urgenza: ${answers.urgency ?? '—'}`,
     '',
     msg,
-    '',
-    'Dati strutturati:',
-    JSON.stringify({ answers, summary }).slice(0, 4000),
+    // JSON sempre valido: degrada da {answers, summary} a {answers}; se anche
+    // la versione ridotta supera il limite, il blocco viene omesso del tutto
+    // (il blocco testuale "Risposte:" sopra resta comunque).
+    ...(structuredData ? ['', 'Dati strutturati:', structuredData] : []),
   ].join('\n');
 }
 
@@ -221,6 +234,7 @@ async function sendMiniAnalisiNotification(input: {
   flowPath?: string | null;
   assistantPackage?: AssistantPackage | null;
   auditOutcome: AuditOutcome;
+  auditLinkOutcome: AuditLinkOutcome;
 }): Promise<boolean> {
   try {
     // Preview Vercel: nessun invio reale senza consenso esplicito (production invariata).
@@ -279,6 +293,7 @@ async function sendMiniAnalisiNotification(input: {
       `Priorità: ${input.priority}`,
       `Urgenza: ${urgency}`,
       AUDIT_OUTCOME_LABEL[input.auditOutcome],
+      AUDIT_LINK_OUTCOME_LABEL[input.auditLinkOutcome],
       '',
       'Principali priorità emerse:',
       priorities,
@@ -400,11 +415,15 @@ export const POST: APIRoute = async ({ request }) => {
       archived: false,
     };
 
-    const { error } = await supabaseAdmin.from('leads').insert(payload);
-    if (error) {
-      console.error('[mini-analisi] supabase insert error', error.message);
+    // Stessa singola operazione PostgREST di prima, ma con ritorno dell'id
+    // (serve SOLO server-side per il collegamento in lead_site_audits:
+    // mai nella risposta al browser, mai nell'email).
+    const { data: leadRow, error } = await supabaseAdmin.from('leads').insert(payload).select('id').single();
+    if (error || !leadRow?.id) {
+      console.error('[mini-analisi] supabase insert error', error ? error.message : 'lead id mancante');
       return json({ ok: false, error: 'SAVE_ERROR' }, 500);
     }
+    const leadId: string = leadRow.id;
 
     // === Accodamento LS Site Rescue (best‑effort, MAI bloccante) ===
     // Il lead è già salvato: da qui in poi nessun errore può trasformare la
@@ -413,6 +432,10 @@ export const POST: APIRoute = async ({ request }) => {
     let auditQueued = false;
     let auditDuplicate = false;
     let auditOutcome: AuditOutcome = 'non_richiesto';
+    // Collegamento lead↔audit in lead_site_audits: anch'esso best-effort e
+    // interno (l'id del lead e dell'audit non lasciano mai il server).
+    let auditLinkOutcome: AuditLinkOutcome = 'non_applicabile';
+    let auditId: string | null = null;
 
     if (auditConsent && siteRescueUrl) {
       try {
@@ -431,19 +454,40 @@ export const POST: APIRoute = async ({ request }) => {
         if (existing && existing.length > 0) {
           auditDuplicate = true;
           auditOutcome = 'duplicato';
+          // Audit già in coda per lo stesso URL: il nuovo lead va comunque
+          // collegato all'audit esistente (nessun nuovo audit creato).
+          auditId = existing[0]?.id ?? null;
         } else {
           // Payload minimo: solo url/name/email. Tutti gli altri campi ai default del DB
           // (status, max_pages, attempt_count, max_attempts, storage_bucket, timestamp…).
-          const { error: insertError } = await supabaseAdmin
+          // L'id torna dalla stessa operazione di insert (nessuna query aggiuntiva).
+          const { data: createdAudit, error: insertError } = await supabaseAdmin
             .from('site_audits')
-            .insert({ url: siteRescueUrl, name: contactName, email });
+            .insert({ url: siteRescueUrl, name: contactName, email })
+            .select('id')
+            .single();
           if (insertError) throw insertError;
           auditQueued = true;
           auditOutcome = 'accodato';
+          auditId = createdAudit?.id ?? null;
         }
       } catch (auditError) {
         auditOutcome = 'non_accodato';
         console.error('[mini-analisi] site audit enqueue error', sanitizeLogMessage(auditError));
+      }
+
+      // Relazione nella tabella ponte: fallire qui non tocca lead né audit
+      // e non trasforma mai la risposta in errore. Il conflitto sulla PK
+      // composta è gestito come "gia_collegato" dentro linkLeadToAudit.
+      if (auditId) {
+        const linkResult = await linkLeadToAudit(supabaseAdmin, leadId, auditId);
+        auditLinkOutcome = linkResult.outcome;
+        if (linkResult.errorMessage) {
+          console.error('[mini-analisi] lead-audit link error', sanitizeLogMessage(linkResult.errorMessage));
+        }
+      } else if (auditOutcome === 'accodato' || auditOutcome === 'duplicato') {
+        // Audit disponibile ma senza id recuperato: collegamento non riuscito.
+        auditLinkOutcome = 'non_collegato';
       }
     }
 
@@ -463,9 +507,19 @@ export const POST: APIRoute = async ({ request }) => {
       flowPath,
       assistantPackage,
       auditOutcome,
+      auditLinkOutcome,
     });
 
-    return json({ ok: true, leadSaved: true, emailSent, auditQueued, auditDuplicate });
+    // Solo booleani non sensibili: mai leadId o auditId al browser.
+    return json({
+      ok: true,
+      leadSaved: true,
+      emailSent,
+      auditQueued,
+      auditDuplicate,
+      auditLinked: auditLinkOutcome === 'collegato',
+      auditLinkDuplicate: auditLinkOutcome === 'gia_collegato',
+    });
   } catch (err) {
     console.error('[mini-analisi] unexpected', err);
     return json({ ok: false, error: 'SERVER_ERROR' }, 500);
