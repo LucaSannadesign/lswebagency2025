@@ -21,7 +21,8 @@
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
     "sync": "astro sync",
-    "vercel:inspect": "npm run build && node scripts/verify-functions.mjs"
+    "vercel:inspect": "npm run build && node scripts/verify-functions.mjs",
+    "test:unit": "node --experimental-strip-types --test tests/siteRescueUrl.test.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.2.1",

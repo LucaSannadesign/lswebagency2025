@@ -70,6 +70,8 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [message, setMessage] = useState('');
   const [privacyConsent, setPrivacyConsent] = useState(false);
+  // Consenso all'analisi tecnica del sito (Site Rescue): solo variant="mini".
+  const [auditConsent, setAuditConsent] = useState(false);
   const [honeypot, setHoneypot] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
   const [formError, setFormError] = useState<string | null>(null);
@@ -185,6 +187,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
     setShowPhone(false);
     setShowNote(false);
     setPrivacyConsent(false);
+    setAuditConsent(false);
     setHoneypot('');
     setSubmitState('idle');
     setFormError(null);
@@ -217,6 +220,20 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
     e.preventDefault();
     if (!validateContact()) return;
 
+    // Variant "mini": URL del sito e consenso all'analisi sono obbligatori.
+    // La validazione stretta dell'URL avviene comunque lato server.
+    if (!isAssistant) {
+      const site = websiteUrl.trim();
+      if (!site || !/\.[a-z]{2,}/i.test(site)) {
+        setFormError('Inserisci l’indirizzo del sito da analizzare (es. esempio.it).');
+        return;
+      }
+      if (!auditConsent) {
+        setFormError('Per procedere devi confermare di essere titolare o autorizzato ad analizzare il sito indicato.');
+        return;
+      }
+    }
+
     setSubmitState('sending');
     try {
       const res = await fetch('/api/mini-analisi', {
@@ -235,8 +252,11 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
           answers,
           profile,
           summary: result,
-          // Sito web facoltativo (campo opzionale espandibile): inviato se compilato.
+          // Sito web: obbligatorio in variant "mini", facoltativo in "assistant".
           websiteUrl: websiteUrl.trim() || undefined,
+          // Consenso all'analisi tecnica: inviato SOLO dal flusso mini (mai dall'assistant),
+          // così l'accodamento audit non parte silenziosamente dagli altri flussi.
+          auditConsent: isAssistant ? undefined : auditConsent,
           source: isAssistant ? source ?? 'assistente_ai' : undefined,
           initialIntent: isAssistant ? answers.initialIntent : undefined,
           assistantContext: isAssistant ? context : undefined,
@@ -496,13 +516,51 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
                   Vuoi aggiungere qualche dettaglio?
                 </h4>
                 <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
-                  Puoi aggiungere il sito, il telefono o una nota, oppure inviare subito.
+                  {isAssistant
+                    ? 'Puoi aggiungere il sito, il telefono o una nota, oppure inviare subito.'
+                    : 'Indica il sito da analizzare e conferma l’autorizzazione. Telefono e nota sono facoltativi.'}
                 </p>
 
+                {/* Variant "mini": sito da analizzare e consenso all'analisi (obbligatori) */}
+                {!isAssistant && (
+                  <div className="mt-4 space-y-4">
+                    <div>
+                      <label htmlFor="ma-website" className="text-sm font-medium">
+                        Sito web da analizzare*
+                      </label>
+                      <input
+                        id="ma-website"
+                        type="text"
+                        inputMode="url"
+                        required
+                        placeholder="esempio.it"
+                        value={websiteUrl}
+                        onChange={(e) => setWebsiteUrl(e.target.value)}
+                        className="mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                      />
+                    </div>
+                    <label className="flex items-start gap-3 text-sm text-neutral-600 dark:text-neutral-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        required
+                        checked={auditConsent}
+                        onChange={(e) => setAuditConsent(e.target.checked)}
+                        className="mt-0.5 h-5 w-5 shrink-0 p-0 rounded accent-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                      />
+                      <span>
+                        Confermo di essere titolare del sito indicato o autorizzato a richiederne l’analisi tecnica automatizzata.*
+                      </span>
+                    </label>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                      L’analisi non modifica il sito e non comporta l’invio automatico di un report.
+                    </p>
+                  </div>
+                )}
+
                 {/* Chip: rivelano il relativo campo solo dopo la scelta */}
-                {(!showSite || !showPhone || !showNote) && (
+                {((isAssistant && !showSite) || !showPhone || !showNote) && (
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {!showSite && (
+                    {isAssistant && !showSite && (
                       <button type="button" onClick={() => setShowSite(true)} className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-neutral-300 dark:ring-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
                         <span aria-hidden="true">+</span> Aggiungi sito
                       </button>
@@ -521,11 +579,11 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
                 )}
 
                 <div className="mt-4 space-y-4">
-                  {showSite && (
+                  {isAssistant && showSite && (
                     <div>
-                      <label htmlFor="ma-website" className="text-sm font-medium">Sito web</label>
+                      <label htmlFor="ma-website-assistant" className="text-sm font-medium">Sito web</label>
                       <input
-                        id="ma-website"
+                        id="ma-website-assistant"
                         type="text"
                         inputMode="url"
                         placeholder="esempio.it"
