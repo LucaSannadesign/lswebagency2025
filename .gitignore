@@ -33,3 +33,9 @@ yarn.lock
 .env
 .env
 .env
+
+# File SSH creati accidentalmente nella root
+/ssh -T git@github.com
+/ssh -T git@github.com.pub
+/ssh-keygen -t ed25519 -C "info@lswebagency.com"
+/ssh-keygen -t ed25519 -C "info@lswebagency.com".pub
