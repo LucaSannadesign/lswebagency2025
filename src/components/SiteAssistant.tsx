@@ -278,6 +278,9 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
         role="dialog"
         aria-label="Assistente LS Web Agency"
         aria-hidden={!isOpen}
+        // Il pannello resta montato per conservare la conversazione: `inert` toglie i
+        // discendenti dall'ordine di tabulazione e dall'albero di accessibilità finché è chiuso.
+        inert={!isOpen}
         onKeyDown={onPanelKeyDown}
         className={`absolute bottom-0 right-0 flex flex-col w-[min(420px,calc(100vw-2rem))] h-[min(72vh,640px)] max-sm:left-0 max-sm:right-0 max-sm:w-auto max-sm:h-[min(calc(100dvh-5.5rem),640px)] rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white dark:bg-neutral-900 shadow-xl overflow-hidden origin-bottom-right max-sm:origin-bottom ${panelMotion} ${
           isOpen ? panelOpenClass : panelClosedClass
