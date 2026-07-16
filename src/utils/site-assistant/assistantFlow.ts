@@ -123,7 +123,7 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   restyling: {
     id: 'restyling',
     message:
-      'Se hai già un sito possiamo migliorarlo: immagine, chiarezza del messaggio, velocità e correzioni mirate. Per capire dove intervenire è utile un Audit Rapido del sito (da 299 €, esito in 48 ore); per soli interventi di velocità/correzioni c’è Fix performance/SEO (da 399 €).',
+      'Se hai già un sito possiamo migliorarlo: immagine, chiarezza del messaggio, velocità e correzioni mirate. Per capire dove intervenire è utile l’Audit tecnico e di accessibilità prioritizzato (su preventivo); per soli interventi di velocità/correzioni c’è Fix performance/SEO (da 399 €).',
     serviceInterest: 'Restyling sito',
     options: [
       { label: 'Fai un audit del sito', nextNodeId: 'lead' },
@@ -149,7 +149,7 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   'seo-local': {
     id: 'seo-local',
     message:
-      'Local SEO: Audit Express del tuo Google Business Profile a 99 € (esito in 48 ore) e Setup completo da 490 € per una sede. Se fai prima l’Audit Express, i 99 € vengono scalati dal Setup. La manutenzione mensile è facoltativa e interrompibile.',
+      'Local SEO: verifica locale iniziale del tuo Google Business Profile (su preventivo) e Setup completo da 490 € per una sede. La verifica iniziale confluisce nel Setup, senza costi doppi. La manutenzione mensile è facoltativa e interrompibile.',
     serviceInterest: 'Local SEO',
     options: [
       { label: 'Lascia i tuoi dati', nextNodeId: 'lead' },
@@ -210,7 +210,7 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   pricing: {
     id: 'pricing',
     message:
-      'Ogni progetto ha un preventivo su misura. Alcuni riferimenti reali: Landing da 690 €, Audit Rapido del sito da 299 €, Fix performance/SEO da 399 €, Local SEO (Audit Express 99 €, Setup da 490 €), Assistente AI da 300 € + 29 €/mese. Per i siti su misura il prezzo si definisce dopo una breve analisi.',
+      'Ogni progetto ha un preventivo su misura. Alcuni riferimenti reali: Landing da 690 €, Audit tecnico e di accessibilità prioritizzato su preventivo, Fix performance/SEO da 399 €, Local SEO (verifica locale iniziale su preventivo, Setup da 490 €), Assistente AI da 300 € + 29 €/mese. Per i siti su misura il prezzo si definisce dopo una breve analisi.',
     serviceInterest: 'Costi e modalità',
     options: [
       { label: 'Come funziona il pagamento', nextNodeId: 'pricing-modalita' },
@@ -308,7 +308,7 @@ export const ASSISTANT_FAQ: AssistantFaq[] = [
     question: 'Quanto costa la SEO locale / Google Business?',
     keywords: ['seo', 'google business', 'gbp', 'locale', 'trovato su google', 'visibilita', 'mappe'],
     answer:
-      'Local SEO: Audit Express del Google Business Profile a 99 € (48 ore) e Setup da 490 € per una sede (l’Audit Express viene scalato dal Setup). Manutenzione mensile facoltativa e interrompibile.',
+      'Local SEO: verifica locale iniziale del Google Business Profile (su preventivo) e Setup da 490 € per una sede (la verifica iniziale confluisce nel Setup). Manutenzione mensile facoltativa e interrompibile.',
   },
   {
     id: 'faq-ai-prezzo',
@@ -322,7 +322,7 @@ export const ASSISTANT_FAQ: AssistantFaq[] = [
     question: 'Fate un audit del sito?',
     keywords: ['audit', 'analisi sito', 'sito lento', 'performance', 'problema sito', 'controllo sito'],
     answer:
-      'Sì: Audit Rapido del sito da 299 € con esito in 48 ore (UX, SEO tecnica, performance). Per soli interventi di velocità/correzioni c’è Fix performance/SEO da 399 €.',
+      'Sì: Audit tecnico e di accessibilità prioritizzato su preventivo (UX, SEO tecnica, performance, accessibilità). Per soli interventi di velocità/correzioni c’è Fix performance/SEO da 399 €.',
   },
   {
     id: 'faq-tempi',
