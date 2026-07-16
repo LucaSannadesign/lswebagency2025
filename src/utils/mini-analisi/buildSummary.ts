@@ -82,7 +82,7 @@ export default function buildSummary(answers: Answers, profile: Profile): Summar
     : '';
 
   return {
-    headline: 'Ecco la tua valutazione guidata',
+    headline: 'Ecco la tua valutazione iniziale',
     intro,
     topPriorities,
     service: profile.service,

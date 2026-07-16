@@ -152,7 +152,7 @@ export default function computeProfile(answers: Answers): Profile {
   // Scelta del servizio: i bisogni specifici scelti dall'utente hanno priorità
   // sui fallback generici basati sullo stato del sito.
   if (answers.primaryNeed === 'Audit rapido / SEO locale') {
-    service = 'Audit e SEO locale';
+    service = 'Audit tecnico e di accessibilità prioritizzato';
     reason = 'la visibilità su Google è la priorità principale';
   } else if (answers.primaryNeed === 'Landing page') {
     service = 'Landing page';
@@ -172,7 +172,7 @@ export default function computeProfile(answers: Answers): Profile {
       service = 'Sito web strategico';
       reason = 'l’obiettivo principale è convertire più visite in richieste';
     } else if (priorities.visibilita >= Math.max(priorities.chiarezza, priorities.conversione)) {
-      service = 'Audit e SEO locale';
+      service = 'Audit tecnico e di accessibilità prioritizzato';
       reason = 'la visibilità su Google è la priorità principale';
     } else {
       service = 'Restyling del sito';

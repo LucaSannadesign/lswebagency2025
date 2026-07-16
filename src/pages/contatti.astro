@@ -5,7 +5,7 @@ import { Icon } from 'astro-icon/components';
 
 const SERVIZIO_LABELS: Record<string, string> = {
   'assistente-ai': 'Assistente AI (Sito & WhatsApp)',
-  'audit-rapido': 'Audit rapido',
+  'audit-rapido': 'Audit tecnico e di accessibilità prioritizzato',
   'landing-page': 'Landing page professionale',
   'fix-performance-seo': 'Fix Performance & SEO',
   'local-seo-booster': 'Local SEO Booster',
@@ -90,7 +90,7 @@ const SERVICE_CATEGORIES = [
     services: [
       { slug: 'seo-locale', label: 'SEO locale' },
       { slug: 'local-seo-booster', label: 'Local SEO Booster' },
-      { slug: 'audit-rapido', label: 'Audit rapido' },
+      { slug: 'audit-rapido', label: 'Audit tecnico e di accessibilità prioritizzato' },
       { slug: 'fix-performance-seo', label: 'Fix Performance & SEO' },
     ],
   },
@@ -177,11 +177,11 @@ const AGENCY = {
             <span class="bg-clip-text text-transparent bg-gradient-to-r
                          from-violet-700 via-fuchsia-500 to-pink-500
                          dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-300">
-              Richiedi un’analisi rapida del tuo sito
+              Richiedi la valutazione iniziale gratuita
             </span>
           </h1>
           <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
-            Lavoro a Sassari e anche da remoto in tutta Italia. Dopo la tua richiesta riceverai una prima analisi rapida del tuo sito, con indicazioni chiare su cosa migliorare per ottenere più contatti.
+            Lavoro a Sassari e anche da remoto in tutta Italia. Dopo la tua richiesta riceverai una prima valutazione iniziale gratuita del tuo sito, con indicazioni chiare su cosa migliorare per ottenere più contatti.
           </p>
 
           <div class="mt-5 flex flex-wrap gap-3">
@@ -253,7 +253,7 @@ const AGENCY = {
         href="/mini-analisi"
         class="inline-flex items-center justify-center min-h-[46px] rounded-full px-6 py-3 text-base font-semibold text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-400 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
       >
-        Avvia la mini-analisi
+        Avvia la valutazione iniziale gratuita
         <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
       </a>
     </div>
@@ -529,7 +529,7 @@ const AGENCY = {
 
         <div class="col-span-1 md:col-span-2 mt-2">
           <Button type="submit" variant="primary" id="submit-btn" class="w-full sm:w-auto min-h-[44px]">
-            <span id="submit-text">Richiedi analisi rapida</span>
+            <span id="submit-text">Richiedi la valutazione iniziale gratuita</span>
             <span id="submit-loading" class="hidden">
               Invio in corso...
             </span>
