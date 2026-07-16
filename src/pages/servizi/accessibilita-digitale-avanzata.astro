@@ -32,12 +32,6 @@ const metadata = {
     provider: { '@type': 'Organization', name: 'LS Web Agency' },
     description:
       'Verifica tecnica rispetto a criteri WCAG selezionati, remediation tecnica/visiva ed evidenze prioritizzate. Migliora UX e accessibilità.',
-    offers: {
-      '@type': 'AggregateOffer',
-      priceCurrency: 'EUR',
-      lowPrice: '0',
-      highPrice: '0',
-    },
   },
 };
 ---
@@ -113,45 +107,50 @@ const metadata = {
     </div>
   </section>
 
-  <!-- PACCHETTI -->
+  <!-- COME SI INSERISCE NEL PERCORSO -->
   <section id="pacchetti" class="container mx-auto px-6 pb-6">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Pacchetti</h2>
+    <h2 class="text-2xl md:text-3xl font-bold mb-2">Come si inserisce nel percorso</h2>
+    <p class="text-sm md:text-base text-neutral-600 dark:text-neutral-300 mb-6 max-w-3xl">
+      L’accessibilità non è un prodotto a parte: è una fase del percorso. La verifica fa parte dell’audit, le correzioni si realizzano nello Sprint tecnico e il monitoraggio è un servizio continuativo opzionale.
+    </p>
     <div class="grid md:grid-cols-3 gap-6">
-      <!-- Audit Flash -->
+      <!-- Fase 1 — Verifica (audit) -->
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-        <h3 class="text-xl font-semibold">Audit Flash</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Per siti piccoli o landing.</p>
+        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200">Fase 1 · Verifica</span>
+        <h3 class="mt-2 text-xl font-semibold">Verifica accessibilità</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">È la componente accessibilità dell’Audit tecnico e di accessibilità prioritizzato.</p>
         <ul class="mt-4 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
-          <li>• Screening WCAG A/AA su 5–10 pagine</li>
-          <li>• Report con priorità e quick wins</li>
-          <li>• Call di debrief 45′</li>
+          <li>• Screening WCAG A/AA su pagine campione</li>
+          <li>• Evidenze, priorità e quick wins</li>
+          <li>• Restituzione con raccomandazione</li>
         </ul>
-        <a href="/contatti" class="mt-5 inline-flex w-full justify-center rounded-full px-5 py-3 bg-amber-600 text-white hover:bg-amber-700 transition">Richiedi preventivo</a>
+        <a href="/servizi/audit-rapido" class="mt-5 inline-flex w-full justify-center rounded-full px-5 py-3 bg-amber-600 text-white hover:bg-amber-700 transition">Vai all’audit</a>
       </div>
 
-      <!-- Fix & Improve -->
+      <!-- Fase 2 — Correzioni (Sprint) -->
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-        <h3 class="text-xl font-semibold">Fix &amp; Improve</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Correzioni mirate con testing.</p>
+        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200">Fase 2 · Correzioni</span>
+        <h3 class="mt-2 text-xl font-semibold">Correzioni (Sprint tecnico)</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Le correzioni si realizzano nello Sprint tecnico.</p>
         <ul class="mt-4 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
           <li>• Remediation front-end (contrasti, focus, ARIA)</li>
           <li>• Test con screen reader e tastiera</li>
-          <li>• Mini-report finale</li>
+          <li>• Verifica prima/dopo degli interventi</li>
         </ul>
-        <a href="/contatti" class="mt-5 inline-flex w-full justify-center rounded-full px-5 py-3 bg-amber-600 text-white hover:bg-amber-700 transition">Richiedi preventivo</a>
+        <a href="/servizi/sprint-ottimizzazione" class="mt-5 inline-flex w-full justify-center rounded-full px-5 py-3 bg-amber-600 text-white hover:bg-amber-700 transition">Vai allo Sprint</a>
       </div>
 
-      <!-- Compliance Pro -->
+      <!-- Fase 3 — Monitoraggio (opzionale) -->
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-amber-600 text-white">Più scelto</span>
-        <h3 class="mt-2 text-xl font-semibold">Percorso esteso</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Percorso esteso per PA e aziende.</p>
+        <span class="inline-flex text-xs font-semibold px-2 py-1 rounded-full bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">Fase 3 · Opzionale</span>
+        <h3 class="mt-2 text-xl font-semibold">Monitoraggio (opzionale)</h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Servizio continuativo opzionale per mantenere l’accessibilità nel tempo.</p>
         <ul class="mt-4 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
-          <li>• Verifica estesa + remediation</li>
+          <li>• Verifiche periodiche</li>
           <li>• Materiale tecnico per la dichiarazione di accessibilità</li>
-          <li>• Monitoraggio periodico</li>
+          <li>• Segnalazione di regressioni</li>
         </ul>
-        <a href="/contatti" class="mt-5 inline-flex w-full justify-center rounded-full px-5 py-3 bg-amber-600 text-white hover:bg-amber-700 transition">Richiedi preventivo</a>
+        <a href="/contatti" class="mt-5 inline-flex w-full justify-center rounded-full px-5 py-3 bg-amber-600 text-white hover:bg-amber-700 transition">Richiedi informazioni</a>
       </div>
     </div>
   </section>

@@ -8,8 +8,8 @@ export const headerData = {
       href: '/servizi',
       links: [
         { text: 'Sito web strategico', href: '/servizi/siti-web' },
-        { text: 'Ottimizzazione SEO', href: '/servizi#seo' },
-        { text: 'AI e automazioni', href: '/servizi#ai' },
+        { text: 'Audit tecnico e accessibilità', href: '/servizi/audit-rapido' },
+        { text: 'Sprint tecnico', href: '/servizi/sprint-ottimizzazione' },
         { text: 'divider' },
         { text: 'Tutti i servizi', href: '/servizi#servizi-principali' },
       ],
@@ -20,7 +20,7 @@ export const headerData = {
   ],
   actions: [
     // CTA autonoma: strumento gratuito di acquisizione lead, distinto dai servizi.
-    { text: 'Valutazione Gratuita', href: '/mini-analisi', variant: 'primary' },
+    { text: 'Valutazione iniziale gratuita', href: '/mini-analisi', variant: 'primary' },
   ],
 };
 

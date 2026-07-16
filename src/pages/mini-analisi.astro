@@ -4,9 +4,9 @@ import MiniAnalisiWidget from '@/components/MiniAnalisi';
 
 // === SEO ===
 const metadata = {
-  title: 'Valutazione guidata del progetto — LS Web Agency',
+  title: 'Valutazione iniziale gratuita — LS Web Agency',
   description:
-    'Rispondi a poche domande e ottieni un primo orientamento gratuito: priorità, servizio consigliato e fascia orientativa, in base alle informazioni che inserisci. Non sostituisce un audit tecnico completo.',
+    'Rispondi a poche domande e ottieni un orientamento generale gratuito: priorità, servizio consigliato e fascia orientativa. Raccoglie informazioni iniziali, non include verifiche tecniche complete e non sostituisce l’audit.',
   canonical: '/mini-analisi',
   robots: { index: true, follow: true },
 };
@@ -25,11 +25,12 @@ const metadata = {
                text-transparent bg-clip-text [-webkit-text-fill-color:transparent]
                bg-gradient-to-r from-black via-violet-700 to-fuchsia-400
                dark:from-white dark:via-violet-400 dark:to-fuchsia-300">
-        Valutazione guidata del progetto
+        Valutazione iniziale gratuita
       </h1>
       <p class="mt-3 max-w-2xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
-        Rispondi a poche domande sul tuo progetto: in meno di un minuto ottieni un primo
-        orientamento con le priorità, il servizio più adatto e una fascia orientativa di intervento.
+        Rispondi a poche domande sul tuo progetto: in meno di un minuto raccolgo le informazioni
+        iniziali e ti do un orientamento generale con le priorità, il servizio più adatto e una fascia
+        orientativa di intervento.
       </p>
     </div>
   </section>
@@ -38,8 +39,20 @@ const metadata = {
   <section class="container mx-auto px-6 pb-16">
     <div class="max-w-2xl mx-auto">
       <MiniAnalisiWidget client:visible />
+
+      <div class="mt-6 rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+        <h2 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200">Cosa è e cosa non è la valutazione iniziale gratuita</h2>
+        <ul class="mt-2 space-y-1.5 text-sm text-neutral-600 dark:text-neutral-300">
+          <li>• Raccoglie le informazioni iniziali sul tuo progetto.</li>
+          <li>• Offre un orientamento generale su priorità e servizio più adatto.</li>
+          <li>• Non include verifiche tecniche complete del sito.</li>
+          <li>• Non produce finding, evidenze o una roadmap professionale.</li>
+          <li>• Non sostituisce l’<a href="/servizi/audit-rapido" class="underline hover:text-neutral-900 dark:hover:text-white">Audit tecnico e di accessibilità prioritizzato</a>.</li>
+        </ul>
+      </div>
+
       <p class="mt-4 text-center text-xs text-neutral-500 dark:text-neutral-400">
-        La valutazione si basa sulle informazioni che inserisci e non sostituisce un audit tecnico completo.
+        La valutazione si basa sulle informazioni che inserisci e non sostituisce un audit tecnico.
       </p>
     </div>
   </section>
