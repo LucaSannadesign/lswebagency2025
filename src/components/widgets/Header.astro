@@ -4,7 +4,7 @@ import ToggleTheme from '@/components/common/ToggleTheme.astro';
 import ToggleMenu from '@/components/common/ToggleMenu.astro';
 import Button from '@/components/ui/Button.astro';
 
-import { getHomePermalink, trimSlash, getAsset } from '@/utils/permalinks';
+import { getHomePermalink, trimSlash } from '@/utils/permalinks';
 import type { CallToAction } from '@/types';
 import { headerData as navHeaderData } from '@/navigation';
 
@@ -26,7 +26,6 @@ export interface Props {
   isDark?: boolean;
   isFullWidth?: boolean;
   showToggleTheme?: boolean;
-  showRssFeed?: boolean;
   position?: string;
 }
 
@@ -38,7 +37,6 @@ const {
   isDark = false,
   isFullWidth = false,
   showToggleTheme = true,
-  showRssFeed = true,
   position = 'center',
 } = Astro.props;
 
@@ -85,20 +83,9 @@ const headerItems = sanitize(links);
         <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="LS Web Design Agency" class="h-10 w-auto hidden dark:block" />
       </a>
 
-      <!-- Mobile: azioni rapide (tema + RSS) + menù -->
+      <!-- Mobile: azioni rapide (tema) + menù -->
       <div class="flex items-center lg:hidden gap-2">
         {showToggleTheme && <ToggleTheme iconClass="w-6 h-6" />}
-        {showRssFeed && (
-          <a
-            href={getAsset('/rss.xml')}
-            aria-label="RSS Feed"
-            class="text-muted dark:text-gray-300 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-            rel="alternate"
-            title="RSS feed"
-          >
-            <Icon name="tabler:rss" class="w-6 h-6" />
-          </a>
-        )}
         <ToggleMenu />
       </div>
     </div>
@@ -189,17 +176,6 @@ const headerItems = sanitize(links);
       <div class="hidden lg:flex items-center w-full lg:w-auto justify-between">
         <div class="flex items-center gap-2">
           {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" />}
-          {showRssFeed && (
-            <a
-              href={getAsset('/rss.xml')}
-              aria-label="RSS Feed"
-              class="text-muted dark:text-gray-300 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-              rel="alternate"
-              title="RSS feed"
-            >
-              <Icon name="tabler:rss" class="w-5 h-5" />
-            </a>
-          )}
         </div>
 
         {actions.length > 0 && (

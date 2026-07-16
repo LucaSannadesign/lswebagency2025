@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { getHomePermalink } from '@/utils/permalinks';
+import { getHomePermalink, getAsset } from '@/utils/permalinks';
 
 interface Link {
   text?: string;
@@ -81,6 +81,15 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
                   {icon && <Icon name={icon} class="w-4 h-4" />}
                 </a>
               ))}
+              <a
+                href={getAsset('/rss.xml')}
+                rel="alternate"
+                aria-label="Feed RSS del blog"
+                title="Feed RSS del blog"
+                class="hidden md:inline-flex h-9 w-9 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
+              >
+                <Icon name="tabler:rss" class="w-4 h-4" />
+              </a>
             </div>
           </div>
         )}
