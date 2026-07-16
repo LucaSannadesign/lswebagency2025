@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import questionsData from '@/utils/mini-analisi/questions.json';
 import computeProfile, { type Answers, type Profile } from '@/utils/mini-analisi/computeProfile';
 import buildSummary, { type Summary } from '@/utils/mini-analisi/buildSummary';
+import { type Option, optionValue, optionLabel } from '@/utils/mini-analisi/options';
 import {
   assistantIntents,
   INITIAL_QUESTION,
@@ -10,7 +11,7 @@ import {
   type AssistantIntent,
 } from '@/utils/mini-analisi/assistantFlow';
 
-type Question = { key: keyof Answers; text: string; options: string[] };
+type Question = { key: keyof Answers; text: string; options: Option[] };
 
 const questions = questionsData as Question[];
 
@@ -791,12 +792,14 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
 
       <div className="mt-4 grid gap-3">
         {current.options.map((option) => {
-          const isSelected = selected === option;
+          const value = optionValue(option);
+          const label = optionLabel(option);
+          const isSelected = selected === value;
           return (
             <button
-              key={option}
+              key={value}
               type="button"
-              onClick={() => handleSelect(option)}
+              onClick={() => handleSelect(value)}
               className={
                 'w-full text-left rounded-xl px-4 py-3 ring-1 transition font-medium ' +
                 (isSelected
@@ -804,7 +807,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
                   : 'ring-neutral-200 dark:ring-neutral-800 bg-white/60 dark:bg-neutral-900/40 hover:ring-violet-400 hover:bg-violet-50/60 dark:hover:bg-violet-900/20')
               }
             >
-              {option}
+              {label}
             </button>
           );
         })}

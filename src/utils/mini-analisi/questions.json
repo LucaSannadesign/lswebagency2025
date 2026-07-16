@@ -37,7 +37,7 @@
     "options": [
       "Sito strategico nuovo",
       "Restyling del sito",
-      "Audit rapido / SEO locale",
+      { "value": "Audit rapido / SEO locale", "label": "Audit tecnico e accessibilità / SEO locale" },
       "Landing page",
       "Automazioni AI",
       "Non so ancora"
