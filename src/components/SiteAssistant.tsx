@@ -264,6 +264,9 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
         onClick={() => setIsOpen(true)}
         aria-label="Apri assistente virtuale"
         aria-expanded={isOpen}
+        // Da aperto il trigger resta montato per l'animazione di uscita ma è coperto dal
+        // pannello: `inert` lo toglie dalla tabulazione finché non torna visibile.
+        inert={isOpen}
         className={`inline-flex items-center gap-2 rounded-full bg-violet-600 px-4 py-3 text-white shadow-lg ring-1 ring-violet-700/30 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 motion-reduce:transition-none ${
           isOpen ? 'pointer-events-none scale-95 opacity-0' : 'scale-100 opacity-100'
         }`}
