@@ -1,0 +1,371 @@
+---
+/**
+ * HeroHome — hero della homepage.
+ *
+ * Componente dedicato alla home: il generico widgets/Hero.astro resta invariato
+ * perché è già usato da altre pagine.
+ *
+ * Requisiti: un solo H1, gradiente viola-magenta su "Siti web" e "opportunità.",
+ * versione statica leggibile senza JavaScript, rispetto di prefers-reduced-motion.
+ */
+
+import { Icon } from 'astro-icon/components';
+import DigitalFlow from './DigitalFlow.astro';
+---
+
+<section class="hero relative isolate overflow-hidden" aria-labelledby="hero-title">
+  <!-- Decorazioni di sfondo: contenute da overflow-hidden, nessun overflow orizzontale. -->
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-glow hero-glow--violet" aria-hidden="true"></div>
+  <div class="hero-glow hero-glow--magenta" data-hero-glow aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-screen-xl px-6 py-12 sm:py-16 md:px-8 lg:py-20">
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
+      <!-- Colonna testo -->
+      <div class="min-w-0 text-center lg:col-span-7 lg:text-left">
+        <p class="hero-in flex justify-center lg:justify-start" style="--d:0ms">
+          <span
+            class="hero-badge inline-flex max-w-full items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium"
+          >
+            <span class="hero-badge-dot h-1.5 w-1.5 shrink-0 rounded-full" aria-hidden="true"></span>
+            Web agency a Sassari · Progetti in tutta Italia
+          </span>
+        </p>
+
+        <h1
+          id="hero-title"
+          class="hero-title hero-in mt-5 text-[2rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-[clamp(2.75rem,4vw,3.5rem)] lg:leading-[1.08]"
+          style="--d:90ms"
+        >
+          <span class="hero-accent">Siti web</span> e sistemi digitali che trasformano visite in <span
+            class="hero-accent">opportunità.</span
+          >
+        </h1>
+
+        <p
+          class="hero-lead hero-in mx-auto mt-4 max-w-xl text-base leading-[1.6] sm:mt-5 sm:text-lg lg:mx-0"
+          style="--d:180ms"
+        >
+          Progetto siti veloci, moduli e automazioni leggere per acquisire, organizzare e seguire meglio i contatti.
+        </p>
+
+        <div class="hero-in mt-6 sm:mt-8" style="--d:270ms" aria-label="Azioni principali">
+          <div class="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center lg:justify-start">
+            <a href="/mini-analisi" class="hero-cta-primary">
+              Richiedi la valutazione gratuita
+              <Icon name="tabler:arrow-right" class="h-5 w-5 shrink-0" aria-hidden="true" />
+            </a>
+
+            <a href="/portfolio" class="hero-cta-secondary">Guarda i progetti</a>
+          </div>
+
+          <p
+            class="hero-note mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm lg:justify-start"
+          >
+            <span class="inline-flex items-center gap-2">
+              <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" aria-hidden="true"></span>
+              Risposta entro 24–48 ore
+            </span>
+            <span class="opacity-40" aria-hidden="true">·</span>
+            <span>Nessun impegno</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Colonna visual -->
+      <div class="hero-in min-w-0 lg:col-span-5" style="--d:150ms">
+        <div class="mx-auto w-full max-w-[420px] lg:max-w-none" data-hero-parallax>
+          <DigitalFlow />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Palette locale ────────────────────────────────────
+     Confinata a questo componente: nessun token globale toccato,
+     nessun altro pulsante o sezione del sito coinvolto. */
+  .hero {
+    --hero-violet: 118 40 232; /* #7628E8 */
+    --hero-magenta: 231 42 174; /* #E72AAE */
+    --hero-purple-mid: 162 83 218; /* #A253DA */
+    --hero-bg: 245 240 251; /* #F5F0FB */
+    --hero-ink: 33 24 49; /* #211831 */
+    --hero-soft: 94 86 107; /* #5E566B */
+    --hero-line: 222 211 234; /* #DED3EA */
+    --hero-cta: 118 40 232; /* #7628E8 — CTA primaria */
+    --hero-cta-hover: 95 25 202; /* #5F19CA */
+
+    background: rgb(var(--hero-bg));
+  }
+
+  :global(.dark) .hero {
+    background: rgb(2 6 23);
+  }
+
+  /* Griglia decorativa con maschera radiale, lato visual. */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgb(var(--hero-line)) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--hero-line)) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 60% 62% at 80% 46%, #000 0%, rgb(0 0 0 / 0.4) 42%, transparent 74%);
+    mask-image: radial-gradient(ellipse 60% 62% at 80% 46%, #000 0%, rgb(0 0 0 / 0.4) 42%, transparent 74%);
+  }
+
+  :global(.dark) .hero-grid {
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  }
+
+  /* Glow morbidi: viola dietro il testo, fucsia dietro il pannello. */
+  .hero-glow {
+    position: absolute;
+    top: 42%;
+    z-index: -10;
+    height: 420px;
+    width: 92%;
+    max-width: 640px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(70px);
+  }
+
+  .hero-glow--violet {
+    left: 50%;
+    background: radial-gradient(circle at 50% 50%, rgb(var(--hero-violet) / 0.14), transparent 68%);
+  }
+
+  .hero-glow--magenta {
+    left: 50%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgb(var(--hero-magenta) / 0.16),
+      rgb(var(--hero-violet) / 0.1) 45%,
+      transparent 70%
+    );
+    will-change: transform;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-glow--violet {
+      left: 26%;
+      height: 560px;
+      width: 560px;
+    }
+
+    .hero-glow--magenta {
+      left: 78%;
+      height: 640px;
+      width: 640px;
+    }
+  }
+
+  /* ── Testo ─────────────────────────────────────────── */
+  .hero-title {
+    color: rgb(var(--hero-ink));
+  }
+
+  .hero-lead {
+    color: rgb(var(--hero-soft));
+  }
+
+  .hero-note {
+    color: rgb(var(--hero-soft));
+  }
+
+  :global(.dark) .hero-title {
+    color: #fff;
+  }
+
+  :global(.dark) .hero-lead,
+  :global(.dark) .hero-note {
+    color: rgb(203 213 225);
+  }
+
+  .hero-badge {
+    background: rgb(255 255 255 / 0.7);
+    color: rgb(var(--hero-soft));
+    box-shadow: inset 0 0 0 1px rgb(var(--hero-line));
+  }
+
+  .hero-badge-dot {
+    background: rgb(var(--hero-magenta));
+    box-shadow: 0 0 8px rgb(var(--hero-magenta) / 0.55);
+  }
+
+  :global(.dark) .hero-badge {
+    background: rgb(15 23 42 / 0.6);
+    color: rgb(203 213 225);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  }
+
+  /* Gradiente viola → fucsia su "Siti web" e "opportunità." */
+  .hero-accent {
+    background: linear-gradient(
+      100deg,
+      rgb(var(--hero-violet)) 0%,
+      rgb(var(--hero-purple-mid)) 48%,
+      rgb(var(--hero-magenta)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* Evita il taglio dei discendenti su alcune combinazioni di font-size. */
+    padding-bottom: 0.06em;
+  }
+
+  /* ── CTA ───────────────────────────────────────────── */
+
+  .hero-cta-primary {
+    display: inline-flex;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 12px;
+    background: rgb(var(--hero-cta));
+    padding: 0 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 12px 30px rgb(var(--hero-cta) / 0.32);
+    transition:
+      background 0.25s,
+      box-shadow 0.25s,
+      transform 0.25s;
+  }
+
+  .hero-cta-primary:hover {
+    background: rgb(var(--hero-cta-hover));
+    box-shadow: 0 16px 38px rgb(var(--hero-cta) / 0.4);
+    transform: translateY(-2px);
+  }
+
+  .hero-cta-primary:focus-visible {
+    outline: 2px solid rgb(var(--hero-cta));
+    outline-offset: 3px;
+  }
+
+  .hero-cta-secondary {
+    display: inline-flex;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 12px;
+    border: 1px solid rgb(var(--hero-violet) / 0.5);
+    padding: 0 22px;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(var(--hero-violet));
+    transition:
+      background 0.25s,
+      border-color 0.25s,
+      color 0.25s;
+  }
+
+  .hero-cta-secondary:hover {
+    border-color: rgb(var(--hero-violet));
+    background: rgb(var(--hero-violet) / 0.08);
+  }
+
+  .hero-cta-secondary:focus-visible {
+    outline: 2px solid rgb(var(--hero-violet));
+    outline-offset: 3px;
+  }
+
+  :global(.dark) .hero-cta-secondary {
+    border-color: rgb(196 181 253 / 0.5);
+    color: rgb(216 180 254);
+  }
+
+  :global(.dark) .hero-cta-secondary:hover {
+    border-color: rgb(216 180 254);
+    background: rgb(var(--hero-violet) / 0.25);
+  }
+
+  /* ── Entrata progressiva: puro CSS, nessuna dipendenza da JavaScript ── */
+  @keyframes heroIn {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-in {
+    animation: heroIn 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  [data-hero-parallax] {
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-in {
+      animation: none;
+    }
+
+    .hero-cta-primary:hover {
+      transform: none;
+    }
+
+    [data-hero-parallax] {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Parallax molto leggero (max ~5px), solo da 1024px e con puntatore fine.
+  // Disattivato con prefers-reduced-motion.
+  (() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = window.matchMedia('(min-width: 1024px) and (pointer: fine)');
+    if (reduced.matches || !desktop.matches) return;
+
+    const hero = document.querySelector<HTMLElement>('.hero');
+    const visual = hero?.querySelector<HTMLElement>('[data-hero-parallax]');
+    const glow = hero?.querySelector<HTMLElement>('[data-hero-glow]');
+    if (!hero || !visual) return;
+
+    const MAX = 5;
+    let queued = false;
+
+    const onMove = (event: MouseEvent) => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        const rect = hero.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+        const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+        visual.style.transform = `translate(${(x * MAX).toFixed(2)}px, ${(y * MAX).toFixed(2)}px)`;
+        if (glow) {
+          glow.style.transform = `translate(calc(-50% + ${(x * MAX).toFixed(2)}px), calc(-50% + ${(y * MAX).toFixed(2)}px))`;
+        }
+      });
+    };
+
+    const onLeave = () => {
+      visual.style.transform = '';
+      if (glow) glow.style.transform = '';
+    };
+
+    hero.addEventListener('mousemove', onMove);
+    hero.addEventListener('mouseleave', onLeave);
+  })();
+</script>

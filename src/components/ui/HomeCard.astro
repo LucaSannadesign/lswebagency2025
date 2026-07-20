@@ -1,0 +1,446 @@
+---
+/**
+ * HomeCard — card del sistema "Proposta Card LS Web Agency".
+ *
+ * Tre varianti:
+ *  - neutral  → informativa/secondaria: fondo bianco, bordo lilla, CTA outline
+ *  - accent   → servizio in evidenza: lieve sfumatura lilla, bordo viola tenue
+ *  - featured → scelta principale: sollevata su desktop, badge e CTA a gradiente
+ *
+ * Attualmente usata nella sezione "Scegli da dove partire" della homepage.
+ * La variante `accent` è prevista dal design system per le card che verranno
+ * allineate in un secondo momento.
+ */
+
+import { Icon } from 'astro-icon/components';
+
+export interface Badge {
+  text: string;
+  /** `gradient` per il badge principale, `soft` (default) per quelli lilla. */
+  tone?: 'soft' | 'gradient';
+}
+
+export interface Props {
+  variant?: 'neutral' | 'accent' | 'featured';
+  badges?: Badge[];
+  title: string;
+  price?: string;
+  priceNote?: string;
+  description?: string;
+  items?: string[];
+  cta: { label: string; href: string };
+}
+
+const { variant = 'neutral', badges = [], title, price, priceNote, description, items = [], cta } = Astro.props;
+
+const isFeatured = variant === 'featured';
+---
+
+<article class:list={['card', `card--${variant}`]}>
+  <span class="card__topline" aria-hidden="true"></span>
+
+  <div class="card__body">
+    {
+      badges.length > 0 && (
+        <div class="card__badges">
+          {badges.map((badge) => (
+            <span class:list={['card__badge', badge.tone === 'gradient' && 'card__badge--gradient']}>
+              {badge.tone === 'gradient' && <span class="card__badge-dot" aria-hidden="true" />}
+              {badge.text}
+            </span>
+          ))}
+        </div>
+      )
+    }
+
+    <h4 class="card__title">{title}</h4>
+
+    {price && <p class="card__price">{price}</p>}
+    {priceNote && <p class="card__price-note">{priceNote}</p>}
+    {description && <p class="card__desc">{description}</p>}
+
+    {
+      items.length > 0 && (
+        <ul class="card__list">
+          {items.map((item) => (
+            <li>
+              <Icon name="tabler:point-filled" class="card__bullet" aria-hidden="true" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <div class="card__cta-wrap">
+      <a href={cta.href} class:list={['card__cta', isFeatured ? 'card__cta--primary' : 'card__cta--secondary']}>
+        <span>{cta.label}</span>
+        {
+          isFeatured ? (
+            <span class="card__cta-circle" aria-hidden="true">
+              <Icon name="tabler:arrow-right" class="card__arrow" />
+            </span>
+          ) : (
+            <Icon name="tabler:arrow-right" class="card__arrow" aria-hidden="true" />
+          )
+        }
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    /* Palette del design system, confinata al componente. */
+    --violet: 118 40 232; /* #7628E8 */
+    --purple-mid: 162 83 218; /* #A253DA */
+    --magenta: 231 42 174; /* #E72AAE */
+    --lilac: 245 240 251; /* #F5F0FB */
+    --line: 222 211 234; /* #DED3EA */
+    --ink: 33 24 49; /* #211831 */
+    --soft: 94 86 107; /* #5E566B */
+    --gradient: linear-gradient(105deg, rgb(var(--violet)) 0%, rgb(var(--purple-mid)) 50%, rgb(var(--magenta)) 100%);
+
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #fff;
+    border: 1px solid rgb(var(--line));
+    box-shadow: 0 6px 18px -12px rgb(var(--soft) / 0.22);
+  }
+
+  .card--accent {
+    background: linear-gradient(180deg, #fbf7ff 0%, #ffffff 42%);
+    border-color: #cbb6e8;
+    box-shadow: 0 12px 30px -16px rgb(var(--violet) / 0.28);
+  }
+
+  .card--featured {
+    border-color: #cbb6e8;
+    box-shadow: 0 24px 48px -18px rgb(var(--violet) / 0.32);
+  }
+
+  /* Sollevamento solo da desktop: su mobile le card restano allineate. */
+  @media (min-width: 768px) {
+    .card--featured {
+      transform: translateY(-8px);
+    }
+  }
+
+  :global(.dark) .card {
+    background: rgb(30 41 59 / 0.95);
+    border-color: rgb(71 85 105);
+    box-shadow: 0 6px 18px -12px rgb(0 0 0 / 0.5);
+  }
+
+  :global(.dark) .card--accent,
+  :global(.dark) .card--featured {
+    background: rgb(30 41 59 / 0.95);
+    border-color: rgb(139 92 246 / 0.4);
+    box-shadow: 0 24px 48px -18px rgb(0 0 0 / 0.6);
+  }
+
+  /* ── Linea superiore ───────────────────────────────── */
+  .card__topline {
+    height: 2px;
+    flex: none;
+    background: linear-gradient(90deg, rgb(var(--violet)), rgb(var(--magenta)));
+    opacity: 0.55;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+  }
+
+  .card--accent .card__topline {
+    height: 3px;
+    opacity: 1;
+  }
+
+  .card--featured .card__topline {
+    height: 4px;
+    opacity: 1;
+    background: linear-gradient(90deg, rgb(var(--violet)), rgb(var(--purple-mid)), rgb(var(--magenta)));
+    box-shadow: 0 2px 10px rgb(var(--magenta) / 0.5);
+  }
+
+  /* ── Corpo ─────────────────────────────────────────── */
+  .card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 24px;
+  }
+
+  @media (min-width: 768px) {
+    .card__body {
+      padding: 28px;
+    }
+
+    .card--featured .card__body {
+      padding: 30px 28px;
+    }
+  }
+
+  /* ── Badge ─────────────────────────────────────────── */
+  .card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .card__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 999px;
+    border: 1px solid rgb(var(--line));
+    background: rgb(var(--lilac));
+    padding: 5px 11px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: rgb(var(--violet));
+  }
+
+  .card__badge--gradient {
+    border-color: transparent;
+    background: var(--gradient);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .card__badge-dot {
+    height: 6px;
+    width: 6px;
+    flex: none;
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  :global(.dark) .card__badge {
+    border-color: rgb(139 92 246 / 0.3);
+    background: rgb(139 92 246 / 0.15);
+    color: rgb(216 180 254);
+  }
+
+  :global(.dark) .card__badge--gradient {
+    border-color: transparent;
+    color: #fff;
+  }
+
+  /* ── Testo ─────────────────────────────────────────── */
+  .card__title {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+    color: rgb(var(--ink));
+  }
+
+  .card--featured .card__title {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+  }
+
+  .card__price {
+    margin: 10px 0 0;
+    font-size: 16px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.2px;
+    color: rgb(var(--ink));
+  }
+
+  .card__price-note {
+    margin: 2px 0 0;
+    font-size: 11px;
+    color: rgb(var(--soft));
+  }
+
+  .card__desc {
+    margin: 12px 0 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgb(var(--soft));
+  }
+
+  :global(.dark) .card__title,
+  :global(.dark) .card__price {
+    color: #fff;
+  }
+
+  :global(.dark) .card__desc,
+  :global(.dark) .card__price-note {
+    color: rgb(203 213 225);
+  }
+
+  /* ── Elenco ────────────────────────────────────────── */
+  .card__list {
+    margin: 14px 0 0;
+    flex: 1;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: rgb(var(--ink));
+  }
+
+  .card__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  .card__bullet {
+    height: 1rem;
+    width: 1rem;
+    flex: none;
+    margin-top: 2px;
+    color: rgb(var(--violet));
+  }
+
+  :global(.dark) .card__list {
+    color: rgb(226 232 240);
+  }
+
+  :global(.dark) .card__bullet {
+    color: rgb(196 181 253);
+  }
+
+  /* ── CTA ───────────────────────────────────────────── */
+  .card__cta-wrap {
+    margin-top: auto;
+    padding-top: 24px;
+  }
+
+  .card__cta {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    border-radius: 14px;
+    font-weight: 700;
+    text-align: left;
+    transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+  }
+
+  .card__cta:focus-visible {
+    outline: 2px solid rgb(var(--violet));
+    outline-offset: 3px;
+  }
+
+  .card__cta--secondary {
+    height: 50px;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 18px;
+    background: #fff;
+    border: 1.5px solid rgb(var(--violet));
+    color: rgb(var(--violet));
+    font-size: 14px;
+  }
+
+  .card__cta--secondary:hover {
+    background: rgb(var(--violet) / 0.06);
+  }
+
+  .card__cta--primary {
+    height: 52px;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 8px 0 20px;
+    background: var(--gradient);
+    color: #fff;
+    font-size: 15px;
+    box-shadow: 0 16px 30px -10px rgb(var(--violet) / 0.6);
+  }
+
+  .card__cta-circle {
+    display: flex;
+    height: 36px;
+    width: 36px;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.24);
+  }
+
+  .card__arrow {
+    height: 1.125rem;
+    width: 1.125rem;
+    flex: none;
+    transition: transform 0.22s ease;
+  }
+
+  :global(.dark) .card__cta--secondary {
+    background: transparent;
+    border-color: rgb(196 181 253);
+    color: rgb(216 180 254);
+  }
+
+  :global(.dark) .card__cta--secondary:hover {
+    background: rgb(139 92 246 / 0.15);
+  }
+
+  /* ── Microinterazioni: solo con puntatore ──────────── */
+  @media (hover: hover) and (pointer: fine) {
+    .card {
+      transition:
+        transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 34px -16px rgb(var(--soft) / 0.28);
+    }
+
+    .card--accent:hover {
+      box-shadow: 0 20px 40px -14px rgb(var(--violet) / 0.26);
+    }
+
+    .card--featured:hover {
+      box-shadow: 0 30px 56px -16px rgb(var(--violet) / 0.36);
+    }
+
+    @media (min-width: 768px) {
+      .card--featured:hover {
+        transform: translateY(-12px);
+      }
+    }
+
+    .card:hover .card__topline {
+      opacity: 1;
+      filter: saturate(1.25) brightness(1.12);
+    }
+
+    .card:hover .card__arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card,
+    .card__topline,
+    .card__arrow {
+      transition: none;
+    }
+
+    .card:hover {
+      transform: none;
+    }
+
+    @media (min-width: 768px) {
+      .card--featured,
+      .card--featured:hover {
+        transform: translateY(-8px);
+      }
+    }
+  }
+</style>

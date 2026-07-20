@@ -8,10 +8,14 @@
    ========================= */
 @layer base {
   :root {
-    --brand-purple: 134 36 151;
-    --brand-blue: 55 98 227;
-    --brand-ink: 37 33 87;
-    --brand-surface: 230 234 251;
+    /* Palette viola–fucsia unica del brand.
+       `brand-blue` conserva il nome storico per non toccare ~30 punti d'uso,
+       ma il valore è il viola principale #7628E8. */
+    --brand-purple: 162 83 218; /* #A253DA viola intermedio */
+    --brand-blue: 118 40 232; /* #7628E8 viola principale */
+    --brand-ink: 33 24 49; /* #211831 testo principale */
+    --brand-surface: 245 240 251; /* #F5F0FB lilla chiaro */
+    --brand-magenta: 231 42 174; /* #E72AAE fucsia */
   }
 }
 
@@ -40,22 +44,114 @@
    Components (bottoni, form)
    ========================= */
 @layer components {
+  /* ─────────────────────────────────────────────────────────
+     Sistema CTA (design Cloud Design):
+     altezza 52px, radius 14px, tre livelli Primary/Secondary/Tertiary.
+     `rounded-full` resta riservato a badge, chip e indicatori.
+     ───────────────────────────────────────────────────────── */
   .btn {
-    @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2.5 rounded-[14px] border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition px-6 ease-in duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:focus-visible:ring-offset-slate-900 cursor-pointer;
+    min-height: 52px;
+    padding-block: 0.75rem;
   }
 
+  /* CTA Primary — gradiente viola→fucsia, unico gradiente autorizzato. */
   .btn-primary {
-    @apply btn font-semibold bg-primary text-white border-primary hover:bg-secondary hover:border-secondary hover:text-white dark:text-white dark:bg-primary dark:border-primary dark:hover:border-secondary dark:hover:bg-secondary;
+    /* `border-white/[0.12]` anche in dark: neutralizza `dark:border-slate-500` ereditato da `.btn`. */
+    @apply btn font-semibold text-white hover:text-white border-white/[0.12] hover:border-white/[0.12] dark:border-white/[0.12] dark:hover:border-white/[0.12];
+    background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+    box-shadow:
+      0 12px 26px -10px rgb(118 40 232 / 0.55),
+      inset 0 1px 0 rgb(255 255 255 / 0.4);
   }
 
+  .btn-primary:hover {
+    background-image: linear-gradient(105deg, #5f19ca 0%, #8b3fc4 50%, #cc1f97 100%);
+    box-shadow:
+      0 18px 34px -10px rgb(118 40 232 / 0.6),
+      inset 0 1px 0 rgb(255 255 255 / 0.4);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Freccia/icona in pastiglia traslucida: appare solo se la CTA ha già un'icona. */
+  .btn-primary > [data-icon],
+  .btn-primary > svg {
+    @apply ml-0 mr-0 shrink-0;
+    box-sizing: border-box;
+    width: 34px;
+    height: 34px;
+    padding: 8px;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.22);
+  }
+
+  /* CTA Secondary — fondo bianco/trasparente, bordo e testo viola. */
   .btn-secondary {
-    @apply btn;
+    @apply btn border-primary text-primary font-semibold hover:bg-brand-surface hover:border-primary hover:text-primary dark:text-violet-300 dark:border-violet-400/60 dark:hover:bg-primary/20 dark:hover:border-violet-300;
+    background-color: #fff;
+    border-width: 1.5px;
   }
 
-  /* ✔️ Schiarita in dark */
+  .btn-secondary:hover {
+    transform: translateY(-1px);
+  }
+
+  :is(.dark) .btn-secondary {
+    background-color: transparent;
+  }
+
+  /* CTA Tertiary — solo testo viola con underline a gradiente. */
   .btn-tertiary {
-    @apply btn border-none shadow-none text-muted hover:text-gray-900
-           dark:text-gray-300 dark:hover:text-white;
+    /* `Button.astro` applica `btn btn-tertiary`: qui neutralizziamo il contenitore di `.btn`. */
+    @apply inline-flex items-center gap-2 border-none bg-transparent p-0 font-semibold text-primary hover:bg-transparent hover:border-transparent dark:hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 dark:text-violet-300 dark:hover:text-violet-200 cursor-pointer;
+    min-height: 0;
+    border-radius: 4px;
+    padding: 4px 1px 5px;
+    background-image: linear-gradient(105deg, #7628e8, #e72aae);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 2px;
+    transition:
+      background-size 0.22s ease,
+      color 0.18s ease;
+  }
+
+  .btn-tertiary:hover {
+    background-size: 100% 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: none;
+    }
+  }
+
+  /* ─────────────────────────────────────────────────────────
+     Modificatori di taglia. Vanno dichiarati DOPO le varianti:
+     a parità di specificità vince l'ultima regola, quindi
+     sovrascrivono il `min-height: 52px` ereditato da `.btn`.
+
+     Lo standard 52px resta per le CTA commerciali; i controlli
+     tecnici (banner consensi, toolbar, azioni secondarie di UI)
+     usano `.btn-compact`, i pulsanti solo icona `.btn-icon`.
+     ───────────────────────────────────────────────────────── */
+  .btn-compact {
+    min-height: 44px;
+    border-radius: 12px;
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .btn-icon {
+    min-height: 0;
+    padding: 0;
+    /* La dimensione la decide il componente (es. h-11 w-11). */
   }
 
   /* Input */
@@ -75,7 +171,12 @@
 
   /* Pulsante di invio */
   .btn-submit {
-    @apply w-full bg-primary text-white font-bold py-3 px-4 rounded-md transition hover:bg-secondary;
+    @apply w-full text-white font-bold py-3 px-4 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
+    background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+  }
+
+  .btn-submit:hover {
+    background-image: linear-gradient(105deg, #5f19ca 0%, #8b3fc4 50%, #cc1f97 100%);
   }
 }
 
@@ -83,14 +184,43 @@
    Header
    ========================= */
 #header.scroll > div:first-child {
-  @apply bg-page md:bg-white/90 md:backdrop-blur-md;
-  box-shadow: 0 0.375rem 1.5rem 0 rgb(140 152 164 / 13%);
+  background: rgb(251 248 254 / 0.82);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid #ded3ea;
+  box-shadow: 0 0.375rem 1.5rem 0 rgb(118 40 232 / 0.08);
 }
 
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {
-  @apply bg-page md:bg-[#030621e6] border-b border-gray-500/20;
+  background: rgb(13 9 20 / 0.86);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgb(118 40 232 / 0.28);
   box-shadow: none;
+}
+
+/* Link di navigazione: hover e stato attivo viola, nessun blu. */
+#header nav a:hover {
+  color: rgb(var(--aw-color-primary));
+}
+
+.dark #header nav a:hover {
+  color: #fff;
+}
+
+#header .aw-link-active {
+  color: rgb(var(--aw-color-primary));
+  font-weight: 600;
+}
+
+.dark #header .aw-link-active {
+  color: rgb(216 180 254);
+}
+
+#header nav a:focus-visible,
+#header [data-aw-dropdown-toggle]:focus-visible {
+  outline: 2px solid rgb(var(--aw-color-primary));
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
 @media (max-width: 1023px) {
@@ -253,11 +383,44 @@ html.dark .kw{
 }
 
 body.scrolled #header{
- background:rgba(255,255,255,0.85);
- backdrop-filter:blur(8px);
+ background:rgba(251,248,254,0.82);
+ backdrop-filter:blur(14px);
 }
 
 .dark body.scrolled #header{
- background:rgba(2,6,23,0.75);
+ background:rgba(13,9,20,0.86);
+}
+
+/* =========================
+   Widget flottanti vs banner consensi
+   =========================
+   Il banner (#cookie-banner, z-60) e la chat (#ls-chat-widget, z-60) occupano
+   lo stesso angolo: su mobile la chat copriva il pulsante "Accetta".
+   Finché il banner o il modale preferenze sono aperti i widget si ritirano,
+   così i pulsanti di scelta restano sempre raggiungibili.
+   Nessuna modifica alla logica del consenso: si reagisce alla classe `hidden`
+   che il banner già gestisce da sé. */
+#site-assistant-widget,
+#ls-chat-widget,
+#scrollToTop {
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease,
+    transform 0.3s ease;
+}
+
+body:has(#cookie-banner:not(.hidden)) :is(#site-assistant-widget, #ls-chat-widget, #scrollToTop),
+body:has(#cookie-modal:not(.hidden)) :is(#site-assistant-widget, #ls-chat-widget, #scrollToTop) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #site-assistant-widget,
+  #ls-chat-widget,
+  #scrollToTop {
+    transition: none;
+  }
 }
 

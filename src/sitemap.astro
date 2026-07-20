@@ -57,7 +57,7 @@ const metadata = {
         <ul class="space-y-2">
           {staticPages.map((page) => (
             <li>
-              <a href={page.url} class="text-blue-600 hover:underline">{page.title}</a>
+              <a href={page.url} class="text-primary hover:underline">{page.title}</a>
             </li>
           ))}
         </ul>
@@ -72,7 +72,7 @@ const metadata = {
             const slug = (post as any).data?.slug?.trim?.() || (post as any).slug || post.id;
             return (
               <li>
-                <a href={`/blog/${slug}`} class="text-blue-600 hover:underline">
+                <a href={`/blog/${slug}`} class="text-primary hover:underline">
                   {post.data.title}
                 </a>
               </li>
@@ -92,7 +92,7 @@ const metadata = {
               (item.data as any)?.permalink?.trim?.() || `/portfolio/${slug}`;
             return (
               <li>
-                <a href={href} class="text-blue-600 hover:underline">
+                <a href={href} class="text-primary hover:underline">
                   {item.data.title}
                 </a>
               </li>
@@ -124,7 +124,7 @@ const metadata = {
                 <li>
                   <a
                     href={`/local/${c.routeSlug}`}
-                    class="text-blue-600 hover:underline"
+                    class="text-primary hover:underline"
                   >
                     {c.name}
                   </a>

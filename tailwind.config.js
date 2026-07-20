@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--aw-color-primary)',
-        secondary: 'var(--aw-color-secondary)',
-        accent: 'var(--aw-color-accent)',
+        primary: 'rgb(var(--aw-color-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--aw-color-secondary) / <alpha-value>)',
+        accent: 'rgb(var(--aw-color-accent) / <alpha-value>)',
         default: 'var(--aw-color-text-default)',
         muted: 'var(--aw-color-text-muted)',
         brand: {
@@ -17,6 +17,7 @@ export default {
           blue: 'rgb(var(--brand-blue) / <alpha-value>)',
           ink: 'rgb(var(--brand-ink) / <alpha-value>)',
           surface: 'rgb(var(--brand-surface) / <alpha-value>)',
+          magenta: 'rgb(var(--brand-magenta) / <alpha-value>)',
         },
       },
       fontFamily: {

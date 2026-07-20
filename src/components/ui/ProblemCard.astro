@@ -1,0 +1,237 @@
+---
+/**
+ * ProblemCard — card "Aurora Glass" della sezione problemi della homepage.
+ *
+ * Struttura identica per le quattro card ("Un sito web che non solo ti presenta"):
+ * icona, titolo, descrizione e CTA terziaria allineata in basso.
+ *
+ * Palette locale (viola → fucsia), coerente con HeroHome.astro ma confinata al
+ * componente: nessun token globale toccato.
+ */
+
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  title: string;
+  description: string;
+  href: string;
+  ctaLabel: string;
+  /** Nome icona astro-icon, es. `tabler:message-2`. */
+  icon: string;
+}
+
+const { title, description, href, ctaLabel, icon } = Astro.props;
+---
+
+<article class="pcard">
+  <span class="pcard-line" aria-hidden="true"></span>
+
+  <span class="pcard-icon" aria-hidden="true">
+    <Icon name={icon} class="h-5 w-5" />
+    <span class="pcard-dot"></span>
+  </span>
+
+  <h3 class="pcard-title">{title}</h3>
+  <p class="pcard-text">{description}</p>
+
+  <a href={href} class="pcard-cta">
+    <span class="pcard-cta-label">{ctaLabel}</span>
+    <Icon name="tabler:arrow-right" class="pcard-arrow h-4 w-4 shrink-0" aria-hidden="true" />
+  </a>
+</article>
+
+<style>
+  .pcard {
+    /* Palette locale, allineata alla hero. */
+    --pc-violet: 118 40 232; /* #7628E8 */
+    --pc-mid: 162 83 218; /* #A253DA */
+    --pc-magenta: 231 42 174; /* #E72AAE */
+    --pc-lilac: 245 240 251; /* #F5F0FB */
+    --pc-line: 222 211 234; /* #DED3EA */
+    --pc-ink: 33 24 49; /* #211831 */
+    --pc-soft: 94 86 107; /* #5E566B */
+
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 22px;
+    border: 1px solid rgb(var(--pc-line));
+    background: #fff;
+    padding: 28px;
+    box-shadow: 0 10px 30px -18px rgb(var(--pc-ink) / 0.2);
+    transition:
+      transform 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  @media (min-width: 768px) {
+    .pcard {
+      padding: 30px;
+    }
+  }
+
+  /* Linea Aurora sul bordo superiore. */
+  .pcard-line {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+    opacity: 0.55;
+    transition: opacity 0.25s ease;
+  }
+
+  /* ── Icona ─────────────────────────────────────────── */
+  .pcard-icon {
+    position: relative;
+    display: inline-flex;
+    height: 44px;
+    width: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgb(var(--pc-lilac));
+    color: rgb(var(--pc-violet));
+    transition: transform 0.25s ease;
+  }
+
+  .pcard-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    height: 5px;
+    width: 5px;
+    border-radius: 9999px;
+    background: rgb(var(--pc-magenta));
+    opacity: 0.7;
+  }
+
+  /* ── Testo ─────────────────────────────────────────── */
+  .pcard-title {
+    margin-top: 18px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: rgb(var(--pc-ink));
+  }
+
+  .pcard-text {
+    margin-top: 10px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgb(var(--pc-soft));
+  }
+
+  /* ── CTA terziaria ─────────────────────────────────── */
+  .pcard-cta {
+    margin-top: auto;
+    padding-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: rgb(var(--pc-violet));
+  }
+
+  .pcard-cta-label {
+    position: relative;
+    padding-bottom: 2px;
+  }
+
+  /* Underline a gradiente che si espande in hover. */
+  .pcard-cta-label::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 1.5px;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+    transition: transform 0.25s ease;
+  }
+
+  .pcard-arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .pcard-cta:focus-visible {
+    outline: 2px solid rgb(var(--pc-violet));
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+
+  /* ── Microinterazioni: solo con puntatore fine ─────── */
+  @media (hover: hover) and (pointer: fine) {
+    .pcard:hover {
+      transform: translateY(-4px);
+      border-color: rgb(var(--pc-violet) / 0.35);
+      box-shadow:
+        0 18px 40px -22px rgb(var(--pc-violet) / 0.45),
+        0 0 0 1px rgb(var(--pc-magenta) / 0.08);
+    }
+
+    .pcard:hover .pcard-line {
+      opacity: 1;
+    }
+
+    .pcard:hover .pcard-icon {
+      transform: translateY(-2px) rotate(-3deg);
+    }
+
+    .pcard:hover .pcard-cta-label::after,
+    .pcard-cta:focus-visible .pcard-cta-label::after {
+      transform: scaleX(1);
+    }
+
+    .pcard:hover .pcard-arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pcard,
+    .pcard-line,
+    .pcard-icon,
+    .pcard-arrow,
+    .pcard-cta-label::after {
+      transition: none;
+    }
+
+    .pcard:hover {
+      transform: none;
+    }
+
+    .pcard:hover .pcard-icon,
+    .pcard:hover .pcard-arrow {
+      transform: none;
+    }
+  }
+
+  /* ── Dark mode: stessa struttura, superfici scure ──── */
+  :global(.dark) .pcard {
+    border-color: rgb(255 255 255 / 0.12);
+    background: rgb(15 23 42);
+    box-shadow: 0 10px 30px -18px rgb(0 0 0 / 0.6);
+  }
+
+  :global(.dark) .pcard-title {
+    color: #fff;
+  }
+
+  :global(.dark) .pcard-text {
+    color: rgb(203 213 225);
+  }
+
+  :global(.dark) .pcard-icon {
+    background: rgb(var(--pc-violet) / 0.18);
+    color: rgb(216 180 254);
+  }
+
+  :global(.dark) .pcard-cta {
+    color: rgb(216 180 254);
+  }
+</style>

@@ -24,16 +24,16 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 
         <!-- ✅ Mobile compact: griglia, bottoni piccoli -->
         <div class="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-end md:gap-2">
-          <button id="cookie-reject" class="btn-secondary w-full !py-2 !px-3 text-sm">
+          <button id="cookie-reject" class="btn-secondary btn-compact w-full !py-2 !px-3 text-sm">
             Rifiuta
           </button>
 
-          <button id="cookie-prefs" class="btn-secondary w-full !py-2 !px-3 text-sm">
+          <button id="cookie-prefs" class="btn-secondary btn-compact w-full !py-2 !px-3 text-sm">
             Preferenze
           </button>
 
           <!-- su mobile occupa 2 colonne: decisione principale chiara, ma non “gigante” -->
-          <button id="cookie-accept" class="btn-primary col-span-2 w-full !py-2.5 !px-3 text-sm">
+          <button id="cookie-accept" class="btn-primary btn-compact col-span-2 w-full !py-2.5 !px-3 text-sm">
             Accetta
           </button>
         </div>
@@ -60,7 +60,7 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
           </p>
         </div>
 
-        <button id="cookie-close" class="btn-secondary !py-2 !px-3 text-sm">
+        <button id="cookie-close" class="btn-secondary btn-compact !py-2 !px-3 text-sm">
           Chiudi
         </button>
       </div>
@@ -92,7 +92,7 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
       </div>
 
       <div class="mt-4 sm:mt-6 flex justify-end">
-        <button id="cookie-save" class="btn-primary !py-2.5 !px-4 text-sm sm:text-base">
+        <button id="cookie-save" class="btn-primary btn-compact !py-2.5 !px-4 text-sm sm:text-base">
           Salva preferenze
         </button>
       </div>

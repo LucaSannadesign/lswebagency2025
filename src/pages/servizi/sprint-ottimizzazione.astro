@@ -37,7 +37,7 @@ const heroImage = {
     actions={[
       { text: 'Richiedi una valutazione', href: '/contatti', variant: 'primary' },
     ]}
-    gradientClass="from-indigo-600/15 via-violet-500/10 to-transparent dark:from-indigo-500/25 dark:via-violet-400/15"
+    gradientClass="from-violet-600/15 via-violet-500/10 to-transparent dark:from-violet-500/25 dark:via-violet-400/15"
   >
     <span slot="title">Sprint di Ottimizzazione</span>
     <span slot="subtitle">Conversione, performance e misurazione: interventi mirati in 10–15 giorni.</span>
@@ -56,7 +56,7 @@ const heroImage = {
       <!-- Cliniche/Studi -->
       <article id="cliniche-studi" class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
         <div class="flex items-center gap-3 mb-4">
-          <Icon name="tabler:medical-cross" class="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+          <Icon name="tabler:medical-cross" class="w-8 h-8 text-primary dark:text-violet-400" />
           <h3 class="text-xl font-semibold">Cliniche e Studi</h3>
         </div>
         <p class="text-neutral-700 dark:text-neutral-300 mb-4">
@@ -64,19 +64,19 @@ const heroImage = {
         </p>
         <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
           <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
             <span>Ottimizzazione form prenotazioni e CTA</span>
           </li>
           <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
             <span>Velocità e Core Web Vitals</span>
           </li>
           <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
             <span>Setup tracking conversioni (Google Analytics, pixel)</span>
           </li>
           <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
             <span>Ottimizzazione mobile-first</span>
           </li>
         </ul>
@@ -85,7 +85,7 @@ const heroImage = {
       <!-- E-commerce -->
       <article id="ecommerce" class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
         <div class="flex items-center gap-3 mb-4">
-          <Icon name="tabler:shopping-cart" class="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+          <Icon name="tabler:shopping-cart" class="w-8 h-8 text-primary dark:text-violet-400" />
           <h3 class="text-xl font-semibold">E-commerce</h3>
         </div>
         <p class="text-neutral-700 dark:text-neutral-300 mb-4">
@@ -93,19 +93,19 @@ const heroImage = {
         </p>
         <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
           <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
             <span>Ottimizzazione checkout e carrello</span>
           </li>
           <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
             <span>Performance pagine prodotto e categoria</span>
           </li>
           <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
             <span>Setup e-commerce tracking (GA4, conversioni)</span>
           </li>
           <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
             <span>Ottimizzazione immagini e caricamento</span>
           </li>
         </ul>
@@ -154,12 +154,12 @@ const heroImage = {
           },
         ].map((deliverable) => (
           <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
-            <Icon name={deliverable.icon} class="w-8 h-8 text-indigo-600 dark:text-indigo-400 mb-3" />
+            <Icon name={deliverable.icon} class="w-8 h-8 text-primary dark:text-violet-400 mb-3" />
             <h3 class="font-semibold text-lg mb-4">{deliverable.title}</h3>
             <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
               {deliverable.items.map((item) => (
                 <li class="flex gap-2">
-                  <Icon name="tabler:check" class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                  <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -189,7 +189,7 @@ const heroImage = {
       ].map((step) => (
         <div class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
           <div class="flex items-center gap-2 mb-2">
-            <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-indigo-600 text-white font-bold text-sm">
+            <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-primary text-white font-bold text-sm">
               {step.n}
             </span>
             <h3 class="font-semibold text-sm">{step.title}</h3>
@@ -268,7 +268,7 @@ const heroImage = {
 
   <!-- CTA FINALE -->
   <section class="container mx-auto px-6 pb-16">
-    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-indigo-950 via-neutral-900 to-violet-950 text-white">
+    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-950 via-neutral-900 to-violet-950 text-white">
       <div class="max-w-3xl">
         <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Pronto a ottimizzare conversione e performance?</h2>
         <p class="text-lg text-white/80 leading-relaxed mb-6">

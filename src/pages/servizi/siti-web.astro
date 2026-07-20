@@ -16,7 +16,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 <Layout metadata={metadata}>
   <!-- HERO -->
   <section class="relative overflow-hidden isolate">
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-blue-100/80 via-white to-white dark:from-blue-900/30 dark:via-transparent"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100/80 via-white to-white dark:from-violet-900/30 dark:via-transparent"></div>
     <div class="container mx-auto px-6 pt-16 md:pt-20 pb-14">
       <div class="grid md:grid-cols-2 gap-10 items-center">
         <div>
@@ -24,7 +24,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             <span class="block text-neutral-900 dark:text-white">
               Siti web strategici
             </span>
-            <span class="block text-blue-600 dark:text-blue-400">
+            <span class="block text-primary dark:text-violet-400">
               per acquisire e gestire richieste clienti
             </span>
           </h1>
@@ -38,14 +38,14 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             Se operi a Sassari, consulta la
             <a
               href="/servizi/creazione-siti-web-sassari"
-              class="font-medium text-blue-600 dark:text-blue-400 underline underline-offset-2 hover:text-blue-700 dark:hover:text-blue-300"
+              class="font-medium text-primary dark:text-violet-400 underline underline-offset-2 hover:text-primary dark:hover:text-violet-300"
             >
               pagina dedicata alla realizzazione siti web a Sassari
             </a>.
           </p>
 
           <div class="mt-8 flex flex-col sm:flex-row gap-3">
-            <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg transition">
+            <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-primary hover:bg-secondary rounded-full shadow-lg transition">
               Richiedi analisi del progetto
               <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
             </a>
@@ -123,7 +123,7 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
         },
       ].map((item) => (
         <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-          <Icon name={item.icon} class="w-10 h-10 text-blue-600 dark:text-blue-400 mb-4" />
+          <Icon name={item.icon} class="w-10 h-10 text-primary dark:text-violet-400 mb-4" />
           <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
           <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
         </article>
@@ -184,19 +184,19 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
 
   <!-- CTA FINALE -->
   <section class="container mx-auto px-6 py-16">
-    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 text-white">
+    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-600 via-violet-600 to-violet-700 text-white">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Vuoi un sito web che gestisca davvero le richieste?</h2>
-        <p class="text-lg text-blue-100 mb-8">
+        <p class="text-lg text-violet-100 mb-8">
           Raccontaci obiettivi, tipologia di clienti e come gestisci oggi i contatti: ti rispondiamo con un’analisi
           del progetto e una proposta di sito strategico su misura.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white hover:bg-blue-50 rounded-full shadow-lg transition">
+          <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-primary bg-white hover:bg-violet-50 rounded-full shadow-lg transition">
             Richiedi analisi del progetto
             <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
           </a>
-          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-blue-700/50 hover:bg-blue-700 border-2 border-white/30 rounded-full transition">
+          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-secondary/50 hover:bg-secondary border-2 border-white/30 rounded-full transition">
             <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
             Scrivici su WhatsApp
           </a>

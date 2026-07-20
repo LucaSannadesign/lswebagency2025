@@ -1,0 +1,444 @@
+---
+/**
+ * DigitalFlow — diagramma del percorso di acquisizione contatti.
+ *
+ * Traffico → Landing page → Richiesta acquisita → CRM e follow-up
+ *
+ * I valori numerici sono DIMOSTRATIVI: spiegano il funzionamento del sistema,
+ * non rappresentano risultati reali o metriche di clienti.
+ *
+ * Leggibile senza JavaScript (lo stato di default è quello finale) e conforme a
+ * prefers-reduced-motion. L'animazione è interamente in CSS: il piccolo script
+ * si limita ad attivarla quando la card entra nel viewport.
+ */
+
+const NODES = [
+  { label: 'Traffico', micro: 'Visitatori dal web', data: 'source: website', count: '128' },
+  { label: 'Landing page', micro: 'Modulo compilato', data: 'form: submitted', count: '34' },
+  { label: 'Richiesta acquisita', micro: 'Contatto qualificato', data: 'status: qualified', count: '12' },
+  { label: 'CRM e follow-up', micro: 'Azione programmata', data: 'priority: medium', count: '12' },
+];
+
+const CHIPS = ['Modulo collegato', 'Tracking attivo', 'Follow-up pronto'];
+---
+
+<figure class="flow m-0">
+  <div class="flow-card">
+    <!-- Intestazione -->
+    <div class="flex items-center justify-between gap-3 flow-divider pb-3.5">
+      <span class="inline-flex items-center gap-2 flow-strong text-sm font-semibold tracking-tight">
+        <span class="flow-live h-2 w-2 shrink-0 rounded-full bg-emerald-500" aria-hidden="true"></span>
+        Come funziona il sistema
+      </span>
+      <span class="flow-muted text-[10.5px] font-medium uppercase tracking-wider">Esempio</span>
+    </div>
+
+    <!-- Percorso -->
+    <ol class="flow-list relative m-0 list-none px-0 pb-1 pt-5">
+      <span class="flow-track" aria-hidden="true">
+        <span class="flow-fill"></span>
+        <span class="flow-pulse-wrap"><span class="flow-pulse"></span></span>
+      </span>
+
+      {
+        NODES.map((node, i) => (
+          <li class="flow-row" style={`--i:${i}`}>
+            <span class="flow-marker" aria-hidden="true"><span class="flow-dot" /></span>
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                <span class="flow-strong text-[13.5px] font-semibold tracking-tight">
+                  {node.label}
+                </span>
+                <span class="flow-badge">{node.data}</span>
+              </div>
+              <div class="flow-muted mt-0.5 text-xs">{node.micro}</div>
+            </div>
+            <span class="flow-count text-[12.5px] tabular-nums">{node.count}</span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <!-- Chip -->
+    <div class="mt-1.5 flex flex-wrap items-center gap-2 flow-divider flow-divider--top pt-3.5">
+      {
+        CHIPS.map((chip) => (
+          <span class="flow-chip">
+            <span class="flow-chip-dot h-1.5 w-1.5 shrink-0 rounded-full" aria-hidden="true" />
+            {chip}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+
+  <figcaption class="flow-muted mt-3 text-center text-xs leading-relaxed lg:text-left">
+    Esempio dimostrativo del flusso. I valori non rappresentano dati reali.
+  </figcaption>
+</figure>
+
+<style>
+  .flow {
+    /* Ciclo e pausa come nel design di riferimento. */
+    --cycle: 6s;
+    --period: 7.4s;
+    --row-h: 62px;
+    --hero-violet: 118 40 232; /* #7628E8 */
+    --hero-magenta: 231 42 174; /* #E72AAE */
+    --hero-purple-mid: 162 83 218; /* #A253DA */
+    --hero-ink: 33 24 49; /* #211831 */
+    --hero-soft: 94 86 107; /* #5E566B */
+    --hero-line: 222 211 234; /* #DED3EA */
+  }
+
+  /* ── Testo, separatori e accenti ───────────────────── */
+  .flow-strong {
+    color: rgb(var(--hero-ink));
+  }
+
+  .flow-muted {
+    color: rgb(var(--hero-soft));
+  }
+
+  /* Valore numerico a riposo; da acceso segue il colore del nodo. */
+  .flow-count {
+    color: rgb(var(--hero-soft));
+  }
+
+  .flow-chip-dot {
+    background: rgb(var(--hero-violet));
+  }
+
+  .flow-divider {
+    border-bottom: 1px solid rgb(var(--hero-line));
+  }
+
+  .flow-divider--top {
+    border-bottom: 0;
+    border-top: 1px solid rgb(var(--hero-line));
+  }
+
+  :global(.dark) .flow-strong {
+    color: #fff;
+  }
+
+  :global(.dark) .flow-muted,
+  :global(.dark) .flow-count {
+    color: rgb(148 163 184);
+  }
+
+  :global(.dark) .flow-chip-dot {
+    background: rgb(216 180 254);
+  }
+
+  :global(.dark) .flow-divider,
+  :global(.dark) .flow-divider--top {
+    border-color: rgb(51 65 85);
+  }
+
+  /* ── Pannello ──────────────────────────────────────── */
+  .flow-card {
+    position: relative;
+    border-radius: 18px;
+    border: 1px solid rgb(var(--hero-line));
+    background: rgb(255 255 255 / 0.72);
+    padding: 20px 22px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+      0 24px 60px rgb(var(--hero-ink) / 0.1),
+      0 2px 8px rgb(var(--hero-ink) / 0.05);
+  }
+
+  :global(.dark) .flow-card {
+    border-color: rgb(255 255 255 / 0.1);
+    background: rgb(15 23 42 / 0.72);
+    box-shadow:
+      0 24px 60px rgb(0 0 0 / 0.45),
+      0 2px 8px rgb(0 0 0 / 0.3);
+  }
+
+  /* ── Righe ─────────────────────────────────────────── */
+  .flow-row {
+    /* Il nodo attivo segue il gradiente del binario: viola in alto, fucsia in
+       basso. La prima dichiarazione è il fallback senza color-mix. */
+    --node-on: rgb(var(--hero-purple-mid));
+    --node-on: color-mix(in oklab, rgb(var(--hero-magenta)) calc(var(--i) * 33.33%), rgb(var(--hero-violet)));
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: var(--row-h);
+    padding-left: 30px;
+  }
+
+  .flow-marker {
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    z-index: 2;
+    display: flex;
+    height: 18px;
+    width: 18px;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgb(var(--hero-line));
+    background: rgb(255 255 255);
+  }
+
+  :global(.dark) .flow-marker {
+    border-color: rgb(51 65 85);
+    background: rgb(15 23 42);
+  }
+
+  .flow-dot {
+    height: 9px;
+    width: 9px;
+    border-radius: 50%;
+    /* Stato di default = stato finale: leggibile anche senza JavaScript. */
+    background: var(--node-on);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--node-on) 18%, transparent);
+    transform: scale(1.15);
+  }
+
+  .flow-badge {
+    white-space: nowrap;
+    border-radius: 6px;
+    border: 1px solid rgb(var(--hero-line));
+    background: rgb(var(--hero-violet) / 0.07);
+    padding: 2px 7px;
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    color: rgb(var(--hero-soft));
+  }
+
+  :global(.dark) .flow-badge {
+    border-color: rgb(51 65 85);
+    background: rgb(var(--hero-violet) / 0.22);
+    color: rgb(203 213 225);
+  }
+
+  .flow-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 8px;
+    border: 1px solid rgb(var(--hero-line));
+    background: rgb(var(--hero-violet) / 0.06);
+    padding: 5px 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgb(var(--hero-soft));
+  }
+
+  :global(.dark) .flow-chip {
+    border-color: rgb(51 65 85);
+    background: rgb(var(--hero-violet) / 0.2);
+    color: rgb(203 213 225);
+  }
+
+  /* ── Binario verticale ─────────────────────────────── */
+  .flow-track {
+    position: absolute;
+    left: 9px;
+    /* Dal centro della prima riga al centro dell'ultima. */
+    top: calc(1.25rem + var(--row-h) / 2);
+    bottom: calc(0.25rem + var(--row-h) / 2);
+    width: 2px;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    background: rgb(var(--hero-line));
+  }
+
+  :global(.dark) .flow-track {
+    background: rgb(51 65 85);
+  }
+
+  .flow-fill {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    background: linear-gradient(180deg, rgb(var(--hero-violet)), rgb(var(--hero-purple-mid)) 50%, rgb(var(--hero-magenta)));
+    transform-origin: top;
+  }
+
+  .flow-pulse-wrap {
+    position: absolute;
+    left: 1px;
+    top: 0;
+    height: 100%;
+    width: 0;
+  }
+
+  .flow-pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 12px;
+    width: 12px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow:
+      0 0 0 4px rgb(var(--hero-magenta) / 0.32),
+      0 0 14px rgb(var(--hero-magenta) / 0.6);
+    opacity: 0;
+  }
+
+  /* ── Animazione (attivata via JS quando la card è visibile) ── */
+  @keyframes flow-fill {
+    0% {
+      transform: scaleY(0);
+    }
+    81% {
+      transform: scaleY(1);
+    }
+    99.9% {
+      transform: scaleY(1);
+    }
+    100% {
+      transform: scaleY(0);
+    }
+  }
+
+  @keyframes flow-pulse {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    4% {
+      opacity: 1;
+    }
+    78% {
+      opacity: 1;
+    }
+    81% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  /* Il nodo si accende quando l'impulso lo raggiunge e resta acceso fino al
+     termine del proprio periodo: durante la pausa il percorso è completo. */
+  @keyframes flow-dot {
+    0% {
+      background: rgb(var(--hero-line));
+      box-shadow: 0 0 0 0 transparent;
+      transform: scale(1);
+    }
+    1%,
+    100% {
+      background: var(--node-on);
+      box-shadow: 0 0 0 4px color-mix(in oklab, var(--node-on) 22%, transparent);
+      transform: scale(1.15);
+    }
+  }
+
+  @keyframes flow-emphasis {
+    0% {
+      color: rgb(var(--hero-soft));
+    }
+    1%,
+    100% {
+      color: var(--node-on);
+    }
+  }
+
+  @keyframes flow-live {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.45;
+    }
+  }
+
+  .flow[data-animate] .flow-fill {
+    animation: flow-fill var(--period) linear infinite;
+  }
+
+  .flow[data-animate] .flow-pulse-wrap {
+    animation: flow-pulse var(--period) linear infinite;
+  }
+
+  /* Ogni nodo si accende al passaggio dell'impulso: ritardo = i × ciclo / 3.
+     `backwards` mantiene il nodo spento durante l'attesa iniziale. */
+  .flow[data-animate] .flow-dot {
+    animation: flow-dot var(--period) linear infinite backwards;
+    animation-delay: calc(var(--i) * var(--cycle) / 3);
+  }
+
+  .flow[data-animate] .flow-count {
+    animation: flow-emphasis var(--period) linear infinite backwards;
+    animation-delay: calc(var(--i) * var(--cycle) / 3);
+  }
+
+  .flow[data-animate] .flow-live {
+    animation: flow-live 2.4s ease-in-out infinite;
+  }
+
+  /* ── Mobile stretto: il badge tecnico romperebbe l'altezza riga ── */
+  @media (max-width: 400px) {
+    .flow {
+      --row-h: 58px;
+    }
+
+    .flow-card {
+      padding: 18px;
+    }
+
+    .flow-badge {
+      display: none;
+    }
+  }
+
+  /* ── Accessibilità: nessun movimento, stato finale statico ── */
+  @media (prefers-reduced-motion: reduce) {
+    .flow[data-animate] .flow-fill,
+    .flow[data-animate] .flow-pulse-wrap,
+    .flow[data-animate] .flow-dot,
+    .flow[data-animate] .flow-count,
+    .flow[data-animate] .flow-live {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Attiva l'animazione solo quando la card entra nel viewport e solo se
+  // l'utente non ha chiesto di ridurre il movimento. Senza questo script il
+  // diagramma resta leggibile nel suo stato finale.
+  (() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reduced.matches) return;
+
+    const flows = document.querySelectorAll<HTMLElement>('.flow');
+    if (!flows.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      flows.forEach((flow) => flow.setAttribute('data-animate', ''));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.setAttribute('data-animate', '');
+          io.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    flows.forEach((flow) => io.observe(flow));
+  })();
+</script>

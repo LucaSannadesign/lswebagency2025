@@ -12,9 +12,11 @@ export interface Props {
 
 const {
   label = 'Toggle between Dark and Light mode',
+  // Toggle 44×44, radius 12px, bordo lilla e icona viola (design Cloud Design).
   class:
-    className = 'text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center',
-  iconClass = 'w-6 h-6',
+    className =
+      'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#DED3EA] bg-white text-primary transition-colors hover:bg-brand-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 dark:border-primary/30 dark:bg-white/5 dark:text-violet-300 dark:hover:bg-primary/20 dark:focus-visible:ring-offset-slate-900',
+  iconClass = 'w-5 h-5',
   iconName = 'tabler:sun',
 } = Astro.props;
 ---

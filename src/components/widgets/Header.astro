@@ -93,7 +93,7 @@ const headerItems = sanitize(links);
     <!-- Mobile: pannello compatto (nav + CTA) — desktop: lg:contents lascia il grid invariato -->
     <div
       data-aw-mobile-menu-panel
-      class="hidden lg:contents max-lg:absolute max-lg:top-full max-lg:right-3 max-lg:mt-2 max-lg:z-50 max-lg:w-[min(22rem,calc(100vw-2rem))] max-lg:max-h-[min(70vh,calc(100dvh-5rem))] max-lg:overflow-y-auto max-lg:rounded-2xl max-lg:border max-lg:border-neutral-200 max-lg:dark:border-neutral-700 max-lg:bg-white/95 max-lg:dark:bg-neutral-900/95 max-lg:shadow-xl max-lg:backdrop-blur-md"
+      class="hidden lg:contents max-lg:absolute max-lg:top-full max-lg:right-3 max-lg:mt-2 max-lg:z-50 max-lg:w-[min(22rem,calc(100vw-2rem))] max-lg:max-h-[min(70vh,calc(100dvh-5rem))] max-lg:overflow-y-auto max-lg:rounded-2xl max-lg:border max-lg:border-[#DED3EA] max-lg:dark:border-primary/30 max-lg:bg-[#FBF8FE]/95 max-lg:dark:bg-[#0D0914]/95 max-lg:shadow-xl max-lg:backdrop-blur-md"
     >
     <!-- Center: nav -->
     <nav
@@ -170,7 +170,7 @@ const headerItems = sanitize(links);
     <div
       class:list={[
         { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'flex flex-col lg:flex lg:flex-row items-stretch lg:items-center w-full lg:w-auto justify-end max-lg:border-t max-lg:border-neutral-200 max-lg:dark:border-neutral-700 max-lg:p-3 lg:p-0 lg:justify-self-end',
+        'flex flex-col lg:flex lg:flex-row items-stretch lg:items-center w-full lg:w-auto justify-end max-lg:border-t max-lg:border-[#DED3EA] max-lg:dark:border-primary/30 max-lg:p-3 lg:p-0 lg:justify-self-end',
       ]}
     >
       <div class="hidden lg:flex items-center w-full lg:w-auto justify-between">
@@ -181,7 +181,7 @@ const headerItems = sanitize(links);
         {actions.length > 0 && (
           <span class="ml-4 lg:ml-0">
             {actions.map((btn) => (
-              <Button {...btn} class="ml-2 py-2.5 px-5.5 lg:px-6 font-semibold text-sm shadow-none" />
+              <Button {...btn} class="ml-2 px-6 font-semibold text-[15px]" />
             ))}
           </span>
         )}
@@ -190,7 +190,7 @@ const headerItems = sanitize(links);
       {actions.length > 0 && (
         <div class="lg:hidden w-full pt-1">
           {actions.map((btn) => (
-            <Button {...btn} class="w-full justify-center py-2.5 px-5.5 font-semibold text-sm shadow-none" />
+            <Button {...btn} class="w-full justify-center px-6 font-semibold text-[15px]" />
           ))}
         </div>
       )}
