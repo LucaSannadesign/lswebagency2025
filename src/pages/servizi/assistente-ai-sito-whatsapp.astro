@@ -1,19 +1,12 @@
 ---
 // src/pages/servizi/assistente-ai-sito-whatsapp.astro
 import Layout from '@/layouts/PageLayout.astro';
-import MiniAnalisi from '@/components/MiniAnalisi';
 import AssistantDemo from '@/components/AssistantDemo';
 
-// Link WhatsApp per il passaggio umano: mostrato solo se la env è configurata.
-const waNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '';
-const whatsappUrl = waNumber
-  ? `https://wa.me/${waNumber}?text=${encodeURIComponent('Ciao LS Web Agency, vorrei informazioni sull’assistente AI.')}`
-  : undefined;
-
 const metadata = {
-  title: 'Assistente AI (Sito & WhatsApp) — Risposte 24/7 per PMI',
+  title: 'Assistente AI per sito e WhatsApp — LS Web Agency',
   description:
-    'Meno telefonate ripetitive, più clienti. L’Assistente AI risponde 24/7 su sito e WhatsApp a orari, prezzi, disponibilità e inoltra a umano quando serve. Demo su misura.',
+    'Un assistente configurato sui contenuti della tua attività: risponde alle domande frequenti anche fuori orario, raccoglie le richieste e facilita il passaggio a una persona quando serve.',
   canonical: '/servizi/assistente-ai-sito-whatsapp',
 };
 ---
@@ -25,29 +18,29 @@ const metadata = {
     <div class="container mx-auto px-6 pt-16 pb-12 text-center">
       <h1
   class="text-4xl md:text-6xl font-extrabold tracking-tight
-         text-neutral-900 dark:text-white            /* fallback */
+         text-neutral-900 dark:text-white
          bg-gradient-to-r from-neutral-900 via-purple-700 to-fuchsia-500
          dark:from-neutral-100 dark:via-fuchsia-400 dark:to-pink-300
          bg-clip-text
          supports-[background-clip:text]:text-transparent
          supports-[-webkit-background-clip:text]:text-transparent">
-  Rispondi ai clienti anche quando non puoi farlo tu
+  Assistente AI per sito e WhatsApp, con controllo umano
 </h1>
       <p class="mt-4 max-w-3xl mx-auto text-base md:text-lg text-neutral-600 dark:text-neutral-300">
-        Un assistente per sito e WhatsApp che risponde alle domande frequenti, raccoglie le richieste e passa la conversazione a una persona quando serve.
+        Configurato sui contenuti della tua attività, risponde alle domande frequenti, raccoglie le richieste e facilita il passaggio a una persona quando serve.
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
         <a href="#demo-assistente" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-violet-600 hover:bg-violet-700 transition">
-          Prova l’assistente
+          Prova la demo
         </a>
         <a href="/contatti?servizio=assistente-ai" class="inline-flex items-center justify-center rounded-full px-5 py-3 text-white bg-black hover:opacity-90 transition">
-          Parla con una persona
+          Richiedi una valutazione
         </a>
       </div>
 
       <!-- Micro-trust -->
       <p class="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
-        Configurazione su misura · controllo umano · adatto a professionisti e PMI
+        Modulo configurabile del sistema digitale · controllo umano · adatto a professionisti e PMI
       </p>
     </div>
   </section>
@@ -65,39 +58,20 @@ const metadata = {
     </div>
   </section>
 
-  <!-- ASSISTENTE GUIDATO -->
-  <section id="assistente" class="container mx-auto px-6 pt-4 pb-10 scroll-mt-24">
-    <div class="max-w-2xl mx-auto text-center mb-6">
-      <h2 class="text-2xl md:text-3xl font-bold">Trova la soluzione adatta in 1 minuto</h2>
-      <p class="mt-2 text-neutral-600 dark:text-neutral-300">
-        Rispondi a poche domande: ti propongo il servizio più adatto, una fascia orientativa e i prossimi passi. Nessun preventivo vincolante.
-      </p>
-    </div>
-    <div class="max-w-2xl mx-auto">
-      <MiniAnalisi
-        variant="assistant"
-        source="assistente_ai"
-        context="servizio-assistente-ai"
-        whatsappUrl={whatsappUrl}
-        client:load
-      />
-    </div>
-  </section>
-
   <!-- BENEFICI -->
   <section class="container mx-auto px-6 pt-6 pb-2">
     <div class="grid md:grid-cols-3 gap-5">
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
-        <h3 class="font-semibold text-lg mb-2">Tempi di risposta</h3>
-        <p class="text-neutral-600 dark:text-neutral-300">I clienti che scrivono la sera o nel weekend non aspettano: l’assistente risponde subito e non perdi opportunità.</p>
+        <h3 class="font-semibold text-lg mb-2">Risposte automatiche anche fuori orario</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Chi scrive la sera o nel weekend riceve una risposta automatica sulle domande frequenti, con la richiesta registrata per il ricontatto.</p>
       </div>
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
-        <h3 class="font-semibold text-lg mb-2">Domande ripetitive</h3>
-        <p class="text-neutral-600 dark:text-neutral-300">Orari, prezzi, indirizzo, parcheggio, disponibilità… gestite 24/7 senza intasare WhatsApp.</p>
+        <h3 class="font-semibold text-lg mb-2">Richieste raccolte con ordine</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Le richieste arrivano con i dati necessari al ricontatto, invece di restare sparse tra canali diversi.</p>
       </div>
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
-        <h3 class="font-semibold text-lg mb-2">Funnel chiaro</h3>
-        <p class="text-neutral-600 dark:text-neutral-300">Dal primo contatto alla prenotazione: meno passaggi, più conversioni, handover a umano quando serve.</p>
+        <h3 class="font-semibold text-lg mb-2">Passaggio umano configurabile</h3>
+        <p class="text-neutral-600 dark:text-neutral-300">Le regole di inoltro a una persona vengono definite insieme: parole chiave, argomenti o richiesta esplicita dell’utente.</p>
       </div>
     </div>
   </section>
@@ -107,12 +81,12 @@ const metadata = {
     <h2 class="text-2xl md:text-3xl font-bold mb-6">Cosa fa (in concreto)</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {[
-        {t:'FAQ 24/7 su sito e WhatsApp',d:'Orari, prezzi, disponibilità, policy: risposta immediata e coerente.'},
-        {t:'Verifica disponibilità',d:'Flow guidati e inoltro smart a umano su WhatsApp quando opportuno.'},
-        {t:'Tono di brand',d:'Linguaggio su misura e “contesto” aggiornabile con facilità.'},
-        {t:'Log conversazioni',d:'Migliori le risposte nel tempo con dati reali.'},
-        {t:'Privacy by design',d:'Minimizzazione dati, nessun training su dati sensibili, retention impostabile.'},
-        {t:'Integrazione leggera',d:'Widget sul sito + link/WA Business. Niente plugin pesanti.'},
+        {t:'FAQ su sito e WhatsApp',d:'Orari, sedi, servizi, modalità di contatto: risposte coerenti con i contenuti che fornisci.'},
+        {t:'Raccolta delle richieste',d:'Le richieste vengono registrate in modo ordinato, con i recapiti necessari al ricontatto.'},
+        {t:'Passaggio a una persona',d:'Regole configurabili per indirizzare la conversazione ai contatti o a WhatsApp.'},
+        {t:'Tono di voce',d:'Linguaggio e contesto impostati sui materiali della tua attività, aggiornabili nel tempo.'},
+        {t:'Log delle conversazioni',d:'Le conversazioni registrate permettono di rivedere e correggere le risposte.'},
+        {t:'Integrazione sul sito',d:'Widget leggero sul sito. Il canale WhatsApp dipende dal tipo di utilizzo.'},
       ].map(item => (
         <div class="rounded-2xl p-6 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-900/40 dark:to-neutral-900 ring-1 ring-neutral-200 dark:ring-neutral-800 shadow-sm">
           <div class="mb-2 font-semibold">{item.t}</div>
@@ -129,8 +103,8 @@ const metadata = {
       {[
         ['Onboarding','Invia FAQ reali, link, listino/menu, policy, orari.'],
         ['Configurazione','Creiamo la base di conoscenza e i flussi di inoltro.'],
-        ['Integrazione & test','Widget sul sito + canale WhatsApp; test su casi reali.'],
-        ['Go-live & tuning','Monitor, log, miglioramenti continui.'],
+        ['Integrazione & test','Widget sul sito ed eventuale canale WhatsApp; test su casi reali.'],
+        ['Go-live & tuning','Monitoraggio, log e correzioni delle risposte.'],
       ].map(([title,desc],i)=>(
         <div class="relative rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
           <div class="flex items-center gap-2 mb-2">
@@ -143,147 +117,80 @@ const metadata = {
     </div>
   </section>
 
-  <!-- STATS -->
+  <!-- CAPACITÀ -->
   <section class="container mx-auto px-6 py-8">
     <div class="grid sm:grid-cols-3 gap-4 text-center">
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
-        <div class="text-3xl font-extrabold">−30%</div>
-        <div class="text-sm text-neutral-600 dark:text-neutral-300">chiamate ripetitive</div>
+        <div class="font-semibold text-lg">FAQ sempre disponibili</div>
+        <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Le domande frequenti ricevono una risposta automatica in qualsiasi momento.</div>
       </div>
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
-        <div class="text-3xl font-extrabold">+↑</div>
-        <div class="text-sm text-neutral-600 dark:text-neutral-300">prenotazioni/lead qualificati</div>
+        <div class="font-semibold text-lg">Richieste raccolte con ordine</div>
+        <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Ogni richiesta viene registrata con i dati utili al ricontatto.</div>
       </div>
       <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
-        <div class="text-3xl font-extrabold">24/7</div>
-        <div class="text-sm text-neutral-600 dark:text-neutral-300">copertura canali</div>
+        <div class="font-semibold text-lg">Controllo e passaggio umano</div>
+        <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Le regole di inoltro a una persona restano sotto il tuo controllo.</div>
       </div>
+    </div>
+
+    <!-- Chiarimento disponibilità -->
+    <div class="mt-6 rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+      <h2 class="text-xl font-bold mb-2">Disponibilità: cosa è automatico e cosa è umano</h2>
+      <p class="text-neutral-600 dark:text-neutral-300">
+        Le risposte automatiche possono essere disponibili in qualsiasi momento. Il passaggio e la risposta umana avvengono negli orari concordati.
+      </p>
     </div>
   </section>
 
-  <!-- INCLUDED IN ALL PLANS -->
-  <section class="container mx-auto px-6 pt-2 pb-4">
-    <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-      <h2 class="text-xl md:text-2xl font-bold mb-4">Incluso in tutti i piani</h2>
-      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm text-neutral-700 dark:text-neutral-300">
-        <li>Onboarding guidato (FAQ, policy, materiali)</li>
-        <li>Handover a umano via WhatsApp</li>
-        <li>1 ciclo di tuning iniziale post go-live</li>
-        <li>Widget leggero per il sito (no plugin pesanti)</li>
-        <li>Privacy by design (minimizzazione &amp; retention)</li>
-        <li>Assistenza via email (tempi standard 1–2 gg lavorativi)</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section id="prezzi" class="container mx-auto px-6 py-10">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Piani &amp; prezzi</h2>
-    <p class="text-neutral-600 dark:text-neutral-300 mb-6"><em>Prezzi indicativi, personalizzabili in base a canali e volumi. IVA esclusa.</em></p>
-    <div class="grid md:grid-cols-3 gap-6">
-
-      <!-- Starter -->
-      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
-        <h3 class="font-semibold text-lg mb-1">Starter</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Sito <em>oppure</em> WhatsApp</p>
-        <div class="mb-4">
-          <div class="text-2xl font-bold">da 300 €</div>
-          <div class="text-sm text-neutral-600 dark:text-neutral-300">gestione da 29 €/mese</div>
-        </div>
-        <ul class="text-sm space-y-1 mb-6">
-          <li>FAQ 24/7 su 1 canale</li>
-          <li>Handover a umano</li>
-          <li>Privacy &amp; log base</li>
-        </ul>
-        <div class="mt-auto flex gap-2">
-          <a
-            href="/contatti?servizio=assistente-ai&pacchetto=starter"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
-                   bg-black text-white hover:opacity-90 transition"
-          >Richiedi Starter</a>
-        </div>
-      </div>
-
-      <!-- Pro (Più scelto) -->
-      <div id="prezzi-pro" class="relative rounded-2xl p-6 ring-2 ring-violet-400 dark:ring-violet-600 bg-gradient-to-b from-white to-violet-50 dark:from-neutral-900 dark:to-violet-900/10 shadow-md flex flex-col">
-        <span class="absolute -top-3 right-4 text-xs font-semibold px-2 py-1 rounded-full bg-violet-600 text-white">Più scelto</span>
-        <h3 class="font-semibold text-lg mb-1">Pro</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Sito + WhatsApp + log avanzati</p>
-        <div class="mb-4">
-          <div class="text-2xl font-bold">da 600 €</div>
-          <div class="text-sm text-neutral-600 dark:text-neutral-300">gestione da 59 €/mese</div>
-        </div>
-        <ul class="text-sm space-y-1 mb-6">
-          <li>FAQ 24/7 su 2 canali</li>
-          <li>Flow disponibilità</li>
-          <li>Log avanzati &amp; tuning</li>
-        </ul>
-
-        <div class="mt-auto flex gap-2">
-          <a
-            href="/contatti?servizio=assistente-ai&pacchetto=pro"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
-                   text-white bg-gradient-to-r from-violet-600 to-pink-500
-                   hover:from-violet-500 hover:to-pink-400
-                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 transition"
-          >Richiedi Pro</a>
-        </div>
-      </div>
-
-      <!-- Plus -->
-      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm flex flex-col">
-        <h3 class="font-semibold text-lg mb-1">Plus</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Flussi su misura + report</p>
-        <div class="mb-4">
-          <div class="text-2xl font-bold">da 900 €</div>
-          <div class="text-sm text-neutral-600 dark:text-neutral-300">gestione da 99 €/mese</div>
-        </div>
-        <ul class="text-sm space-y-1 mb-6">
-          <li>Flow personalizzati</li>
-          <li>Report mensili</li>
-          <li>Supporto prioritario</li>
-        </ul>
-        <div class="mt-auto flex gap-2">
-          <a
-            href="/contatti?servizio=assistente-ai&pacchetto=plus"
-            class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2
-                   bg-black text-white hover:opacity-90 transition"
-          >Richiedi Plus</a>
-        </div>
-      </div>
-
-    </div>
-
-    <p class="mt-6 max-w-5xl text-sm text-neutral-600 dark:text-neutral-400">
-      Il pagamento viene concordato dopo la conferma del servizio e l'accettazione del preventivo.
+  <!-- CONFIGURAZIONE E COSTI -->
+  <section id="configurazione" class="container mx-auto px-6 py-10 scroll-mt-24">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Configurazione e costi</h2>
+    <p class="max-w-3xl text-neutral-600 dark:text-neutral-300">
+      Il perimetro dipende dai canali, dal numero di flussi, dalle integrazioni e dal volume delle richieste. Dopo la valutazione ricevi una proposta che distingue configurazione, eventuali costi di servizi esterni e gestione opzionale.
     </p>
-    <p class="mt-2 max-w-5xl text-sm text-neutral-600 dark:text-neutral-400">
-      Eventuali attività ricorrenti vengono concordate nel preventivo e possono essere interrotte secondo gli accordi stabiliti.
-    </p>
+
+    <div class="mt-6 grid md:grid-cols-2 gap-6">
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-3">Incluso nella configurazione</h3>
+        <ul class="space-y-2 text-neutral-700 dark:text-neutral-300">
+          <li>Analisi delle FAQ e dei contenuti</li>
+          <li>Configurazione delle risposte</li>
+          <li>Raccolta delle richieste</li>
+          <li>Passaggio a una persona</li>
+          <li>Integrazione sul sito</li>
+          <li>Test iniziali</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 shadow-sm">
+        <h3 class="font-semibold text-lg mb-3">Moduli opzionali</h3>
+        <ul class="space-y-2 text-neutral-700 dark:text-neutral-300">
+          <li>WhatsApp e provider esterni</li>
+          <li>CRM</li>
+          <li>Multilingua</li>
+          <li>Flussi personalizzati</li>
+          <li>Report</li>
+          <li>Gestione continuativa</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <a href="/contatti?servizio=assistente-ai" class="inline-flex items-center justify-center rounded-full px-6 py-3 text-white bg-violet-600 hover:bg-violet-700 transition font-semibold">
+        Richiedi una valutazione
+      </a>
+    </div>
   </section>
 
-  <!-- COMPARISON -->
+  <!-- WHATSAPP -->
   <section class="container mx-auto px-6 pt-2 pb-10">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6">Confronto rapido</h2>
-    <div class="overflow-x-auto rounded-2xl ring-1 ring-neutral-200 dark:ring-neutral-800">
-      <table class="min-w-full text-sm">
-        <thead class="bg-neutral-50 dark:bg-neutral-900/50">
-          <tr>
-            <th class="text-left p-4">Caratteristica</th>
-            <th class="text-left p-4">Starter</th>
-            <th class="text-left p-4">Pro</th>
-            <th class="text-left p-4">Plus</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-neutral-200 dark:divide-neutral-800">
-          <tr><td class="p-4">Canali</td><td class="p-4">1 (Sito <em>o</em> WhatsApp)</td><td class="p-4">2 (Sito + WhatsApp)</td><td class="p-4">Su misura</td></tr>
-          <tr><td class="p-4">FAQ 24/7</td><td class="p-4">✓</td><td class="p-4">✓</td><td class="p-4">✓</td></tr>
-          <tr><td class="p-4">Flow disponibilità</td><td class="p-4">—</td><td class="p-4">✓</td><td class="p-4">✓ personalizzati</td></tr>
-          <tr><td class="p-4">Log &amp; tuning</td><td class="p-4">Base</td><td class="p-4">Avanzati</td><td class="p-4">Avanzati + report</td></tr>
-          <tr><td class="p-4">Report mensili</td><td class="p-4">—</td><td class="p-4">—</td><td class="p-4">✓</td></tr>
-          <tr><td class="p-4">SLA supporto</td><td class="p-4">Standard</td><td class="p-4">Standard</td><td class="p-4">Prioritario</td></tr>
-        </tbody>
-      </table>
+    <div class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
+      <h2 class="text-xl md:text-2xl font-bold mb-3">Canale WhatsApp</h2>
+      <ul class="space-y-2 text-neutral-700 dark:text-neutral-300">
+        <li>L’integrazione dipende dal tipo di utilizzo previsto.</li>
+        <li>Possono essere necessarie API o piattaforme esterne.</li>
+        <li>Eventuali costi di terzi vengono indicati separatamente nel preventivo.</li>
+      </ul>
     </div>
   </section>
 
@@ -292,14 +199,14 @@ const metadata = {
     <h2 class="text-2xl md:text-3xl font-bold mb-6">FAQ</h2>
     <div class="space-y-3">
       {[
-        ['L’assistente è multilingua?', 'Sì, può rispondere in più lingue partendo dalle FAQ fornite. Consigliamo comunque una lingua principale.'],
-        ['È conforme al GDPR?', 'Sì: impostiamo policy di retention, minimizzazione dei dati e nessun uso di dati sensibili. Niente training su dati personali dei clienti.'],
-        ['Serve WhatsApp Business API?', 'Dipende dall’uso: per risposte base può bastare WhatsApp Business. Per automazioni avanzate valutiamo insieme API e relativi costi/limiti.'],
-        ['Quando passa a un umano?', 'In base a regole: parole chiave (es. “reclamo”), intenti ad alto rischio o su richiesta esplicita dell’utente.'],
-        ['Cosa include la gestione mensile?', 'Monitoraggio, piccoli aggiustamenti alle risposte/flow, supporto tecnico standard. Migliorie strutturali o nuovi flow sono extra.'],
+        ['L’assistente è multilingua?', 'Può rispondere in più lingue partendo dalle FAQ fornite. Consigliamo comunque una lingua principale.'],
+        ['Come vengono trattati i dati?', 'Il servizio viene configurato applicando minimizzazione dei dati, regole di conservazione e controllo degli accessi. La configurazione definitiva dipende dagli strumenti utilizzati e dai trattamenti del cliente e non costituisce certificazione o consulenza legale.'],
+        ['Serve WhatsApp Business API?', 'Dipende dall’uso: per risposte base può bastare WhatsApp Business. Per automazioni avanzate valutiamo insieme API o piattaforme esterne, con i relativi costi indicati separatamente nel preventivo.'],
+        ['Quando passa a un umano?', 'In base a regole configurabili: parole chiave (es. “reclamo”), argomenti sensibili o richiesta esplicita dell’utente. La risposta umana avviene negli orari concordati.'],
+        ['Cosa include la gestione opzionale?', 'Monitoraggio, piccoli aggiustamenti alle risposte e ai flussi, supporto tecnico standard. Migliorie strutturali o nuovi flussi vengono valutati a parte.'],
         ['Cosa non fa l’assistente?', 'Non prende decisioni legali o mediche, non gestisce pagamenti diretti in chat né sostituisce il servizio clienti umano in casi complessi.'],
-        ['Serve un CRM?', 'No, non è obbligatorio. Possiamo esportare i log oppure integrare un CRM leggero in seguito.'],
-        ['Quanto dura l’attivazione?', '5–10 giorni lavorativi in base alla qualità delle FAQ e dei materiali forniti.'],
+        ['Serve un CRM?', 'No, non è obbligatorio. Possiamo esportare i log oppure integrare un CRM in seguito, come modulo opzionale.'],
+        ['Quanto dura l’attivazione?', 'Indicativamente 5–10 giorni lavorativi, in base alla qualità delle FAQ e dei materiali forniti.'],
       ].map(([q,a]) => (
         <details class="rounded-2xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
           <summary class="font-semibold cursor-pointer">{q}</summary>
@@ -313,16 +220,16 @@ const metadata = {
   <section class="container mx-auto px-6 pb-10">
     <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-950 via-neutral-900 to-fuchsia-950 text-white">
       <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Vuoi un assistente AI su sito e WhatsApp?</h2>
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Vuoi valutare un assistente su sito e WhatsApp?</h2>
         <p class="text-lg text-white/80 leading-relaxed mb-6">
-          Raccontaci come gestisci oggi le richieste: ti proponiamo il piano più adatto e i prossimi passi per andare online.
+          Raccontaci come gestisci oggi le richieste: dopo la valutazione ricevi una proposta con il perimetro e i prossimi passi.
         </p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
           <a href="#demo-assistente" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
-            Prova l’assistente
+            Prova la demo
           </a>
           <a href="/contatti?servizio=assistente-ai" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold border border-white/30 hover:bg-white/10">
-            Parla con una persona
+            Richiedi una valutazione
           </a>
         </div>
       </div>
@@ -332,8 +239,8 @@ const metadata = {
   <!-- Sticky CTA mobile -->
   <div class="fixed bottom-4 inset-x-0 px-4 md:hidden z-40">
     <div class="rounded-full bg-white/90 dark:bg-neutral-900/90 shadow-lg backdrop-blur flex gap-2 p-2 ring-1 ring-neutral-200 dark:ring-neutral-800">
-      <a href="#demo-assistente" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 text-white bg-violet-600 hover:bg-violet-700 transition">Prova</a>
-      <a href="/contatti?servizio=assistente-ai" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-black text-white hover:opacity-90 transition">Contatti</a>
+      <a href="#demo-assistente" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 text-white bg-violet-600 hover:bg-violet-700 transition">Demo</a>
+      <a href="/contatti?servizio=assistente-ai" class="flex-1 inline-flex items-center justify-center rounded-full px-4 py-2 bg-black text-white hover:opacity-90 transition">Valutazione</a>
     </div>
   </div>
 
@@ -342,56 +249,29 @@ const metadata = {
   [{
     "@context":"https://schema.org",
     "@type":"Service",
-    "name":"Assistente AI (Sito & WhatsApp)",
+    "name":"Assistente AI per sito e WhatsApp",
     "areaServed":"IT",
     "provider":{"@type":"Organization","name":"LS Web Agency"},
-    "description":"Assistente AI con risposte 24/7 su sito e WhatsApp per ridurre telefonate ripetitive e aumentare le prenotazioni."
-  },{
-    "@context":"https://schema.org",
-    "@type":"OfferCatalog",
-    "name":"Assistente AI (Sito & WhatsApp) — Piani",
-    "itemListElement":[
-      {
-        "@type":"Offer",
-        "itemOffered":{"@type":"Product","name":"Starter","description":"FAQ 24/7 su 1 canale, handover a umano, privacy & log base."},
-        "priceSpecification":{"@type":"PriceSpecification","price":"300","priceCurrency":"EUR"},
-        "areaServed":"IT",
-        "seller":{"@type":"Organization","name":"LS Web Agency"}
-      },
-      {
-        "@type":"Offer",
-        "itemOffered":{"@type":"Product","name":"Pro","description":"FAQ 24/7 su 2 canali, flow disponibilità, log avanzati & tuning."},
-        "priceSpecification":{"@type":"PriceSpecification","price":"600","priceCurrency":"EUR"},
-        "areaServed":"IT",
-        "seller":{"@type":"Organization","name":"LS Web Agency"}
-      },
-      {
-        "@type":"Offer",
-        "itemOffered":{"@type":"Product","name":"Plus","description":"Flow personalizzati, report mensili, supporto prioritario."},
-        "priceSpecification":{"@type":"PriceSpecification","price":"900","priceCurrency":"EUR"},
-        "areaServed":"IT",
-        "seller":{"@type":"Organization","name":"LS Web Agency"}
-      }
-    ]
+    "description":"Assistente configurato sui contenuti dell’attività: risponde alle domande frequenti, raccoglie le richieste e facilita il passaggio a una persona quando serve. Le risposte automatiche possono essere disponibili in qualsiasi momento; il passaggio e la risposta umana avvengono negli orari concordati."
   },{
     "@context":"https://schema.org",
     "@type":"FAQPage",
     "mainEntity":[
-      {"@type":"Question","name":"L’assistente è multilingua?","acceptedAnswer":{"@type":"Answer","text":"Sì, può rispondere in più lingue partendo dalle FAQ fornite. Consigliamo comunque una lingua principale."}},
-      {"@type":"Question","name":"È conforme al GDPR?","acceptedAnswer":{"@type":"Answer","text":"Sì: impostiamo policy di retention, minimizzazione dei dati e nessun uso di dati sensibili. Niente training su dati personali dei clienti."}},
-      {"@type":"Question","name":"Serve WhatsApp Business API?","acceptedAnswer":{"@type":"Answer","text":"Dipende dall’uso: per risposte base può bastare WhatsApp Business. Per automazioni avanzate valutiamo insieme API e relativi costi/limiti."}},
-      {"@type":"Question","name":"Quando passa a un umano?","acceptedAnswer":{"@type":"Answer","text":"In base a regole: parole chiave, intenti ad alto rischio o su richiesta esplicita dell’utente."}},
-      {"@type":"Question","name":"Cosa include la gestione mensile?","acceptedAnswer":{"@type":"Answer","text":"Monitoraggio, piccoli aggiustamenti alle risposte/flow, supporto tecnico standard. Migliorie strutturali o nuovi flow sono extra."}},
+      {"@type":"Question","name":"L’assistente è multilingua?","acceptedAnswer":{"@type":"Answer","text":"Può rispondere in più lingue partendo dalle FAQ fornite. Consigliamo comunque una lingua principale."}},
+      {"@type":"Question","name":"Come vengono trattati i dati?","acceptedAnswer":{"@type":"Answer","text":"Il servizio viene configurato applicando minimizzazione dei dati, regole di conservazione e controllo degli accessi. La configurazione definitiva dipende dagli strumenti utilizzati e dai trattamenti del cliente e non costituisce certificazione o consulenza legale."}},
+      {"@type":"Question","name":"Serve WhatsApp Business API?","acceptedAnswer":{"@type":"Answer","text":"Dipende dall’uso: per risposte base può bastare WhatsApp Business. Per automazioni avanzate valutiamo insieme API o piattaforme esterne, con i relativi costi indicati separatamente nel preventivo."}},
+      {"@type":"Question","name":"Quando passa a un umano?","acceptedAnswer":{"@type":"Answer","text":"In base a regole configurabili: parole chiave, argomenti sensibili o richiesta esplicita dell’utente. La risposta umana avviene negli orari concordati."}},
+      {"@type":"Question","name":"Cosa include la gestione opzionale?","acceptedAnswer":{"@type":"Answer","text":"Monitoraggio, piccoli aggiustamenti alle risposte e ai flussi, supporto tecnico standard. Migliorie strutturali o nuovi flussi vengono valutati a parte."}},
       {"@type":"Question","name":"Cosa non fa l’assistente?","acceptedAnswer":{"@type":"Answer","text":"Non prende decisioni legali o mediche, non gestisce pagamenti diretti in chat né sostituisce il servizio clienti umano in casi complessi."}},
-      {"@type":"Question","name":"Serve un CRM?","acceptedAnswer":{"@type":"Answer","text":"No, non è obbligatorio. Possiamo esportare i log oppure integrare un CRM leggero in seguito."}},
-      {"@type":"Question","name":"Quanto dura l’attivazione?","acceptedAnswer":{"@type":"Answer","text":"5–10 giorni lavorativi in base alla qualità delle FAQ e dei materiali forniti."}}
+      {"@type":"Question","name":"Serve un CRM?","acceptedAnswer":{"@type":"Answer","text":"No, non è obbligatorio. Possiamo esportare i log oppure integrare un CRM in seguito, come modulo opzionale."}},
+      {"@type":"Question","name":"Quanto dura l’attivazione?","acceptedAnswer":{"@type":"Answer","text":"Indicativamente 5–10 giorni lavorativi, in base alla qualità delle FAQ e dei materiali forniti."}}
     ]
   },{
     "@context":"https://schema.org",
     "@type":"BreadcrumbList",
     "itemListElement":[
       {"@type":"ListItem","position":1,"name":"Servizi","item":"/servizi"},
-      {"@type":"ListItem","position":2,"name":"Assistente AI (Sito & WhatsApp)","item":"/servizi/assistente-ai-sito-whatsapp"}
+      {"@type":"ListItem","position":2,"name":"Assistente AI per sito e WhatsApp","item":"/servizi/assistente-ai-sito-whatsapp"}
     ]
   }]
   </script>

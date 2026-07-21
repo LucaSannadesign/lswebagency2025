@@ -63,7 +63,7 @@ const NODES: Record<string, Node> = {
     ],
   },
   prev_sito: {
-    bot: 'Per un sito chiederei numero di pagine, contenuti disponibili e obiettivo. Un referente ti preparerebbe una proposta su misura, con una stima solo dopo la verifica.',
+    bot: 'Per un sito chiederei numero di pagine, contenuti disponibili e obiettivo. Luca ti preparerebbe una proposta su misura, con una stima solo dopo la verifica.',
     end: true,
   },
   prev_ai: {
@@ -84,24 +84,24 @@ const NODES: Record<string, Node> = {
     ],
   },
   fuori_msg: {
-    bot: 'Perfetto: registrerei il messaggio e i recapiti, e il team ti risponderebbe il primo giorno lavorativo utile.',
+    bot: 'Perfetto: registrerei il messaggio e i recapiti, e Luca ti risponderebbe negli orari concordati.',
     end: true,
   },
   fuori_call: {
-    bot: 'Va bene: segnerei la richiesta di richiamata con la fascia oraria che preferisci, così ti contattiamo appena possibile.',
+    bot: 'Va bene: segnerei la richiesta di richiamata con la fascia oraria che preferisci, così Luca ti ricontatta negli orari concordati.',
     end: true,
   },
 
   // 4) Parlare con una persona
   persona: {
-    bot: 'Posso passarti a una persona del team.',
+    bot: 'Posso passarti a una persona.',
     options: [
-      { label: 'Sì, parla con il team', next: 'persona_si' },
+      { label: 'Sì, parla con una persona', next: 'persona_si' },
       { label: 'Prima qualche informazione', next: 'info' },
     ],
   },
   persona_si: {
-    bot: 'Negli orari di ufficio rispondiamo in pochi minuti; fuori orario prendiamo la richiesta e ti ricontattiamo. Nel sito reale, qui partirebbe il passaggio a WhatsApp o ai contatti.',
+    bot: 'La risposta umana avviene negli orari concordati; fuori orario prendiamo la richiesta e ti ricontattiamo. Nel sito reale, qui partirebbe il passaggio ai contatti o a WhatsApp.',
     end: true,
   },
 };
@@ -190,10 +190,10 @@ export default function AssistantDemo() {
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <a
-                href="#assistente"
+                href="/contatti?servizio=assistente-ai"
                 className="inline-flex items-center justify-center rounded-full px-5 py-2.5 bg-violet-600 text-white hover:bg-violet-700 transition text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
               >
-                Valuta la soluzione per la tua attività
+                Richiedi una valutazione
               </a>
               <button
                 type="button"

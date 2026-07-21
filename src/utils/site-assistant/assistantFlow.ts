@@ -186,7 +186,7 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   'ai-automation': {
     id: 'ai-automation',
     message:
-      'L’Assistente AI risponde 24/7 su sito e WhatsApp alle domande frequenti, raccoglie le richieste e passa a una persona quando serve. Piani: Starter da 300 € + 29 €/mese, Pro da 600 € + 59 €/mese, Plus da 900 € + 99 €/mese. Attivazione in 5-10 giorni lavorativi.',
+      'L’Assistente AI per sito e WhatsApp viene configurato sui contenuti della tua attività. Può rispondere automaticamente alle domande frequenti anche fuori orario, raccogliere le richieste e facilitare il passaggio a una persona. Canali, integrazioni, tempi e costi vengono definiti dopo una valutazione.',
     serviceInterest: 'Assistente AI',
     options: [
       { label: 'Cosa fa di preciso', nextNodeId: 'ai-info' },
@@ -197,7 +197,7 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   'ai-info': {
     id: 'ai-info',
     message:
-      'Risponde a orari, prezzi, disponibilità e FAQ in modo coerente, con passaggio a una persona su richiesta o per casi delicati. Privacy by design: minimizzazione dei dati e nessun training su dati sensibili. Non prende decisioni legali o mediche e non gestisce pagamenti in chat.',
+      'Può rispondere a domande frequenti come orari, servizi e modalità di contatto, raccogliere i dati essenziali e inoltrare la richiesta quando serve. La configurazione applica minimizzazione dei dati e regole di conservazione; strumenti, eventuali costi esterni e condizioni privacy dipendono dal progetto. Non prende decisioni legali o mediche e non sostituisce il supporto umano nei casi complessi.',
     serviceInterest: 'Assistente AI',
     options: [
       { label: 'Lascia i tuoi dati', nextNodeId: 'lead' },
@@ -210,7 +210,7 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   pricing: {
     id: 'pricing',
     message:
-      'Ogni progetto ha un preventivo su misura. Alcuni riferimenti reali: Landing da 690 €, Audit tecnico e di accessibilità prioritizzato su preventivo, Fix performance/SEO da 399 €, Local SEO (verifica locale iniziale su preventivo, Setup da 490 €), Assistente AI da 300 € + 29 €/mese. Per i siti su misura il prezzo si definisce dopo una breve analisi.',
+      'Ogni progetto ha un preventivo su misura. Alcuni riferimenti reali: Landing da 690 €, Audit tecnico e di accessibilità prioritizzato su preventivo, Fix performance/SEO da 399 €, Local SEO (verifica locale iniziale su preventivo, Setup da 490 €), Assistente AI su preventivo, in base a canali, flussi, integrazioni e volume delle richieste. Per i siti su misura il prezzo si definisce dopo una breve analisi.',
     serviceInterest: 'Costi e modalità',
     options: [
       { label: 'Come funziona il pagamento', nextNodeId: 'pricing-modalita' },
@@ -315,7 +315,7 @@ export const ASSISTANT_FAQ: AssistantFaq[] = [
     question: 'Quanto costa l’assistente AI?',
     keywords: ['assistente', 'chatbot', 'automazione', 'automatizzare', 'whatsapp', 'intelligenza artificiale'],
     answer:
-      'Assistente AI: Starter da 300 € + 29 €/mese, Pro da 600 € + 59 €/mese, Plus da 900 € + 99 €/mese. Attivazione in 5-10 giorni lavorativi.',
+      'Il costo dipende dai canali, dal numero di flussi, dalle integrazioni e dal volume delle richieste. Dopo una valutazione ricevi una proposta che distingue configurazione, eventuali costi di servizi esterni e gestione opzionale.',
   },
   {
     id: 'faq-audit',
@@ -329,7 +329,7 @@ export const ASSISTANT_FAQ: AssistantFaq[] = [
     question: 'In quanto tempo consegnate?',
     keywords: ['quanto tempo', 'tempi di consegna', 'in quanto tempo', 'quando consegnate', 'quanto ci vuole', 'tempi di realizzazione', 'consegna'],
     answer:
-      'Dipende dal servizio: landing 7-10 giorni, assistente AI 5-10 giorni lavorativi, e-commerce 3-5 settimane (Start) o 6-10 settimane (Pro). Per i siti su misura definiamo i tempi nel preventivo.',
+      'Dipende dal servizio: landing 7-10 giorni, per l’assistente AI i tempi vengono definiti dopo la valutazione dei canali e dei flussi, e-commerce 3-5 settimane (Start) o 6-10 settimane (Pro). Per i siti su misura definiamo i tempi nel preventivo.',
   },
   {
     id: 'faq-pagamento',
@@ -357,7 +357,7 @@ export const ASSISTANT_FAQ: AssistantFaq[] = [
     question: 'L’assistente è conforme al GDPR / privacy?',
     keywords: ['gdpr', 'privacy', 'dati personali', 'dati sensibili', 'trattamento dati'],
     answer:
-      'Sì: privacy by design, minimizzazione dei dati e nessun training su dati sensibili. L’assistente non prende decisioni legali o mediche e non gestisce pagamenti in chat.',
+      'Il servizio viene configurato applicando minimizzazione dei dati, regole di conservazione e controllo degli accessi. La configurazione definitiva dipende dagli strumenti utilizzati e dai trattamenti del cliente e non costituisce certificazione o consulenza legale.',
   },
 ];
 
