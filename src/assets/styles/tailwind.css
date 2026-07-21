@@ -183,19 +183,99 @@
 /* =========================
    Header
    ========================= */
-#header.scroll > div:first-child {
-  background: rgb(251 248 254 / 0.82);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid #ded3ea;
-  box-shadow: 0 0.375rem 1.5rem 0 rgb(118 40 232 / 0.08);
+/* Altezza reale della navbar: serve a riservare lo spazio in cima al contenuto,
+   dato che la navbar è sovrapposta (fixed) e non occupa più posto nel flusso. */
+:root {
+  --header-h: 4.75rem;
 }
 
-.dark #header.scroll > div:first-child,
-#header.scroll.dark > div:first-child {
-  background: rgb(13 9 20 / 0.86);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgb(118 40 232 / 0.28);
-  box-shadow: none;
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 5.5rem;
+  }
+}
+
+/* Il primo blocco di ogni pagina riserva in cima lo spazio della navbar:
+   così il fondo che si vede dietro la navbar è quello della sezione, non del body,
+   e non resta nessuna fascia chiara a tutta larghezza. */
+#main > *:first-child {
+  padding-top: calc(var(--header-h) + 0.5rem);
+}
+
+/* La header è sempre trasparente: il fondo appartiene solo al pannello interno,
+   così non esiste più nessuna fascia piena da bordo a bordo. */
+#header {
+  background: transparent;
+  border-color: transparent;
+  transition:
+    transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 280ms ease;
+  will-change: transform;
+}
+
+/* Scroll verso il basso: la navbar esce dalla viewport senza toccare il layout. */
+#header.is-hidden {
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Il contenitore interno mantiene la stessa geometria nei due stati:
+   cambiano solo fondo, bordo e ombra, quindi non ci sono salti. */
+#header [data-header-inner] {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  transition:
+    background 280ms ease,
+    border-color 280ms ease,
+    box-shadow 280ms ease,
+    backdrop-filter 280ms ease;
+}
+
+/* `:not(.is-hidden)` è necessario: scendendo, `is-floating` e `is-hidden` vengono
+   applicate insieme e senza questo vincolo il pannello glass verrebbe disegnato
+   per un istante mentre la navbar esce dalla viewport. */
+#header.is-floating:not(.is-hidden) [data-header-inner],
+#header.expanded [data-header-inner] {
+  background: rgba(251, 248, 254, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: rgba(222, 211, 234, 0.9);
+  box-shadow:
+    0 12px 35px rgba(33, 24, 49, 0.1),
+    0 4px 14px rgba(118, 40, 232, 0.08);
+}
+
+.dark #header.is-floating:not(.is-hidden) [data-header-inner],
+.dark #header.expanded [data-header-inner] {
+  background: rgba(17, 11, 26, 0.88);
+  border-color: rgba(118, 40, 232, 0.38);
+  box-shadow:
+    0 12px 35px rgba(6, 3, 12, 0.45),
+    0 4px 14px rgba(118, 40, 232, 0.18);
+}
+
+/* Con il menù mobile aperto il blur resta al pannello: un backdrop-filter sul
+   contenitore annullerebbe quello del figlio annidato e il contenuto sottostante
+   resterebbe leggibile attraverso il menù. Si compensa con un fondo più coprente. */
+@media (max-width: 1023px) {
+  #header.expanded [data-header-inner] {
+    background: rgba(251, 248, 254, 0.95);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .dark #header.expanded [data-header-inner] {
+    background: rgba(17, 11, 26, 0.95);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #header,
+  #header [data-header-inner] {
+    transition: none;
+  }
 }
 
 /* Link di navigazione: hover e stato attivo viola, nessun blu. */
@@ -221,6 +301,72 @@
   outline: 2px solid rgb(var(--aw-color-primary));
   outline-offset: 2px;
   border-radius: 6px;
+}
+
+/* -------------------------
+   Linea gradiente sotto le voci di navigazione
+   -------------------------
+   I selettori figlio diretto colpiscono solo le voci di primo livello:
+   `li > a` per le voci semplici, `li > div > a` per quelle con sottomenu.
+   Restano quindi esclusi logo, CTA, toggle tema, hamburger e le voci
+   interne di `.dropdown-menu`, che mantengono il loro stile attuale. */
+#header nav > ul > li > a,
+#header nav > ul > li > div > a {
+  position: relative;
+}
+
+#header nav > ul > li > a::after,
+#header nav > ul > li > div > a::after {
+  content: '';
+  position: absolute;
+  left: 1rem; /* allineata al testo: pareggia il px-4 della voce */
+  right: 1rem;
+  bottom: 6px;
+  height: 2px;
+  border-radius: 999px;
+  background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 240ms ease;
+}
+
+/* La voce con sottomenu ha `lg:pr-1`: senza questo la linea resterebbe corta a destra. */
+@media (min-width: 1024px) {
+  #header nav > ul > li > div > a::after {
+    right: 0.25rem;
+  }
+}
+
+/* Su mobile la voce occupa tutta la larghezza del pannello: la linea resta corta
+   e ancorata all'inizio del testo invece di attraversare l'intera riga. */
+@media (max-width: 1023px) {
+  #header nav > ul > li > a::after,
+  #header nav > ul > li > div > a::after {
+    right: auto;
+    width: 2.25rem;
+  }
+}
+
+#header nav > ul > li > a:hover::after,
+#header nav > ul > li > div > a:hover::after,
+#header nav > ul > li > a:focus-visible::after,
+#header nav > ul > li > div > a:focus-visible::after,
+#header nav > ul > li > a.aw-link-active::after,
+#header nav > ul > li > div > a.aw-link-active::after,
+#header nav > ul > li.dropdown.is-open > div > a::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #header nav > ul > li > a::after,
+  #header nav > ul > li > div > a::after {
+    transition: none;
+  }
 }
 
 @media (max-width: 1023px) {
@@ -343,52 +489,13 @@ html.dark .kw{
  position:relative;
 }
 
-#main::before{
- content:"";
- position:absolute;
- top:0;
- left:0;
- width:100%;
- height:140px;
- pointer-events:none;
- z-index:0;
- background:linear-gradient(
-   to bottom,
-   var(--nav-bg, #ffffff) 0%,
-   rgba(255,255,255,0.85) 40%,
-   rgba(255,255,255,0.4) 70%,
-   transparent 100%
- );
-}
-
-.dark #main::before{
- background:linear-gradient(
-   to bottom,
-   #020617 0%,
-   rgba(2,6,23,0.8) 40%,
-   rgba(2,6,23,0.4) 70%,
-   transparent 100%
- );
-}
+/* Nota: il vecchio velo bianco `#main::before` (raccordo con la navbar opaca a
+   tutta larghezza) è stato rimosso: con la navbar trasparente creava di nuovo
+   una fascia chiara in cima al contenuto. */
 
 #main > *{
  position:relative;
  z-index:1;
-}
-
-#header{
- background:transparent !important;
- border-color:transparent !important;
- transition:background .35s ease, backdrop-filter .35s ease;
-}
-
-body.scrolled #header{
- background:rgba(251,248,254,0.82);
- backdrop-filter:blur(14px);
-}
-
-.dark body.scrolled #header{
- background:rgba(13,9,20,0.86);
 }
 
 /* =========================

@@ -52,12 +52,16 @@ import { UI } from 'astrowind:config';
   }
 
   function openMobileMenu() {
-    document.getElementById('header')?.classList.add('expanded');
+    const header = document.getElementById('header');
+    header?.classList.add('expanded');
+    // A menu aperto la navbar deve restare sempre visibile.
+    header?.classList.remove('is-hidden');
     mobileMenuPanel()?.classList.remove('hidden');
   }
 
   const onLoad = function () {
     let lastKnownScrollPosition = window.scrollY;
+    let headerLastKnownY = window.scrollY;
     let ticking = true;
 
     function closeHeaderDropdowns() {
@@ -146,17 +150,53 @@ import { UI } from 'astrowind:config';
       closeMobileMenu();
     });
 
+    /* ---------- Navbar: trasparente in cima, hide-on-scroll, pannello flottante ---------- */
+    const HEADER_TOP_LIMIT = 24; // sotto questa soglia resta completamente trasparente
+    const HEADER_SCROLL_DELTA = 10; // ignora i micro-movimenti di 2-3px
+
+    function headerCanHide(header) {
+      // Mai nascondere con il menù mobile aperto o con il focus da tastiera dentro la navbar.
+      return !header.classList.contains('expanded') && !header.contains(document.activeElement);
+    }
+
     function applyHeaderStylesOnScroll() {
+      ticking = false;
       const header = document.querySelector('#header[data-aw-sticky-header]');
       if (!header) return;
-      if (lastKnownScrollPosition > 60 && !header.classList.contains('scroll')) {
-        header.classList.add('scroll');
-      } else if (lastKnownScrollPosition <= 60 && header.classList.contains('scroll')) {
-        header.classList.remove('scroll');
+
+      const y = Math.max(lastKnownScrollPosition, 0);
+      const delta = y - headerLastKnownY;
+
+      // Stato atTop: nessun fondo, nessun bordo, nessuna ombra.
+      if (y <= HEADER_TOP_LIMIT) {
+        header.classList.remove('is-floating', 'is-hidden');
+        headerLastKnownY = y;
+        return;
       }
-      ticking = false;
+
+      // Soglia minima: la direzione si valuta solo su movimenti reali.
+      // Nessuna classe viene toccata prima di conoscere la direzione: è ciò che
+      // evita lo stato intermedio "flottante e visibile" durante la discesa.
+      if (Math.abs(delta) < HEADER_SCROLL_DELTA) return;
+
+      header.classList.add('is-floating');
+
+      if (delta > 0) {
+        // Stato scrollingDown: si nasconde subito, senza soglie intermedie.
+        if (headerCanHide(header)) header.classList.add('is-hidden');
+      } else {
+        // Stato scrollingUp: riappare come pannello flottante.
+        header.classList.remove('is-hidden');
+      }
+
+      headerLastKnownY = y;
     }
     applyHeaderStylesOnScroll();
+
+    // Il focus da tastiera su un elemento della navbar la riporta sempre visibile.
+    attachEvent('#header', 'focusin', function (_, header) {
+      header.classList.remove('is-hidden');
+    });
 
     attachEvent([document], 'scroll', function () {
       lastKnownScrollPosition = window.scrollY;

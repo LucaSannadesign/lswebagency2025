@@ -33,7 +33,7 @@ const {
   id = 'header',
   links: linksProp,
   actions: actionsProp,
-  isSticky = false,
+  isSticky = true,
   isDark = false,
   isFullWidth = false,
   showToggleTheme = true,
@@ -62,13 +62,12 @@ const headerItems = sanitize(links);
 ---
 
 <header
-  class:list={[{ sticky: isSticky, relative: !isSticky, dark: isDark }, 'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-opacity ease-in-out']}
+  class:list={[{ 'fixed inset-x-0': isSticky, relative: !isSticky, dark: isDark }, 'top-0 z-40 flex-none mx-auto w-full px-2 sm:px-3 lg:px-4 pt-2.5']}
   {...(isSticky ? { 'data-aw-sticky-header': true } : {})}
   {...(id ? { id } : {})}
 >
-  <div class="absolute inset-0"></div>
-
   <div
+    data-header-inner
     class:list={[
       'relative text-default py-3 px-3 md:px-6 mx-auto w-full',
       { 'lg:flex lg:justify-between': position !== 'center' },
