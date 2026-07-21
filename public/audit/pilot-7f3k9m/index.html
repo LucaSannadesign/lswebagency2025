@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Analisi tecnica del sito — www.lswebagency.com</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0 auto;
+        padding: 24px 20px 64px;
+        max-width: 880px;
+        font:
+          16px/1.6 system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        color: #1c1c1a;
+        background: #ffffff;
+      }
+      header.report {
+        border-bottom: 3px solid #eb3422;
+        padding-bottom: 16px;
+        margin-bottom: 28px;
+      }
+      header.report p.brand {
+        margin: 0 0 4px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #6b6b66;
+      }
+      h1 {
+        font-size: 26px;
+        line-height: 1.25;
+        margin: 0 0 12px;
+      }
+      h2 {
+        font-size: 20px;
+        margin: 36px 0 12px;
+        padding-top: 8px;
+        border-top: 1px solid #e6e4df;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 22px 0 8px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      ul {
+        margin: 8px 0;
+        padding-left: 22px;
+      }
+      li {
+        margin: 4px 0;
+      }
+      .table-wrap {
+        overflow-x: auto;
+        margin: 12px 0;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+      }
+      th,
+      td {
+        border: 1px solid #e0ded9;
+        padding: 6px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f4f3f0;
+        font-weight: 600;
+      }
+      td.num,
+      th.num {
+        text-align: right;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13px;
+        background: #f4f3f0;
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .outcome-pass {
+        background: #e5f3e8;
+        color: #1d6b34;
+      }
+      .outcome-minor {
+        background: #fdf3d7;
+        color: #8a6a10;
+      }
+      .outcome-attention {
+        background: #fde8d7;
+        color: #9a4a10;
+      }
+      .outcome-critical {
+        background: #fbdddd;
+        color: #a11a1a;
+      }
+      .class-correct-now {
+        background: #fbdddd;
+        color: #a11a1a;
+      }
+      .class-next-update {
+        background: #fde8d7;
+        color: #9a4a10;
+      }
+      .class-manual-review {
+        background: #e3ecfb;
+        color: #1a4a9a;
+      }
+      .class-preserve {
+        background: #ece7f7;
+        color: #5a3a9a;
+      }
+      .class-monitor {
+        background: #eeeeec;
+        color: #5a5a54;
+      }
+      .class-no-action {
+        background: #e5f3e8;
+        color: #1d6b34;
+      }
+      .group {
+        border: 1px solid #e6e4df;
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin: 14px 0;
+      }
+      .group h3 {
+        margin-top: 0;
+      }
+      .group dl {
+        margin: 8px 0;
+      }
+      .group dt {
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #6b6b66;
+        margin-top: 8px;
+      }
+      .group dd {
+        margin: 2px 0 0;
+      }
+      .muted {
+        color: #6b6b66;
+        font-size: 14px;
+      }
+      .note {
+        background: #f4f3f0;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 14px;
+      }
+      footer {
+        margin-top: 48px;
+        border-top: 1px solid #e6e4df;
+        padding-top: 12px;
+        font-size: 13px;
+        color: #6b6b66;
+      }
+      @media print {
+        body {
+          padding: 0;
+          max-width: none;
+          font-size: 12px;
+        }
+        .group {
+          break-inside: avoid;
+        }
+        h2 {
+          break-after: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="report">
+      <p class="brand">LS Site Rescue · LS Web Agency</p>
+      <h1>Analisi tecnica del sito — www.lswebagency.com</h1>
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr>
+              <th>Sito analizzato</th>
+              <td>https://www.lswebagency.com/</td>
+            </tr>
+            <tr>
+              <th>URL richiesto</th>
+              <td>https://lswebagency.com</td>
+            </tr>
+            <tr>
+              <th>Data dell'analisi</th>
+              <td>21 luglio 2026</td>
+            </tr>
+            <tr>
+              <th>Pagine analizzate</th>
+              <td>10 su 76 URL individuati (limite configurato: 10)</td>
+            </tr>
+            <tr>
+              <th>Durata</th>
+              <td>125 secondi</td>
+            </tr>
+            <tr>
+              <th>Strumento</th>
+              <td>LS Site Rescue v0.1.2 — analisi automatica della superficie pubblica</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </header>
+
+    <h2>Verdetto in breve</h2>
+    <p>
+      Nessun problema critico o ad alta priorità è emerso dai controlli automatici inclusi; restano
+      segnalazioni minori descritte di seguito.
+    </p>
+    <p>L&#39;analisi copre 10 pagine su 76 URL individuati (limite configurato: 10).</p>
+    <p>
+      Questa analisi osserva la sola superficie pubblica del sito e non sostituisce una revisione
+      professionale tecnica, UX, SEO o di accessibilità.
+    </p>
+    <p class="muted">Riepilogo severità: critiche 0, alte 0, medie 0, basse 6, informative 1.</p>
+
+    <h2>Quadro per area</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>Esito</th>
+            <th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tecnica</td>
+            <td><span class="badge outcome-pass">Nessuna anomalia rilevata</span></td>
+            <td>Nessuna anomalia rilevata dai controlli automatici inclusi.</td>
+          </tr>
+          <tr>
+            <td>SEO on-page</td>
+            <td><span class="badge outcome-minor">Segnalazioni minori</span></td>
+            <td>6 occorrenze di 3 tipologie.</td>
+          </tr>
+          <tr>
+            <td>Accessibilità (controlli automatici)</td>
+            <td><span class="badge outcome-pass">Nessuna anomalia rilevata</span></td>
+            <td>Nessuna anomalia rilevata dai controlli automatici inclusi.</td>
+          </tr>
+          <tr>
+            <td>Mobile e UX (controlli automatici)</td>
+            <td><span class="badge outcome-pass">Nessuna anomalia rilevata</span></td>
+            <td>Nessuna anomalia rilevata dai controlli automatici inclusi.</td>
+          </tr>
+          <tr>
+            <td>Call to action (euristica)</td>
+            <td><span class="badge outcome-pass">Nessuna anomalia rilevata</span></td>
+            <td>Nessuna anomalia rilevata dai controlli automatici inclusi.</td>
+          </tr>
+          <tr>
+            <td>Contenuti</td>
+            <td><span class="badge outcome-pass">Nessuna anomalia rilevata</span></td>
+            <td>Nessuna anomalia rilevata dai controlli automatici inclusi.</td>
+          </tr>
+          <tr>
+            <td>Elementi legati alla migrazione</td>
+            <td><span class="badge outcome-pass">Nessuna anomalia rilevata</span></td>
+            <td>1 segnalazione informativa, nessuna anomalia dai controlli automatici inclusi.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Cosa funziona già</h2>
+    <ul>
+      <li>
+        <strong>Status HTTP valido.</strong> Tutte le 10 pagine richieste rispondono con uno status
+        HTTP valido.
+      </li>
+      <li>
+        <strong>Link interni raggiungibili.</strong> Nessun link interno non raggiungibile rilevato
+        su 306 link controllati.
+      </li>
+      <li>
+        <strong>Canonical presente e coerente.</strong> Canonical presente e coincidente con
+        l&#39;URL su tutte le 10 pagine analizzate.
+      </li>
+      <li>
+        <strong>H1 presente e unico.</strong> Un&#39;unica intestazione principale su tutte le 10
+        pagine analizzate.
+      </li>
+      <li>
+        <strong>Lingua del documento dichiarata.</strong> Attributo lang presente su tutte le 10
+        pagine analizzate.
+      </li>
+      <li>
+        <strong>Meta viewport presente.</strong> Configurazione viewport presente su tutte le 10
+        pagine analizzate.
+      </li>
+      <li>
+        <strong>Testo alternativo sulle immagini.</strong> Tutte le 66 immagini rilevate hanno un
+        attributo alt valorizzato.
+      </li>
+      <li>
+        <strong>Pagine indicizzabili.</strong> Nessuna direttiva noindex rilevata nei meta robots
+        delle pagine analizzate.
+      </li>
+      <li>
+        <strong>Dati strutturati presenti.</strong> Blocchi JSON-LD rilevati su 4 pagine: da
+        preservare in caso di rifacimento.
+      </li>
+    </ul>
+    <p class="note">
+      Controlli automatici superati sul campione analizzato: non costituiscono una certificazione né
+      un giudizio complessivo di qualità.
+    </p>
+
+    <h2>Interventi consigliati, in ordine</h2>
+
+    <article class="group">
+      <h3>1. Il title è più lungo della soglia prudenziale.</h3>
+      <p>
+        <span class="badge class-next-update"
+          >Correggere al prossimo aggiornamento (intervento rapido)</span
+        >
+      </p>
+      <dl>
+        <dt>Estensione</dt>
+        <dd>3 pagine coinvolte</dd>
+        <dt>Severità · impatto · impegno</dt>
+        <dd>bassa · medio (stima automatica) · basso</dd>
+        <dt>Tipo di evidenza</dt>
+        <dd>euristica, richiede giudizio umano</dd>
+        <dt>Evidenze</dt>
+        <dd>
+          <ul>
+            <li>
+              <code>https://www.lswebagency.com/servizi/audit-rapido</code> — 62 caratteri: “Audit
+              tecnico e di accessibilità prioritizzato | LS Web Agency”.
+            </li>
+            <li>
+              <code>https://www.lswebagency.com/servizi/sprint-ottimizzazione</code> — 68 caratteri:
+              “Sprint di Ottimizzazione | Performance e conversioni — LS Web Agency”.
+            </li>
+            <li>
+              <code>https://www.lswebagency.com/servizi/seo-locale</code> — 74 caratteri: “SEO
+              Sassari: Consulenza SEO Locale e Posizionamento Google | LS Web Agency”.
+            </li>
+          </ul>
+        </dd>
+        <dt>Cosa fare</dt>
+        <dd>Ridurre il title mantenendo argomento, differenziazione e leggibilità.</dd>
+        <dt>Verifica dopo la correzione</dt>
+        <dd>
+          Ricontrollo automatico al prossimo audit; la correzione richiede una scelta umana (testo o
+          configurazione), non solo un intervento meccanico.
+        </dd>
+      </dl>
+    </article>
+
+    <article class="group">
+      <h3>2. La meta description supera la soglia prudenziale.</h3>
+      <p>
+        <span class="badge class-next-update"
+          >Correggere al prossimo aggiornamento (intervento rapido)</span
+        >
+      </p>
+      <dl>
+        <dt>Estensione</dt>
+        <dd>2 pagine coinvolte</dd>
+        <dt>Severità · impatto · impegno</dt>
+        <dd>bassa · basso (stima automatica) · basso</dd>
+        <dt>Tipo di evidenza</dt>
+        <dd>euristica, richiede giudizio umano</dd>
+        <dt>Evidenze</dt>
+        <dd>
+          <ul>
+            <li><code>https://www.lswebagency.com/servizi</code> — 172 caratteri.</li>
+            <li><code>https://www.lswebagency.com/mini-analisi</code> — 222 caratteri.</li>
+          </ul>
+        </dd>
+        <dt>Cosa fare</dt>
+        <dd>Ridurre il testo mantenendo proposta di valore e specificità.</dd>
+        <dt>Verifica dopo la correzione</dt>
+        <dd>
+          Ricontrollo automatico al prossimo audit; la correzione richiede una scelta umana (testo o
+          configurazione), non solo un intervento meccanico.
+        </dd>
+      </dl>
+    </article>
+
+    <article class="group">
+      <h3>3. Il title è molto corto.</h3>
+      <p>
+        <span class="badge class-next-update"
+          >Correggere al prossimo aggiornamento (intervento rapido)</span
+        >
+      </p>
+      <dl>
+        <dt>Estensione</dt>
+        <dd>1 pagina coinvolta</dd>
+        <dt>Severità · impatto · impegno</dt>
+        <dd>bassa · medio (stima automatica) · basso</dd>
+        <dt>Tipo di evidenza</dt>
+        <dd>euristica, richiede giudizio umano</dd>
+        <dt>Evidenze</dt>
+        <dd>
+          <ul>
+            <li>
+              <code>https://www.lswebagency.com/blog</code> — 20 caratteri: “Blog — LS Web Agency”.
+            </li>
+          </ul>
+        </dd>
+        <dt>Cosa fare</dt>
+        <dd>Valutare un title più informativo senza aggiungere testo artificiale.</dd>
+        <dt>Verifica dopo la correzione</dt>
+        <dd>
+          Ricontrollo automatico al prossimo audit; la correzione richiede una scelta umana (testo o
+          configurazione), non solo un intervento meccanico.
+        </dd>
+      </dl>
+    </article>
+
+    <h2>Da preservare in caso di migrazione o restyling</h2>
+
+    <article class="group">
+      <h3>1. L’URL richiesto reindirizza verso un URL differente.</h3>
+      <p><span class="badge class-preserve">Preservare in migrazione</span></p>
+      <dl>
+        <dt>Estensione</dt>
+        <dd>1 pagina coinvolta</dd>
+        <dt>Severità · impatto · impegno</dt>
+        <dd>informativa · medio (stima automatica) · medio</dd>
+        <dt>Tipo di evidenza</dt>
+        <dd>euristica, richiede giudizio umano</dd>
+        <dt>Evidenze</dt>
+        <dd>
+          <ul>
+            <li>
+              <code>https://www.lswebagency.com/</code> — https://lswebagency.com/ →
+              https://www.lswebagency.com/
+            </li>
+          </ul>
+        </dd>
+        <dt>Cosa fare</dt>
+        <dd>Registrare il redirect e preservarlo nella futura migrazione.</dd>
+        <dt>Verifica dopo la correzione</dt>
+        <dd>
+          Ricontrollo automatico al prossimo audit; la correzione richiede una scelta umana (testo o
+          configurazione), non solo un intervento meccanico.
+        </dd>
+      </dl>
+    </article>
+    <ul>
+      <li>
+        <strong>Redirect da mantenere:</strong> Redirect rilevato su 1 URL: https://lswebagency.com/
+        → https://www.lswebagency.com/.
+      </li>
+      <li>
+        <strong>URL pubblici da preservare o redirigere:</strong> 10 URL analizzati (elenco completo
+        nell&#39;inventario in appendice e in pages.json).
+      </li>
+      <li>
+        <strong>Form da migrare:</strong> Form rilevati su 10 pagine (primi 5 URL):
+        https://www.lswebagency.com/, https://www.lswebagency.com/servizi,
+        https://www.lswebagency.com/servizi/siti-web,
+        https://www.lswebagency.com/servizi/audit-rapido,
+        https://www.lswebagency.com/servizi/sprint-ottimizzazione.
+      </li>
+      <li>
+        <strong>Dati strutturati da riportare:</strong> JSON-LD presente su 4 pagine:
+        https://www.lswebagency.com/servizi/audit-rapido,
+        https://www.lswebagency.com/servizi/sprint-ottimizzazione,
+        https://www.lswebagency.com/contatti, https://www.lswebagency.com/servizi/seo-locale.
+      </li>
+      <li>
+        <strong>Componenti e logiche non osservabili:</strong> Logiche server-side, aree autenticate
+        e integrazioni non sono ricostruibili automaticamente dalla superficie pubblica.
+      </li>
+    </ul>
+
+    <h2>Cosa richiede un occhio umano</h2>
+    <p class="muted">
+      Per questo campione l&#39;analisi automatica non ha aperto verifiche manuali specifiche.
+      Restano comunque fuori dal perimetro automatico: qualità dei testi, esperienza d&#39;uso
+      reale, posizionamento e concorrenza.
+    </p>
+
+    <h2>Limiti di questa analisi</h2>
+    <ul>
+      <li>
+        L&#39;analisi è automatica e basata sulla sola superficie pubblicamente accessibile del
+        sito.
+      </li>
+      <li>Non sostituisce una revisione professionale tecnica, UX, SEO o di accessibilità.</li>
+      <li>Non certifica conformità WCAG, legale, privacy o normativa.</li>
+      <li>Non garantisce risultati di posizionamento, conversione o prestazioni commerciali.</li>
+      <li>
+        Non interpreta logiche applicative protette, dati server-side o processi non osservabili.
+      </li>
+      <li>Non accede ad aree autenticate e non tenta di aggirare protezioni anti-bot.</li>
+      <li>
+        I tempi di caricamento sono misurati in laboratorio su un singolo caricamento: non
+        rappresentano l&#39;esperienza reale degli utenti.
+      </li>
+    </ul>
+
+    <h2>Prossimo passo</h2>
+    <p>
+      Questo documento nasce da un&#39;analisi automatica. LS Web Agency può trasformarlo in un
+      intervento concreto: correzioni circoscritte, verificabili con un successivo audit di
+      controllo, oppure una revisione professionale completa dove i controlli automatici si fermano.
+    </p>
+
+    <hr />
+
+    <h1>Appendice tecnica</h1>
+
+    <h2>Metodologia</h2>
+    <ul>
+      <li>
+        Crawler automatico sullo stesso dominio (Chromium), massimo 10 pagine, robots.txt
+        rispettato.
+      </li>
+      <li>
+        Controlli deterministici per pagina (title, meta description, heading, canonical, alt, lang,
+        viewport, link interni, form, CTA, script) e per sito (title e canonical duplicati).
+      </li>
+      <li>
+        Le soglie sui testi (60 caratteri per il title, 160 per la meta description) sono
+        prudenziali, non regole assolute.
+      </li>
+      <li>
+        Ordinamento per punteggio deterministico: severità, impatto stimato, diffusione sulle
+        pagine, affidabilità dell&#39;evidenza, rilevanza per la migrazione. A parità di punteggio,
+        ordine alfabetico per codice.
+      </li>
+      <li>
+        Classi di intervento assegnate con regole fisse e mutuamente esclusive: ogni segnalazione
+        compare in una sola sezione.
+      </li>
+      <li>
+        Le voci marcate come euristiche richiedono verifica umana: lo strumento segnala, non
+        giudica.
+      </li>
+    </ul>
+
+    <h2>Evidenze per pagina</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th class="num">Status</th>
+            <th class="num">Title (car.)</th>
+            <th class="num">Meta (car.)</th>
+            <th class="num">H1</th>
+            <th class="num">Parole</th>
+            <th class="num">Load lab (ms)</th>
+            <th>Segnalazioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>https://www.lswebagency.com/</td>
+            <td class="num">200</td>
+            <td class="num">57</td>
+            <td class="num">158</td>
+            <td class="num">1</td>
+            <td class="num">2303</td>
+            <td class="num">2927</td>
+            <td><code>PAGE_REDIRECT</code></td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/servizi</td>
+            <td class="num">200</td>
+            <td class="num">54</td>
+            <td class="num">172</td>
+            <td class="num">1</td>
+            <td class="num">855</td>
+            <td class="num">403</td>
+            <td><code>META_DESCRIPTION_TOO_LONG</code></td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/servizi/siti-web</td>
+            <td class="num">200</td>
+            <td class="num">49</td>
+            <td class="num">146</td>
+            <td class="num">1</td>
+            <td class="num">611</td>
+            <td class="num">374</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/servizi/audit-rapido</td>
+            <td class="num">200</td>
+            <td class="num">62</td>
+            <td class="num">156</td>
+            <td class="num">1</td>
+            <td class="num">829</td>
+            <td class="num">396</td>
+            <td><code>TITLE_TOO_LONG</code></td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/servizi/sprint-ottimizzazione</td>
+            <td class="num">200</td>
+            <td class="num">68</td>
+            <td class="num">135</td>
+            <td class="num">1</td>
+            <td class="num">710</td>
+            <td class="num">347</td>
+            <td><code>TITLE_TOO_LONG</code></td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/portfolio</td>
+            <td class="num">200</td>
+            <td class="num">38</td>
+            <td class="num">78</td>
+            <td class="num">1</td>
+            <td class="num">636</td>
+            <td class="num">462</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/blog</td>
+            <td class="num">200</td>
+            <td class="num">20</td>
+            <td class="num">129</td>
+            <td class="num">1</td>
+            <td class="num">485</td>
+            <td class="num">363</td>
+            <td><code>TITLE_TOO_SHORT</code></td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/contatti</td>
+            <td class="num">200</td>
+            <td class="num">37</td>
+            <td class="num">160</td>
+            <td class="num">1</td>
+            <td class="num">580</td>
+            <td class="num">412</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/mini-analisi</td>
+            <td class="num">200</td>
+            <td class="num">45</td>
+            <td class="num">222</td>
+            <td class="num">1</td>
+            <td class="num">371</td>
+            <td class="num">304</td>
+            <td><code>META_DESCRIPTION_TOO_LONG</code></td>
+          </tr>
+          <tr>
+            <td>https://www.lswebagency.com/servizi/seo-locale</td>
+            <td class="num">200</td>
+            <td class="num">74</td>
+            <td class="num">157</td>
+            <td class="num">1</td>
+            <td class="num">1447</td>
+            <td class="num">445</td>
+            <td><code>TITLE_TOO_LONG</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Inventario</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="num">Status</th>
+            <th>URL</th>
+            <th>Title</th>
+            <th class="num">Form</th>
+            <th>Tecnologie</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/</td>
+            <td>Siti Web Strategici per Acquisire Clienti | LS Web Agency</td>
+            <td class="num">2</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/servizi</td>
+            <td>Siti Web Strategici e Servizi Digitali | LS Web Agency</td>
+            <td class="num">1</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/servizi/siti-web</td>
+            <td>Realizzazione Siti Web Strategici | LS Web Agency</td>
+            <td class="num">1</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/servizi/audit-rapido</td>
+            <td>Audit tecnico e di accessibilità prioritizzato | LS Web Agency</td>
+            <td class="num">1</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/servizi/sprint-ottimizzazione</td>
+            <td>Sprint di Ottimizzazione | Performance e conversioni — LS Web Agency</td>
+            <td class="num">1</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/portfolio</td>
+            <td>Portfolio Progetti Web | LS Web Agency</td>
+            <td class="num">1</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/blog</td>
+            <td>Blog — LS Web Agency</td>
+            <td class="num">1</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/contatti</td>
+            <td>Parliamo del tuo sito | LS Web Agency</td>
+            <td class="num">2</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/mini-analisi</td>
+            <td>Valutazione iniziale gratuita — LS Web Agency</td>
+            <td class="num">1</td>
+            <td>Astro</td>
+          </tr>
+          <tr>
+            <td class="num">200</td>
+            <td>https://www.lswebagency.com/servizi/seo-locale</td>
+            <td>SEO Sassari: Consulenza SEO Locale e Posizionamento Google | LS Web Agency</td>
+            <td class="num">1</td>
+            <td>Astro</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Template ricorrenti rilevabili</h3>
+    <ul>
+      <li>Nessuna ricorrenza strutturale affidabile rilevata nel campione.</li>
+    </ul>
+
+    <h2>Riepilogo codici e categorie</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Codice</th>
+            <th>Categoria</th>
+            <th>Severità</th>
+            <th class="num">Occorrenze</th>
+            <th class="num">Pagine</th>
+            <th>Classe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TITLE_TOO_LONG</code></td>
+            <td>seo</td>
+            <td>low</td>
+            <td class="num">3</td>
+            <td class="num">3</td>
+            <td>Correggere al prossimo aggiornamento (intervento rapido)</td>
+          </tr>
+          <tr>
+            <td><code>META_DESCRIPTION_TOO_LONG</code></td>
+            <td>seo</td>
+            <td>low</td>
+            <td class="num">2</td>
+            <td class="num">2</td>
+            <td>Correggere al prossimo aggiornamento (intervento rapido)</td>
+          </tr>
+          <tr>
+            <td><code>TITLE_TOO_SHORT</code></td>
+            <td>seo</td>
+            <td>low</td>
+            <td class="num">1</td>
+            <td class="num">1</td>
+            <td>Correggere al prossimo aggiornamento (intervento rapido)</td>
+          </tr>
+          <tr>
+            <td><code>PAGE_REDIRECT</code></td>
+            <td>migration-risk</td>
+            <td>info</td>
+            <td class="num">1</td>
+            <td class="num">1</td>
+            <td>Preservare in migrazione</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Artefatti prodotti</h2>
+    <ul>
+      <li>run.json — metadati dell&#39;esecuzione (data, durata, configurazione).</li>
+      <li>site.json — dati aggregati del sito e conteggi per categoria e severità.</li>
+      <li>pages.json — dettaglio completo per pagina (title, meta, heading, link, immagini).</li>
+      <li>links.json — tutti i link rilevati con esito del controllo.</li>
+      <li>assets.json — inventario immagini con attributi alt.</li>
+      <li>forms.json — inventario form e campi.</li>
+      <li>issues.json — elenco integrale delle segnalazioni con evidenze.</li>
+      <li>report.md — questo report in formato Markdown (artefatto tecnico e storico).</li>
+      <li>report.html — questo report in formato HTML.</li>
+      <li>screenshots/ — 20 screenshot desktop e mobile delle pagine analizzate.</li>
+    </ul>
+
+    <footer>
+      Report generato automaticamente da LS Site Rescue v0.1.2 il 21 luglio 2026. L'analisi non
+      costituisce certificazione di conformità né garanzia di risultati.
+    </footer>
+  </body>
+</html>
