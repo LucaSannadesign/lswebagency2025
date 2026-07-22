@@ -3,9 +3,9 @@ import Layout from '@/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 
 const metadata = {
-  title: 'Audit tecnico e di accessibilità prioritizzato | LS Web Agency',
+  title: 'LS Site Rescue — Audit prioritizzato del sito | LS Web Agency',
   description:
-    'Analisi tecnica e verifica manuale selettiva del sito: evidenze, finding prioritizzati, roadmap e raccomandazione finale. Con limiti espliciti dell’analisi.',
+    'Prima di rifare il sito o investire in SEO, scopri quali problemi affrontare, in quale ordine e cosa conviene preservare. Audit tecnico verificato e tre priorità operative. Offerta pilota 149 €, fino a 10 pagine, consegna entro 3 giorni lavorativi.',
   canonical: '/servizi/audit-rapido',
   robots: { index: true, follow: true },
   openGraph: {
@@ -14,7 +14,42 @@ const metadata = {
   },
 };
 
-const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sull%27audit%20rapido.';
+// Il servizio è identificato tramite i parametri già gestiti da /contatti:
+// servizio=audit-rapido (label "LS Site Rescue — Audit prioritizzato") + pacchetto=pilota.
+const CTA_AUDIT = '/contatti?servizio=audit-rapido&pacchetto=pilota';
+const WHATSAPP =
+  'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20richiedere%20l%27audit%20pilota%20LS%20Site%20Rescue.';
+
+const faq = [
+  {
+    q: 'Devo rifare il sito dopo l’audit?',
+    a: 'Non necessariamente. L’audit serve proprio a capire cosa conviene correggere, cosa preservare e in quale ordine. In molti casi bastano interventi mirati; a volte è preferibile un rifacimento, altre volte non serve fare nulla di urgente. Ti diamo una lettura chiara su cui decidere.',
+  },
+  {
+    q: 'L’audit comprende le correzioni?',
+    a: 'No. L’audit è la diagnosi: evidenze, priorità e sintesi. Le correzioni e l’implementazione non sono comprese. Se vuoi procedere, ricevi una proposta separata dedicata agli interventi.',
+  },
+  {
+    q: 'È un controllo esclusivamente automatico?',
+    a: 'No. L’analisi tecnica è automatica, ma le evidenze vengono verificate manualmente. Distinguiamo ciò che è dichiarato, ciò che è realmente misurato e la nostra interpretazione, aggiungendo una lettura professionale invece di un semplice elenco di errori.',
+  },
+  {
+    q: 'Analizzate anche siti WordPress?',
+    a: 'Sì. L’audit analizza le pagine pubbliche del sito indipendentemente dalla tecnologia con cui è realizzato, WordPress compreso.',
+  },
+  {
+    q: 'Serve fornire password o accessi?',
+    a: 'No. Analizziamo solo le pagine pubbliche del sito. Non richiediamo credenziali e non analizziamo aree protette da login.',
+  },
+  {
+    q: 'Posso richiedere successivamente le correzioni?',
+    a: 'Sì. Dopo la consegna, se lo desideri, ricevi una proposta separata per gli interventi. Non c’è alcun obbligo: l’audit resta tuo anche se decidi di procedere in autonomia o con altri.',
+  },
+  {
+    q: 'Qual è la differenza rispetto alla mini-analisi gratuita?',
+    a: 'La valutazione iniziale gratuita è un orientamento più leggero, basato sulle informazioni che inserisci. LS Site Rescue è un’analisi assistita: audit tecnico, verifica umana delle evidenze e consegna con tre priorità operative e una sintesi esecutiva.',
+  },
+];
 ---
 
 <Layout metadata={metadata}>
@@ -25,46 +60,54 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
       <div class="grid md:grid-cols-2 gap-10 items-center">
         <div>
           <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-violet-100 text-primary dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
-            <Icon name="tabler:search" class="w-4 h-4" />
-            Analisi tecnica prioritizzata
+            <Icon name="tabler:shield-search" class="w-4 h-4" />
+            LS Site Rescue · Audit prioritizzato
           </span>
 
           <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
             <span class="block text-neutral-900 dark:text-white">
-              Audit tecnico e di accessibilità prioritizzato
+              Audit prioritizzato del sito:
             </span>
             <span class="block text-primary dark:text-violet-400">
-              evidenze, priorità e roadmap
+              scopri cosa correggere prima
             </span>
           </h1>
 
           <p class="mt-5 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
-            Se il tuo sito non porta contatti, spesso il problema non è "Google" ma <strong>messaggio, percorso e fiducia</strong>.
-            L’audit combina analisi tecnica e verifica manuale selettiva su UX, SEO, performance e accessibilità, e restituisce evidenze, finding prioritizzati, una roadmap e una raccomandazione finale.
+            Analizziamo il sito, verifichiamo le evidenze e trasformiamo il risultato in
+            <strong>tre priorità operative comprensibili</strong>. Un servizio professionale assistito di LS Web Agency, non un semplice strumento automatico.
           </p>
 
           <div class="mt-8 flex flex-col sm:flex-row gap-3">
-            <a href="/contatti?servizio=audit-rapido" class="btn-primary inline-flex items-center justify-center px-6 py-3 font-semibold">
-              Richiedi disponibilità per l’audit
+            <a href={CTA_AUDIT} class="btn-primary inline-flex items-center justify-center px-6 py-3 font-semibold">
+              Richiedi l’audit pilota
+            </a>
+            <a href="#cosa-ricevi" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
+              Scopri cosa ricevi
             </a>
             <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
               <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
               WhatsApp
             </a>
-            <a href="#cosa-ricevi" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
-              Cosa ricevi
-            </a>
           </div>
 
-          <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              UX & Conversioni
+          <!-- Riepilogo offerta pilota -->
+          <div class="mt-7 grid grid-cols-2 gap-3 text-sm">
+            <div class="rounded-xl px-3 py-3 ring-1 ring-violet-200/70 dark:ring-violet-700/50 bg-white/70 dark:bg-neutral-900/40 text-center">
+              <div class="text-lg font-extrabold text-primary dark:text-violet-300">149 €</div>
+              <div class="text-neutral-600 dark:text-neutral-400">prezzo pilota</div>
             </div>
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              SEO Tecnica
+            <div class="rounded-xl px-3 py-3 ring-1 ring-violet-200/70 dark:ring-violet-700/50 bg-white/70 dark:bg-neutral-900/40 text-center">
+              <div class="text-lg font-extrabold text-primary dark:text-violet-300">Fino a 10</div>
+              <div class="text-neutral-600 dark:text-neutral-400">pagine pubbliche</div>
             </div>
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              Performance
+            <div class="rounded-xl px-3 py-3 ring-1 ring-violet-200/70 dark:ring-violet-700/50 bg-white/70 dark:bg-neutral-900/40 text-center">
+              <div class="text-lg font-extrabold text-primary dark:text-violet-300">3 giorni</div>
+              <div class="text-neutral-600 dark:text-neutral-400">lavorativi dalla ricezione del brief</div>
+            </div>
+            <div class="rounded-xl px-3 py-3 ring-1 ring-violet-200/70 dark:ring-violet-700/50 bg-white/70 dark:bg-neutral-900/40 text-center">
+              <div class="text-lg font-extrabold text-primary dark:text-violet-300">5 posti</div>
+              <div class="text-neutral-600 dark:text-neutral-400">audit pilota disponibili</div>
             </div>
           </div>
         </div>
@@ -74,42 +117,29 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             <div class="aspect-[4/3] bg-gradient-to-br from-violet-50 via-violet-50 to-fuchsia-50 dark:from-violet-950/30 dark:via-violet-950/20 dark:to-fuchsia-950/30 relative flex items-center justify-center p-8">
               <!-- SVG illustrativo audit -->
               <svg viewBox="0 0 400 300" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                <!-- Dashboard/Report background -->
                 <rect x="20" y="20" width="360" height="260" rx="12" fill="white" class="dark:fill-neutral-800" opacity="0.9"/>
-                
-                <!-- Header bar -->
                 <rect x="20" y="20" width="360" height="50" rx="12" fill="url(#auditGrad1)"/>
                 <circle cx="50" cy="45" r="8" fill="white" opacity="0.8"/>
                 <rect x="70" y="38" width="120" height="14" rx="4" fill="white" opacity="0.9"/>
-                
-                <!-- Chart/Graph -->
                 <rect x="40" y="90" width="320" height="120" rx="8" fill="url(#auditGrad2)" opacity="0.1"/>
-                <path d="M 60 180 L 100 150 L 140 160 L 180 120 L 220 140 L 260 100 L 300 130 L 340 110" 
+                <path d="M 60 180 L 100 150 L 140 160 L 180 120 L 220 140 L 260 100 L 300 130 L 340 110"
                       stroke="url(#auditGrad3)" stroke-width="3" fill="none" stroke-linecap="round"/>
-                
-                <!-- Metrics cards -->
                 <rect x="40" y="230" width="100" height="40" rx="6" fill="url(#auditGrad4)" opacity="0.2"/>
                 <rect x="40" y="230" width="100" height="8" rx="4" fill="url(#auditGrad4)"/>
                 <rect x="40" y="250" width="60" height="6" rx="3" fill="url(#auditGrad4)" opacity="0.5"/>
-                
                 <rect x="150" y="230" width="100" height="40" rx="6" fill="url(#auditGrad5)" opacity="0.2"/>
                 <rect x="150" y="230" width="100" height="8" rx="4" fill="url(#auditGrad5)"/>
                 <rect x="150" y="250" width="60" height="6" rx="3" fill="url(#auditGrad5)" opacity="0.5"/>
-                
                 <rect x="260" y="230" width="100" height="40" rx="6" fill="url(#auditGrad6)" opacity="0.2"/>
                 <rect x="260" y="230" width="100" height="8" rx="4" fill="url(#auditGrad6)"/>
                 <rect x="260" y="250" width="60" height="6" rx="3" fill="url(#auditGrad6)" opacity="0.5"/>
-                
-                <!-- Checkmarks (priorità) -->
+                <!-- Tre priorità -->
                 <circle cx="80" cy="100" r="12" fill="#10B981" opacity="0.2"/>
                 <path d="M 75 100 L 78 103 L 85 96" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round"/>
-                
                 <circle cx="200" cy="100" r="12" fill="#F59E0B" opacity="0.2"/>
                 <path d="M 195 100 L 198 103 L 205 96" stroke="#F59E0B" stroke-width="2" fill="none" stroke-linecap="round"/>
-                
                 <circle cx="320" cy="100" r="12" fill="#EF4444" opacity="0.2"/>
                 <path d="M 315 100 L 318 103 L 325 96" stroke="#EF4444" stroke-width="2" fill="none" stroke-linecap="round"/>
-                
                 <defs>
                   <linearGradient id="auditGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" style="stop-color:#7628E8;stop-opacity:1" />
@@ -144,239 +174,306 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
     </div>
   </section>
 
-  <!-- COLLEGAMENTO GERARCHICO -->
+  <!-- PROMESSA CENTRALE -->
   <section class="container mx-auto px-6 py-6">
     <div class="max-w-4xl mx-auto">
-      <div class="rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-900/40 ring-1 ring-neutral-200 dark:ring-neutral-800">
-        <p class="text-sm text-neutral-600 dark:text-neutral-400">
-          Se dopo l'audit vuoi anche l'implementazione, il passo successivo è un intervento mirato (<a href="/servizi/fix-performance-seo" class="underline hover:text-neutral-900 dark:hover:text-white font-semibold">Fix</a>) o un percorso completo (Sprint).
+      <div class="rounded-2xl p-6 md:p-7 bg-violet-50/70 dark:bg-violet-950/25 ring-1 ring-violet-200/70 dark:ring-violet-800/50">
+        <p class="text-lg md:text-xl font-semibold text-neutral-900 dark:text-white leading-relaxed">
+          Prima di rifare il sito o investire in SEO, scopri quali problemi affrontare, in quale ordine e che cosa conviene preservare.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- COSA INCLUDE -->
+  <!-- PROBLEMA -->
   <section class="container mx-auto px-6 py-12">
     <div class="max-w-3xl mb-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa analizziamo</h2>
-      <p class="text-neutral-700 dark:text-neutral-300">
-        Aree critiche che bloccano contatti e posizionamento, con analisi tecnica e verifica manuale selettiva. Niente tecnicismi inutili: solo <strong>priorità reali</strong>.
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Il problema: da dove iniziare senza sprecare budget</h2>
+      <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+        Chi possiede un sito, spesso, non sa quale strada prendere. Ogni scelta ha un costo, e senza priorità è facile spendere sull’intervento sbagliato.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl">
+      {[
+        'Rifare completamente il sito',
+        'Investire in SEO',
+        'Correggere problemi tecnici',
+        'Migliorare testi e call to action',
+        'Conservare ciò che funziona già',
+        'Non spendere finché non è chiaro cosa serve',
+      ].map((item) => (
+        <div class="flex items-start gap-3 rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+          <Icon name="tabler:help-circle" class="w-6 h-6 text-primary dark:text-violet-400 shrink-0" />
+          <span class="text-neutral-700 dark:text-neutral-300">{item}</span>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-6 max-w-3xl text-neutral-700 dark:text-neutral-300 leading-relaxed">
+      LS Site Rescue serve a stabilire le priorità <strong>prima</strong> di spendere altro denaro: capisci cosa affrontare per primo e cosa può aspettare.
+    </p>
+  </section>
+
+  <!-- A CHI SERVE -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">A chi serve</h2>
+        <p class="text-neutral-700 dark:text-neutral-300">
+          Pensato per chi ha già un sito online e vuole decidere con basi solide.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl">
+        {[
+          { icon: 'tabler:map-pin', text: 'Attività locali' },
+          { icon: 'tabler:user', text: 'Professionisti' },
+          { icon: 'tabler:building', text: 'Studi' },
+          { icon: 'tabler:briefcase', text: 'Piccole imprese' },
+          { icon: 'tabler:world', text: 'Proprietari di siti già online' },
+          { icon: 'tabler:refresh', text: 'Chi valuta un restyling o una migrazione' },
+        ].map((item) => (
+          <div class="flex items-center gap-3 rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+            <Icon name={item.icon} class="w-6 h-6 text-primary dark:text-violet-400 shrink-0" />
+            <span class="font-medium text-neutral-800 dark:text-neutral-200">{item.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA RICEVI -->
+  <section id="cosa-ricevi" class="container mx-auto px-6 py-12 scroll-mt-24">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa ricevi</h2>
+      <p class="text-neutral-700 dark:text-neutral-300">
+        Una consegna comprensibile, che mette al centro <strong>cosa fare</strong> e <strong>perché</strong>, non un elenco tecnico fine a sé stesso.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
       {[
         {
-          icon: 'tabler:target-arrow',
-          title: 'UX e conversioni',
-          items: [
-            'CTA, messaggi e percorso utente',
-            'Struttura pagine e gerarchia',
-            'Attrito verso il contatto',
-            'Mobile experience',
-          ],
+          icon: 'tabler:clipboard-text',
+          title: 'Brief iniziale',
+          desc: 'Un breve brief in cui raccogliamo contesto, obiettivi e il problema dichiarato.',
         },
         {
-          icon: 'tabler:search',
-          title: 'SEO tecnica',
-          items: [
-            'Tag, struttura, indicizzazione',
-            'Meta title/description',
-            'Heading e schema markup',
-            'Canonical e redirect',
-          ],
+          icon: 'tabler:file-search',
+          title: 'Audit fino a 10 pagine',
+          desc: 'Analisi tecnica delle pagine pubbliche del sito, fino a un massimo di 10.',
         },
         {
-          icon: 'tabler:gauge',
-          title: 'Performance',
-          items: [
-            'Core Web Vitals',
-            'Colli di bottiglia',
-            'Immagini e risorse',
-            'Velocità caricamento',
-          ],
+          icon: 'tabler:eye-check',
+          title: 'Controllo umano dei risultati',
+          desc: 'Verifica manuale delle evidenze: distinguiamo dati, interpretazione e falsi positivi.',
         },
         {
-          icon: 'tabler:accessible',
-          title: 'Accessibilità',
-          items: [
-            'Contrasti e leggibilità',
-            'Focus e navigazione da tastiera',
-            'Alt text e struttura semantica',
-            'Verifica manuale selettiva',
-          ],
+          icon: 'tabler:notes',
+          title: 'Sintesi esecutiva',
+          desc: 'Una lettura chiara e comprensibile del quadro generale, senza tecnicismi inutili.',
         },
-      ].map((area) => (
-        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
-          <Icon name={area.icon} class="w-8 h-8 text-primary dark:text-violet-400 mb-3" />
-          <h3 class="font-semibold text-lg mb-4">{area.title}</h3>
-          <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
-            {area.items.map((item) => (
-              <li class="flex gap-2">
-                <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+        {
+          icon: 'tabler:list-numbers',
+          title: 'Tre interventi ordinati',
+          desc: 'Le tre priorità operative da affrontare, nell’ordine consigliato.',
+        },
+        {
+          icon: 'tabler:shield-check',
+          title: 'Elementi da preservare',
+          desc: 'Cosa funziona già e conviene mantenere, per non peggiorare ciò che va bene.',
+        },
+        {
+          icon: 'tabler:file-text',
+          title: 'Report tecnico in appendice',
+          desc: 'Le evidenze di dettaglio a supporto delle priorità, per chi vuole approfondire.',
+        },
+        {
+          icon: 'tabler:mail',
+          title: 'Chiarimento via email',
+          desc: 'Un giro di chiarimenti successivo via email, senza call obbligatorie.',
+        },
+      ].map((item) => (
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+          <Icon name={item.icon} class="w-8 h-8 text-primary dark:text-violet-400 mb-3" />
+          <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
         </article>
       ))}
     </div>
   </section>
 
-  <!-- DELIVERABLE -->
-  <section id="cosa-ricevi" class="bg-neutral-50 dark:bg-neutral-950/40 scroll-mt-24">
+  <!-- COME FUNZIONA -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
     <div class="container mx-auto px-6 py-12">
       <div class="max-w-3xl mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa ricevi</h2>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Come funziona</h2>
         <p class="text-neutral-700 dark:text-neutral-300">
-          Evidenze e finding prioritizzati, una roadmap operativa e una raccomandazione finale. Focus su <strong>cosa fare</strong> e <strong>perché</strong>.
+          Un processo lineare, senza passaggi obbligati o call imposte.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-6">
+      <ol class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl">
         {[
-          {
-            icon: 'tabler:file-text',
-            title: 'Report con evidenze',
-            desc: 'Evidenze tecniche e finding prioritizzati per impatto, con screenshot e spiegazioni chiare. Niente liste infinite: solo ciò che conta.',
-          },
-          {
-            icon: 'tabler:list-check',
-            title: 'Roadmap operativa',
-            desc: 'Priorità in ordine: cosa fare subito, cosa può aspettare, cosa delegare.',
-          },
-          {
-            icon: 'tabler:chart-bar',
-            title: 'Metriche baseline',
-            desc: 'Core Web Vitals, posizioni keyword principali, conversioni attuali. Per misurare i miglioramenti.',
-          },
-          {
-            icon: 'tabler:bulb',
-            title: 'Raccomandazione finale',
-            desc: 'La mia indicazione sul passo più sensato: intervento mirato, percorso completo o nessun intervento se non serve.',
-          },
-        ].map((item) => (
-          <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-            <Icon name={item.icon} class="w-8 h-8 text-primary dark:text-violet-400 mb-3" />
-            <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
-            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
-          </article>
+          { n: '1', title: 'Invio del sito e del problema', desc: 'Ci scrivi l’indirizzo del sito e il problema che hai riscontrato.' },
+          { n: '2', title: 'Compilazione del brief', desc: 'Rispondi a poche domande per inquadrare contesto e obiettivi.' },
+          { n: '3', title: 'Analisi tecnica', desc: 'Eseguiamo l’audit tecnico automatico delle pagine pubbliche.' },
+          { n: '4', title: 'Verifica professionale', desc: 'Controlliamo manualmente le evidenze e ne valutiamo la rilevanza.' },
+          { n: '5', title: 'Consegna della sintesi', desc: 'Ricevi sintesi esecutiva, tre priorità ed elementi da preservare.' },
+          { n: '6', title: 'Eventuale proposta separata', desc: 'Se vuoi intervenire, ricevi una proposta dedicata alle correzioni.' },
+        ].map((step) => (
+          <li class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+            <div class="w-9 h-9 rounded-full bg-violet-100 text-primary dark:bg-violet-900/40 dark:text-violet-200 font-bold flex items-center justify-center mb-3">{step.n}</div>
+            <h3 class="font-semibold mb-1">{step.title}</h3>
+            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{step.desc}</p>
+          </li>
         ))}
-      </div>
-
-      <div class="mt-8 max-w-3xl rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-        <h3 class="font-semibold mb-2">Limiti dell’analisi</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-          L’audit è una verifica tecnica e manuale selettiva, non una copertura completa del sito né una certificazione. Non promette conformità normativa, aumento delle conversioni, posizionamento, tempi garantiti o assenza di errori: fornisce evidenze, priorità e una raccomandazione su cui decidere.
-        </p>
-      </div>
+      </ol>
     </div>
   </section>
 
-  <!-- CONFIGURAZIONI -->
-  <section id="prezzi" class="container mx-auto px-6 py-12">
+  <!-- DIFFERENZA RISPETTO AGLI AUDIT AUTOMATICI -->
+  <section class="container mx-auto px-6 py-12">
     <div class="max-w-3xl mb-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Come è organizzato l’audit</h2>
-      <p class="text-neutral-600 dark:text-neutral-300">
-        <em>Durante il periodo pilota l’audit è su preventivo, senza prezzo fisso pubblicato. Il tempo di consegna viene concordato in base al sito.</em><br />
-        <em>L’audit riguarda l’intero sito (UX, SEO tecnica, performance e accessibilità) ed è un percorso diverso dalla verifica locale focalizzata su Google Business Profile.</em>
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">In cosa è diverso da un audit solo automatico</h2>
+      <p class="text-neutral-700 dark:text-neutral-300">
+        L’analisi tecnica automatica è utile, ma da sola non basta a decidere. Qui aggiungiamo il lavoro che fa la differenza.
       </p>
-    </div>
-
-    <div class="max-w-3xl">
-      <article class="rounded-3xl p-7 md:p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/85 dark:bg-neutral-900/55 shadow-sm">
-        <div class="flex items-start justify-between gap-4 mb-4">
-          <div>
-            <h3 class="text-xl font-bold">Audit tecnico e di accessibilità prioritizzato</h3>
-            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Un solo servizio: analisi tecnica, evidenze e priorità.</p>
-          </div>
-          <div class="text-right shrink-0">
-            <div class="text-xl font-extrabold">Su preventivo</div>
-            <div class="text-sm text-neutral-500">tempi concordati</div>
-          </div>
-        </div>
-
-        <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-neutral-700 dark:text-neutral-300 mb-6">
-          <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Analisi UX, SEO tecnica, performance e accessibilità</span>
-          </li>
-          <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Report con evidenze e finding prioritizzati</span>
-          </li>
-          <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Roadmap operativa e raccomandazione finale</span>
-          </li>
-          <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Metriche baseline (Core Web Vitals, keyword)</span>
-          </li>
-          <li class="flex gap-2 sm:col-span-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Restituzione finale (call di presentazione) inclusa o concordata secondo il progetto</span>
-          </li>
-        </ul>
-
-        <a href="/contatti?servizio=audit-rapido" class="btn-primary inline-flex items-center justify-center w-full sm:w-auto px-8 py-3 font-semibold">
-          Richiedi disponibilità per l’audit
-        </a>
-      </article>
-    </div>
-
-    <p class="mt-6 max-w-5xl text-sm text-neutral-600 dark:text-neutral-400">
-      Il pagamento viene concordato dopo la conferma del servizio e l'accettazione del preventivo.
-    </p>
-  </section>
-
-  <!-- FAQ -->
-  <section class="container mx-auto px-6 pb-12">
-    <div class="max-w-3xl mb-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Domande frequenti</h2>
     </div>
 
     <div class="grid md:grid-cols-2 gap-4 max-w-5xl">
       {[
-        {
-          q: 'Cosa serve per iniziare?',
-          a: 'Solo l\'URL del sito e accesso a Google Analytics (se disponibile). I tempi di consegna vengono concordati in base al sito.',
-        },
-        {
-          q: 'L\'audit include anche la correzione?',
-          a: 'No, l\'audit è la diagnosi. Ti dico cosa correggere e come. Se vuoi, possiamo procedere con i fix (servizio separato).',
-        },
-        {
-          q: 'È utile anche per siti nuovi?',
-          a: 'Sì, soprattutto per evitare errori comuni fin dall\'inizio. Meglio correggere subito che dopo mesi.',
-        },
-        {
-          q: 'Posso usare l\'audit per altri professionisti?',
-          a: 'Sì, il report è tuo. Puoi condividerlo con il tuo team o altri professionisti per implementare le correzioni.',
-        },
-      ].map((faq) => (
-        <details class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
-          <summary class="cursor-pointer font-semibold flex items-center justify-between gap-4">
-            <span>{faq.q}</span>
-            <Icon name="tabler:chevron-down" class="w-5 h-5 opacity-70 shrink-0" />
-          </summary>
-          <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{faq.a}</p>
-        </details>
+        'Non consegna soltanto un elenco di errori: interpreta il quadro e indica le priorità.',
+        'Distingue ciò che è dichiarato, ciò che è realmente misurato e la nostra interpretazione.',
+        'Non considera automaticamente ogni anomalia una priorità commerciale.',
+        'Aggiunge una lettura professionale di LS Web Agency, orientata alle decisioni.',
+      ].map((item) => (
+        <div class="flex items-start gap-3 rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+          <Icon name="tabler:check" class="w-6 h-6 text-primary dark:text-violet-400 shrink-0" />
+          <span class="text-neutral-700 dark:text-neutral-300">{item}</span>
+        </div>
       ))}
     </div>
   </section>
 
+  <!-- COSA NON COMPRENDE -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa non comprende</h2>
+        <p class="text-neutral-700 dark:text-neutral-300">
+          Per trasparenza, ecco cosa resta fuori dall’audit pilota.
+        </p>
+      </div>
+
+      <div class="max-w-4xl rounded-2xl p-6 md:p-7 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+        <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-sm text-neutral-700 dark:text-neutral-300">
+          {[
+            'Correzioni e implementazione al sito',
+            'Certificazioni (WCAG, legali o privacy)',
+            'Analisi legali o sulla privacy',
+            'Aree protette da login',
+            'Keyword research completa',
+            'Backlink audit',
+            'Analisi approfondita della concorrenza',
+            'Garanzie di traffico, ranking o conversione',
+          ].map((item) => (
+            <li class="flex items-start gap-2.5">
+              <Icon name="tabler:x" class="w-5 h-5 text-neutral-400 dark:text-neutral-500 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREZZO PILOTA -->
+  <section id="prezzo" class="container mx-auto px-6 py-12 scroll-mt-24">
+    <div class="max-w-3xl mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Offerta pilota</h2>
+      <p class="text-neutral-700 dark:text-neutral-300">
+        Un solo pacchetto, chiaro e senza sorprese. Disponibilità limitata alla fase pilota.
+      </p>
+    </div>
+
+    <div class="max-w-2xl">
+      <article class="rounded-3xl p-7 md:p-8 ring-1 ring-violet-200 dark:ring-violet-800/60 bg-white/90 dark:bg-neutral-900/60 shadow-sm">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <span class="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-[11px] font-semibold text-primary dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
+              5 posti disponibili
+            </span>
+            <h3 class="mt-2 text-xl font-bold">Audit prioritizzato pilota</h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">LS Site Rescue — analisi assistita e verificata.</p>
+          </div>
+          <div class="text-right shrink-0">
+            <div class="text-3xl font-extrabold text-primary dark:text-violet-300">149 €</div>
+            <div class="text-sm text-neutral-500">una tantum</div>
+          </div>
+        </div>
+
+        <ul class="space-y-2 text-sm text-neutral-700 dark:text-neutral-300 mb-6">
+          {[
+            'Fino a 10 pagine pubbliche analizzate',
+            'Consegna entro 3 giorni lavorativi dalla ricezione completa del brief',
+            'Sintesi esecutiva, tre priorità operative ed elementi da preservare',
+            'Report tecnico in appendice',
+            'Un giro di chiarimenti successivo via email',
+            'Nessun abbonamento',
+            'Nessuna call obbligatoria',
+          ].map((item) => (
+            <li class="flex gap-2">
+              <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <a href={CTA_AUDIT} class="btn-primary inline-flex items-center justify-center w-full sm:w-auto px-8 py-3 font-semibold">
+          Richiedi l’audit pilota
+        </a>
+
+        <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+          Correzioni e implementazione non sono comprese: se vuoi procedere, ricevi una proposta separata dedicata agli interventi.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-neutral-50 dark:bg-neutral-950/40">
+    <div class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Domande frequenti</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4 max-w-5xl">
+        {faq.map((item) => (
+          <details class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
+            <summary class="cursor-pointer font-semibold flex items-center justify-between gap-4">
+              <span>{item.q}</span>
+              <Icon name="tabler:chevron-down" class="w-5 h-5 opacity-70 shrink-0" />
+            </summary>
+            <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- CTA FINALE -->
-  <section class="container mx-auto px-6 pb-16">
+  <section class="container mx-auto px-6 py-16">
     <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-950 via-neutral-900 to-violet-950 text-white">
       <div class="max-w-3xl">
-        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Vuoi sapere cosa blocca il tuo sito?</h2>
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Richiedi uno dei 5 audit pilota</h2>
         <p class="text-lg text-white/80 leading-relaxed mb-6">
-          Ti indico le priorità reali su UX, SEO, performance e accessibilità, con evidenze e una raccomandazione. Niente tecnicismi: solo <strong>cosa fare</strong> e <strong>perché</strong>.
+          Scopri quali problemi affrontare, in quale ordine e cosa conviene preservare, prima di rifare il sito o investire in SEO. 149 €, fino a 10 pagine, consegna entro 3 giorni lavorativi.
         </p>
         <div class="flex flex-col sm:flex-row gap-3">
-          <a href="/contatti?servizio=audit-rapido" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
-            Richiedi disponibilità per l’audit
+          <a href={CTA_AUDIT} class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
+            Richiedi l’audit pilota
             <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
           </a>
           <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold border border-white/30 hover:bg-white/10">
@@ -384,34 +481,54 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
             Scrivimi su WhatsApp
           </a>
         </div>
-        <p class="mt-4 text-sm text-white/70">Evidenze, priorità e raccomandazione finale</p>
+        <p class="mt-4 text-sm text-white/70">Nessun abbonamento · Nessuna call obbligatoria</p>
       </div>
     </div>
   </section>
 
   <!-- STUDIO GUIDATO DA LUCA -->
-  <section class="container mx-auto px-6 py-10">
+  <section class="container mx-auto px-6 pb-16">
     <div class="max-w-3xl mx-auto">
       <div class="rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-900/40 ring-1 ring-neutral-200 dark:ring-neutral-800">
         <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          LS Web Agency è uno studio guidato da Luca Sanna. Lavoro in prima persona su analisi, UX e implementazione tecnica. Quando serve, attivo una rete di collaboratori specializzati, mantenendo un unico referente e un processo chiaro.
+          LS Site Rescue è un servizio di LS Web Agency, studio guidato da Luca Sanna. Il controllo delle evidenze e la sintesi finale sono seguiti in prima persona: uno strumento tecnico prepara i dati, la lettura professionale è umana.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- JSON-LD -->
+  <!-- JSON-LD: Service + Offer -->
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Audit tecnico e di accessibilità prioritizzato',
-    description: 'Analisi tecnica e verifica manuale selettiva del sito: UX, SEO, performance e accessibilità. Evidenze, finding prioritizzati, roadmap e raccomandazione finale.',
+    name: 'LS Site Rescue — Audit prioritizzato del sito',
+    serviceType: 'Audit del sito web',
+    description:
+      'Servizio professionale assistito di LS Web Agency: audit tecnico delle pagine pubbliche con verifica umana delle evidenze, sintesi esecutiva e tre priorità operative. Correzioni non comprese.',
     provider: {
       '@type': 'Organization',
       name: 'LS Web Agency',
       url: 'https://www.lswebagency.com',
     },
     areaServed: 'IT',
+    offers: {
+      '@type': 'Offer',
+      name: 'Audit prioritizzato pilota',
+      price: '149',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/LimitedAvailability',
+      url: 'https://www.lswebagency.com/servizi/audit-rapido',
+    },
+  })} />
+
+  <!-- JSON-LD: FAQ -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
   })} />
 </Layout>
-

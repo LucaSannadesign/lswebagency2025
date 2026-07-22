@@ -8,7 +8,7 @@ export const headerData = {
       href: '/servizi',
       links: [
         { text: 'Sito web strategico', href: '/servizi/siti-web' },
-        { text: 'Audit tecnico e accessibilità', href: '/servizi/audit-rapido' },
+        { text: 'Audit prioritizzato del sito', href: '/servizi/audit-rapido' },
         { text: 'Sprint tecnico', href: '/servizi/sprint-ottimizzazione' },
         { text: 'divider' },
         { text: 'Tutti i servizi', href: '/servizi#servizi-principali' },
