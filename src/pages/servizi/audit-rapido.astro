@@ -5,7 +5,7 @@ import { Icon } from 'astro-icon/components';
 const metadata = {
   title: 'LS Site Rescue — Audit prioritizzato del sito | LS Web Agency',
   description:
-    'Prima di rifare il sito o investire in SEO, scopri quali problemi affrontare, in quale ordine e cosa conviene preservare. Audit tecnico verificato e tre priorità operative. Offerta pilota 149 €, fino a 10 pagine, consegna entro 3 giorni lavorativi.',
+    'Prima di rifare il sito o investire in SEO, scopri quali problemi affrontare, in quale ordine e cosa conviene preservare. Audit tecnico verificato e tre priorità operative. Prezzo complessivo 349 €, fino a 10 pagine, consegna entro 3 giorni lavorativi. IVA non applicata.',
   canonical: '/servizi/audit-rapido',
   robots: { index: true, follow: true },
   openGraph: {
@@ -15,10 +15,10 @@ const metadata = {
 };
 
 // Il servizio è identificato tramite i parametri già gestiti da /contatti:
-// servizio=audit-rapido (label "LS Site Rescue — Audit prioritizzato") + pacchetto=pilota.
-const CTA_AUDIT = '/contatti?servizio=audit-rapido&pacchetto=pilota';
+// Il parametro servizio precompila la richiesta senza associare il vecchio pacchetto pilota.
+const CTA_AUDIT = '/contatti?servizio=audit-rapido';
 const WHATSAPP =
-  'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20richiedere%20l%27audit%20pilota%20LS%20Site%20Rescue.';
+  'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20richiedere%20LS%20Site%20Rescue.';
 
 const faq = [
   {
@@ -80,7 +80,7 @@ const faq = [
 
           <div class="mt-8 flex flex-col sm:flex-row gap-3">
             <a href={CTA_AUDIT} class="btn-primary inline-flex items-center justify-center px-6 py-3 font-semibold">
-              Richiedi l’audit pilota
+              Richiedi LS Site Rescue
             </a>
             <a href="#cosa-ricevi" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
               Scopri cosa ricevi
@@ -91,11 +91,11 @@ const faq = [
             </a>
           </div>
 
-          <!-- Riepilogo offerta pilota -->
+          <!-- Riepilogo servizio -->
           <div class="mt-7 grid grid-cols-2 gap-3 text-sm">
             <div class="rounded-xl px-3 py-3 ring-1 ring-violet-200/70 dark:ring-violet-700/50 bg-white/70 dark:bg-neutral-900/40 text-center">
-              <div class="text-lg font-extrabold text-primary dark:text-violet-300">149 €</div>
-              <div class="text-neutral-600 dark:text-neutral-400">prezzo pilota</div>
+              <div class="text-lg font-extrabold text-primary dark:text-violet-300">349 €</div>
+              <div class="text-neutral-600 dark:text-neutral-400">prezzo complessivo</div>
             </div>
             <div class="rounded-xl px-3 py-3 ring-1 ring-violet-200/70 dark:ring-violet-700/50 bg-white/70 dark:bg-neutral-900/40 text-center">
               <div class="text-lg font-extrabold text-primary dark:text-violet-300">Fino a 10</div>
@@ -106,8 +106,8 @@ const faq = [
               <div class="text-neutral-600 dark:text-neutral-400">lavorativi dalla ricezione del brief</div>
             </div>
             <div class="rounded-xl px-3 py-3 ring-1 ring-violet-200/70 dark:ring-violet-700/50 bg-white/70 dark:bg-neutral-900/40 text-center">
-              <div class="text-lg font-extrabold text-primary dark:text-violet-300">5 posti</div>
-              <div class="text-neutral-600 dark:text-neutral-400">audit pilota disponibili</div>
+              <div class="text-lg font-extrabold text-primary dark:text-violet-300">IVA</div>
+              <div class="text-neutral-600 dark:text-neutral-400">non applicata</div>
             </div>
           </div>
         </div>
@@ -363,7 +363,7 @@ const faq = [
       <div class="max-w-3xl mb-8">
         <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa non comprende</h2>
         <p class="text-neutral-700 dark:text-neutral-300">
-          Per trasparenza, ecco cosa resta fuori dall’audit pilota.
+          Per trasparenza, ecco cosa resta fuori dall’audit.
         </p>
       </div>
 
@@ -389,12 +389,12 @@ const faq = [
     </div>
   </section>
 
-  <!-- PREZZO PILOTA -->
+  <!-- PREZZO -->
   <section id="prezzo" class="container mx-auto px-6 py-12 scroll-mt-24">
     <div class="max-w-3xl mb-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Offerta pilota</h2>
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Prezzo del servizio</h2>
       <p class="text-neutral-700 dark:text-neutral-300">
-        Un solo pacchetto, chiaro e senza sorprese. Disponibilità limitata alla fase pilota.
+        Un solo pacchetto, con prezzo e perimetro chiari.
       </p>
     </div>
 
@@ -403,14 +403,14 @@ const faq = [
         <div class="flex items-start justify-between gap-4 mb-4">
           <div>
             <span class="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-[11px] font-semibold text-primary dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
-              5 posti disponibili
+              Prezzo definito
             </span>
-            <h3 class="mt-2 text-xl font-bold">Audit prioritizzato pilota</h3>
+            <h3 class="mt-2 text-xl font-bold">Audit prioritizzato del sito</h3>
             <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">LS Site Rescue — analisi assistita e verificata.</p>
           </div>
           <div class="text-right shrink-0">
-            <div class="text-3xl font-extrabold text-primary dark:text-violet-300">149 €</div>
-            <div class="text-sm text-neutral-500">una tantum</div>
+            <div class="text-3xl font-extrabold text-primary dark:text-violet-300">349 €</div>
+            <div class="text-sm text-neutral-500">una tantum · IVA non applicata</div>
           </div>
         </div>
 
@@ -432,7 +432,7 @@ const faq = [
         </ul>
 
         <a href={CTA_AUDIT} class="btn-primary inline-flex items-center justify-center w-full sm:w-auto px-8 py-3 font-semibold">
-          Richiedi l’audit pilota
+          Richiedi LS Site Rescue
         </a>
 
         <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
@@ -467,13 +467,13 @@ const faq = [
   <section class="container mx-auto px-6 py-16">
     <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-950 via-neutral-900 to-violet-950 text-white">
       <div class="max-w-3xl">
-        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Richiedi uno dei 5 audit pilota</h2>
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Richiedi LS Site Rescue</h2>
         <p class="text-lg text-white/80 leading-relaxed mb-6">
-          Scopri quali problemi affrontare, in quale ordine e cosa conviene preservare, prima di rifare il sito o investire in SEO. 149 €, fino a 10 pagine, consegna entro 3 giorni lavorativi.
+          Scopri quali problemi affrontare, in quale ordine e cosa conviene preservare, prima di rifare il sito o investire in SEO. 349 € complessivi, IVA non applicata, fino a 10 pagine e consegna entro 3 giorni lavorativi.
         </p>
         <div class="flex flex-col sm:flex-row gap-3">
           <a href={CTA_AUDIT} class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
-            Richiedi l’audit pilota
+            Richiedi LS Site Rescue
             <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
           </a>
           <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold border border-white/30 hover:bg-white/10">
@@ -513,10 +513,10 @@ const faq = [
     areaServed: 'IT',
     offers: {
       '@type': 'Offer',
-      name: 'Audit prioritizzato pilota',
-      price: '149',
+      name: 'Audit prioritizzato del sito',
+      price: '349',
       priceCurrency: 'EUR',
-      availability: 'https://schema.org/LimitedAvailability',
+      availability: 'https://schema.org/InStock',
       url: 'https://www.lswebagency.com/servizi/audit-rapido',
     },
   })} />
