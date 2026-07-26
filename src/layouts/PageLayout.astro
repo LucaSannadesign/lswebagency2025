@@ -17,7 +17,7 @@ const pathname = Astro.url.pathname;
 const hideSiteAssistant =
   pathname === '/servizi/assistente-ai-sito-whatsapp' ||
   pathname === '/servizi/assistente-ai-sito-whatsapp/';
-// WhatsApp: solo la variabile PUBLIC_ già usata nel progetto (ChatWidget, pagina servizio).
+// WhatsApp: solo la variabile PUBLIC_ già usata nel progetto (SiteAssistant, pagina servizio).
 // Se assente, il componente funziona senza WhatsApp (nessun numero hardcoded, nessuna env server).
 const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || undefined;
 ---
