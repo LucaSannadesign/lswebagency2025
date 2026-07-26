@@ -1,423 +1,897 @@
 ---
-import Layout from '@/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
+import Layout from "@/layouts/PageLayout.astro";
+import { Icon } from "astro-icon/components";
 
-const metadata = {
-  title: 'Audit tecnico e di accessibilità prioritizzato | LS Web Agency',
+const CTA_HREF = "/contatti?servizio=audit-rapido";
+
+const situations = [
+  "Il sito è lento a caricare.",
+  "Da telefono si usa male.",
+  "Ci sono errori o pagine che non funzionano.",
+  "Non si capisce subito cosa offri.",
+  "Su Google alcune pagine non si trovano.",
+  "Arrivano visite, ma non richieste.",
+];
+
+const auditAreas = [
+  {
+    icon: "tabler:gauge",
+    title: "Prestazioni",
+    description: "Quanto è veloce il sito e cosa lo appesantisce.",
+    checks:
+      "Tempi di caricamento · immagini pesanti · risorse che bloccano la pagina",
+  },
+  {
+    icon: "tabler:device-mobile",
+    title: "Mobile e responsive",
+    description:
+      "Come si comporta sullo schermo da cui arriva la maggior parte delle persone.",
+    checks:
+      "Leggibilità · menu · pulsanti troppo piccoli · elementi fuori schermo",
+  },
+  {
+    icon: "tabler:accessible",
+    title: "UX e accessibilità",
+    description:
+      "Se il percorso verso il contatto è chiaro e usabile da tutti.",
+    checks:
+      "Posizione delle CTA · attrito nei form · contrasti · uso da tastiera",
+  },
+  {
+    icon: "tabler:search",
+    title: "SEO tecnica",
+    description: "Se le pagine sono leggibili dai motori di ricerca.",
+    checks:
+      "Titoli e descrizioni · indicizzazione · link rotti · contenuti duplicati",
+  },
+  {
+    icon: "tabler:layout-list",
+    title: "Contenuti e gerarchie",
+    description: "Se si capisce cosa fai, per chi e cosa deve fare chi arriva.",
+    checks:
+      "Chiarezza del messaggio · ordine delle informazioni · pagine doppie o inutili",
+  },
+  {
+    icon: "tabler:shield-check",
+    title: "Sicurezza e manutenzione visibile",
+    description: "Quello che si può verificare dall’esterno, senza accessi.",
+    checks:
+      "Certificato HTTPS · avvisi del browser · componenti visibilmente non aggiornati",
+  },
+];
+
+const deliverables = [
+  {
+    title: "Un report comprensibile",
+    description:
+      "In italiano semplice, con gli screenshot di ciò che ho trovato. Ogni problema è spiegato, non solo elencato.",
+  },
+  {
+    title: "I problemi ordinati per priorità",
+    description:
+      "Non un elenco infinito: prima quello che pesa davvero sui risultati.",
+  },
+  {
+    title: "Indicazioni operative",
+    description:
+      "Cosa fare per ogni problema, in modo che sia utilizzabile anche dal tuo tecnico.",
+  },
+  {
+    title: "Cosa è urgente e cosa può aspettare",
+    description:
+      "Tre livelli dichiarati, così decidi con ordine e senza sorprese.",
+  },
+];
+
+const processSteps = [
+  {
+    title: "Mi invii il sito",
+    description: "L’indirizzo e due righe sul problema che noti.",
+  },
+  {
+    title: "Confermo il perimetro",
+    description:
+      "Verifico quante pagine sono e ti confermo prezzo e tempi. Poi si parte.",
+  },
+  {
+    title: "Analizzo il sito",
+    description:
+      "Controlli tecnici più verifica manuale, con screenshot di ogni problema.",
+  },
+  {
+    title: "Ricevi il report",
+    description:
+      "Entro 7 giorni lavorativi dalla conferma. Le correzioni, se le vuoi, sono un lavoro separato.",
+  },
+];
+
+const reportExamples = [
+  {
+    number: "01",
+    priority: "Urgente",
+    priorityClass:
+      "border-red-200 bg-red-50 text-red-700 dark:border-red-400/30 dark:bg-red-950/30 dark:text-red-300",
+    icon: "▲",
+    title: "Da telefono non si capisce dove chiedere un preventivo",
+    why: "Il pulsante di contatto ha lo stesso peso di altre tre azioni vicine, quindi l’utente non sa cosa toccare.",
+    action:
+      "Una sola azione principale ben visibile, le altre come link. Intervento breve.",
+  },
+  {
+    number: "02",
+    priority: "Importante",
+    priorityClass:
+      "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-400/30 dark:bg-amber-950/30 dark:text-amber-300",
+    icon: "◆",
+    title: "Tre pagine hanno lo stesso titolo su Google",
+    why: "Le pagine si somigliano troppo e chi cerca non capisce quale aprire.",
+    action: "Riscrivere titolo e descrizione di ogni pagina, una per servizio.",
+  },
+  {
+    number: "03",
+    priority: "Migliorativo",
+    priorityClass:
+      "border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-500/30 dark:bg-slate-800/50 dark:text-slate-300",
+    icon: "●",
+    title: "Due link nel footer portano a pagine che non esistono più",
+    why: "Dà un’impressione di sito abbandonato, anche se il resto funziona.",
+    action: "Aggiornare i due indirizzi. Pochi minuti di lavoro.",
+  },
+];
+
+const included = [
+  "Analisi delle sei aree, tecnica e manuale",
+  "Report PDF con evidenze e screenshot",
+  "Problemi ordinati per priorità",
+  "Indicazioni operative su cosa correggere",
+  "Indicazione su cosa conviene correggere e cosa rifare",
+];
+
+const excluded = [
+  "L’esecuzione delle correzioni",
+  "Restyling o rifacimento del sito",
+  "La call finale di presentazione",
+  "Garanzie su posizionamento, traffico o vendite",
+  "Aree riservate, gestionali e pagine protette",
+];
+
+const faqItems = [
+  {
+    question: "Devo rifare il sito?",
+    answer:
+      "Spesso no. Molti problemi si correggono senza ricostruire tutto: l’audit serve a capire quali e a dirti con quale ordine affrontarli.",
+  },
+  {
+    question: "Le correzioni sono incluse?",
+    answer:
+      "No. L’audit è la diagnosi: ti dico cosa non funziona e cosa fare. Se vuoi che intervenga io, lo preventivo separatamente.",
+  },
+  {
+    question: "Cosa devi darmi per iniziare?",
+    answer:
+      "L’indirizzo del sito e una breve descrizione del problema che noti. Non mi serve l’accesso al pannello: analizzo il sito pubblico.",
+  },
+  {
+    question: "Funziona con WordPress e con altre piattaforme?",
+    answer: "Sì. Cambiano le indicazioni tecniche, non il metodo di analisi.",
+  },
+  {
+    question: "In quanto tempo ricevo il report?",
+    answer: "Entro 7 giorni lavorativi dalla conferma del perimetro.",
+  },
+  {
+    question: "Mi garantisci più visite o più clienti?",
+    answer:
+      "No, e chi lo garantisce sta semplificando. Ti dico cosa non funziona, perché conta e cosa conviene fare: la decisione resta tua.",
+  },
+];
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "LS Site Rescue",
   description:
-    'Analisi tecnica e verifica manuale selettiva del sito: evidenze, finding prioritizzati, roadmap e raccomandazione finale. Con limiti espliciti dell’analisi.',
-  canonical: '/servizi/audit-rapido',
-  robots: { index: true, follow: true },
-  openGraph: {
-    url: '/servizi/audit-rapido',
-    type: 'website',
+    "Audit tecnico e strategico del sito pubblico: prestazioni, mobile, UX e accessibilità, SEO tecnica, contenuti e sicurezza visibile.",
+  url: "https://www.lswebagency.com/servizi/audit-rapido",
+  provider: {
+    "@type": "Organization",
+    name: "LS Web Agency",
+    url: "https://www.lswebagency.com",
+  },
+  areaServed: "IT",
+  offers: {
+    "@type": "Offer",
+    price: "349",
+    priceCurrency: "EUR",
+    availability: "https://schema.org/InStock",
+    url: "https://www.lswebagency.com/contatti?servizio=audit-rapido",
   },
 };
 
-const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20sull%27audit%20rapido.';
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+
+const metadata = {
+  title: "LS Site Rescue: audit tecnico e strategico del sito | LS Web Agency",
+  description:
+    "Scopri perché il tuo sito non porta richieste. Audit tecnico e strategico fino a 10 pagine, report PDF con priorità e indicazioni operative a 349 €.",
+  canonical: "/servizi/audit-rapido",
+  robots: { index: true, follow: true },
+  openGraph: {
+    url: "/servizi/audit-rapido",
+    type: "website",
+  },
+  jsonLd: [serviceJsonLd, faqJsonLd],
+};
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO -->
-  <section class="relative overflow-hidden isolate">
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100/80 via-white to-transparent dark:from-violet-900/30 dark:via-transparent"></div>
-    <div class="container mx-auto px-6 pt-16 md:pt-20 pb-14">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
+  <!-- 1. HERO -->
+  <section
+    class="ls-rescue-hero relative isolate overflow-hidden border-b border-white/10 text-white"
+  >
+    <div class="ls-rescue-grid absolute inset-0 -z-10" aria-hidden="true"></div>
+    <div class="container mx-auto px-6 pb-16 pt-32 md:pb-20 md:pt-36 lg:pb-24">
+      <div
+        class="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16"
+      >
         <div>
-          <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-violet-100 text-primary dark:bg-violet-900/40 dark:text-violet-200 ring-1 ring-violet-200/60 dark:ring-violet-700/50">
-            <Icon name="tabler:search" class="w-4 h-4" />
-            Analisi tecnica prioritizzata
-          </span>
+          <div
+            class="flex flex-wrap items-center gap-3 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-violet-200"
+          >
+            <span
+              class="inline-flex items-center gap-2 border border-white/20 px-3 py-2"
+            >
+              <span class="h-2 w-2 bg-gradient-to-br from-primary to-[#E72AAE]"
+              ></span>
+              LS Site Rescue
+            </span>
+            <span>Audit tecnico e strategico</span>
+          </div>
 
-          <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
-            <span class="block text-neutral-900 dark:text-white">
-              Audit tecnico e di accessibilità prioritizzato
-            </span>
-            <span class="block text-primary dark:text-violet-400">
-              evidenze, priorità e roadmap
-            </span>
+          <h1
+            class="mt-7 max-w-3xl text-4xl font-extrabold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl"
+          >
+            Il tuo sito non porta richieste? Scopriamo perché.
           </h1>
 
-          <p class="mt-5 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
-            Se il tuo sito non porta contatti, spesso il problema non è "Google" ma <strong>messaggio, percorso e fiducia</strong>.
-            L’audit combina analisi tecnica e verifica manuale selettiva su UX, SEO, performance e accessibilità, e restituisce evidenze, finding prioritizzati, una roadmap e una raccomandazione finale.
+          <p class="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">
+            Analizzo il sito, individuo i problemi reali e li metto in ordine di
+            priorità. Spesso non serve rifarlo da zero: serve sapere da dove
+            partire.
           </p>
 
-          <div class="mt-8 flex flex-col sm:flex-row gap-3">
-            <a href="/contatti?servizio=audit-rapido" class="btn-primary inline-flex items-center justify-center px-6 py-3 font-semibold">
-              Richiedi disponibilità per l’audit
+          <dl
+            class="mt-8 grid max-w-2xl gap-5 border-y border-white/15 py-5 sm:grid-cols-3"
+          >
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-slate-400">
+                Prezzo
+              </dt>
+              <dd class="mt-1 text-2xl font-extrabold">349 €</dd>
+              <dd class="text-sm text-slate-400">IVA non applicata</dd>
+            </div>
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-slate-400">
+                Perimetro
+              </dt>
+              <dd class="mt-1 font-bold">Fino a 10 pagine</dd>
+              <dd class="text-sm text-slate-400">Sito pubblico</dd>
+            </div>
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-slate-400">
+                Consegna
+              </dt>
+              <dd class="mt-1 font-bold">7 giorni lavorativi</dd>
+              <dd class="text-sm text-slate-400">Dalla conferma</dd>
+            </div>
+          </dl>
+
+          <div
+            class="mt-8 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center"
+          >
+            <a href={CTA_HREF} class="btn-primary w-full px-7 sm:w-auto">
+              Richiedi LS Site Rescue
+              <Icon
+                name="tabler:arrow-right"
+                class="h-5 w-5"
+                aria-hidden="true"
+              />
             </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
-              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
-              WhatsApp
-            </a>
-            <a href="#cosa-ricevi" class="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800">
-              Cosa ricevi
+            <a
+              href="#esempio-report"
+              class="btn btn-tertiary self-start text-violet-200 dark:text-violet-200"
+            >
+              Vedi un esempio di report
             </a>
           </div>
 
-          <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              UX & Conversioni
-            </div>
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              SEO Tecnica
-            </div>
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              Performance
-            </div>
-          </div>
+          <p class="mt-5 text-sm text-slate-400">
+            Prima verifico il perimetro. Nessun pagamento immediato.
+          </p>
         </div>
 
-        <div class="relative hidden md:block">
-          <div class="rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/40 shadow-xl">
-            <div class="aspect-[4/3] bg-gradient-to-br from-violet-50 via-violet-50 to-fuchsia-50 dark:from-violet-950/30 dark:via-violet-950/20 dark:to-fuchsia-950/30 relative flex items-center justify-center p-8">
-              <!-- SVG illustrativo audit -->
-              <svg viewBox="0 0 400 300" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                <!-- Dashboard/Report background -->
-                <rect x="20" y="20" width="360" height="260" rx="12" fill="white" class="dark:fill-neutral-800" opacity="0.9"/>
-                
-                <!-- Header bar -->
-                <rect x="20" y="20" width="360" height="50" rx="12" fill="url(#auditGrad1)"/>
-                <circle cx="50" cy="45" r="8" fill="white" opacity="0.8"/>
-                <rect x="70" y="38" width="120" height="14" rx="4" fill="white" opacity="0.9"/>
-                
-                <!-- Chart/Graph -->
-                <rect x="40" y="90" width="320" height="120" rx="8" fill="url(#auditGrad2)" opacity="0.1"/>
-                <path d="M 60 180 L 100 150 L 140 160 L 180 120 L 220 140 L 260 100 L 300 130 L 340 110" 
-                      stroke="url(#auditGrad3)" stroke-width="3" fill="none" stroke-linecap="round"/>
-                
-                <!-- Metrics cards -->
-                <rect x="40" y="230" width="100" height="40" rx="6" fill="url(#auditGrad4)" opacity="0.2"/>
-                <rect x="40" y="230" width="100" height="8" rx="4" fill="url(#auditGrad4)"/>
-                <rect x="40" y="250" width="60" height="6" rx="3" fill="url(#auditGrad4)" opacity="0.5"/>
-                
-                <rect x="150" y="230" width="100" height="40" rx="6" fill="url(#auditGrad5)" opacity="0.2"/>
-                <rect x="150" y="230" width="100" height="8" rx="4" fill="url(#auditGrad5)"/>
-                <rect x="150" y="250" width="60" height="6" rx="3" fill="url(#auditGrad5)" opacity="0.5"/>
-                
-                <rect x="260" y="230" width="100" height="40" rx="6" fill="url(#auditGrad6)" opacity="0.2"/>
-                <rect x="260" y="230" width="100" height="8" rx="4" fill="url(#auditGrad6)"/>
-                <rect x="260" y="250" width="60" height="6" rx="3" fill="url(#auditGrad6)" opacity="0.5"/>
-                
-                <!-- Checkmarks (priorità) -->
-                <circle cx="80" cy="100" r="12" fill="#10B981" opacity="0.2"/>
-                <path d="M 75 100 L 78 103 L 85 96" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round"/>
-                
-                <circle cx="200" cy="100" r="12" fill="#F59E0B" opacity="0.2"/>
-                <path d="M 195 100 L 198 103 L 205 96" stroke="#F59E0B" stroke-width="2" fill="none" stroke-linecap="round"/>
-                
-                <circle cx="320" cy="100" r="12" fill="#EF4444" opacity="0.2"/>
-                <path d="M 315 100 L 318 103 L 325 96" stroke="#EF4444" stroke-width="2" fill="none" stroke-linecap="round"/>
-                
-                <defs>
-                  <linearGradient id="auditGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#7628E8;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#A253DA;stop-opacity:1" />
-                  </linearGradient>
-                  <linearGradient id="auditGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#7628E8;stop-opacity:0.3" />
-                    <stop offset="100%" style="stop-color:#A253DA;stop-opacity:0.3" />
-                  </linearGradient>
-                  <linearGradient id="auditGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#7628E8;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#A253DA;stop-opacity:1" />
-                  </linearGradient>
-                  <linearGradient id="auditGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#7628E8;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#A253DA;stop-opacity:1" />
-                  </linearGradient>
-                  <linearGradient id="auditGrad5" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#A253DA;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#A253DA;stop-opacity:1" />
-                  </linearGradient>
-                  <linearGradient id="auditGrad6" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#A78BFA;stop-opacity:1" />
-                  </linearGradient>
-                </defs>
-              </svg>
+        <div
+          class="ls-diagnostic-panel relative border border-white/20 bg-white/[0.04] p-5 shadow-2xl shadow-fuchsia-950/20 sm:p-7"
+          role="img"
+          aria-label="Esempio dimostrativo di analisi con problemi di prestazioni, mobile e SEO ordinati per priorità"
+        >
+          <div
+            class="flex items-center justify-between gap-4 border-b border-white/15 pb-4"
+          >
+            <div class="flex min-w-0 items-center gap-3 text-sm text-slate-400">
+              <span class="flex gap-1" aria-hidden="true">
+                <span class="h-2 w-2 bg-slate-500"></span>
+                <span class="h-2 w-2 bg-slate-600"></span>
+              </span>
+              <span class="truncate">https://iltuosito.it</span>
             </div>
+            <span
+              class="shrink-0 border border-fuchsia-500/60 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-fuchsia-200"
+            >
+              In analisi
+            </span>
+          </div>
+
+          <div class="divide-y divide-white/10">
+            <div class="py-5">
+              <div class="flex items-start justify-between gap-5">
+                <div>
+                  <p
+                    class="text-xs font-bold uppercase tracking-[0.15em] text-white"
+                  >
+                    Prestazioni
+                  </p>
+                  <p class="mt-2 text-sm text-slate-400">
+                    Immagini pesanti, caricamento lento
+                  </p>
+                  <p
+                    class="mt-2 text-xs font-bold uppercase tracking-wide text-red-300"
+                  >
+                    ▲ Urgente
+                  </p>
+                </div>
+                <span
+                  class="mt-2 h-7 w-20 border border-fuchsia-500/60 bg-fuchsia-500/10"
+                  aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="py-5">
+              <div class="flex items-start justify-between gap-5">
+                <div>
+                  <p
+                    class="text-xs font-bold uppercase tracking-[0.15em] text-white"
+                  >
+                    Mobile
+                  </p>
+                  <p class="mt-2 text-sm text-slate-400">
+                    CTA poco riconoscibile
+                  </p>
+                  <p
+                    class="mt-2 text-xs font-bold uppercase tracking-wide text-red-300"
+                  >
+                    ▲ Urgente
+                  </p>
+                </div>
+                <span
+                  class="mt-2 h-7 w-20 border border-fuchsia-500/60 bg-fuchsia-500/10"
+                  aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="py-5">
+              <div class="flex items-start justify-between gap-5">
+                <div>
+                  <p
+                    class="text-xs font-bold uppercase tracking-[0.15em] text-white"
+                  >
+                    SEO
+                  </p>
+                  <p class="mt-2 text-sm text-slate-400">
+                    Titoli duplicati su tre pagine
+                  </p>
+                  <p
+                    class="mt-2 text-xs font-bold uppercase tracking-wide text-amber-300"
+                  >
+                    ◆ Importante
+                  </p>
+                </div>
+                <span
+                  class="mt-2 h-7 w-20 border border-violet-500/60 bg-violet-500/10"
+                  aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-col gap-2 border-t border-white/15 pt-4 text-xs text-slate-400 sm:flex-row sm:justify-between"
+          >
+            <span
+              >Le barre indicano il livello di priorità, non un punteggio.</span
+            >
+            <span class="shrink-0">Esempio dimostrativo</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- COLLEGAMENTO GERARCHICO -->
-  <section class="container mx-auto px-6 py-6">
-    <div class="max-w-4xl mx-auto">
-      <div class="rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-900/40 ring-1 ring-neutral-200 dark:ring-neutral-800">
-        <p class="text-sm text-neutral-600 dark:text-neutral-400">
-          Se dopo l'audit vuoi anche l'implementazione, il passo successivo è un intervento mirato (<a href="/servizi/fix-performance-seo" class="underline hover:text-neutral-900 dark:hover:text-white font-semibold">Fix</a>) o un percorso completo (Sprint).
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- COSA INCLUDE -->
-  <section class="container mx-auto px-6 py-12">
-    <div class="max-w-3xl mb-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa analizziamo</h2>
-      <p class="text-neutral-700 dark:text-neutral-300">
-        Aree critiche che bloccano contatti e posizionamento, con analisi tecnica e verifica manuale selettiva. Niente tecnicismi inutili: solo <strong>priorità reali</strong>.
+  <!-- 2. QUANDO SERVE -->
+  <section class="container mx-auto px-6 py-16 md:py-20">
+    <div class="grid gap-7 lg:grid-cols-2 lg:items-end">
+      <h2 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+        Quando serve un audit
+      </h2>
+      <p
+        class="max-w-xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-300"
+      >
+        Se riconosci una di queste situazioni, l’analisi ti fa risparmiare tempo
+        e soldi: eviti di rifare parti che funzionano.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {[
-        {
-          icon: 'tabler:target-arrow',
-          title: 'UX e conversioni',
-          items: [
-            'CTA, messaggi e percorso utente',
-            'Struttura pagine e gerarchia',
-            'Attrito verso il contatto',
-            'Mobile experience',
-          ],
-        },
-        {
-          icon: 'tabler:search',
-          title: 'SEO tecnica',
-          items: [
-            'Tag, struttura, indicizzazione',
-            'Meta title/description',
-            'Heading e schema markup',
-            'Canonical e redirect',
-          ],
-        },
-        {
-          icon: 'tabler:gauge',
-          title: 'Performance',
-          items: [
-            'Core Web Vitals',
-            'Colli di bottiglia',
-            'Immagini e risorse',
-            'Velocità caricamento',
-          ],
-        },
-        {
-          icon: 'tabler:accessible',
-          title: 'Accessibilità',
-          items: [
-            'Contrasti e leggibilità',
-            'Focus e navigazione da tastiera',
-            'Alt text e struttura semantica',
-            'Verifica manuale selettiva',
-          ],
-        },
-      ].map((area) => (
-        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
-          <Icon name={area.icon} class="w-8 h-8 text-primary dark:text-violet-400 mb-3" />
-          <h3 class="font-semibold text-lg mb-4">{area.title}</h3>
-          <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
-            {area.items.map((item) => (
-              <li class="flex gap-2">
-                <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-      ))}
-    </div>
+    <ul
+      class="mt-10 grid gap-px overflow-hidden border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-3 dark:border-neutral-800 dark:bg-neutral-800"
+    >
+      {
+        situations.map((situation) => (
+          <li class="flex min-h-28 items-center gap-3 bg-white p-6 font-semibold dark:bg-slate-950">
+            <span
+              class="h-0.5 w-5 shrink-0 bg-gradient-to-r from-primary to-[#E72AAE]"
+              aria-hidden="true"
+            />
+            <span>{situation}</span>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
-  <!-- DELIVERABLE -->
-  <section id="cosa-ricevi" class="bg-neutral-50 dark:bg-neutral-950/40 scroll-mt-24">
-    <div class="container mx-auto px-6 py-12">
-      <div class="max-w-3xl mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa ricevi</h2>
-        <p class="text-neutral-700 dark:text-neutral-300">
-          Evidenze e finding prioritizzati, una roadmap operativa e una raccomandazione finale. Focus su <strong>cosa fare</strong> e <strong>perché</strong>.
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-6">
-        {[
-          {
-            icon: 'tabler:file-text',
-            title: 'Report con evidenze',
-            desc: 'Evidenze tecniche e finding prioritizzati per impatto, con screenshot e spiegazioni chiare. Niente liste infinite: solo ciò che conta.',
-          },
-          {
-            icon: 'tabler:list-check',
-            title: 'Roadmap operativa',
-            desc: 'Priorità in ordine: cosa fare subito, cosa può aspettare, cosa delegare.',
-          },
-          {
-            icon: 'tabler:chart-bar',
-            title: 'Metriche baseline',
-            desc: 'Core Web Vitals, posizioni keyword principali, conversioni attuali. Per misurare i miglioramenti.',
-          },
-          {
-            icon: 'tabler:bulb',
-            title: 'Raccomandazione finale',
-            desc: 'La mia indicazione sul passo più sensato: intervento mirato, percorso completo o nessun intervento se non serve.',
-          },
-        ].map((item) => (
-          <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-            <Icon name={item.icon} class="w-8 h-8 text-primary dark:text-violet-400 mb-3" />
-            <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
-            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
-          </article>
-        ))}
-      </div>
-
-      <div class="mt-8 max-w-3xl rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-        <h3 class="font-semibold mb-2">Limiti dell’analisi</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-          L’audit è una verifica tecnica e manuale selettiva, non una copertura completa del sito né una certificazione. Non promette conformità normativa, aumento delle conversioni, posizionamento, tempi garantiti o assenza di errori: fornisce evidenze, priorità e una raccomandazione su cui decidere.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONFIGURAZIONI -->
-  <section id="prezzi" class="container mx-auto px-6 py-12">
-    <div class="max-w-3xl mb-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Come è organizzato l’audit</h2>
-      <p class="text-neutral-600 dark:text-neutral-300">
-        <em>L’audit ha un prezzo complessivo di 349 € per siti fino a 10 pagine. IVA non applicata. Il tempo di consegna viene concordato in base al sito.</em><br />
-        <em>L’audit riguarda l’intero sito (UX, SEO tecnica, performance e accessibilità) ed è un percorso diverso dalla verifica locale focalizzata su Google Business Profile.</em>
-      </p>
-    </div>
-
-    <div class="max-w-3xl">
-      <article class="rounded-3xl p-7 md:p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/85 dark:bg-neutral-900/55 shadow-sm">
-        <div class="flex items-start justify-between gap-4 mb-4">
-          <div>
-            <h3 class="text-xl font-bold">Audit tecnico e di accessibilità prioritizzato</h3>
-            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Un solo servizio: analisi tecnica, evidenze e priorità.</p>
-          </div>
-          <div class="text-right shrink-0">
-            <div class="text-xl font-extrabold">349 €</div>
-            <div class="text-sm text-neutral-500">fino a 10 pagine · tempi concordati</div>
-          </div>
-        </div>
-
-        <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-neutral-700 dark:text-neutral-300 mb-6">
-          <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Analisi UX, SEO tecnica, performance e accessibilità</span>
-          </li>
-          <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Report con evidenze e finding prioritizzati</span>
-          </li>
-          <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Roadmap operativa e raccomandazione finale</span>
-          </li>
-          <li class="flex gap-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Metriche baseline (Core Web Vitals, keyword)</span>
-          </li>
-          <li class="flex gap-2 sm:col-span-2">
-            <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
-            <span>Restituzione finale (call di presentazione) inclusa o concordata secondo il progetto</span>
-          </li>
-        </ul>
-
-        <a href="/contatti?servizio=audit-rapido" class="btn-primary inline-flex items-center justify-center w-full sm:w-auto px-8 py-3 font-semibold">
-          Richiedi disponibilità per l’audit
-        </a>
-      </article>
-    </div>
-
-    <p class="mt-6 max-w-5xl text-sm text-neutral-600 dark:text-neutral-400">
-      Il pagamento viene concordato dopo la conferma del servizio. Eventuali attività extra vengono preventivate separatamente.
-    </p>
-  </section>
-
-  <!-- FAQ -->
-  <section class="container mx-auto px-6 pb-12">
-    <div class="max-w-3xl mb-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Domande frequenti</h2>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-4 max-w-5xl">
-      {[
-        {
-          q: 'Cosa serve per iniziare?',
-          a: 'Solo l\'URL del sito e accesso a Google Analytics (se disponibile). I tempi di consegna vengono concordati in base al sito.',
-        },
-        {
-          q: 'L\'audit include anche la correzione?',
-          a: 'No, l\'audit è la diagnosi. Ti dico cosa correggere e come. Se vuoi, possiamo procedere con i fix (servizio separato).',
-        },
-        {
-          q: 'È utile anche per siti nuovi?',
-          a: 'Sì, soprattutto per evitare errori comuni fin dall\'inizio. Meglio correggere subito che dopo mesi.',
-        },
-        {
-          q: 'Posso usare l\'audit per altri professionisti?',
-          a: 'Sì, il report è tuo. Puoi condividerlo con il tuo team o altri professionisti per implementare le correzioni.',
-        },
-      ].map((faq) => (
-        <details class="rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50">
-          <summary class="cursor-pointer font-semibold flex items-center justify-between gap-4">
-            <span>{faq.q}</span>
-            <Icon name="tabler:chevron-down" class="w-5 h-5 opacity-70 shrink-0" />
-          </summary>
-          <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{faq.a}</p>
-        </details>
-      ))}
-    </div>
-  </section>
-
-  <!-- CTA FINALE -->
-  <section class="container mx-auto px-6 pb-16">
-    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-950 via-neutral-900 to-violet-950 text-white">
+  <!-- 3. COSA ANALIZZO -->
+  <section class="bg-brand-surface/75 dark:bg-violet-950/15">
+    <div class="container mx-auto px-6 py-16 md:py-20">
       <div class="max-w-3xl">
-        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Vuoi sapere cosa blocca il tuo sito?</h2>
-        <p class="text-lg text-white/80 leading-relaxed mb-6">
-          Ti indico le priorità reali su UX, SEO, performance e accessibilità, con evidenze e una raccomandazione. Niente tecnicismi: solo <strong>cosa fare</strong> e <strong>perché</strong>.
+        <h2 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+          Cosa analizzo
+        </h2>
+        <p
+          class="mt-4 text-lg leading-relaxed text-neutral-600 dark:text-neutral-300"
+        >
+          Sei aree, con controlli concreti su ciascuna. Analisi del sito
+          pubblico fino a 10 pagine: aree riservate e gestionali sono escluse.
         </p>
-        <div class="flex flex-col sm:flex-row gap-3">
-          <a href="/contatti?servizio=audit-rapido" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold bg-white text-neutral-900 hover:bg-white/90">
-            Richiedi disponibilità per l’audit
-            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
-          </a>
-          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-7 py-3 rounded-full font-semibold border border-white/30 hover:bg-white/10">
-            <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
-            Scrivimi su WhatsApp
-          </a>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {
+          auditAreas.map((area) => (
+            <article class="border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-slate-950">
+              <Icon
+                name={area.icon}
+                class="h-8 w-8 text-primary dark:text-violet-300"
+                aria-hidden="true"
+              />
+              <h3 class="mt-5 text-xl font-bold">{area.title}</h3>
+              <p class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-300">
+                {area.description}
+              </p>
+              <p class="mt-5 border-t border-neutral-200 pt-4 text-sm leading-relaxed text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
+                {area.checks}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. COSA RICEVI -->
+  <section id="cosa-ricevi" class="scroll-mt-24">
+    <div class="container mx-auto px-6 py-16 md:py-20">
+      <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <h2 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+            Cosa ricevi
+          </h2>
+          <p
+            class="mt-4 max-w-lg text-lg leading-relaxed text-neutral-600 dark:text-neutral-300"
+          >
+            Un documento che puoi leggere tu e usare con chi farà le correzioni,
+            anche se non sono io.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-2">
+            {
+              [
+                "PDF via email",
+                "Entro 7 giorni lavorativi",
+                "Il report è tuo",
+              ].map((item) => (
+                <span class="border border-violet-200 bg-brand-surface px-3 py-2 text-sm font-semibold text-neutral-700 dark:border-violet-500/30 dark:bg-violet-950/30 dark:text-violet-200">
+                  {item}
+                </span>
+              ))
+            }
+          </div>
         </div>
-        <p class="mt-4 text-sm text-white/70">Evidenze, priorità e raccomandazione finale</p>
+
+        <ol
+          class="divide-y divide-neutral-200 border-y border-neutral-200 dark:divide-neutral-800 dark:border-neutral-800"
+        >
+          {
+            deliverables.map((item, index) => (
+              <li class="grid gap-3 py-5 sm:grid-cols-[3.25rem_1fr]">
+                <span class="text-sm font-extrabold text-primary dark:text-violet-300">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 class="font-bold">{item.title}</h3>
+                  <p class="mt-1 leading-relaxed text-neutral-600 dark:text-neutral-300">
+                    {item.description}
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- STUDIO GUIDATO DA LUCA -->
-  <section class="container mx-auto px-6 py-10">
-    <div class="max-w-3xl mx-auto">
-      <div class="rounded-2xl p-6 bg-neutral-50 dark:bg-neutral-900/40 ring-1 ring-neutral-200 dark:ring-neutral-800">
-        <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          LS Web Agency è uno studio guidato da Luca Sanna. Lavoro in prima persona su analisi, UX e implementazione tecnica. Quando serve, attivo una rete di collaboratori specializzati, mantenendo un unico referente e un processo chiaro.
+  <!-- 5. COME FUNZIONA -->
+  <section class="bg-brand-surface/75 dark:bg-violet-950/15">
+    <div class="container mx-auto px-6 py-16 md:py-20">
+      <div class="grid gap-5 lg:grid-cols-2 lg:items-end">
+        <h2 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+          Come funziona
+        </h2>
+        <p class="text-lg text-neutral-600 dark:text-neutral-300">
+          Quattro passi. Il prezzo e i tempi vengono confermati prima di
+          iniziare.
         </p>
       </div>
+
+      <ol
+        class="relative mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-0"
+      >
+        {
+          processSteps.map((step, index) => (
+            <li class="relative border-l border-violet-300 pl-6 lg:border-l-0 lg:border-t lg:px-6 lg:pt-7 dark:border-violet-700">
+              <span
+                class="absolute -left-[0.32rem] top-1 h-2.5 w-2.5 bg-primary lg:-top-[0.32rem] lg:left-6"
+                aria-hidden="true"
+              />
+              <span class="text-sm font-bold text-primary dark:text-violet-300">
+                Passo {index + 1}
+              </span>
+              <h3 class="mt-2 text-lg font-bold">{step.title}</h3>
+              <p class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-300">
+                {step.description}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 
-  <!-- JSON-LD -->
-  <script type="application/ld+json" set:html={JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: 'Audit tecnico e di accessibilità prioritizzato',
-    description: 'Analisi tecnica e verifica manuale selettiva del sito: UX, SEO, performance e accessibilità. Evidenze, finding prioritizzati, roadmap e raccomandazione finale.',
-    provider: {
-      '@type': 'Organization',
-      name: 'LS Web Agency',
-      url: 'https://www.lswebagency.com',
-    },
-    areaServed: 'IT',
-    offers: {
-      '@type': 'Offer',
-      price: '349',
-      priceCurrency: 'EUR',
-      description: 'Prezzo complessivo per siti fino a 10 pagine. IVA non applicata.',
-    },
-  })} />
-</Layout>
+  <!-- 6. ESEMPIO REPORT -->
+  <section
+    id="esempio-report"
+    class="ls-report-section scroll-mt-24 border-t-4 border-t-primary text-white"
+  >
+    <div class="container mx-auto px-6 py-16 md:py-20">
+      <div class="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div>
+          <h2 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+            Un esempio di report
+          </h2>
+          <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-300">
+            Ogni problema è una scheda: cosa succede, perché conta per te, cosa
+            farei. Niente punteggi, niente grafici inutili.
+          </p>
+        </div>
+        <p class="text-sm font-semibold text-slate-400">
+          Esempio dimostrativo. I valori non rappresentano dati reali.
+        </p>
+      </div>
 
+      <div class="mt-10 grid gap-5 lg:grid-cols-3">
+        {
+          reportExamples.map((item) => (
+            <article class="flex h-full flex-col bg-white p-6 text-neutral-900 dark:bg-slate-100">
+              <div class="flex items-center justify-between gap-4">
+                <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#E72AAE]">
+                  Problema {item.number}
+                </span>
+                <span
+                  class:list={[
+                    "border px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.08em]",
+                    item.priorityClass,
+                  ]}
+                >
+                  {item.icon} {item.priority}
+                </span>
+              </div>
+              <h3 class="mt-6 text-xl font-bold leading-snug">{item.title}</h3>
+              <div class="mt-6 border-t border-neutral-200 pt-5 text-neutral-600">
+                <p class="leading-relaxed">
+                  <strong class="text-neutral-900">Perché conta:</strong>{" "}
+                  {item.why}
+                </p>
+                <p class="mt-4 leading-relaxed">
+                  <strong class="text-neutral-900">Cosa farei:</strong>{" "}
+                  {item.action}
+                </p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. PREZZO -->
+  <section id="prezzi" class="scroll-mt-24">
+    <div class="container mx-auto px-6 py-16 md:py-20">
+      <h2 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+        Quanto costa
+      </h2>
+
+      <div
+        class="mt-10 grid overflow-hidden border border-neutral-300 lg:grid-cols-[1.05fr_0.8fr_0.8fr] dark:border-neutral-700"
+      >
+        <div class="flex flex-col p-7 md:p-9">
+          <p
+            class="text-5xl font-extrabold tracking-tight text-primary dark:text-violet-300"
+          >
+            349 <span class="text-2xl">€</span>
+          </p>
+          <p class="mt-1 font-bold">IVA non applicata</p>
+          <p
+            class="mt-5 leading-relaxed text-neutral-600 dark:text-neutral-300"
+          >
+            Prezzo complessivo per un sito pubblico fino a 10 pagine. Report
+            entro 7 giorni lavorativi dalla conferma del perimetro.
+          </p>
+          <a href={CTA_HREF} class="btn-primary mt-8 w-full px-7 lg:mt-auto">
+            Richiedi LS Site Rescue
+            <Icon
+              name="tabler:arrow-right"
+              class="h-5 w-5"
+              aria-hidden="true"
+            />
+          </a>
+          <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400">
+            Il pagamento si concorda dopo la conferma. Nessun acquisto
+            immediato.
+          </p>
+        </div>
+
+        <div
+          class="border-t border-neutral-300 p-7 md:p-9 lg:border-l lg:border-t-0 dark:border-neutral-700"
+        >
+          <h3
+            class="text-sm font-extrabold uppercase tracking-[0.14em] text-primary dark:text-violet-300"
+          >
+            Incluso
+          </h3>
+          <ul class="mt-5 space-y-3">
+            {
+              included.map((item) => (
+                <li class="flex gap-3 leading-relaxed">
+                  <Icon
+                    name="tabler:check"
+                    class="mt-0.5 h-5 w-5 shrink-0 text-primary dark:text-violet-300"
+                    aria-hidden="true"
+                  />
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div
+          class="border-t border-neutral-300 p-7 md:p-9 lg:border-l lg:border-t-0 dark:border-neutral-700"
+        >
+          <h3
+            class="text-sm font-extrabold uppercase tracking-[0.14em] text-red-500"
+          >
+            Non incluso
+          </h3>
+          <ul class="mt-5 space-y-3">
+            {
+              excluded.map((item) => (
+                <li class="flex gap-3 leading-relaxed text-neutral-600 dark:text-neutral-300">
+                  <Icon
+                    name="tabler:x"
+                    class="mt-0.5 h-5 w-5 shrink-0 text-red-500"
+                    aria-hidden="true"
+                  />
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p
+            class="mt-8 border-t border-neutral-200 pt-5 text-sm leading-relaxed text-neutral-500 dark:border-neutral-800 dark:text-neutral-400"
+          >
+            E-commerce, siti multilingua e portali con aree riservate richiedono
+            una valutazione separata: definiamo il perimetro e il costo prima di
+            iniziare.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. FAQ -->
+  <section class="bg-brand-surface/75 dark:bg-violet-950/15">
+    <div class="container mx-auto px-6 py-16 md:py-20">
+      <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <h2 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+            Domande frequenti
+          </h2>
+          <p class="mt-4 max-w-md text-neutral-600 dark:text-neutral-300">
+            Se manca qualcosa, scrivimelo nella richiesta: rispondo prima di
+            iniziare.
+          </p>
+        </div>
+
+        <div class="border-t border-neutral-300 dark:border-neutral-700">
+          {
+            faqItems.map((faq) => (
+              <details class="group border-b border-neutral-300 py-1 dark:border-neutral-700">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-bold marker:content-none">
+                  <span>{faq.question}</span>
+                  <Icon
+                    name="tabler:plus"
+                    class="h-5 w-5 shrink-0 text-primary transition-transform group-open:rotate-45 dark:text-violet-300"
+                    aria-hidden="true"
+                  />
+                </summary>
+                <p class="max-w-3xl pb-6 leading-relaxed text-neutral-600 dark:text-neutral-300">
+                  {faq.answer}
+                </p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. CTA FINALE -->
+  <section class="ls-report-section border-t-4 border-t-primary text-white">
+    <div class="container mx-auto px-6 py-16 md:py-20">
+      <div class="grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+        <div>
+          <h2
+            class="max-w-3xl text-3xl font-extrabold leading-tight tracking-tight md:text-5xl"
+          >
+            Correggere o rifare? Prima capiamo cosa serve.
+          </h2>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">
+            Mandami il sito e due righe sul problema. Ti dico cosa non funziona
+            e da dove partire.
+          </p>
+        </div>
+        <div>
+          <a href={CTA_HREF} class="btn-primary w-full px-7">
+            Richiedi LS Site Rescue
+            <Icon
+              name="tabler:arrow-right"
+              class="h-5 w-5"
+              aria-hidden="true"
+            />
+          </a>
+          <p class="mt-4 text-sm text-slate-400">
+            349 € · IVA non applicata · fino a 10 pagine. Verifico il perimetro
+            prima di procedere.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .ls-rescue-hero,
+    .ls-report-section {
+      background:
+        radial-gradient(
+          circle at 85% 20%,
+          rgb(231 42 174 / 0.13),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 15% 90%,
+          rgb(118 40 232 / 0.22),
+          transparent 38%
+        ),
+        #0f172a;
+    }
+
+    .ls-rescue-grid {
+      opacity: 0.36;
+      background-image:
+        linear-gradient(rgb(148 163 184 / 0.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(148 163 184 / 0.11) 1px, transparent 1px);
+      background-size: 96px 96px;
+      mask-image: linear-gradient(to bottom, black, transparent 96%);
+    }
+
+    .ls-diagnostic-panel {
+      isolation: isolate;
+    }
+
+    .ls-diagnostic-panel::before {
+      position: absolute;
+      inset: -12% 10% auto 24%;
+      z-index: -1;
+      height: 72%;
+      border: 1px solid rgb(231 42 174 / 0.22);
+      content: "";
+      transform: skewX(-12deg);
+    }
+
+    .ls-diagnostic-panel::after {
+      position: absolute;
+      inset-inline: 0;
+      top: 38%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgb(231 42 174 / 0.65),
+        transparent
+      );
+      box-shadow: 0 0 22px 7px rgb(231 42 174 / 0.16);
+      content: "";
+      animation: rescue-scan 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rescue-scan {
+      0%,
+      100% {
+        opacity: 0;
+        transform: translateY(-80px);
+      }
+      25%,
+      70% {
+        opacity: 1;
+      }
+      85% {
+        opacity: 0;
+        transform: translateY(170px);
+      }
+    }
+
+    @media (max-width: 639px) {
+      .ls-rescue-grid {
+        background-size: 64px 64px;
+      }
+
+      .ls-diagnostic-panel::before,
+      .ls-diagnostic-panel::after {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ls-diagnostic-panel::after {
+        animation: none;
+      }
+    }
+  </style>
+</Layout>
