@@ -53,6 +53,7 @@ const requestedPacchettoSlug = Astro.url.searchParams.get('pacchetto')?.trim() ?
 const requestedServizioLabel = resolveLabel(rawServizioSlug, SERVIZIO_LABELS);
 const requestedPacchettoLabel = resolveLabel(requestedPacchettoSlug, PACCHETTO_LABELS);
 const showServizioBanner = rawServizioSlug.length > 0;
+const isAuditRapido = requestedServizioSlug === 'audit-rapido';
 
 const SERVICE_SELECT_VALUES = new Set([
   'sito-web',
@@ -178,16 +179,18 @@ const AGENCY = {
             <span class="bg-clip-text text-transparent bg-gradient-to-r
                          from-violet-700 via-fuchsia-500 to-pink-500
                          dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-300">
-              Richiedi la valutazione iniziale gratuita
+              {isAuditRapido ? 'Richiedi disponibilità per LS Site Rescue' : 'Richiedi la valutazione iniziale gratuita'}
             </span>
           </h1>
           <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
-            Lavoro a Sassari e anche da remoto in tutta Italia. Dopo la tua richiesta riceverai una prima valutazione iniziale gratuita del tuo sito, con indicazioni chiare su cosa migliorare per ottenere più contatti.
+            {isAuditRapido
+              ? 'Invia i dati del sito da analizzare. Verificherò la disponibilità e ti confermerò l’avvio dell’audit prioritizzato fino a 10 pagine.'
+              : 'Lavoro a Sassari e anche da remoto in tutta Italia. Dopo la tua richiesta riceverai una prima valutazione iniziale gratuita del tuo sito, con indicazioni chiare su cosa migliorare per ottenere più contatti.'}
           </p>
 
           <div class="mt-5 flex flex-wrap gap-3">
             <a href="#contact" class="inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 text-base font-semibold text-white bg-violet-600 hover:bg-violet-700 transition">
-              Scrivimi per il tuo sito
+              {isAuditRapido ? 'Vai al modulo dell’audit' : 'Scrivimi per il tuo sito'}
             </a>
             <a href="/servizi" class="inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 text-base font-semibold ring-1 ring-neutral-300 text-neutral-900 hover:bg-neutral-100 dark:text-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800 transition">
               Scopri i servizi principali
@@ -244,7 +247,7 @@ const AGENCY = {
   </section>
 
   <!-- MINI-ANALISI CTA -->
-  <section class="container mx-auto px-6 py-4">
+  <section class:list={['container mx-auto px-6 py-4', isAuditRapido ? 'hidden' : '']}>
     <div class="max-w-4xl mx-auto rounded-2xl border border-violet-200/80 bg-gradient-to-br from-violet-50/80 via-white to-fuchsia-50/60 dark:border-violet-800/50 dark:from-violet-950/30 dark:via-slate-900/50 dark:to-fuchsia-950/20 p-8 md:p-10 shadow-sm">
       <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3">Non sai da dove partire?</h2>
       <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6 max-w-2xl">
@@ -263,16 +266,28 @@ const AGENCY = {
   <!-- FORM CONTATTI -->
   <section id="contact" class="scroll-mt-24 container mx-auto px-6 py-10">
     <div class="max-w-4xl mx-auto rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-700 bg-white/80 dark:bg-neutral-900/75 shadow-sm dark:shadow-xl dark:shadow-black/30 p-6 md:p-8">
-      <h2 class="text-2xl md:text-3xl font-bold mb-1 dark:text-neutral-100">Richiedi una consulenza</h2>
-      <p class="text-neutral-600 dark:text-neutral-200 mb-6">Tempo di compilazione: 2–3 minuti • Nessun impegno</p>
+      <h2 class="text-2xl md:text-3xl font-bold mb-1 dark:text-neutral-100">
+        {isAuditRapido ? 'Richiedi disponibilità per l’audit' : 'Richiedi una consulenza'}
+      </h2>
+      <p class="text-neutral-600 dark:text-neutral-200 mb-6">
+        {isAuditRapido ? '349 € complessivi · IVA non applicata · fino a 10 pagine' : 'Tempo di compilazione: 2–3 minuti • Nessun impegno'}
+      </p>
 
       {showServizioBanner && (
         <div class="mb-6 rounded-xl p-4 ring-1 ring-violet-200 dark:ring-violet-800 bg-violet-50/80 dark:bg-violet-950/30 text-neutral-800 dark:text-neutral-200">
           <p class="text-sm md:text-base leading-relaxed">
-            Stai richiedendo informazioni su: <strong>{requestedServizioLabel}</strong>
-            {requestedPacchettoSlug && (
-              <> — <strong>{requestedPacchettoLabel}</strong></>
-            )}. Compila il modulo e ti ricontatterò con disponibilità, tempi e preventivo.
+            {isAuditRapido ? (
+              <>
+                Stai richiedendo <strong>LS Site Rescue</strong>. Compila il modulo con l’URL e il problema principale: ti confermerò disponibilità e tempi di avvio.
+              </>
+            ) : (
+              <>
+                Stai richiedendo informazioni su: <strong>{requestedServizioLabel}</strong>
+                {requestedPacchettoSlug && (
+                  <> — <strong>{requestedPacchettoLabel}</strong></>
+                )}. Compila il modulo e ti ricontatterò con disponibilità, tempi e preventivo.
+              </>
+            )}
           </p>
         </div>
       )}
@@ -353,6 +368,26 @@ const AGENCY = {
             class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
         </div>
+
+        {isAuditRapido && (
+          <div class="col-span-1 md:col-span-2 min-w-0">
+            <label for="website-url" class="block text-sm font-medium mb-1">
+              URL del sito da analizzare <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="website-url"
+              name="websiteUrl"
+              type="url"
+              required
+              inputmode="url"
+              autocomplete="url"
+              placeholder="https://www.esempio.it"
+              class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500"
+              aria-describedby="website-url-error"
+            />
+            <span id="website-url-error" class="hidden text-sm text-red-600 dark:text-red-400 mt-1" role="alert"></span>
+          </div>
+        )}
 
         <div class="col-span-1 min-w-0">
           <label for="service-category" class="block text-sm font-medium mb-1">
@@ -477,7 +512,7 @@ const AGENCY = {
 
         <div class="col-span-1 md:col-span-2 min-w-0 pt-1">
           <label for="message" class="block text-sm font-medium mb-1">
-            Messaggio <span class="text-red-500">*</span>
+            {isAuditRapido ? 'Problema principale o obiettivo' : 'Messaggio'} <span class="text-red-500">*</span>
           </label>
           <textarea
             id="message"
@@ -485,6 +520,7 @@ const AGENCY = {
             rows="6"
             required
             minlength="10"
+            placeholder={isAuditRapido ? 'Descrivi il problema più urgente, cosa non sta funzionando o il risultato che vuoi ottenere.' : undefined}
             class="w-full min-w-0 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-violet-500 invalid:border-red-500 resize-y"
             aria-describedby="message-error"
           ></textarea>
@@ -530,7 +566,7 @@ const AGENCY = {
 
         <div class="col-span-1 md:col-span-2 mt-2">
           <Button type="submit" variant="primary" id="submit-btn" class="w-full sm:w-auto min-h-[44px]">
-            <span id="submit-text">Richiedi la valutazione iniziale gratuita</span>
+            <span id="submit-text">{isAuditRapido ? 'Invia la richiesta per LS Site Rescue' : 'Richiedi la valutazione iniziale gratuita'}</span>
             <span id="submit-loading" class="hidden">
               Invio in corso...
             </span>
@@ -760,7 +796,9 @@ const AGENCY = {
             } else if (field.validity.tooShort) {
               errorEl.textContent = field.id === 'message' ? 'Il messaggio deve contenere almeno 10 caratteri' : 'Troppo corto';
             } else if (field.validity.typeMismatch) {
-              errorEl.textContent = 'Email non valida';
+              errorEl.textContent = field.type === 'url'
+                ? 'Inserisci un URL valido (es. https://www.esempio.it)'
+                : 'Email non valida';
             } else {
               errorEl.textContent = 'Valore non valido';
             }
@@ -780,12 +818,14 @@ const AGENCY = {
         clearFieldErrors();
         const name = document.getElementById('name');
         const email = document.getElementById('email');
+        const websiteUrl = document.getElementById('website-url');
         const message = document.getElementById('message');
         const privacy = document.getElementById('privacy');
 
         let isValid = true;
         if (name && !validateField(name)) isValid = false;
         if (email && !validateField(email)) isValid = false;
+        if (websiteUrl && !validateField(websiteUrl)) isValid = false;
         if (message && !validateField(message)) isValid = false;
         if (privacy && !privacy.checked) {
           isValid = false;
@@ -850,6 +890,7 @@ const AGENCY = {
             .map((el) => el.value);
 
           const originalMessage = String(formData.get('message') || '');
+          const websiteUrl = String(formData.get('websiteUrl') || '').trim();
           const requestedServizioSlug = String(formData.get('requestedServizioSlug') || '').trim();
           const requestedPacchettoSlug = String(formData.get('requestedPacchettoSlug') || '').trim();
           const requestedServizioLabel = String(formData.get('requestedServizioLabel') || '').trim();
@@ -866,6 +907,9 @@ const AGENCY = {
           }
           if (selectedPackages.length) {
             enrichedMessage += `\n\nPacchetto sito di interesse: ${selectedPackages.join(', ')}`;
+          }
+          if (websiteUrl) {
+            enrichedMessage += `\n\nSito da analizzare: ${websiteUrl}`;
           }
 
           const data = {
@@ -975,7 +1019,7 @@ const AGENCY = {
       });
 
       // Real-time validation on blur
-      ['name', 'email', 'message'].forEach(id => {
+      ['name', 'email', 'website-url', 'message'].forEach(id => {
         const field = document.getElementById(id);
         if (field) {
           field.addEventListener('blur', () => validateField(field));
