@@ -10,7 +10,6 @@ import react from '@astrojs/react';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import partytown from '@astrojs/partytown';
-import sitemap from '@astrojs/sitemap';
 import astrowind from './vendor/integration';
 
 import remarkBreaks from 'remark-breaks';
@@ -66,29 +65,9 @@ export default defineConfig({
 
     astrowind({ config: './src/config.yaml' }),
 
-    sitemap({
-      filter(page) {
-        const path = new URL(page).pathname.replace(/\/+$/, '') || '/';
-        const exclude = new Set([
-          '/~partytown',
-          '/audit-ai',
-          '/blog/velocizzare-wordpress-2025',
-          '/blog/voucher-digitali-sassari-2025',
-          '/servizi/voucher-digitali-sardegna-2025',
-          '/servizi/voucher-digitali-sassari',
-          '/voucher-digitali-sardegna',
-        ]);
-        return !exclude.has(path);
-      },
-      serialize(item) {
-        return {
-          url: item.url,
-          changefreq: item.changefreq ?? 'weekly',
-          priority: item.priority ?? 0.7,
-          lastmod: item.lastmod,
-        };
-      },
-    }),
+    // La sitemap autorevole è generata da src/pages/sitemap.xml.ts.
+    // @astrojs/sitemap è stato rimosso: produceva /sitemap-index.xml e /sitemap-0.xml
+    // con pagine noindex e redirect, in conflitto con /sitemap.xml.
   ],
 
   markdown: {

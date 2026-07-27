@@ -7,6 +7,9 @@ function esc(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+// Sitemap autorevole: generata a build-time (le fonti sono content collections statiche).
+export const prerender = true;
+
 // 🔗 tienilo allineato a /src/pages/portfolio e /src/pages/portfolio/page/[page].astro
 const PER_PAGE_PORTFOLIO = 12;
 
@@ -28,6 +31,9 @@ export async function GET({ site }: { site: URL }) {
     '/contatti',
     '/blog',
     '/local',
+    '/mini-analisi',
+    '/progetto-digitale-per-imprese',
+    '/transizione-digitale-turismo',
   ];
 
   // Pagine Servizi (rotte effettive)
@@ -41,6 +47,17 @@ export async function GET({ site }: { site: URL }) {
     '/servizi/web-design-etico-sostenibile',
     '/servizi/wordpress-slim-siti-statici-headless',
     '/servizi/assistente-ai-sito-whatsapp',
+    '/servizi/ai-blog-engine',
+    '/servizi/assistenza-manutenzione',
+    '/servizi/audit-rapido',
+    '/servizi/fix-performance-seo',
+    '/servizi/landing-page-professionale',
+    '/servizi/local-seo-booster',
+    '/servizi/pre-accoglienza-digitale',
+    '/servizi/seo-locale',
+    '/servizi/siti-web',
+    '/servizi/sprint-ottimizzazione',
+    '/servizi/sviluppo-web-white-label',
   ];
 
   type Entry = { loc: string; lastmod?: string };
