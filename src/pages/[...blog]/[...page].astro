@@ -31,6 +31,8 @@ const currentPage = page?.currentPage ?? 1;
 // Metadata per SEO e OpenGraph
 const metadata = {
   title: `Blog${currentPage > 1 ? ` — Pagina ${currentPage}` : ''}`,
+  description:
+    'Articoli su siti web, SEO locale, velocità e conversione: cosa controllo davvero nei progetti di professionisti e piccole attività.',
   robots: {
     index: blogListRobots?.index && currentPage === 1,
     follow: blogListRobots?.follow,
