@@ -80,6 +80,8 @@ export interface MetaDataImage {
 }
 
 export interface MetaDataOpenGraph {
+  title?: string;
+  description?: string;
   url?: string;
   siteName?: string;
   images?: Array<MetaDataImage>;
@@ -88,6 +90,8 @@ export interface MetaDataOpenGraph {
 }
 
 export interface MetaDataTwitter {
+  title?: string;
+  description?: string;
   handle?: string;
   site?: string;
   cardType?: string;

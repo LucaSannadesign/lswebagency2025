@@ -1,7 +1,7 @@
 import type { PaginateFunction } from 'astro';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import type { Post } from '@/types';
+import type { MetaData, Post } from '@/types';
 import type { ImageMetadata } from 'astro';
 import { APP_BLOG } from 'astrowind:config';
 import {
@@ -126,8 +126,60 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     author,
     draft = false,
     hideDefaultCTA = false,
-    metadata = {},
+    og: rawOpenGraph = {},
+    ogTitle,
+    ogDescription,
+    twitter: rawTwitter = {},
+    twitterTitle,
+    twitterDescription,
+    metadata: rawMetadata = {},
   } = data as any;
+
+  const firstNonEmptyString = (...values: unknown[]): string | undefined => {
+    const value = values.find((item) => typeof item === 'string' && item.trim().length > 0);
+    return typeof value === 'string' ? value : undefined;
+  };
+
+  const metadataOpenGraph = (rawMetadata as MetaData).openGraph;
+  const metadataTwitter = (rawMetadata as MetaData).twitter;
+  const normalizedOgTitle = firstNonEmptyString(metadataOpenGraph?.title, ogTitle, rawOpenGraph?.title);
+  const normalizedOgDescription = firstNonEmptyString(
+    metadataOpenGraph?.description,
+    ogDescription,
+    rawOpenGraph?.description,
+  );
+  const normalizedTwitterTitle = firstNonEmptyString(
+    metadataTwitter?.title,
+    twitterTitle,
+    rawTwitter?.title,
+  );
+  const normalizedTwitterDescription = firstNonEmptyString(
+    metadataTwitter?.description,
+    twitterDescription,
+    rawTwitter?.description,
+  );
+
+  const metadata: MetaData = {
+    ...(rawMetadata as MetaData),
+    ...(normalizedOgTitle || normalizedOgDescription
+      ? {
+          openGraph: {
+            ...metadataOpenGraph,
+            ...(normalizedOgTitle ? { title: normalizedOgTitle } : {}),
+            ...(normalizedOgDescription ? { description: normalizedOgDescription } : {}),
+          },
+        }
+      : {}),
+    ...(normalizedTwitterTitle || normalizedTwitterDescription
+      ? {
+          twitter: {
+            ...metadataTwitter,
+            ...(normalizedTwitterTitle ? { title: normalizedTwitterTitle } : {}),
+            ...(normalizedTwitterDescription ? { description: normalizedTwitterDescription } : {}),
+          },
+        }
+      : {}),
+  };
 
   // NB: con content v5 lo slug non è garantito sugli entry: usiamo l'id normalizzato
   const slug = cleanSlug(id);

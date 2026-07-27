@@ -28,6 +28,7 @@ const image = post.image ? (await findImage(post.image)) : undefined;
 const metadata = merge(
   {
     title: post.title,
+    ignoreTitleTemplate: true,
     description: post.description ?? post.excerpt,
     robots: {
       index: blogPostRobots?.index,
