@@ -119,6 +119,7 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     updatedDate: rawUpdatedDate,
     title,
     excerpt,
+    description,
     image,
     tags: rawTags = [],
     category: rawCategory,
@@ -161,6 +162,7 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
 
     title,
     excerpt,
+    description, // solo metatag: non viene renderizzata nell'articolo
     image, // può essere undefined: i consumer devono gestire il fallback quando serve
 
     category,

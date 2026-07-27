@@ -18,8 +18,10 @@ export interface Post {
 
   /**  */
   title: string;
-  /** Optional summary of post content. */
+  /** Optional summary of post content. Reso visibile sotto il titolo nell'articolo. */
   excerpt?: string;
+  /** Meta description dal frontmatter. Usata solo per i metatag, mai renderizzata. */
+  description?: string;
   /**  */
   image?: ImageMetadata | string;
 
