@@ -169,6 +169,34 @@ const jsonLdBlocks = md?.jsonLd
     <!-- Contenuto <head> aggiuntivo fornito dalla singola pagina -->
     <slot name="head" />
 
+    <!-- Google Consent Mode v2: stato predefinito, DEVE precedere lo snippet GTM -->
+    <script is:inline>
+      (function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          functionality_storage: 'granted',
+          security_storage: 'granted',
+          wait_for_update: 500,
+        });
+
+        // Visita successiva: applica la scelta già salvata prima che GTM inizializzi.
+        try {
+          var saved = JSON.parse(localStorage.getItem('ls_cookie_consent_v1') || 'null');
+          if (saved && saved.analytics === true) {
+            gtag('consent', 'update', { analytics_storage: 'granted' });
+          }
+        } catch (e) {
+          // localStorage non disponibile: resta valido il default 'denied'.
+        }
+      })();
+    </script>
+
     <!-- Google Tag Manager -->
     <script is:inline>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
