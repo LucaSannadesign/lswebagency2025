@@ -66,6 +66,9 @@ export interface MetaData {
 
   openGraph?: MetaDataOpenGraph;
   twitter?: MetaDataTwitter;
+
+  /** Uno o più blocchi JSON-LD iniettati nel <head> da Layout.astro */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 export interface MetaDataRobots {
