@@ -205,7 +205,9 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
     </div>
 
     <!-- Bottom bar -->
-    <div class="py-4 md:py-5 border-t border-gray-200 dark:border-slate-800 max-md:pb-16">
+    <!-- pb ampio: tiene i link legali fuori dall'area del widget assistente (fixed, z-70),
+         che altrimenti intercetta i click del mouse sul pulsante preferenze cookie. -->
+    <div class="pt-4 md:pt-5 pb-20 border-t border-gray-200 dark:border-slate-800">
       <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <p class="text-sm text-gray-600 dark:text-gray-400">
           © {new Date().getFullYear()} <strong class="text-gray-800 dark:text-gray-200">LS Web Agency</strong>. Tutti i diritti riservati.
