@@ -222,7 +222,7 @@ const SOCIAL = socialLinks.length ? socialLinks : DEFAULT_SOCIAL;
           <button
             type="button"
             class="hover:underline underline-offset-2 text-left md:text-right"
-            onclick="(window.__openConsentBanner ? window.__openConsentBanner() : (location.href='/privacy#cookie'))"
+            data-cookie-preferences
           >
             Gestisci preferenze cookie
           </button>

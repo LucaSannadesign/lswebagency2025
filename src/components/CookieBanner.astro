@@ -123,6 +123,18 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
       window.dispatchEvent(new CustomEvent('ls:cookieconsent', { detail: consent }));
     }
 
+    // Riapertura del pannello preferenze. Definita fuori da initCookieBanner così
+    // da restare valida anche dopo le sostituzioni del DOM: rilegge sempre gli elementi.
+    function openPreferences() {
+      var modal = document.getElementById('cookie-modal');
+      if (!modal) return;
+      var chkAnalytics = document.getElementById('cookie-analytics');
+      var c = readConsent() || { analytics: false, marketing: false, ts: Date.now() };
+      if (chkAnalytics) chkAnalytics.checked = !!c.analytics;
+      modal.classList.remove('hidden');
+      if (chkAnalytics) chkAnalytics.focus();
+    }
+
     // Rieseguibile su ogni nuovo DOM. L'attributo data-cookie-bound garantisce
     // che i listener siano collegati una sola volta per nodo.
     function initCookieBanner() {
@@ -141,11 +153,7 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 
       function hideBanner() { banner.classList.add('hidden'); }
       function closeModal() { if (modal) modal.classList.add('hidden'); }
-      function openModal() {
-        var c = readConsent() || { analytics: false, marketing: false, ts: Date.now() };
-        if (chkAnalytics) chkAnalytics.checked = !!c.analytics;
-        if (modal) modal.classList.remove('hidden');
-      }
+      function openModal() { openPreferences(); }
       function decide(analytics) {
         writeConsent({ analytics: analytics, marketing: false, ts: Date.now() });
         hideBanner();
@@ -165,10 +173,28 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 
     initCookieBanner();
 
-    // Un solo listener globale, anche se lo script venisse rieseguito.
+    // Listener globali registrati una sola volta, anche se lo script venisse rieseguito.
     if (!window.__lsCookieBannerBooted) {
       window.__lsCookieBannerBooted = true;
       document.addEventListener('astro:after-swap', initCookieBanner);
+
+      // Delegato sul document: resta valido dopo ogni sostituzione del DOM.
+      document.addEventListener('click', function (e) {
+        var trigger = e.target && e.target.closest ? e.target.closest('[data-cookie-preferences]') : null;
+        if (!trigger) return;
+        e.preventDefault();
+        openPreferences();
+      });
+
+      // Chiusura da tastiera del pannello preferenze.
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var modal = document.getElementById('cookie-modal');
+        if (modal && !modal.classList.contains('hidden')) modal.classList.add('hidden');
+      });
+
+      // Compatibilità con i pulsanti già presenti che invocano questa funzione.
+      window.__openConsentBanner = openPreferences;
     }
   })();
 </script>
