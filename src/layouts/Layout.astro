@@ -166,6 +166,9 @@ const jsonLdBlocks = md?.jsonLd
       <script type="application/ld+json" set:html={JSON.stringify(block)} />
     ))}
 
+    <!-- Contenuto <head> aggiuntivo fornito dalla singola pagina -->
+    <slot name="head" />
+
     <!-- Google Tag Manager -->
     <script is:inline>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
