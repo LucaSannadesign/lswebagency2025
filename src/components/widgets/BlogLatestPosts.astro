@@ -34,13 +34,8 @@ const {
   count = 4,
 
   // share (per default nascosta qui)
-  shareNetworks = ['facebook', 'linkedin', 'whatsapp', 'telegram', 'email'],
   showShare = false,
-  shareLabel = 'Condividi:',
-  shareSize = 'sm',
   shareClass = '',
-  preferTwitterIcon = false,
-  shareMedia = '',
 
   id,
   isDark = false,
@@ -86,16 +81,7 @@ const containerClass = String((classes as any)?.container ?? '');
         )}
 
         {showShare && (
-          <SocialShare
-            url={allUrl}
-            title={plainTitle}
-            media={shareMedia}
-            networks={shareNetworks}
-            label={shareLabel}
-            size={shareSize}
-            class={shareClass}
-            preferTwitterIcon={preferTwitterIcon}
-          />
+          <SocialShare url={allUrl} text={plainTitle} class={shareClass} />
         )}
       </div>
 
