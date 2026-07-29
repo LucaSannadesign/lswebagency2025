@@ -3,9 +3,18 @@ import { getCollection } from 'astro:content';
 import { fetchPosts } from '@/utils/blog';
 import { getPermalink } from '@/utils/permalinks';
 
+// Lo schema ammette date come stringa o Date: qui si normalizza a Date,
+// forma richiesta sia da `new Date().valueOf()` sia da `RSSFeedItem.pubDate`.
+const toDate = (v: string | Date | undefined): Date | undefined =>
+  v instanceof Date ? v : v ? new Date(v) : undefined;
+
 export async function GET(context) {
   const posts = await getCollection('post', (e) => !e.data?.draft);
-  posts.sort((a, b) => (new Date(b.data?.publishDate ?? b.data?.pubDate).valueOf()) - (new Date(a.data?.publishDate ?? a.data?.pubDate).valueOf()));
+  posts.sort(
+    (a, b) =>
+      (toDate(b.data?.publishDate ?? b.data?.pubDate)?.valueOf() ?? 0) -
+      (toDate(a.data?.publishDate ?? a.data?.pubDate)?.valueOf() ?? 0)
+  );
 
   // Mappa id → URL reale della route pubblicata (stessa logica di sitemap.xml.ts)
   const normalized = await fetchPosts();
@@ -22,7 +31,7 @@ export async function GET(context) {
         link,
         guid: link,
         title: p.data?.title ?? p.id,
-        pubDate: p.data?.publishDate ?? p.data?.pubDate,
+        pubDate: toDate(p.data?.publishDate ?? p.data?.pubDate),
         description: p.data?.description ?? p.data?.excerpt ?? '',
       };
     }),
