@@ -2,6 +2,7 @@
 // src/pages/portfolio/[slug].astro
 import Layout from '@/layouts/PageLayout.astro';
 import { getCollection, render as renderEntry } from 'astro:content';
+import type { MetaData } from '@/types';
 
 export const prerender = true;
 
@@ -46,10 +47,14 @@ const prev = idx > 0 ? ordered[idx - 1] : null;
 const next = idx < ordered.length - 1 ? ordered[idx + 1] : null;
 
 // SEO: unisce metadata del frontmatter con title/description di pagina
-const metadata = {
+// `robots` nello schema ammette anche la forma stringa, non gestita da Layout:
+// in quel caso si ricade sul default (index, follow), come già avviene oggi.
+const rawRobots = d.metadata?.robots;
+const metadata: MetaData = {
   ...(d.metadata ?? {}),
   title: d.metadata?.title ?? d.title,
   description: d.metadata?.description ?? d.description,
+  robots: typeof rawRobots === 'string' ? undefined : rawRobots,
 };
 ---
 
