@@ -31,7 +31,7 @@ const whenExternalScripts = (items: () => any | Array<() => any>) =>
 
 export default defineConfig({
   output: 'server',
-  adapter: vercel({ mode: 'serverless' }),
+  adapter: vercel(),
 
   site: 'https://www.lswebagency.com',
   trailingSlash: 'never',
