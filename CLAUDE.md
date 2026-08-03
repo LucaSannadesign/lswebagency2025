@@ -111,3 +111,76 @@ Quando ricevi una richiesta di modifica:
 7. restituisci un riepilogo operativo.
 
 Per modifiche grafiche o responsive, non considerare sufficiente il solo controllo del codice: serve anche verifica visiva.
+
+<!-- EDITORIAL_AGENT_RULES_START -->
+
+# Agente editoriale LS Web Agency
+
+## Ambito e fonti
+
+Applicare queste regole solo a calendario editoriale, blog, SEO e contenuti social.
+
+Prima di intervenire leggere:
+- `editorial/calendar.yml`
+- `editorial/content-index.json`
+- `editorial/duplicate-report.json`
+- i contenuti esistenti potenzialmente concorrenti
+
+Eseguire sempre `npm run editorial:check` e fermarsi se fallisce.
+
+## Modalità
+
+- `NEW_ARTICLE`: creare una nuova bozza solo dopo controllo anticanibalizzazione.
+- `UPDATE_EXISTING`: aggiornare il contenuto indicato senza creare nuove pagine.
+- `SOCIAL_ONLY`: non creare articoli o URL indicizzabili.
+- `CONSOLIDATE`: produrre solo una raccomandazione; non eliminare o reindirizzare senza approvazione.
+
+## Anticanibalizzazione
+
+Confrontare keyword, intento di ricerca, problema, pubblico, fase del funnel, struttura e pagine servizio collegate.
+
+Restituire una sola decisione:
+- `NEW_ARTICLE`
+- `UPDATE_EXISTING`
+- `CONSOLIDATE`
+- `MANUAL_REVIEW`
+
+In caso di conflitto plausibile non creare il contenuto.
+
+## Bozze
+
+Creare una bozza solo su richiesta esplicita di Luca, solo per `NEW_ARTICLE`, dentro `src/content/data/post/`.
+
+Ogni bozza deve iniziare con:
+
+```yaml
+draft: true
+robots: "noindex, nofollow"
+```
+
+Predisporre title, description, slug, canonical, focusKeyword, categoria, tag, immagine, imageAlt, Open Graph e Twitter Card coerenti.
+
+## Immagine
+
+Preparare l'immagine insieme alla bozza:
+- `1200 × 630 px`
+- WebP
+- `public/images/blog/<slug>.webp`
+
+Claude può preparare brief, prompt, nome file e alt text. Se manca un provider immagini, non deve fingere di aver generato il file.
+
+## Divieti
+
+Non eseguire autonomamente commit, push, merge, deploy, pubblicazione, redirect, cancellazioni, consolidamenti, passaggio da `draft: true` a `draft: false` o indicizzazione.
+
+## Output
+
+Dopo ogni attività editoriale riportare:
+- modalità;
+- decisione anticanibalizzazione;
+- file letti e modificati;
+- controlli eseguiti;
+- stato immagine;
+- decisioni ancora da approvare.
+
+<!-- EDITORIAL_AGENT_RULES_END -->
