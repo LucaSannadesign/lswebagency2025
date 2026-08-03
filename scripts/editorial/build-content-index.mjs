@@ -298,7 +298,6 @@ records.sort((first, second) =>
 );
 
 const output = {
-  generatedAt: new Date().toISOString(),
   repository: 'LucaSannadesign/lswebagency2025',
   branch: 'feature/editorial-agent',
   totals: {
@@ -318,12 +317,59 @@ const output = {
   records,
 };
 
-await fs.writeFile(
-  path.join(rootDirectory, 'editorial/content-index.json'),
-  `${JSON.stringify(output, null, 2)}\n`,
-  'utf8'
+const outputPath = path.join(
+  rootDirectory,
+  'editorial/content-index.json'
 );
 
-console.log('Inventario editoriale generato.');
+let previousOutput = null;
+
+try {
+  previousOutput = JSON.parse(
+    await fs.readFile(outputPath, 'utf8')
+  );
+} catch (error) {
+  if (error?.code !== 'ENOENT') {
+    console.warn(
+      'Il precedente inventario non è leggibile e verrà rigenerato.'
+    );
+  }
+}
+
+const comparablePrevious = previousOutput
+  ? Object.fromEntries(
+      Object.entries(previousOutput).filter(
+        ([key]) => key !== 'generatedAt'
+      )
+    )
+  : null;
+
+const comparableNext = output;
+
+const hasIndexChanged =
+  !previousOutput ||
+  JSON.stringify(comparablePrevious) !==
+    JSON.stringify(comparableNext);
+
+if (hasIndexChanged) {
+  await fs.writeFile(
+    outputPath,
+    `${JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        ...output,
+      },
+      null,
+      2
+    )}\n`,
+    'utf8'
+  );
+}
+
+console.log(
+  hasIndexChanged
+    ? 'Inventario editoriale generato.'
+    : 'Inventario editoriale invariato.'
+);
 console.table(output.totals);
 console.log('File: editorial/content-index.json');

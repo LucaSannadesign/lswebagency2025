@@ -297,7 +297,6 @@ const exactConflictCount = Object.values(
 );
 
 const report = {
-  generatedAt: new Date().toISOString(),
   sourceIndexGeneratedAt: index.generatedAt,
   totals: {
     records: records.length,
@@ -311,13 +310,55 @@ const report = {
   metadataWarnings,
 };
 
-await fs.writeFile(
-  reportPath,
-  `${JSON.stringify(report, null, 2)}\n`,
-  'utf8'
-);
+let previousReport = null;
 
-console.log('Controllo duplicati completato.');
+try {
+  previousReport = JSON.parse(
+    await fs.readFile(reportPath, 'utf8')
+  );
+} catch (error) {
+  if (error?.code !== 'ENOENT') {
+    console.warn(
+      'Il precedente report non è leggibile e verrà rigenerato.'
+    );
+  }
+}
+
+const comparablePreviousReport = previousReport
+  ? Object.fromEntries(
+      Object.entries(previousReport).filter(
+        ([key]) => key !== 'generatedAt'
+      )
+    )
+  : null;
+
+const comparableNextReport = report;
+
+const hasReportChanged =
+  !previousReport ||
+  JSON.stringify(comparablePreviousReport) !==
+    JSON.stringify(comparableNextReport);
+
+if (hasReportChanged) {
+  await fs.writeFile(
+    reportPath,
+    `${JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        ...report,
+      },
+      null,
+      2
+    )}\n`,
+    'utf8'
+  );
+}
+
+console.log(
+  hasReportChanged
+    ? 'Controllo duplicati completato.'
+    : 'Report duplicati invariato.'
+);
 console.table(report.totals);
 console.log(`Report: ${path.relative(rootDirectory, reportPath)}`);
 
