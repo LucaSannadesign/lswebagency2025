@@ -1,0 +1,333 @@
+{
+  "generatedAt": "2026-08-03T19:43:00.242Z",
+  "sourceIndexGeneratedAt": "2026-08-03T15:32:39.305Z",
+  "sourceDuplicateReportGeneratedAt": "2026-08-03T16:41:52.073Z",
+  "totals": {
+    "calendarWeeks": 13,
+    "indexedRecords": 52,
+    "newArticles": 6,
+    "updates": 1,
+    "consolidations": 2,
+    "socialOnly": 4,
+    "errors": 0,
+    "warnings": 4
+  },
+  "errors": [],
+  "warnings": [
+    {
+      "code": "CONSOLIDATE_REVIEW_REQUIRED",
+      "calendarId": "ls-2026-w07",
+      "mode": "CONSOLIDATE",
+      "message": "Consolidamento da valutare manualmente su 2 contenuti: nessuna eliminazione o redirect viene eseguita da questo controllo.",
+      "filePath": null,
+      "url": null,
+      "focusKeyword": null,
+      "title": null,
+      "conflictsWith": [
+        {
+          "filePath": "src/content/data/post/sito-lento-clienti-persi.mdx",
+          "url": "/sito-lento-clienti-persi",
+          "title": "Sito lento? Perché perdi clienti e conversioni"
+        },
+        {
+          "filePath": "src/content/data/post/come-misurare-velocita-sito.mdx",
+          "url": "/blog/come-misurare-velocita-sito-web",
+          "title": "Come Misurare e Migliorare la Velocità del Tuo Sito Web: Guida Completa"
+        }
+      ]
+    },
+    {
+      "code": "CONSOLIDATE_REVIEW_REQUIRED",
+      "calendarId": "ls-2026-w09",
+      "mode": "CONSOLIDATE",
+      "message": "Consolidamento da valutare manualmente su 2 contenuti: nessuna eliminazione o redirect viene eseguita da questo controllo.",
+      "filePath": null,
+      "url": null,
+      "focusKeyword": null,
+      "title": null,
+      "conflictsWith": [
+        {
+          "filePath": "src/content/data/post/come-creare-landing-page-perfetta.mdx",
+          "url": "/blog/come-creare-landing-page-perfetta",
+          "title": "Landing Page Perfetta: guida pratica alla conversione"
+        },
+        {
+          "filePath": "src/content/data/post/landing-page-contatti-whatsapp-form.mdx",
+          "url": "/blog/landing-page-contatti-whatsapp-form",
+          "title": "Landing page che porta contatti: struttura, esempi e checklist (WhatsApp + form)"
+        }
+      ]
+    },
+    {
+      "code": "EXISTING_CONTENT_IN_DUPLICATE_GROUP",
+      "calendarId": "ls-2026-w13",
+      "mode": "SOCIAL_ONLY",
+      "message": "Il contenuto src/content/data/post/intelligenza-artificiale-web-design.mdx fa parte di un conflitto già rilevato (focusKeyword: \"intelligenza artificiale web design\").",
+      "filePath": "src/content/data/post/intelligenza-artificiale-web-design.mdx",
+      "url": "/blog/intelligenza-artificiale-web-design",
+      "focusKeyword": null,
+      "title": null,
+      "conflictsWith": [
+        {
+          "filePath": "src/content/data/post/intelligenza-artificiale-web-design-italia.mdx"
+        },
+        {
+          "filePath": "src/content/data/post/intelligenza-artificiale-web-design.mdx"
+        }
+      ]
+    },
+    {
+      "code": "EXISTING_CONTENT_IN_DUPLICATE_GROUP",
+      "calendarId": "ls-2026-w13",
+      "mode": "SOCIAL_ONLY",
+      "message": "Il contenuto src/content/data/post/intelligenza-artificiale-web-design-italia.mdx fa parte di un conflitto già rilevato (focusKeyword: \"intelligenza artificiale web design\").",
+      "filePath": "src/content/data/post/intelligenza-artificiale-web-design-italia.mdx",
+      "url": "/blog/intelligenza-artificiale-web-design-italia",
+      "focusKeyword": null,
+      "title": null,
+      "conflictsWith": [
+        {
+          "filePath": "src/content/data/post/intelligenza-artificiale-web-design-italia.mdx"
+        },
+        {
+          "filePath": "src/content/data/post/intelligenza-artificiale-web-design.mdx"
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "NEW_ARTICLE": [
+      {
+        "calendarId": "ls-2026-w02",
+        "mode": "NEW_ARTICLE",
+        "title": "Quanto costa un sito web professionale nel 2026",
+        "targetFile": "src/content/data/post/quanto-costa-un-sito-web-professionale.mdx",
+        "targetSlug": "/blog/quanto-costa-un-sito-web-professionale",
+        "focusKeyword": "quanto costa un sito web professionale",
+        "targetFileExistsOnDisk": false,
+        "targetFileInIndex": false,
+        "targetSlugInIndex": false,
+        "focusKeywordInIndex": false,
+        "titleInIndex": false,
+        "errors": 0,
+        "warnings": 0,
+        "semanticOverlaps": 0
+      },
+      {
+        "calendarId": "ls-2026-w04",
+        "mode": "NEW_ARTICLE",
+        "title": "Brief per un sito web: cosa preparare prima di chiedere un preventivo",
+        "targetFile": "src/content/data/post/brief-sito-web-cosa-preparare.mdx",
+        "targetSlug": "/blog/brief-sito-web-cosa-preparare",
+        "focusKeyword": "brief sito web",
+        "targetFileExistsOnDisk": false,
+        "targetFileInIndex": false,
+        "targetSlugInIndex": false,
+        "focusKeywordInIndex": false,
+        "titleInIndex": false,
+        "errors": 0,
+        "warnings": 0,
+        "semanticOverlaps": 0
+      },
+      {
+        "calendarId": "ls-2026-w06",
+        "mode": "NEW_ARTICLE",
+        "title": "Pagina Chi siamo: cosa scrivere per trasmettere credibilità",
+        "targetFile": "src/content/data/post/pagina-chi-siamo-cosa-scrivere.mdx",
+        "targetSlug": "/blog/pagina-chi-siamo-cosa-scrivere",
+        "focusKeyword": "cosa scrivere nella pagina chi siamo",
+        "targetFileExistsOnDisk": false,
+        "targetFileInIndex": false,
+        "targetSlugInIndex": false,
+        "focusKeywordInIndex": false,
+        "titleInIndex": false,
+        "errors": 0,
+        "warnings": 0,
+        "semanticOverlaps": 0
+      },
+      {
+        "calendarId": "ls-2026-w08",
+        "mode": "NEW_ARTICLE",
+        "title": "Il form contatti non invia email: controlli su SMTP, DNS e spam",
+        "targetFile": "src/content/data/post/form-contatti-non-invia-email.mdx",
+        "targetSlug": "/blog/form-contatti-non-invia-email",
+        "focusKeyword": "form contatti non invia email",
+        "targetFileExistsOnDisk": false,
+        "targetFileInIndex": false,
+        "targetSlugInIndex": false,
+        "focusKeywordInIndex": false,
+        "titleInIndex": false,
+        "errors": 0,
+        "warnings": 0,
+        "semanticOverlaps": 0
+      },
+      {
+        "calendarId": "ls-2026-w10",
+        "mode": "NEW_ARTICLE",
+        "title": "Come recuperare un sito abbandonato o lasciato incompleto",
+        "targetFile": "src/content/data/post/recuperare-sito-abbandonato-incompleto.mdx",
+        "targetSlug": "/blog/recuperare-sito-abbandonato-incompleto",
+        "focusKeyword": "recuperare sito web abbandonato",
+        "targetFileExistsOnDisk": false,
+        "targetFileInIndex": false,
+        "targetSlugInIndex": false,
+        "focusKeywordInIndex": false,
+        "titleInIndex": false,
+        "errors": 0,
+        "warnings": 0,
+        "semanticOverlaps": 0
+      },
+      {
+        "calendarId": "ls-2026-w12",
+        "mode": "NEW_ARTICLE",
+        "title": "Tracciamento delle conversioni: quali eventi misurare sul sito",
+        "targetFile": "src/content/data/post/tracciamento-conversioni-eventi-sito.mdx",
+        "targetSlug": "/blog/tracciamento-conversioni-eventi-sito",
+        "focusKeyword": "tracciare conversioni sito web",
+        "targetFileExistsOnDisk": false,
+        "targetFileInIndex": false,
+        "targetSlugInIndex": false,
+        "focusKeywordInIndex": false,
+        "titleInIndex": false,
+        "errors": 0,
+        "warnings": 0,
+        "semanticOverlaps": 0
+      }
+    ],
+    "UPDATE_EXISTING": [
+      {
+        "calendarId": "ls-2026-w03",
+        "mode": "UPDATE_EXISTING",
+        "references": [
+          {
+            "filePath": "src/content/data/post/prima-di-rifare-il-sito-mini-audit-chiarezza.mdx",
+            "url": "/prima-di-rifare-il-sito-mini-audit-chiarezza",
+            "fileInIndex": true,
+            "urlInIndex": true,
+            "urlMatchesFile": true
+          }
+        ],
+        "errors": 0,
+        "warnings": 0
+      }
+    ],
+    "CONSOLIDATE": [
+      {
+        "calendarId": "ls-2026-w07",
+        "mode": "CONSOLIDATE",
+        "references": [
+          {
+            "filePath": "src/content/data/post/sito-lento-clienti-persi.mdx",
+            "url": "/sito-lento-clienti-persi",
+            "fileInIndex": true,
+            "urlInIndex": true
+          },
+          {
+            "filePath": "src/content/data/post/come-misurare-velocita-sito.mdx",
+            "url": "/blog/come-misurare-velocita-sito-web",
+            "fileInIndex": true,
+            "urlInIndex": true
+          }
+        ],
+        "distinctContents": 2,
+        "errors": 0,
+        "warnings": 1
+      },
+      {
+        "calendarId": "ls-2026-w09",
+        "mode": "CONSOLIDATE",
+        "references": [
+          {
+            "filePath": "src/content/data/post/come-creare-landing-page-perfetta.mdx",
+            "url": "/blog/come-creare-landing-page-perfetta",
+            "fileInIndex": true,
+            "urlInIndex": true
+          },
+          {
+            "filePath": "src/content/data/post/landing-page-contatti-whatsapp-form.mdx",
+            "url": "/blog/landing-page-contatti-whatsapp-form",
+            "fileInIndex": true,
+            "urlInIndex": true
+          }
+        ],
+        "distinctContents": 2,
+        "errors": 0,
+        "warnings": 1
+      }
+    ],
+    "SOCIAL_ONLY": [
+      {
+        "calendarId": "ls-2026-w01",
+        "mode": "SOCIAL_ONLY",
+        "references": [
+          {
+            "filePath": "src/content/data/post/perche-il-tuo-sito-web-non-porta-clienti.mdx",
+            "url": "/blog/perche-il-tuo-sito-web-non-porta-clienti",
+            "fileInIndex": true,
+            "urlInIndex": true
+          }
+        ],
+        "indexableOutput": false,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "calendarId": "ls-2026-w05",
+        "mode": "SOCIAL_ONLY",
+        "references": [
+          {
+            "filePath": "src/content/data/post/ottimizzazione-mobile-siti-web.mdx",
+            "url": "/blog/mobile-first-ottimizzazione-sito",
+            "fileInIndex": true,
+            "urlInIndex": true
+          }
+        ],
+        "indexableOutput": false,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "calendarId": "ls-2026-w11",
+        "mode": "SOCIAL_ONLY",
+        "references": [
+          {
+            "filePath": "src/content/data/post/sito-web-cta-coerenti-interesse-visitatore.mdx",
+            "url": "/blog/sito-web-cta-coerenti-interesse-visitatore",
+            "fileInIndex": true,
+            "urlInIndex": true
+          }
+        ],
+        "indexableOutput": false,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "calendarId": "ls-2026-w13",
+        "mode": "SOCIAL_ONLY",
+        "references": [
+          {
+            "filePath": "src/content/blog/ai-funzionalita-siti-web-2026.md",
+            "url": "/blog/ai-funzionalita-siti-web-2026",
+            "fileInIndex": true,
+            "urlInIndex": true
+          },
+          {
+            "filePath": "src/content/data/post/intelligenza-artificiale-web-design.mdx",
+            "url": "/blog/intelligenza-artificiale-web-design",
+            "fileInIndex": true,
+            "urlInIndex": true
+          },
+          {
+            "filePath": "src/content/data/post/intelligenza-artificiale-web-design-italia.mdx",
+            "url": "/blog/intelligenza-artificiale-web-design-italia",
+            "fileInIndex": true,
+            "urlInIndex": true
+          }
+        ],
+        "indexableOutput": false,
+        "errors": 0,
+        "warnings": 2
+      }
+    ]
+  }
+}
