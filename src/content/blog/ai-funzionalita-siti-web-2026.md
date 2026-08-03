@@ -1,5 +1,5 @@
 ---
-title: Funzionalità AI nei siti web: guida completa per performance, UX e conversioni (2026)
+title: "Funzionalità AI nei siti web: guida completa per performance, UX e conversioni (2026)"
 description: Scopri quali strumenti di intelligenza artificiale integrare nel tuo sito per migliorare velocità, SEO e conversioni.
 pubDate: 2026-02-13
 author: LS Web Agency

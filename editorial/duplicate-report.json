@@ -1,0 +1,343 @@
+{
+  "generatedAt": "2026-08-03T15:34:23.120Z",
+  "sourceIndexGeneratedAt": "2026-08-03T15:32:39.305Z",
+  "totals": {
+    "records": 52,
+    "exactConflictGroups": 2,
+    "possibleTitleConflicts": 0,
+    "metadataWarnings": 27
+  },
+  "exactDuplicates": {
+    "slug": [],
+    "publicUrl": [],
+    "canonical": [],
+    "focusKeyword": [
+      {
+        "value": "null",
+        "files": [
+          "src/content/blog/ai-funzionalita-siti-web-2026.md",
+          "src/content/data/post/i-overviews-italia-seo-2026.mdx",
+          "src/content/data/post/prima-di-rifare-il-sito-mini-audit-chiarezza.mdx",
+          "src/content/data/post/trend-digital-marketing-2026-strategie-clienti.mdx",
+          "src/pages/servizi/accessibilita-digitale-avanzata.astro",
+          "src/pages/servizi/ai-blog-engine.astro",
+          "src/pages/servizi/assistente-ai-sito-whatsapp.astro",
+          "src/pages/servizi/assistenza-manutenzione.astro",
+          "src/pages/servizi/audit-rapido.astro",
+          "src/pages/servizi/branding-e-grafica-siti-web.astro",
+          "src/pages/servizi/creazione-siti-web-sassari.astro",
+          "src/pages/servizi/fix-performance-seo.astro",
+          "src/pages/servizi/landing-page-professionale.astro",
+          "src/pages/servizi/local-seo-booster.astro",
+          "src/pages/servizi/ottimizzazione-seo-siti-web.astro",
+          "src/pages/servizi/personalizzazione-ux-intelligenza-artificiale.astro",
+          "src/pages/servizi/pre-accoglienza-digitale.astro",
+          "src/pages/servizi/realizzazione-siti-ecommerce.astro",
+          "src/pages/servizi/seo-locale.astro",
+          "src/pages/servizi/siti-web.astro",
+          "src/pages/servizi/sprint-ottimizzazione.astro",
+          "src/pages/servizi/sviluppo-web-white-label.astro",
+          "src/pages/servizi/voucher-digitali-sardegna-2025.astro",
+          "src/pages/servizi/voucher-digitali-sassari.astro",
+          "src/pages/servizi/web-design-etico-sostenibile.astro",
+          "src/pages/servizi/wordpress-slim-siti-statici-headless.astro"
+        ],
+        "titles": [
+          "Funzionalità AI nei siti web: guida completa per performance, UX e conversioni (2026)",
+          "AI Overviews in Italia: strategie SEO 2026 per salvare CTR e lead",
+          "Prima di rifare il sito: mini-audit di chiarezza",
+          "Trend Digital Marketing 2026: strategie concrete per ottenere clienti online",
+          "Accessibilità Digitale Avanzata",
+          "AI Blog Engine — Contenuti SEO con Intelligenza Artificiale | LS Web Agency",
+          "Assistente AI per sito e WhatsApp — LS Web Agency",
+          "Assistenza siti web Sassari | Supporto tecnico",
+          "Prestazioni",
+          "Branding & Grafica — Loghi, Brand Kit e UX | LS Web Agency",
+          "Realizzazione siti web a Sassari | LS Web Agency",
+          "Fix Performance e SEO | Correzione Rapida Sito Web — LS Web Agency",
+          "Landing Page Professionale | Design & Conversion — LS Web Agency",
+          "Local SEO Booster — Google Business Profile & Local Pack",
+          "Ottimizzazione SEO per Siti Web | LS Web Agency",
+          "UX Personalizzata con Intelligenza Artificiale",
+          "Pre-Accoglienza Digitale per studi dentistici e cliniche",
+          "E-commerce Sassari | Siti per vendere online",
+          "SEO Sassari: Consulenza SEO Locale e Posizionamento Google | LS Web Agency",
+          "Realizzazione siti web professionali per PMI | LS Web Agency",
+          "Sprint di Ottimizzazione | Performance e conversioni",
+          "Sviluppo Web White Label per Agenzie | LS Web Agency",
+          "voucher-digitali-sardegna-2025",
+          "voucher-digitali-sassari",
+          "Web Design Etico e Inclusivo | LS Web Agency",
+          "WordPress Slim: Siti Statici o Headless | LS Web Agency"
+        ],
+        "urls": [
+          "https://www.lswebagency.com/blog/ai-funzionalita-siti-web-2026",
+          "https://www.lswebagency.com/blog/ai-overviews-italia-seo-2026",
+          "https://www.lswebagency.com/prima-di-rifare-il-sito-mini-audit-chiarezza",
+          "https://www.lswebagency.com/trend-digital-marketing-2026-strategie-clienti",
+          "/servizi/accessibilita-digitale-avanzata",
+          "/servizi/ai-blog-engine",
+          "/servizi/assistente-ai-sito-whatsapp",
+          "/servizi/assistenza-manutenzione",
+          "/servizi/audit-rapido",
+          "/servizi/branding-e-grafica-siti-web",
+          "/servizi/creazione-siti-web-sassari",
+          "/servizi/fix-performance-seo",
+          "/servizi/landing-page-professionale",
+          "/servizi/local-seo-booster",
+          "/servizi/ottimizzazione-seo-siti-web",
+          "/servizi/personalizzazione-ux-intelligenza-artificiale",
+          "/servizi/pre-accoglienza-digitale",
+          "/servizi/realizzazione-siti-ecommerce",
+          "/servizi/seo-locale",
+          "/servizi/siti-web",
+          "/servizi/sprint-ottimizzazione",
+          "/servizi/sviluppo-web-white-label",
+          "/servizi/voucher-digitali-sardegna-2025",
+          "/servizi/voucher-digitali-sassari",
+          "/servizi/web-design-etico-sostenibile",
+          "/servizi/wordpress-slim-siti-statici-headless"
+        ]
+      },
+      {
+        "value": "intelligenza artificiale web design",
+        "files": [
+          "src/content/data/post/intelligenza-artificiale-web-design-italia.mdx",
+          "src/content/data/post/intelligenza-artificiale-web-design.mdx"
+        ],
+        "titles": [
+          "AI e Web Design in Italia: opportunità e rischi",
+          "AI nel Web Design: cosa cambia per siti e UX"
+        ],
+        "urls": [
+          "https://www.lswebagency.com/blog/intelligenza-artificiale-web-design-italia",
+          "https://www.lswebagency.com/blog/intelligenza-artificiale-web-design"
+        ]
+      }
+    ],
+    "title": [],
+    "fileName": []
+  },
+  "possibleTitleConflicts": [],
+  "metadataWarnings": [
+    {
+      "filePath": "src/content/blog/ai-funzionalita-siti-web-2026.md",
+      "title": "Funzionalità AI nei siti web: guida completa per performance, UX e conversioni (2026)",
+      "publicUrl": "https://www.lswebagency.com/blog/ai-funzionalita-siti-web-2026",
+      "warnings": [
+        "MISSING_FOCUS_KEYWORD",
+        "MISSING_IMAGE_ALT",
+        "INDEXABLE_CONTENT_OUTSIDE_ACTIVE_COLLECTION"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/2026-03-23-perche-il-tuo-sito-non-trasmette-fiducia-in-5-secondi.mdx",
+      "title": "Perché il tuo sito non trasmette fiducia in 5 secondi",
+      "publicUrl": "https://www.lswebagency.com/perche-il-tuo-sito-non-trasmette-fiducia-in-5-secondi",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/ai-overviews-zero-click-geo-conversione.mdx",
+      "title": "AI Overviews: meno visite da Google, più conversioni",
+      "publicUrl": "https://www.lswebagency.com/blog/ai-overviews-zero-click-geo-conversione",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/come-creare-landing-page-perfetta.mdx",
+      "title": "Landing Page Perfetta: guida pratica alla conversione",
+      "publicUrl": "https://www.lswebagency.com/blog/come-creare-landing-page-perfetta",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/come-misurare-velocita-sito.mdx",
+      "title": "Come Misurare e Migliorare la Velocità del Tuo Sito Web: Guida Completa",
+      "publicUrl": "https://www.lswebagency.com/blog/come-misurare-velocita-sito-web",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/come-scegliere-web-agency.mdx",
+      "title": "Come Scegliere la Web Agency Giusta: Criteri, Errori da Evitare e Domande da Fare",
+      "publicUrl": "https://www.lswebagency.com/blog/come-scegliere-web-agency",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/crm-leggero-pmi-quando-serve.mdx",
+      "title": "CRM leggero per PMI: quando serve davvero e quando basta un foglio Excel",
+      "publicUrl": "https://www.lswebagency.com/crm-leggero-pmi-quando-serve",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/guida-copywriting-seo.mdx",
+      "title": "Scrivere per il Web: Guida alla Strategia dei Contenuti e al Copywriting SEO",
+      "publicUrl": "https://www.lswebagency.com/blog/guida-copywriting-seo",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/i-overviews-italia-seo-2026.mdx",
+      "title": "AI Overviews in Italia: strategie SEO 2026 per salvare CTR e lead",
+      "publicUrl": "https://www.lswebagency.com/blog/ai-overviews-italia-seo-2026",
+      "warnings": [
+        "MISSING_FOCUS_KEYWORD"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/intelligenza-artificiale-web-design-italia.mdx",
+      "title": "AI e Web Design in Italia: opportunità e rischi",
+      "publicUrl": "https://www.lswebagency.com/blog/intelligenza-artificiale-web-design-italia",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/intelligenza-artificiale-web-design.mdx",
+      "title": "AI nel Web Design: cosa cambia per siti e UX",
+      "publicUrl": "https://www.lswebagency.com/blog/intelligenza-artificiale-web-design",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/landing-page-contatti-whatsapp-form.mdx",
+      "title": "Landing page che porta contatti: struttura, esempi e checklist (WhatsApp + form)",
+      "publicUrl": "https://www.lswebagency.com/blog/landing-page-contatti-whatsapp-form",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/manus-ai-nuova-intelligenza-artificiale.mdx",
+      "title": "Manus AI: La Nuova AI che Sfida ChatGPT e Cambia le Regole del Gioco",
+      "publicUrl": "https://www.lswebagency.com/blog/manus-ai-nuova-intelligenza-artificiale",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/nuova-versione-sito-ls-web-agency.mdx",
+      "title": "Nuova versione del sito LS Web Agency: più veloce, più chiara, orientata ai risultati",
+      "publicUrl": "https://www.lswebagency.com/blog/nuova-versione-sito-ls-web-agency-veloce-ux-seo",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/ottimizzazione-mobile-siti-web.mdx",
+      "title": "Mobile First: Perché il tuo sito deve essere ottimizzato per smartphone",
+      "publicUrl": "https://www.lswebagency.com/blog/mobile-first-ottimizzazione-sito",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/perche-sito-vetrina-non-basta-piu.mdx",
+      "title": "Perché un Sito Vetrina Non Basta Più: Strategie Digitali per Farsi Trovare e Convertire",
+      "publicUrl": "https://www.lswebagency.com/blog/perche-sito-vetrina-non-basta-piu",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/prima-di-rifare-il-sito-mini-audit-chiarezza.mdx",
+      "title": "Prima di rifare il sito: mini-audit di chiarezza",
+      "publicUrl": "https://www.lswebagency.com/prima-di-rifare-il-sito-mini-audit-chiarezza",
+      "warnings": [
+        "MISSING_FOCUS_KEYWORD",
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/scegliere-tipo-sito-web.mdx",
+      "title": "Come scegliere il sito web giusto per la tua attività",
+      "publicUrl": "https://www.lswebagency.com/blog/scegliere-tipo-sito-web",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/seo-tecnica-ottimizzazione.mdx",
+      "title": "SEO Tecnica: Guida Completa per Ottimizzare il Tuo Sito Web e Scalare Google",
+      "publicUrl": "https://www.lswebagency.com/blog/seo-tecnica-ottimizzazione-sito",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/sito-lento-clienti-persi.mdx",
+      "title": "Sito lento? Perché perdi clienti e conversioni",
+      "publicUrl": "https://www.lswebagency.com/sito-lento-clienti-persi",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/sito-web-acquisire-richieste-clienti.mdx",
+      "title": "Come trasformare un sito web in uno strumento per acquisire richieste clienti",
+      "publicUrl": "https://www.lswebagency.com/sito-web-acquisire-richieste-clienti",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/sito-web-cta-coerenti-interesse-visitatore.mdx",
+      "title": "CTA coerenti con il visitatore: quando il sito parla la lingua di chi legge",
+      "publicUrl": "https://www.lswebagency.com/blog/sito-web-cta-coerenti-interesse-visitatore",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/strategie-contenuti-sito-web.mdx",
+      "title": "Come Creare una Strategia di Contenuti Efficace per il Tuo Sito Web",
+      "publicUrl": "https://www.lswebagency.com/blog/strategie-contenuti-sito-web",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/strumenti-creare-siti-web-professionali.mdx",
+      "title": "Strumenti e Risorse Essenziali per Creare un Sito Web Professionale",
+      "publicUrl": "https://www.lswebagency.com/blog/strumenti-risorse-creare-sito-web-professionale",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/trend-digital-marketing-2026-strategie-clienti.mdx",
+      "title": "Trend Digital Marketing 2026: strategie concrete per ottenere clienti online",
+      "publicUrl": "https://www.lswebagency.com/trend-digital-marketing-2026-strategie-clienti",
+      "warnings": [
+        "MISSING_FOCUS_KEYWORD"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/velocizzare-wordpress-2025.mdx",
+      "title": "Velocizzare WordPress nel 2025: guida tecnica",
+      "publicUrl": "/blog/velocizzare-wordpress-2025",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    },
+    {
+      "filePath": "src/content/data/post/voucher-digitali-sassari-2025.mdx",
+      "title": "Voucher Digitali Sassari 2025: Fino al 70% di Rimborso per la Tua Impresa",
+      "publicUrl": "https://www.lswebagency.com/blog/voucher-digitali-sassari-2025",
+      "warnings": [
+        "MISSING_IMAGE_ALT"
+      ]
+    }
+  ]
+}
