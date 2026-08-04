@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-08-03T15:32:39.305Z",
+  "generatedAt": "2026-08-04T12:07:11.311Z",
   "repository": "LucaSannadesign/lswebagency2025",
   "branch": "feature/editorial-agent",
   "totals": {
-    "all": 52,
-    "blogPosts": 29,
+    "all": 53,
+    "blogPosts": 30,
     "legacyBlogPosts": 1,
     "servicePages": 22,
-    "drafts": 0,
+    "drafts": 1,
     "parseErrors": 0
   },
   "records": [
@@ -705,6 +705,47 @@
         "Mini-caso: quando il redesign rischia di rifare la stessa confusione",
         "Quando un redesign ha davvero senso",
         "Conclusione"
+      ],
+      "searchIntent": null,
+      "parseError": null
+    },
+    {
+      "sourceType": "blog-post",
+      "publicationState": "collection",
+      "filePath": "src/content/data/post/quanto-costa-un-sito-web-professionale.mdx",
+      "fileName": "quanto-costa-un-sito-web-professionale",
+      "title": "Quanto costa un sito web professionale nel 2026",
+      "slug": "/blog/quanto-costa-un-sito-web-professionale",
+      "publicUrl": "https://www.lswebagency.com/blog/quanto-costa-un-sito-web-professionale",
+      "canonical": "https://www.lswebagency.com/blog/quanto-costa-un-sito-web-professionale",
+      "description": "Quanto costa un sito web professionale nel 2026: come si forma il prezzo, le voci del preventivo, i costi ricorrenti e come confrontare due offerte.",
+      "focusKeyword": "quanto costa un sito web professionale",
+      "category": "Strategia Web",
+      "tags": [
+        "preventivo sito web",
+        "costo sito web",
+        "budget progetto web",
+        "strategia web"
+      ],
+      "author": "Luca Sanna",
+      "draft": true,
+      "robots": "noindex, nofollow",
+      "publishDate": "2026-08-06T00:00:00.000Z",
+      "updateDate": "2026-08-06T00:00:00.000Z",
+      "image": "/images/blog/quanto-costa-un-sito-web-professionale.webp",
+      "imageAlt": "Computer portatile con due proposte per un sito web messe a confronto",
+      "h1": [],
+      "h2": [
+        "Perché non esiste un prezzo unico per un sito professionale",
+        "Le voci che compongono un preventivo web",
+        "Costi iniziali e costi ricorrenti: la differenza che cambia il budget",
+        "Fasce di prezzo indicative nel 2026",
+        "Cosa fa salire e cosa fa scendere il prezzo",
+        "Cosa deve essere scritto in un preventivo",
+        "Come confrontare due preventivi molto diversi",
+        "Come arrivare a un budget realistico prima di chiedere un preventivo",
+        "Domande frequenti",
+        "Prossimo passo"
       ],
       "searchIntent": null,
       "parseError": null

@@ -75,40 +75,12 @@ articleDefaults:
 
 weeks:
   - id: ls-2026-w01
-    theme: Il sito non genera richieste
-    mode: SOCIAL_ONLY
-    status: planned
-
-    existingContent:
-      filePath: src/content/data/post/perche-il-tuo-sito-web-non-porta-clienti.mdx
-      url: /blog/perche-il-tuo-sito-web-non-porta-clienti
-
-    publications:
-      - date: 2026-08-04
-        type: educational_post
-        title: "Un sito può essere online e non generare richieste: 4 possibili cause"
-        channels: [linkedin, facebook]
-        cta: Leggi l'articolo completo
-
-      - date: 2026-08-06
-        type: carousel
-        title: "Il visitatore capisce cosa fai in 5 secondi?"
-        channels: [instagram, linkedin]
-        cta: Salva la checklist
-
-      - date: 2026-08-08
-        type: method_post
-        title: Cosa controllo prima di proporre un rifacimento
-        channels: [linkedin, facebook]
-        cta: Richiedi una mini-analisi
-
-  - id: ls-2026-w02
     theme: Quanto costa un sito web
     mode: NEW_ARTICLE
-    status: planned
+    status: drafting
 
     article:
-      date: 2026-08-11
+      date: 2026-08-06
       title: Quanto costa un sito web professionale nel 2026
       targetFile: src/content/data/post/quanto-costa-un-sito-web-professionale.mdx
       targetSlug: /blog/quanto-costa-un-sito-web-professionale
@@ -121,22 +93,50 @@ weeks:
       imagePath: /images/blog/quanto-costa-un-sito-web-professionale.webp
 
     publications:
-      - date: 2026-08-11
+      - date: 2026-08-04
+        type: positioning_post
+        title: Sito economico o investimento sbagliato? La differenza
+        channels: [linkedin, facebook]
+        cta: Richiedi una valutazione
+
+      - date: 2026-08-06
         type: article_and_social_launch
         title: Quanto costa un sito web professionale nel 2026
         channels: [blog, linkedin, facebook]
 
-      - date: 2026-08-13
+      - date: 2026-08-08
         type: carousel
         title: Le 7 voci che compongono un preventivo web
         channels: [instagram, linkedin]
         cta: Leggi la guida
 
-      - date: 2026-08-15
-        type: positioning_post
-        title: Sito economico o investimento sbagliato? La differenza
+  - id: ls-2026-w02
+    theme: Il sito non genera richieste
+    mode: SOCIAL_ONLY
+    status: planned
+
+    existingContent:
+      filePath: src/content/data/post/perche-il-tuo-sito-web-non-porta-clienti.mdx
+      url: /blog/perche-il-tuo-sito-web-non-porta-clienti
+
+    publications:
+      - date: 2026-08-11
+        type: educational_post
+        title: "Un sito può essere online e non generare richieste: 4 possibili cause"
         channels: [linkedin, facebook]
-        cta: Richiedi una valutazione
+        cta: Leggi l'articolo completo
+
+      - date: 2026-08-13
+        type: carousel
+        title: "Il visitatore capisce cosa fai in 5 secondi?"
+        channels: [instagram, linkedin]
+        cta: Salva la checklist
+
+      - date: 2026-08-15
+        type: method_post
+        title: Cosa controllo prima di proporre un rifacimento
+        channels: [linkedin, facebook]
+        cta: Richiedi una mini-analisi
 
   - id: ls-2026-w03
     theme: Correggere o rifare il sito

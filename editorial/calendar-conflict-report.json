@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-03T20:14:23.568Z",
-  "sourceIndexGeneratedAt": "2026-08-03T15:32:39.305Z",
-  "sourceDuplicateReportGeneratedAt": "2026-08-03T16:41:52.073Z",
+  "generatedAt": "2026-08-04T12:07:11.796Z",
+  "sourceIndexGeneratedAt": "2026-08-04T12:07:11.311Z",
+  "sourceDuplicateReportGeneratedAt": "2026-08-04T12:07:11.486Z",
   "totals": {
     "calendarWeeks": 13,
-    "indexedRecords": 52,
+    "indexedRecords": 53,
     "newArticles": 6,
     "updates": 1,
     "consolidations": 2,
@@ -98,20 +98,28 @@
   "checks": {
     "NEW_ARTICLE": [
       {
-        "calendarId": "ls-2026-w02",
+        "calendarId": "ls-2026-w01",
         "mode": "NEW_ARTICLE",
-        "status": "planned",
+        "status": "drafting",
         "title": "Quanto costa un sito web professionale nel 2026",
         "targetFile": "src/content/data/post/quanto-costa-un-sito-web-professionale.mdx",
         "targetSlug": "/blog/quanto-costa-un-sito-web-professionale",
         "focusKeyword": "quanto costa un sito web professionale",
-        "targetFileExistsOnDisk": false,
-        "targetFileInIndex": false,
-        "targetSlugInIndex": false,
-        "focusKeywordInIndex": false,
-        "titleInIndex": false,
-        "selfRecordExcluded": false,
-        "draft": null,
+        "targetFileExistsOnDisk": true,
+        "targetFileInIndex": true,
+        "targetSlugInIndex": true,
+        "focusKeywordInIndex": true,
+        "titleInIndex": true,
+        "selfRecordExcluded": true,
+        "draft": {
+          "status": "drafting",
+          "filePath": "src/content/data/post/quanto-costa-un-sito-web-professionale.mdx",
+          "exists": true,
+          "isDraft": true,
+          "robots": "noindex, nofollow",
+          "indexable": false,
+          "metadataMismatches": []
+        },
         "errors": 0,
         "warnings": 0,
         "semanticOverlaps": 0
@@ -275,7 +283,7 @@
     ],
     "SOCIAL_ONLY": [
       {
-        "calendarId": "ls-2026-w01",
+        "calendarId": "ls-2026-w02",
         "mode": "SOCIAL_ONLY",
         "references": [
           {

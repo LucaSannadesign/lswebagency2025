@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-03T16:41:52.073Z",
-  "sourceIndexGeneratedAt": "2026-08-03T15:32:39.305Z",
+  "generatedAt": "2026-08-04T12:07:11.486Z",
+  "sourceIndexGeneratedAt": "2026-08-04T12:07:11.311Z",
   "totals": {
-    "records": 52,
+    "records": 53,
     "exactConflictGroups": 1,
     "possibleTitleConflicts": 0,
     "metadataWarnings": 27
