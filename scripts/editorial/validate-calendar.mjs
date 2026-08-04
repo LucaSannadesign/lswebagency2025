@@ -15,6 +15,18 @@ const allowedModes = new Set([
   'CONSOLIDATE',
 ]);
 
+// Stati realmente previsti dal flusso editoriale:
+// "planned" prima della bozza, "drafting" quando la bozza
+// esiste ma non è pubblicabile, "needs_manual_review" quando
+// serve una decisione umana.
+const allowedStatuses = new Set([
+  'planned',
+  'drafting',
+  'needs_manual_review',
+]);
+
+const draftingStatus = 'drafting';
+
 const requiredArticleFields = [
   'date',
   'title',
@@ -169,8 +181,23 @@ for (const [weekIndex, week] of weeks.entries()) {
     errors.push(`${context}: theme mancante`);
   }
 
-  if (!isNonEmptyString(week.status)) {
+  const weekStatus = isNonEmptyString(week.status)
+    ? week.status.trim()
+    : null;
+
+  if (!weekStatus) {
     errors.push(`${context}: status mancante`);
+  } else if (!allowedStatuses.has(weekStatus)) {
+    errors.push(
+      `${context}: status non valido "${week.status}"`
+    );
+  } else if (
+    weekStatus === draftingStatus &&
+    week.mode !== 'NEW_ARTICLE'
+  ) {
+    errors.push(
+      `${context}: lo status "${draftingStatus}" è ammesso solo con mode NEW_ARTICLE`
+    );
   }
 
   if (!Array.isArray(week.publications)) {

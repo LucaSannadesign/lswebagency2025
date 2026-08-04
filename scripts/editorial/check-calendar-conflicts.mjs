@@ -31,6 +31,11 @@ const trackedModes = [
   'SOCIAL_ONLY',
 ];
 
+// Stato dichiarato quando la bozza esiste già su disco ma non è
+// ancora pubblicabile.
+const draftingStatus = 'drafting';
+const requiredDraftRobots = 'noindex, nofollow';
+
 const stopWords = new Set([
   'a',
   'ad',
@@ -184,6 +189,107 @@ async function fileExistsOnDisk(relativePath) {
   } catch {
     return false;
   }
+}
+
+// Lo slug può essere dichiarato completo o relativo: stessa
+// regola usata da build-content-index.mjs.
+function toPublicUrl(value) {
+  if (!value) {
+    return null;
+  }
+
+  const raw = String(value).trim();
+
+  if (!raw) {
+    return null;
+  }
+
+  return normalizeUrl(
+    raw.startsWith('/') || /^https?:\/\//i.test(raw)
+      ? raw
+      : `/blog/${raw}`
+  );
+}
+
+async function readFrontmatter(relativePath) {
+  if (!relativePath) {
+    return { found: false, frontmatter: null, parseError: null };
+  }
+
+  let content;
+
+  try {
+    content = await fs.readFile(
+      path.join(rootDirectory, relativePath),
+      'utf8'
+    );
+  } catch {
+    return { found: false, frontmatter: null, parseError: null };
+  }
+
+  const match = content.match(
+    /^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)/
+  );
+
+  if (!match) {
+    return {
+      found: true,
+      frontmatter: null,
+      parseError: 'frontmatter assente',
+    };
+  }
+
+  try {
+    return {
+      found: true,
+      frontmatter: yaml.load(match[1]) || {},
+      parseError: null,
+    };
+  } catch (error) {
+    return {
+      found: true,
+      frontmatter: null,
+      parseError:
+        error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
+// robots può essere una stringa ("noindex, nofollow") oppure un
+// oggetto ({ index: false, follow: false }): entrambe le forme
+// esistono già nei contenuti del repository.
+function describeRobots(value) {
+  if (value == null || value === '') {
+    return { declared: null, noindex: false, nofollow: false };
+  }
+
+  if (typeof value === 'string') {
+    const directives = value
+      .toLowerCase()
+      .split(',')
+      .map((directive) => directive.trim())
+      .filter(Boolean);
+
+    return {
+      declared: value,
+      noindex: directives.includes('noindex'),
+      nofollow: directives.includes('nofollow'),
+    };
+  }
+
+  if (typeof value === 'object') {
+    return {
+      declared: JSON.stringify(value),
+      noindex: value.index === false || value.noindex === true,
+      nofollow: value.follow === false || value.nofollow === true,
+    };
+  }
+
+  return {
+    declared: String(value),
+    noindex: false,
+    nofollow: false,
+  };
 }
 
 async function readJsonIfPresent(filePath, label) {
@@ -429,13 +535,174 @@ const checks = {
   SOCIAL_ONLY: [],
 };
 
+// Stato "drafting": la bozza deve esistere, essere esattamente
+// quella dichiarata dal calendario e non essere pubblicabile.
+async function inspectDraftingTarget({
+  weekId,
+  article,
+  targetFile,
+  existsOnDisk,
+}) {
+  const draftState = {
+    status: draftingStatus,
+    filePath: targetFile || null,
+    exists: Boolean(targetFile) && existsOnDisk,
+    isDraft: null,
+    robots: null,
+    indexable: null,
+    metadataMismatches: [],
+  };
+
+  if (!targetFile) {
+    addIssue({
+      severity: 'error',
+      code: 'NEW_ARTICLE_DRAFT_FILE_NOT_FOUND',
+      weekId,
+      mode: 'NEW_ARTICLE',
+      message: `Lo stato "${draftingStatus}" richiede un targetFile dichiarato.`,
+    });
+
+    return draftState;
+  }
+
+  if (!existsOnDisk) {
+    addIssue({
+      severity: 'error',
+      code: 'NEW_ARTICLE_DRAFT_FILE_NOT_FOUND',
+      weekId,
+      mode: 'NEW_ARTICLE',
+      message: `Lo stato "${draftingStatus}" richiede la bozza ${targetFile}, che non esiste nel repository.`,
+      filePath: targetFile,
+    });
+
+    return draftState;
+  }
+
+  const { frontmatter, parseError } =
+    await readFrontmatter(targetFile);
+
+  if (parseError || !frontmatter) {
+    addIssue({
+      severity: 'error',
+      code: 'NEW_ARTICLE_DRAFT_FRONTMATTER_UNREADABLE',
+      weekId,
+      mode: 'NEW_ARTICLE',
+      message: `Il frontmatter della bozza ${targetFile} non è leggibile (${parseError || 'contenuto non valido'}).`,
+      filePath: targetFile,
+    });
+
+    return draftState;
+  }
+
+  const robots = describeRobots(
+    frontmatter.robots ?? frontmatter.metadata?.robots ?? null
+  );
+
+  draftState.isDraft = frontmatter.draft === true;
+  draftState.robots = robots.declared;
+  draftState.indexable = !(robots.noindex && robots.nofollow);
+
+  if (!draftState.isDraft) {
+    addIssue({
+      severity: 'error',
+      code: 'NEW_ARTICLE_DRAFT_NOT_MARKED_AS_DRAFT',
+      weekId,
+      mode: 'NEW_ARTICLE',
+      message: `La bozza ${targetFile} non dichiara draft: true.`,
+      filePath: targetFile,
+    });
+  }
+
+  if (draftState.indexable) {
+    addIssue({
+      severity: 'error',
+      code: 'NEW_ARTICLE_DRAFT_IS_INDEXABLE',
+      weekId,
+      mode: 'NEW_ARTICLE',
+      message: `La bozza ${targetFile} deve dichiarare robots "${requiredDraftRobots}" (trovato: ${
+        robots.declared ?? 'nessun valore'
+      }).`,
+      filePath: targetFile,
+    });
+  }
+
+  const metadataComparisons = [
+    {
+      field: 'title',
+      expected: normalizeText(article.title),
+      found: normalizeText(frontmatter.title),
+      expectedLabel: article.title,
+      foundLabel: frontmatter.title ?? null,
+    },
+    {
+      field: 'slug',
+      expected: normalizeUrl(article.targetSlug),
+      found: toPublicUrl(frontmatter.slug),
+      expectedLabel: normalizeUrl(article.targetSlug),
+      foundLabel: frontmatter.slug ?? null,
+    },
+    {
+      field: 'canonical',
+      expected: normalizeUrl(article.targetSlug),
+      found: normalizeUrl(
+        frontmatter.canonical ||
+          frontmatter.metadata?.canonical ||
+          null
+      ),
+      expectedLabel: normalizeUrl(article.targetSlug),
+      foundLabel:
+        frontmatter.canonical ||
+        frontmatter.metadata?.canonical ||
+        null,
+    },
+    {
+      field: 'focusKeyword',
+      expected: normalizeText(article.focusKeyword),
+      found: normalizeText(frontmatter.focusKeyword),
+      expectedLabel: article.focusKeyword,
+      foundLabel: frontmatter.focusKeyword ?? null,
+    },
+  ];
+
+  for (const comparison of metadataComparisons) {
+    if (!comparison.expected || comparison.found === comparison.expected) {
+      continue;
+    }
+
+    draftState.metadataMismatches.push(comparison.field);
+
+    addIssue({
+      severity: 'error',
+      code: 'NEW_ARTICLE_DRAFT_METADATA_MISMATCH',
+      weekId,
+      mode: 'NEW_ARTICLE',
+      message: `Nella bozza ${targetFile} il campo ${comparison.field} non coincide con il calendario (atteso "${comparison.expectedLabel}", trovato "${
+        comparison.foundLabel ?? 'assente'
+      }").`,
+      filePath: targetFile,
+      url: comparison.field === 'title' ? null : normalizeUrl(article.targetSlug),
+      focusKeyword:
+        comparison.field === 'focusKeyword'
+          ? article.focusKeyword
+          : null,
+      title: comparison.field === 'title' ? article.title : null,
+    });
+  }
+
+  return draftState;
+}
+
 async function checkNewArticle(week) {
   const weekId = week.id || null;
   const article = week.article;
+  const status =
+    typeof week.status === 'string' ? week.status.trim() : null;
+  const isDrafting = status === draftingStatus;
 
   const detail = {
     calendarId: weekId,
     mode: 'NEW_ARTICLE',
+    status,
     title: article?.title || null,
     targetFile: article?.targetFile || null,
     targetSlug: article?.targetSlug || null,
@@ -445,6 +712,8 @@ async function checkNewArticle(week) {
     targetSlugInIndex: false,
     focusKeywordInIndex: false,
     titleInIndex: false,
+    selfRecordExcluded: false,
+    draft: null,
     errors: 0,
     warnings: 0,
   };
@@ -468,12 +737,44 @@ async function checkNewArticle(week) {
   const focusKeyword = normalizeText(article.focusKeyword);
   const normalizedTitle = normalizeText(article.title);
 
-  // 1. Il file di destinazione non deve già esistere.
+  // 1. Il file di destinazione non deve già esistere, tranne
+  // quando lo stato "drafting" dichiara che la bozza è già stata
+  // creata: in quel caso il file deve esistere ed essere valido.
   detail.targetFileExistsOnDisk =
     await fileExistsOnDisk(targetFile);
   detail.targetFileInIndex = recordsByFile.has(targetFile);
 
-  if (detail.targetFileExistsOnDisk) {
+  // Il record dell'inventario che corrisponde esattamente alla
+  // bozza di questa voce: va escluso solo dai confronti di questa
+  // voce, per non farla risultare duplicato di sé stessa.
+  const selfRecord =
+    isDrafting && targetFile
+      ? recordsByFile.get(targetFile) || null
+      : null;
+
+  detail.selfRecordExcluded = Boolean(selfRecord);
+
+  function withoutSelfRecord(list) {
+    if (!selfRecord) {
+      return list;
+    }
+
+    return list.filter(
+      (record) =>
+        normalizeFilePath(record.filePath) !== targetFile
+    );
+  }
+
+  if (isDrafting) {
+    detail.draft = await inspectDraftingTarget({
+      weekId,
+      article,
+      targetFile,
+      existsOnDisk: detail.targetFileExistsOnDisk,
+    });
+  }
+
+  if (!isDrafting && detail.targetFileExistsOnDisk) {
     addIssue({
       severity: 'error',
       code: 'NEW_ARTICLE_TARGET_FILE_EXISTS',
@@ -484,7 +785,7 @@ async function checkNewArticle(week) {
     });
   }
 
-  if (detail.targetFileInIndex) {
+  if (detail.targetFileInIndex && !selfRecord) {
     addIssue({
       severity: 'error',
       code: 'NEW_ARTICLE_TARGET_FILE_INDEXED',
@@ -499,8 +800,12 @@ async function checkNewArticle(week) {
   }
 
   // 2. Lo slug o URL non deve essere già indicizzato.
-  const slugMatches = findRecordsByUrl(article.targetSlug);
-  detail.targetSlugInIndex = slugMatches.length > 0;
+  const indexedSlugMatches = findRecordsByUrl(
+    article.targetSlug
+  );
+  detail.targetSlugInIndex = indexedSlugMatches.length > 0;
+
+  const slugMatches = withoutSelfRecord(indexedSlugMatches);
 
   if (slugMatches.length > 0) {
     addIssue({
@@ -515,9 +820,14 @@ async function checkNewArticle(week) {
   }
 
   // 3. La focus keyword non deve essere già presidiata.
-  const keywordMatches =
+  const indexedKeywordMatches =
     recordsByFocusKeyword.get(focusKeyword) || [];
-  detail.focusKeywordInIndex = keywordMatches.length > 0;
+  detail.focusKeywordInIndex =
+    indexedKeywordMatches.length > 0;
+
+  const keywordMatches = withoutSelfRecord(
+    indexedKeywordMatches
+  );
 
   if (keywordMatches.length > 0) {
     addIssue({
@@ -533,9 +843,11 @@ async function checkNewArticle(week) {
 
   // 4. Il titolo normalizzato non deve coincidere con un
   // contenuto esistente.
-  const titleMatches =
+  const indexedTitleMatches =
     recordsByTitle.get(normalizedTitle) || [];
-  detail.titleInIndex = titleMatches.length > 0;
+  detail.titleInIndex = indexedTitleMatches.length > 0;
+
+  const titleMatches = withoutSelfRecord(indexedTitleMatches);
 
   if (titleMatches.length > 0) {
     addIssue({
@@ -614,7 +926,7 @@ async function checkNewArticle(week) {
   // segnalazioni su token generici come "sito" o "web".
   const similarRecords = [];
 
-  for (const record of records) {
+  for (const record of withoutSelfRecord(records)) {
     const keywordComparison = similarity(
       article.focusKeyword,
       record.focusKeyword

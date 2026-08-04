@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T19:43:00.242Z",
+  "generatedAt": "2026-08-03T20:14:23.568Z",
   "sourceIndexGeneratedAt": "2026-08-03T15:32:39.305Z",
   "sourceDuplicateReportGeneratedAt": "2026-08-03T16:41:52.073Z",
   "totals": {
@@ -100,6 +100,7 @@
       {
         "calendarId": "ls-2026-w02",
         "mode": "NEW_ARTICLE",
+        "status": "planned",
         "title": "Quanto costa un sito web professionale nel 2026",
         "targetFile": "src/content/data/post/quanto-costa-un-sito-web-professionale.mdx",
         "targetSlug": "/blog/quanto-costa-un-sito-web-professionale",
@@ -109,6 +110,8 @@
         "targetSlugInIndex": false,
         "focusKeywordInIndex": false,
         "titleInIndex": false,
+        "selfRecordExcluded": false,
+        "draft": null,
         "errors": 0,
         "warnings": 0,
         "semanticOverlaps": 0
@@ -116,6 +119,7 @@
       {
         "calendarId": "ls-2026-w04",
         "mode": "NEW_ARTICLE",
+        "status": "planned",
         "title": "Brief per un sito web: cosa preparare prima di chiedere un preventivo",
         "targetFile": "src/content/data/post/brief-sito-web-cosa-preparare.mdx",
         "targetSlug": "/blog/brief-sito-web-cosa-preparare",
@@ -125,6 +129,8 @@
         "targetSlugInIndex": false,
         "focusKeywordInIndex": false,
         "titleInIndex": false,
+        "selfRecordExcluded": false,
+        "draft": null,
         "errors": 0,
         "warnings": 0,
         "semanticOverlaps": 0
@@ -132,6 +138,7 @@
       {
         "calendarId": "ls-2026-w06",
         "mode": "NEW_ARTICLE",
+        "status": "planned",
         "title": "Pagina Chi siamo: cosa scrivere per trasmettere credibilità",
         "targetFile": "src/content/data/post/pagina-chi-siamo-cosa-scrivere.mdx",
         "targetSlug": "/blog/pagina-chi-siamo-cosa-scrivere",
@@ -141,6 +148,8 @@
         "targetSlugInIndex": false,
         "focusKeywordInIndex": false,
         "titleInIndex": false,
+        "selfRecordExcluded": false,
+        "draft": null,
         "errors": 0,
         "warnings": 0,
         "semanticOverlaps": 0
@@ -148,6 +157,7 @@
       {
         "calendarId": "ls-2026-w08",
         "mode": "NEW_ARTICLE",
+        "status": "planned",
         "title": "Il form contatti non invia email: controlli su SMTP, DNS e spam",
         "targetFile": "src/content/data/post/form-contatti-non-invia-email.mdx",
         "targetSlug": "/blog/form-contatti-non-invia-email",
@@ -157,6 +167,8 @@
         "targetSlugInIndex": false,
         "focusKeywordInIndex": false,
         "titleInIndex": false,
+        "selfRecordExcluded": false,
+        "draft": null,
         "errors": 0,
         "warnings": 0,
         "semanticOverlaps": 0
@@ -164,6 +176,7 @@
       {
         "calendarId": "ls-2026-w10",
         "mode": "NEW_ARTICLE",
+        "status": "planned",
         "title": "Come recuperare un sito abbandonato o lasciato incompleto",
         "targetFile": "src/content/data/post/recuperare-sito-abbandonato-incompleto.mdx",
         "targetSlug": "/blog/recuperare-sito-abbandonato-incompleto",
@@ -173,6 +186,8 @@
         "targetSlugInIndex": false,
         "focusKeywordInIndex": false,
         "titleInIndex": false,
+        "selfRecordExcluded": false,
+        "draft": null,
         "errors": 0,
         "warnings": 0,
         "semanticOverlaps": 0
@@ -180,6 +195,7 @@
       {
         "calendarId": "ls-2026-w12",
         "mode": "NEW_ARTICLE",
+        "status": "planned",
         "title": "Tracciamento delle conversioni: quali eventi misurare sul sito",
         "targetFile": "src/content/data/post/tracciamento-conversioni-eventi-sito.mdx",
         "targetSlug": "/blog/tracciamento-conversioni-eventi-sito",
@@ -189,6 +205,8 @@
         "targetSlugInIndex": false,
         "focusKeywordInIndex": false,
         "titleInIndex": false,
+        "selfRecordExcluded": false,
+        "draft": null,
         "errors": 0,
         "warnings": 0,
         "semanticOverlaps": 0
