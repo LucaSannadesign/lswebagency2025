@@ -1,0 +1,494 @@
+version: 1
+
+brand:
+  id: ls-web-agency
+  name: LS Web Agency
+  website: https://www.lswebagency.com
+  timezone: Europe/Rome
+
+period:
+  startDate: 2026-08-04
+  endDate: 2026-10-31
+  weeks: 13
+  publications: 39
+
+cadence:
+  publicationsPerWeek: 3
+  days:
+    - tuesday
+    - thursday
+    - saturday
+
+workflow:
+  humanApprovalRequired: true
+  automaticPublishing: false
+  cannibalizationCheckRequired: true
+  previewRequired: true
+  articleAuthor: Luca Sanna
+
+articleDefaults:
+  contentDirectory: src/content/data/post
+  draft: true
+  robots: "noindex, nofollow"
+  metadataProfile: full-seo-ai-social
+  structuredData:
+    - Article
+    - BreadcrumbList
+    - FAQPage_when_applicable
+
+  featuredImage:
+    required: true
+    generateWhen: article_draft_created
+    approvalRequired: true
+    primary:
+      width: 1200
+      height: 630
+      format: webp
+    socialVariant:
+      width: 1080
+      height: 1350
+      format: webp
+
+  requiredMetadata:
+    - title
+    - description
+    - slug
+    - canonical
+    - focusKeyword
+    - tags
+    - category
+    - author
+    - publishDate
+    - updateDate
+    - image
+    - imageAlt
+    - ogTitle
+    - ogDescription
+    - ogImage
+    - ogType
+    - twitterCard
+    - twitterTitle
+    - twitterDescription
+    - twitterImage
+    - robots
+    - draft
+
+weeks:
+  - id: ls-2026-w01
+    theme: Il sito non genera richieste
+    mode: SOCIAL_ONLY
+    status: planned
+
+    existingContent:
+      filePath: src/content/data/post/perche-il-tuo-sito-web-non-porta-clienti.mdx
+      url: /blog/perche-il-tuo-sito-web-non-porta-clienti
+
+    publications:
+      - date: 2026-08-04
+        type: educational_post
+        title: "Un sito può essere online e non generare richieste: 4 possibili cause"
+        channels: [linkedin, facebook]
+        cta: Leggi l'articolo completo
+
+      - date: 2026-08-06
+        type: carousel
+        title: "Il visitatore capisce cosa fai in 5 secondi?"
+        channels: [instagram, linkedin]
+        cta: Salva la checklist
+
+      - date: 2026-08-08
+        type: method_post
+        title: Cosa controllo prima di proporre un rifacimento
+        channels: [linkedin, facebook]
+        cta: Richiedi una mini-analisi
+
+  - id: ls-2026-w02
+    theme: Quanto costa un sito web
+    mode: NEW_ARTICLE
+    status: planned
+
+    article:
+      date: 2026-08-11
+      title: Quanto costa un sito web professionale nel 2026
+      targetFile: src/content/data/post/quanto-costa-un-sito-web-professionale.mdx
+      targetSlug: /blog/quanto-costa-un-sito-web-professionale
+      focusKeyword: quanto costa un sito web professionale
+      searchIntent: Conoscere fasce di prezzo, variabili e voci del preventivo
+      category: Strategia Web
+      cta:
+        label: Richiedi una valutazione
+        url: /mini-analisi
+      imagePath: /images/blog/quanto-costa-un-sito-web-professionale.webp
+
+    publications:
+      - date: 2026-08-11
+        type: article_and_social_launch
+        title: Quanto costa un sito web professionale nel 2026
+        channels: [blog, linkedin, facebook]
+
+      - date: 2026-08-13
+        type: carousel
+        title: Le 7 voci che compongono un preventivo web
+        channels: [instagram, linkedin]
+        cta: Leggi la guida
+
+      - date: 2026-08-15
+        type: positioning_post
+        title: Sito economico o investimento sbagliato? La differenza
+        channels: [linkedin, facebook]
+        cta: Richiedi una valutazione
+
+  - id: ls-2026-w03
+    theme: Correggere o rifare il sito
+    mode: UPDATE_EXISTING
+    status: planned
+
+    existingContent:
+      filePath: src/content/data/post/prima-di-rifare-il-sito-mini-audit-chiarezza.mdx
+      url: /prima-di-rifare-il-sito-mini-audit-chiarezza
+
+    publications:
+      - date: 2026-08-18
+        type: article_update_and_social
+        title: Rifare tutto non è sempre la soluzione
+        channels: [blog, linkedin, facebook]
+
+      - date: 2026-08-20
+        type: carousel
+        title: "Mantenere, correggere o rifare? Checklist"
+        channels: [instagram, linkedin]
+        cta: Salva la checklist
+
+      - date: 2026-08-22
+        type: service_post
+        title: Come valuto un sito lasciato a metà
+        channels: [linkedin, facebook]
+        cta: Invia il link del sito
+
+  - id: ls-2026-w04
+    theme: Preparare un progetto web
+    mode: NEW_ARTICLE
+    status: planned
+
+    article:
+      date: 2026-08-25
+      title: "Brief per un sito web: cosa preparare prima di chiedere un preventivo"
+      targetFile: src/content/data/post/brief-sito-web-cosa-preparare.mdx
+      targetSlug: /blog/brief-sito-web-cosa-preparare
+      focusKeyword: brief sito web
+      searchIntent: Capire quali materiali e informazioni preparare per avviare un sito
+      category: Strategia Web
+      cta:
+        label: Prepara il tuo progetto
+        url: /contatti
+      imagePath: /images/blog/brief-sito-web-cosa-preparare.webp
+
+    publications:
+      - date: 2026-08-25
+        type: article_and_social_launch
+        title: "Brief per un sito web: cosa preparare"
+        channels: [blog, linkedin, facebook]
+
+      - date: 2026-08-27
+        type: carousel
+        title: Checklist di testi, immagini, servizi e accessi
+        channels: [instagram, linkedin]
+        cta: Salva la checklist
+
+      - date: 2026-08-29
+        type: method_post
+        title: Cosa rallenta davvero la realizzazione di un sito
+        channels: [linkedin, facebook]
+        cta: Prepara correttamente il progetto
+
+  - id: ls-2026-w05
+    theme: Esperienza mobile
+    mode: SOCIAL_ONLY
+    status: planned
+
+    existingContent:
+      filePath: src/content/data/post/ottimizzazione-mobile-siti-web.mdx
+      url: /blog/mobile-first-ottimizzazione-sito
+
+    publications:
+      - date: 2026-09-01
+        type: educational_post
+        title: Essere responsive non significa essere facili da usare
+        channels: [linkedin, facebook]
+
+      - date: 2026-09-03
+        type: carousel
+        title: 6 controlli da fare sul sito con lo smartphone
+        channels: [instagram, linkedin]
+        cta: Salva la checklist
+
+      - date: 2026-09-05
+        type: behind_the_scenes
+        title: Come testo una pagina prima della consegna
+        channels: [linkedin, facebook]
+        cta: Leggi l'approfondimento
+
+  - id: ls-2026-w06
+    theme: Pagina Chi siamo
+    mode: NEW_ARTICLE
+    status: planned
+
+    article:
+      date: 2026-09-08
+      title: "Pagina Chi siamo: cosa scrivere per trasmettere credibilità"
+      targetFile: src/content/data/post/pagina-chi-siamo-cosa-scrivere.mdx
+      targetSlug: /blog/pagina-chi-siamo-cosa-scrivere
+      focusKeyword: cosa scrivere nella pagina chi siamo
+      searchIntent: Scrivere una pagina aziendale capace di costruire fiducia
+      category: Copywriting
+      cta:
+        label: Valuta la credibilità del tuo sito
+        url: /mini-analisi
+      imagePath: /images/blog/pagina-chi-siamo-cosa-scrivere.webp
+
+    publications:
+      - date: 2026-09-08
+        type: article_and_social_launch
+        title: "Pagina Chi siamo: cosa scrivere"
+        channels: [blog, linkedin, facebook]
+
+      - date: 2026-09-10
+        type: carousel
+        title: Le 6 sezioni di una pagina Chi siamo efficace
+        channels: [instagram, linkedin]
+        cta: Leggi la guida
+
+      - date: 2026-09-12
+        type: copywriting_post
+        title: "Siamo leader nel settore: perché non costruisce fiducia"
+        channels: [linkedin, facebook]
+        cta: Controlla il testo del tuo sito
+
+  - id: ls-2026-w07
+    theme: Velocità e prestazioni
+    mode: CONSOLIDATE
+    status: needs_manual_review
+
+    existingContent:
+      - filePath: src/content/data/post/sito-lento-clienti-persi.mdx
+        url: /sito-lento-clienti-persi
+      - filePath: src/content/data/post/come-misurare-velocita-sito.mdx
+        url: /blog/come-misurare-velocita-sito-web
+
+    publications:
+      - date: 2026-09-15
+        type: cluster_review_and_social
+        title: Il problema di un sito lento non è soltanto il punteggio PageSpeed
+        channels: [linkedin, facebook]
+
+      - date: 2026-09-17
+        type: carousel
+        title: Come leggere LCP, INP e CLS senza tecnicismi
+        channels: [instagram, linkedin]
+        cta: Salva la guida
+
+      - date: 2026-09-19
+        type: service_post
+        title: Quando serve un intervento sulle performance
+        channels: [linkedin, facebook]
+        cta: Richiedi un controllo tecnico
+
+  - id: ls-2026-w08
+    theme: Moduli di contatto ed email
+    mode: NEW_ARTICLE
+    status: planned
+
+    article:
+      date: 2026-09-22
+      title: "Il form contatti non invia email: controlli su SMTP, DNS e spam"
+      targetFile: src/content/data/post/form-contatti-non-invia-email.mdx
+      targetSlug: /blog/form-contatti-non-invia-email
+      focusKeyword: form contatti non invia email
+      searchIntent: Diagnosticare un modulo che sembra funzionare ma non consegna le email
+      category: Sviluppo Web
+      cta:
+        label: Richiedi assistenza tecnica
+        url: /contatti
+      imagePath: /images/blog/form-contatti-non-invia-email.webp
+
+    publications:
+      - date: 2026-09-22
+        type: article_and_social_launch
+        title: Il form contatti non invia email
+        channels: [blog, linkedin, facebook]
+
+      - date: 2026-09-24
+        type: carousel
+        title: 8 verifiche quando un modulo non funziona
+        channels: [instagram, linkedin]
+        cta: Salva la checklist
+
+      - date: 2026-09-26
+        type: technical_post
+        title: Il messaggio risulta inviato, ma l'email non arriva
+        channels: [linkedin, facebook]
+        cta: Leggi la diagnosi completa
+
+  - id: ls-2026-w09
+    theme: Landing page e homepage
+    mode: CONSOLIDATE
+    status: needs_manual_review
+
+    existingContent:
+      - filePath: src/content/data/post/come-creare-landing-page-perfetta.mdx
+        url: /blog/come-creare-landing-page-perfetta
+      - filePath: src/content/data/post/landing-page-contatti-whatsapp-form.mdx
+        url: /blog/landing-page-contatti-whatsapp-form
+
+    publications:
+      - date: 2026-09-29
+        type: cluster_review_and_social
+        title: "Landing page o homepage: quale serve davvero?"
+        channels: [linkedin, facebook]
+
+      - date: 2026-10-01
+        type: carousel
+        title: "WhatsApp, form o calendario: come scegliere la CTA"
+        channels: [instagram, linkedin]
+        cta: Salva il confronto
+
+      - date: 2026-10-03
+        type: diagnostic_post
+        title: Cosa controllo in una landing che riceve visite ma non contatti
+        channels: [linkedin, facebook]
+        cta: Richiedi una mini-analisi
+
+  - id: ls-2026-w10
+    theme: Recupero di siti abbandonati
+    mode: NEW_ARTICLE
+    status: planned
+
+    article:
+      date: 2026-10-06
+      title: Come recuperare un sito abbandonato o lasciato incompleto
+      targetFile: src/content/data/post/recuperare-sito-abbandonato-incompleto.mdx
+      targetSlug: /blog/recuperare-sito-abbandonato-incompleto
+      focusKeyword: recuperare sito web abbandonato
+      searchIntent: Capire come recuperare accessi, contenuti, codice e infrastruttura
+      category: Sviluppo Web
+      cta:
+        label: Richiedi una valutazione del sito
+        url: /contatti
+      imagePath: /images/blog/recuperare-sito-abbandonato-incompleto.webp
+
+    publications:
+      - date: 2026-10-06
+        type: article_and_social_launch
+        title: Come recuperare un sito abbandonato
+        channels: [blog, linkedin, facebook]
+
+      - date: 2026-10-08
+        type: carousel
+        title: "Accessi da recuperare: dominio, hosting, repository, analytics ed email"
+        channels: [instagram, linkedin]
+        cta: Salva la checklist
+
+      - date: 2026-10-10
+        type: method_post
+        title: Prima di rifare tutto, bisogna capire cosa è ancora utilizzabile
+        channels: [linkedin, facebook]
+        cta: Invia il link del progetto
+
+  - id: ls-2026-w11
+    theme: CTA e moduli
+    mode: SOCIAL_ONLY
+    status: planned
+
+    existingContent:
+      filePath: src/content/data/post/sito-web-cta-coerenti-interesse-visitatore.mdx
+      url: /blog/sito-web-cta-coerenti-interesse-visitatore
+
+    publications:
+      - date: 2026-10-13
+        type: educational_post
+        title: Una CTA corretta nel posto sbagliato può non funzionare
+        channels: [linkedin, facebook]
+
+      - date: 2026-10-15
+        type: carousel
+        title: 7 CTA generiche e versioni più precise
+        channels: [instagram, linkedin]
+        cta: Salva gli esempi
+
+      - date: 2026-10-17
+        type: conversion_post
+        title: Un modulo troppo lungo può bloccare un cliente interessato
+        channels: [linkedin, facebook]
+        cta: Controlla il tuo percorso di contatto
+
+  - id: ls-2026-w12
+    theme: Tracciamento delle conversioni
+    mode: NEW_ARTICLE
+    status: planned
+
+    article:
+      date: 2026-10-20
+      title: "Tracciamento delle conversioni: quali eventi misurare sul sito"
+      targetFile: src/content/data/post/tracciamento-conversioni-eventi-sito.mdx
+      targetSlug: /blog/tracciamento-conversioni-eventi-sito
+      focusKeyword: tracciare conversioni sito web
+      searchIntent: Capire quali eventi configurare per misurare richieste e contatti
+      category: Web Analytics
+      cta:
+        label: Verifica il tracciamento del sito
+        url: /mini-analisi
+      imagePath: /images/blog/tracciamento-conversioni-eventi-sito.webp
+
+    publications:
+      - date: 2026-10-20
+        type: article_and_social_launch
+        title: Quali conversioni tracciare sul sito
+        channels: [blog, linkedin, facebook]
+
+      - date: 2026-10-22
+        type: carousel
+        title: "Eventi essenziali: form, WhatsApp, telefono ed email"
+        channels: [instagram, linkedin]
+        cta: Salva la checklist
+
+      - date: 2026-10-24
+        type: analytics_post
+        title: "Visite in crescita, richieste ferme: il dato che manca"
+        channels: [linkedin, facebook]
+        cta: Controlla le conversioni
+
+  - id: ls-2026-w13
+    theme: AI e automazioni nei siti
+    mode: SOCIAL_ONLY
+    status: planned
+
+    existingContent:
+      - filePath: src/content/blog/ai-funzionalita-siti-web-2026.md
+        url: /blog/ai-funzionalita-siti-web-2026
+      - filePath: src/content/data/post/intelligenza-artificiale-web-design.mdx
+        url: /blog/intelligenza-artificiale-web-design
+      - filePath: src/content/data/post/intelligenza-artificiale-web-design-italia.mdx
+        url: /blog/intelligenza-artificiale-web-design-italia
+
+    notes:
+      - Non creare un nuovo articolo prima di risolvere il cluster AI esistente
+      - Due articoli condividono la stessa focus keyword
+      - Il contenuto legacy è fuori dalla collection attiva
+
+    publications:
+      - date: 2026-10-27
+        type: educational_post
+        title: Quando aggiungere AI al sito e quando evitarla
+        channels: [linkedin, facebook]
+
+      - date: 2026-10-29
+        type: carousel
+        title: 5 automazioni leggere utili a una piccola impresa
+        channels: [instagram, linkedin]
+        cta: Salva gli esempi
+
+      - date: 2026-10-31
+        type: positioning_post
+        title: "Assistente AI con supervisione umana: come dovrebbe funzionare"
+        channels: [linkedin, facebook]
+        cta: Valuta prima il bisogno

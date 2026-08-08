@@ -1,9 +1,9 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import type { MetaData } from '@/types';
+import type { MetaData, MetaDataRobots } from '@/types';
 
 export interface Props {
-  frontmatter: { title?: string; description?: string; canonical?: string; robots?: string; }
+  frontmatter: { title?: string; description?: string; canonical?: string; robots?: MetaDataRobots; }
 }
 const { frontmatter } = Astro.props;
 

@@ -14,7 +14,7 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 
           <p class="text-sm sm:text-base md:text-lg text-slate-700 dark:text-slate-200 leading-snug sm:leading-normal">
             Usiamo cookie necessari. Con il tuo consenso attiviamo anche cookie
-            <strong>statistici</strong> e <strong>marketing</strong>.
+            <strong>statistici</strong>.
           </p>
 
           <p class="text-[12px] sm:text-sm text-slate-500 dark:text-slate-400">
@@ -82,13 +82,6 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
           <input id="cookie-analytics" type="checkbox" class="h-5 w-5" />
         </label>
 
-        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-3 sm:p-4 dark:border-slate-800">
-          <div>
-            <p class="font-semibold text-slate-900 dark:text-slate-100 text-sm sm:text-base">Marketing</p>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Remarketing e tracciamento pubblicitario.</p>
-          </div>
-          <input id="cookie-marketing" type="checkbox" class="h-5 w-5" />
-        </label>
       </div>
 
       <div class="mt-4 sm:mt-6 flex justify-end">
@@ -101,50 +94,107 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 </div>
 
 <script is:inline>
-  const KEY = 'ls_cookie_consent_v1';
+  // IIFE: nessuna variabile globale, quindi nessuna ridichiarazione se lo script
+  // viene rieseguito durante una navigazione con Astro ClientRouter.
+  (function () {
+    var KEY = 'ls_cookie_consent_v1';
 
-  const banner = document.getElementById('cookie-banner');
-  const modal  = document.getElementById('cookie-modal');
+    function readConsent() {
+      try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; }
+    }
 
-  const btnAccept = document.getElementById('cookie-accept');
-  const btnReject = document.getElementById('cookie-reject');
-  const btnPrefs  = document.getElementById('cookie-prefs');
-  const btnClose  = document.getElementById('cookie-close');
-  const btnSave   = document.getElementById('cookie-save');
+    // Google Consent Mode v2: il default 'denied' è impostato nel <head> prima di GTM.
+    // Qui si aggiorna solo analytics_storage; gli stati pubblicitari restano negati.
+    function updateGoogleConsent(consent) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('consent', 'update', {
+        analytics_storage: consent && consent.analytics ? 'granted' : 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      });
+    }
 
-  const chkAnalytics = document.getElementById('cookie-analytics');
-  const chkMarketing = document.getElementById('cookie-marketing');
+    function writeConsent(consent) {
+      localStorage.setItem(KEY, JSON.stringify(consent));
+      document.cookie = "ls_cookie_consent=" + encodeURIComponent(JSON.stringify(consent)) + "; Path=/; Max-Age=31536000; SameSite=Lax";
+      updateGoogleConsent(consent);
+      window.dispatchEvent(new CustomEvent('ls:cookieconsent', { detail: consent }));
+    }
 
-  function readConsent() {
-    try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; }
-  }
+    // Riapertura del pannello preferenze. Definita fuori da initCookieBanner così
+    // da restare valida anche dopo le sostituzioni del DOM: rilegge sempre gli elementi.
+    function openPreferences() {
+      var modal = document.getElementById('cookie-modal');
+      if (!modal) return;
+      var chkAnalytics = document.getElementById('cookie-analytics');
+      var c = readConsent() || { analytics: false, marketing: false, ts: Date.now() };
+      if (chkAnalytics) chkAnalytics.checked = !!c.analytics;
+      modal.classList.remove('hidden');
+      if (chkAnalytics) chkAnalytics.focus();
+    }
 
-  function writeConsent(consent) {
-    localStorage.setItem(KEY, JSON.stringify(consent));
-    document.cookie = "ls_cookie_consent=" + encodeURIComponent(JSON.stringify(consent)) + "; Path=/; Max-Age=31536000; SameSite=Lax";
-    window.dispatchEvent(new CustomEvent('ls:cookieconsent', { detail: consent }));
-  }
+    // Rieseguibile su ogni nuovo DOM. L'attributo data-cookie-bound garantisce
+    // che i listener siano collegati una sola volta per nodo.
+    function initCookieBanner() {
+      var banner = document.getElementById('cookie-banner');
+      if (!banner) return;
+      if (banner.dataset.cookieBound === '1') return;
+      banner.dataset.cookieBound = '1';
 
-  function openModal() {
-    const c = readConsent() || { analytics: false, marketing: false, ts: Date.now() };
-    chkAnalytics.checked = !!c.analytics;
-    chkMarketing.checked = !!c.marketing;
-    modal.classList.remove('hidden');
-  }
-  function closeModal(){ modal.classList.add('hidden'); }
-  function hideBanner(){ banner.classList.add('hidden'); }
+      var modal        = document.getElementById('cookie-modal');
+      var btnAccept    = document.getElementById('cookie-accept');
+      var btnReject    = document.getElementById('cookie-reject');
+      var btnPrefs     = document.getElementById('cookie-prefs');
+      var btnClose     = document.getElementById('cookie-close');
+      var btnSave      = document.getElementById('cookie-save');
+      var chkAnalytics = document.getElementById('cookie-analytics');
 
-  if (!readConsent()) banner.classList.remove('hidden');
+      function hideBanner() { banner.classList.add('hidden'); }
+      function closeModal() { if (modal) modal.classList.add('hidden'); }
+      function openModal() { openPreferences(); }
+      function decide(analytics) {
+        writeConsent({ analytics: analytics, marketing: false, ts: Date.now() });
+        hideBanner();
+        closeModal();
+      }
 
-  btnAccept?.addEventListener('click', () => { writeConsent({ analytics: true, marketing: true, ts: Date.now() }); hideBanner(); closeModal(); });
-  btnReject?.addEventListener('click', () => { writeConsent({ analytics: false, marketing: false, ts: Date.now() }); hideBanner(); closeModal(); });
+      // Stato coerente con la scelta già salvata, anche dopo uno swap di pagina.
+      if (readConsent()) hideBanner(); else banner.classList.remove('hidden');
 
-  btnPrefs?.addEventListener('click', openModal);
-  btnClose?.addEventListener('click', closeModal);
-  modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      if (btnAccept) btnAccept.addEventListener('click', function () { decide(true); });
+      if (btnReject) btnReject.addEventListener('click', function () { decide(false); });
+      if (btnPrefs)  btnPrefs.addEventListener('click', openModal);
+      if (btnClose)  btnClose.addEventListener('click', closeModal);
+      if (btnSave)   btnSave.addEventListener('click', function () { decide(!!(chkAnalytics && chkAnalytics.checked)); });
+      if (modal)     modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    }
 
-  btnSave?.addEventListener('click', () => {
-    writeConsent({ analytics: !!chkAnalytics.checked, marketing: !!chkMarketing.checked, ts: Date.now() });
-    hideBanner(); closeModal();
-  });
+    initCookieBanner();
+
+    // Listener globali registrati una sola volta, anche se lo script venisse rieseguito.
+    if (!window.__lsCookieBannerBooted) {
+      window.__lsCookieBannerBooted = true;
+      document.addEventListener('astro:after-swap', initCookieBanner);
+
+      // Delegato sul document: resta valido dopo ogni sostituzione del DOM.
+      document.addEventListener('click', function (e) {
+        var trigger = e.target && e.target.closest ? e.target.closest('[data-cookie-preferences]') : null;
+        if (!trigger) return;
+        e.preventDefault();
+        openPreferences();
+      });
+
+      // Chiusura da tastiera del pannello preferenze.
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var modal = document.getElementById('cookie-modal');
+        if (modal && !modal.classList.contains('hidden')) modal.classList.add('hidden');
+      });
+
+      // Compatibilità con i pulsanti già presenti che invocano questa funzione.
+      window.__openConsentBanner = openPreferences;
+    }
+  })();
 </script>

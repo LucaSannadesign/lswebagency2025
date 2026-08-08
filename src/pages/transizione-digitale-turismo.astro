@@ -103,7 +103,10 @@ const serviceSchema = {
     twitter: {
       cardType: 'summary_large_image',
     },
-    jsonLd: [localBusinessSchema, serviceSchema],
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [localBusinessSchema, serviceSchema],
+    },
   }}
 >
   <main>

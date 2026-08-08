@@ -16,13 +16,14 @@ export async function getStaticPaths() {
     .sort((a, b) => {
       const tb = ts(b.data.updateDate ?? b.data.publishDate);
       const ta = ts(a.data.updateDate ?? a.data.publishDate);
-      return tb - ta || String(b.slug).localeCompare(String(a.slug));
+      // ordinamento stabile: a parita' di data l'ordine di getCollection e' preservato
+      return tb - ta;
     });
 
   const total = all.length;
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
 
-  const paths = [];
+  const paths: { params: { page: string } }[] = [];
   for (let p = 2; p <= totalPages; p++) {
     paths.push({ params: { page: String(p) } });
   }
@@ -34,7 +35,8 @@ const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
   .sort((a, b) => {
     const tb = ts(b.data.updateDate ?? b.data.publishDate);
     const ta = ts(a.data.updateDate ?? a.data.publishDate);
-    return tb - ta || String(b.slug).localeCompare(String(a.slug));
+    // ordinamento stabile: a parita' di data l'ordine di getCollection e' preservato
+    return tb - ta;
   });
 
 const total = all.length;

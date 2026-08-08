@@ -23,6 +23,8 @@ const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || undefined;
 ---
 
 <Document metadata={metadata}>
+  <Fragment slot="head"><slot name="head" /></Fragment>
+
   <Header />
 
   <main id="main" class="min-h-screen">

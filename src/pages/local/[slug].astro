@@ -1,13 +1,13 @@
 ---
 // /src/pages/local/[slug].astro
 import Layout from "@/layouts/PageLayout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export const prerender = true;
 
 /* 1) Pre-generazione rotte statiche */
 export async function getStaticPaths() {
-  const entries = await getCollection("cities").catch(() => []);
+  const entries = await getCollection("cities").catch((): CollectionEntry<"cities">[] => []);
   return entries
     .filter((e) => e?.data?.published === true && e?.data?.slug)
     .map((e) => ({ params: { slug: e.data.slug } }));
@@ -15,14 +15,19 @@ export async function getStaticPaths() {
 
 /* 2) Lettura dati città corrente */
 const { slug } = Astro.params;
-const all = await getCollection("cities").catch(() => []);
+const all = await getCollection("cities").catch((): CollectionEntry<"cities">[] => []);
 const entry = all.find((e) => e?.data?.slug === slug);
 const notFound = !entry || entry.data?.published !== true;
 
-const d = entry?.data ?? {};
-const name = d.name ?? slug;
+const d = entry?.data;
+const name = d?.name ?? slug;
 
 /* 3) Metadati */
+/* `robots` nello schema ammette anche la forma stringa, non gestita da Layout:
+   in quel caso si ricade sul default (index, follow), come già avviene oggi. */
+const rawRobots = d?.metadata?.robots;
+const cityRobots = typeof rawRobots === "string" ? undefined : rawRobots;
+
 const metadata = notFound
   ? {
       title: "Local — pagina non trovata | LS Web Agency",
@@ -31,12 +36,12 @@ const metadata = notFound
       robots: { index: false, follow: true }
     }
   : {
-      title: d.metadata?.title ?? `${name} — Servizi Local | LS Web Agency`,
+      title: d?.metadata?.title ?? `${name} — Servizi Local | LS Web Agency`,
       description:
-        d.metadata?.description ??
+        d?.metadata?.description ??
         `Siti web, SEO locale e automazioni AI per attività a ${name}.`,
       canonical: `/local/${slug}`,
-      robots: d.metadata?.robots ?? { index: true, follow: true }
+      robots: cityRobots ?? { index: true, follow: true }
     };
 
 /* 4) JSON-LD: LocalBusiness solo per Sassari, altrove Service */
@@ -84,7 +89,7 @@ const DEFAULT_SERVICES = [
     href: "/servizi/assistente-ai-sito-whatsapp"
   }
 ];
-const services = Array.isArray(d.services) && d.services.length ? d.services : DEFAULT_SERVICES;
+const services = Array.isArray(d?.services) && d.services.length ? d.services : DEFAULT_SERVICES;
 ---
 
 <Layout metadata={metadata}>
@@ -113,7 +118,7 @@ const services = Array.isArray(d.services) && d.services.length ? d.services : D
             Web Design, SEO & AI a {name}
           </h1>
           <p class="mx-auto mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-300">
-            {d.description ?? "Siti veloci, Local SEO e integrazioni AI per aumentare contatti e conversioni."}
+            {d?.description ?? "Siti veloci, Local SEO e integrazioni AI per aumentare contatti e conversioni."}
           </p>
           <div class="mt-8">
             <a href="/contatti" class="inline-block rounded-xl px-5 py-3 ring-1 ring-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">

@@ -22,7 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ ok: false, error: 'VALIDATION_ERROR' }, 400);
     }
 
-    const sb = supabaseAdmin();
+    const sb = supabaseAdmin;
     const { error } = await sb
       .from('chat_profiles')
       .upsert(
