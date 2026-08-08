@@ -111,3 +111,94 @@ Quando ricevi una richiesta di modifica:
 7. restituisci un riepilogo operativo.
 
 Per modifiche grafiche o responsive, non considerare sufficiente il solo controllo del codice: serve anche verifica visiva.
+
+<!-- EDITORIAL_AGENT_RULES_START -->
+
+## Regole agente editoriale LS Web Agency
+
+### Ambito
+
+- Applica queste regole solo a calendario editoriale, blog, SEO editoriale e contenuti social.
+- Per il resto del sito valgono le regole generali già presenti in questo file.
+
+### Letture obbligatorie prima di ogni intervento
+
+- editorial/calendar.yml
+- editorial/content-index.json
+- editorial/duplicate-report.json
+- i contenuti esistenti potenzialmente concorrenti
+
+### Controllo tecnico
+
+- Esegui sempre `npm run editorial:check`.
+- Se il controllo fallisce, fermati e riporta l'errore senza procedere.
+
+### Modalità operative
+
+- NEW_ARTICLE: nuova bozza solo dopo il controllo anticanibalizzazione.
+- UPDATE_EXISTING: aggiorna il contenuto indicato, senza creare nuove pagine.
+- SOCIAL_ONLY: non creare URL indicizzabili.
+- CONSOLIDATE: produci solo una raccomandazione, senza eliminare né reindirizzare.
+
+### Anticanibalizzazione
+
+Confronta sempre:
+
+- keyword
+- intento di ricerca
+- problema affrontato
+- pubblico
+- fase del funnel
+- struttura
+- pagine servizio collegate
+
+La decisione finale deve essere una sola tra: NEW_ARTICLE, UPDATE_EXISTING, CONSOLIDATE, MANUAL_REVIEW.
+
+In caso di conflitto plausibile non creare il contenuto.
+
+### Creazione bozze
+
+- Crea una bozza solo su richiesta esplicita di Luca, solo in modalità NEW_ARTICLE e solo dentro `src/content/data/post/`.
+- La bozza deve iniziare con:
+  - `draft: true`
+  - `robots: "noindex, nofollow"`
+- Predisponi title, description, slug, canonical, focusKeyword, categoria, tag, immagine, imageAlt, Open Graph e Twitter Card coerenti tra loro e con il contenuto.
+
+### Immagine
+
+Quando viene creata la bozza, prepara l'immagine con questi requisiti:
+
+- 1200 × 630 px
+- formato WebP
+- percorso `public/images/blog/<slug>.webp`
+
+Claude può preparare brief, prompt, nome file e alt text. Se manca un provider immagini, dichiaralo: non fingere di aver generato il file.
+
+### Azioni vietate senza approvazione
+
+Non eseguire autonomamente:
+
+- commit
+- push
+- merge
+- deploy
+- pubblicazione
+- redirect
+- cancellazioni
+- consolidamenti
+- passaggio da `draft: true` a `draft: false`
+- indicizzazione
+
+### Output dopo ogni attività editoriale
+
+Riporta sempre:
+
+1. modalità;
+2. decisione anticanibalizzazione;
+3. file letti;
+4. file modificati;
+5. controlli eseguiti;
+6. stato immagine;
+7. decisioni ancora da approvare.
+
+<!-- EDITORIAL_AGENT_RULES_END -->
