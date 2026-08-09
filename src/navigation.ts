@@ -11,6 +11,11 @@ export const headerData = {
         { text: 'Audit tecnico e accessibilità', href: '/servizi/audit-rapido' },
         { text: 'Sprint tecnico', href: '/servizi/sprint-ottimizzazione' },
         { text: 'divider' },
+        {
+          text: 'Digital Presence ↗',
+          href: 'https://creative-web-lab.vercel.app/',
+        },
+        { text: 'divider' },
         { text: 'Tutti i servizi', href: '/servizi#servizi-principali' },
       ],
     },
@@ -28,6 +33,7 @@ export const footerData = {
   links: [
     { text: 'Home', href: '/' },
     { text: 'Servizi', href: '/servizi' },
+    { text: 'Digital Presence ↗', href: 'https://creative-web-lab.vercel.app/' },
     { text: 'SEO Locale', href: '/servizi/seo-locale' },
     { text: 'Pagamenti', href: '/pagamenti' },
     { text: 'Portfolio', href: '/portfolio' },
