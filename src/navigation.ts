@@ -13,7 +13,7 @@ export const headerData = {
         { text: 'divider' },
         {
           text: 'Digital Presence ↗',
-          href: 'https://creative-web-lab.vercel.app/',
+          href: 'https://digitalpresence.lswebagency.com/',
         },
         { text: 'divider' },
         { text: 'Tutti i servizi', href: '/servizi#servizi-principali' },
@@ -33,7 +33,7 @@ export const footerData = {
   links: [
     { text: 'Home', href: '/' },
     { text: 'Servizi', href: '/servizi' },
-    { text: 'Digital Presence ↗', href: 'https://creative-web-lab.vercel.app/' },
+    { text: 'Digital Presence ↗', href: 'https://digitalpresence.lswebagency.com/' },
     { text: 'SEO Locale', href: '/servizi/seo-locale' },
     { text: 'Pagamenti', href: '/pagamenti' },
     { text: 'Portfolio', href: '/portfolio' },
