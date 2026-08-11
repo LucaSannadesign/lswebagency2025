@@ -14,7 +14,7 @@ const limit = Math.min(Math.max(Number(args.limit || 20), 1), 20);
 const save = args.save === true || String(args.save).toLowerCase() === 'true';
 
 if (!sector || !location) {
-  console.error('Uso: node scripts/prospecting/run.mjs --sector="ristoranti" --location="Sassari" --limit=20 [--save]');
+  console.error('Uso: npm run prospecting -- --sector="ristoranti" --location="Sassari" --limit=20 [--save]');
   process.exit(1);
 }
 
@@ -36,9 +36,15 @@ const supabase = save
 const USER_AGENT = 'LSWebAgencyProspecting/1.0 (+https://lswebagency.com)';
 const TIMEOUT_MS = 9000;
 const MAX_HTML_BYTES = 700_000;
+const QUALIFIED_SCORE = 55;
+const SERVICE_INTEREST = 'Audit rapido / SEO locale';
 
 function clamp(value, max = 300) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function normalizeUrl(raw) {
@@ -52,6 +58,20 @@ function normalizeUrl(raw) {
   } catch {
     return null;
   }
+}
+
+function normalizeDomain(raw) {
+  const url = normalizeUrl(raw);
+  if (!url) return null;
+  return new URL(url).hostname.toLowerCase().replace(/^www\./, '').replace(/\.$/, '');
+}
+
+function normalizeBusinessName(value) {
+  return String(value || '')
+    .toLocaleLowerCase('it-IT')
+    .trim()
+    .replace(/[\p{P}\p{S}]+/gu, ' ')
+    .replace(/\s+/g, ' ');
 }
 
 function decodeHtml(text) {
@@ -105,18 +125,18 @@ function extractHrefValues(html, scheme) {
 }
 
 function extractEmails(html) {
-  const mailto = extractHrefValues(html, 'mailto').map((v) => v.split('?')[0]);
+  const mailto = extractHrefValues(html, 'mailto').map((value) => value.split('?')[0]);
   const textMatches = html.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi) || [];
   return unique([...mailto, ...textMatches])
-    .map((v) => v.toLowerCase())
-    .filter((v) => !v.endsWith('@example.com') && !v.includes('wixpress.com'))
+    .map((value) => value.toLowerCase())
+    .filter((value) => !value.endsWith('@example.com') && !value.includes('wixpress.com'))
     .slice(0, 5);
 }
 
 function extractPhones(html) {
   const tel = extractHrefValues(html, 'tel')
-    .map((v) => v.replace(/[^+\d]/g, ''))
-    .filter((v) => v.replace(/\D/g, '').length >= 7);
+    .map((value) => value.replace(/[^+\d]/g, ''))
+    .filter((value) => value.replace(/\D/g, '').length >= 7);
   return unique(tel).slice(0, 5);
 }
 
@@ -222,6 +242,7 @@ async function inspectWebsite(rawUrl) {
 
   return {
     website: canonicalUrl,
+    domain: normalizeDomain(canonicalUrl),
     businessName: extractBusinessName(homeHtml, host),
     emails: extractEmails(combinedHtml),
     phones: extractPhones(combinedHtml),
@@ -255,57 +276,96 @@ async function discoverPlaces() {
   return (payload.places || []).slice(0, limit).filter((place) => place.websiteUri && place.id);
 }
 
-async function alreadyInCrm(email, phone) {
-  if (!supabase) return false;
-  if (email) {
-    const { data, error } = await supabase.from('leads').select('id').eq('email', email).limit(1);
-    if (error) throw error;
-    if (data?.length) return true;
+async function loadExistingCrmIndex() {
+  const empty = {
+    emails: new Set(),
+    phones: new Set(),
+    domains: new Set(),
+    names: new Set(),
+  };
+  if (!supabase) return empty;
+
+  const { data, error } = await supabase.from('leads').select('business_name,email,phone,website');
+  if (error) throw new Error(`Impossibile leggere i lead esistenti: ${error.message}`);
+
+  for (const lead of data || []) {
+    if (lead.email) empty.emails.add(String(lead.email).trim().toLowerCase());
+    if (lead.phone) empty.phones.add(String(lead.phone).replace(/\D/g, ''));
+    const domain = normalizeDomain(lead.website);
+    if (domain) empty.domains.add(domain);
+    const name = normalizeBusinessName(lead.business_name);
+    if (name) empty.names.add(name);
   }
-  if (phone) {
-    const { data, error } = await supabase.from('leads').select('id').eq('phone', phone).limit(1);
-    if (error) throw error;
-    if (data?.length) return true;
-  }
-  return false;
+
+  return empty;
+}
+
+function duplicateReason(index, inspected) {
+  const email = inspected.emails[0]?.toLowerCase() || null;
+  const phone = inspected.phones[0]?.replace(/\D/g, '') || null;
+  const name = normalizeBusinessName(inspected.businessName);
+  if (email && index.emails.has(email)) return 'email già presente';
+  if (phone && index.phones.has(phone)) return 'telefono già presente';
+  if (inspected.domain && index.domains.has(inspected.domain)) return 'dominio già presente';
+  if (name && index.names.has(name)) return 'attività già presente';
+  return null;
+}
+
+function addToCrmIndex(index, inspected) {
+  const email = inspected.emails[0]?.toLowerCase() || null;
+  const phone = inspected.phones[0]?.replace(/\D/g, '') || null;
+  const name = normalizeBusinessName(inspected.businessName);
+  if (email) index.emails.add(email);
+  if (phone) index.phones.add(phone);
+  if (inspected.domain) index.domains.add(inspected.domain);
+  if (name) index.names.add(name);
 }
 
 function priorityFromScore(score) {
   if (score >= 75) return 'alta';
-  if (score >= 55) return 'media';
+  if (score >= QUALIFIED_SCORE) return 'media';
   return 'bassa';
 }
 
 function buildNotes(placeId, inspected) {
+  const signal = inspected.issues[0] || 'sito disponibile per verifica manuale';
   return [
-    'Prospect outbound generato automaticamente dal modulo Prospecting LS Web Agency.',
-    'Dati di contatto estratti dal sito pubblico dell’attività; Google Places usato solo per discovery e Place ID.',
+    'Origine outreach: outreach_prospecting',
+    `SEGNALE: ${signal}`,
+    `FONTE: ${inspected.website}`,
+    '',
+    'Prospect generato automaticamente dal modulo Prospecting LS Web Agency.',
+    'Email/telefono estratti dal sito pubblico dell’attività; Google Places usato solo per discovery e Place ID.',
     `Google Place ID: ${placeId}`,
-    `Website: ${inspected.website}`,
     `Opportunity score: ${inspected.score}/100`,
     `Problemi tecnici rilevati: ${inspected.issues.length ? inspected.issues.join('; ') : 'nessuno dei controlli base'}`,
     `Pagine contatto analizzate: ${inspected.contactUrls.length ? inspected.contactUrls.join(', ') : 'nessuna'}`,
-    'Stato outreach: NON INVIATO — richiede revisione/abilitazione separata.',
+    'Stato outreach: NON INVIATO.',
   ].join('\n');
 }
 
-async function saveLead(place, inspected) {
+async function saveLead(place, inspected, crmIndex) {
   const email = inspected.emails[0] || null;
   const phone = inspected.phones[0] || null;
   if (!email && !phone) return { saved: false, reason: 'nessun contatto' };
-  if (await alreadyInCrm(email, phone)) return { saved: false, reason: 'duplicato CRM' };
+
+  const duplicate = duplicateReason(crmIndex, inspected);
+  if (duplicate) return { saved: false, reason: duplicate };
 
   const payload = {
     business_name: clamp(inspected.businessName, 150) || 'Prospect outbound',
-    contact_name: 'Referente da identificare',
+    contact_name: null,
     email,
     phone,
+    website: inspected.website,
+    city: clamp(location, 100),
     sector: 'altro',
-    service_interest: null,
-    status: 'nuovo',
+    service_interest: SERVICE_INTEREST,
+    status: 'da_verificare',
     priority: priorityFromScore(inspected.score),
     source: 'altro',
     problem_detected: inspected.problems,
+    google_maps_url: null,
     notes: buildNotes(place.id, inspected),
     estimated_value: 0,
     archived: false,
@@ -313,10 +373,12 @@ async function saveLead(place, inspected) {
 
   const { error } = await supabase.from('leads').insert(payload);
   if (error) throw error;
+  addToCrmIndex(crmIndex, inspected);
   return { saved: true };
 }
 
 const places = await discoverPlaces();
+const crmIndex = await loadExistingCrmIndex();
 const results = [];
 
 for (const place of places) {
@@ -327,7 +389,7 @@ for (const place of places) {
   }
 
   let crm = { saved: false, reason: save ? 'non qualificato' : 'dry-run' };
-  if (save && inspected.score >= 55) crm = await saveLead(place, inspected);
+  if (save && inspected.score >= QUALIFIED_SCORE) crm = await saveLead(place, inspected, crmIndex);
 
   results.push({
     placeId: place.id,
@@ -343,12 +405,14 @@ for (const place of places) {
   console.log(
     `${inspected.score.toString().padStart(3)} | ${inspected.businessName} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'} | ${crm.saved ? 'CRM' : crm.reason}`,
   );
+  await sleep(350);
 }
 
-const qualified = results.filter((r) => Number(r.score || 0) >= 55);
-const savedCount = results.filter((r) => r.crm?.saved).length;
+const analyzed = results.filter((result) => Number.isFinite(result.score));
+const qualified = analyzed.filter((result) => result.score >= QUALIFIED_SCORE);
+const savedCount = results.filter((result) => result.crm?.saved).length;
 console.log(
-  `\nTrovati: ${places.length} | Analizzati: ${results.filter((r) => r.score).length} | Qualificati: ${qualified.length} | Salvati CRM: ${savedCount}`,
+  `\nTrovati: ${places.length} | Analizzati: ${analyzed.length} | Qualificati: ${qualified.length} | Salvati CRM: ${savedCount}`,
 );
 
 if (!save) console.log('Dry-run attivo. Aggiungi --save per inserire i qualificati nel CRM.');
