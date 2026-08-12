@@ -165,6 +165,122 @@ async function fetchText(url) {
   }
 }
 
+/* --- robots.txt ------------------------------------------------------------
+ *
+ * Parser minimo, scritto qui invece di aggiungere una dipendenza: il file legge
+ * già HTML con espressioni regolari, e una regola interpretata male costa al
+ * massimo un sito visitato in meno.
+ *
+ * Copre ciò che serve: gruppi User-agent (quello specifico se presente,
+ * altrimenti `*`), direttive Allow e Disallow, i caratteri jolly `*` e `$`, e la
+ * precedenza alla regola più lunga con Allow che vince a parità.
+ * Non copre Crawl-delay, Sitemap e le altre direttive non vincolanti.
+ */
+
+/** Token di prodotto del nostro user agent, come si dichiara in robots.txt. */
+const ROBOTS_TOKEN = 'lswebagencyprospecting';
+
+/** Un robots.txt per origine, scaricato una volta sola per esecuzione. */
+const robotsCache = new Map();
+
+function parseRobots(text) {
+  const groups = new Map();
+  let current = [];
+
+  for (const rawLine of String(text).split(/\r?\n/)) {
+    const line = rawLine.replace(/#.*$/, '').trim();
+    if (!line) continue;
+    const separator = line.indexOf(':');
+    if (separator === -1) continue;
+    const field = line.slice(0, separator).trim().toLowerCase();
+    const value = line.slice(separator + 1).trim();
+
+    if (field === 'user-agent') {
+      const agent = value.toLowerCase();
+      if (!groups.has(agent)) groups.set(agent, []);
+      current = groups.get(agent);
+      continue;
+    }
+    if (field === 'allow' || field === 'disallow') {
+      current.push({ allow: field === 'allow', path: value });
+    }
+  }
+
+  return groups.get(ROBOTS_TOKEN) ?? groups.get('*') ?? [];
+}
+
+function robotsPatternToRegex(pattern) {
+  const anchored = pattern.endsWith('$');
+  const body = anchored ? pattern.slice(0, -1) : pattern;
+  const escaped = body.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+  return new RegExp(`^${escaped}${anchored ? '$' : ''}`);
+}
+
+function robotsAllows(rules, pathname) {
+  let decision = true;
+  let strength = -1;
+
+  for (const rule of rules) {
+    // `Disallow:` vuoto significa "nessun divieto": non è una regola.
+    if (!rule.path) continue;
+    if (!robotsPatternToRegex(rule.path).test(pathname)) continue;
+    const length = rule.path.length;
+    if (length > strength || (length === strength && rule.allow)) {
+      decision = rule.allow;
+      strength = length;
+    }
+  }
+
+  return decision;
+}
+
+/**
+ * Esiti possibili:
+ *   'allowed'    — il percorso può essere visitato
+ *   'disallowed' — robots.txt lo esclude esplicitamente
+ *   'unreadable' — robots.txt non è leggibile (timeout, errore di rete, 5xx)
+ *
+ * 404 e 410 valgono come "nessuna restrizione", secondo lo standard. Un
+ * robots.txt che non si riesce a leggere non viene invece interpretato come
+ * permesso: in dubbio non si visita.
+ */
+async function robotsStateFor(rawUrl) {
+  let url;
+  try {
+    url = new URL(rawUrl);
+  } catch {
+    return 'unreadable';
+  }
+
+  if (!robotsCache.has(url.origin)) {
+    robotsCache.set(url.origin, await loadRobots(url.origin));
+  }
+
+  const robots = robotsCache.get(url.origin);
+  if (robots.state !== 'rules') return robots.state;
+  return robotsAllows(robots.rules, url.pathname) ? 'allowed' : 'disallowed';
+}
+
+async function loadRobots(origin) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  try {
+    const response = await fetch(`${origin}/robots.txt`, {
+      redirect: 'follow',
+      signal: controller.signal,
+      headers: { 'user-agent': USER_AGENT, accept: 'text/plain' },
+    });
+    if (response.status === 404 || response.status === 410) return { state: 'allowed' };
+    if (!response.ok) return { state: 'unreadable' };
+    const text = (await response.text()).slice(0, MAX_HTML_BYTES);
+    return { state: 'rules', rules: parseRobots(text) };
+  } catch {
+    return { state: 'unreadable' };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function extractHrefValues(html, scheme) {
   const regex = new RegExp(`href=["']${scheme}:([^"'#?]+)[^"']*["']`, 'gi');
   const out = [];
@@ -263,11 +379,20 @@ function inspectSignals(html, url) {
   return { score, issues, problems: unique(problems) };
 }
 
+/**
+ * Restituisce `{ ok: true, data }` oppure `{ ok: false, reason }`, così il
+ * chiamante può distinguere un'esclusione voluta da un errore di lettura.
+ */
 async function inspectWebsite(rawUrl) {
   const url = normalizeUrl(rawUrl);
-  if (!url) return null;
+  if (!url) return { ok: false, reason: 'URL non valido' };
+
+  const robots = await robotsStateFor(url);
+  if (robots === 'disallowed') return { ok: false, reason: 'saltato per robots.txt' };
+  if (robots === 'unreadable') return { ok: false, reason: 'robots.txt non leggibile' };
+
   const homeHtml = await fetchText(url);
-  if (!homeHtml) return null;
+  if (!homeHtml) return { ok: false, reason: 'analisi fallita' };
 
   const canonicalUrl = (() => {
     const match = homeHtml.match(/<link[^>]+rel=["'][^"']*canonical[^"']*["'][^>]+href=["']([^"']+)["']/i);
@@ -279,9 +404,13 @@ async function inspectWebsite(rawUrl) {
     }
   })();
 
-  const contactUrls = findContactUrls(homeHtml, canonicalUrl);
+  // Le pagine contatto sono fetch aggiuntivi: se robots ne esclude una si salta
+  // quella, non l'intero sito, che è già stato ammesso sulla home.
+  const contactUrls = [];
   const contactHtml = [];
-  for (const contactUrl of contactUrls) {
+  for (const contactUrl of findContactUrls(homeHtml, canonicalUrl)) {
+    if ((await robotsStateFor(contactUrl)) !== 'allowed') continue;
+    contactUrls.push(contactUrl);
     const page = await fetchText(contactUrl);
     if (page) contactHtml.push(page);
   }
@@ -290,13 +419,16 @@ async function inspectWebsite(rawUrl) {
   const host = new URL(canonicalUrl).hostname;
 
   return {
-    website: canonicalUrl,
-    domain: normalizeDomain(canonicalUrl),
-    businessName: extractBusinessName(homeHtml, host),
-    emails: extractEmails(combinedHtml),
-    phones: extractPhones(combinedHtml),
-    contactUrls,
-    ...inspectSignals(homeHtml, canonicalUrl),
+    ok: true,
+    data: {
+      website: canonicalUrl,
+      domain: normalizeDomain(canonicalUrl),
+      businessName: extractBusinessName(homeHtml, host),
+      emails: extractEmails(combinedHtml),
+      phones: extractPhones(combinedHtml),
+      contactUrls,
+      ...inspectSignals(homeHtml, canonicalUrl),
+    },
   };
 }
 
@@ -472,18 +604,20 @@ const places = await discoverPlaces();
 const results = [];
 
 for (const place of places) {
-  const inspected = await inspectWebsite(place.websiteUri);
+  const outcome = await inspectWebsite(place.websiteUri);
 
-  if (!inspected) {
+  if (!outcome.ok) {
     results.push({
       placeId: place.id,
       website: place.websiteUri,
-      outcome: 'analisi fallita',
+      outcome: outcome.reason,
     });
-    console.log(`  — | ${place.websiteUri} | analisi fallita`);
+    console.log(`  — | ${place.websiteUri} | ${outcome.reason}`);
     await sleep(350);
     continue;
   }
+
+  const inspected = outcome.data;
 
   results.push({
     place,
