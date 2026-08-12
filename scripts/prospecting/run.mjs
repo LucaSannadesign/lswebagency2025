@@ -1,20 +1,57 @@
 import 'dotenv/config';
+import { writeFileSync } from 'node:fs';
+import { createInterface } from 'node:readline';
 import { createClient } from '@supabase/supabase-js';
 
-const args = Object.fromEntries(
-  process.argv.slice(2).map((arg) => {
-    const [key, ...rest] = arg.replace(/^--/, '').split('=');
-    return [key, rest.length ? rest.join('=') : true];
-  }),
-);
+/**
+ * Accetta sia `--chiave=valore` sia `--chiave valore`: la seconda forma serve a
+ * `--csv <percorso>`. Un token successivo che inizia per `--` non viene mai
+ * consumato come valore, così `--save --sector=x` continua a leggersi come due
+ * opzioni distinte.
+ */
+const args = {};
+{
+  const tokens = process.argv.slice(2);
+  for (let i = 0; i < tokens.length; i += 1) {
+    const token = tokens[i];
+    if (!token.startsWith('--')) continue;
+    const [key, ...rest] = token.replace(/^--/, '').split('=');
+    if (rest.length) {
+      args[key] = rest.join('=');
+    } else if (tokens[i + 1] && !tokens[i + 1].startsWith('--')) {
+      args[key] = tokens[i + 1];
+      i += 1;
+    } else {
+      args[key] = true;
+    }
+  }
+}
+
+const flag = (value) => value === true || String(value).toLowerCase() === 'true';
 
 const sector = String(args.sector || '').trim();
 const location = String(args.location || '').trim();
 const limit = Math.min(Math.max(Number(args.limit || 20), 1), 20);
-const save = args.save === true || String(args.save).toLowerCase() === 'true';
+/** Senza --save non viene scritta una riga: il default è la sola analisi. */
+const save = flag(args.save);
+/** Salta la conferma interattiva. Serve negli usi non interattivi. */
+const assumeYes = flag(args.yes);
+/** Percorso del CSV con TUTTI gli analizzati, non solo i qualificati. */
+const csvPath = typeof args.csv === 'string' ? args.csv.trim() : '';
 
 if (!sector || !location) {
-  console.error('Uso: npm run prospecting -- --sector="ristoranti" --location="Sassari" --limit=20 [--save]');
+  console.error(
+    [
+      'Uso:',
+      '  npm run prospecting -- --sector="ristoranti" --location="Sassari" [--limit=20]',
+      '',
+      'Opzioni:',
+      '  (nessuna)        analisi soltanto, nessuna scrittura',
+      '  --csv <file>     esporta tutti gli analizzati in CSV',
+      '  --save           scrive i qualificati su Supabase, previa conferma',
+      '  --yes            salta la conferma richiesta da --save',
+    ].join('\n'),
+  );
   process.exit(1);
 }
 
@@ -343,7 +380,7 @@ function addToProspectIndex(index, inspected) {
  * Le note raccolgono solo ciò che non ha una colonna propria: i findings, i
  * contatti e il punteggio hanno ora campi dedicati e non vanno duplicati qui.
  */
-function buildNotes(placeId, inspected) {
+function buildNotes(placeId) {
   return [
     'Prospect generato automaticamente dal modulo Prospecting LS Web Agency.',
     'Email e telefoni estratti dal sito pubblico dell’attività; Google Places usato solo per discovery e Place ID.',
@@ -352,15 +389,8 @@ function buildNotes(placeId, inspected) {
   ].join('\n');
 }
 
-async function saveProspect(place, inspected, prospectIndex) {
-  if (!inspected.emails.length && !inspected.phones.length) {
-    return { saved: false, reason: 'nessun contatto' };
-  }
-
-  const duplicate = duplicateReason(prospectIndex, inspected);
-  if (duplicate) return { saved: false, reason: duplicate };
-
-  const payload = {
+function buildPayload(place, inspected) {
+  return {
     source: 'prospecting',
     query: `${sector} a ${location}`,
     name: clamp(inspected.businessName, 150) || 'Prospect senza nome',
@@ -377,55 +407,202 @@ async function saveProspect(place, inspected, prospectIndex) {
     score: inspected.score,
     status: 'da_verificare',
     reviewed_at: null,
-    notes: buildNotes(place.id, inspected),
+    notes: buildNotes(place.id),
   };
-
-  const { error } = await supabase.from(PROSPECTS_TABLE).insert(payload);
-  if (error) throw error;
-  addToProspectIndex(prospectIndex, inspected);
-  return { saved: true };
 }
 
+/* --- CSV ------------------------------------------------------------------ */
+
+function csvCell(value) {
+  const text = Array.isArray(value) ? value.join(' | ') : String(value ?? '');
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+const CSV_COLUMNS = [
+  'score',
+  'esito',
+  'nome',
+  'website',
+  'dominio',
+  'email',
+  'telefoni',
+  'findings',
+  'pagine_contatto',
+  'place_id',
+];
+
+function toCsv(rows) {
+  const lines = [CSV_COLUMNS.join(',')];
+  for (const row of rows) {
+    lines.push(
+      [
+        row.score ?? '',
+        row.outcome,
+        row.businessName ?? '',
+        row.website ?? '',
+        row.domain ?? '',
+        row.emails ?? [],
+        row.phones ?? [],
+        row.issues ?? [],
+        row.contactUrls ?? [],
+        row.placeId ?? '',
+      ]
+        .map(csvCell)
+        .join(','),
+    );
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+/* --- Conferma interattiva -------------------------------------------------- */
+
+async function confirm(question) {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    const answer = await new Promise((resolve) => rl.question(question, resolve));
+    return String(answer).trim().toLowerCase() === 'y';
+  } finally {
+    rl.close();
+  }
+}
+
+/* --- Fase 1: analisi ------------------------------------------------------- */
+
 const places = await discoverPlaces();
-const prospectIndex = await loadExistingProspectIndex();
 const results = [];
 
 for (const place of places) {
   const inspected = await inspectWebsite(place.websiteUri);
+
   if (!inspected) {
-    results.push({ placeId: place.id, website: place.websiteUri, status: 'crawl_failed' });
+    results.push({
+      placeId: place.id,
+      website: place.websiteUri,
+      outcome: 'analisi fallita',
+    });
+    console.log(`  — | ${place.websiteUri} | analisi fallita`);
+    await sleep(350);
     continue;
   }
 
-  let stored = { saved: false, reason: save ? 'non qualificato' : 'dry-run' };
-  if (save && inspected.score >= QUALIFIED_SCORE) {
-    stored = await saveProspect(place, inspected, prospectIndex);
-  }
-
   results.push({
+    place,
     placeId: place.id,
     website: inspected.website,
+    domain: inspected.domain,
     businessName: inspected.businessName,
-    email: inspected.emails[0] || null,
-    phone: inspected.phones[0] || null,
-    score: inspected.score,
+    emails: inspected.emails,
+    phones: inspected.phones,
+    contactUrls: inspected.contactUrls,
     issues: inspected.issues,
-    stored,
+    score: inspected.score,
+    inspected,
+    outcome: 'analizzato',
   });
 
   console.log(
-    `${inspected.score.toString().padStart(3)} | ${inspected.businessName} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'} | ${stored.saved ? PROSPECTS_TABLE : stored.reason}`,
+    `${inspected.score.toString().padStart(3)} | ${inspected.businessName} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'}`,
   );
   await sleep(350);
 }
 
-const analyzed = results.filter((result) => Number.isFinite(result.score));
-const qualified = analyzed.filter((result) => result.score >= QUALIFIED_SCORE);
-const savedCount = results.filter((result) => result.stored?.saved).length;
+const analyzed = results.filter((row) => Number.isFinite(row.score));
+const qualified = analyzed.filter((row) => row.score >= QUALIFIED_SCORE);
+
+/* --- Fase 2: selezione delle righe da inserire ----------------------------- */
+
+/**
+ * La selezione avviene prima di qualunque scrittura: e' cio' che permette di
+ * annunciare quante righe verranno inserite e su quale tabella. L'indice viene
+ * aggiornato mentre si pianifica, cosi' due prospect identici nella stessa
+ * esecuzione non passano entrambi.
+ */
+const prospectIndex = save ? await loadExistingProspectIndex() : null;
+const toInsert = [];
+
+if (save) {
+  for (const row of analyzed) {
+    if (row.score < QUALIFIED_SCORE) {
+      row.outcome = 'sotto soglia';
+      continue;
+    }
+    if (!row.emails.length && !row.phones.length) {
+      row.outcome = 'nessun contatto';
+      continue;
+    }
+    const duplicate = duplicateReason(prospectIndex, row.inspected);
+    if (duplicate) {
+      row.outcome = duplicate;
+      continue;
+    }
+    addToProspectIndex(prospectIndex, row.inspected);
+    row.outcome = 'da inserire';
+    toInsert.push(row);
+  }
+}
+
+/* --- CSV: sempre tutti gli analizzati, non solo i qualificati -------------- */
+
+if (csvPath) {
+  writeFileSync(csvPath, toCsv(results), 'utf8');
+  console.log(`\nCSV scritto: ${csvPath} (${results.length} righe, tutti gli esaminati)`);
+}
+
 console.log(
-  `\nTrovati: ${places.length} | Analizzati: ${analyzed.length} | Qualificati: ${qualified.length} | Salvati in ${PROSPECTS_TABLE}: ${savedCount}`,
+  `\nTrovati: ${places.length} | Analizzati: ${analyzed.length} | Sopra soglia (${QUALIFIED_SCORE}): ${qualified.length}`,
 );
 
+/* --- Fase 3: scrittura, solo dopo conferma --------------------------------- */
+
 if (!save) {
-  console.log(`Dry-run attivo. Aggiungi --save per inserire i qualificati in ${PROSPECTS_TABLE}.`);
+  console.log(
+    `Nessuna scrittura: questa e' una sola analisi. Aggiungi --save per inserire in ${PROSPECTS_TABLE}.`,
+  );
+  process.exit(0);
+}
+
+if (!toInsert.length) {
+  console.log('Nessuna riga da inserire: niente da scrivere.');
+  process.exit(0);
+}
+
+console.log(
+  [
+    '',
+    '─────────────────────────────────────────────',
+    ` SCRITTURA SU DATABASE`,
+    ` Tabella: ${PROSPECTS_TABLE}`,
+    ` Righe da inserire: ${toInsert.length}`,
+    ' Operazione non annullabile dallo script.',
+    '─────────────────────────────────────────────',
+  ].join('\n'),
+);
+
+if (!assumeYes) {
+  if (!process.stdin.isTTY) {
+    console.error(
+      'Sessione non interattiva: impossibile chiedere conferma. Rilancia con --yes se e\' voluto.',
+    );
+    process.exit(1);
+  }
+  const ok = await confirm(`Procedo a inserire ${toInsert.length} righe in ${PROSPECTS_TABLE}? (y/N) `);
+  if (!ok) {
+    console.log('Annullato. Nessuna riga inserita.');
+    process.exit(0);
+  }
+}
+
+let savedCount = 0;
+for (const row of toInsert) {
+  const { error } = await supabase.from(PROSPECTS_TABLE).insert(buildPayload(row.place, row.inspected));
+  if (error) throw error;
+  row.outcome = 'inserito';
+  savedCount += 1;
+}
+
+console.log(`Inserite ${savedCount} righe in ${PROSPECTS_TABLE}.`);
+
+if (csvPath) {
+  writeFileSync(csvPath, toCsv(results), 'utf8');
+  console.log(`CSV aggiornato con l'esito finale: ${csvPath}`);
 }
