@@ -12,7 +12,7 @@ import { serializeStructuredNotes } from '../src/lib/structuredNotes.ts';
 
 // Valore tecnico interno (confrontato da computeProfile e dall'API) e label pubblico atteso.
 const TECH_VALUE = 'Audit rapido / SEO locale';
-const PUBLIC_LABEL = 'Audit tecnico e accessibilità / SEO locale';
+const PUBLIC_LABEL = 'Audit del sito / SEO locale';
 
 const primaryNeed = questions.find((q) => q.key === 'primaryNeed');
 const auditOption = primaryNeed.options.find((o) => optionValue(o) === TECH_VALUE);
@@ -34,7 +34,7 @@ test('2. il valore tecnico registrato resta invariato', () => {
 
 test('3. computeProfile riconosce il value e restituisce lo stesso profilo di prima', () => {
   const p = computeProfile({ primaryNeed: TECH_VALUE });
-  assert.equal(p.service, 'Audit tecnico e di accessibilità prioritizzato');
+  assert.equal(p.service, 'Audit del sito');
   assert.equal(p.reason, 'la visibilità su Google è la priorità principale');
 });
 
