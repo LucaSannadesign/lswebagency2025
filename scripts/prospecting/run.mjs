@@ -37,7 +37,19 @@ const USER_AGENT = 'LSWebAgencyProspecting/1.0 (+https://lswebagency.com)';
 const TIMEOUT_MS = 9000;
 const MAX_HTML_BYTES = 700_000;
 const QUALIFIED_SCORE = 55;
-const SERVICE_INTEREST = 'Audit rapido / SEO locale';
+
+/**
+ * I prospect NON vanno in `leads`.
+ *
+ * In `leads` finiscono le persone che hanno scritto dai form del sito: hanno
+ * lasciato i propri dati di loro iniziativa. Qui finiscono attività trovate in
+ * autonomia e mai contattate. Tenerle nella stessa tabella significa perdere la
+ * distinzione fra un contatto in entrata e un nominativo raccolto da noi.
+ *
+ * Lo schema atteso è in scripts/prospecting/schema.sql, da eseguire a mano su
+ * Supabase prima del primo --save.
+ */
+const PROSPECTS_TABLE = 'prospects';
 
 function clamp(value, max = 300) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
@@ -276,28 +288,34 @@ async function discoverPlaces() {
   return (payload.places || []).slice(0, limit).filter((place) => place.websiteUri && place.id);
 }
 
-async function loadExistingCrmIndex() {
-  const empty = {
+async function loadExistingProspectIndex() {
+  const index = {
     emails: new Set(),
     phones: new Set(),
     domains: new Set(),
     names: new Set(),
   };
-  if (!supabase) return empty;
+  if (!supabase) return index;
 
-  const { data, error } = await supabase.from('leads').select('business_name,email,phone,website');
-  if (error) throw new Error(`Impossibile leggere i lead esistenti: ${error.message}`);
+  const { data, error } = await supabase
+    .from(PROSPECTS_TABLE)
+    .select('name,emails,phones,domain,website');
+  if (error) throw new Error(`Impossibile leggere i prospect esistenti: ${error.message}`);
 
-  for (const lead of data || []) {
-    if (lead.email) empty.emails.add(String(lead.email).trim().toLowerCase());
-    if (lead.phone) empty.phones.add(String(lead.phone).replace(/\D/g, ''));
-    const domain = normalizeDomain(lead.website);
-    if (domain) empty.domains.add(domain);
-    const name = normalizeBusinessName(lead.business_name);
-    if (name) empty.names.add(name);
+  for (const row of data || []) {
+    for (const email of row.emails || []) {
+      if (email) index.emails.add(String(email).trim().toLowerCase());
+    }
+    for (const phone of row.phones || []) {
+      if (phone) index.phones.add(String(phone).replace(/\D/g, ''));
+    }
+    const domain = row.domain || normalizeDomain(row.website);
+    if (domain) index.domains.add(domain);
+    const name = normalizeBusinessName(row.name);
+    if (name) index.names.add(name);
   }
 
-  return empty;
+  return index;
 }
 
 function duplicateReason(index, inspected) {
@@ -311,7 +329,7 @@ function duplicateReason(index, inspected) {
   return null;
 }
 
-function addToCrmIndex(index, inspected) {
+function addToProspectIndex(index, inspected) {
   const email = inspected.emails[0]?.toLowerCase() || null;
   const phone = inspected.phones[0]?.replace(/\D/g, '') || null;
   const name = normalizeBusinessName(inspected.businessName);
@@ -321,64 +339,55 @@ function addToCrmIndex(index, inspected) {
   if (name) index.names.add(name);
 }
 
-function priorityFromScore(score) {
-  if (score >= 75) return 'alta';
-  if (score >= QUALIFIED_SCORE) return 'media';
-  return 'bassa';
-}
-
+/**
+ * Le note raccolgono solo ciò che non ha una colonna propria: i findings, i
+ * contatti e il punteggio hanno ora campi dedicati e non vanno duplicati qui.
+ */
 function buildNotes(placeId, inspected) {
-  const signal = inspected.issues[0] || 'sito disponibile per verifica manuale';
   return [
-    'Origine outreach: outreach_prospecting',
-    `SEGNALE: ${signal}`,
-    `FONTE: ${inspected.website}`,
-    '',
     'Prospect generato automaticamente dal modulo Prospecting LS Web Agency.',
-    'Email/telefono estratti dal sito pubblico dell’attività; Google Places usato solo per discovery e Place ID.',
+    'Email e telefoni estratti dal sito pubblico dell’attività; Google Places usato solo per discovery e Place ID.',
     `Google Place ID: ${placeId}`,
-    `Opportunity score: ${inspected.score}/100`,
-    `Problemi tecnici rilevati: ${inspected.issues.length ? inspected.issues.join('; ') : 'nessuno dei controlli base'}`,
-    `Pagine contatto analizzate: ${inspected.contactUrls.length ? inspected.contactUrls.join(', ') : 'nessuna'}`,
-    'Stato outreach: NON INVIATO.',
+    'Stato: mai contattato.',
   ].join('\n');
 }
 
-async function saveLead(place, inspected, crmIndex) {
-  const email = inspected.emails[0] || null;
-  const phone = inspected.phones[0] || null;
-  if (!email && !phone) return { saved: false, reason: 'nessun contatto' };
+async function saveProspect(place, inspected, prospectIndex) {
+  if (!inspected.emails.length && !inspected.phones.length) {
+    return { saved: false, reason: 'nessun contatto' };
+  }
 
-  const duplicate = duplicateReason(crmIndex, inspected);
+  const duplicate = duplicateReason(prospectIndex, inspected);
   if (duplicate) return { saved: false, reason: duplicate };
 
   const payload = {
-    business_name: clamp(inspected.businessName, 150) || 'Prospect outbound',
-    contact_name: null,
-    email,
-    phone,
+    source: 'prospecting',
+    query: `${sector} a ${location}`,
+    name: clamp(inspected.businessName, 150) || 'Prospect senza nome',
     website: inspected.website,
+    domain: inspected.domain,
     city: clamp(location, 100),
-    sector: 'altro',
-    service_interest: SERVICE_INTEREST,
-    status: 'da_verificare',
-    priority: priorityFromScore(inspected.score),
-    source: 'altro',
-    problem_detected: inspected.problems,
+    // Lo script non ricostruisce l'URL della scheda Maps: il Place ID resta
+    // nelle note e la colonna si popola, se serve, in revisione manuale.
     google_maps_url: null,
+    emails: inspected.emails,
+    phones: inspected.phones,
+    contact_urls: inspected.contactUrls,
+    findings: inspected.issues,
+    score: inspected.score,
+    status: 'da_verificare',
+    reviewed_at: null,
     notes: buildNotes(place.id, inspected),
-    estimated_value: 0,
-    archived: false,
   };
 
-  const { error } = await supabase.from('leads').insert(payload);
+  const { error } = await supabase.from(PROSPECTS_TABLE).insert(payload);
   if (error) throw error;
-  addToCrmIndex(crmIndex, inspected);
+  addToProspectIndex(prospectIndex, inspected);
   return { saved: true };
 }
 
 const places = await discoverPlaces();
-const crmIndex = await loadExistingCrmIndex();
+const prospectIndex = await loadExistingProspectIndex();
 const results = [];
 
 for (const place of places) {
@@ -388,8 +397,10 @@ for (const place of places) {
     continue;
   }
 
-  let crm = { saved: false, reason: save ? 'non qualificato' : 'dry-run' };
-  if (save && inspected.score >= QUALIFIED_SCORE) crm = await saveLead(place, inspected, crmIndex);
+  let stored = { saved: false, reason: save ? 'non qualificato' : 'dry-run' };
+  if (save && inspected.score >= QUALIFIED_SCORE) {
+    stored = await saveProspect(place, inspected, prospectIndex);
+  }
 
   results.push({
     placeId: place.id,
@@ -399,20 +410,22 @@ for (const place of places) {
     phone: inspected.phones[0] || null,
     score: inspected.score,
     issues: inspected.issues,
-    crm,
+    stored,
   });
 
   console.log(
-    `${inspected.score.toString().padStart(3)} | ${inspected.businessName} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'} | ${crm.saved ? 'CRM' : crm.reason}`,
+    `${inspected.score.toString().padStart(3)} | ${inspected.businessName} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'} | ${stored.saved ? PROSPECTS_TABLE : stored.reason}`,
   );
   await sleep(350);
 }
 
 const analyzed = results.filter((result) => Number.isFinite(result.score));
 const qualified = analyzed.filter((result) => result.score >= QUALIFIED_SCORE);
-const savedCount = results.filter((result) => result.crm?.saved).length;
+const savedCount = results.filter((result) => result.stored?.saved).length;
 console.log(
-  `\nTrovati: ${places.length} | Analizzati: ${analyzed.length} | Qualificati: ${qualified.length} | Salvati CRM: ${savedCount}`,
+  `\nTrovati: ${places.length} | Analizzati: ${analyzed.length} | Qualificati: ${qualified.length} | Salvati in ${PROSPECTS_TABLE}: ${savedCount}`,
 );
 
-if (!save) console.log('Dry-run attivo. Aggiungi --save per inserire i qualificati nel CRM.');
+if (!save) {
+  console.log(`Dry-run attivo. Aggiungi --save per inserire i qualificati in ${PROSPECTS_TABLE}.`);
+}
