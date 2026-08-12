@@ -5,7 +5,7 @@ import { Icon } from 'astro-icon/components';
 
 const SERVIZIO_LABELS: Record<string, string> = {
   'assistente-ai': 'Assistente AI per sito e WhatsApp',
-  'audit-rapido': 'Audit tecnico e di accessibilità prioritizzato',
+  'audit-rapido': 'Audit del sito',
   'landing-page': 'Landing page professionale',
   'fix-performance-seo': 'Fix Performance & SEO',
   'local-seo-booster': 'Local SEO Booster',
@@ -91,7 +91,7 @@ const SERVICE_CATEGORIES = [
     services: [
       { slug: 'seo-locale', label: 'SEO locale' },
       { slug: 'local-seo-booster', label: 'Local SEO Booster' },
-      { slug: 'audit-rapido', label: 'Audit tecnico e di accessibilità prioritizzato' },
+      { slug: 'audit-rapido', label: 'Audit del sito' },
       { slug: 'fix-performance-seo', label: 'Fix Performance & SEO' },
     ],
   },
@@ -178,12 +178,12 @@ const AGENCY = {
             <span class="bg-clip-text text-transparent bg-gradient-to-r
                          from-violet-700 via-fuchsia-500 to-pink-500
                          dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-300">
-              {isAuditRapido ? 'Richiedi disponibilità per LS Site Rescue' : 'Richiedi la valutazione iniziale gratuita'}
+              {isAuditRapido ? 'Richiedi disponibilità per l’audit del sito' : 'Richiedi la valutazione iniziale gratuita'}
             </span>
           </h1>
           <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
             {isAuditRapido
-              ? 'Invia i dati del sito da analizzare. Verificherò la disponibilità e ti confermerò l’avvio dell’audit prioritizzato fino a 10 pagine.'
+              ? 'Invia i dati del sito da analizzare. Verificherò la disponibilità e ti confermerò l’avvio dell’audit del sito fino a 10 pagine, su UX, SEO tecnica, performance e accessibilità.'
               : 'Lavoro a Sassari e anche da remoto in tutta Italia. Dopo la tua richiesta riceverai una prima valutazione iniziale gratuita del tuo sito, con indicazioni chiare su cosa migliorare per ottenere più contatti.'}
           </p>
 
@@ -277,7 +277,7 @@ const AGENCY = {
           <p class="text-sm md:text-base leading-relaxed">
             {isAuditRapido ? (
               <>
-                Stai richiedendo <strong>LS Site Rescue</strong>. Compila il modulo con l’URL e il problema principale: ti confermerò disponibilità e tempi di avvio.
+                Stai richiedendo l’<strong>Audit del sito</strong>. Compila il modulo con l’URL e il problema principale: ti confermerò disponibilità e tempi di avvio.
               </>
             ) : (
               <>
@@ -565,7 +565,7 @@ const AGENCY = {
 
         <div class="col-span-1 md:col-span-2 mt-2">
           <Button type="submit" variant="primary" id="submit-btn" class="w-full sm:w-auto min-h-[44px]">
-            <span id="submit-text">{isAuditRapido ? 'Invia la richiesta per LS Site Rescue' : 'Richiedi la valutazione iniziale gratuita'}</span>
+            <span id="submit-text">{isAuditRapido ? 'Invia la richiesta per l’audit del sito' : 'Richiedi la valutazione iniziale gratuita'}</span>
             <span id="submit-loading" class="hidden">
               Invio in corso...
             </span>
