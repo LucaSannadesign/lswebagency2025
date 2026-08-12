@@ -26,7 +26,8 @@
     "editorial:index": "node scripts/editorial/build-content-index.mjs",
     "editorial:duplicates": "node scripts/editorial/check-duplicates.mjs",
     "editorial:calendar": "node scripts/editorial/validate-calendar.mjs",
-    "editorial:check": "npm run editorial:index && npm run editorial:duplicates && npm run editorial:calendar"
+    "editorial:check": "npm run editorial:index && npm run editorial:duplicates && npm run editorial:calendar",
+    "prospecting": "node scripts/prospecting/run.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^6.2.1",
