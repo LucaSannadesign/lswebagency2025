@@ -1,5 +1,15 @@
 import { defineMiddleware } from 'astro:middleware';
 
+const REDIRECTS: Record<string, string> = {
+  // Voucher (pagine rimosse)
+  '/servizi/voucher-digitali-sassari-2025': '/servizi',
+  '/servizi/voucher-digitali-sardegna-2025': '/servizi',
+
+  // Copertura eventuali varianti vecchie
+  '/servizi/voucher-digitali-sassari': '/servizi',
+  '/servizi/voucher-digitali-sardegna': '/servizi',
+};
+
 const CONTACT_PATH = '/api/contatti';
 const MAX_BODY_BYTES = 24 * 1024;
 
@@ -35,15 +45,15 @@ function isAllowedOrigin(request: Request): boolean {
   if (!origin) return false;
 
   try {
-    const url = new URL(origin);
+    const originUrl = new URL(origin);
     const requestHost = new URL(request.url).hostname;
 
-    if (url.protocol !== 'https:' && requestHost !== 'localhost') return false;
-    if (url.hostname === requestHost) return true;
-    if (ALLOWED_PRODUCTION_HOSTS.has(url.hostname)) return true;
+    if (originUrl.protocol !== 'https:' && requestHost !== 'localhost') return false;
+    if (originUrl.hostname === requestHost) return true;
+    if (ALLOWED_PRODUCTION_HOSTS.has(originUrl.hostname)) return true;
 
     // Consente esclusivamente i Preview Deployment Vercel del progetto.
-    return url.hostname.endsWith('-lucasannadesigns-projects.vercel.app');
+    return originUrl.hostname.endsWith('-lucasannadesigns-projects.vercel.app');
   } catch {
     return false;
   }
@@ -61,7 +71,17 @@ function hasSuspiciousUserAgent(request: Request): boolean {
   return SUSPICIOUS_UA.some((needle) => ua.includes(needle));
 }
 
-export const onRequest = defineMiddleware(async (context, next) => {
+export const onRequest = defineMiddleware((context, next) => {
+  const pathname = context.url.pathname;
+
+  // Normalizza eventuale trailing slash.
+  const normalized = pathname.replace(/\/+$/, '') || '/';
+
+  const destination = REDIRECTS[pathname] ?? REDIRECTS[normalized];
+  if (destination) {
+    return context.redirect(destination, 301);
+  }
+
   const { request, url } = context;
 
   if (url.pathname !== CONTACT_PATH || request.method !== 'POST') {
