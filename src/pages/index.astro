@@ -1540,6 +1540,15 @@ const WHATSAPP =
       class="relative z-10 mt-12 md:mt-16 max-w-xl mx-auto text-left rounded-2xl bg-white/95 dark:bg-slate-900/95 p-6 md:p-8 shadow-xl ring-1 ring-white/20"
     >
       <form id="contact-form">
+        <!-- Honeypot anti-spam -->
+        <input
+          type="text"
+          name="ref_note"
+          tabindex="-1"
+          autocomplete="off"
+          class="hidden"
+          aria-hidden="true"
+        />
         <div class="mb-6">
           <label for="name" class="block text-sm font-medium">Nome e cognome</label>
           <input
@@ -1716,7 +1725,7 @@ const WHATSAPP =
               email: String(formData.get('email') || ''),
               message: buildMessage(formData),
               privacy: formData.get('disclaimer') === 'on',
-              company: '',
+              ref_note: String(formData.get('ref_note') || ''),
             };
 
             try {

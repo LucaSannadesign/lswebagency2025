@@ -309,7 +309,7 @@ const AGENCY = {
         <!-- Honeypot anti-spam -->
         <input
           type="text"
-          name="company"
+          name="ref_note"
           tabindex="-1"
           autocomplete="off"
           class="hidden"
@@ -918,7 +918,7 @@ const AGENCY = {
             service: selectedServices.join(', '),
             message: enrichedMessage,
             privacy: formData.get('privacy') === 'on',
-            company: formData.get('company') || '', // honeypot
+            ref_note: formData.get('ref_note') || '', // honeypot
             requestedServizioSlug,
             requestedPacchettoSlug,
             requestedServizioLabel,
