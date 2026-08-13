@@ -102,8 +102,8 @@ function payloadSummaryForLog(data: unknown): Record<string, unknown> {
     emailMasked: email ? maskEmailForLog(email) : "absent",
     messageLen: msg.length,
     privacy: o.privacy === true,
-    companyFilled:
-      typeof o.company === "string" && o.company.trim().length > 0,
+    honeypotFilled:
+      typeof o.ref_note === "string" && o.ref_note.trim().length > 0,
   };
 }
 
@@ -152,12 +152,19 @@ type CrmLeadInput = {
 };
 
 /**
+ * Stati ammessi dal vincolo `leads_status_check`, per i soli valori scritti da
+ * questo endpoint. L'ampliamento con 'scartato_honeypot' è in
+ * src/pages/api/_leads-status.sql e va eseguito a mano prima del deploy.
+ */
+type LeadStatus = "nuovo" | "scartato_honeypot";
+
+/**
  * Salva il lead nel CRM (public.leads) in modo best-effort.
  * Import dinamico + try/catch: un eventuale problema Supabase (env mancanti,
  * errore di rete o insert) NON deve mai propagarsi né bloccare l'invio email.
  * Ritorna true solo se l'insert è andato a buon fine.
  */
-async function saveLeadToCrm(input: CrmLeadInput): Promise<boolean> {
+async function saveLeadToCrm(input: CrmLeadInput, status: LeadStatus = "nuovo"): Promise<boolean> {
   try {
     const { supabaseAdmin } = await import("../../lib/supabase.server");
 
@@ -169,7 +176,17 @@ async function saveLeadToCrm(input: CrmLeadInput): Promise<boolean> {
       input.requestedPacchettoSlug ||
       "Contatto generico";
 
+    const isHoneypot = status === "scartato_honeypot";
+
     const notes = [
+      ...(isHoneypot
+        ? [
+            "SCARTATO DAL HONEYPOT: il campo trappola del form era compilato.",
+            "Nessuna email inviata. La riga è conservata per poter distinguere",
+            "un bot da un invio legittimo finito nella trappola per errore.",
+            "",
+          ]
+        : []),
       "Lead generato dal form Contatti (sito LS Web Agency).",
       'Origine: form-contatti (mappata su source="altro").',
       "",
@@ -185,13 +202,13 @@ async function saveLeadToCrm(input: CrmLeadInput): Promise<boolean> {
     ].join("\n");
 
     const payload = {
-      business_name: "Richiesta da form contatti",
+      business_name: isHoneypot ? "Invio scartato dal honeypot" : "Richiesta da form contatti",
       contact_name: input.name,
       email: input.email,
       phone: input.phone || null,
       sector: "altro",
       service_interest: serviceInterest,
-      status: "nuovo",
+      status,
       priority: "media",
       source: "altro",
       problem_detected: [] as string[],
@@ -202,10 +219,10 @@ async function saveLeadToCrm(input: CrmLeadInput): Promise<boolean> {
 
     const { error } = await supabaseAdmin.from("leads").insert(payload);
     if (error) {
-      console.error("[contatti] CRM insert error", error.message);
+      console.error("[contatti] CRM insert error", { status, message: error.message });
       return false;
     }
-    console.log("[contatti] CRM lead salvato");
+    console.log("[contatti] CRM lead salvato", { status });
     return true;
   } catch (e) {
     console.error("[contatti] CRM save eccezione", e instanceof Error ? e.message : String(e));
@@ -341,11 +358,36 @@ export const POST: APIRoute = async ({ request }) => {
 
     console.log("[contatti] payload (riepilogo non sensibile)", payloadSummaryForLog(data));
 
-    // 3) Honeypot anti-spam (campo "company")
-    // Se valorizzato -> non inviare, ma rispondere 200 ok (graceful)
-    const company = typeof data?.company === "string" ? data.company.trim() : "";
-    if (company.length > 0) {
+    // 3) Honeypot anti-spam (campo "ref_note", nascosto nel form)
+    //
+    // La risposta resta 200 identica a quella di un invio riuscito: un bot non
+    // deve capire di essere stato intercettato, altrimenti riprova cambiando
+    // strategia. Lo scarto però non sparisce più in un console.warn: viene
+    // registrato in `leads` con status 'scartato_honeypot', così è consultabile
+    // e un invio legittimo finito nella trappola per errore resta recuperabile.
+    //
+    // Il salvataggio è best-effort e non altera in alcun modo la risposta.
+    const honeypot = typeof data?.ref_note === "string" ? data.ref_note.trim() : "";
+    if (honeypot.length > 0) {
       console.warn("[contatti] honeypot attivato, nessun invio");
+
+      const nameRaw = data?.name ?? data?.nome ?? "";
+      const messageRaw = data?.message ?? data?.messaggio ?? data?.body ?? "";
+      await saveLeadToCrm(
+        {
+          name: typeof nameRaw === "string" ? nameRaw.trim().slice(0, 200) : "",
+          email: typeof data?.email === "string" ? data.email.trim().slice(0, 200) : "",
+          phone: typeof data?.phone === "string" ? data.phone.trim().slice(0, 80) : "",
+          service: typeof data?.service === "string" ? data.service.trim().slice(0, 400) : "",
+          message: typeof messageRaw === "string" ? messageRaw.trim().slice(0, 4000) : "",
+          requestedServizioLabel: "",
+          requestedServizioSlug: "",
+          requestedPacchettoLabel: "",
+          requestedPacchettoSlug: "",
+        },
+        "scartato_honeypot",
+      );
+
       return json(200, { ok: true, emailSent: false, build: BUILD_FINGERPRINT });
     }
 

@@ -1716,7 +1716,7 @@ const WHATSAPP =
               email: String(formData.get('email') || ''),
               message: buildMessage(formData),
               privacy: formData.get('disclaimer') === 'on',
-              company: '',
+              ref_note: '',
             };
 
             try {

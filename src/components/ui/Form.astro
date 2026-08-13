@@ -132,7 +132,7 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
         service: String(formData.get('service') || ''),
         message: String(formData.get('message') || ''),
         privacy: formData.get('disclaimer') === 'on',
-        company: '',
+        ref_note: '',
       };
 
       try {
