@@ -7,7 +7,7 @@ const BUILD_FINGERPRINT = "contatti-v4-test-deploy";
 
 /** Rate limit in-memory per IP (vedi limiti su deploy serverless) */
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const RATE_LIMIT_MAX = 3;
+const RATE_LIMIT_MAX = 8;
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 
 function getClientIp(request: Request): string {
