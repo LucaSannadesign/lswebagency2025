@@ -137,9 +137,24 @@ type AssistantLead = {
   pageUrl?: string;
 };
 
+/**
+ * Stati ammessi dal vincolo `leads_status_check`, per i soli valori scritti da
+ * questo endpoint. L'ampliamento con 'scartato_honeypot' è in
+ * src/pages/api/_leads-status.sql e va eseguito a mano prima del deploy.
+ */
+type LeadStatus = 'nuovo' | 'scartato_honeypot';
+
 // Note CRM leggibili: niente righe vuote inutili, "—" per i valori assenti.
-function buildNotes(lead: AssistantLead): string {
+function buildNotes(lead: AssistantLead, isHoneypot = false): string {
   return [
+    ...(isHoneypot
+      ? [
+          'SCARTATO DAL HONEYPOT: il campo trappola dell’assistente era compilato.',
+          'Nessuna email inviata. La riga è conservata per poter distinguere',
+          'un bot da un invio legittimo finito nella trappola per errore.',
+          '',
+        ]
+      : []),
     'Origine: site_assistant',
     `Intento: ${lead.intent || '—'}`,
     `Servizio di interesse: ${lead.serviceInterest || '—'}`,
@@ -154,30 +169,34 @@ function buildNotes(lead: AssistantLead): string {
  * Salva il lead nel CRM (public.leads) in modo best-effort: nessun valore amministrativo
  * proviene dal client. Ritorna true solo se l'insert è andato a buon fine.
  */
-async function saveLeadToCrm(lead: AssistantLead): Promise<boolean> {
+async function saveLeadToCrm(lead: AssistantLead, status: LeadStatus = 'nuovo'): Promise<boolean> {
   try {
+    const isHoneypot = status === 'scartato_honeypot';
+
     const payload = {
-      business_name: deriveBusinessName(lead.websiteUrl),
+      business_name: isHoneypot
+        ? 'Invio scartato dal honeypot'
+        : deriveBusinessName(lead.websiteUrl),
       contact_name: lead.contactName,
       email: lead.email,
       phone: lead.phone,
       sector: 'altro',
       service_interest: lead.serviceInterest,
-      status: 'nuovo',
+      status,
       priority: 'media',
       source: 'altro',
       problem_detected: [] as string[],
-      notes: buildNotes(lead),
+      notes: buildNotes(lead, isHoneypot),
       estimated_value: 0,
       archived: false,
     };
 
     const { error } = await supabaseAdmin.from('leads').insert(payload);
     if (error) {
-      console.error('[site-assistant] CRM insert error', error.message);
+      console.error('[site-assistant] CRM insert error', { status, message: error.message });
       return false;
     }
-    console.log('[site-assistant] CRM lead salvato');
+    console.log('[site-assistant] CRM lead salvato', { status });
     return true;
   } catch (e) {
     console.error('[site-assistant] CRM save eccezione', e instanceof Error ? e.message : String(e));
@@ -279,10 +298,36 @@ export const POST: APIRoute = async ({ request }) => {
       return json(400, { success: false, error: 'INVALID_JSON' });
     }
 
-    // 3) Honeypot: se "ref_note" è valorizzato → risposta neutra, nessun salvataggio/email.
+    // 3) Honeypot: se "ref_note" è valorizzato → risposta neutra, nessun invio.
+    //
+    // La risposta resta identica a quella di un invio riuscito: un bot non deve
+    // capire di essere stato intercettato, altrimenti riprova cambiando
+    // strategia. Lo scarto però non sparisce più in un console.warn: viene
+    // registrato in `leads` con status 'scartato_honeypot', così è consultabile
+    // e un invio legittimo finito nella trappola resta recuperabile.
+    //
+    // Il salvataggio è best-effort e non altera in alcun modo la risposta.
     const honeypot = typeof body.ref_note === 'string' ? body.ref_note.trim() : '';
     if (honeypot.length > 0) {
       console.warn('[site-assistant] honeypot attivato, nessun invio');
+
+      // Stesse funzioni di normalizzazione del flusso valido: i dati registrati
+      // sono quelli che sarebbero stati salvati, non il payload grezzo.
+      await saveLeadToCrm(
+        {
+          contactName: clampStr(body.contactName, MAX.name) ?? '',
+          email: (typeof body.email === 'string' ? body.email.trim() : '').slice(0, MAX.email),
+          phone: clampStr(body.phone, MAX.phone) ?? null,
+          websiteUrl: normalizeWebsiteUrl(body.websiteUrl),
+          message: clampStr(body.message, MAX.message),
+          intent: clampStr(body.intent, MAX.intent),
+          serviceInterest: clampStr(body.serviceInterest, MAX.service) ?? 'Assistente sito',
+          conversationSummary: clampStr(body.conversationSummary, MAX.summary),
+          pageUrl: clampStr(body.pageUrl, MAX.pageUrl),
+        },
+        'scartato_honeypot',
+      );
+
       return json(200, { success: true });
     }
 
