@@ -1,20 +1,57 @@
 import 'dotenv/config';
+import { writeFileSync } from 'node:fs';
+import { createInterface } from 'node:readline';
 import { createClient } from '@supabase/supabase-js';
 
-const args = Object.fromEntries(
-  process.argv.slice(2).map((arg) => {
-    const [key, ...rest] = arg.replace(/^--/, '').split('=');
-    return [key, rest.length ? rest.join('=') : true];
-  }),
-);
+/**
+ * Accetta sia `--chiave=valore` sia `--chiave valore`: la seconda forma serve a
+ * `--csv <percorso>`. Un token successivo che inizia per `--` non viene mai
+ * consumato come valore, così `--save --sector=x` continua a leggersi come due
+ * opzioni distinte.
+ */
+const args = {};
+{
+  const tokens = process.argv.slice(2);
+  for (let i = 0; i < tokens.length; i += 1) {
+    const token = tokens[i];
+    if (!token.startsWith('--')) continue;
+    const [key, ...rest] = token.replace(/^--/, '').split('=');
+    if (rest.length) {
+      args[key] = rest.join('=');
+    } else if (tokens[i + 1] && !tokens[i + 1].startsWith('--')) {
+      args[key] = tokens[i + 1];
+      i += 1;
+    } else {
+      args[key] = true;
+    }
+  }
+}
+
+const flag = (value) => value === true || String(value).toLowerCase() === 'true';
 
 const sector = String(args.sector || '').trim();
 const location = String(args.location || '').trim();
 const limit = Math.min(Math.max(Number(args.limit || 20), 1), 20);
-const save = args.save === true || String(args.save).toLowerCase() === 'true';
+/** Senza --save non viene scritta una riga: il default è la sola analisi. */
+const save = flag(args.save);
+/** Salta la conferma interattiva. Serve negli usi non interattivi. */
+const assumeYes = flag(args.yes);
+/** Percorso del CSV con TUTTI gli analizzati, non solo i qualificati. */
+const csvPath = typeof args.csv === 'string' ? args.csv.trim() : '';
 
 if (!sector || !location) {
-  console.error('Uso: npm run prospecting -- --sector="ristoranti" --location="Sassari" --limit=20 [--save]');
+  console.error(
+    [
+      'Uso:',
+      '  npm run prospecting -- --sector="ristoranti" --location="Sassari" [--limit=20]',
+      '',
+      'Opzioni:',
+      '  (nessuna)        analisi soltanto, nessuna scrittura',
+      '  --csv <file>     esporta tutti gli analizzati in CSV',
+      '  --save           scrive i qualificati su Supabase, previa conferma',
+      '  --yes            salta la conferma richiesta da --save',
+    ].join('\n'),
+  );
   process.exit(1);
 }
 
@@ -37,7 +74,19 @@ const USER_AGENT = 'LSWebAgencyProspecting/1.0 (+https://lswebagency.com)';
 const TIMEOUT_MS = 9000;
 const MAX_HTML_BYTES = 700_000;
 const QUALIFIED_SCORE = 55;
-const SERVICE_INTEREST = 'Audit rapido / SEO locale';
+
+/**
+ * I prospect NON vanno in `leads`.
+ *
+ * In `leads` finiscono le persone che hanno scritto dai form del sito: hanno
+ * lasciato i propri dati di loro iniziativa. Qui finiscono attività trovate in
+ * autonomia e mai contattate. Tenerle nella stessa tabella significa perdere la
+ * distinzione fra un contatto in entrata e un nominativo raccolto da noi.
+ *
+ * Lo schema atteso è in scripts/prospecting/schema.sql, da eseguire a mano su
+ * Supabase prima del primo --save.
+ */
+const PROSPECTS_TABLE = 'prospects';
 
 function clamp(value, max = 300) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
@@ -111,6 +160,122 @@ async function fetchText(url) {
     return text.slice(0, MAX_HTML_BYTES);
   } catch {
     return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/* --- robots.txt ------------------------------------------------------------
+ *
+ * Parser minimo, scritto qui invece di aggiungere una dipendenza: il file legge
+ * già HTML con espressioni regolari, e una regola interpretata male costa al
+ * massimo un sito visitato in meno.
+ *
+ * Copre ciò che serve: gruppi User-agent (quello specifico se presente,
+ * altrimenti `*`), direttive Allow e Disallow, i caratteri jolly `*` e `$`, e la
+ * precedenza alla regola più lunga con Allow che vince a parità.
+ * Non copre Crawl-delay, Sitemap e le altre direttive non vincolanti.
+ */
+
+/** Token di prodotto del nostro user agent, come si dichiara in robots.txt. */
+const ROBOTS_TOKEN = 'lswebagencyprospecting';
+
+/** Un robots.txt per origine, scaricato una volta sola per esecuzione. */
+const robotsCache = new Map();
+
+function parseRobots(text) {
+  const groups = new Map();
+  let current = [];
+
+  for (const rawLine of String(text).split(/\r?\n/)) {
+    const line = rawLine.replace(/#.*$/, '').trim();
+    if (!line) continue;
+    const separator = line.indexOf(':');
+    if (separator === -1) continue;
+    const field = line.slice(0, separator).trim().toLowerCase();
+    const value = line.slice(separator + 1).trim();
+
+    if (field === 'user-agent') {
+      const agent = value.toLowerCase();
+      if (!groups.has(agent)) groups.set(agent, []);
+      current = groups.get(agent);
+      continue;
+    }
+    if (field === 'allow' || field === 'disallow') {
+      current.push({ allow: field === 'allow', path: value });
+    }
+  }
+
+  return groups.get(ROBOTS_TOKEN) ?? groups.get('*') ?? [];
+}
+
+function robotsPatternToRegex(pattern) {
+  const anchored = pattern.endsWith('$');
+  const body = anchored ? pattern.slice(0, -1) : pattern;
+  const escaped = body.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+  return new RegExp(`^${escaped}${anchored ? '$' : ''}`);
+}
+
+function robotsAllows(rules, pathname) {
+  let decision = true;
+  let strength = -1;
+
+  for (const rule of rules) {
+    // `Disallow:` vuoto significa "nessun divieto": non è una regola.
+    if (!rule.path) continue;
+    if (!robotsPatternToRegex(rule.path).test(pathname)) continue;
+    const length = rule.path.length;
+    if (length > strength || (length === strength && rule.allow)) {
+      decision = rule.allow;
+      strength = length;
+    }
+  }
+
+  return decision;
+}
+
+/**
+ * Esiti possibili:
+ *   'allowed'    — il percorso può essere visitato
+ *   'disallowed' — robots.txt lo esclude esplicitamente
+ *   'unreadable' — robots.txt non è leggibile (timeout, errore di rete, 5xx)
+ *
+ * 404 e 410 valgono come "nessuna restrizione", secondo lo standard. Un
+ * robots.txt che non si riesce a leggere non viene invece interpretato come
+ * permesso: in dubbio non si visita.
+ */
+async function robotsStateFor(rawUrl) {
+  let url;
+  try {
+    url = new URL(rawUrl);
+  } catch {
+    return 'unreadable';
+  }
+
+  if (!robotsCache.has(url.origin)) {
+    robotsCache.set(url.origin, await loadRobots(url.origin));
+  }
+
+  const robots = robotsCache.get(url.origin);
+  if (robots.state !== 'rules') return robots.state;
+  return robotsAllows(robots.rules, url.pathname) ? 'allowed' : 'disallowed';
+}
+
+async function loadRobots(origin) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  try {
+    const response = await fetch(`${origin}/robots.txt`, {
+      redirect: 'follow',
+      signal: controller.signal,
+      headers: { 'user-agent': USER_AGENT, accept: 'text/plain' },
+    });
+    if (response.status === 404 || response.status === 410) return { state: 'allowed' };
+    if (!response.ok) return { state: 'unreadable' };
+    const text = (await response.text()).slice(0, MAX_HTML_BYTES);
+    return { state: 'rules', rules: parseRobots(text) };
+  } catch {
+    return { state: 'unreadable' };
   } finally {
     clearTimeout(timer);
   }
@@ -214,11 +379,20 @@ function inspectSignals(html, url) {
   return { score, issues, problems: unique(problems) };
 }
 
+/**
+ * Restituisce `{ ok: true, data }` oppure `{ ok: false, reason }`, così il
+ * chiamante può distinguere un'esclusione voluta da un errore di lettura.
+ */
 async function inspectWebsite(rawUrl) {
   const url = normalizeUrl(rawUrl);
-  if (!url) return null;
+  if (!url) return { ok: false, reason: 'URL non valido' };
+
+  const robots = await robotsStateFor(url);
+  if (robots === 'disallowed') return { ok: false, reason: 'saltato per robots.txt' };
+  if (robots === 'unreadable') return { ok: false, reason: 'robots.txt non leggibile' };
+
   const homeHtml = await fetchText(url);
-  if (!homeHtml) return null;
+  if (!homeHtml) return { ok: false, reason: 'analisi fallita' };
 
   const canonicalUrl = (() => {
     const match = homeHtml.match(/<link[^>]+rel=["'][^"']*canonical[^"']*["'][^>]+href=["']([^"']+)["']/i);
@@ -230,9 +404,13 @@ async function inspectWebsite(rawUrl) {
     }
   })();
 
-  const contactUrls = findContactUrls(homeHtml, canonicalUrl);
+  // Le pagine contatto sono fetch aggiuntivi: se robots ne esclude una si salta
+  // quella, non l'intero sito, che è già stato ammesso sulla home.
+  const contactUrls = [];
   const contactHtml = [];
-  for (const contactUrl of contactUrls) {
+  for (const contactUrl of findContactUrls(homeHtml, canonicalUrl)) {
+    if ((await robotsStateFor(contactUrl)) !== 'allowed') continue;
+    contactUrls.push(contactUrl);
     const page = await fetchText(contactUrl);
     if (page) contactHtml.push(page);
   }
@@ -241,13 +419,16 @@ async function inspectWebsite(rawUrl) {
   const host = new URL(canonicalUrl).hostname;
 
   return {
-    website: canonicalUrl,
-    domain: normalizeDomain(canonicalUrl),
-    businessName: extractBusinessName(homeHtml, host),
-    emails: extractEmails(combinedHtml),
-    phones: extractPhones(combinedHtml),
-    contactUrls,
-    ...inspectSignals(homeHtml, canonicalUrl),
+    ok: true,
+    data: {
+      website: canonicalUrl,
+      domain: normalizeDomain(canonicalUrl),
+      businessName: extractBusinessName(homeHtml, host),
+      emails: extractEmails(combinedHtml),
+      phones: extractPhones(combinedHtml),
+      contactUrls,
+      ...inspectSignals(homeHtml, canonicalUrl),
+    },
   };
 }
 
@@ -276,28 +457,34 @@ async function discoverPlaces() {
   return (payload.places || []).slice(0, limit).filter((place) => place.websiteUri && place.id);
 }
 
-async function loadExistingCrmIndex() {
-  const empty = {
+async function loadExistingProspectIndex() {
+  const index = {
     emails: new Set(),
     phones: new Set(),
     domains: new Set(),
     names: new Set(),
   };
-  if (!supabase) return empty;
+  if (!supabase) return index;
 
-  const { data, error } = await supabase.from('leads').select('business_name,email,phone,website');
-  if (error) throw new Error(`Impossibile leggere i lead esistenti: ${error.message}`);
+  const { data, error } = await supabase
+    .from(PROSPECTS_TABLE)
+    .select('name,emails,phones,domain,website');
+  if (error) throw new Error(`Impossibile leggere i prospect esistenti: ${error.message}`);
 
-  for (const lead of data || []) {
-    if (lead.email) empty.emails.add(String(lead.email).trim().toLowerCase());
-    if (lead.phone) empty.phones.add(String(lead.phone).replace(/\D/g, ''));
-    const domain = normalizeDomain(lead.website);
-    if (domain) empty.domains.add(domain);
-    const name = normalizeBusinessName(lead.business_name);
-    if (name) empty.names.add(name);
+  for (const row of data || []) {
+    for (const email of row.emails || []) {
+      if (email) index.emails.add(String(email).trim().toLowerCase());
+    }
+    for (const phone of row.phones || []) {
+      if (phone) index.phones.add(String(phone).replace(/\D/g, ''));
+    }
+    const domain = row.domain || normalizeDomain(row.website);
+    if (domain) index.domains.add(domain);
+    const name = normalizeBusinessName(row.name);
+    if (name) index.names.add(name);
   }
 
-  return empty;
+  return index;
 }
 
 function duplicateReason(index, inspected) {
@@ -311,7 +498,7 @@ function duplicateReason(index, inspected) {
   return null;
 }
 
-function addToCrmIndex(index, inspected) {
+function addToProspectIndex(index, inspected) {
   const email = inspected.emails[0]?.toLowerCase() || null;
   const phone = inspected.phones[0]?.replace(/\D/g, '') || null;
   const name = normalizeBusinessName(inspected.businessName);
@@ -321,98 +508,235 @@ function addToCrmIndex(index, inspected) {
   if (name) index.names.add(name);
 }
 
-function priorityFromScore(score) {
-  if (score >= 75) return 'alta';
-  if (score >= QUALIFIED_SCORE) return 'media';
-  return 'bassa';
-}
-
-function buildNotes(placeId, inspected) {
-  const signal = inspected.issues[0] || 'sito disponibile per verifica manuale';
+/**
+ * Le note raccolgono solo ciò che non ha una colonna propria: i findings, i
+ * contatti e il punteggio hanno ora campi dedicati e non vanno duplicati qui.
+ */
+function buildNotes(placeId) {
   return [
-    'Origine outreach: outreach_prospecting',
-    `SEGNALE: ${signal}`,
-    `FONTE: ${inspected.website}`,
-    '',
     'Prospect generato automaticamente dal modulo Prospecting LS Web Agency.',
-    'Email/telefono estratti dal sito pubblico dell’attività; Google Places usato solo per discovery e Place ID.',
+    'Email e telefoni estratti dal sito pubblico dell’attività; Google Places usato solo per discovery e Place ID.',
     `Google Place ID: ${placeId}`,
-    `Opportunity score: ${inspected.score}/100`,
-    `Problemi tecnici rilevati: ${inspected.issues.length ? inspected.issues.join('; ') : 'nessuno dei controlli base'}`,
-    `Pagine contatto analizzate: ${inspected.contactUrls.length ? inspected.contactUrls.join(', ') : 'nessuna'}`,
-    'Stato outreach: NON INVIATO.',
+    'Stato: mai contattato.',
   ].join('\n');
 }
 
-async function saveLead(place, inspected, crmIndex) {
-  const email = inspected.emails[0] || null;
-  const phone = inspected.phones[0] || null;
-  if (!email && !phone) return { saved: false, reason: 'nessun contatto' };
-
-  const duplicate = duplicateReason(crmIndex, inspected);
-  if (duplicate) return { saved: false, reason: duplicate };
-
-  const payload = {
-    business_name: clamp(inspected.businessName, 150) || 'Prospect outbound',
-    contact_name: null,
-    email,
-    phone,
+function buildPayload(place, inspected) {
+  return {
+    source: 'prospecting',
+    query: `${sector} a ${location}`,
+    name: clamp(inspected.businessName, 150) || 'Prospect senza nome',
     website: inspected.website,
+    domain: inspected.domain,
     city: clamp(location, 100),
-    sector: 'altro',
-    service_interest: SERVICE_INTEREST,
-    status: 'da_verificare',
-    priority: priorityFromScore(inspected.score),
-    source: 'altro',
-    problem_detected: inspected.problems,
+    // Lo script non ricostruisce l'URL della scheda Maps: il Place ID resta
+    // nelle note e la colonna si popola, se serve, in revisione manuale.
     google_maps_url: null,
-    notes: buildNotes(place.id, inspected),
-    estimated_value: 0,
-    archived: false,
+    emails: inspected.emails,
+    phones: inspected.phones,
+    contact_urls: inspected.contactUrls,
+    findings: inspected.issues,
+    score: inspected.score,
+    status: 'da_verificare',
+    reviewed_at: null,
+    notes: buildNotes(place.id),
   };
-
-  const { error } = await supabase.from('leads').insert(payload);
-  if (error) throw error;
-  addToCrmIndex(crmIndex, inspected);
-  return { saved: true };
 }
 
+/* --- CSV ------------------------------------------------------------------ */
+
+function csvCell(value) {
+  const text = Array.isArray(value) ? value.join(' | ') : String(value ?? '');
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+const CSV_COLUMNS = [
+  'score',
+  'esito',
+  'nome',
+  'website',
+  'dominio',
+  'email',
+  'telefoni',
+  'findings',
+  'pagine_contatto',
+  'place_id',
+];
+
+function toCsv(rows) {
+  const lines = [CSV_COLUMNS.join(',')];
+  for (const row of rows) {
+    lines.push(
+      [
+        row.score ?? '',
+        row.outcome,
+        row.businessName ?? '',
+        row.website ?? '',
+        row.domain ?? '',
+        row.emails ?? [],
+        row.phones ?? [],
+        row.issues ?? [],
+        row.contactUrls ?? [],
+        row.placeId ?? '',
+      ]
+        .map(csvCell)
+        .join(','),
+    );
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+/* --- Conferma interattiva -------------------------------------------------- */
+
+async function confirm(question) {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    const answer = await new Promise((resolve) => rl.question(question, resolve));
+    return String(answer).trim().toLowerCase() === 'y';
+  } finally {
+    rl.close();
+  }
+}
+
+/* --- Fase 1: analisi ------------------------------------------------------- */
+
 const places = await discoverPlaces();
-const crmIndex = await loadExistingCrmIndex();
 const results = [];
 
 for (const place of places) {
-  const inspected = await inspectWebsite(place.websiteUri);
-  if (!inspected) {
-    results.push({ placeId: place.id, website: place.websiteUri, status: 'crawl_failed' });
+  const outcome = await inspectWebsite(place.websiteUri);
+
+  if (!outcome.ok) {
+    results.push({
+      placeId: place.id,
+      website: place.websiteUri,
+      outcome: outcome.reason,
+    });
+    console.log(`  — | ${place.websiteUri} | ${outcome.reason}`);
+    await sleep(350);
     continue;
   }
 
-  let crm = { saved: false, reason: save ? 'non qualificato' : 'dry-run' };
-  if (save && inspected.score >= QUALIFIED_SCORE) crm = await saveLead(place, inspected, crmIndex);
+  const inspected = outcome.data;
 
   results.push({
+    place,
     placeId: place.id,
     website: inspected.website,
+    domain: inspected.domain,
     businessName: inspected.businessName,
-    email: inspected.emails[0] || null,
-    phone: inspected.phones[0] || null,
-    score: inspected.score,
+    emails: inspected.emails,
+    phones: inspected.phones,
+    contactUrls: inspected.contactUrls,
     issues: inspected.issues,
-    crm,
+    score: inspected.score,
+    inspected,
+    outcome: 'analizzato',
   });
 
   console.log(
-    `${inspected.score.toString().padStart(3)} | ${inspected.businessName} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'} | ${crm.saved ? 'CRM' : crm.reason}`,
+    `${inspected.score.toString().padStart(3)} | ${inspected.businessName} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'}`,
   );
   await sleep(350);
 }
 
-const analyzed = results.filter((result) => Number.isFinite(result.score));
-const qualified = analyzed.filter((result) => result.score >= QUALIFIED_SCORE);
-const savedCount = results.filter((result) => result.crm?.saved).length;
+const analyzed = results.filter((row) => Number.isFinite(row.score));
+const qualified = analyzed.filter((row) => row.score >= QUALIFIED_SCORE);
+
+/* --- Fase 2: selezione delle righe da inserire ----------------------------- */
+
+/**
+ * La selezione avviene prima di qualunque scrittura: e' cio' che permette di
+ * annunciare quante righe verranno inserite e su quale tabella. L'indice viene
+ * aggiornato mentre si pianifica, cosi' due prospect identici nella stessa
+ * esecuzione non passano entrambi.
+ */
+const prospectIndex = save ? await loadExistingProspectIndex() : null;
+const toInsert = [];
+
+if (save) {
+  for (const row of analyzed) {
+    if (row.score < QUALIFIED_SCORE) {
+      row.outcome = 'sotto soglia';
+      continue;
+    }
+    if (!row.emails.length && !row.phones.length) {
+      row.outcome = 'nessun contatto';
+      continue;
+    }
+    const duplicate = duplicateReason(prospectIndex, row.inspected);
+    if (duplicate) {
+      row.outcome = duplicate;
+      continue;
+    }
+    addToProspectIndex(prospectIndex, row.inspected);
+    row.outcome = 'da inserire';
+    toInsert.push(row);
+  }
+}
+
+/* --- CSV: sempre tutti gli analizzati, non solo i qualificati -------------- */
+
+if (csvPath) {
+  writeFileSync(csvPath, toCsv(results), 'utf8');
+  console.log(`\nCSV scritto: ${csvPath} (${results.length} righe, tutti gli esaminati)`);
+}
+
 console.log(
-  `\nTrovati: ${places.length} | Analizzati: ${analyzed.length} | Qualificati: ${qualified.length} | Salvati CRM: ${savedCount}`,
+  `\nTrovati: ${places.length} | Analizzati: ${analyzed.length} | Sopra soglia (${QUALIFIED_SCORE}): ${qualified.length}`,
 );
 
-if (!save) console.log('Dry-run attivo. Aggiungi --save per inserire i qualificati nel CRM.');
+/* --- Fase 3: scrittura, solo dopo conferma --------------------------------- */
+
+if (!save) {
+  console.log(
+    `Nessuna scrittura: questa e' una sola analisi. Aggiungi --save per inserire in ${PROSPECTS_TABLE}.`,
+  );
+  process.exit(0);
+}
+
+if (!toInsert.length) {
+  console.log('Nessuna riga da inserire: niente da scrivere.');
+  process.exit(0);
+}
+
+console.log(
+  [
+    '',
+    '─────────────────────────────────────────────',
+    ` SCRITTURA SU DATABASE`,
+    ` Tabella: ${PROSPECTS_TABLE}`,
+    ` Righe da inserire: ${toInsert.length}`,
+    ' Operazione non annullabile dallo script.',
+    '─────────────────────────────────────────────',
+  ].join('\n'),
+);
+
+if (!assumeYes) {
+  if (!process.stdin.isTTY) {
+    console.error(
+      'Sessione non interattiva: impossibile chiedere conferma. Rilancia con --yes se e\' voluto.',
+    );
+    process.exit(1);
+  }
+  const ok = await confirm(`Procedo a inserire ${toInsert.length} righe in ${PROSPECTS_TABLE}? (y/N) `);
+  if (!ok) {
+    console.log('Annullato. Nessuna riga inserita.');
+    process.exit(0);
+  }
+}
+
+let savedCount = 0;
+for (const row of toInsert) {
+  const { error } = await supabase.from(PROSPECTS_TABLE).insert(buildPayload(row.place, row.inspected));
+  if (error) throw error;
+  row.outcome = 'inserito';
+  savedCount += 1;
+}
+
+console.log(`Inserite ${savedCount} righe in ${PROSPECTS_TABLE}.`);
+
+if (csvPath) {
+  writeFileSync(csvPath, toCsv(results), 'utf8');
+  console.log(`CSV aggiornato con l'esito finale: ${csvPath}`);
+}
