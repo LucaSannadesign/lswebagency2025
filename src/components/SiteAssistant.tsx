@@ -213,7 +213,7 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
           conversationSummary,
           pageUrl,
           privacyConsent,
-          company: honeypot, // honeypot: normalmente vuoto
+          ref_note: honeypot, // honeypot: normalmente vuoto
         }),
       });
       const data: { success?: boolean } = await res.json().catch(() => ({}));

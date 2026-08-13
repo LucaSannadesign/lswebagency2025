@@ -279,9 +279,9 @@ export const POST: APIRoute = async ({ request }) => {
       return json(400, { success: false, error: 'INVALID_JSON' });
     }
 
-    // 3) Honeypot: se "company" è valorizzato → risposta neutra, nessun salvataggio/email.
-    const company = typeof body.company === 'string' ? body.company.trim() : '';
-    if (company.length > 0) {
+    // 3) Honeypot: se "ref_note" è valorizzato → risposta neutra, nessun salvataggio/email.
+    const honeypot = typeof body.ref_note === 'string' ? body.ref_note.trim() : '';
+    if (honeypot.length > 0) {
       console.warn('[site-assistant] honeypot attivato, nessun invio');
       return json(200, { success: true });
     }
