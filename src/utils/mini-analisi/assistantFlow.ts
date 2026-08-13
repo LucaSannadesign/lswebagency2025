@@ -269,31 +269,18 @@ export const intentLabelById: Record<string, string> = Object.fromEntries(
   assistantIntents.map((i) => [i.id, i.label]),
 );
 
-// === Pacchetti reali Assistente AI ===
-// Fonte unica degli importi, allineata ai prezzi già presenti nella pagina servizio e
-// nel JSON-LD (Starter 300/29, Pro 600/59, Plus 900/99). Nessun importo inventato.
-export type AssistantTier = 'Starter' | 'Pro' | 'Plus';
-
-export const ASSISTANT_PACKAGES: Record<AssistantTier, { tier: AssistantTier; setup: number; monthly: number }> = {
-  Starter: { tier: 'Starter', setup: 300, monthly: 29 },
-  Pro: { tier: 'Pro', setup: 600, monthly: 59 },
-  Plus: { tier: 'Plus', setup: 900, monthly: 99 },
-};
-
-// Derivazione deterministica del pacchetto dal percorso "automazioni", da valori ammessi.
-// Usata sia lato client (display) sia lato server (salvataggio): stesso risultato per costruzione.
-export function deriveAssistantTier(answers: Partial<Answers>): AssistantTier {
-  if (answers.requestVolume === 'Molte al giorno' || answers.sensitiveData === 'Sì') return 'Plus';
-  if (answers.channel === 'Entrambi') return 'Pro';
-  if (answers.channel === 'Sito' || answers.channel === 'WhatsApp') return 'Starter';
-  return 'Pro';
-}
-
-// Riga orientativa con prezzi reali per il risultato dell'assistente (percorso automazioni).
-export function formatAssistantPackage(tier: AssistantTier): string {
-  const p = ASSISTANT_PACKAGES[tier];
-  return `Soluzione orientativa: ${p.tier} — ${p.setup} € di configurazione + ${p.monthly} €/mese.`;
-}
+/*
+ * Qui vivevano i pacchetti dell'Assistente AI (ASSISTANT_PACKAGES,
+ * deriveAssistantTier, formatAssistantPackage): una seconda copia degli importi,
+ * usata per annunciare al visitatore una "soluzione orientativa" con tanto di
+ * configurazione e canone.
+ *
+ * Sono stati rimossi per due ragioni che si sommano: la pagina servizio non
+ * pubblica più quegli importi, quindi questo flusso era rimasto l'unico punto
+ * del sito a comunicarli; e comunque una seconda copia dei prezzi è esattamente
+ * ciò che src/config/services.ts esiste per impedire. Le fasce restano lì, in
+ * ASSISTANT_INTERNAL_PACKAGES, come riferimento interno.
+ */
 
 // Etichette leggibili per le chiavi extra, usate nel riepilogo e nelle note.
 export const EXTRA_FIELD_LABELS: Partial<Record<keyof Answers, string>> = {
