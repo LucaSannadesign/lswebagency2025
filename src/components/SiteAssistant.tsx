@@ -394,10 +394,19 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
                 </div>
               )}
 
-              {/* Honeypot anti-bot: fuori schermo, non visibile agli utenti */}
+              {/* Honeypot anti-bot: fuori schermo e fuori dall'albero di
+                  accessibilità. Niente label: era annunciato dagli screen
+                  reader, quindi un utente poteva compilarlo in buona fede e
+                  vedersi scartare l'invio senza capire perché. */}
               <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
-                <label htmlFor="sa-company">Lascia vuoto questo campo</label>
-                <input id="sa-company" type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+                <input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
               </div>
 
               <label className="mt-3 flex items-start gap-2 text-xs text-neutral-600 dark:text-neutral-300">
