@@ -20,13 +20,15 @@ const MAX_FIELD_LEN = 300; // limite per i singoli valori di testo libero
 const MAX_ANSWER_KEYS = 40; // limite difensivo sul numero di chiavi in answers
 const ALLOWED_SOURCES = new Set(['mini_analisi', 'assistente_ai']);
 
-// Esito dell'accodamento in coda LS Site Rescue (best-effort, mai bloccante).
+// Esito dell'accodamento nella coda dell'analisi tecnica (best-effort, mai bloccante).
+// Le etichette finiscono nel corpo dell'email: portano il nome del servizio in uso,
+// non quello ritirato. Nomi di file, variabili e tabelle restano invece invariati.
 type AuditOutcome = 'accodato' | 'duplicato' | 'non_accodato' | 'non_richiesto';
 const AUDIT_OUTCOME_LABEL: Record<AuditOutcome, string> = {
-  accodato: 'Audit Site Rescue: accodato',
-  duplicato: 'Audit Site Rescue: già presente in coda',
-  non_accodato: 'Audit Site Rescue: non accodato',
-  non_richiesto: 'Audit Site Rescue: non richiesto',
+  accodato: 'Audit del sito: accodato',
+  duplicato: 'Audit del sito: già presente in coda',
+  non_accodato: 'Audit del sito: non accodato',
+  non_richiesto: 'Audit del sito: non richiesto',
 };
 
 // Esito interno del collegamento lead↔audit in lead_site_audits (best-effort,

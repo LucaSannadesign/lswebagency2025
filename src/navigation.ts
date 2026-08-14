@@ -1,5 +1,7 @@
 // src/navigation.ts
 
+import { serviceName } from './config/services';
+
 export const headerData = {
   links: [
     { text: 'Home', href: '/' },
@@ -9,7 +11,9 @@ export const headerData = {
       links: [
         { text: 'Sito web strategico', href: '/servizi/siti-web' },
         { text: 'Audit del sito', href: '/servizi/audit-rapido' },
-        { text: 'Sprint tecnico', href: '/servizi/sprint-ottimizzazione' },
+        // Nome letto dal catalogo: la voce diceva "Sprint tecnico", nome che sulla
+        // pagina non compare e che appartiene invece a un livello del white label.
+        { text: serviceName('sprint-ottimizzazione'), href: '/servizi/sprint-ottimizzazione' },
         { text: 'divider' },
         {
           text: 'Digital Presence ↗',
