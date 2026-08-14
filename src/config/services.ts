@@ -118,6 +118,15 @@ export const SERVICES: Record<ServiceKey, Service> = {
     note: 'Orientamento iniziale, non un preventivo e non un audit tecnico.',
   },
 
+  /*
+   * La stessa lavorazione esiste su due canali: qui il prezzo al cliente
+   * finale, e come livello `audit` di 'white-label' quello riservato alle
+   * agenzie, che lo consegnano con il proprio marchio.
+   *
+   * Il rimando sta in un commento e non nel campo `note` di proposito: quella
+   * nota viene stampata nel banner di /contatti, dove leggerebbe un cliente
+   * finale a cui un prezzo per agenzie non serve.
+   */
   'audit-sito': {
     key: 'audit-sito',
     name: 'Audit del sito',
@@ -232,8 +241,8 @@ export const SERVICES: Record<ServiceKey, Service> = {
     name: 'Sviluppo web white label per agenzie',
     slug: '/servizi/sviluppo-web-white-label',
     status: 'attivo',
-    priceLabel: 'Da 600 € a 2.200 €, per formula',
-    fromEur: 600,
+    priceLabel: 'Da 349 € a 2.200 €, per formula',
+    fromEur: 349,
     fromIsMinimum: true,
     tiers: [
       { key: 'landing-design-pronto', name: 'Landing da design pronto', setupEur: 1200, priceLabel: '1.200 €', note: 'Tariffa base, con preventivo definito prima di iniziare.' },
@@ -241,6 +250,10 @@ export const SERVICES: Record<ServiceKey, Service> = {
       { key: 'piccolo-sito', name: 'Piccolo sito white label', setupEur: 2200, from: true, priceLabel: 'da 2.200 €', note: 'Fino a 5 pagine da design approvati.' },
       { key: 'sprint-tecnico', name: 'Sprint tecnico white label', setupEur: 600, from: true, priceLabel: 'da 600 €', note: 'Elenco chiuso di interventi su un progetto esistente.' },
       { key: 'ux-ui', name: 'Progettazione UX/UI', setupEur: null, priceLabel: 'Su preventivo' },
+      // Stessa lavorazione dell'Audit del sito retail, consegnata all'agenzia
+      // senza attribuzione. `setupEur` resta il prezzo del report singolo: la
+      // scala per volumi vive nel priceLabel, come per gli altri livelli.
+      { key: 'audit', name: 'Audit del sito white label', setupEur: 349, priceLabel: '349 € a report, 279 € da tre report in poi', note: 'Fino a 10 pagine. Consegna in 7 giorni lavorativi dalla conferma del perimetro. PDF via email, con evidenze e screenshot.' },
     ],
     ctaSlugs: ['white-label'],
   },
