@@ -241,8 +241,11 @@ export const SERVICES: Record<ServiceKey, Service> = {
     name: 'Sviluppo web white label per agenzie',
     slug: '/servizi/sviluppo-web-white-label',
     status: 'attivo',
-    priceLabel: 'Da 349 € a 2.200 €, per formula',
-    fromEur: 349,
+    // I due piani restano distinti: la scala dello sviluppo parte da 600 €, e
+    // l'audit non la abbassa perché è una lavorazione diversa, non la formula
+    // più economica per farsi sviluppare qualcosa. `fromEur` segue lo sviluppo.
+    priceLabel: 'Sviluppo da 600 € a 2.200 € · Audit del sito 349 €',
+    fromEur: 600,
     fromIsMinimum: true,
     tiers: [
       { key: 'landing-design-pronto', name: 'Landing da design pronto', setupEur: 1200, priceLabel: '1.200 €', note: 'Tariffa base, con preventivo definito prima di iniziare.' },
