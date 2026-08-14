@@ -9,6 +9,7 @@ import questions from '../src/utils/mini-analisi/questions.json' with { type: 'j
 import { optionValue, optionLabel } from '../src/utils/mini-analisi/options.ts';
 import computeProfile from '../src/utils/mini-analisi/computeProfile.ts';
 import { serializeStructuredNotes } from '../src/lib/structuredNotes.ts';
+import { serviceName } from '../src/config/services.ts';
 
 // Valore tecnico interno (confrontato da computeProfile e dall'API) e label pubblico atteso.
 const TECH_VALUE = 'Audit rapido / SEO locale';
@@ -49,7 +50,9 @@ test('5. le opzioni ancora definite come semplici stringhe continuano a funziona
   assert.equal(typeof landing, 'string');
   assert.equal(optionValue(landing), 'Landing page');
   assert.equal(optionLabel(landing), 'Landing page');
-  assert.equal(computeProfile({ primaryNeed: 'Landing page' }).service, 'Landing page');
+  // Il value resta 'Landing page'; il servizio consigliato prende invece il nome
+  // pubblico dal catalogo, che è la sola sorgente dei nomi commerciali.
+  assert.equal(computeProfile({ primaryNeed: 'Landing page' }).service, serviceName('landing-page'));
 });
 
 test('6. si invia il valore tecnico, non il label pubblico', () => {

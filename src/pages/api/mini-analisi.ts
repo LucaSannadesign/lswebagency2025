@@ -11,7 +11,7 @@ import { serializeStructuredNotes } from '../../lib/structuredNotes';
 import { linkLeadToAudit, type AuditLinkOutcome } from '../../lib/leadAuditLink';
 import computeProfile, { type Answers } from '../../utils/mini-analisi/computeProfile';
 import buildSummary, { type Summary } from '../../utils/mini-analisi/buildSummary';
-import { intentLabelById, deriveAssistantTier, ASSISTANT_PACKAGES, type AssistantTier } from '../../utils/mini-analisi/assistantFlow';
+import { intentLabelById } from '../../utils/mini-analisi/assistantFlow';
 
 export const prerender = false;
 
@@ -152,8 +152,6 @@ function deriveProblems(answers: Answers): string[] {
   return [...set];
 }
 
-type AssistantPackage = { tier: AssistantTier; setup: number; monthly: number };
-
 function buildNotes(opts: {
   answers: Answers;
   summary: Summary;
@@ -162,10 +160,9 @@ function buildNotes(opts: {
   flowPath?: string | null;
   websiteUrl?: string | null;
   context?: string | null;
-  assistantPackage?: AssistantPackage | null;
   auditConsent?: boolean;
 }): string {
-  const { answers, summary, message, origin, flowPath, websiteUrl, context, assistantPackage, auditConsent } = opts;
+  const { answers, summary, message, origin, flowPath, websiteUrl, context, auditConsent } = opts;
   const priorita = (summary.topPriorities ?? []).map((p) => `- ${p.label} (${p.score})`).join('\n') || '- (nessuna priorità dominante)';
   const reason = summary.reason ? `\nMotivazione: ${summary.reason}` : '';
   const msg = message?.trim() ? `Messaggio utente:\n${message.trim()}` : 'Messaggio utente: (nessuno)';
@@ -185,10 +182,6 @@ function buildNotes(opts: {
         'Origine: mini_analisi (mappata su source="altro").',
       ];
 
-  const packageLine = assistantPackage
-    ? `Pacchetto consigliato: ${assistantPackage.tier} — ${assistantPackage.setup} € una-tantum + ${assistantPackage.monthly} €/mese`
-    : null;
-
   return [
     ...header,
     `Sito segnalato: ${websiteUrl || '—'}`,
@@ -196,7 +189,6 @@ function buildNotes(opts: {
     '',
     `Servizio consigliato: ${summary.service ?? '—'}${reason}`,
     `Fascia/Livello: ${summary.level ?? '—'}`,
-    ...(packageLine ? [packageLine] : []),
     '',
     'Priorità emerse:',
     priorita,
@@ -232,7 +224,6 @@ async function sendMiniAnalisiNotification(input: {
   websiteUrl?: string | null;
   origin: string;
   flowPath?: string | null;
-  assistantPackage?: AssistantPackage | null;
   auditOutcome: AuditOutcome;
   auditLinkOutcome: AuditLinkOutcome;
 }): Promise<boolean> {
@@ -268,9 +259,6 @@ async function sendMiniAnalisiNotification(input: {
     const userMessage = input.message.trim() ? input.message.trim() : '(nessuno)';
 
     const isAssistant = input.origin === 'assistente_ai';
-    const packageLine = input.assistantPackage
-      ? `Pacchetto consigliato: ${input.assistantPackage.tier} — ${input.assistantPackage.setup} € una-tantum + ${input.assistantPackage.monthly} €/mese`
-      : null;
 
     const subject = isAssistant
       ? `Nuova richiesta assistente AI — ${input.contactName}`
@@ -289,7 +277,6 @@ async function sendMiniAnalisiNotification(input: {
       '',
       `Servizio consigliato: ${service}`,
       `Livello/Fascia: ${level}`,
-      ...(packageLine ? [packageLine] : []),
       `Priorità: ${input.priority}`,
       `Urgenza: ${urgency}`,
       AUDIT_OUTCOME_LABEL[input.auditOutcome],
@@ -391,12 +378,6 @@ export const POST: APIRoute = async ({ request }) => {
     // Se l'utente autorizza l'analisi, l'URL deve essere presente e valido.
     if (auditConsent && !siteRescueUrl) return json({ ok: false, error: 'INVALID_URL' }, 400);
 
-    // Pacchetto reale: SOLO per assistente_ai + percorso automazioni, derivato server‑side.
-    const assistantPackage: AssistantPackage | null =
-      origin === 'assistente_ai' && initialIntent === 'automazioni'
-        ? ASSISTANT_PACKAGES[deriveAssistantTier(answers)]
-        : null;
-
     const priority = derivePriorityFromAnswers(answers);
 
     const payload = {
@@ -410,7 +391,7 @@ export const POST: APIRoute = async ({ request }) => {
       priority,
       source: 'altro',
       problem_detected: deriveProblems(answers),
-      notes: buildNotes({ answers, summary, message, origin, flowPath, websiteUrl: siteRescueUrl ?? websiteUrl, context: assistantContext, assistantPackage, auditConsent }),
+      notes: buildNotes({ answers, summary, message, origin, flowPath, websiteUrl: siteRescueUrl ?? websiteUrl, context: assistantContext, auditConsent }),
       estimated_value: 0,
       archived: false,
     };
@@ -505,7 +486,6 @@ export const POST: APIRoute = async ({ request }) => {
       websiteUrl: siteRescueUrl ?? websiteUrl,
       origin,
       flowPath,
-      assistantPackage,
       auditOutcome,
       auditLinkOutcome,
     });

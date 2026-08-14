@@ -2,14 +2,45 @@
  * Configurazione DETERMINISTICA dell'assistente virtuale interno al sito.
  * Nessuna AI, nessun accesso a database o API: solo dati statici + funzioni pure.
  *
- * Contenuti (servizi, prezzi, tempi) basati esclusivamente sulle pagine reali del sito
- * LS Web Agency. Dove un prezzo fisso non esiste (es. siti su misura), si rimanda al
- * preventivo: nessun importo, tempo o promessa inventati.
+ * Nomi e prezzi NON si scrivono più a mano nei messaggi: vengono da
+ * src/config/services.ts, che a sua volta ricalca le pagine servizio. Dove un
+ * prezzo fisso non esiste (es. siti su misura), si rimanda al preventivo:
+ * nessun importo, tempo o promessa inventati.
  *
  * Da NON confondere con:
  *  - src/utils/mini-analisi/assistantFlow.ts (assistente commerciale della mini-analisi);
  *  - src/components/MiniAnalisi.tsx (questionario guidato).
  */
+
+// Import con estensione .ts: è la forma che regge sia sotto Astro/Vite sia sotto
+// il runner di test di Node, che risolve i moduli ESM per percorso esatto.
+import { getService, serviceName, type ServiceKey } from '../../config/services.ts';
+
+// ===== Servizi citati nei messaggi =====
+
+const VALUTAZIONE = getService('valutazione-iniziale');
+const AUDIT = getService('audit-sito');
+const FIX = getService('fix-performance-seo');
+const SPRINT = getService('sprint-ottimizzazione');
+const LANDING = getService('landing-page');
+const SEO_LOCALE = getService('seo-locale');
+
+/** "Fix Mirato 399 €": nome del livello e prezzo, entrambi dalla sorgente. */
+function tierLine(key: ServiceKey, tierKey: string): string {
+  const tier = getService(key).tiers?.find((t) => t.key === tierKey);
+  return tier ? `${tier.name} ${tier.priceLabel}` : serviceName(key);
+}
+
+/** Solo il prezzo di un livello ("da 490 €"), quando il nome è già nella frase. */
+function tierPrice(key: ServiceKey, tierKey: string): string {
+  const tier = getService(key).tiers?.find((t) => t.key === tierKey);
+  return tier ? tier.priceLabel : getService(key).priceLabel;
+}
+
+/** "Google Business Profile (da 490 €), …": add-on nell'ordine del catalogo. */
+function addonList(key: ServiceKey): string {
+  return (getService(key).addons ?? []).map((addon) => `${addon.name} (${addon.priceLabel})`).join(', ');
+}
 
 // ===== Tipi =====
 
@@ -19,6 +50,8 @@ export type AssistantIntentId =
   | 'seo'
   | 'landing'
   | 'ai-automation'
+  | 'sprint'
+  | 'valutazione'
   | 'pricing'
   | 'human'
   | 'fallback';
@@ -89,6 +122,8 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
       { label: 'Voglio essere trovato su Google', nextNodeId: 'seo' },
       { label: 'Mi servono più richieste / una landing', nextNodeId: 'landing' },
       { label: 'AI e automazioni', nextNodeId: 'ai-automation' },
+      { label: 'Interventi rapidi e misurabili', nextNodeId: 'sprint' },
+      { label: 'Non so ancora cosa mi serve', nextNodeId: 'valutazione' },
       { label: 'Costi e modalità', nextNodeId: 'pricing' },
       { label: 'Parlare con Luca', nextNodeId: 'human' },
     ],
@@ -122,12 +157,38 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   // --- Restyling ---
   restyling: {
     id: 'restyling',
-    message:
-      'Se hai già un sito possiamo migliorarlo: immagine, chiarezza del messaggio, velocità e correzioni mirate. Per capire dove intervenire è utile l’Audit del sito (349 €), che copre UX, SEO tecnica, performance e accessibilità; per soli interventi di velocità/correzioni c’è Fix performance/SEO (da 399 €).',
+    message: `Se hai già un sito possiamo migliorarlo: immagine, chiarezza del messaggio, velocità e correzioni mirate. Per capire dove intervenire è utile l’${AUDIT.name} (${AUDIT.priceLabel}), che copre UX, SEO tecnica, performance e accessibilità; per soli interventi di velocità/correzioni c’è ${FIX.name}, in due livelli: ${tierLine('fix-performance-seo', 'mirato')} e ${tierLine('fix-performance-seo', 'completo')}.`,
     serviceInterest: 'Restyling sito',
     options: [
       { label: 'Fai un audit del sito', nextNodeId: 'lead' },
+      { label: 'Interventi rapidi e misurabili', nextNodeId: 'sprint' },
       { label: 'Costi e tempi', nextNodeId: 'pricing' },
+      { label: 'Parlare con Luca', nextNodeId: 'human' },
+      { label: 'Torna all’inizio', nextNodeId: 'start' },
+    ],
+  },
+
+  // --- Sprint di Ottimizzazione ---
+  sprint: {
+    id: 'sprint',
+    message: `${SPRINT.name}: un ciclo breve di interventi mirati su conversione, performance e misurazione, con consegna in 10-15 giorni. Il perimetro si definisce prima di iniziare, quindi il prezzo è ${SPRINT.priceLabel.toLowerCase()}.`,
+    serviceInterest: SPRINT.name,
+    options: [
+      { label: 'Lascia i tuoi dati', nextNodeId: 'lead' },
+      { label: 'Costi e modalità', nextNodeId: 'pricing' },
+      { label: 'Parlare con Luca', nextNodeId: 'human' },
+      { label: 'Torna all’inizio', nextNodeId: 'start' },
+    ],
+  },
+
+  // --- Valutazione iniziale gratuita ---
+  valutazione: {
+    id: 'valutazione',
+    message: `Se non hai ancora deciso, c’è la ${VALUTAZIONE.name}: rispondi a poche domande e ricevi un orientamento su priorità, servizio consigliato e fascia indicativa. Raccoglie informazioni iniziali, non include verifiche tecniche complete e non sostituisce l’${AUDIT.name}. La trovi nel menu del sito, alla voce “${VALUTAZIONE.name}”.`,
+    serviceInterest: VALUTAZIONE.name,
+    options: [
+      { label: 'Lascia i tuoi dati', nextNodeId: 'lead' },
+      { label: 'Fai un audit del sito', nextNodeId: 'lead' },
       { label: 'Parlare con Luca', nextNodeId: 'human' },
       { label: 'Torna all’inizio', nextNodeId: 'start' },
     ],
@@ -140,7 +201,7 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
       'Per farti trovare su Google lavoriamo soprattutto sulla visibilità locale: scheda Google Business Profile, pagine ottimizzate e segnali locali della tua zona.',
     serviceInterest: 'SEO / visibilità locale',
     options: [
-      { label: 'SEO locale (Google Business)', nextNodeId: 'seo-local' },
+      { label: `${SEO_LOCALE.name} (Google Business)`, nextNodeId: 'seo-local' },
       { label: 'Audit del sito', nextNodeId: 'lead' },
       { label: 'Lascia i tuoi dati', nextNodeId: 'lead' },
       { label: 'Parlare con Luca', nextNodeId: 'human' },
@@ -148,9 +209,8 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   },
   'seo-local': {
     id: 'seo-local',
-    message:
-      'Local SEO: verifica locale iniziale del tuo Google Business Profile (su preventivo) e Setup completo da 490 € per una sede. La verifica iniziale confluisce nel Setup, senza costi doppi. La manutenzione mensile è facoltativa e interrompibile.',
-    serviceInterest: 'Local SEO',
+    message: `${SEO_LOCALE.name}: verifica locale iniziale del tuo Google Business Profile (su preventivo) e Setup completo ${tierPrice('seo-locale', 'setup')} per una sede. La verifica iniziale confluisce nel Setup, senza costi doppi. La manutenzione mensile (${tierPrice('seo-locale', 'manutenzione')}) è facoltativa e interrompibile.`,
+    serviceInterest: SEO_LOCALE.name,
     options: [
       { label: 'Lascia i tuoi dati', nextNodeId: 'lead' },
       { label: 'Parlare con Luca', nextNodeId: 'human' },
@@ -161,9 +221,8 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   // --- Landing page / acquisizione richieste ---
   landing: {
     id: 'landing',
-    message:
-      'Landing page progettate per convertire: UX orientata all’azione, copy chiaro e CTA visibili. Consegna in 7-10 giorni. Versione Base da 690 €, versione Pro 990 €.',
-    serviceInterest: 'Landing page',
+    message: `Landing page progettate per convertire: UX orientata all’azione, copy chiaro e CTA visibili. Consegna in 7-10 giorni. ${tierLine('landing-page', 'base')}, ${tierLine('landing-page', 'plus')}.`,
+    serviceInterest: LANDING.name,
     options: [
       { label: 'Cosa include', nextNodeId: 'landing-info' },
       { label: 'Lascia i tuoi dati', nextNodeId: 'lead' },
@@ -172,9 +231,8 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   },
   'landing-info': {
     id: 'landing-info',
-    message:
-      'Un flusso breve e controllato: capiamo cosa vendi, a chi e qual è la CTA migliore, poi mettiamo online la landing in 7-10 giorni. Possibili aggiunte: Google Business Profile (da 490 €), integrazione calendario/prenotazioni (da 200 €), versione multilingua (da 300 €), setup mini-campagna Google Ads (da 150 €).',
-    serviceInterest: 'Landing page',
+    message: `Un flusso breve e controllato: capiamo cosa vendi, a chi e qual è la CTA migliore, poi mettiamo online la landing in 7-10 giorni. Possibili aggiunte: ${addonList('landing-page')}.`,
+    serviceInterest: LANDING.name,
     options: [
       { label: 'Lascia i tuoi dati', nextNodeId: 'lead' },
       { label: 'Parlare con Luca', nextNodeId: 'human' },
@@ -209,8 +267,7 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
   // --- Costi e modalità ---
   pricing: {
     id: 'pricing',
-    message:
-      'Ogni progetto ha un preventivo su misura. Alcuni riferimenti reali: Landing da 690 €, Audit del sito 349 €, Fix performance/SEO da 399 €, Local SEO (verifica locale iniziale su preventivo, Setup da 490 €), Assistente AI su preventivo, in base a canali, flussi, integrazioni e volume delle richieste. Per i siti su misura il prezzo si definisce dopo una breve analisi.',
+    message: `Ogni progetto ha un preventivo su misura. Alcuni riferimenti reali: ${AUDIT.name} ${AUDIT.priceLabel}, ${FIX.name} ${FIX.priceLabel}, ${LANDING.name} ${LANDING.priceLabel.toLowerCase()}, ${SEO_LOCALE.name} (verifica locale iniziale su preventivo, Setup ${tierPrice('seo-locale', 'setup')}), ${SPRINT.name} e Assistente AI su preventivo, in base a perimetro, canali e volume delle richieste. Per i siti su misura il prezzo si definisce dopo una breve analisi, e la ${VALUTAZIONE.name} è sempre disponibile come primo orientamento.`,
     serviceInterest: 'Costi e modalità',
     options: [
       { label: 'Come funziona il pagamento', nextNodeId: 'pricing-modalita' },
@@ -265,6 +322,8 @@ export const ASSISTANT_NODES: Record<string, AssistantNode> = {
       { label: 'Voglio essere trovato su Google', nextNodeId: 'seo' },
       { label: 'Mi servono più richieste / una landing', nextNodeId: 'landing' },
       { label: 'AI e automazioni', nextNodeId: 'ai-automation' },
+      { label: 'Interventi rapidi e misurabili', nextNodeId: 'sprint' },
+      { label: 'Non so ancora cosa mi serve', nextNodeId: 'valutazione' },
       { label: 'Costi e modalità', nextNodeId: 'pricing' },
       { label: 'Parlare con Luca', nextNodeId: 'human' },
     ],
@@ -279,6 +338,8 @@ export const ASSISTANT_INTENTS: AssistantIntent[] = [
   { id: 'seo', label: 'Visibilità su Google', entryNodeId: 'seo' },
   { id: 'landing', label: 'Landing / più richieste', entryNodeId: 'landing' },
   { id: 'ai-automation', label: 'AI e automazioni', entryNodeId: 'ai-automation' },
+  { id: 'sprint', label: SPRINT.name, entryNodeId: 'sprint' },
+  { id: 'valutazione', label: VALUTAZIONE.name, entryNodeId: 'valutazione' },
   { id: 'pricing', label: 'Costi e modalità', entryNodeId: 'pricing' },
   { id: 'human', label: 'Parlare con Luca', entryNodeId: 'human' },
 ];
@@ -301,14 +362,13 @@ export const ASSISTANT_FAQ: AssistantFaq[] = [
     id: 'faq-landing-prezzo',
     question: 'Quanto costa una landing page?',
     keywords: ['landing', 'pagina di atterraggio'],
-    answer: 'Landing page da 690 € (Base) e 990 € (Pro), con consegna in 7-10 giorni.',
+    answer: `${LANDING.name}: ${tierLine('landing-page', 'base')} e ${tierLine('landing-page', 'plus')}, con consegna in 7-10 giorni.`,
   },
   {
     id: 'faq-seo-prezzo',
     question: 'Quanto costa la SEO locale / Google Business?',
     keywords: ['seo', 'google business', 'gbp', 'locale', 'trovato su google', 'visibilita', 'mappe'],
-    answer:
-      'Local SEO: verifica locale iniziale del Google Business Profile (su preventivo) e Setup da 490 € per una sede (la verifica iniziale confluisce nel Setup). Manutenzione mensile facoltativa e interrompibile.',
+    answer: `${SEO_LOCALE.name}: verifica locale iniziale del Google Business Profile (su preventivo) e Setup ${tierPrice('seo-locale', 'setup')} per una sede (la verifica iniziale confluisce nel Setup). Manutenzione mensile ${tierPrice('seo-locale', 'manutenzione')}, facoltativa e interrompibile.`,
   },
   {
     id: 'faq-ai-prezzo',
@@ -321,15 +381,19 @@ export const ASSISTANT_FAQ: AssistantFaq[] = [
     id: 'faq-audit',
     question: 'Fate un audit del sito?',
     keywords: ['audit', 'analisi sito', 'sito lento', 'performance', 'problema sito', 'controllo sito'],
-    answer:
-      'Sì: Audit del sito a 349 € (UX, SEO tecnica, performance, accessibilità). Per soli interventi di velocità/correzioni c’è Fix performance/SEO da 399 €.',
+    answer: `Sì: ${AUDIT.name} a ${AUDIT.priceLabel} (UX, SEO tecnica, performance, accessibilità). Per soli interventi di velocità/correzioni c’è ${FIX.name}, in due livelli: ${tierLine('fix-performance-seo', 'mirato')} e ${tierLine('fix-performance-seo', 'completo')}.`,
+  },
+  {
+    id: 'faq-valutazione-gratuita',
+    question: 'C’è qualcosa di gratuito per capire da dove partire?',
+    keywords: ['gratis', 'gratuito', 'gratuita', 'valutazione iniziale', 'da dove parto', 'non so da dove'],
+    answer: `Sì: la ${VALUTAZIONE.name}. Rispondi a poche domande e ricevi un orientamento su priorità e servizio consigliato. Non include verifiche tecniche complete e non sostituisce l’${AUDIT.name}.`,
   },
   {
     id: 'faq-tempi',
     question: 'In quanto tempo consegnate?',
     keywords: ['quanto tempo', 'tempi di consegna', 'in quanto tempo', 'quando consegnate', 'quanto ci vuole', 'tempi di realizzazione', 'consegna'],
-    answer:
-      'Dipende dal servizio: landing 7-10 giorni, per l’assistente AI i tempi vengono definiti dopo la valutazione dei canali e dei flussi, e-commerce 3-5 settimane (Start) o 6-10 settimane (Pro). Per i siti su misura definiamo i tempi nel preventivo.',
+    answer: `Dipende dal servizio: landing 7-10 giorni, ${SPRINT.name} 10-15 giorni, per l’assistente AI i tempi vengono definiti dopo la valutazione dei canali e dei flussi, e-commerce 3-5 settimane (Start) o 6-10 settimane (Pro). Per i siti su misura definiamo i tempi nel preventivo.`,
   },
   {
     id: 'faq-pagamento',

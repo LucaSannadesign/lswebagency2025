@@ -3,7 +3,14 @@
  * Logica deterministica: a partire dalle risposte produce punteggi di priorità,
  * il servizio consigliato e la fascia orientativa di intervento.
  * Nessuna chiamata esterna: può girare sia lato client sia lato server.
+ *
+ * I nomi dei servizi consigliati vengono da src/config/services.ts. I valori
+ * confrontati dagli switch restano invece i `value` tecnici delle risposte
+ * (questions.json): sono dati di input, non nomi commerciali, e cambiarli
+ * spezzerebbe i profili già registrati.
  */
+
+import { serviceName } from '../../config/services.ts';
 
 export type Answers = {
   // Chiavi note: alimentano il calcolo deterministico (usate da computeProfile/buildSummary).
@@ -152,30 +159,32 @@ export default function computeProfile(answers: Answers): Profile {
   // Scelta del servizio: i bisogni specifici scelti dall'utente hanno priorità
   // sui fallback generici basati sullo stato del sito.
   if (answers.primaryNeed === 'Audit rapido / SEO locale') {
-    service = 'Audit del sito';
+    service = serviceName('audit-sito');
     reason = 'la visibilità su Google è la priorità principale';
   } else if (answers.primaryNeed === 'Landing page') {
-    service = 'Landing page';
+    service = serviceName('landing-page');
     reason = 'ti serve una singola pagina con percorso di conversione rapido';
   } else if (answers.primaryNeed === 'Automazioni AI') {
-    service = 'Automazioni e CRM';
+    service = serviceName('assistente-ai');
     reason = 'vuoi organizzare meglio le richieste e automatizzare i processi';
   } else if (answers.primaryNeed === 'Sito strategico nuovo' || answers.siteStatus === 'Parto da zero') {
-    service = 'Sito web strategico';
+    service = serviceName('sito-web-strategico');
     reason = 'parti da zero o necessiti di una struttura completa';
   } else if (answers.primaryNeed === 'Restyling del sito' || answers.siteStatus === 'Ho già un sito') {
-    service = 'Restyling del sito';
+    // Il restyling non è un servizio a sé: rientra nel Sito web strategico.
+    // La motivazione resta distinta, così il testo mostrato non perde il senso.
+    service = serviceName('sito-web-strategico');
     reason = 'hai un sito esistente ma desideri migliorare l’immagine o le prestazioni';
   } else {
     // fallback basato sui punteggi
     if (priorities.conversione >= Math.max(priorities.chiarezza, priorities.visibilita)) {
-      service = 'Sito web strategico';
+      service = serviceName('sito-web-strategico');
       reason = 'l’obiettivo principale è convertire più visite in richieste';
     } else if (priorities.visibilita >= Math.max(priorities.chiarezza, priorities.conversione)) {
-      service = 'Audit del sito';
+      service = serviceName('audit-sito');
       reason = 'la visibilità su Google è la priorità principale';
     } else {
-      service = 'Restyling del sito';
+      service = serviceName('sito-web-strategico');
       reason = 'è importante migliorare la chiarezza e l’immagine';
     }
   }

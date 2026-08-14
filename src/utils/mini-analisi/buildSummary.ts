@@ -6,7 +6,6 @@
  */
 
 import type { Answers, PriorityKey, Profile } from './computeProfile';
-import { deriveAssistantTier, formatAssistantPackage } from './assistantFlow';
 
 const PRIORITY_LABELS: Record<PriorityKey, string> = {
   chiarezza: 'Chiarezza del messaggio e della struttura',
@@ -71,15 +70,13 @@ export default function buildSummary(answers: Answers, profile: Profile): Summar
       ? `In base alle tue risposte, per ${business} l’obiettivo “${goal}” passa soprattutto da questi punti:`
       : `In base alle tue risposte, per ${business} possiamo costruire un percorso chiaro verso l’obiettivo “${goal}”.`;
 
-  // Fascia economica: prezzi reali SOLO per il percorso "automazioni" (Assistente AI);
-  // per gli altri percorsi nessun importo inventato, valutazione rimandata all'analisi.
-  const isAutomations = answers.initialIntent === 'automazioni';
-  const priceBand = isAutomations
-    ? formatAssistantPackage(deriveAssistantTier(answers))
-    : 'Valutazione economica da definire dopo l’analisi del progetto.';
-  const priceDisclaimer = isAutomations
-    ? 'La soluzione e i costi dovranno essere confermati dopo una verifica del progetto.'
-    : '';
+  // Fascia economica: nessun importo, per nessun percorso.
+  // Il percorso "automazioni" mostrava i pacchetti dell'Assistente AI (300/600/900 €
+  // più canone), ma la pagina servizio non li espone più: era rimasto l'unico punto
+  // del sito a comunicarli, e comunicarli qui significava annunciare un prezzo che
+  // altrove non esiste. Restano in ASSISTANT_INTERNAL_PACKAGES come dato interno.
+  const priceBand = 'Valutazione economica da definire dopo l’analisi del progetto.';
+  const priceDisclaimer = '';
 
   return {
     headline: 'Ecco la tua valutazione iniziale',

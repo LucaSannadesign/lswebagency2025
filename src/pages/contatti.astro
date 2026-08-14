@@ -2,21 +2,26 @@
 import Layout from '@/layouts/PageLayout.astro';
 import Button from '@/components/ui/Button.astro';
 import { Icon } from 'astro-icon/components';
+import { getService, serviceByCtaSlug, serviceName } from '@/config/services';
 
-const SERVIZIO_LABELS: Record<string, string> = {
-  'assistente-ai': 'Assistente AI per sito e WhatsApp',
-  'audit-rapido': 'Audit del sito',
-  'landing-page': 'Landing page professionale',
-  'fix-performance-seo': 'Fix Performance & SEO',
-  'local-seo-booster': 'Local SEO Booster',
-  ecommerce: 'E-commerce',
-  'seo-locale': 'SEO locale',
-  assistenza: 'Assistenza e manutenzione',
-  'siti-web': 'Sito web',
-  'creazione-siti-web-sassari': 'Sito web — Sassari',
-  'contatti-rapidi': 'Contatti rapidi',
-  'white-label': 'Sviluppo white label per agenzie',
+/*
+ * Etichette degli slug di CTA che NON corrispondono a un servizio del catalogo:
+ * voci trasversali e due inviti pubblicati in un articolo. Sono scritte a mano
+ * una per una, di proposito. Un nome dedotto dallo slug ("Ux Ai", "Pre
+ * Accoglienza Digitale") finisce sotto gli occhi del visitatore e nell'email che
+ * ricevo: meglio nessun nome che un nome sbagliato.
+ */
+const EXTRA_CTA_LABELS: Record<string, string> = {
+  'ux-ai': 'UX con AI',
+  'ai-automazioni': 'Altre automazioni AI',
+  'ai-blog-engine': 'AI Blog Engine',
+  altro: 'Non sono sicuro / voglio un consiglio',
+  'checklist-ux-sito': 'Checklist UX del sito',
+  'mini-valutazione-ux': 'Mini-valutazione UX del sito',
 };
+
+/** Mostrata quando lo slug non è riconosciuto: neutra, mai indovinata. */
+const SERVIZIO_LABEL_FALLBACK = 'il servizio selezionato';
 
 const SERVICE_PARAM_ALIASES: Record<string, string> = {
   assistenza: 'manutenzione',
@@ -37,22 +42,36 @@ const PACCHETTO_LABELS: Record<string, string> = {
   start: 'Start',
 };
 
-function slugToFallbackLabel(slug: string): string {
-  return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+/**
+ * Nome del servizio richiesto: prima il catalogo, poi le etichette esplicite
+ * degli slug fuori catalogo, infine il fallback neutro. Nessun ramo costruisce
+ * un nome a partire dallo slug.
+ */
+function resolveServizioLabel(slug: string): string {
+  if (!slug) return '';
+  return serviceByCtaSlug(slug)?.name ?? EXTRA_CTA_LABELS[slug] ?? SERVIZIO_LABEL_FALLBACK;
 }
 
-function resolveLabel(slug: string, map: Record<string, string>): string {
+/** Pacchetto sconosciuto: stringa vuota, così il banner lo omette del tutto. */
+function resolvePacchettoLabel(slug: string): string {
   if (!slug) return '';
-  return map[slug] ?? slugToFallbackLabel(slug);
+  return PACCHETTO_LABELS[slug] ?? '';
 }
 
 const rawServizioSlug = Astro.url.searchParams.get('servizio')?.trim() ?? '';
 const requestedServizioSlug = SERVICE_PARAM_ALIASES[rawServizioSlug] ?? rawServizioSlug;
 const requestedPacchettoSlug = Astro.url.searchParams.get('pacchetto')?.trim() ?? '';
-const requestedServizioLabel = resolveLabel(rawServizioSlug, SERVIZIO_LABELS);
-const requestedPacchettoLabel = resolveLabel(requestedPacchettoSlug, PACCHETTO_LABELS);
+const requestedServizioLabel = resolveServizioLabel(rawServizioSlug);
+const requestedPacchettoLabel = resolvePacchettoLabel(requestedPacchettoSlug);
 const showServizioBanner = rawServizioSlug.length > 0;
 const isAuditRapido = requestedServizioSlug === 'audit-rapido';
+
+// Riga di prezzo dell'audit: prezzo e condizione vengono dal catalogo, non da
+// una stringa ricopiata a mano.
+const auditService = getService('audit-sito');
+const auditPriceLine = [`${auditService.priceLabel} complessivi`, auditService.note?.replace(/\.$/, '')]
+  .filter(Boolean)
+  .join(' · ');
 
 const SERVICE_SELECT_VALUES = new Set([
   'sito-web',
@@ -64,7 +83,9 @@ const SERVICE_SELECT_VALUES = new Set([
   'local-seo-booster',
   'audit-rapido',
   'fix-performance-seo',
+  'sprint-ottimizzazione',
   'assistente-ai',
+  'pre-accoglienza-digitale',
   'ai-automazioni',
   'ux-ai',
   'ai-blog-engine',
@@ -73,45 +94,52 @@ const SERVICE_SELECT_VALUES = new Set([
   'altro',
 ]);
 
+/*
+ * Voci del menu a tendina. Dove esiste un servizio in catalogo il nome arriva da
+ * lì: se un giorno cambia, cambia in un punto solo. Le voci trasversali riusano
+ * le stesse etichette esplicite del banner.
+ */
 const SERVICE_CATEGORIES = [
   {
     id: 'sviluppo',
     label: 'Sito web e sviluppo',
     services: [
-      { slug: 'sito-web', label: 'Sito web strategico' },
-      { slug: 'landing-page', label: 'Landing page professionale' },
-      { slug: 'ecommerce', label: 'E-commerce' },
-      { slug: 'wordpress-slim', label: 'WordPress / sito statico headless' },
-      { slug: 'white-label', label: 'Sviluppo white label per agenzie' },
+      { slug: 'sito-web', label: serviceName('sito-web-strategico') },
+      { slug: 'landing-page', label: serviceName('landing-page') },
+      { slug: 'ecommerce', label: serviceName('ecommerce') },
+      { slug: 'wordpress-slim', label: serviceName('wordpress-slim') },
+      { slug: 'white-label', label: serviceName('white-label') },
     ],
   },
   {
     id: 'seo',
     label: 'SEO',
     services: [
-      { slug: 'seo-locale', label: 'SEO locale' },
-      { slug: 'local-seo-booster', label: 'Local SEO Booster' },
-      { slug: 'audit-rapido', label: 'Audit del sito' },
-      { slug: 'fix-performance-seo', label: 'Fix Performance & SEO' },
+      { slug: 'seo-locale', label: serviceName('seo-locale') },
+      { slug: 'local-seo-booster', label: serviceName('local-seo-booster') },
+      { slug: 'audit-rapido', label: serviceName('audit-sito') },
+      { slug: 'fix-performance-seo', label: serviceName('fix-performance-seo') },
+      { slug: 'sprint-ottimizzazione', label: serviceName('sprint-ottimizzazione') },
     ],
   },
   {
     id: 'ai',
     label: 'AI e automazioni',
     services: [
-      { slug: 'assistente-ai', label: 'Assistente AI per sito e WhatsApp' },
-      { slug: 'ai-automazioni', label: 'Altre automazioni AI' },
-      { slug: 'ux-ai', label: 'UX con AI' },
-      { slug: 'ai-blog-engine', label: 'AI Blog Engine' },
+      { slug: 'assistente-ai', label: serviceName('assistente-ai') },
+      { slug: 'pre-accoglienza-digitale', label: serviceName('pre-accoglienza-digitale') },
+      { slug: 'ai-automazioni', label: EXTRA_CTA_LABELS['ai-automazioni'] },
+      { slug: 'ux-ai', label: EXTRA_CTA_LABELS['ux-ai'] },
+      { slug: 'ai-blog-engine', label: EXTRA_CTA_LABELS['ai-blog-engine'] },
     ],
   },
   {
     id: 'brand',
     label: 'Brand e supporto',
     services: [
-      { slug: 'branding', label: 'Branding e grafica' },
-      { slug: 'manutenzione', label: 'Assistenza e manutenzione' },
-      { slug: 'altro', label: 'Non sono sicuro / voglio un consiglio' },
+      { slug: 'branding', label: serviceName('branding') },
+      { slug: 'manutenzione', label: serviceName('assistenza-manutenzione') },
+      { slug: 'altro', label: EXTRA_CTA_LABELS['altro'] },
     ],
   },
 ] as const;
@@ -269,7 +297,7 @@ const AGENCY = {
         {isAuditRapido ? 'Richiedi disponibilità per l’audit' : 'Richiedi una consulenza'}
       </h2>
       <p class="text-neutral-600 dark:text-neutral-200 mb-6">
-        {isAuditRapido ? '349 € complessivi · IVA non applicata · fino a 10 pagine' : 'Tempo di compilazione: 2–3 minuti • Nessun impegno'}
+        {isAuditRapido ? auditPriceLine : 'Tempo di compilazione: 2–3 minuti • Nessun impegno'}
       </p>
 
       {showServizioBanner && (
@@ -277,12 +305,12 @@ const AGENCY = {
           <p class="text-sm md:text-base leading-relaxed">
             {isAuditRapido ? (
               <>
-                Stai richiedendo l’<strong>Audit del sito</strong>. Compila il modulo con l’URL e il problema principale: ti confermerò disponibilità e tempi di avvio.
+                Stai richiedendo l’<strong>{serviceName('audit-sito')}</strong>. Compila il modulo con l’URL e il problema principale: ti confermerò disponibilità e tempi di avvio.
               </>
             ) : (
               <>
                 Stai richiedendo informazioni su: <strong>{requestedServizioLabel}</strong>
-                {requestedPacchettoSlug && (
+                {requestedPacchettoLabel && (
                   <> — <strong>{requestedPacchettoLabel}</strong></>
                 )}. Compila il modulo e ti ricontatterò con disponibilità, tempi e preventivo.
               </>
