@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
+import { serviceTier } from '@/config/services';
 
 const metadata = {
   title: 'Sviluppo Web White Label per Agenzie | LS Web Agency',
@@ -15,6 +16,11 @@ const metadata = {
 };
 
 const CONTACT_URL = '/contatti?servizio=white-label';
+
+// Nome, prezzo e condizioni dell'audit in white label vengono dal catalogo:
+// la pagina non li riscrive. Il fallback non scatta mai finché il livello
+// esiste, ma evita che un refuso nella chiave stampi "undefined" in pagina.
+const auditWhiteLabel = serviceTier('white-label', 'audit');
 ---
 
 <Layout metadata={metadata}>
@@ -370,6 +376,70 @@ const CONTACT_URL = '/contatti?servizio=white-label';
       </div>
     </div>
   </section>
+
+  <!-- BLOCCO 7bis · AUDIT DEL SITO IN WHITE LABEL -->
+  {auditWhiteLabel && (
+    <section class="container mx-auto px-6 py-12">
+      <div class="max-w-3xl mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">{auditWhiteLabel.name}</h2>
+        <p class="text-neutral-700 dark:text-neutral-300">
+          Ricevi un report completo sul sito di un tuo cliente, pronto da consegnare con il tuo marchio.
+          Il rapporto commerciale resta tuo: nessun contatto con il tuo cliente se non concordato, NDA su richiesta.
+        </p>
+        <p class="mt-4 text-sm font-semibold text-primary dark:text-violet-300">{auditWhiteLabel.priceLabel}</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+          <Icon name="tabler:report-search" class="w-8 h-8 text-primary dark:text-violet-400 mb-3" />
+          <h3 class="font-semibold text-lg mb-4">Cosa contiene</h3>
+          <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+            {['UX', 'SEO tecnica', 'Performance', 'Accessibilità'].map((item) => (
+              <li class="flex gap-2">
+                <Icon name="tabler:check" class="w-5 h-5 text-primary dark:text-violet-400 shrink-0" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            Le priorità sono in ordine di impatto. Ogni problema è documentato con l’evidenza — schermata, URL o riga
+            di codice — e accompagnato dall’indicazione operativa per risolverlo.
+          </p>
+        </article>
+
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+          <Icon name="tabler:eye-check" class="w-8 h-8 text-primary dark:text-violet-400 mb-3" />
+          <h3 class="font-semibold text-lg mb-4">Come lavoro</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            I controlli automatici sono il punto di partenza, non il prodotto: gli scanner intercettano solo una parte
+            dei problemi di accessibilità. Il resto lo verifico a mano, con test da tastiera e screen reader. È la
+            differenza fra un report generato e un report letto.
+          </p>
+        </article>
+
+        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm">
+          <Icon name="tabler:circle-x" class="w-8 h-8 text-neutral-400 dark:text-neutral-500 mb-3" />
+          <h3 class="font-semibold text-lg mb-4">Cosa non include</h3>
+          <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+            {['Implementazione delle correzioni', 'Monitoraggio continuo', 'Rapporti con il cliente finale'].map((item) => (
+              <li class="flex gap-2">
+                <Icon name="tabler:x" class="w-5 h-5 text-neutral-400 dark:text-neutral-500 shrink-0" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            L’audit indica problemi e priorità: non rilascia certificazioni né dichiarazioni legali di conformità.
+          </p>
+        </article>
+      </div>
+
+      <p class="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
+        <strong class="font-semibold text-neutral-700 dark:text-neutral-300">Perimetro, tempi e formato:</strong>{' '}
+        {auditWhiteLabel.note}
+      </p>
+    </section>
+  )}
 
   <!-- BLOCCO 8 · CREDIBILITÀ E COMPATIBILITÀ -->
   <section class="container mx-auto px-6 py-12">
