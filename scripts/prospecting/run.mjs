@@ -2,6 +2,17 @@ import 'dotenv/config';
 import { writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { createClient } from '@supabase/supabase-js';
+import {
+  presenceTypeFor,
+  placeTypeForSector,
+  identityLooksConsistent,
+  opportunityScore,
+  isCommerciallyQualified,
+  qualifiesForSave,
+  PRESENCE,
+  QUALIFIED_OPPORTUNITY_SCORE,
+} from './classify.mjs';
+import { unique, extractEmails, extractPhones, mergePhones, normalizePhone, phoneKey } from './extract.mjs';
 
 /**
  * Accetta sia `--chiave=valore` sia `--chiave valore`: la seconda forma serve a
@@ -57,15 +68,21 @@ if (!sector || !location) {
 
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE;
+/*
+ * Chiave server-side. Il nome in uso è SUPABASE_SECRET_KEY; SUPABASE_SERVICE_ROLE
+ * resta accettata come fallback finché qualche ambiente la definisce ancora, così
+ * lo script continua a funzionare dove la variabile non è stata ancora rinominata.
+ * Quando nessun ambiente la userà più, il fallback può sparire.
+ */
+const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE;
 
 if (!GOOGLE_PLACES_API_KEY) throw new Error('GOOGLE_PLACES_API_KEY mancante');
-if (save && (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE)) {
-  throw new Error('Per --save servono SUPABASE_URL e SUPABASE_SERVICE_ROLE');
+if (save && (!SUPABASE_URL || !SUPABASE_SECRET_KEY)) {
+  throw new Error('Per --save servono SUPABASE_URL e SUPABASE_SECRET_KEY (in alternativa SUPABASE_SERVICE_ROLE)');
 }
 
 const supabase = save
-  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
+  ? createClient(SUPABASE_URL, SUPABASE_SECRET_KEY, {
       auth: { autoRefreshToken: false, persistSession: false },
     })
   : null;
@@ -135,10 +152,6 @@ function decodeHtml(text) {
 
 function stripTags(text) {
   return decodeHtml(String(text || '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
-}
-
-function unique(values) {
-  return [...new Set(values.filter(Boolean))];
 }
 
 async function fetchText(url) {
@@ -281,30 +294,6 @@ async function loadRobots(origin) {
   }
 }
 
-function extractHrefValues(html, scheme) {
-  const regex = new RegExp(`href=["']${scheme}:([^"'#?]+)[^"']*["']`, 'gi');
-  const out = [];
-  let match;
-  while ((match = regex.exec(html))) out.push(decodeURIComponent(match[1]).trim());
-  return unique(out);
-}
-
-function extractEmails(html) {
-  const mailto = extractHrefValues(html, 'mailto').map((value) => value.split('?')[0]);
-  const textMatches = html.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi) || [];
-  return unique([...mailto, ...textMatches])
-    .map((value) => value.toLowerCase())
-    .filter((value) => !value.endsWith('@example.com') && !value.includes('wixpress.com'))
-    .slice(0, 5);
-}
-
-function extractPhones(html) {
-  const tel = extractHrefValues(html, 'tel')
-    .map((value) => value.replace(/[^+\d]/g, ''))
-    .filter((value) => value.replace(/\D/g, '').length >= 7);
-  return unique(tel).slice(0, 5);
-}
-
 function extractMeta(html, attr, value) {
   const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const patterns = [
@@ -366,17 +355,20 @@ function inspectSignals(html, url) {
   if (!hasContactLink && !hasTel && !hasMail) issues.push('contatto/CTA poco evidente nel markup');
   if (!hasHttps) issues.push('HTTPS non rilevato');
 
-  let score = 30 + Math.min(issues.length * 10, 50);
-  if (!hasContactLink && !hasTel && !hasMail) score += 10;
-  if (!hasViewport) score += 10;
-  score = Math.min(score, 100);
+  // Punteggio TECNICO: quanti problemi ha la pagina, da 30 (nessuno) a 100.
+  // Non dice se l'attività sia interessante — quella è l'opportunità, calcolata
+  // altrove a partire dal tipo di presenza.
+  let technicalScore = 30 + Math.min(issues.length * 10, 50);
+  if (!hasContactLink && !hasTel && !hasMail) technicalScore += 10;
+  if (!hasViewport) technicalScore += 10;
+  technicalScore = Math.min(technicalScore, 100);
 
   const problems = [];
   if (!title || !description || !hasCanonical || !hasSchema) problems.push('google_debole');
   if (!hasViewport) problems.push('sito_vecchio');
   if (!hasContactLink && !hasTel && !hasMail) problems.push('pochi_contatti');
 
-  return { score, issues, problems: unique(problems) };
+  return { technicalScore, issues, problems: unique(problems) };
 }
 
 /**
@@ -432,20 +424,43 @@ async function inspectWebsite(rawUrl) {
   };
 }
 
+/**
+ * Place Type corrispondente al settore richiesto, quando esiste. Con una
+ * corrispondenza la ricerca viene ristretta lato Google; senza, resta la sola
+ * query testuale di prima e nessun tipo viene inventato.
+ */
+const expectedPlaceType = placeTypeForSector(sector);
+
 async function discoverPlaces() {
+  const body = {
+    textQuery: `${sector} a ${location}`,
+    languageCode: 'it',
+    regionCode: 'IT',
+    pageSize: limit,
+  };
+
+  // strictTypeFiltering ha effetto solo insieme a includedType: chiesti insieme,
+  // Google restituisce esclusivamente attività il cui tipo primario corrisponde.
+  if (expectedPlaceType) {
+    body.includedType = expectedPlaceType;
+    body.strictTypeFiltering = true;
+  }
+
   const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
       'X-Goog-Api-Key': GOOGLE_PLACES_API_KEY,
-      'X-Goog-FieldMask': 'places.id,places.websiteUri',
+      /*
+       * FieldMask minimo: identificativo, nome, sito, i due campi di tipo che
+       * servono al controllo di pertinenza, e il telefono — che per un'attività
+       * senza sito è l'unico recapito ottenibile senza visitare nulla.
+       * Nessun campo a tariffa superiore: niente rating, recensioni, orari.
+       */
+      'X-Goog-FieldMask':
+        'places.id,places.displayName,places.websiteUri,places.primaryType,places.types,places.nationalPhoneNumber',
     },
-    body: JSON.stringify({
-      textQuery: `${sector} a ${location}`,
-      languageCode: 'it',
-      regionCode: 'IT',
-      pageSize: limit,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
@@ -454,11 +469,14 @@ async function discoverPlaces() {
   }
 
   const payload = await response.json();
-  return (payload.places || []).slice(0, limit).filter((place) => place.websiteUri && place.id);
+  // Il sito non è più obbligatorio: un'attività pertinente che non ce l'ha è un
+  // dato utile, non un record da buttare. Resta obbligatorio il solo Place ID.
+  return (payload.places || []).slice(0, limit).filter((place) => place.id);
 }
 
 async function loadExistingProspectIndex() {
   const index = {
+    placeIds: new Set(),
     emails: new Set(),
     phones: new Set(),
     domains: new Set(),
@@ -468,15 +486,17 @@ async function loadExistingProspectIndex() {
 
   const { data, error } = await supabase
     .from(PROSPECTS_TABLE)
-    .select('name,emails,phones,domain,website');
+    .select('place_id,name,emails,phones,domain,website');
   if (error) throw new Error(`Impossibile leggere i prospect esistenti: ${error.message}`);
 
   for (const row of data || []) {
+    if (row.place_id) index.placeIds.add(String(row.place_id).trim());
     for (const email of row.emails || []) {
       if (email) index.emails.add(String(email).trim().toLowerCase());
     }
     for (const phone of row.phones || []) {
-      if (phone) index.phones.add(String(phone).replace(/\D/g, ''));
+      const key = phoneKey(phone);
+      if (key) index.phones.add(key);
     }
     const domain = row.domain || normalizeDomain(row.website);
     if (domain) index.domains.add(domain);
@@ -487,24 +507,36 @@ async function loadExistingProspectIndex() {
   return index;
 }
 
-function duplicateReason(index, inspected) {
-  const email = inspected.emails[0]?.toLowerCase() || null;
-  const phone = inspected.phones[0]?.replace(/\D/g, '') || null;
-  const name = normalizeBusinessName(inspected.businessName);
+/*
+ * Deduplica in ordine di affidabilità decrescente.
+ *
+ * Il Place ID viene per primo perché è l'unico identificatore stabile che
+ * abbiamo: non cambia se l'attività rifà il sito o cambia numero, ed è l'unica
+ * chiave disponibile per chi un sito non ce l'ha. Senza di lui un'attività
+ * `no_website` — priva di email, dominio e spesso di telefono — rientrerebbe a
+ * ogni esecuzione sullo stesso settore.
+ */
+function duplicateReason(index, record) {
+  const placeId = record.placeId ? String(record.placeId).trim() : null;
+  const email = record.emails?.[0]?.toLowerCase() || null;
+  const phone = record.phones?.[0] ? phoneKey(record.phones[0]) : null;
+  const name = normalizeBusinessName(record.canonicalName || record.businessName);
+  if (placeId && index.placeIds.has(placeId)) return 'Place ID già presente';
   if (email && index.emails.has(email)) return 'email già presente';
   if (phone && index.phones.has(phone)) return 'telefono già presente';
-  if (inspected.domain && index.domains.has(inspected.domain)) return 'dominio già presente';
+  if (record.domain && index.domains.has(record.domain)) return 'dominio già presente';
   if (name && index.names.has(name)) return 'attività già presente';
   return null;
 }
 
-function addToProspectIndex(index, inspected) {
-  const email = inspected.emails[0]?.toLowerCase() || null;
-  const phone = inspected.phones[0]?.replace(/\D/g, '') || null;
-  const name = normalizeBusinessName(inspected.businessName);
+function addToProspectIndex(index, record) {
+  const email = record.emails?.[0]?.toLowerCase() || null;
+  const phone = record.phones?.[0] ? phoneKey(record.phones[0]) : null;
+  const name = normalizeBusinessName(record.canonicalName || record.businessName);
+  if (record.placeId) index.placeIds.add(String(record.placeId).trim());
   if (email) index.emails.add(email);
   if (phone) index.phones.add(phone);
-  if (inspected.domain) index.domains.add(inspected.domain);
+  if (record.domain) index.domains.add(record.domain);
   if (name) index.names.add(name);
 }
 
@@ -512,34 +544,57 @@ function addToProspectIndex(index, inspected) {
  * Le note raccolgono solo ciò che non ha una colonna propria: i findings, i
  * contatti e il punteggio hanno ora campi dedicati e non vanno duplicati qui.
  */
-function buildNotes(placeId) {
+/**
+ * Le note dicono solo ciò che non ha una colonna propria: presenza, punteggi,
+ * Place ID e tipo Google adesso ce l'hanno, e ripeterli qui creerebbe due
+ * verità da tenere allineate.
+ */
+function buildNotes(row) {
+  const contatto = row.emails?.length || row.phones?.length
+    ? 'Recapito disponibile.'
+    : 'Nessun recapito raccolto: da cercare sulla scheda Google in fase di revisione.';
+
   return [
     'Prospect generato automaticamente dal modulo Prospecting LS Web Agency.',
-    'Email e telefoni estratti dal sito pubblico dell’attività; Google Places usato solo per discovery e Place ID.',
-    `Google Place ID: ${placeId}`,
+    'Email e telefoni estratti dal sito pubblico dell’attività e dalla scheda Google.',
+    contatto,
     'Stato: mai contattato.',
   ].join('\n');
 }
 
-function buildPayload(place, inspected) {
+/**
+ * Payload di inserimento, sullo schema introdotto da
+ * `migrate-opportunity-model.sql`.
+ *
+ * `technical_score` è null — non zero — quando non c'è una pagina da misurare:
+ * uno zero in quella colonna si leggerebbe come "sito perfetto", che è
+ * l'opposto di "sito assente".
+ */
+function buildPayload(row) {
   return {
     source: 'prospecting',
     query: `${sector} a ${location}`,
-    name: clamp(inspected.businessName, 150) || 'Prospect senza nome',
-    website: inspected.website,
-    domain: inspected.domain,
+    name: clamp(row.businessName, 150) || 'Prospect senza nome',
+    website: row.website || null,
+    domain: row.domain || null,
     city: clamp(location, 100),
-    // Lo script non ricostruisce l'URL della scheda Maps: il Place ID resta
-    // nelle note e la colonna si popola, se serve, in revisione manuale.
+    // Lo script non ricostruisce l'URL della scheda Maps: con il Place ID in
+    // colonna, ricavarlo in revisione è immediato.
     google_maps_url: null,
-    emails: inspected.emails,
-    phones: inspected.phones,
-    contact_urls: inspected.contactUrls,
-    findings: inspected.issues,
-    score: inspected.score,
+    emails: row.emails ?? [],
+    phones: row.phones ?? [],
+    contact_urls: row.contactUrls ?? [],
+    findings: row.issues ?? [],
+    technical_score: Number.isFinite(row.technicalScore) ? row.technicalScore : null,
+    opportunity_score: Number.isFinite(row.opportunityScore) ? row.opportunityScore : null,
+    presence_type: row.presence ?? null,
+    place_id: row.placeId || null,
+    place_name: clamp(row.placeName, 150) || null,
+    site_name: clamp(row.siteName, 150) || null,
+    place_type: clamp(row.placeType, 80) || null,
     status: 'da_verificare',
     reviewed_at: null,
-    notes: buildNotes(place.id),
+    notes: buildNotes(row),
   };
 }
 
@@ -550,8 +605,21 @@ function csvCell(value) {
   return `"${text.replace(/"/g, '""')}"`;
 }
 
+/*
+ * La vecchia colonna `score` è sparita: diceva "punteggio" senza dire di cosa.
+ * Al suo posto ci sono `technical_score` — la salute del sito, vuoto quando non
+ * c'è una pagina da misurare — e `opportunity_score`, che è la ragione per cui
+ * un'attività ci interessa. `presence_type` apre la riga perché è la chiave di
+ * lettura di tutto il resto.
+ *
+ * `nome` resta il nome canonico del prospect — quello di Google quando c'è —
+ * mentre `place_name` e `site_name` mostrano le due identità separate: è il
+ * confronto fra le due che smaschera una pagina ospitata.
+ */
 const CSV_COLUMNS = [
-  'score',
+  'presence_type',
+  'opportunity_score',
+  'technical_score',
   'esito',
   'nome',
   'website',
@@ -561,6 +629,9 @@ const CSV_COLUMNS = [
   'findings',
   'pagine_contatto',
   'place_id',
+  'tipo_google',
+  'place_name',
+  'site_name',
 ];
 
 function toCsv(rows) {
@@ -568,7 +639,9 @@ function toCsv(rows) {
   for (const row of rows) {
     lines.push(
       [
-        row.score ?? '',
+        row.presence ?? '',
+        row.opportunityScore ?? '',
+        Number.isFinite(row.technicalScore) ? row.technicalScore : '',
         row.outcome,
         row.businessName ?? '',
         row.website ?? '',
@@ -578,6 +651,9 @@ function toCsv(rows) {
         row.issues ?? [],
         row.contactUrls ?? [],
         row.placeId ?? '',
+        row.placeType ?? '',
+        row.placeName ?? '',
+        row.siteName ?? '',
       ]
         .map(csvCell)
         .join(','),
@@ -603,13 +679,82 @@ async function confirm(question) {
 const places = await discoverPlaces();
 const results = [];
 
+if (expectedPlaceType) {
+  console.log(`Settore "${sector}" ristretto al tipo Google "${expectedPlaceType}".\n`);
+} else {
+  console.log(`Nessun tipo Google per "${sector}": ricerca solo testuale.\n`);
+}
+
 for (const place of places) {
+  const placeName = clamp(place.displayName?.text || '', 150);
+  const placeType = place.primaryType || (place.types || [])[0] || '';
+  /*
+   * Recapito dalla scheda Google. Resta distinto da quelli letti sul sito
+   * finché non vengono uniti: è l'unico contatto disponibile per le presenze
+   * che una pagina non ce l'hanno.
+   */
+  const googlePhone = normalizePhone(place.nationalPhoneNumber);
+  const googlePhones = googlePhone ? [googlePhone] : [];
+
+  /*
+   * Tipo di presenza digitale, deciso prima di visitare qualunque sito.
+   * Solo `owned_site` e `hosted_site` hanno una pagina che valga la pena
+   * analizzare: le altre presenze si valutano per quello che sono, e la loro
+   * opportunità commerciale non dipende dalla salute di un markup.
+   */
+  const { presence, reason, host } = presenceTypeFor(place, expectedPlaceType);
+  const crawlable = presence === PRESENCE.ownedSite || presence === PRESENCE.hostedSite;
+
+  if (!crawlable) {
+    const opportunity = opportunityScore(presence);
+    results.push({
+      placeId: place.id,
+      website: place.websiteUri || '',
+      businessName: placeName,
+      placeName,
+      siteName: '',
+      placeType,
+      presence,
+      technicalScore: null,
+      opportunityScore: opportunity,
+      emails: [],
+      phones: googlePhones,
+      contactUrls: [],
+      issues: [],
+      outcome: presence === PRESENCE.nonPertinente ? 'escluso' : 'non analizzato',
+    });
+    const dettaglio = reason || host || '';
+    console.log(
+      `  — | ${(placeName || place.id).padEnd(28).slice(0, 28)} | ${presence.padEnd(17)} | opp ${String(opportunity).padStart(3)} | ${googlePhones[0] || 'no-contact'}${dettaglio ? ` (${dettaglio})` : ''}`,
+    );
+    // Nessuna pausa: qui non è partita nessuna richiesta verso terzi.
+    continue;
+  }
+
   const outcome = await inspectWebsite(place.websiteUri);
 
   if (!outcome.ok) {
+    /*
+     * Pagina non leggibile. Per un microsito la presenza resta nota e con essa
+     * l'opportunità; per un dominio proprio no, perché lì l'opportunità nasce
+     * proprio dai problemi del sito: senza averlo letto non si può affermare
+     * nulla, e il record resta fuori dalla qualificazione.
+     */
+    const opportunity = presence === PRESENCE.hostedSite ? opportunityScore(presence) : null;
     results.push({
       placeId: place.id,
       website: place.websiteUri,
+      businessName: placeName,
+      placeName,
+      siteName: '',
+      placeType,
+      presence,
+      technicalScore: null,
+      opportunityScore: opportunity,
+      emails: [],
+      phones: googlePhones,
+      contactUrls: [],
+      issues: [],
       outcome: outcome.reason,
     });
     console.log(`  — | ${place.websiteUri} | ${outcome.reason}`);
@@ -618,30 +763,86 @@ for (const place of places) {
   }
 
   const inspected = outcome.data;
+  const siteName = inspected.businessName;
+
+  /*
+   * Terzo segnale, quello che si può leggere solo dopo aver visitato la pagina:
+   * il nome sul sito non ha nulla a che vedere con quello che Google associa
+   * all'attività, né con l'indirizzo. In quel caso il punteggio appena
+   * calcolato descrive qualcun altro, e non va attribuito a questo prospect.
+   */
+  if (!identityLooksConsistent(placeName, siteName, inspected.website)) {
+    const opportunity = opportunityScore(PRESENCE.thirdPartyPage);
+    results.push({
+      placeId: place.id,
+      website: inspected.website,
+      domain: inspected.domain,
+      businessName: placeName,
+      placeName,
+      siteName,
+      placeType,
+      presence: PRESENCE.thirdPartyPage,
+      // Il punteggio tecnico appena calcolato descrive la piattaforma:
+      // non viene attribuito a questa attività. I contatti letti su quella
+      // pagina sono della piattaforma, quindi resta il solo numero di Google.
+      technicalScore: null,
+      opportunityScore: opportunity,
+      emails: [],
+      phones: googlePhones,
+      contactUrls: [],
+      issues: [],
+      outcome: 'non analizzato',
+    });
+    console.log(
+      `  — | ${(placeName || place.id).padEnd(28).slice(0, 28)} | ${PRESENCE.thirdPartyPage.padEnd(17)} | opp ${String(opportunity).padStart(3)} (il sito si presenta come "${siteName}")`,
+    );
+    await sleep(350);
+    continue;
+  }
+
+  // Nome canonico: quello di Google, che identifica l'attività sulla mappa.
+  // Il nome letto dal sito resta accanto come segnale di verifica.
+  const canonicalName = placeName || siteName;
+
+  const technicalScore = inspected.technicalScore;
+  const opportunity = opportunityScore(presence, technicalScore);
+  const phones = mergePhones(inspected.phones, googlePhones);
 
   results.push({
     place,
     placeId: place.id,
     website: inspected.website,
     domain: inspected.domain,
-    businessName: inspected.businessName,
+    businessName: canonicalName,
+    placeName,
+    siteName,
+    placeType,
+    presence,
+    technicalScore,
+    opportunityScore: opportunity,
     emails: inspected.emails,
-    phones: inspected.phones,
+    // Sito prima, Google poi: la stessa utenza in due formati conta una volta.
+    phones,
     contactUrls: inspected.contactUrls,
     issues: inspected.issues,
-    score: inspected.score,
-    inspected,
+    inspected: { ...inspected, canonicalName, phones },
     outcome: 'analizzato',
   });
 
   console.log(
-    `${inspected.score.toString().padStart(3)} | ${inspected.businessName} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'}`,
+    `${String(technicalScore).padStart(3)} | ${(canonicalName || '').padEnd(28).slice(0, 28)} | ${presence.padEnd(17)} | opp ${String(opportunity).padStart(3)} | ${inspected.emails[0] || inspected.phones[0] || 'no-contact'}`,
   );
   await sleep(350);
 }
 
-const analyzed = results.filter((row) => Number.isFinite(row.score));
-const qualified = analyzed.filter((row) => row.score >= QUALIFIED_SCORE);
+/** Record che hanno davvero un punteggio tecnico, cioè quelli con una pagina letta. */
+const analyzed = results.filter((row) => Number.isFinite(row.technicalScore));
+/** Sopra la soglia TECNICA: resta come diagnostica, non decide più chi si salva. */
+const technicallyWeak = analyzed.filter((row) => row.technicalScore >= QUALIFIED_SCORE);
+/** Sopra la soglia COMMERCIALE: è questa che governa --save. */
+const commerciallyQualified = results.filter((row) =>
+  isCommerciallyQualified(row.presence, row.opportunityScore),
+);
 
 /* --- Fase 2: selezione delle righe da inserire ----------------------------- */
 
@@ -655,22 +856,22 @@ const prospectIndex = save ? await loadExistingProspectIndex() : null;
 const toInsert = [];
 
 if (save) {
-  for (const row of analyzed) {
-    if (row.score < QUALIFIED_SCORE) {
-      row.outcome = 'sotto soglia';
+  for (const row of results) {
+    const gate = qualifiesForSave(row);
+    if (!gate.ok) {
+      row.outcome = gate.reason;
       continue;
     }
-    if (!row.emails.length && !row.phones.length) {
-      row.outcome = 'nessun contatto';
-      continue;
-    }
-    const duplicate = duplicateReason(prospectIndex, row.inspected);
+
+    const duplicate = duplicateReason(prospectIndex, row);
     if (duplicate) {
       row.outcome = duplicate;
       continue;
     }
-    addToProspectIndex(prospectIndex, row.inspected);
-    row.outcome = 'da inserire';
+    addToProspectIndex(prospectIndex, row);
+    // L'assenza di recapito non annulla l'opportunità: resta scritta nell'esito,
+    // così in revisione si sa quali schede vanno aperte su Maps per il contatto.
+    row.outcome = gate.needsContact ? 'da inserire (contatto da trovare)' : 'da inserire';
     toInsert.push(row);
   }
 }
@@ -682,8 +883,16 @@ if (csvPath) {
   console.log(`\nCSV scritto: ${csvPath} (${results.length} righe, tutti gli esaminati)`);
 }
 
+const countPresence = (kind) => results.filter((row) => row.presence === kind).length;
+
 console.log(
-  `\nTrovati: ${places.length} | Analizzati: ${analyzed.length} | Sopra soglia (${QUALIFIED_SCORE}): ${qualified.length}`,
+  `\nTrovati: ${places.length} | Pagine analizzate: ${analyzed.length} | Tecnicamente deboli (${QUALIFIED_SCORE}+): ${technicallyWeak.length}`,
+);
+console.log(
+  `Presenza — sito proprio: ${countPresence(PRESENCE.ownedSite)} | microsito: ${countPresence(PRESENCE.hostedSite)} | solo social: ${countPresence(PRESENCE.socialOnly)} | senza sito: ${countPresence(PRESENCE.noWebsite)} | pagina di terzi: ${countPresence(PRESENCE.thirdPartyPage)} | non pertinenti: ${countPresence(PRESENCE.nonPertinente)}`,
+);
+console.log(
+  `Opportunità commerciale (${QUALIFIED_OPPORTUNITY_SCORE}+): ${commerciallyQualified.length} — è questa a decidere cosa salva --save.`,
 );
 
 /* --- Fase 3: scrittura, solo dopo conferma --------------------------------- */
@@ -728,7 +937,7 @@ if (!assumeYes) {
 
 let savedCount = 0;
 for (const row of toInsert) {
-  const { error } = await supabase.from(PROSPECTS_TABLE).insert(buildPayload(row.place, row.inspected));
+  const { error } = await supabase.from(PROSPECTS_TABLE).insert(buildPayload(row));
   if (error) throw error;
   row.outcome = 'inserito';
   savedCount += 1;
