@@ -22,7 +22,7 @@
     "fix:prettier": "prettier -w .",
     "sync": "astro sync",
     "vercel:inspect": "npm run build && node scripts/verify-functions.mjs",
-    "test:unit": "node --experimental-strip-types --test tests/siteRescueUrl.test.mjs tests/structuredNotes.test.mjs tests/leadAuditLink.test.mjs tests/miniAnalisiOptions.test.mjs",
+    "test:unit": "node --experimental-strip-types --test tests/siteRescueUrl.test.mjs tests/structuredNotes.test.mjs tests/leadAuditLink.test.mjs tests/miniAnalisiOptions.test.mjs tests/prospectingClassify.test.mjs tests/prospectingRun.test.mjs",
     "editorial:index": "node scripts/editorial/build-content-index.mjs",
     "editorial:duplicates": "node scripts/editorial/check-duplicates.mjs",
     "editorial:calendar": "node scripts/editorial/validate-calendar.mjs",
