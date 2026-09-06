@@ -27,6 +27,14 @@ const serviceSchema = {
   url: 'https://www.lswebagency.com/servizi/ai-operations-pmi',
 };
 
+const workflowSteps = [
+  ['tabler:mail-forward', 'Ingresso', 'Email, form o documento'],
+  ['tabler:automation', 'Interpretazione', 'AI solo dove serve'],
+  ['tabler:shield-check', 'Validazione', 'Regole e controlli'],
+  ['tabler:database', 'Azione', 'CRM, calendario, attività'],
+  ['tabler:user-check', 'Controllo', 'Log, alert e approvazione'],
+];
+
 const fitSignals = [
   'Il processo si ripete abbastanza spesso da poterlo misurare',
   'Esiste già un punto di ingresso digitale: form, email, CRM, gestionale o database',
@@ -42,37 +50,11 @@ const noFitSignals = [
   'Il volume è troppo basso per giustificare costo e manutenzione',
 ];
 
-const benefits = [
-  {
-    icon: 'tabler:route',
-    title: 'Richieste instradate con ordine',
-    text: 'Form, email e altri canali possono confluire in un flusso unico, con dati normalizzati e priorità esplicite.',
-  },
-  {
-    icon: 'tabler:user-check',
-    title: 'Lead preparati per il commerciale',
-    text: 'L’AI può interpretare testo libero e documenti; regole verificabili decidono poi dove registrare o inoltrare i dati.',
-  },
-  {
-    icon: 'tabler:database',
-    title: 'CRM e sistemi allineati',
-    text: 'Riduciamo copia-incolla, duplicati e passaggi manuali tra sito, inbox, CRM, calendario e database.',
-  },
-  {
-    icon: 'tabler:mail-forward',
-    title: 'Follow-up senza dimenticanze',
-    text: 'Promemoria, bozze e attività successive partono secondo regole definite e con escalation quando qualcosa non torna.',
-  },
-  {
-    icon: 'tabler:shield-check',
-    title: 'Controllo sulle azioni',
-    text: 'I permessi vengono limitati al necessario. Le azioni più rischiose restano in bozza o richiedono approvazione.',
-  },
-  {
-    icon: 'tabler:calendar-event',
-    title: 'Monitoraggio dopo il go-live',
-    text: 'Non consegniamo un workflow e spariamo: errori, fallback e integrazioni devono essere osservabili anche dopo il rilascio.',
-  },
+const capabilities = [
+  ['tabler:route', 'Richieste instradate con ordine', 'Form, email e altri canali confluiscono in un flusso unico, con dati normalizzati e priorità esplicite.'],
+  ['tabler:user-check', 'Lead pronti per il commerciale', 'L’AI interpreta testo libero; regole verificabili decidono poi dove registrare o inoltrare i dati.'],
+  ['tabler:database', 'CRM e sistemi allineati', 'Riduciamo copia-incolla, duplicati e passaggi manuali tra sito, inbox, CRM, calendario e database.'],
+  ['tabler:calendar-event', 'Follow-up e monitoraggio', 'Promemoria, attività, alert e fallback rendono il processo osservabile anche dopo il go-live.'],
 ];
 
 const autonomyLevels = [
@@ -83,20 +65,20 @@ const autonomyLevels = [
 ];
 
 const reliabilityItems = [
-  ['Retry e fallback', 'Se un’API non risponde o un dato è ambiguo, il flusso non deve fingere che tutto sia andato bene.'],
-  ['Deduplica e idempotenza', 'Evitiamo che un retry crei due lead, due appuntamenti o due invii.'],
-  ['Alert operativi', 'Gli errori importanti devono arrivare a una persona prima che il cliente scopra il problema.'],
-  ['Audit trail', 'Registriamo cosa è successo, quale passaggio ha agito e quando è intervenuta una persona.'],
-  ['Minimo privilegio', 'Ogni integrazione riceve soltanto i permessi necessari al proprio compito.'],
-  ['Documentazione e uscita', 'Credenziali, mappa delle integrazioni e procedure restano comprensibili e trasferibili.'],
+  'Retry e fallback quando un’API o un dato non risponde come previsto',
+  'Deduplica e idempotenza per evitare doppie azioni durante i retry',
+  'Alert operativi prima che sia il cliente ad accorgersi del problema',
+  'Audit trail per sapere cosa è successo, quando e con quale intervento umano',
+  'Permessi minimi per ogni integrazione e account intestati al cliente dove possibile',
+  'Documentazione e handover per evitare dipendenza da una black box',
 ];
 
 const phases = [
-  ['Fit Check', 'Mappiamo un processo, dati, volumi, integrazioni, eccezioni, rischi e KPI. Esito: GO, PREPARARE o NO-GO.'],
-  ['Pilot', 'Costruiamo un solo workflow prioritario e lo testiamo con casi reali o simulati prima della produzione.'],
-  ['Go-live controllato', 'Partiamo con il livello di autonomia più basso compatibile con il risultato e aumentiamo solo con evidenze.'],
-  ['Misurazione', 'Confrontiamo baseline e risultati: tempo, successo del workflow, fallback, errori e costo operativo.'],
-  ['Operations Care', 'Monitoriamo salute del flusso, API, consumi e piccoli cambiamenti che potrebbero romperlo nel tempo.'],
+  ['Fit Check', 'Mappiamo un processo, dati, volumi, integrazioni, eccezioni, rischi e KPI.'],
+  ['Pilot', 'Costruiamo un solo workflow prioritario e lo testiamo con casi reali o simulati.'],
+  ['Go-live', 'Partiamo con il livello di autonomia più prudente compatibile con il risultato.'],
+  ['Misura', 'Confrontiamo baseline e risultati: tempo, errori, fallback e costo operativo.'],
+  ['Care', 'Monitoriamo salute del flusso, API, consumi e cambiamenti che potrebbero romperlo.'],
 ];
 ---
 
@@ -106,260 +88,274 @@ const phases = [
   <!-- HERO -->
   <section class="relative isolate overflow-hidden">
     <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-950/45 dark:via-neutral-950 dark:to-neutral-950"></div>
-    <div aria-hidden="true" class="absolute -top-28 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-fuchsia-300/30 blur-3xl dark:bg-fuchsia-600/10"></div>
+    <div aria-hidden="true" class="absolute -top-24 right-[12%] -z-10 h-80 w-80 rounded-full bg-fuchsia-300/25 blur-3xl dark:bg-fuchsia-600/10"></div>
 
-    <div class="container mx-auto max-w-6xl px-6 pt-16 pb-14 md:pt-24 md:pb-20">
-      <div class="mx-auto max-w-4xl text-center">
-        <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/70 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm dark:border-violet-800 dark:bg-neutral-900/70 dark:text-violet-300">
+    <div class="container mx-auto grid max-w-6xl gap-12 px-6 pt-14 pb-14 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pt-20 lg:pb-20">
+      <div class="text-center lg:text-left">
+        <p class="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/75 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm dark:border-violet-800 dark:bg-neutral-900/70 dark:text-violet-300">
           <Icon name="tabler:automation" class="h-4 w-4" />
           Automazione processi · AI Operations
         </p>
 
-        <h1 class="text-4xl font-extrabold tracking-tight text-neutral-950 md:text-6xl dark:text-white">
+        <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-neutral-950 md:text-6xl dark:text-white">
           Meno passaggi manuali. <span class="text-violet-700 dark:text-violet-400">Processi sotto controllo.</span>
         </h1>
 
-        <p class="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-600 md:text-xl dark:text-neutral-300">
-          Colleghiamo sito, email, CRM, calendario e altri strumenti per ridurre attività ripetitive e richieste perse. L’AI viene usata dove serve a interpretare input non strutturati; le azioni prevedibili restano affidate a regole verificabili.
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600 md:text-xl lg:mx-0 dark:text-neutral-300">
+          Colleghiamo sito, email, CRM, calendario e altri strumenti per ridurre attività ripetitive e richieste perse. L’AI interpreta gli input ambigui; le azioni prevedibili restano affidate a regole verificabili.
         </p>
 
-        <div class="mt-8 flex flex-wrap justify-center gap-3">
-          <a href="/process-fit-check" class="inline-flex min-h-[48px] items-center justify-center rounded-full bg-violet-600 px-6 py-3 font-semibold text-white transition hover:bg-violet-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2">
-            Verifica se il processo è automatizzabile
+        <div class="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+          <a href="/process-fit-check" class="inline-flex min-h-[50px] items-center justify-center rounded-full bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/15 transition hover:-translate-y-0.5 hover:bg-violet-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2">
+            Calcola il Fit Score gratuito
           </a>
-          <a href="#metodo" class="inline-flex min-h-[48px] items-center justify-center rounded-full border border-neutral-300 bg-white/70 px-6 py-3 font-semibold text-neutral-900 transition hover:bg-white dark:border-neutral-700 dark:bg-neutral-900/60 dark:text-white dark:hover:bg-neutral-900">
+          <a href="#metodo" class="inline-flex min-h-[50px] items-center justify-center rounded-full border border-neutral-300 bg-white/75 px-6 py-3 font-semibold text-neutral-900 transition hover:border-violet-300 hover:bg-white dark:border-neutral-700 dark:bg-neutral-900/60 dark:text-white dark:hover:border-violet-700 dark:hover:bg-neutral-900">
             Vedi il metodo
           </a>
         </div>
 
-        <p class="mt-6 text-sm text-neutral-500 dark:text-neutral-400">
-          Pensato soprattutto per PMI già sufficientemente digitalizzate · un processo alla volta · monitoraggio dopo il go-live
-        </p>
+        <div class="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-neutral-500 lg:justify-start dark:text-neutral-400">
+          <span>✓ un processo alla volta</span>
+          <span>✓ AI solo dove serve</span>
+          <span>✓ monitoraggio post go-live</span>
+        </div>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-xl">
+        <div aria-hidden="true" class="absolute -inset-5 -z-10 rounded-[2.5rem] bg-gradient-to-br from-violet-200/50 to-fuchsia-200/30 blur-2xl dark:from-violet-900/20 dark:to-fuchsia-900/10"></div>
+        <div class="rounded-[2rem] border border-violet-100 bg-white/90 p-5 shadow-[0_30px_80px_-35px_rgba(76,29,149,0.45)] backdrop-blur md:p-6 dark:border-violet-900/50 dark:bg-neutral-900/85">
+          <div class="flex items-center justify-between gap-4 border-b border-neutral-100 pb-4 dark:border-neutral-800">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.15em] text-violet-700 dark:text-violet-300">Workflow operativo</p>
+              <p class="mt-1 text-sm font-semibold text-neutral-900 dark:text-white">Dal segnale all’azione, con controlli visibili</p>
+            </div>
+            <span class="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300">Human-in-loop</span>
+          </div>
+
+          <div class="mt-5 space-y-2.5">
+            {workflowSteps.map(([icon, title, text], i) => (
+              <div class="group flex items-center gap-3 rounded-2xl border border-neutral-100 bg-neutral-50/80 p-3.5 transition hover:border-violet-200 hover:bg-violet-50/50 dark:border-neutral-800 dark:bg-neutral-950/40 dark:hover:border-violet-900 dark:hover:bg-violet-950/15">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"><Icon name={icon} class="h-5 w-5" /></div>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-2"><span class="text-xs font-bold text-neutral-400">0{i + 1}</span><h2 class="font-semibold text-neutral-900 dark:text-white">{title}</h2></div>
+                  <p class="mt-0.5 text-sm text-neutral-500 dark:text-neutral-400">{text}</p>
+                </div>
+                {i < workflowSteps.length - 1 && <span aria-hidden="true" class="text-violet-300 dark:text-violet-700">↓</span>}
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-5 grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="rounded-xl bg-neutral-950 px-2 py-3 text-white"><div class="font-bold text-violet-300">LOG</div><div class="mt-0.5 text-neutral-400">tracciabile</div></div>
+            <div class="rounded-xl bg-neutral-950 px-2 py-3 text-white"><div class="font-bold text-violet-300">ALERT</div><div class="mt-0.5 text-neutral-400">osservabile</div></div>
+            <div class="rounded-xl bg-neutral-950 px-2 py-3 text-white"><div class="font-bold text-violet-300">FALLBACK</div><div class="mt-0.5 text-neutral-400">controllato</div></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- FIT -->
-  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
-    <div class="mx-auto max-w-3xl text-center">
-      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Prima domanda: conviene davvero?</p>
-      <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Non automatizziamo un processo solo perché è possibile.</h2>
-      <p class="mt-5 text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">
-        Un’automazione sopra dati disordinati o responsabilità poco chiare rende il problema più veloce, non migliore. Per questo il progetto parte da un Process Fit Check e può concludersi anche con un NO-GO.
-      </p>
+  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-18">
+    <div class="grid gap-9 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+      <div class="lg:sticky lg:top-28">
+        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Prima domanda: conviene davvero?</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Non automatizziamo un processo solo perché è possibile.</h2>
+        <p class="mt-5 leading-relaxed text-neutral-600 dark:text-neutral-300">Un’automazione sopra dati disordinati rende il problema più veloce, non migliore. Per questo il progetto parte da un Fit Check e può concludersi anche con un NO-GO.</p>
+        <a href="/process-fit-check" class="mt-6 inline-flex items-center gap-2 font-semibold text-violet-700 hover:underline dark:text-violet-300">Fai il test gratuito <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="grid gap-5 md:grid-cols-2">
+        <article class="rounded-3xl border border-emerald-200 bg-emerald-50/60 p-6 dark:border-emerald-900 dark:bg-emerald-950/20">
+          <div class="flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-white"><Icon name="tabler:circle-check" class="h-5 w-5" /></span><h3 class="text-xl font-bold">Buoni segnali</h3></div>
+          <ul class="mt-5 space-y-3 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+            {fitSignals.map((item) => <li class="flex gap-3"><span class="mt-1 text-emerald-600">✓</span><span>{item}</span></li>)}
+          </ul>
+        </article>
+
+        <article class="rounded-3xl border border-amber-200 bg-amber-50/60 p-6 dark:border-amber-900 dark:bg-amber-950/20">
+          <div class="flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500 font-bold text-white">!</span><h3 class="text-xl font-bold">Prima va preparato</h3></div>
+          <ul class="mt-5 space-y-3 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+            {noFitSignals.map((item) => <li class="flex gap-3"><span class="mt-1 text-amber-600">•</span><span>{item}</span></li>)}
+          </ul>
+        </article>
+      </div>
     </div>
+  </section>
 
-    <div class="mt-10 grid gap-6 lg:grid-cols-2">
-      <article class="rounded-3xl border border-emerald-200 bg-emerald-50/60 p-6 md:p-8 dark:border-emerald-900 dark:bg-emerald-950/20">
-        <h3 class="text-xl font-bold">Buoni segnali</h3>
-        <ul class="mt-5 space-y-3 text-neutral-700 dark:text-neutral-300">
-          {fitSignals.map((item) => (
-            <li class="flex gap-3"><Icon name="tabler:circle-check" class="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" /><span>{item}</span></li>
-          ))}
-        </ul>
-      </article>
-
-      <article class="rounded-3xl border border-amber-200 bg-amber-50/60 p-6 md:p-8 dark:border-amber-900 dark:bg-amber-950/20">
-        <h3 class="text-xl font-bold">Prima va sistemato il processo</h3>
-        <ul class="mt-5 space-y-3 text-neutral-700 dark:text-neutral-300">
-          {noFitSignals.map((item) => (
-            <li class="flex gap-3"><span class="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-amber-500"></span><span>{item}</span></li>
-          ))}
-        </ul>
-      </article>
+  <!-- CTA INTERMEDIA -->
+  <section class="container mx-auto max-w-6xl px-6 pb-14">
+    <div class="overflow-hidden rounded-3xl bg-gradient-to-r from-violet-700 to-fuchsia-600 p-7 text-white shadow-lg md:flex md:items-center md:justify-between md:gap-8 md:p-8">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-violet-100">Prima di parlare di preventivi</p>
+        <h2 class="mt-2 text-2xl font-bold md:text-3xl">8 domande. 2–3 minuti. Un primo esito concreto.</h2>
+        <p class="mt-2 text-sm text-violet-100">Il punteggio è gratuito e anonimo finché non decidi tu di lasciare i contatti.</p>
+      </div>
+      <a href="/process-fit-check" class="mt-5 inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-full bg-white px-6 py-3 font-semibold text-violet-700 transition hover:-translate-y-0.5 hover:bg-violet-50 hover:text-violet-800 md:mt-0">Calcola il Fit Score</a>
     </div>
   </section>
 
   <!-- PRINCIPIO -->
   <section class="border-y border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25">
-    <div class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
-      <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+    <div class="container mx-auto max-w-6xl px-6 py-14 md:py-18">
+      <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
         <div>
           <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Principio tecnico</p>
           <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">L’AI interpreta. Il software esegue.</h2>
-          <p class="mt-5 text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">
-            Se una regola può essere scritta in modo chiaro, non serve affidarla a un agente. Usiamo i modelli AI soprattutto per comprendere email, richieste, documenti e testo libero; validazioni, routing e azioni operative restano deterministiche quando possibile.
-          </p>
+          <p class="mt-5 text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">Se una regola può essere scritta in modo chiaro, non serve affidarla a un agente. I modelli AI servono soprattutto per comprendere email, richieste, documenti e testo libero.</p>
         </div>
 
-        <div class="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8 dark:border-neutral-800 dark:bg-neutral-900/60">
-          <div class="space-y-4">
-            {[
-              ['1', 'Ingresso', 'Email, form, documento o altro evento'],
-              ['2', 'Interpretazione', 'AI solo dove l’input è ambiguo o non strutturato'],
-              ['3', 'Validazione', 'Regole, campi obbligatori, duplicati e vincoli'],
-              ['4', 'Azione', 'CRM, calendario, notifica, bozza o attività'],
-              ['5', 'Controllo', 'Log, alert, fallback e approvazione quando richiesta'],
-            ].map(([n, title, text]) => (
-              <div class="flex gap-4 rounded-2xl bg-neutral-50 p-4 dark:bg-neutral-950/50">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">{n}</span>
-                <div>
-                  <h3 class="font-semibold text-neutral-900 dark:text-white">{title}</h3>
-                  <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">{text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <article class="rounded-3xl border border-violet-200 bg-violet-50 p-6 dark:border-violet-900 dark:bg-violet-950/20">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-violet-700 dark:text-violet-300">AI</p>
+            <h3 class="mt-2 text-xl font-bold">Capisce ciò che è ambiguo</h3>
+            <ul class="mt-4 space-y-2 text-sm text-neutral-700 dark:text-neutral-300"><li>• testo libero</li><li>• email e richieste</li><li>• documenti</li><li>• classificazioni</li></ul>
+          </article>
+          <article class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900/60">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">Regole</p>
+            <h3 class="mt-2 text-xl font-bold">Eseguono ciò che è prevedibile</h3>
+            <ul class="mt-4 space-y-2 text-sm text-neutral-700 dark:text-neutral-300"><li>• validazione campi</li><li>• deduplica</li><li>• routing</li><li>• aggiornamenti CRM</li></ul>
+          </article>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BENEFICI -->
-  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
-    <div class="mx-auto mb-10 max-w-3xl text-center">
-      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Cosa possiamo collegare</p>
+  <!-- CAPABILITIES -->
+  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-18">
+    <div class="mx-auto mb-9 max-w-3xl text-center">
+      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Cosa cambia nel lavoro quotidiano</p>
       <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Un flusso operativo, non una collezione di tool.</h2>
-      <p class="mt-4 text-neutral-600 dark:text-neutral-300">
-        Partiamo dal problema più costoso o ripetitivo e aggiungiamo soltanto le integrazioni necessarie.
-      </p>
     </div>
 
-    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {benefits.map((item) => (
-        <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
-          <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300">
-            <Icon name={item.icon} class="h-5 w-5" />
+    <div class="grid gap-5 md:grid-cols-2">
+      {capabilities.map(([icon, title, text]) => (
+        <article class="group rounded-3xl border border-neutral-200 bg-white p-6 transition hover:-translate-y-0.5 hover:border-violet-200 hover:shadow-lg hover:shadow-violet-600/5 dark:border-neutral-800 dark:bg-neutral-900/60 dark:hover:border-violet-900">
+          <div class="flex items-start gap-4">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"><Icon name={icon} class="h-5 w-5" /></div>
+            <div><h3 class="text-lg font-semibold">{title}</h3><p class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-300">{text}</p></div>
           </div>
-          <h3 class="text-lg font-semibold">{item.title}</h3>
-          <p class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-300">{item.text}</p>
         </article>
       ))}
     </div>
   </section>
 
   <!-- AUTONOMIA -->
-  <section class="container mx-auto max-w-6xl px-6 pb-14 md:pb-20">
-    <div class="overflow-hidden rounded-3xl bg-neutral-950 p-8 text-white md:p-10">
-      <div class="max-w-3xl">
-        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-300">Livelli di autonomia</p>
-        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Non esiste solo “automatico” oppure “manuale”.</h2>
-        <p class="mt-5 leading-relaxed text-neutral-300">
-          Il sistema parte dal livello più prudente. L’autonomia cresce soltanto quando gli errori sono osservabili, il costo di un errore è accettabile e il passaggio è reversibile.
-        </p>
-      </div>
+  <section class="container mx-auto max-w-6xl px-6 pb-14 md:pb-18">
+    <div class="overflow-hidden rounded-[2rem] bg-neutral-950 p-7 text-white md:p-10">
+      <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-300">Livelli di autonomia</p>
+          <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Non esiste solo “automatico” oppure “manuale”.</h2>
+          <p class="mt-4 leading-relaxed text-neutral-300">L’autonomia cresce soltanto quando gli errori sono osservabili, il costo di un errore è accettabile e il passaggio è reversibile.</p>
+        </div>
 
-      <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {autonomyLevels.map(([level, title, text]) => (
-          <article class="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <div class="flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 font-bold">{level}</div>
-            <h3 class="mt-4 font-semibold text-violet-200">{title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-neutral-300">{text}</p>
-          </article>
-        ))}
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {autonomyLevels.map(([level, title, text]) => (
+            <article class="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div class="flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 font-bold">{level}</div>
+              <h3 class="mt-4 font-semibold text-violet-200">{title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-neutral-300">{text}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- RELIABILITY -->
+  <!-- RELIABILITY + RESPONSIBLE USE -->
   <section class="border-y border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25">
-    <div class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
-      <div class="max-w-3xl">
-        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Reliability by design</p>
-        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Una demo deve funzionare una volta. Un processo deve funzionare ogni giorno.</h2>
-      </div>
-
-      <div class="mt-9 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {reliabilityItems.map(([title, text]) => (
-          <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
-            <h3 class="font-semibold">{title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">{text}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- COMPLIANCE -->
-  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
-    <div class="grid gap-8 lg:grid-cols-[1fr_1fr]">
+    <div class="container mx-auto grid max-w-6xl gap-10 px-6 py-14 lg:grid-cols-[1.1fr_0.9fr] md:py-18">
       <div>
-        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Uso responsabile</p>
-        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Privacy, trasparenza e persone fanno parte dell’implementazione.</h2>
-        <p class="mt-5 leading-relaxed text-neutral-600 dark:text-neutral-300">
-          Un workflow reale può toccare dati personali, account aziendali e comunicazioni verso clienti. Per questo la configurazione tecnica considera minimizzazione dei dati, accessi, conservazione, tracciabilità e trasparenza quando l’utente interagisce direttamente con un sistema AI.
-        </p>
+        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Reliability by design</p>
+        <h2 class="mt-3 max-w-3xl text-3xl font-bold tracking-tight md:text-4xl">Una demo deve funzionare una volta. Un processo deve funzionare ogni giorno.</h2>
+        <div class="mt-7 divide-y divide-neutral-200 rounded-3xl border border-neutral-200 bg-white px-5 dark:divide-neutral-800 dark:border-neutral-800 dark:bg-neutral-900/60">
+          {reliabilityItems.map((item) => (
+            <div class="flex gap-3 py-4"><Icon name="tabler:circle-check" class="mt-0.5 h-5 w-5 shrink-0 text-violet-600" /><span class="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">{item}</span></div>
+          ))}
+        </div>
       </div>
 
-      <div class="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
-        <ul class="space-y-3 text-neutral-700 dark:text-neutral-300">
-          <li>• inventario di strumenti, provider e dati coinvolti</li>
-          <li>• permessi e credenziali limitati al necessario</li>
-          <li>• regole di retention e accesso da definire con il cliente</li>
-          <li>• informazione chiara quando prevista per interazioni AI</li>
-          <li>• breve handover operativo per chi userà o supervisionerà il sistema</li>
-        </ul>
-        <p class="mt-5 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
-          Questa parte riguarda l’implementazione tecnica e non sostituisce consulenza legale, privacy o DPO. Se il caso richiede valutazioni specialistiche, il cliente viene invitato a coinvolgere il proprio consulente.
-        </p>
-      </div>
+      <aside class="rounded-[2rem] border border-neutral-200 bg-white p-6 shadow-sm lg:self-start dark:border-neutral-800 dark:bg-neutral-900/60">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-300">Uso responsabile</p>
+        <h2 class="mt-2 text-2xl font-bold">Privacy, trasparenza e persone fanno parte dell’implementazione.</h2>
+        <p class="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Un workflow reale può toccare dati personali, account aziendali e comunicazioni verso clienti. Configuriamo quindi accessi, minimizzazione, conservazione, tracciabilità e trasparenza nel perimetro tecnico.</p>
+        <div class="mt-5 space-y-3 text-sm text-neutral-700 dark:text-neutral-300"><p>✓ inventario di strumenti e dati</p><p>✓ permessi limitati al necessario</p><p>✓ retention e accessi da definire</p><p>✓ handover operativo</p></div>
+        <p class="mt-5 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">Non sostituisce consulenza legale, privacy o DPO.</p>
+      </aside>
     </div>
   </section>
 
   <!-- METODO -->
-  <section id="metodo" class="border-y border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25 scroll-mt-28">
-    <div class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
-      <div class="mb-10 max-w-3xl">
-        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Metodo operativo</p>
-        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Fit Check → Pilot → misura → monitoraggio.</h2>
-      </div>
+  <section id="metodo" class="container mx-auto max-w-6xl scroll-mt-28 px-6 py-14 md:py-18">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Metodo operativo</p>
+      <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Fit Check → Pilot → misura → monitoraggio.</h2>
+    </div>
 
-      <div class="grid gap-4 md:grid-cols-5">
-        {phases.map(([title, text], i) => (
-          <article class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
-            <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">{i + 1}</div>
-            <h3 class="font-semibold">{title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">{text}</p>
-          </article>
-        ))}
-      </div>
+    <div class="relative mt-10 grid gap-4 md:grid-cols-5">
+      <div aria-hidden="true" class="absolute left-[10%] right-[10%] top-5 hidden h-px bg-violet-200 md:block dark:bg-violet-900"></div>
+      {phases.map(([title, text], i) => (
+        <article class="relative rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+          <div class="relative z-10 mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white ring-8 ring-white dark:ring-neutral-900">{i + 1}</div>
+          <h3 class="font-semibold">{title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">{text}</p>
+        </article>
+      ))}
     </div>
   </section>
 
   <!-- OFFERTA -->
-  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
-    <div class="mx-auto max-w-3xl text-center">
-      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Perimetro e costi</p>
-      <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Prima compriamo evidenza, poi complessità.</h2>
-      <p class="mt-4 text-neutral-600 dark:text-neutral-300">Il prezzo finale dipende da integrazioni, volumi e rischio operativo. Questi sono i punti di partenza.</p>
+  <section class="border-y border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25">
+    <div class="container mx-auto max-w-6xl px-6 py-14 md:py-18">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Perimetro e costi</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Prima compriamo evidenza, poi complessità.</h2>
+        <p class="mt-4 text-neutral-600 dark:text-neutral-300">Partiamo dalla decisione più economica: capire se il processo merita davvero un progetto.</p>
+      </div>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        <article class="relative rounded-[2rem] border-2 border-violet-400 bg-gradient-to-b from-violet-50 to-white p-7 shadow-lg shadow-violet-600/10 dark:border-violet-700 dark:from-violet-950/30 dark:to-neutral-900">
+          <span class="absolute -top-3 left-6 rounded-full bg-violet-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">Primo passo</span>
+          <div class="text-sm font-semibold text-violet-700 dark:text-violet-300">01 · Process Fit Check</div>
+          <div class="mt-3 text-4xl font-extrabold">290 €</div>
+          <p class="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Analisi di un processo con baseline, dati, integrazioni, eccezioni, rischi e KPI. Conclusione esplicita: GO, PREPARARE o NO-GO.</p>
+          <ul class="mt-5 space-y-2 text-sm text-neutral-700 dark:text-neutral-300"><li>✓ un processo</li><li>✓ esito documentato</li><li>✓ decisione prima dell’investimento</li></ul>
+          <a href="/process-fit-check" class="mt-6 inline-flex min-h-[46px] w-full items-center justify-center rounded-full bg-violet-600 px-5 py-3 font-semibold text-white transition hover:bg-violet-700 hover:text-white">Inizia dal test gratuito</a>
+        </article>
+
+        <article class="rounded-[2rem] border border-neutral-200 bg-white p-7 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+          <div class="text-sm font-semibold text-violet-700 dark:text-violet-300">02 · Pilot Operativo</div>
+          <div class="mt-3 text-4xl font-extrabold">da 1.490 €</div>
+          <p class="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Un workflow prioritario, integrazioni definite nel preventivo, test, gestione errori, livelli di autonomia, documentazione e osservazione iniziale post go-live.</p>
+          <p class="mt-5 text-xs font-semibold uppercase tracking-wide text-neutral-400">Solo dopo un Fit Check con esito favorevole</p>
+        </article>
+
+        <article class="rounded-[2rem] border border-neutral-200 bg-white p-7 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+          <div class="text-sm font-semibold text-violet-700 dark:text-violet-300">03 · Operations Care</div>
+          <div class="mt-3 text-4xl font-extrabold">da 249 €<span class="text-base font-medium text-neutral-500">/mese</span></div>
+          <p class="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Monitoraggio, alert, controllo consumi, verifiche su API e integrazioni, piccole correzioni e report operativo. Nuovi workflow vengono quotati a parte.</p>
+          <p class="mt-5 text-xs font-semibold uppercase tracking-wide text-neutral-400">Per workflow già in produzione</p>
+        </article>
+      </div>
+
+      <p class="mx-auto mt-6 max-w-3xl text-center text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">Costi di API, licenze, WhatsApp/provider, hosting o altri servizi terzi sono separati e visibili prima del go-live.</p>
     </div>
-
-    <div class="mt-10 grid gap-6 lg:grid-cols-3">
-      <article class="rounded-3xl border border-neutral-200 bg-white p-7 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
-        <div class="text-sm font-semibold text-violet-700 dark:text-violet-300">01 · Process Fit Check</div>
-        <div class="mt-3 text-4xl font-extrabold">290 €</div>
-        <p class="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Analisi di un processo con baseline, dati, integrazioni, eccezioni, rischi e KPI. Conclusione esplicita: GO, PREPARARE o NO-GO.</p>
-      </article>
-
-      <article class="rounded-3xl border-2 border-violet-300 bg-violet-50/50 p-7 shadow-sm dark:border-violet-800 dark:bg-violet-950/20">
-        <div class="text-sm font-semibold text-violet-700 dark:text-violet-300">02 · Pilot Operativo</div>
-        <div class="mt-3 text-4xl font-extrabold">da 1.490 €</div>
-        <p class="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Un workflow prioritario, integrazioni definite nel preventivo, test, gestione errori, livelli di autonomia, documentazione e osservazione iniziale post go-live.</p>
-      </article>
-
-      <article class="rounded-3xl border border-neutral-200 bg-white p-7 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
-        <div class="text-sm font-semibold text-violet-700 dark:text-violet-300">03 · Operations Care</div>
-        <div class="mt-3 text-4xl font-extrabold">da 249 €<span class="text-base font-medium text-neutral-500">/mese</span></div>
-        <p class="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Monitoraggio, alert, controllo consumi, verifiche su API e integrazioni, piccole correzioni e report operativo. Nuovi workflow vengono quotati a parte.</p>
-      </article>
-    </div>
-
-    <p class="mx-auto mt-6 max-w-3xl text-center text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
-      Costi di API, licenze, WhatsApp/provider, hosting o altri servizi terzi sono separati e visibili prima del go-live.
-    </p>
   </section>
 
-  <!-- MODULO ASSISTENTE -->
-  <section class="container mx-auto max-w-6xl px-6 pb-14 md:pb-20">
-    <div class="rounded-2xl border border-violet-200 bg-violet-50 p-5 text-sm text-violet-950 dark:border-violet-900 dark:bg-violet-950/30 dark:text-violet-100">
-      L’assistente AI per sito e WhatsApp resta disponibile come modulo specifico quando il processo richiede una conversazione con il cliente. <a href="/servizi/assistente-ai-sito-whatsapp" class="font-semibold underline underline-offset-2">Scopri l’assistente AI →</a>
+  <!-- ASSISTENTE -->
+  <section class="container mx-auto max-w-6xl px-6 py-12">
+    <div class="flex flex-col gap-4 rounded-2xl border border-violet-200 bg-violet-50 p-5 text-sm text-violet-950 md:flex-row md:items-center md:justify-between dark:border-violet-900 dark:bg-violet-950/30 dark:text-violet-100">
+      <span>L’assistente AI per sito e WhatsApp resta disponibile come modulo specifico quando il processo richiede una conversazione con il cliente.</span>
+      <a href="/servizi/assistente-ai-sito-whatsapp" class="shrink-0 font-semibold underline underline-offset-2">Scopri il modulo →</a>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="container mx-auto max-w-4xl px-6 pb-14 md:pb-20">
-    <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Domande frequenti</h2>
-    <div class="mt-6 space-y-3">
+  <section class="container mx-auto max-w-4xl px-6 pb-14 md:pb-18">
+    <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">FAQ</p>
+    <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Le domande che vale la pena chiarire prima.</h2>
+    <div class="mt-7 space-y-3">
       {[
         ['Quando non conviene automatizzare?', 'Quando il processo è raro, instabile, privo di dati affidabili o richiede decisioni sensibili difficili da circoscrivere. In questi casi il Fit Check può concludersi con PREPARARE o NO-GO.'],
         ['Serve già un CRM?', 'No, ma deve esistere una destinazione affidabile per i dati. Se oggi tutto vive in email e fogli incoerenti, può essere necessario sistemare prima la base operativa.'],
@@ -368,9 +364,9 @@ const phases = [
         ['Resto dipendente da LS Web Agency?', 'L’obiettivo è il contrario: documentiamo integrazioni, flussi e requisiti operativi. Dove possibile, credenziali e account restano intestati al cliente e definiamo una procedura di handover.'],
         ['È un servizio di compliance AI?', 'No. Applichiamo misure tecniche di trasparenza, minimizzazione, accesso e tracciabilità nel perimetro del progetto; le valutazioni legali e privacy specialistiche restano di competenza dei professionisti incaricati dal cliente.'],
       ].map(([q, a]) => (
-        <details class="rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900/60">
-          <summary class="cursor-pointer font-semibold">{q}</summary>
-          <p class="mt-3 leading-relaxed text-neutral-600 dark:text-neutral-300">{a}</p>
+        <details class="group rounded-2xl border border-neutral-200 bg-white p-5 transition open:border-violet-200 open:bg-violet-50/30 dark:border-neutral-800 dark:bg-neutral-900/60 dark:open:border-violet-900 dark:open:bg-violet-950/10">
+          <summary class="cursor-pointer list-none font-semibold marker:hidden">{q}<span class="float-right text-violet-500 transition group-open:rotate-45">+</span></summary>
+          <p class="mt-3 pr-8 leading-relaxed text-neutral-600 dark:text-neutral-300">{a}</p>
         </details>
       ))}
     </div>
@@ -378,17 +374,11 @@ const phases = [
 
   <!-- CTA -->
   <section class="border-t border-neutral-200 bg-neutral-950 text-white dark:border-neutral-800">
-    <div class="container mx-auto max-w-5xl px-6 py-14 text-center md:py-20">
+    <div class="container mx-auto max-w-5xl px-6 py-14 text-center md:py-18">
       <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-300">Primo passo</p>
-      <h2 class="mx-auto mt-3 max-w-3xl text-3xl font-bold tracking-tight md:text-4xl">Mostrami un processo che oggi richiede troppo tempo. Prima verifichiamo se vale davvero la pena automatizzarlo.</h2>
-      <p class="mx-auto mt-5 max-w-2xl text-neutral-300">
-        Nessun agente “che fa tutto”. Partiamo da un problema delimitato, un indicatore misurabile e un livello di rischio che possiamo controllare.
-      </p>
-      <div class="mt-8">
-        <a href="/process-fit-check" class="inline-flex min-h-[48px] items-center justify-center rounded-full bg-violet-600 px-7 py-3 font-semibold text-white transition hover:bg-violet-500 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950">
-          Calcola l’Automation Fit Score
-        </a>
-      </div>
+      <h2 class="mx-auto mt-3 max-w-3xl text-3xl font-bold tracking-tight md:text-4xl">Prima di costruire qualcosa, verifichiamo se vale davvero la pena automatizzarlo.</h2>
+      <p class="mx-auto mt-5 max-w-2xl text-neutral-300">Il Fit Score gratuito ti dà una prima risposta. Se il caso regge, il Process Fit Check da 290 € trasforma quella risposta in una decisione operativa.</p>
+      <div class="mt-8"><a href="/process-fit-check" class="inline-flex min-h-[50px] items-center justify-center rounded-full bg-violet-600 px-7 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-violet-500 hover:text-white">Calcola l’Automation Fit Score</a></div>
     </div>
   </section>
 </Layout>

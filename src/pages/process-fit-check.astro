@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import ProcessFitCheck from '@/components/ProcessFitCheck';
+import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: 'Automation Fit Score: verifica se un processo è automatizzabile | LS Web Agency',
@@ -14,44 +15,65 @@ const metadata = {
 <Layout metadata={metadata}>
   <section class="relative isolate overflow-hidden">
     <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-950/45 dark:via-neutral-950 dark:to-neutral-950"></div>
-    <div class="container mx-auto max-w-5xl px-6 pt-16 pb-10 text-center md:pt-24 md:pb-14">
-      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-300">Strumento gratuito · AI Operations</p>
-      <h1 class="mx-auto mt-4 max-w-4xl text-4xl font-extrabold tracking-tight md:text-6xl">
-        Il tuo processo è davvero adatto all’automazione?
-      </h1>
-      <p class="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-600 md:text-xl dark:text-neutral-300">
-        In pochi minuti ottieni un Automation Fit Score da 0 a 100 e un esito <strong>GO</strong>, <strong>PREPARARE</strong> o <strong>NO-GO</strong>. Il calcolo è deterministico: nessun modello AI decide il punteggio.
+    <div aria-hidden="true" class="absolute -top-24 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-fuchsia-300/30 blur-3xl dark:bg-fuchsia-600/10"></div>
+
+    <div class="container mx-auto max-w-5xl px-6 pt-14 pb-14 text-center md:pt-20 md:pb-20">
+      <p class="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/70 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm dark:border-violet-800 dark:bg-neutral-900/70 dark:text-violet-300">
+        <Icon name="tabler:clipboard-check" class="h-4 w-4" />
+        Strumento gratuito · AI Operations
       </p>
+
+      <h1 class="mx-auto mt-5 max-w-4xl text-4xl font-extrabold tracking-tight md:text-6xl">
+        Capisci in pochi minuti se il tuo processo <span class="text-violet-700 dark:text-violet-400">merita davvero un’automazione.</span>
+      </h1>
+
+      <p class="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-600 md:text-xl dark:text-neutral-300">
+        Rispondi a 8 domande e ottieni un Automation Fit Score da 0 a 100 con un esito <strong>GO</strong>, <strong>PREPARARE</strong> o <strong>NO-GO</strong>. Nessun modello AI decide il punteggio.
+      </p>
+
+      <div class="mt-7 flex flex-wrap justify-center gap-2.5 text-sm font-medium text-neutral-700 dark:text-neutral-200">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/80 px-3.5 py-2 dark:border-neutral-800 dark:bg-neutral-900/70"><Icon name="tabler:clock" class="h-4 w-4 text-violet-600" />2–3 minuti</span>
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/80 px-3.5 py-2 dark:border-neutral-800 dark:bg-neutral-900/70"><Icon name="tabler:list-numbers" class="h-4 w-4 text-violet-600" />8 domande</span>
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/80 px-3.5 py-2 dark:border-neutral-800 dark:bg-neutral-900/70"><Icon name="tabler:shield-check" class="h-4 w-4 text-violet-600" />Punteggio anonimo</span>
+      </div>
     </div>
   </section>
 
-  <section class="container mx-auto max-w-5xl px-6 pb-16 md:pb-24">
+  <section class="relative z-10 container mx-auto max-w-5xl px-4 pb-14 sm:px-6 md:-mt-5 md:pb-20">
     <ProcessFitCheck client:load />
   </section>
 
-  <section class="border-t border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25">
-    <div class="container mx-auto grid max-w-5xl gap-8 px-6 py-14 md:grid-cols-3 md:py-20">
-      <div>
-        <h2 class="text-xl font-bold">Cosa misura</h2>
-        <p class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Frequenza, ripetitività, maturità dei dati, integrabilità, eccezioni, ownership e possibilità di costruire una baseline.</p>
-      </div>
-      <div>
-        <h2 class="text-xl font-bold">Cosa non fa</h2>
-        <p class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Non promette ROI, non sostituisce l’analisi del processo e non considera automaticamente idonea un’attività soltanto perché “si può usare l’AI”.</p>
-      </div>
-      <div>
-        <h2 class="text-xl font-bold">Perché il rischio è separato</h2>
-        <p class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Un processo sensibile o irreversibile non può compensare il rischio con un punteggio alto su volume o dati. Il rischio impone un livello di autonomia più prudente.</p>
+  <section class="border-y border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25">
+    <div class="container mx-auto max-w-5xl px-6 py-12 md:py-16">
+      <div class="grid gap-5 md:grid-cols-3">
+        <article class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"><Icon name="tabler:gauge" class="h-5 w-5" /></div>
+          <h2 class="mt-4 text-lg font-bold">Cosa misura</h2>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Frequenza, ripetitività, maturità dei dati, integrabilità, eccezioni, ownership e possibilità di costruire una baseline.</p>
+        </article>
+
+        <article class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"><Icon name="tabler:ban" class="h-5 w-5" /></div>
+          <h2 class="mt-4 text-lg font-bold">Cosa non fa</h2>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Non promette ROI e non considera automaticamente idoneo un processo soltanto perché tecnicamente si può collegare a un modello AI.</p>
+        </article>
+
+        <article class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"><Icon name="tabler:shield-exclamation" class="h-5 w-5" /></div>
+          <h2 class="mt-4 text-lg font-bold">Perché il rischio è separato</h2>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Un processo sensibile o irreversibile non può compensare il rischio con un punteggio alto su volume o dati.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <section class="container mx-auto max-w-4xl px-6 py-14 text-center md:py-20">
-    <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Dal punteggio al progetto reale</h2>
-    <p class="mx-auto mt-4 max-w-2xl text-neutral-600 dark:text-neutral-300">
+  <section class="container mx-auto max-w-4xl px-6 py-12 text-center md:py-16">
+    <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-300">Dopo il risultato</p>
+    <h2 class="mx-auto mt-3 max-w-3xl text-3xl font-bold tracking-tight md:text-4xl">Il test serve a capire se vale la pena approfondire, non a venderti un’automazione a tutti i costi.</h2>
+    <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-neutral-600 dark:text-neutral-300">
       Se il caso è promettente, il Process Fit Check professionale da 290 € approfondisce flusso, baseline, API, eccezioni, responsabilità e rischio. Solo dopo si decide se costruire un Pilot Operativo.
     </p>
-    <a href="/servizi/ai-operations-pmi" class="mt-7 inline-flex min-h-[48px] items-center justify-center rounded-full border border-neutral-300 px-6 py-3 font-semibold hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900">
+    <a href="/servizi/ai-operations-pmi" class="mt-7 inline-flex min-h-[48px] items-center justify-center rounded-full border border-neutral-300 px-6 py-3 font-semibold transition hover:border-violet-300 hover:bg-violet-50 dark:border-neutral-700 dark:hover:border-violet-800 dark:hover:bg-violet-950/20">
       Scopri il servizio AI Operations
     </a>
   </section>
