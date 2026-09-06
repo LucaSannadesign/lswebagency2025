@@ -1,0 +1,345 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: 'AI Operations per PMI: automatizza lead, CRM e follow-up | LS Web Agency',
+  description:
+    'AI Operations per PMI: colleghiamo sito, email, CRM, calendario e automazioni AI per qualificare lead, organizzare richieste e ridurre attività manuali con controllo umano.',
+  canonical: '/servizi/ai-operations-pmi',
+  ignoreTitleTemplate: true,
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'AI Operations per PMI',
+  description:
+    'Progettazione e integrazione di workflow AI per PMI: acquisizione e qualificazione lead, CRM, email, calendario, follow-up, automazioni operative e controllo umano.',
+  provider: {
+    '@type': 'ProfessionalService',
+    name: 'LS Web Agency',
+    url: 'https://www.lswebagency.com/',
+  },
+  areaServed: 'IT',
+  serviceType: 'AI Operations e automazione dei processi per PMI',
+  url: 'https://www.lswebagency.com/servizi/ai-operations-pmi',
+};
+
+const benefits = [
+  {
+    icon: 'tabler:route',
+    title: 'Richieste instradate automaticamente',
+    text: 'Form, email e altri canali possono confluire in un flusso unico, con dati ordinati e regole di priorità.',
+  },
+  {
+    icon: 'tabler:user-check',
+    title: 'Lead qualificati prima del ricontatto',
+    text: 'L’AI può estrarre informazioni, classificare l’esigenza e preparare il contesto utile a chi deve rispondere.',
+  },
+  {
+    icon: 'tabler:database',
+    title: 'CRM aggiornato senza doppio lavoro',
+    text: 'Le informazioni raccolte possono essere salvate nel CRM e trasformate in attività, note o promemoria operativi.',
+  },
+  {
+    icon: 'tabler:mail-forward',
+    title: 'Follow-up più ordinato',
+    text: 'Promemoria, email e attività successive possono essere preparati o inviati secondo regole definite insieme.',
+  },
+  {
+    icon: 'tabler:calendar-event',
+    title: 'Appuntamenti e calendario collegati',
+    text: 'Quando utile, il flusso può verificare disponibilità, proporre slot e registrare l’appuntamento.',
+  },
+  {
+    icon: 'tabler:shield-check',
+    title: 'Controllo umano dove serve',
+    text: 'Le azioni sensibili restano soggette ad approvazione: l’AI prepara, la persona decide e il sistema esegue.',
+  },
+];
+
+const examples = [
+  {
+    title: 'Agenzie e servizi B2B',
+    flow: 'Richiesta → esigenza → priorità → CRM → risposta → follow-up',
+    text: 'Per attività che ricevono richieste commerciali e vogliono ridurre il tempo perso tra inbox, fogli e CRM.',
+  },
+  {
+    title: 'Professionisti e studi',
+    flow: 'Contatto → qualificazione → appuntamento → promemoria → ricontatto',
+    text: 'Per organizzare richieste, disponibilità e passaggi amministrativi senza automatizzare decisioni professionali.',
+  },
+  {
+    title: 'Attività locali e reti commerciali',
+    flow: 'Lead → zona → urgenza → assegnazione → attività → stato',
+    text: 'Per distribuire richieste in base a regole semplici e rendere visibile a colpo d’occhio cosa richiede attenzione.',
+  },
+];
+
+const phases = [
+  ['Mappatura', 'Analizziamo come entrano oggi le richieste, dove vengono copiate e quali passaggi sono ripetitivi.'],
+  ['Prototipo', 'Automatizziamo un solo flusso prioritario, con dati di test e regole esplicite.'],
+  ['Integrazione', 'Colleghiamo gli strumenti già usati quando è possibile, evitando piattaforme inutili.'],
+  ['Controllo', 'Definiamo log, fallback e passaggi human-in-the-loop prima di andare in produzione.'],
+  ['Misurazione', 'Verifichiamo tempo risparmiato, richieste gestite, errori evitati e punti ancora manuali.'],
+];
+---
+
+<Layout metadata={metadata}>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+
+  <!-- HERO -->
+  <section class="relative isolate overflow-hidden">
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-950/45 dark:via-neutral-950 dark:to-neutral-950"></div>
+    <div aria-hidden="true" class="absolute -top-28 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-fuchsia-300/30 blur-3xl dark:bg-fuchsia-600/10"></div>
+
+    <div class="container mx-auto max-w-6xl px-6 pt-16 pb-14 md:pt-24 md:pb-20">
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/70 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm dark:border-violet-800 dark:bg-neutral-900/70 dark:text-violet-300">
+          <Icon name="tabler:automation" class="h-4 w-4" />
+          AI Operations per PMI
+        </p>
+
+        <h1 class="text-4xl font-extrabold tracking-tight text-neutral-950 md:text-6xl dark:text-white">
+          Non vendiamo AI. <span class="text-violet-700 dark:text-violet-400">Automatizziamo lavoro.</span>
+        </h1>
+
+        <p class="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-600 md:text-xl dark:text-neutral-300">
+          Colleghiamo sito, email, CRM, calendario e intelligenza artificiale per ridurre attività ripetitive, organizzare meglio i lead e far arrivare alle persone solo ciò che richiede davvero una decisione.
+        </p>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="/contatti?servizio=ai-automazioni" class="inline-flex min-h-[48px] items-center justify-center rounded-full bg-violet-600 px-6 py-3 font-semibold text-white transition hover:bg-violet-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2">
+            Analizza il tuo processo
+          </a>
+          <a href="#come-funziona" class="inline-flex min-h-[48px] items-center justify-center rounded-full border border-neutral-300 bg-white/70 px-6 py-3 font-semibold text-neutral-900 transition hover:bg-white dark:border-neutral-700 dark:bg-neutral-900/60 dark:text-white dark:hover:bg-neutral-900">
+            Vedi come funziona
+          </a>
+        </div>
+
+        <p class="mt-6 text-sm text-neutral-500 dark:text-neutral-400">
+          Per professionisti e PMI · integrazione progressiva · controllo umano sulle azioni sensibili
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
+    <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Il problema</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Il costo nascosto non è il software. È il lavoro manuale tra un passaggio e l’altro.</h2>
+        <p class="mt-5 text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">
+          Una richiesta arriva dal sito, qualcuno la copia in un foglio, poi nel CRM, manda una mail, crea un promemoria e controlla il calendario. Ogni passaggio è piccolo, ma insieme consumano tempo e rendono più facile perdere informazioni o ritardare il ricontatto.
+        </p>
+      </div>
+
+      <div class="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8 dark:border-neutral-800 dark:bg-neutral-900/60">
+        <div class="space-y-4">
+          {[
+            ['1', 'Richiesta', 'Sito, email, WhatsApp o altro canale'],
+            ['2', 'Interpretazione', 'Dati estratti e richiesta classificata'],
+            ['3', 'CRM', 'Contatto, note, priorità e attività aggiornati'],
+            ['4', 'Azione', 'Risposta, appuntamento o follow-up preparato'],
+            ['5', 'Controllo umano', 'Una persona approva quando la decisione non va automatizzata'],
+          ].map(([n, title, text]) => (
+            <div class="flex gap-4 rounded-2xl bg-neutral-50 p-4 dark:bg-neutral-950/50">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">{n}</span>
+              <div>
+                <h3 class="font-semibold text-neutral-900 dark:text-white">{title}</h3>
+                <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">{text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFICI -->
+  <section class="border-y border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25">
+    <div class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
+      <div class="mx-auto mb-10 max-w-3xl text-center">
+        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Cosa automatizziamo</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Un sistema operativo leggero per le richieste commerciali</h2>
+        <p class="mt-4 text-neutral-600 dark:text-neutral-300">
+          Non serve cambiare tutto. Partiamo dal passaggio che oggi richiede più tempo o crea più dispersione e colleghiamo solo gli strumenti necessari.
+        </p>
+      </div>
+
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {benefits.map((item) => (
+          <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+            <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300">
+              <Icon name={item.icon} class="h-5 w-5" />
+            </div>
+            <h3 class="text-lg font-semibold">{item.title}</h3>
+            <p class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-300">{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ESEMPI -->
+  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
+    <div class="mb-10 max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Esempi concreti</p>
+      <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Stesso motore, flussi diversi in base all’attività</h2>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-3">
+      {examples.map((item) => (
+        <article class="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+          <h3 class="text-xl font-bold">{item.title}</h3>
+          <div class="mt-4 rounded-2xl bg-neutral-950 p-4 font-mono text-sm leading-relaxed text-violet-200 dark:bg-black">
+            {item.flow}
+          </div>
+          <p class="mt-4 leading-relaxed text-neutral-600 dark:text-neutral-300">{item.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- HUMAN IN THE LOOP -->
+  <section class="container mx-auto max-w-6xl px-6 pb-14 md:pb-20">
+    <div class="overflow-hidden rounded-3xl bg-neutral-950 p-8 text-white md:p-10">
+      <div class="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-300">Human in the loop</p>
+          <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">L’AI prepara. La persona decide. Il sistema esegue.</h2>
+          <p class="mt-5 leading-relaxed text-neutral-300">
+            Non tutto deve diventare automatico. Preventivi complessi, risposte delicate, eccezioni e decisioni professionali possono restare soggette ad approvazione. L’automazione serve a togliere attrito, non controllo.
+          </p>
+        </div>
+
+        <div class="grid gap-3">
+          {[
+            ['AI', 'Raccoglie, sintetizza e prepara'],
+            ['Persona', 'Controlla e approva quando serve'],
+            ['Workflow', 'Registra, invia o pianifica l’azione'],
+          ].map(([title, text]) => (
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div class="font-semibold text-violet-300">{title}</div>
+              <div class="mt-1 text-sm text-neutral-300">{text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section id="come-funziona" class="border-y border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25 scroll-mt-28">
+    <div class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
+      <div class="mb-10 max-w-3xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Metodo</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Partiamo da un solo flusso e lo rendiamo misurabile</h2>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-5">
+        {phases.map(([title, text], i) => (
+          <article class="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/60">
+            <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">{i + 1}</div>
+            <h3 class="font-semibold">{title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULI -->
+  <section class="container mx-auto max-w-6xl px-6 py-14 md:py-20">
+    <div class="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-start">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Modulare</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Può includere strumenti che hai già</h2>
+        <p class="mt-5 leading-relaxed text-neutral-600 dark:text-neutral-300">
+          L’obiettivo non è aggiungere piattaforme per forza. Quando tecnicamente sensato, il flusso viene costruito intorno agli strumenti già presenti e si aggiungono nuovi componenti solo dove generano un vantaggio reale.
+        </p>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-2">
+        {['Sito e form', 'Email', 'CRM', 'Google Calendar', 'WhatsApp / API', 'Database', 'Automazioni', 'Modelli AI'].map((item) => (
+          <div class="flex items-center gap-3 rounded-2xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900/60">
+            <Icon name="tabler:circle-check" class="h-5 w-5 shrink-0 text-violet-600 dark:text-violet-400" />
+            <span class="font-medium">{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-6 rounded-2xl border border-violet-200 bg-violet-50 p-5 text-sm text-violet-950 dark:border-violet-900 dark:bg-violet-950/30 dark:text-violet-100">
+      L’assistente AI per sito e WhatsApp resta disponibile come modulo specifico. <a href="/servizi/assistente-ai-sito-whatsapp" class="font-semibold underline underline-offset-2">Scopri l’assistente AI →</a>
+    </div>
+  </section>
+
+  <!-- OFFERTA PILOTA -->
+  <section class="container mx-auto max-w-6xl px-6 pb-14 md:pb-20">
+    <div class="rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 to-white p-8 shadow-sm md:p-10 dark:border-violet-900 dark:from-violet-950/30 dark:to-neutral-950">
+      <div class="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-400">Progetto pilota</p>
+          <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Automatizziamo il primo processo, non tutta l’azienda.</h2>
+          <p class="mt-5 leading-relaxed text-neutral-600 dark:text-neutral-300">
+            Il primo progetto serve a verificare valore, affidabilità e integrazione sugli strumenti reali dell’attività. Solo dopo ha senso estendere il sistema ad altri flussi.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/70">
+          <div class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Configurazione progetto pilota</div>
+          <div class="mt-2 text-4xl font-extrabold">da 990 €</div>
+          <div class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">+ gestione da 199 €/mese, se necessaria</div>
+          <ul class="mt-5 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+            <li>• analisi di un flusso prioritario</li>
+            <li>• configurazione e integrazione iniziale</li>
+            <li>• test con casi reali o simulati</li>
+            <li>• regole di controllo e fallback</li>
+          </ul>
+          <p class="mt-4 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+            Eventuali costi di servizi terzi, API o licenze sono esclusi e vengono indicati separatamente. Il prezzo definitivo dipende dalle integrazioni richieste.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container mx-auto max-w-4xl px-6 pb-14 md:pb-20">
+    <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Domande frequenti</h2>
+    <div class="mt-6 space-y-3">
+      {[
+        ['Devo cambiare CRM o gestionale?', 'Non necessariamente. Prima verifichiamo se gli strumenti che utilizzi espongono API, webhook o altre modalità affidabili di integrazione.'],
+        ['L’AI può inviare risposte senza controllo?', 'Può farlo nei casi semplici e ben definiti, ma per azioni sensibili impostiamo un passaggio di approvazione umana.'],
+        ['Serve già un sito nuovo?', 'No. Il servizio può partire anche da un sito esistente, purché sia possibile collegare in modo affidabile i punti di ingresso delle richieste.'],
+        ['Cosa misuriamo?', 'Tempo risparmiato, numero di passaggi eliminati, richieste correttamente registrate, tempi di presa in carico ed eventuali errori o fallback.'],
+        ['È un chatbot?', 'No. Un chatbot può essere uno dei moduli, ma AI Operations riguarda soprattutto ciò che accade dopo la richiesta: dati, CRM, attività, calendario, follow-up e controllo.'],
+        ['Posso partire da un solo processo?', 'Sì, ed è il modo consigliato. Prima rendiamo affidabile un flusso, poi valutiamo se estenderlo.'],
+      ].map(([q, a]) => (
+        <details class="rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900/60">
+          <summary class="cursor-pointer font-semibold">{q}</summary>
+          <p class="mt-3 leading-relaxed text-neutral-600 dark:text-neutral-300">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-neutral-200 bg-neutral-950 text-white dark:border-neutral-800">
+    <div class="container mx-auto max-w-5xl px-6 py-14 text-center md:py-20">
+      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-300">Primo passo</p>
+      <h2 class="mx-auto mt-3 max-w-3xl text-3xl font-bold tracking-tight md:text-4xl">Mostrami come gestisci oggi una richiesta. Individuiamo il primo passaggio che vale la pena automatizzare.</h2>
+      <p class="mx-auto mt-5 max-w-2xl text-neutral-300">
+        La valutazione iniziale serve a capire se esiste un processo abbastanza ripetitivo, misurabile e sicuro da automatizzare. Se non c’è, non proponiamo un sistema inutile.
+      </p>
+      <div class="mt-8">
+        <a href="/contatti?servizio=ai-automazioni" class="inline-flex min-h-[48px] items-center justify-center rounded-full bg-violet-600 px-7 py-3 font-semibold text-white transition hover:bg-violet-500 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950">
+          Richiedi la valutazione AI Operations
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
