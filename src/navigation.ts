@@ -11,10 +11,9 @@ export const headerData = {
       links: [
         { text: 'Sito web strategico', href: '/servizi/siti-web' },
         { text: 'Audit del sito', href: '/servizi/audit-rapido' },
-        // Nome letto dal catalogo: la voce diceva "Sprint tecnico", nome che sulla
-        // pagina non compare e che appartiene invece a un livello del white label.
         { text: serviceName('sprint-ottimizzazione'), href: '/servizi/sprint-ottimizzazione' },
         { text: 'AI Operations per PMI', href: '/servizi/ai-operations-pmi' },
+        { text: 'Automation Fit Score', href: '/process-fit-check' },
         { text: 'divider' },
         {
           text: 'Digital Presence ↗',
@@ -29,7 +28,6 @@ export const headerData = {
     { text: 'Contatti', href: '/contatti' },
   ],
   actions: [
-    // CTA autonoma: strumento gratuito di acquisizione lead, distinto dai servizi.
     { text: 'Valutazione iniziale gratuita', href: '/mini-analisi', variant: 'primary' },
   ],
 };

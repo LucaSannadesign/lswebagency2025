@@ -1,0 +1,58 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+import ProcessFitCheck from '@/components/ProcessFitCheck';
+
+const metadata = {
+  title: 'Automation Fit Score: verifica se un processo è automatizzabile | LS Web Agency',
+  description:
+    'Valuta gratuitamente se un processo aziendale è adatto all’automazione: frequenza, ripetitività, dati, integrazioni, eccezioni, ownership, KPI e rischio.',
+  canonical: '/process-fit-check',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="relative isolate overflow-hidden">
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-950/45 dark:via-neutral-950 dark:to-neutral-950"></div>
+    <div class="container mx-auto max-w-5xl px-6 pt-16 pb-10 text-center md:pt-24 md:pb-14">
+      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700 dark:text-violet-300">Strumento gratuito · AI Operations</p>
+      <h1 class="mx-auto mt-4 max-w-4xl text-4xl font-extrabold tracking-tight md:text-6xl">
+        Il tuo processo è davvero adatto all’automazione?
+      </h1>
+      <p class="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-600 md:text-xl dark:text-neutral-300">
+        In pochi minuti ottieni un Automation Fit Score da 0 a 100 e un esito <strong>GO</strong>, <strong>PREPARARE</strong> o <strong>NO-GO</strong>. Il calcolo è deterministico: nessun modello AI decide il punteggio.
+      </p>
+    </div>
+  </section>
+
+  <section class="container mx-auto max-w-5xl px-6 pb-16 md:pb-24">
+    <ProcessFitCheck client:load />
+  </section>
+
+  <section class="border-t border-neutral-200 bg-neutral-50/70 dark:border-neutral-800 dark:bg-neutral-900/25">
+    <div class="container mx-auto grid max-w-5xl gap-8 px-6 py-14 md:grid-cols-3 md:py-20">
+      <div>
+        <h2 class="text-xl font-bold">Cosa misura</h2>
+        <p class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Frequenza, ripetitività, maturità dei dati, integrabilità, eccezioni, ownership e possibilità di costruire una baseline.</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">Cosa non fa</h2>
+        <p class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Non promette ROI, non sostituisce l’analisi del processo e non considera automaticamente idonea un’attività soltanto perché “si può usare l’AI”.</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">Perché il rischio è separato</h2>
+        <p class="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">Un processo sensibile o irreversibile non può compensare il rischio con un punteggio alto su volume o dati. Il rischio impone un livello di autonomia più prudente.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mx-auto max-w-4xl px-6 py-14 text-center md:py-20">
+    <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Dal punteggio al progetto reale</h2>
+    <p class="mx-auto mt-4 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      Se il caso è promettente, il Process Fit Check professionale da 290 € approfondisce flusso, baseline, API, eccezioni, responsabilità e rischio. Solo dopo si decide se costruire un Pilot Operativo.
+    </p>
+    <a href="/servizi/ai-operations-pmi" class="mt-7 inline-flex min-h-[48px] items-center justify-center rounded-full border border-neutral-300 px-6 py-3 font-semibold hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900">
+      Scopri il servizio AI Operations
+    </a>
+  </section>
+</Layout>

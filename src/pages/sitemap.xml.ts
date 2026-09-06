@@ -7,22 +7,15 @@ function esc(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// Sitemap autorevole: generata a build-time (le fonti sono content collections statiche).
 export const prerender = true;
-
-// 🔗 tienilo allineato a /src/pages/portfolio e /src/pages/portfolio/page/[page].astro
 const PER_PAGE_PORTFOLIO = 12;
 
 export async function GET({ site }: { site: URL }) {
-  // Origin assoluto (richiede `site:` in astro.config.*). Fallback al dominio reale.
   const origin = site?.origin ?? 'https://www.lswebagency.com';
-
-  // Collezioni
   const posts = await fetchPosts();
   const portfolio = await getCollection('portfolio', (e) => !(e.data as any)?.draft);
-  const cities = await getCollection('cities').catch(() => []); // opzionale
+  const cities = await getCollection('cities').catch(() => []);
 
-  // Pagine statiche principali
   const staticPages = [
     '/',
     '/chi-siamo',
@@ -32,11 +25,11 @@ export async function GET({ site }: { site: URL }) {
     '/blog',
     '/local',
     '/mini-analisi',
+    '/process-fit-check',
     '/progetto-digitale-per-imprese',
     '/transizione-digitale-turismo',
   ];
 
-  // Pagine Servizi (rotte effettive)
   const servicePages = [
     '/servizi/creazione-siti-web-sassari',
     '/servizi/realizzazione-siti-ecommerce',
@@ -62,59 +55,37 @@ export async function GET({ site }: { site: URL }) {
   ];
 
   type Entry = { loc: string; lastmod?: string };
-
+  const urls: Entry[] = [];
   const push = (path: string, last?: Date | string) => {
     const url = path.startsWith('http') ? path : origin + (path.startsWith('/') ? path : '/' + path);
     const lastmod = last ? new Date(last).toISOString() : undefined;
     urls.push({ loc: url, lastmod });
   };
 
-  const urls: Entry[] = [];
-
-  // Statiche + Servizi
   staticPages.forEach((p) => push(p));
   servicePages.forEach((p) => push(p));
 
-  // Local dinamiche (solo published:true)
   if (cities.length) {
-    cities
-      .filter((c: any) => c?.data?.published)
-      .forEach((c) => push(`/local/${c.data.slug}`));
+    cities.filter((c: any) => c?.data?.published).forEach((c) => push(`/local/${c.data.slug}`));
   }
 
-  // Blog: permalink effettivo della route pubblicata
   posts.forEach((p) => {
     const last = p.updateDate ?? p.publishDate;
     push(String(getPermalink(p.permalink, 'post')), last as any);
   });
 
-  // Portfolio items
   portfolio.forEach((i) => {
     const last = i.data?.updateDate ?? i.data?.publishDate ?? (i as any).data?.pubDate;
     push(`/portfolio/${i.data.slug}`, last as any);
   });
 
-  // Paginazione Portfolio
-  const total = portfolio.length;
-  const totalPages = Math.max(1, Math.ceil(total / PER_PAGE_PORTFOLIO));
-  for (let p = 2; p <= totalPages; p++) {
-    push(`/portfolio/page/${p}`);
-  }
+  const totalPages = Math.max(1, Math.ceil(portfolio.length / PER_PAGE_PORTFOLIO));
+  for (let p = 2; p <= totalPages; p++) push(`/portfolio/page/${p}`);
 
-  // De-duplica e serializza
   const dedup = Array.from(new Map(urls.map((u) => [u.loc, u])).values());
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${dedup
+    .map((u) => `<url><loc>${esc(u.loc)}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`)
+    .join('\n')}\n</urlset>`;
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${dedup
-  .map(
-    (u) =>
-      `<url><loc>${esc(u.loc)}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`
-  )
-  .join('\n')}
-</urlset>`;
-
-  return new Response(xml, {
-    headers: { 'Content-Type': 'application/xml; charset=utf-8' },
-  });
+  return new Response(xml, { headers: { 'Content-Type': 'application/xml; charset=utf-8' } });
 }
