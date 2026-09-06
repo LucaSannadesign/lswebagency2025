@@ -47,6 +47,7 @@ export async function GET({ site }: { site: URL }) {
     '/servizi/web-design-etico-sostenibile',
     '/servizi/wordpress-slim-siti-statici-headless',
     '/servizi/assistente-ai-sito-whatsapp',
+    '/servizi/ai-operations-pmi',
     '/servizi/ai-blog-engine',
     '/servizi/assistenza-manutenzione',
     '/servizi/audit-rapido',
