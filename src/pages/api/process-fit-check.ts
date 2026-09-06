@@ -180,7 +180,7 @@ export const POST: APIRoute = async ({ request }) => {
       source: 'altro',
       problem_detected: [] as string[],
       notes,
-      estimated_value: result.outcome === 'GO' ? 290 : 0,
+      estimated_value: result.outcome === 'NO-GO' ? 0 : 290,
       archived: false,
     };
 
