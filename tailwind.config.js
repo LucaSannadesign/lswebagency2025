@@ -20,6 +20,9 @@ export default {
           magenta: 'rgb(var(--brand-magenta) / <alpha-value>)',
         },
       },
+      spacing: {
+        18: '4.5rem',
+      },
       fontFamily: {
         sans: ['var(--aw-font-sans, ui-sans-serif)', ...defaultTheme.fontFamily.sans],
         serif: ['var(--aw-font-serif, ui-serif)', ...defaultTheme.fontFamily.serif],
