@@ -147,9 +147,11 @@ export function computeFitResult(answers: FitAnswers): FitResult {
   if (answers.repeatability === 'unique') blockers.push('Il processo cambia troppo da caso a caso.');
   if (answers.data === 'memory-paper') blockers.push('I dati non hanno ancora una fonte digitale affidabile.');
   if (answers.integration === 'closed') blockers.push('Gli strumenti principali non risultano integrabili in modo affidabile.');
+  if (answers.exceptions === 'unpredictable') blockers.push('Le eccezioni sono troppo imprevedibili per un go-live autonomo.');
   if (answers.owner === 'unclear') blockers.push('Manca un referente che possa validare regole ed eccezioni.');
+  if (answers.measurement === 'none') blockers.push('Manca una baseline affidabile per misurare se l’automazione produce valore.');
   if (answers.risk === 'high') blockers.push('Il rischio operativo richiede una progettazione specialistica e forte controllo umano.');
-  if (answers.frequency === 'rare' && answers.repeatability !== 'same') blockers.push('Il volume è probabilmente troppo basso per giustificare una automazione dedicata.');
+  if (answers.frequency === 'rare') blockers.push('Il volume è basso: va verificato che il costo manuale per singolo caso giustifichi una automazione dedicata.');
 
   if (pointsFor('frequency', answers.frequency) >= 15) strengths.push('Volume sufficiente per misurare benefici reali.');
   if (pointsFor('repeatability', answers.repeatability) >= 15) strengths.push('Flusso abbastanza stabile da poter essere standardizzato.');
@@ -161,10 +163,15 @@ export function computeFitResult(answers: FitAnswers): FitResult {
     (answers.repeatability === 'unique' && answers.frequency === 'rare') ||
     (answers.data === 'memory-paper' && answers.integration === 'closed');
 
+  // Gate conservativi: un punteggio alto non deve compensare prerequisiti strutturali mancanti.
   const preparationGate =
+    answers.repeatability === 'unique' ||
     answers.data === 'memory-paper' ||
     answers.integration === 'closed' ||
+    answers.exceptions === 'unpredictable' ||
     answers.owner === 'unclear' ||
+    answers.measurement === 'none' ||
+    answers.frequency === 'rare' ||
     answers.risk === 'high';
 
   let outcome: FitOutcome;
@@ -177,7 +184,7 @@ export function computeFitResult(answers: FitAnswers): FitResult {
     outcome === 'GO'
       ? 'Mappare il processo in dettaglio e definire baseline, integrazioni e un Pilot Operativo.'
       : outcome === 'PREPARARE'
-        ? 'Sistemare prima i prerequisiti indicati: dati, ownership, integrazioni o gestione delle eccezioni.'
+        ? 'Sistemare prima i prerequisiti indicati: dati, ownership, integrazioni, misurabilità o gestione delle eccezioni.'
         : 'Non costruire un’automazione dedicata adesso: conviene semplificare il processo o scegliere un caso d’uso più frequente e stabile.';
 
   return { score, outcome, risk, blockers, strengths, nextStep, dimensions };
