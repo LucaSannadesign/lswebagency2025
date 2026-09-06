@@ -14,6 +14,7 @@ export const headerData = {
         // Nome letto dal catalogo: la voce diceva "Sprint tecnico", nome che sulla
         // pagina non compare e che appartiene invece a un livello del white label.
         { text: serviceName('sprint-ottimizzazione'), href: '/servizi/sprint-ottimizzazione' },
+        { text: 'AI Operations per PMI', href: '/servizi/ai-operations-pmi' },
         { text: 'divider' },
         {
           text: 'Digital Presence ↗',
