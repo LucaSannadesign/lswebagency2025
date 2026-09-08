@@ -1,0 +1,69 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+
+const canonical = 'https://www.lswebagency.com/resources/bakery-brand-touchpoints';
+const gumroadUrl = 'https://websmith106.gumroad.com/l/bakery-brand-touchpoints?wanted=true';
+const pageDescription = '12 mockup SVG coordinati per presentazioni di brand bakery e artisan food: packaging, loyalty, menu, insegne, social e materiali stampati.';
+const touchpoints = ['Shopping Bag','Pastry Box','Wrapping Paper','Sticker Seal','Business Card','Loyalty Card','Price Tag','Menu Product List','Storefront Sign','Takeaway Cup','Social Post','Thank You Card'];
+const features = [
+  ['SVG realmente editabili','I sorgenti restano vettoriali e adattabili in editor compatibili.'],
+  ['Gruppi nominati','Struttura coerente tra artwork, demo brand e guide.'],
+  ['Testo modificabile','Dove presente, il testo resta editabile. Noto Serif e Arimo sono consigliati.'],
+  ['Nessun raster incorporato','Gli SVG master non contengono raster incorporati o riferimenti esterni.'],
+];
+const license = [
+  ['Consentito','Progetti personali e per clienti: presentazioni, linee guida, portfolio, web, print e social.'],
+  ['Non consentito','Rivendere, redistribuire o includere i sorgenti editabili in un altro prodotto o template.'],
+  ['Brand demo','“Forno Aureo” è dimostrativo e va sostituito nei lavori destinati al cliente finale.'],
+  ['Font','Noto Serif e Arimo sono consigliati; i file font non sono inclusi.'],
+];
+const productSchema = {
+  '@context':'https://schema.org','@type':'Product',name:'Bakery Brand Touchpoints — 12 Editable SVG Brand Mockups',description:pageDescription,url:canonical,
+  brand:{'@type':'Brand',name:'LS Web Agency'},
+  offers:{'@type':'Offer',price:'19.00',priceCurrency:'EUR',availability:'https://schema.org/InStock',url:gumroadUrl,seller:{'@type':'Organization',name:'LS Web Agency',url:'https://www.lswebagency.com/'}},
+};
+---
+
+<Layout metadata={{title:'Bakery Brand Touchpoints | 12 mockup SVG editabili',description:pageDescription,canonical,openGraph:{url:canonical,type:'website'},twitter:{cardType:'summary_large_image'},jsonLd:productSchema}}>
+  <section class="resource-hero relative isolate overflow-hidden bg-[#F5F0FB] dark:bg-slate-950">
+    <div class="resource-grid absolute inset-0 -z-20" aria-hidden="true"></div>
+    <div class="glow glow-violet" aria-hidden="true"></div><div class="glow glow-magenta" aria-hidden="true"></div>
+    <div class="mx-auto grid max-w-screen-xl items-center gap-10 px-5 py-14 sm:px-6 sm:py-16 md:px-8 lg:grid-cols-12 lg:gap-12 lg:py-20">
+      <div class="lg:col-span-7">
+        <span class="inline-flex items-center gap-2 rounded-full border border-[#DED3EA] bg-white/70 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[.08em] text-[#5E566B] dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-300"><span class="h-1.5 w-1.5 rounded-full bg-[#E72AAE]"></span>Digital resource · Branding mockups</span>
+        <h1 class="mt-5 max-w-3xl text-[2.35rem] font-extrabold leading-[1.05] tracking-[-.04em] text-[#211831] sm:text-5xl lg:text-[3.65rem] dark:text-white">Presenta un bakery brand come un <span class="gradient-text">sistema completo.</span></h1>
+        <p class="mt-5 max-w-2xl text-base leading-7 text-[#5E566B] sm:text-lg dark:text-slate-300"><strong class="font-semibold text-[#211831] dark:text-white">Bakery Brand Touchpoints</strong> raccoglie 12 mockup SVG coordinati per mostrare la stessa identità su packaging, materiali stampati, loyalty, insegne e social — senza costruire ogni supporto da zero.</p>
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row"><a class="btn btn-primary" href={gumroadUrl} target="_blank" rel="noopener noreferrer sponsored">Acquista il kit — €19</a><a class="btn btn-secondary" href="#contenuto">Scopri cosa include</a></div>
+        <div class="mt-5 flex flex-wrap gap-2">{['12 SVG','12 preview PNG','Uso commerciale cliente','Download digitale'].map((item)=><span class="rounded-lg border border-[#DED3EA] bg-white/65 px-3 py-2 text-xs font-medium text-[#5E566B] dark:border-white/10 dark:bg-slate-900/60 dark:text-slate-300">{item}</span>)}</div>
+      </div>
+      <div class="grid grid-cols-2 gap-3 lg:col-span-5" aria-label="Anteprima del prodotto">
+        <figure class="product-frame row-span-2"><img src="/images/resources/bakery-brand-touchpoints/01-shopping-bag.svg" alt="Shopping Bag — mockup originale Bakery Brand Touchpoints" width="1200" height="800" loading="eager" /></figure>
+        <figure class="product-frame"><img src="/images/resources/bakery-brand-touchpoints/06-loyalty-card.svg" alt="Loyalty Card — mockup originale Bakery Brand Touchpoints" width="1200" height="800" loading="eager" /></figure>
+        <figure class="product-frame"><img src="/images/resources/bakery-brand-touchpoints/10-takeaway-cup.svg" alt="Takeaway Cup — mockup originale Bakery Brand Touchpoints" width="1200" height="800" loading="eager" /></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 sm:py-20 dark:bg-[#030620]"><div class="mx-auto max-w-4xl px-5 sm:px-6 md:px-8"><span class="eyebrow">Perché nasce</span><h2 class="heading">Un logo da solo non mostra come funziona davvero un’identità.</h2><p class="lead">Una brand identity acquista credibilità quando mantiene la stessa logica su supporti diversi. Il kit serve a presentare quella continuità: non una raccolta di mockup scollegati, ma un sistema di touchpoint coordinati.</p></div></section>
+
+  <section id="contenuto" class="bg-[#F5F0FB] py-16 sm:py-20 dark:bg-slate-950"><div class="mx-auto max-w-screen-xl px-5 sm:px-6 md:px-8"><span class="eyebrow">Dentro il kit</span><h2 class="heading">12 touchpoint. Una sola logica visiva.</h2><div class="mt-10 grid gap-8 lg:grid-cols-12">
+    <ol class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:col-span-6">{touchpoints.map((item,index)=><li class="flex min-h-14 items-center gap-3 rounded-[13px] border border-[#DED3EA] bg-white/75 px-3.5 py-3 text-sm font-semibold text-[#211831] dark:border-white/10 dark:bg-slate-900/70 dark:text-white"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary/10 text-[11px] font-bold text-primary">{String(index+1).padStart(2,'0')}</span>{item}</li>)}</ol>
+    <div class="grid gap-3 sm:grid-cols-2 lg:col-span-6"><figure class="product-frame sm:row-span-2"><img src="/images/resources/bakery-brand-touchpoints/08-menu-product-list.svg" alt="Menu Product List — mockup originale Bakery Brand Touchpoints" width="1200" height="800" loading="lazy" /></figure><figure class="product-frame"><img src="/images/resources/bakery-brand-touchpoints/12-thank-you-card.svg" alt="Thank You Card — mockup originale Bakery Brand Touchpoints" width="1200" height="800" loading="lazy" /></figure></div>
+  </div></div></section>
+
+  <section class="bg-white py-16 sm:py-20 dark:bg-[#030620]"><div class="mx-auto max-w-screen-xl px-5 sm:px-6 md:px-8"><span class="eyebrow">Built to edit</span><h2 class="heading">Modifica il brand demo. Non ricostruire il mockup.</h2><p class="lead max-w-3xl">Struttura prevedibile e aspettative realistiche: nessuna promessa di auto-fit, sostituzione one-click o comportamento identico in ogni editor vettoriale.</p><div class="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{features.map(([title,text])=><article class="ui-card"><span class="grid h-9 w-9 place-items-center rounded-xl bg-primary/10 font-bold text-primary">✓</span><h3 class="mt-4 font-bold text-[#211831] dark:text-white">{title}</h3><p class="mt-2 text-sm leading-6 text-[#5E566B] dark:text-slate-300">{text}</p></article>)}</div></div></section>
+
+  <section class="bg-[#F5F0FB] py-16 sm:py-20 dark:bg-slate-950"><div class="mx-auto grid max-w-screen-xl gap-8 px-5 sm:px-6 md:px-8 lg:grid-cols-12 lg:gap-12"><div class="lg:col-span-5"><span class="eyebrow">Pensato per designer</span><h2 class="heading">Quando può essere utile</h2><p class="lead">Per mostrare un’identità in contesto mantenendo coerenza tra applicazioni diverse.</p></div><div class="grid gap-3 sm:grid-cols-2 lg:col-span-7">{['Presentazioni per clienti','Brand guidelines','Portfolio e case study','Identità bakery e artisan food'].map((item)=><div class="ui-card flex min-h-20 items-center gap-3 font-semibold text-[#211831] dark:text-white"><span class="h-2 w-2 rounded-full bg-[#E72AAE]"></span>{item}</div>)}</div></div></section>
+
+  <section class="bg-white py-16 sm:py-20 dark:bg-[#030620]"><div class="mx-auto grid max-w-screen-xl gap-8 px-5 sm:px-6 md:px-8 lg:grid-cols-12 lg:gap-12"><div class="lg:col-span-5"><span class="eyebrow">Licenza e compatibilità</span><h2 class="heading">Uso commerciale chiaro.</h2></div><dl class="overflow-hidden rounded-[18px] border border-[#DED3EA] bg-white lg:col-span-7 dark:border-white/10 dark:bg-slate-900/70">{license.map(([term,text],index)=><div class:list={['grid gap-2 px-5 py-4 sm:grid-cols-[120px_1fr] sm:gap-4',index>0&&'border-t border-[#DED3EA] dark:border-slate-700']}><dt class="text-sm font-bold text-primary">{term}</dt><dd class="m-0 text-sm leading-6 text-[#5E566B] dark:text-slate-300">{text}</dd></div>)}</dl></div></section>
+
+  <section class="relative overflow-hidden bg-[#F5F0FB] py-16 sm:py-20 dark:bg-slate-950"><div class="absolute -right-24 -top-32 h-96 w-96 rounded-full bg-[#E72AAE]/10 blur-3xl"></div><div class="relative mx-auto flex max-w-screen-xl flex-col gap-7 px-5 sm:px-6 md:px-8 lg:flex-row lg:items-end lg:justify-between"><div class="max-w-3xl"><span class="eyebrow">Bakery Brand Touchpoints</span><h2 class="heading">Pronto a mostrare l’intero brand, non solo il logo?</h2><p class="lead">12 SVG editabili, 12 preview PNG e licenza commerciale single-user.</p></div><div class="min-w-52 lg:text-right"><div class="mb-3 text-4xl font-extrabold text-[#211831] dark:text-white">€19</div><a class="btn btn-primary w-full" href={gumroadUrl} target="_blank" rel="noopener noreferrer sponsored">Vai al checkout</a></div></div></section>
+</Layout>
+
+<style>
+.resource-grid{background-image:linear-gradient(rgb(222 211 234/.72) 1px,transparent 1px),linear-gradient(90deg,rgb(222 211 234/.72) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 62% 64% at 78% 48%,#000 0%,rgb(0 0 0/.45) 42%,transparent 76%)}
+.glow{position:absolute;z-index:-10;width:min(38rem,62vw);aspect-ratio:1;border-radius:9999px;filter:blur(76px);pointer-events:none}.glow-violet{left:-8%;top:22%;background:rgb(118 40 232/.13)}.glow-magenta{right:-10%;top:18%;background:rgb(231 42 174/.12)}
+.gradient-text{background:linear-gradient(100deg,#7628e8,#a253da 48%,#e72aae);background-clip:text;color:transparent}.product-frame{overflow:hidden;margin:0;border:1px solid #ded3ea;border-radius:18px;background:#fff;box-shadow:0 22px 58px rgb(33 24 49/.1)}.product-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.eyebrow{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgb(var(--aw-color-primary))}.heading{margin-top:.75rem;font-size:clamp(1.875rem,4vw,3rem);font-weight:800;line-height:1.08;letter-spacing:-.035em;color:#211831}.lead{margin-top:1.25rem;font-size:1rem;line-height:1.75;color:#5e566b}.ui-card{border:1px solid #ded3ea;border-radius:18px;background:rgb(255 255 255/.75);padding:1.25rem;box-shadow:0 14px 40px rgb(33 24 49/.055)}
+:global(.dark) .resource-grid{background-image:linear-gradient(rgb(255 255 255/.05) 1px,transparent 1px),linear-gradient(90deg,rgb(255 255 255/.05) 1px,transparent 1px)}:global(.dark) .product-frame,:global(.dark) .ui-card{border-color:rgb(255 255 255/.1);background:rgb(15 23 42/.72)}:global(.dark) .heading{color:#fff}:global(.dark) .lead{color:rgb(203 213 225)}
+</style>
