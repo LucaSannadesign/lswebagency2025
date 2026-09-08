@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title>Thank You Card</title>
+<defs>
+  <linearGradient id="paperGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFF8F0"/>
+    <stop offset="1" stop-color="#F8EDDE"/>
+  </linearGradient>
+  <linearGradient id="paperGrad2" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFF8F0"/>
+    <stop offset="1" stop-color="#F3E6D5"/>
+  </linearGradient>
+  <linearGradient id="terraGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#B55A38"/>
+    <stop offset="1" stop-color="#934729"/>
+  </linearGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="12"/>
+    <feOffset dx="0" dy="16"/>
+    <feComponentTransfer><feFuncA type="linear" slope=".18"/></feComponentTransfer>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="smallShadow" x="-30%" y="-30%" width="160%" height="180%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+    <feOffset dx="0" dy="7"/>
+    <feComponentTransfer><feFuncA type="linear" slope=".16"/></feComponentTransfer>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="grain" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="12" result="noise"/>
+    <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+    <feComponentTransfer in="mono" result="faded"><feFuncA type="table" tableValues="0 .05"/></feComponentTransfer>
+    <feBlend in="SourceGraphic" in2="faded" mode="multiply"/>
+  </filter>
+  <style>
+    .serif { font-family: "Noto Serif", Georgia, "Times New Roman", serif; }
+    .sans { font-family: Arimo, Arial, Helvetica, sans-serif; }
+    .caps { font-family: Arimo, Arial, Helvetica, sans-serif; font-weight: 700; letter-spacing: 3px; }
+  </style>
+</defs>
+<g id="05_BACKGROUND" inkscape:groupmode="layer" inkscape:label="05_BACKGROUND"><rect width="1200" height="800" fill="#F2E6D7"/></g>
+<g id="04_SHADOW" inkscape:groupmode="layer" inkscape:label="04_SHADOW"><ellipse cx="600" cy="628" rx="305" ry="25" fill="#000" opacity=".075"/></g>
+<g id="03_ARTWORK" inkscape:groupmode="layer" inkscape:label="03_ARTWORK">
+<rect x="255" y="180" width="690" height="430" rx="24" fill="url(#paperGrad2)" filter="url(#shadow)"/>
+<rect x="280" y="205" width="640" height="380" rx="18" fill="none" stroke="#C7A36D" stroke-width="1.5"/>
+<text x="600" y="304" text-anchor="middle" class="serif" font-size="62" font-weight="700" fill="#B55A38">Thank you</text>
+<text x="600" y="364" text-anchor="middle" class="caps" font-size="15" fill="#6E7251" style="letter-spacing:2.8px">FOR SUPPORTING LOCAL &amp; ARTISAN BAKING</text>
+<text x="600" y="424" text-anchor="middle" class="sans" font-size="19" fill="#26231F">Your support keeps small-batch baking alive.</text>
+</g>
+<g id="02_REPLACE" inkscape:groupmode="layer" inkscape:label="02_REPLACE" style="display:none"><rect x="392" y="316" width="416" height="140" rx="12" fill="none" stroke="#C98E70" stroke-width="2" stroke-dasharray="10 8" opacity=".55"/></g>
+<g id="DEMO-BRAND" inkscape:groupmode="layer" inkscape:label="DEMO-BRAND">
+<g transform="translate(600 490) scale(0.46)">
+  <path d="M-40 8V-8c0-36 18-58 40-58s40 22 40 58V8" fill="none" stroke="#B55A38" stroke-width="5.5"/>
+  <path d="M-27 8V-8c0-23 11-38 27-38s27 15 27 38V8" fill="none" stroke="#B55A38" stroke-width="3.2"/>
+  <path d="M0 8C-11 -4 -10 -18 0 -31C2 -16 14 -14 12 -2C10 4 6 8 0 8Z" fill="#B55A38"/>
+  <line x1="-44" y1="8" x2="44" y2="8" stroke="#B55A38" stroke-width="5.5"/>
+  <text x="0" y="58" text-anchor="middle" class="serif" font-size="36" font-weight="700" fill="#26231F" letter-spacing="1.1">FORNO</text>
+  <text x="0" y="96" text-anchor="middle" class="serif" font-size="36" font-weight="700" fill="#26231F" letter-spacing="1.1">AUREO</text>
+  <text x="0" y="126" text-anchor="middle" class="caps" font-size="10.5" fill="#B55A38">ARTISAN BAKERY</text>
+</g>
+</g>
+<g id="01_GUIDES" inkscape:groupmode="layer" inkscape:label="01_GUIDES" style="display:none">
+<rect x="40" y="40" width="1120" height="720" fill="none" stroke="#00AEEF" stroke-width="2" stroke-dasharray="10 10"/>
+<line x1="600" y1="40" x2="600" y2="760" stroke="#00AEEF" stroke-width="1" stroke-dasharray="8 8"/>
+<line x1="40" y1="400" x2="1160" y2="400" stroke="#00AEEF" stroke-width="1" stroke-dasharray="8 8"/>
+</g>
+</svg>

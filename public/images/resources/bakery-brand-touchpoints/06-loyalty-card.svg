@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="1200" height="800" viewBox="0 0 1200 800">
+  <title>Loyalty Card</title>
+<defs>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="7"/><feOffset dx="0" dy="10"/><feComponentTransfer><feFuncA type="linear" slope=".12"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<style>.serif{font-family:"Noto Serif",Georgia,"Times New Roman",serif}.caps{font-family:Arimo,Arial,Helvetica,sans-serif;font-weight:700;letter-spacing:2.3px}</style>
+</defs>
+<g id="05_BACKGROUND" inkscape:groupmode="layer" inkscape:label="05_BACKGROUND"><rect width="1200" height="800" fill="#F2E6D7"/></g>
+<g id="04_SHADOW" inkscape:groupmode="layer" inkscape:label="04_SHADOW"><ellipse cx="600" cy="623" rx="305" ry="22" fill="#000" opacity=".065"/></g>
+<g id="03_ARTWORK" inkscape:groupmode="layer" inkscape:label="03_ARTWORK">
+<rect x="245" y="245" width="710" height="390" rx="24" fill="#6E7251" filter="url(#shadow)"/>
+<rect x="270" y="270" width="660" height="340" rx="17" fill="none" stroke="#C8A46E" stroke-width="1.65"/>
+<text x="600" y="326" text-anchor="middle" class="caps" font-size="16.2" fill="#FFF8F0">LOYALTY CARD</text>
+<text x="600" y="368" text-anchor="middle" class="serif" font-size="23.5" fill="#C8A46E">Nine visits. The tenth is on us.</text>
+<line x1="365" y1="391" x2="835" y2="391" stroke="#C8A46E" stroke-width="1" opacity=".28"/>
+<circle cx="385" cy="425" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/><circle cx="495" cy="425" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/><circle cx="605" cy="425" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/><circle cx="715" cy="425" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/><circle cx="825" cy="425" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/><circle cx="385" cy="515" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/><circle cx="495" cy="515" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/><circle cx="605" cy="515" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/><circle cx="715" cy="515" r="27" fill="none" stroke="#FFF8F0" stroke-width="2.5"/>
+<circle cx="825" cy="515" r="29" fill="#B55A38" stroke="#C8A46E" stroke-width="2.1"/>
+<g transform="translate(825 507.5) scale(0.112)">
+<path d="M-40 8V-8c0-36 18-58 40-58s40 22 40 58V8" fill="none" stroke="#FFF8F0" stroke-width="5.5"/>
+<path d="M-27 8V-8c0-23 11-38 27-38s27 15 27 38V8" fill="none" stroke="#FFF8F0" stroke-width="3.2"/>
+<path d="M0 8C-11 -4 -10 -18 0 -31C2 -16 14 -14 12 -2C10 4 6 8 0 8Z" fill="#FFF8F0"/>
+<line x1="-44" y1="8" x2="44" y2="8" stroke="#FFF8F0" stroke-width="5.5"/></g>
+<text x="825" y="531" text-anchor="middle" class="caps" font-size="9.6" letter-spacing="1.0px" fill="#FFF8F0">FREE</text>
+<line x1="350" y1="565" x2="850" y2="565" stroke="#C8A46E" stroke-width="1" opacity=".34"/>
+<text x="600" y="591" text-anchor="middle" class="caps" font-size="11.3" fill="#FFF8F0">COLLECT 9 STAMPS • ENJOY 1 FREE</text>
+</g>
+<g id="02_REPLACE" inkscape:groupmode="layer" inkscape:label="02_REPLACE" style="display:none"><rect x="345" y="398" width="510" height="155" rx="16" fill="none" stroke="#B55A38" stroke-width="1.8" stroke-dasharray="9 7" opacity=".45"/></g>
+<g id="DEMO-BRAND" inkscape:groupmode="layer" inkscape:label="DEMO-BRAND"><g transform="translate(320 585) scale(0.155)">
+<path d="M-40 8V-8c0-36 18-58 40-58s40 22 40 58V8" fill="none" stroke="#C8A46E" stroke-width="5.5"/>
+<path d="M-27 8V-8c0-23 11-38 27-38s27 15 27 38V8" fill="none" stroke="#C8A46E" stroke-width="3.2"/>
+<path d="M0 8C-11 -4 -10 -18 0 -31C2 -16 14 -14 12 -2C10 4 6 8 0 8Z" fill="#C8A46E"/>
+<line x1="-44" y1="8" x2="44" y2="8" stroke="#C8A46E" stroke-width="5.5"/></g><text x="344" y="589" class="serif" font-size="12.8" font-weight="700" fill="#FFF8F0">FORNO AUREO</text></g>
+<g id="01_GUIDES" inkscape:groupmode="layer" inkscape:label="01_GUIDES" style="display:none"><rect x="40" y="40" width="1120" height="720" fill="none" stroke="#00AEEF" stroke-width="2" stroke-dasharray="10 10"/></g>
+</svg>

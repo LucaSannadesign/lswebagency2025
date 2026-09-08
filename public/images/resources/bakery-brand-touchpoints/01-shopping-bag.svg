@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title>Shopping Bag</title>
+<defs>
+  <linearGradient id="paperGrad" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFF8F0"/>
+    <stop offset="1" stop-color="#F4E8D8"/>
+  </linearGradient>
+  <linearGradient id="terraGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#B55A38"/>
+    <stop offset="1" stop-color="#934729"/>
+  </linearGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+    <feOffset dx="0" dy="14"/>
+    <feComponentTransfer><feFuncA type="linear" slope=".16"/></feComponentTransfer>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="smallShadow" x="-30%" y="-30%" width="160%" height="180%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+    <feOffset dx="0" dy="4"/>
+    <feComponentTransfer><feFuncA type="linear" slope=".14"/></feComponentTransfer>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <style>
+    .serif { font-family: "Noto Serif", Georgia, "Times New Roman", serif; }
+    .sans { font-family: Arimo, Arial, Helvetica, sans-serif; }
+    .caps { font-family: Arimo, Arial, Helvetica, sans-serif; font-weight:700; letter-spacing:3px; }
+  </style>
+</defs>
+
+<g id="05_BACKGROUND" inkscape:groupmode="layer" inkscape:label="05_BACKGROUND">
+  <rect width="1200" height="800" fill="#F2E6D7"/>
+</g>
+
+<g id="04_SHADOW" inkscape:groupmode="layer" inkscape:label="04_SHADOW">
+  <ellipse cx="600" cy="682" rx="255" ry="27" fill="#000" opacity=".095"/>
+  <ellipse cx="600" cy="677" rx="205" ry="14" fill="#000" opacity=".045"/>
+</g>
+
+<g id="03_ARTWORK" inkscape:groupmode="layer" inkscape:label="03_ARTWORK">
+  <g filter="url(#shadow)">
+    <path d="M410 260 L455 220 L455 645 L410 610 Z" fill="#E8D8C5"/>
+    <path d="M745 220 L790 260 L790 610 L745 645 Z" fill="#DECDBA"/>
+    <rect x="455" y="220" width="290" height="425" fill="url(#paperGrad)"/>
+    <rect x="455" y="565" width="290" height="80" fill="url(#terraGrad)"/>
+    <path d="M410 535 L455 565 V645 L410 610 Z" fill="#934729"/>
+    <path d="M790 535 L745 565 V645 L790 610 Z" fill="#934729"/>
+    <line x1="455" y1="220" x2="455" y2="645" stroke="#D8C8B6" stroke-width="1"/>
+    <line x1="745" y1="220" x2="745" y2="645" stroke="#D2C0AC" stroke-width="1"/>
+    <line x1="455" y1="565" x2="745" y2="565" stroke="#D3A087" stroke-width="1.3"/>
+  </g>
+
+  <g filter="url(#smallShadow)">
+    <path d="M515 247 C516 176 552 140 600 140 C648 140 684 176 685 247"
+          fill="none" stroke="#8E6B48" stroke-width="9" stroke-linecap="round"/>
+    <path d="M526 247 C527 185 558 153 600 153 C642 153 673 185 674 247"
+          fill="none" stroke="#D6BC92" stroke-width="2.2" stroke-dasharray="2 7" stroke-linecap="round"/>
+    <circle cx="516" cy="247" r="7" fill="#8E6B48"/>
+    <circle cx="684" cy="247" r="7" fill="#8E6B48"/>
+  </g>
+
+  <g transform="translate(688 520) rotate(-4)">
+    <path d="M0 18 C-2 -14 2 -66 5 -116" fill="none" stroke="#C7A36D" stroke-width="2"/>
+    <path d="M4 -5 C17 -14 30 -13 37 -6 C27 1 15 2 4 -5Z" fill="none" stroke="#C7A36D" stroke-width="1.8"/>
+    <path d="M3 -23 C-10 -31 -22 -30 -29 -23 C-20 -16 -8 -16 3 -23Z" fill="none" stroke="#C7A36D" stroke-width="1.8"/>
+    <path d="M4 -42 C18 -51 31 -49 38 -42 C28 -35 16 -34 4 -42Z" fill="none" stroke="#C7A36D" stroke-width="1.8"/>
+    <path d="M4 -61 C-9 -69 -22 -68 -29 -61 C-20 -54 -8 -54 4 -61Z" fill="none" stroke="#C7A36D" stroke-width="1.8"/>
+    <path d="M5 -80 C19 -89 31 -87 38 -80 C28 -73 17 -72 5 -80Z" fill="none" stroke="#C7A36D" stroke-width="1.8"/>
+    <path d="M5 -99 C-8 -107 -20 -106 -27 -99 C-19 -92 -7 -92 5 -99Z" fill="none" stroke="#C7A36D" stroke-width="1.8"/>
+  </g>
+
+  <text x="600" y="612" text-anchor="middle" class="caps" font-size="11.5" fill="#FFF6EE">
+    HANDMADE • FRESH • LOCAL
+  </text>
+</g>
+
+<g id="02_REPLACE" inkscape:groupmode="layer" inkscape:label="02_REPLACE" style="display:none">
+  <rect x="515" y="300" width="170" height="185" rx="8" fill="none"
+        stroke="#B55A38" stroke-width="2" stroke-dasharray="10 8" opacity=".5"/>
+</g>
+
+<g id="DEMO-BRAND" inkscape:groupmode="layer" inkscape:label="DEMO-BRAND">
+  <g transform="translate(600 345) scale(0.74)">
+    <path d="M-40 8V-8c0-36 18-58 40-58s40 22 40 58V8"
+          fill="none" stroke="#B55A38" stroke-width="5.5"/>
+    <path d="M-27 8V-8c0-23 11-38 27-38s27 15 27 38V8"
+          fill="none" stroke="#B55A38" stroke-width="3.2"/>
+    <path d="M0 8C-11 -4 -10 -18 0 -31C2 -16 14 -14 12 -2C10 4 6 8 0 8Z"
+          fill="#B55A38"/>
+    <line x1="-44" y1="8" x2="44" y2="8" stroke="#B55A38" stroke-width="5.5"/>
+    <text x="0" y="58" text-anchor="middle" class="serif" font-size="36" font-weight="700"
+          fill="#26231F" letter-spacing="1.1">FORNO</text>
+    <text x="0" y="96" text-anchor="middle" class="serif" font-size="36" font-weight="700"
+          fill="#26231F" letter-spacing="1.1">AUREO</text>
+    <text x="0" y="126" text-anchor="middle" class="caps" font-size="10.5"
+          fill="#B55A38">ARTISAN BAKERY</text>
+  </g>
+</g>
+
+<g id="01_GUIDES" inkscape:groupmode="layer" inkscape:label="01_GUIDES" style="display:none">
+  <rect x="40" y="40" width="1120" height="720" fill="none" stroke="#00AEEF"
+        stroke-width="2" stroke-dasharray="10 10"/>
+</g>
+</svg>

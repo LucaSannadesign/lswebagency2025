@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title>Menu Product List</title>
+<defs>
+  <linearGradient id="paperGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFF8F0"/>
+    <stop offset="1" stop-color="#F8EDDE"/>
+  </linearGradient>
+  <linearGradient id="paperGrad2" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFF8F0"/>
+    <stop offset="1" stop-color="#F3E6D5"/>
+  </linearGradient>
+  <linearGradient id="terraGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#B55A38"/>
+    <stop offset="1" stop-color="#934729"/>
+  </linearGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="12"/>
+    <feOffset dx="0" dy="16"/>
+    <feComponentTransfer><feFuncA type="linear" slope=".18"/></feComponentTransfer>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="smallShadow" x="-30%" y="-30%" width="160%" height="180%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+    <feOffset dx="0" dy="7"/>
+    <feComponentTransfer><feFuncA type="linear" slope=".16"/></feComponentTransfer>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="grain" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="12" result="noise"/>
+    <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+    <feComponentTransfer in="mono" result="faded"><feFuncA type="table" tableValues="0 .05"/></feComponentTransfer>
+    <feBlend in="SourceGraphic" in2="faded" mode="multiply"/>
+  </filter>
+  <style>
+    .serif { font-family: "Noto Serif", Georgia, "Times New Roman", serif; }
+    .sans { font-family: Arimo, Arial, Helvetica, sans-serif; }
+    .caps { font-family: Arimo, Arial, Helvetica, sans-serif; font-weight: 700; letter-spacing: 3px; }
+  </style>
+</defs>
+<g id="05_BACKGROUND" inkscape:groupmode="layer" inkscape:label="05_BACKGROUND"><rect width="1200" height="800" fill="#F2E6D7"/></g>
+<g id="04_SHADOW" inkscape:groupmode="layer" inkscape:label="04_SHADOW"><ellipse cx="600" cy="725" rx="290" ry="24" fill="#000" opacity=".10"/></g>
+<g id="03_ARTWORK" inkscape:groupmode="layer" inkscape:label="03_ARTWORK">
+<rect x="330" y="70" width="540" height="650" rx="24" fill="url(#paperGrad2)" filter="url(#shadow)"/>
+<rect x="354" y="94" width="492" height="602" rx="17" fill="none" stroke="#C7A36D" stroke-width="1.5"/>
+<line x1="408" y1="310" x2="792" y2="310" stroke="#C7A36D" stroke-width="1.5"/>
+<text x="600" y="292" text-anchor="middle" class="caps" font-size="14" fill="#B55A38">OUR BAKERY</text>
+
+<text x="415" y="365" class="serif" font-size="23" fill="#26231F">Sourdough</text>
+<text x="415" y="385" class="sans" font-size="11.5" fill="#6E7251">48h fermented, local flour</text>
+<line x1="595" y1="360" x2="750" y2="360" stroke="#B6A18A" stroke-width="1" stroke-dasharray="2 5"/>
+<text x="792" y="365" text-anchor="end" class="sans" font-size="17" font-weight="700" fill="#26231F">€6.00</text>
+
+<text x="415" y="425" class="serif" font-size="23" fill="#26231F">Croissant</text>
+<text x="415" y="445" class="sans" font-size="11.5" fill="#6E7251">Buttery, flaky, golden</text>
+<line x1="595" y1="420" x2="750" y2="420" stroke="#B6A18A" stroke-width="1" stroke-dasharray="2 5"/>
+<text x="792" y="425" text-anchor="end" class="sans" font-size="17" font-weight="700" fill="#26231F">€3.25</text>
+
+<text x="415" y="485" class="serif" font-size="23" fill="#26231F">Pain au chocolat</text>
+<text x="415" y="505" class="sans" font-size="11.5" fill="#6E7251">Dark chocolate, layered</text>
+<line x1="595" y1="480" x2="750" y2="480" stroke="#B6A18A" stroke-width="1" stroke-dasharray="2 5"/>
+<text x="792" y="485" text-anchor="end" class="sans" font-size="17" font-weight="700" fill="#26231F">€3.75</text>
+
+<text x="415" y="545" class="serif" font-size="23" fill="#26231F">Cinnamon roll</text>
+<text x="415" y="565" class="sans" font-size="11.5" fill="#6E7251">Warm spices, soft glaze</text>
+<line x1="595" y1="540" x2="750" y2="540" stroke="#B6A18A" stroke-width="1" stroke-dasharray="2 5"/>
+<text x="792" y="545" text-anchor="end" class="sans" font-size="17" font-weight="700" fill="#26231F">€4.25</text>
+
+<text x="415" y="605" class="serif" font-size="23" fill="#26231F">Focaccia</text>
+<text x="415" y="625" class="sans" font-size="11.5" fill="#6E7251">Olive oil, sea salt</text>
+<line x1="595" y1="600" x2="750" y2="600" stroke="#B6A18A" stroke-width="1" stroke-dasharray="2 5"/>
+<text x="792" y="605" text-anchor="end" class="sans" font-size="17" font-weight="700" fill="#26231F">€4.50</text>
+
+<rect x="354" y="652" width="492" height="44" fill="#B55A38"/>
+<text x="600" y="680" text-anchor="middle" class="caps" font-size="11" fill="#FFF8F0">LOCAL • SEASONAL • HANDMADE</text>
+</g>
+<g id="02_REPLACE" inkscape:groupmode="layer" inkscape:label="02_REPLACE" style="display:none"><rect x="400" y="332" width="400" height="290" rx="10" fill="none" stroke="#B55A38" stroke-width="2" stroke-dasharray="9 7" opacity=".42"/></g>
+<g id="DEMO-BRAND" inkscape:groupmode="layer" inkscape:label="DEMO-BRAND">
+<g transform="translate(600 150) scale(0.48)">
+  <path d="M-40 8V-8c0-36 18-58 40-58s40 22 40 58V8" fill="none" stroke="#B55A38" stroke-width="5.5"/>
+  <path d="M-27 8V-8c0-23 11-38 27-38s27 15 27 38V8" fill="none" stroke="#B55A38" stroke-width="3.2"/>
+  <path d="M0 8C-11 -4 -10 -18 0 -31C2 -16 14 -14 12 -2C10 4 6 8 0 8Z" fill="#B55A38"/>
+  <line x1="-44" y1="8" x2="44" y2="8" stroke="#B55A38" stroke-width="5.5"/>
+  <text x="0" y="58" text-anchor="middle" class="serif" font-size="36" font-weight="700" fill="#26231F" letter-spacing="1.1">FORNO</text>
+  <text x="0" y="96" text-anchor="middle" class="serif" font-size="36" font-weight="700" fill="#26231F" letter-spacing="1.1">AUREO</text>
+  <text x="0" y="126" text-anchor="middle" class="caps" font-size="10.5" fill="#B55A38">ARTISAN BAKERY</text>
+</g>
+</g>
+<g id="01_GUIDES" inkscape:groupmode="layer" inkscape:label="01_GUIDES" style="display:none">
+<rect x="40" y="40" width="1120" height="720" fill="none" stroke="#00AEEF" stroke-width="2" stroke-dasharray="10 10"/>
+<line x1="600" y1="40" x2="600" y2="760" stroke="#00AEEF" stroke-width="1" stroke-dasharray="8 8"/>
+<line x1="40" y1="400" x2="1160" y2="400" stroke="#00AEEF" stroke-width="1" stroke-dasharray="8 8"/>
+</g>
+</svg>
