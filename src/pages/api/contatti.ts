@@ -427,9 +427,24 @@ export const POST: APIRoute = async ({ request }) => {
     if (message.length < 10) fields.message = "Messaggio troppo corto (min 10 caratteri).";
     if (!privacy) fields.privacy = "È necessario accettare la Privacy Policy.";
 
-    if (Object.keys(fields).length > 0) {
-      console.warn("[contatti] validazione fallita", { fieldKeys: Object.keys(fields) });
-      return json(400, { ok: false, error: "VALIDATION_ERROR", fields, build: BUILD_FINGERPRINT });
+    const fieldKeys = Object.keys(fields);
+    if (fieldKeys.length > 0) {
+      console.warn("[contatti] validazione fallita", { fieldKeys });
+      // `fields` serve al form per evidenziare i singoli campi, `message` serve
+      // all'utente: senza di esso il client mostrava solo "Richiesta non
+      // riuscita." e la persona non sapeva cosa correggere.
+      const detail = Object.values(fields).join(" ");
+      const message =
+        fieldKeys.length === 1
+          ? detail
+          : `Controlla i dati inseriti. ${detail}`;
+      return json(400, {
+        ok: false,
+        error: "VALIDATION_ERROR",
+        message,
+        fields,
+        build: BUILD_FINGERPRINT,
+      });
     }
 
     // 6) CRM ed email sono INDIPENDENTI: il salvataggio non dipende dall'esito

@@ -13,6 +13,21 @@ const REDIRECTS: Record<string, string> = {
 const CONTACT_PATH = '/api/contatti';
 const MAX_BODY_BYTES = 24 * 1024;
 
+/**
+ * Indirizzo alternativo mostrato all'utente quando la guardia blocca l'invio:
+ * una richiesta legittima rifiutata dai controlli deve comunque avere una via
+ * di contatto, altrimenti il lead viene perso senza che nessuno lo sappia.
+ */
+const FALLBACK_CONTACT_EMAIL = 'info@lswebagency.com';
+
+const REJECTED_MESSAGE =
+  `Non siamo riusciti a inviare il modulo da questo browser. ` +
+  `Scrivici direttamente a ${FALLBACK_CONTACT_EMAIL}: leggiamo tutte le richieste e ti rispondiamo.`;
+
+const TOO_LARGE_MESSAGE =
+  `Il messaggio è troppo lungo per essere inviato dal modulo. ` +
+  `Accorcialo oppure inviacelo per email a ${FALLBACK_CONTACT_EMAIL}.`;
+
 const ALLOWED_PRODUCTION_HOSTS = new Set([
   'lswebagency.com',
   'www.lswebagency.com',
@@ -91,26 +106,46 @@ export const onRequest = defineMiddleware((context, next) => {
   const contentLength = Number(request.headers.get('content-length') || '0');
   if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
     console.warn('[contact-guard] payload troppo grande', { contentLength });
-    return json(413, { ok: false, error: 'PAYLOAD_TOO_LARGE' });
+    return json(413, {
+      ok: false,
+      error: 'PAYLOAD_TOO_LARGE',
+      message: TOO_LARGE_MESSAGE,
+      contactEmail: FALLBACK_CONTACT_EMAIL,
+    });
   }
 
   if (!isAllowedOrigin(request)) {
     console.warn('[contact-guard] origin rifiutata', {
       origin: request.headers.get('origin') || '(missing)',
     });
-    return json(403, { ok: false, error: 'REQUEST_REJECTED' });
+    return json(403, {
+      ok: false,
+      error: 'REQUEST_REJECTED',
+      message: REJECTED_MESSAGE,
+      contactEmail: FALLBACK_CONTACT_EMAIL,
+    });
   }
 
   if (!hasValidFetchMetadata(request)) {
     console.warn('[contact-guard] fetch metadata rifiutata', {
       site: request.headers.get('sec-fetch-site') || '(missing)',
     });
-    return json(403, { ok: false, error: 'REQUEST_REJECTED' });
+    return json(403, {
+      ok: false,
+      error: 'REQUEST_REJECTED',
+      message: REJECTED_MESSAGE,
+      contactEmail: FALLBACK_CONTACT_EMAIL,
+    });
   }
 
   if (hasSuspiciousUserAgent(request)) {
     console.warn('[contact-guard] user-agent rifiutato');
-    return json(403, { ok: false, error: 'REQUEST_REJECTED' });
+    return json(403, {
+      ok: false,
+      error: 'REQUEST_REJECTED',
+      message: REJECTED_MESSAGE,
+      contactEmail: FALLBACK_CONTACT_EMAIL,
+    });
   }
 
   return next();
