@@ -1557,6 +1557,7 @@ const WHATSAPP =
             id="name"
             autocomplete="name"
             placeholder="Il tuo nome"
+            required
             class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
           />
         </div>
@@ -1568,6 +1569,7 @@ const WHATSAPP =
             id="email"
             autocomplete="email"
             placeholder="nome@esempio.it"
+            required
             class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
           />
         </div>
@@ -1634,6 +1636,7 @@ const WHATSAPP =
             rows={5}
             placeholder="Parlaci del tuo sito o della tua attività…"
             minlength="10"
+            required
             class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
           />
           <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Scrivi almeno 10 caratteri.</p>
@@ -1644,6 +1647,7 @@ const WHATSAPP =
               id="disclaimer"
               name="disclaimer"
               type="checkbox"
+              required
               class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
             />
           </div>
@@ -1691,16 +1695,38 @@ const WHATSAPP =
           else el.className = base + 'text-red-600 dark:text-red-400';
         }
 
+        type ContactResponse = {
+          ok?: boolean;
+          message?: string;
+          fields?: Record<string, string>;
+        };
+
+        // L'API può rispondere con un messaggio generale, con l'elenco dei campi
+        // non validi, o con entrambi: qui vengono uniti in un unico testo, così
+        // l'utente vede sempre il motivo reale del rifiuto.
+        function describeError(body: ContactResponse, fallback: string): string {
+          const parts: string[] = [];
+          if (typeof body.message === 'string' && body.message.trim()) {
+            parts.push(body.message.trim());
+          }
+          if (body.fields && typeof body.fields === 'object') {
+            for (const value of Object.values(body.fields)) {
+              if (typeof value === 'string' && value.trim() && !parts.includes(value.trim())) {
+                parts.push(value.trim());
+              }
+            }
+          }
+          return parts.length ? parts.join(' ') : fallback;
+        }
+
+        // Budget resta nel corpo del messaggio: non ha un campo dedicato lato API.
+        // Telefono e servizio viaggiano invece come campi strutturati.
         function buildMessage(formData: FormData): string {
-          const lines: string[] = [];
-          const need = String(formData.get('need') || '').trim();
           const budget = String(formData.get('budget') || '').trim();
-          const phone = String(formData.get('phone') || '').trim();
-          if (need) lines.push(`Bisogno: ${need}`);
-          if (budget && budget !== 'Preferisco indicarlo dopo') lines.push(`Budget indicativo: ${budget}`);
-          if (phone) lines.push(`Telefono: ${phone}`);
           const body = String(formData.get('message') || '').trim();
-          if (lines.length) return `${lines.join('\n')}\n\n${body}`;
+          if (budget && budget !== 'Preferisco indicarlo dopo') {
+            return `Budget indicativo: ${budget}\n\n${body}`;
+          }
           return body;
         }
 
@@ -1708,10 +1734,13 @@ const WHATSAPP =
           const form = document.getElementById('contact-form');
           if (!form || !(form instanceof HTMLFormElement)) return;
 
-          const statusEl = document.getElementById('contact-form-status');
-          const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+          // Guardia anti doppio binding: con ClientRouter la stessa pagina può
+          // essere ri-annunciata più volte e il submit partirebbe due volte.
           if (form.dataset.contactFetchBound === '1') return;
           form.dataset.contactFetchBound = '1';
+
+          const statusEl = document.getElementById('contact-form-status');
+          const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
 
           form.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -1723,6 +1752,11 @@ const WHATSAPP =
             const payload = {
               name: String(formData.get('name') || ''),
               email: String(formData.get('email') || ''),
+              // Campi strutturati: prima finivano dentro al testo del messaggio
+              // e non arrivavano mai nelle colonne dedicate del CRM.
+              phone: String(formData.get('phone') || '').trim(),
+              // `service` è il campo che l'API mappa su `service_interest`.
+              service: String(formData.get('need') || '').trim(),
               message: buildMessage(formData),
               privacy: formData.get('disclaimer') === 'on',
               ref_note: String(formData.get('ref_note') || ''),
@@ -1736,7 +1770,7 @@ const WHATSAPP =
                 },
                 body: JSON.stringify(payload),
               });
-              let body: { ok?: boolean; message?: string } = {};
+              let body: ContactResponse = {};
               try {
                 body = await res.json();
               } catch {
@@ -1749,8 +1783,7 @@ const WHATSAPP =
                 setStatus(statusEl, msg, 'ok');
                 form.reset();
               } else {
-                const msg = typeof body.message === 'string' ? body.message : 'Richiesta non riuscita.';
-                setStatus(statusEl, msg, 'err');
+                setStatus(statusEl, describeError(body, 'Richiesta non riuscita.'), 'err');
               }
             } catch {
               setStatus(statusEl, 'Connessione non riuscita. Riprova.', 'err');
@@ -1760,6 +1793,12 @@ const WHATSAPP =
           });
         }
 
+        // Con ClientRouter attivo lo script del modulo non viene rieseguito a ogni
+        // navigazione: senza `astro:page-load` il form ricostruito dal router
+        // resta senza handler e la richiesta si perde.
+        document.addEventListener('astro:page-load', attachContactFormHandler);
+
+        // Fallback per il primo caricamento e per eventuali pagine senza router.
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', attachContactFormHandler);
         } else {

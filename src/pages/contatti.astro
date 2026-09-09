@@ -715,7 +715,7 @@ const AGENCY = {
 
   <!-- Form handling script -->
   <script is:inline>
-    (function() {
+    function initContactForm() {
       const form = document.getElementById('contact-form');
       const submitBtn = document.getElementById('submit-btn');
       const submitText = document.getElementById('submit-text');
@@ -728,6 +728,12 @@ const AGENCY = {
       const webProjectOptions = document.getElementById('web-project-options');
 
       if (!form || !submitBtn) return;
+
+      // Guardia anti doppio binding: l'inizializzazione può ripetersi sulla
+      // stessa pagina (script inline rieseguito + astro:page-load) e senza
+      // questo controllo il form registrerebbe due submit e due invii.
+      if (form.dataset.contactFetchBound === '1') return;
+      form.dataset.contactFetchBound = '1';
 
       function toggleWebProjectOptions() {
         if (!webProjectOptions) return;
@@ -1076,7 +1082,23 @@ const AGENCY = {
           }
         });
       }
-    })();
+    }
+
+    // Con ClientRouter la pagina viene sostituita senza ricaricare il documento:
+    // l'handler va riagganciato al form nuovo a ogni navigazione, altrimenti la
+    // richiesta non parte più. Lo script inline viene rieseguito a ogni swap,
+    // quindi il listener si registra una sola volta per documento.
+    if (!window.__lsContactFormLifecycle) {
+      window.__lsContactFormLifecycle = true;
+      document.addEventListener('astro:page-load', initContactForm);
+    }
+
+    // Fallback per il primo caricamento e per eventuali pagine senza router.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initContactForm);
+    } else {
+      initContactForm();
+    }
   </script>
 
   <style>
