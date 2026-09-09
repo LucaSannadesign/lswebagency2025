@@ -228,6 +228,11 @@ async function sendMiniAnalisiNotification(input: {
   flowPath?: string | null;
   auditOutcome: AuditOutcome;
   auditLinkOutcome: AuditLinkOutcome;
+  /**
+   * true quando l'insert nel CRM è fallito: la notifica parte comunque, con
+   * oggetto prefissato, perché è l'unica copia rimasta della richiesta.
+   */
+  crmFailed?: boolean;
 }): Promise<boolean> {
   try {
     // Preview Vercel: nessun invio reale senza consenso esplicito (production invariata).
@@ -262,10 +267,18 @@ async function sendMiniAnalisiNotification(input: {
 
     const isAssistant = input.origin === 'assistente_ai';
 
-    const subject = isAssistant
+    const baseSubject = isAssistant
       ? `Nuova richiesta assistente AI — ${input.contactName}`
       : `Nuova mini-analisi LS Web Agency — ${input.contactName}`;
+    const subject = input.crmFailed ? `[CRM KO] ${baseSubject}` : baseSubject;
     const text = [
+      ...(input.crmFailed
+        ? [
+            'ATTENZIONE: il salvataggio nel CRM è fallito.',
+            'Questa email è l’unica copia della richiesta: registrala a mano.',
+            '',
+          ]
+        : []),
       isAssistant
         ? 'Nuova richiesta dall’Assistente commerciale guidato (sito LS Web Agency).'
         : 'Nuova mini‑analisi guidata dal sito LS Web Agency.',
@@ -404,7 +417,42 @@ export const POST: APIRoute = async ({ request }) => {
     const { data: leadRow, error } = await supabaseAdmin.from('leads').insert(payload).select('id').single();
     if (error || !leadRow?.id) {
       console.error('[mini-analisi] supabase insert error', error ? error.message : 'lead id mancante');
-      return json({ ok: false, error: 'SAVE_ERROR' }, 500);
+
+      // CRM non disponibile: la richiesta NON va persa. Si tenta comunque la
+      // notifica email (oggetto con prefisso [CRM KO]) e si risponde con errore
+      // 500 solo se falliscono entrambi i canali.
+      const rescueEmailSent = await sendMiniAnalisiNotification({
+        contactName,
+        email,
+        phone,
+        businessName,
+        summary,
+        answers,
+        priority,
+        message,
+        websiteUrl: siteRescueUrl ?? websiteUrl,
+        origin,
+        flowPath,
+        auditOutcome: 'non_richiesto',
+        auditLinkOutcome: 'non_applicabile',
+        crmFailed: true,
+      });
+
+      if (!rescueEmailSent) {
+        console.error('[mini-analisi] richiesta persa: CRM ed email entrambi falliti');
+        return json({ ok: false, error: 'SAVE_ERROR' }, 500);
+      }
+
+      console.warn('[mini-analisi] CRM fallito, richiesta salvata solo via email');
+      return json({
+        ok: true,
+        leadSaved: false,
+        emailSent: true,
+        auditQueued: false,
+        auditDuplicate: false,
+        auditLinked: false,
+        auditLinkDuplicate: false,
+      });
     }
     const leadId: string = leadRow.id;
 
