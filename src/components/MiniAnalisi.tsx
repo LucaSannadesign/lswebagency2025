@@ -95,7 +95,9 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
   }, [contactStep]);
 
   const total = questions.length;
-  const progress = Math.round((step / total) * 100);
+  // La domanda visualizzata conta come passaggio corrente: la barra parte dal
+  // primo step reale e raggiunge il 100% sull'ultima domanda.
+  const progress = Math.round(((step + 1) / total) * 100);
 
   function finish(finalAnswers: Answers) {
     const p = computeProfile(finalAnswers);
@@ -690,7 +692,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
   if (isAssistant && intent) {
     const current = intent.questions[aStep];
     const aTotal = intent.questions.length;
-    const aProgress = Math.round((aStep / aTotal) * 100);
+    const aProgress = Math.round(((aStep + 1) / aTotal) * 100);
     const selected = answers[current.key] as string | undefined;
 
     return (
@@ -699,8 +701,17 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
           <span>{intent.label}</span>
           <span>Domanda {aStep + 1} di {aTotal}</span>
         </div>
-        <div className="mt-2 h-2 w-full rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden">
+        <div
+          className="mt-2 h-2 w-full rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden"
+          role="progressbar"
+          aria-label="Avanzamento della valutazione"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={aProgress}
+          aria-valuetext={`Domanda ${aStep + 1} di ${aTotal}`}
+        >
           <div
+            aria-hidden="true"
             className="h-full rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 transition-all duration-300"
             style={{ width: `${aProgress}%` }}
           />
@@ -781,8 +792,17 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
         <span>Domanda {step + 1} di {total}</span>
         <span>{progress}%</span>
       </div>
-      <div className="mt-2 h-2 w-full rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden">
+      <div
+        className="mt-2 h-2 w-full rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden"
+        role="progressbar"
+        aria-label="Avanzamento della valutazione"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={progress}
+        aria-valuetext={`Domanda ${step + 1} di ${total}`}
+      >
         <div
+          aria-hidden="true"
           className="h-full rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
