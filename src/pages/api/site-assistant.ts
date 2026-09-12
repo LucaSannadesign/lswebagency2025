@@ -221,12 +221,13 @@ async function sendNotificationEmail(lead: AssistantLead): Promise<{ emailSent: 
 
     const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
     const TO = import.meta.env.CONTACT_TO_EMAIL || import.meta.env.MAIL_TO;
-    const FROM = import.meta.env.CONTACT_FROM_EMAIL || import.meta.env.MAIL_FROM || 'onboarding@resend.dev';
+    const FROM = import.meta.env.CONTACT_FROM_EMAIL || import.meta.env.MAIL_FROM;
 
-    if (!RESEND_API_KEY || !TO) {
+    if (!RESEND_API_KEY || !TO || !FROM) {
       console.error('[site-assistant] email non inviata: configurazione mancante', {
         hasResendKey: Boolean(RESEND_API_KEY),
         hasToEmail: Boolean(TO),
+        hasFromEmail: Boolean(FROM),
       });
       return { emailSent: false, errorCode: 'SERVER_MISCONFIGURED' };
     }

@@ -72,8 +72,8 @@ async function notify(input: {
     }
     const key = import.meta.env.RESEND_API_KEY;
     const to = import.meta.env.CONTACT_TO_EMAIL || import.meta.env.MAIL_TO;
-    const from = import.meta.env.CONTACT_FROM_EMAIL || import.meta.env.MAIL_FROM || 'onboarding@resend.dev';
-    if (!key || !to) return false;
+    const from = import.meta.env.CONTACT_FROM_EMAIL || import.meta.env.MAIL_FROM;
+    if (!key || !to || !from) return false;
 
     const result = computeFitResult(input.answers);
     const lines = [
