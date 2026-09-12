@@ -252,7 +252,7 @@ async function sendNotificationEmail(
   console.log("[contatti] env richieste (presenza, mai valori segreti)", {
     hasResendKey: Boolean(RESEND_API_KEY),
     hasToEmail: Boolean(TO),
-      hasFromEmail: Boolean(FROM),
+    hasFromEmail: Boolean(FROM),
     hasFromExplicit: Boolean(env("CONTACT_FROM_EMAIL") || env("MAIL_FROM")),
     vercelEnv: env("VERCEL_ENV") ?? "(unset)",
   });
