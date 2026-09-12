@@ -246,13 +246,14 @@ async function sendMiniAnalisiNotification(input: {
 
     const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
     const TO = import.meta.env.CONTACT_TO_EMAIL || import.meta.env.MAIL_TO;
-    const FROM = import.meta.env.CONTACT_FROM_EMAIL || import.meta.env.MAIL_FROM || 'onboarding@resend.dev';
+    const FROM = import.meta.env.CONTACT_FROM_EMAIL || import.meta.env.MAIL_FROM;
 
     // Log di sola presenza: mai chiavi, valori env completi o indirizzi email.
-    if (!RESEND_API_KEY || !TO) {
+    if (!RESEND_API_KEY || !TO || !FROM) {
       console.error('[mini-analisi] email non inviata: configurazione mancante', {
         hasResendKey: Boolean(RESEND_API_KEY),
         hasToEmail: Boolean(TO),
+        hasFromEmail: Boolean(FROM),
       });
       return false;
     }

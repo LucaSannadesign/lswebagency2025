@@ -246,18 +246,18 @@ async function sendNotificationEmail(
 
   const RESEND_API_KEY = env("RESEND_API_KEY");
   const TO = env("CONTACT_TO_EMAIL") || env("MAIL_TO");
-  const FROM = env("CONTACT_FROM_EMAIL") || env("MAIL_FROM") || "onboarding@resend.dev";
+  const FROM = env("CONTACT_FROM_EMAIL") || env("MAIL_FROM");
   const MAIL_SUBJECT_PREFIX = env("MAIL_SUBJECT_PREFIX") || "Nuovo contatto dal sito";
 
   console.log("[contatti] env richieste (presenza, mai valori segreti)", {
     hasResendKey: Boolean(RESEND_API_KEY),
     hasToEmail: Boolean(TO),
+      hasFromEmail: Boolean(FROM),
     hasFromExplicit: Boolean(env("CONTACT_FROM_EMAIL") || env("MAIL_FROM")),
-    fromUsesDefault: FROM === "onboarding@resend.dev",
     vercelEnv: env("VERCEL_ENV") ?? "(unset)",
   });
 
-  if (!RESEND_API_KEY || !TO) {
+  if (!RESEND_API_KEY || !TO || !FROM) {
     console.error("[contatti] SERVER_MISCONFIGURED missing env:", {
       hasResendKey: Boolean(RESEND_API_KEY),
       hasToEmail: Boolean(TO),

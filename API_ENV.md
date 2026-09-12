@@ -19,10 +19,11 @@ Questo documento elenca le variabili d'ambiente necessarie per le funzioni API s
 
 ### `CONTACT_FROM_EMAIL`
 - **Tipo**: String (email valida)
-- **Richiesto**: No (fallback: `onboarding@resend.dev`)
-- **Descrizione**: Indirizzo email mittente. Deve essere verificato su Resend
+- **Richiesto**: Sì per l'invio email, salvo uso di `MAIL_FROM`
+- **Descrizione**: Indirizzo email mittente. Deve appartenere a un dominio verificato su Resend
 - **Esempio**: `noreply@lswebagency.com`
-- **Nota**: Se non impostata, viene usato `onboarding@resend.dev` (solo per test)
+- **Fallback configurazione**: se assente, viene letto `MAIL_FROM`
+- **Nota**: se né `CONTACT_FROM_EMAIL` né `MAIL_FROM` sono configurate, la notifica email non viene inviata. Non viene utilizzato alcun mittente di test automatico.
 
 ## Variabili Opzionali
 
@@ -36,7 +37,7 @@ Questo documento elenca le variabili d'ambiente necessarie per le funzioni API s
 ## Configurazione su Vercel
 
 1. Vai al progetto su [Vercel Dashboard](https://vercel.com/dashboard)
-2. Seleziona il progetto `lswebagency`
+2. Seleziona il progetto `lswebagency2025`
 3. Vai su **Settings** → **Environment Variables**
 4. Aggiungi ogni variabile:
    - **Key**: nome della variabile (es. `RESEND_API_KEY`)
