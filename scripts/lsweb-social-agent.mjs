@@ -23,16 +23,24 @@ function statePath() {
   return path.resolve(process.cwd(), STATE_FILE);
 }
 
+function emptyState() {
+  return { version: 1, sentEvents: [], completedPosts: [] };
+}
+
 function loadState() {
   try {
     const parsed = JSON.parse(fs.readFileSync(statePath(), "utf8"));
+    if (!Array.isArray(parsed.sentEvents) || !Array.isArray(parsed.completedPosts)) {
+      throw new Error("Invalid social state structure");
+    }
     return {
       version: 1,
-      sentEvents: Array.isArray(parsed.sentEvents) ? parsed.sentEvents : [],
-      completedPosts: Array.isArray(parsed.completedPosts) ? parsed.completedPosts : [],
+      sentEvents: parsed.sentEvents,
+      completedPosts: parsed.completedPosts,
     };
-  } catch {
-    return { version: 1, sentEvents: [], completedPosts: [] };
+  } catch (error) {
+    if (error?.code === "ENOENT") return emptyState();
+    throw new Error(`Cannot load social state safely: ${error?.message || error}`);
   }
 }
 
@@ -75,20 +83,53 @@ function isComplete(state, post) {
   return post.channels.every((channel) => hasEvent(state, post, channel));
 }
 
+function isValidDateStamp(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return (
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day
+  );
+}
+
+function requireHttpsUrl(value, label, postId) {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:") throw new Error("not https");
+  } catch {
+    throw new Error(`${label} must be a valid absolute HTTPS URL in ${postId}`);
+  }
+}
+
 function validateQueue(queue) {
   if (!Array.isArray(queue?.posts)) throw new Error("Queue must contain a posts array");
+
+  const seenPostIds = new Set();
+
   for (const post of queue.posts) {
-    if (!post.id || !/^\d{4}-\d{2}-\d{2}$/.test(post.date || "")) {
+    if (!post.id || !isValidDateStamp(post.date)) {
       throw new Error(`Invalid id/date in queue item: ${post.id || "unknown"}`);
     }
+    if (seenPostIds.has(post.id)) throw new Error(`Duplicate post id: ${post.id}`);
+    seenPostIds.add(post.id);
+
+    if (!post.title?.trim()) throw new Error(`Missing title in ${post.id}`);
     if (!Array.isArray(post.channels) || !post.channels.length) {
       throw new Error(`No channels configured for ${post.id}`);
     }
+    if (new Set(post.channels).size !== post.channels.length) {
+      throw new Error(`Duplicate channel in ${post.id}`);
+    }
+
     for (const channel of post.channels) {
       if (!SUPPORTED_CHANNELS.has(channel)) throw new Error(`Unsupported channel ${channel} in ${post.id}`);
       if (!post.copy?.[channel]?.trim()) throw new Error(`Missing copy.${channel} in ${post.id}`);
     }
-    if (!post.image?.startsWith("https://")) throw new Error(`Image must be absolute HTTPS URL in ${post.id}`);
+
+    requireHttpsUrl(post.link, "Link", post.id);
+    requireHttpsUrl(post.image, "Image", post.id);
   }
 }
 
