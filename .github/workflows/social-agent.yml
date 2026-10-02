@@ -3,6 +3,7 @@ name: LS Web Agency Social Queue
 on:
   schedule:
     - cron: '15 8 * * *'
+      timezone: "Europe/Rome"
   workflow_dispatch:
     inputs:
       dry_run:
