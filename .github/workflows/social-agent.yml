@@ -1,0 +1,61 @@
+name: LS Web Agency Social Queue
+
+on:
+  schedule:
+    - cron: '15 8 * * *'
+      timezone: "Europe/Rome"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simula selezione e payload senza pubblicare"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: lsweb-social-queue
+  cancel-in-progress: false
+
+jobs:
+  process-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Restore social state
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/lsweb-social-state.json
+          key: lsweb-social-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            lsweb-social-state-
+
+      - name: Process social queue
+        env:
+          QUEUE_FILE: editorial/social-queue.json
+          STATE_FILE: .cache/lsweb-social-state.json
+          RAW_MAKE_WEBHOOK_URL: ${{ secrets.SOCIAL_MAKE_WEBHOOK_URL }}
+          PUBLISH_ENABLED: ${{ vars.LSWEB_SOCIAL_PUBLISH_ENABLED == 'true' }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || vars.LSWEB_SOCIAL_PUBLISH_ENABLED != 'true' }}
+        run: node scripts/lsweb-social-agent.mjs
+
+      - name: Save social state
+        if: ${{ always() && vars.LSWEB_SOCIAL_PUBLISH_ENABLED == 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/lsweb-social-state.json
+          key: lsweb-social-state-${{ github.run_id }}-${{ github.run_attempt }}
