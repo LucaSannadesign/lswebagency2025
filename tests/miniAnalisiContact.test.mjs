@@ -133,7 +133,17 @@ import assert from "node:assert/strict";
       checkbox(/Confermo di essere titolare/, true);
       if (mode === "cancel-audit") checkbox(/Desidero anche/, false);
     }
-    await submit();
+    if (mode === "no-site") {
+      // Doppio invio ravvicinato (stesso render): deve partire una sola richiesta.
+      const onSubmit = nodes().find((n) => n.type === "form").props.onSubmit;
+      await Promise.all([
+        onSubmit({ preventDefault() {} }),
+        onSubmit({ preventDefault() {} }),
+      ]);
+      render();
+    } else {
+      await submit();
+    }
     assert.equal(payloads.length, 1);
     assert.equal(payloads[0].auditConsent, mode === "audit");
     assert.equal(
