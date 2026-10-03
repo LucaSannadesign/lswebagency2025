@@ -16,6 +16,7 @@ type Question = { key: keyof Answers; text: string; options: Option[] };
 const questions = questionsData as Question[];
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SUBMIT_TIMEOUT_MS = 20000;
 
 type SubmitState = 'idle' | 'sending' | 'success' | 'error';
 
@@ -85,6 +86,8 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
   const [showNote, setShowNote] = useState(false);
   const stepTitleRef = useRef<HTMLHeadingElement>(null);
   const isFirstStepRender = useRef(true);
+  // Guardia sincrona anti doppio invio: lo stato `submitState` si aggiorna in modo asincrono.
+  const submittingRef = useRef(false);
 
   // Sposta il focus sul titolo del nuovo passaggio (salta il primo render: niente focus all'avvio).
   useEffect(() => {
@@ -239,10 +242,16 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
       }
     }
 
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     setSubmitState('sending');
+    // Timeout: se l'API non risponde l'utente riceve comunque un feedback.
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), SUBMIT_TIMEOUT_MS);
     try {
       const res = await fetch('/api/mini-analisi', {
         method: 'POST',
+        signal: controller.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contactName: contactName.trim(),
@@ -278,6 +287,9 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
     } catch {
       setSubmitState('error');
       setFormError('Si è verificato un errore di rete. Riprova tra poco.');
+    } finally {
+      clearTimeout(timeoutId);
+      submittingRef.current = false;
     }
   }
 
