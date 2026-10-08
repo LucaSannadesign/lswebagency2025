@@ -1,0 +1,86 @@
+name: LS Web Agency Social Queue
+
+on:
+  schedule:
+    - cron: '15 8 * * *'
+      timezone: "Europe/Rome"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simula selezione e payload senza pubblicare"
+        required: true
+        default: true
+        type: boolean
+
+      post_id:
+        description: "ID esplicito del post da inviare"
+        default: "visite-senza-richieste"
+        type: string
+      channel:
+        description: "Un canale per il primo invio controllato"
+        default: "facebook"
+        type: choice
+        options:
+          - facebook
+          - instagram
+          - linkedin
+          - all
+      allow_initial_state:
+        description: "Solo dopo riconciliazione storico Make e social"
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: lsweb-social-queue
+  cancel-in-progress: false
+
+jobs:
+  process-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Verify social delivery safeguards
+        run: node --test tests/lswebSocialAgent.test.mjs
+
+      - name: Restore social state
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/lsweb-social-state.json
+          key: lsweb-social-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            lsweb-social-state-
+
+      - name: Process social queue
+        env:
+          QUEUE_FILE: editorial/social-queue.json
+          STATE_FILE: .cache/lsweb-social-state.json
+          RAW_MAKE_WEBHOOK_URL: ${{ secrets.SOCIAL_MAKE_WEBHOOK_URL }}
+          PUBLISH_ENABLED: ${{ github.event_name == 'workflow_dispatch' && vars.LSWEB_SOCIAL_PUBLISH_ENABLED == 'true' }}
+          DRY_RUN: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run || vars.LSWEB_SOCIAL_PUBLISH_ENABLED != 'true' }}
+          MAKE_ACTIVATION_VERIFIED: ${{ vars.LSWEB_SOCIAL_MAKE_VERIFIED == 'true' }}
+          POST_ID: ${{ inputs.post_id }}
+          CHANNEL: ${{ inputs.channel != 'all' && inputs.channel || '' }}
+          ALLOW_INITIAL_STATE: ${{ inputs.allow_initial_state }}
+        run: node scripts/lsweb-social-agent.mjs
+
+      - name: Save social state
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && vars.LSWEB_SOCIAL_PUBLISH_ENABLED == 'true' && !inputs.dry_run }}
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/lsweb-social-state.json
+          key: lsweb-social-state-${{ github.run_id }}-${{ github.run_attempt }}
