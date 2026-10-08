@@ -8,6 +8,10 @@ const STATE_FILE = process.env.STATE_FILE || ".cache/lsweb-social-state.json";
 const RAW_MAKE_WEBHOOK_URL = process.env.RAW_MAKE_WEBHOOK_URL || "";
 const PUBLISH_ENABLED = process.env.PUBLISH_ENABLED === "true";
 const DRY_RUN = process.env.DRY_RUN === "true" || process.argv.includes("--dry-run");
+const MAKE_VERIFIED = process.env.MAKE_ACTIVATION_VERIFIED === "true";
+const REQUESTED_POST_ID = process.env.POST_ID || "";
+const REQUESTED_CHANNEL = process.env.CHANNEL || "";
+const ALLOW_INITIAL_STATE = process.env.ALLOW_INITIAL_STATE === "true";
 const NOW = process.env.SOCIAL_NOW ? new Date(process.env.SOCIAL_NOW) : new Date();
 const SUPPORTED_CHANNELS = new Set(["facebook", "instagram", "linkedin"]);
 
@@ -24,7 +28,7 @@ function statePath() {
 }
 
 function emptyState() {
-  return { version: 1, sentEvents: [], completedPosts: [] };
+  return { version: 1, sentEvents: [], completedPosts: [], unresolvedEvents: [] };
 }
 
 function loadState() {
@@ -37,9 +41,15 @@ function loadState() {
       version: 1,
       sentEvents: parsed.sentEvents,
       completedPosts: parsed.completedPosts,
+      unresolvedEvents: parsed.unresolvedEvents || [],
     };
   } catch (error) {
-    if (error?.code === "ENOENT") return emptyState();
+    if (error?.code === "ENOENT") {
+      if (PUBLISH_ENABLED && !DRY_RUN && !ALLOW_INITIAL_STATE) {
+        throw new Error("Social state missing: reconcile Make history before explicitly allowing initial state");
+      }
+      return emptyState();
+    }
     throw new Error(`Cannot load social state safely: ${error?.message || error}`);
   }
 }
@@ -47,7 +57,8 @@ function loadState() {
 function saveState(state) {
   const target = statePath();
   fs.mkdirSync(path.dirname(target), { recursive: true });
-  fs.writeFileSync(target, JSON.stringify(state, null, 2), "utf8");
+  fs.writeFileSync(`${target}.tmp`, JSON.stringify(state, null, 2), "utf8");
+  fs.renameSync(`${target}.tmp`, target);
   console.log(`[lsweb-social] State saved: ${target}`);
 }
 
@@ -156,12 +167,20 @@ function buildPayload(post, channel) {
 async function notifyMake(webhook, payload) {
   const response = await fetch(webhook, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Idempotency-Key": payload.eventId },
+    signal: AbortSignal.timeout(45000),
     body: JSON.stringify(payload),
   });
   const body = await response.text();
   if (!response.ok) throw new Error(`Make webhook error ${response.status}: ${body.slice(0, 300)}`);
-  console.log(`[lsweb-social] Make accepted ${payload.eventId}: HTTP ${response.status}`);
+  let receipt;
+  try { receipt = JSON.parse(body); } catch { throw new Error("Make returned no publication receipt; reconcile before retry"); }
+  if (receipt.eventId !== payload.eventId || receipt.channel !== payload.channel ||
+      !["published", "already_published"].includes(receipt.status) ||
+      typeof receipt.platformPostId !== "string" || !receipt.platformPostId.trim()) {
+    throw new Error("Make receipt invalid or publication pending; reconcile before retry");
+  }
+  return receipt;
 }
 
 async function main() {
@@ -184,8 +203,10 @@ async function main() {
     return;
   }
 
-  const post = due[0];
-  const pendingChannels = post.channels.filter((channel) => !hasEvent(state, post, channel));
+  const post = REQUESTED_POST_ID ? due.find((item) => item.id === REQUESTED_POST_ID) : due[0];
+  if (!post) throw new Error("Requested post is not due or is already complete");
+  if (REQUESTED_CHANNEL && !post.channels.includes(REQUESTED_CHANNEL)) throw new Error("Channel is not configured for selected post");
+  const pendingChannels = post.channels.filter((channel) => !hasEvent(state, post, channel) && (!REQUESTED_CHANNEL || channel === REQUESTED_CHANNEL));
   console.log(`[lsweb-social] Selected: ${post.id} (${post.date})`);
   console.log(`[lsweb-social] Pending channels: ${pendingChannels.join(", ")}`);
 
@@ -196,16 +217,23 @@ async function main() {
     return;
   }
 
+  if (!MAKE_VERIFIED) throw new Error("Make activation checklist and persistent idempotency have not been verified");
+  if (!REQUESTED_POST_ID) throw new Error("Real publishing requires an explicit POST_ID");
+  if (state.unresolvedEvents.length) throw new Error("Unresolved delivery: reconcile Make and platform history before retry");
   if (!webhook) throw new Error("Publishing enabled but SOCIAL_MAKE_WEBHOOK_URL is missing or invalid");
 
   for (const channel of pendingChannels) {
     const payload = buildPayload(post, channel);
-    await notifyMake(webhook, payload);
+    state.unresolvedEvents.push({ eventId: payload.eventId, postId: post.id, channel, startedAt: new Date().toISOString() });
+    saveState(state);
+    const receipt = await notifyMake(webhook, payload);
+    state.unresolvedEvents = state.unresolvedEvents.filter((item) => item.eventId !== payload.eventId);
     state.sentEvents.push({
       eventId: payload.eventId,
       postId: post.id,
       channel,
       sentAt: new Date().toISOString(),
+      platformPostId: receipt.platformPostId,
     });
     saveState(state);
   }
@@ -215,7 +243,7 @@ async function main() {
     saveState(state);
   }
 
-  console.log(`[lsweb-social] Completed: ${post.id}`);
+  console.log(`[lsweb-social] ${isComplete(state, post) ? "Completed" : "Partially completed"}: ${post.id}`);
 }
 
 main().catch((error) => {
