@@ -336,6 +336,69 @@ async function sendMiniAnalisiNotification(input: {
   }
 }
 
+/**
+ * Ricevuta al cliente, distinta dalla notifica all'amministratore.
+ * Nessun invio per default; modalità test con destinatari in allowlist.
+ * Non promettere l'arrivo del report finché la pipeline è attiva e il lead
+ * è effettivamente collegato all'audit.
+ */
+async function sendMiniAnalisiClientReceipt(options: {
+  leadId: string;
+  contactName: string;
+  email: string;
+  reportExpected: boolean;
+}): Promise<boolean> {
+  if (import.meta.env.MINI_ANALISI_CLIENT_RECEIPT_ENABLED !== 'true') return false;
+  const allowed = String(import.meta.env.MINI_ANALISI_CLIENT_RECEIPT_ALLOWED_TO ?? '')
+    .split(',').map((entry) => entry.trim().toLowerCase()).filter(Boolean);
+  const sendAll = import.meta.env.MINI_ANALISI_CLIENT_RECEIPT_SEND_ALL === 'true';
+  if (!sendAll && !allowed.includes(options.email.toLowerCase())) return false;
+
+  const apiKey = import.meta.env.MINI_ANALISI_CLIENT_RECEIPT_RESEND_KEY;
+  const sender = import.meta.env.MINI_ANALISI_CLIENT_RECEIPT_FROM;
+  if (!apiKey || !sender) {
+    console.error('[mini-analisi] ricevuta cliente non configurata');
+    return false;
+  }
+  const promiseReport =
+    import.meta.env.MINI_ANALISI_CLIENT_REPORTS_ACTIVE === 'true' && options.reportExpected;
+  const greeting = options.contactName.trim().split(/\s+/)[0] || '';
+  const text = [
+    greeting ? 'Buongiorno ' + greeting + ',' : 'Buongiorno,',
+    '',
+    'Grazie per aver richiesto la valutazione iniziale a LS Web Agency.',
+    promiseReport
+      ? 'La verifica del sito è stata avviata: riceverai il documento riepilogativo via email al termine dell’analisi.'
+      : 'Abbiamo ricevuto la richiesta e ti ricontatteremo per i prossimi passi.',
+    '',
+    'LS Web Agency',
+    'https://www.lswebagency.com',
+  ].join('\n');
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + apiKey,
+        'Content-Type': 'application/json',
+        'Idempotency-Key': 'ls-mini-analisi-ack-' + options.leadId,
+      },
+      body: JSON.stringify({
+        from: sender,
+        to: [options.email],
+        subject: 'Abbiamo ricevuto la tua valutazione iniziale — LS Web Agency',
+        text,
+      }),
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!response.ok) console.error('[mini-analisi] ricevuta cliente HTTP', response.status);
+    return response.ok;
+  } catch (error: unknown) {
+    console.error('[mini-analisi] ricevuta cliente fallita', sanitizeLogMessage(error));
+    return false;
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     // Controllo dimensione payload prima di parse.
@@ -541,11 +604,22 @@ export const POST: APIRoute = async ({ request }) => {
       auditLinkOutcome,
     });
 
+    // Email di cortesia: separata dall'invio del PDF dopo il crawl e
+    // disabilitata per default fino al collaudo della pipeline completa.
+    const clientReceiptSent = await sendMiniAnalisiClientReceipt({
+      leadId,
+      contactName,
+      email,
+      reportExpected: (auditQueued || auditDuplicate) &&
+        (auditLinkOutcome === 'collegato' || auditLinkOutcome === 'gia_collegato'),
+    });
+
     // Solo booleani non sensibili: mai leadId o auditId al browser.
     return json({
       ok: true,
       leadSaved: true,
       emailSent,
+      clientReceiptSent,
       auditQueued,
       auditDuplicate,
       auditLinked: auditLinkOutcome === 'collegato',
