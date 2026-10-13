@@ -77,6 +77,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
   const [requestAudit, setRequestAudit] = useState(false);
   const [honeypot, setHoneypot] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
+  const [clientReportExpected, setClientReportExpected] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
   // Percorso di contatto progressivo dopo il risultato.
@@ -198,6 +199,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
     setRequestAudit(false);
     setHoneypot('');
     setSubmitState('idle');
+    setClientReportExpected(false);
     setFormError(null);
   }
 
@@ -279,6 +281,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data?.ok) {
+        setClientReportExpected(data?.clientReportExpected === true);
         setSubmitState('success');
       } else {
         setSubmitState('error');
@@ -378,7 +381,9 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
         {submitState === 'success' ? (
           <div role="status" aria-live="polite" className="mt-6 rounded-xl p-5 ring-1 ring-emerald-200 dark:ring-emerald-800/60 bg-emerald-50/70 dark:bg-emerald-900/20">
             <p className="font-semibold text-emerald-800 dark:text-emerald-200">
-              Richiesta inviata correttamente. Ti ricontatterò entro 24–48 ore.
+              {clientReportExpected
+                ? 'Richiesta ricevuta. Stiamo preparando la valutazione del tuo sito: riceverai un riepilogo via email quando sarà pronto.'
+                : 'Richiesta inviata correttamente. Ti ricontatterò entro 24–48 ore.'}
             </p>
             {isAssistant && (
               <p className="mt-2 text-sm text-emerald-800/80 dark:text-emerald-200/80">
@@ -593,8 +598,8 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
                           </span>
                         </label>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                          L’analisi non modifica il sito e non comporta l’invio
-                          automatico di un report.
+                          L’analisi non modifica il sito. Se la consegna del report
+                          è attiva, riceverai il riepilogo via email al termine.
                         </p>
                       </div>
                     )}
