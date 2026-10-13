@@ -620,6 +620,9 @@ export const POST: APIRoute = async ({ request }) => {
       leadSaved: true,
       emailSent,
       clientReceiptSent,
+      clientReportExpected: import.meta.env.MINI_ANALISI_CLIENT_REPORTS_ACTIVE === 'true' &&
+        (auditQueued || auditDuplicate) &&
+        (auditLinkOutcome === 'collegato' || auditLinkOutcome === 'gia_collegato'),
       auditQueued,
       auditDuplicate,
       auditLinked: auditLinkOutcome === 'collegato',
