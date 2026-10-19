@@ -18,6 +18,16 @@ const questions = questionsData as Question[];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const SUBMIT_TIMEOUT_MS = 20000;
 
+// Errori di validazione restituiti da /api/mini-analisi: riprovare non basta,
+// l'utente deve correggere un dato. Gli altri esiti usano il messaggio generico.
+const API_ERROR_MESSAGES: Record<string, string> = {
+  MISSING_CONTACT_NAME: 'Inserisci il tuo nome.',
+  INVALID_EMAIL: 'Inserisci un’email valida.',
+  PRIVACY_REQUIRED: 'Per inviare devi accettare la privacy policy.',
+  INVALID_URL:
+    'L’indirizzo del sito non è valido: controllalo (es. esempio.it) oppure togli la richiesta di verifica tecnica.',
+};
+
 type SubmitState = 'idle' | 'sending' | 'success' | 'error';
 
 // Etichette leggibili per il riepilogo (chiavi note + estensioni assistente).
@@ -285,7 +295,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
         setSubmitState('success');
       } else {
         setSubmitState('error');
-        setFormError('Invio non riuscito. Riprova tra poco.');
+        setFormError(API_ERROR_MESSAGES[data?.error] ?? 'Invio non riuscito. Riprova tra poco.');
       }
     } catch {
       setSubmitState('error');

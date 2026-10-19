@@ -1,6 +1,6 @@
 // Component handler regression test with isolated hooks and mocked transport.
 // Does not substitute for browser, CRM or notification integration checks.
-// Run: node tests/miniAnalisiContact.test.mjs
+// Run: node tests/miniAnalisiContact.test.mjs (oppure: npm run test:unit)
 import * as esbuild from "esbuild";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
@@ -42,7 +42,7 @@ import assert from "node:assert/strict";
     require,
   );
   const Component = mod.exports.default;
-  for (const mode of ["no-site", "audit", "cancel-audit"]) {
+  for (const mode of ["no-site", "audit", "cancel-audit", "server-errors"]) {
     let states = [],
       cursor = 0,
       payloads = [];
@@ -53,9 +53,26 @@ import assert from "node:assert/strict";
         return [states[i], (n) => (states[i] = n)];
       },
     };
+    // Risposte simulate in ordine; esaurita la coda, l'API risponde con successo.
+    const responses =
+      mode === "server-errors"
+        ? [
+            {
+              ok: false,
+              json: async () => ({ ok: false, error: "INVALID_URL" }),
+            },
+            {
+              ok: false,
+              json: async () => ({ ok: false, error: "SAVE_ERROR" }),
+            },
+            new Error("network down"),
+          ]
+        : [];
     globalThis.fetch = async (url, options) => {
       payloads.push(JSON.parse(options.body));
-      return { ok: true, json: async () => ({ ok: true }) };
+      const next = responses.shift();
+      if (next instanceof Error) throw next;
+      return next ?? { ok: true, json: async () => ({ ok: true }) };
     };
     let tree;
     function render() {
@@ -141,15 +158,29 @@ import assert from "node:assert/strict";
         onSubmit({ preventDefault() {} }),
       ]);
       render();
+    } else if (mode === "server-errors") {
+      // 400 di validazione: messaggio azionabile, non un generico "riprova".
+      await submit();
+      assert.ok(txt(tree).includes("L’indirizzo del sito non è valido"));
+      assert.ok(!txt(tree).includes("Richiesta inviata correttamente"));
+      // 500: messaggio generico invariato.
+      await submit();
+      assert.ok(txt(tree).includes("Invio non riuscito. Riprova tra poco."));
+      // Errore di rete: messaggio dedicato, nessun falso successo.
+      await submit();
+      assert.ok(txt(tree).includes("errore di rete"));
+      assert.ok(!txt(tree).includes("Richiesta inviata correttamente"));
+      // Nuovo tentativo riuscito: la guardia anti doppio invio si è liberata.
+      await submit();
+      assert.equal(payloads.length, 4);
+      payloads.splice(0, 3);
     } else {
       await submit();
     }
     assert.equal(payloads.length, 1);
-    assert.equal(payloads[0].auditConsent, mode === "audit");
-    assert.equal(
-      payloads[0].websiteUrl,
-      mode === "audit" ? "example.com" : undefined,
-    );
+    const withAudit = mode === "audit" || mode === "server-errors";
+    assert.equal(payloads[0].auditConsent, withAudit);
+    assert.equal(payloads[0].websiteUrl, withAudit ? "example.com" : undefined);
     assert.ok(txt(tree).includes("Richiesta inviata correttamente"));
     console.log("PASS component handlers:", mode);
   }

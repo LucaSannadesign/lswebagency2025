@@ -57,7 +57,10 @@ function json(body: unknown, status = 200) {
   });
 }
 
-const isEmail = (v: unknown): v is string => typeof v === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+// 254 caratteri: lunghezza massima pratica di un indirizzo (RFC 5321). Evita di
+// salvare nel CRM o usare come replyTo stringhe arbitrariamente lunghe.
+const isEmail = (v: unknown): v is string =>
+  typeof v === 'string' && v.trim().length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
 // Tronca una stringa client a un limite ragionevole; restituisce undefined se vuota.
 function clampStr(v: unknown, max: number): string | undefined {
@@ -268,9 +271,12 @@ async function sendMiniAnalisiNotification(input: {
 
     const isAssistant = input.origin === 'assistente_ai';
 
+    // Il nome arriva dal form: CR/LF e separatori di riga Unicode non devono
+    // finire nell'oggetto (header). Corpo email e CRM restano invariati.
+    const subjectName = input.contactName.replace(/\s*[\r\n\u2028\u2029]+\s*/g, ' ');
     const baseSubject = isAssistant
-      ? `Nuova richiesta assistente AI — ${input.contactName}`
-      : `Nuova mini-analisi LS Web Agency — ${input.contactName}`;
+      ? `Nuova richiesta assistente AI — ${subjectName}`
+      : `Nuova mini-analisi LS Web Agency — ${subjectName}`;
     const subject = input.crmFailed ? `[CRM KO] ${baseSubject}` : baseSubject;
     const text = [
       ...(input.crmFailed
@@ -480,7 +486,7 @@ export const POST: APIRoute = async ({ request }) => {
     // mai nella risposta al browser, mai nell'email).
     const { data: leadRow, error } = await supabaseAdmin.from('leads').insert(payload).select('id').single();
     if (error || !leadRow?.id) {
-      console.error('[mini-analisi] supabase insert error', error ? error.message : 'lead id mancante');
+      console.error('[mini-analisi] supabase insert error', error ? sanitizeLogMessage(error.message) : 'lead id mancante');
 
       // CRM non disponibile: la richiesta NON va persa. Si tenta comunque la
       // notifica email (oggetto con prefisso [CRM KO]) e si risponde con errore
@@ -497,7 +503,9 @@ export const POST: APIRoute = async ({ request }) => {
         websiteUrl: siteRescueUrl ?? websiteUrl,
         origin,
         flowPath,
-        auditOutcome: 'non_richiesto',
+        // Con consenso l'audit era richiesto ma non è partito (manca il lead):
+        // l'email, unica copia rimasta, deve dirlo per il recupero manuale.
+        auditOutcome: auditConsent ? 'non_accodato' : 'non_richiesto',
         auditLinkOutcome: 'non_applicabile',
         crmFailed: true,
       });
@@ -629,7 +637,7 @@ export const POST: APIRoute = async ({ request }) => {
       auditLinkDuplicate: auditLinkOutcome === 'gia_collegato',
     });
   } catch (err) {
-    console.error('[mini-analisi] unexpected', err);
+    console.error('[mini-analisi] unexpected', sanitizeLogMessage(err));
     return json({ ok: false, error: 'SERVER_ERROR' }, 500);
   }
 };
