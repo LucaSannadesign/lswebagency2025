@@ -271,9 +271,12 @@ async function sendMiniAnalisiNotification(input: {
 
     const isAssistant = input.origin === 'assistente_ai';
 
+    // Il nome arriva dal form: CR/LF e separatori di riga Unicode non devono
+    // finire nell'oggetto (header). Corpo email e CRM restano invariati.
+    const subjectName = input.contactName.replace(/\s*[\r\n\u2028\u2029]+\s*/g, ' ');
     const baseSubject = isAssistant
-      ? `Nuova richiesta assistente AI — ${input.contactName}`
-      : `Nuova mini-analisi LS Web Agency — ${input.contactName}`;
+      ? `Nuova richiesta assistente AI — ${subjectName}`
+      : `Nuova mini-analisi LS Web Agency — ${subjectName}`;
     const subject = input.crmFailed ? `[CRM KO] ${baseSubject}` : baseSubject;
     const text = [
       ...(input.crmFailed

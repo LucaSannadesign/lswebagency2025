@@ -464,6 +464,57 @@ test("honeypot compilato: finto successo senza scritture né email", async () =>
   assert.equal(r.emails.length, 0);
 });
 
+// --- 2b. Oggetto email: nessun CR/LF dal nome inserito dall'utente --------------
+
+const LINE_BREAKS = /[\r\n\u2028\u2029]/;
+
+const SUBJECT_CASES = [
+  [
+    "CRM OK",
+    {},
+    {},
+    "Nuova mini-analisi LS Web Agency — Mario Bcc: x@evil.test",
+  ],
+  [
+    "CRM KO (email di soccorso)",
+    {},
+    { leads: () => ({ data: null, error: { message: "down" } }) },
+    "[CRM KO] Nuova mini-analisi LS Web Agency — Mario Bcc: x@evil.test",
+  ],
+  [
+    "assistente AI",
+    { source: "assistente_ai" },
+    {},
+    "Nuova richiesta assistente AI — Mario Bcc: x@evil.test",
+  ],
+];
+
+for (const [name, extra, supabase, expected] of SUBJECT_CASES) {
+  test(`oggetto email (${name}): CR/LF nel nome sostituiti da uno spazio`, async () => {
+    const contactName = "Mario\r\nBcc: x@evil.test";
+    const r = await call(validBody({ contactName, ...extra }), { supabase });
+    assert.equal(r.status, 200);
+    assert.equal(r.emails.length, 1, "una sola notifica al Resend simulato");
+    const { subject } = r.emails[0].payload;
+    assert.doesNotMatch(subject, LINE_BREAKS);
+    assert.equal(subject, expected);
+    // Solo l'oggetto è normalizzato: il nome salvato nel CRM resta invariato.
+    const lead = writes(r).find((c) => c.table === "leads");
+    assert.equal(lead.values.contact_name, contactName);
+  });
+}
+
+test("oggetto email: separatori Unicode e a capo multipli compressi in un solo spazio", async () => {
+  const r = await call(
+    validBody({ contactName: "Mario\n\n\u2028Rossi\u2029" }),
+  );
+  assert.equal(r.status, 200);
+  assert.equal(
+    r.emails[0].payload.subject,
+    "Nuova mini-analisi LS Web Agency — Mario Rossi",
+  );
+});
+
 // --- 3. Errori del CRM e della notifica ----------------------------------------
 
 test("CRM KO + email OK: richiesta presa in carico solo via email con oggetto [CRM KO]", async () => {
