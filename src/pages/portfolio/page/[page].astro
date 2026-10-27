@@ -10,15 +10,24 @@ const ts = (v: unknown) => {
   return d && !Number.isNaN(d.getTime()) ? d.getTime() : 0;
 };
 
+const statusRank = (status?: string) =>
+  status === 'live_client' ? 0
+  : status === 'independent_pilot' ? 1
+  : status === 'historical' ? 3
+  : 2;
+
+const comparePortfolio = (a: any, b: any) => {
+  const rankDiff = statusRank(a.data.projectStatus) - statusRank(b.data.projectStatus);
+  if (rankDiff !== 0) return rankDiff;
+  const tb = ts(b.data.updateDate ?? b.data.publishDate);
+  const ta = ts(a.data.updateDate ?? a.data.publishDate);
+  return tb - ta || String(a.data.slug || '').localeCompare(String(b.data.slug || ''));
+};
+
 export async function getStaticPaths() {
   const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
     .slice()
-    .sort((a, b) => {
-      const tb = ts(b.data.updateDate ?? b.data.publishDate);
-      const ta = ts(a.data.updateDate ?? a.data.publishDate);
-      // ordinamento stabile: a parita' di data l'ordine di getCollection e' preservato
-      return tb - ta;
-    });
+    .sort(comparePortfolio);
 
   const total = all.length;
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
@@ -32,12 +41,7 @@ export async function getStaticPaths() {
 
 const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
   .slice()
-  .sort((a, b) => {
-    const tb = ts(b.data.updateDate ?? b.data.publishDate);
-    const ta = ts(a.data.updateDate ?? a.data.publishDate);
-    // ordinamento stabile: a parita' di data l'ordine di getCollection e' preservato
-    return tb - ta;
-  });
+  .sort(comparePortfolio);
 
 const total = all.length;
 const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
