@@ -12,9 +12,11 @@ const ts = (v: unknown) => {
 
 const statusRank = (status?: string) =>
   status === 'live_client' ? 0
-  : status === 'independent_pilot' ? 1
-  : status === 'historical' ? 3
-  : 2;
+  : status === 'independent_active' ? 1
+  : status === 'independent_pilot' ? 2
+  : status === 'editorial_project' ? 3
+  : status === 'historical' ? 5
+  : 4;
 
 const comparePortfolio = (a: any, b: any) => {
   const rankDiff = statusRank(a.data.projectStatus) - statusRank(b.data.projectStatus);
@@ -102,6 +104,10 @@ function hrefFor(item: any) {
                   <p class="mb-2 text-xs font-medium text-neutral-600 dark:text-neutral-300">
                     {item.data.projectStatus === 'live_client'
                       ? '● Sito cliente attivo'
+                        : item.data.projectStatus === 'independent_active'
+                        ? '◦ Progetto indipendente · Online'
+                        : item.data.projectStatus === 'editorial_project'
+                        ? '◦ Grafica editoriale'
                       : item.data.projectStatus === 'independent_pilot'
                       ? '◦ Progetto indipendente · Pilota'
                       : '◦ Progetto storico · Sito non più online'}

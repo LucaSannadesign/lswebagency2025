@@ -107,7 +107,7 @@ const portfolioCollection = defineCollection({
     permalink: z.string(),
     description: z.string().optional(),
     category: z.string().optional(),
-    projectStatus: z.enum(['live_client', 'independent_pilot', 'historical']).optional(),
+    projectStatus: z.enum(['live_client', 'independent_active', 'independent_pilot', 'editorial_project', 'historical']).optional(),
     statusNote: z.string().optional(),
     technologies: z.array(z.string()).optional(),
     image: z.object({ src: z.string(), alt: z.string().optional(), width: z.number().optional(), height: z.number().optional() }).optional(),
