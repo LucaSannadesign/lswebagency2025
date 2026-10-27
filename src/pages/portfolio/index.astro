@@ -19,12 +19,20 @@ const ts = (v: unknown) => {
 
 const items = await getCollection('portfolio');
 
+const statusRank = (status?: string) =>
+  status === 'live_client' ? 0
+  : status === 'independent_pilot' ? 1
+  : status === 'historical' ? 3
+  : 2;
+
 const sorted = items
   .filter((e) => !((e.data as any)?.draft === true))
   .slice()
   .sort((a, b) => {
-    const tb = ts(b.data.publishDate ?? b.data.updateDate);
-    const ta = ts(a.data.publishDate ?? a.data.updateDate);
+    const rankDiff = statusRank(a.data.projectStatus) - statusRank(b.data.projectStatus);
+    if (rankDiff !== 0) return rankDiff;
+    const tb = ts(b.data.updateDate ?? b.data.publishDate);
+    const ta = ts(a.data.updateDate ?? a.data.publishDate);
     return tb - ta || String(a.data.slug || '').localeCompare(String(b.data.slug || ''));
   });
 
