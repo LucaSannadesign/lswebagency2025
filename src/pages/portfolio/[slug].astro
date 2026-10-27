@@ -72,7 +72,19 @@ const metadata: MetaData = {
         />
       )}
       <div>
+        {d.projectStatus && (
+          <p class="mb-3 text-sm font-medium text-neutral-600 dark:text-neutral-300">
+            {d.projectStatus === 'live_client'
+              ? 'Sito cliente attivo'
+              : d.projectStatus === 'independent_pilot'
+              ? 'Progetto indipendente · Fase pilota'
+              : 'Case study storico · Sito non più online'}
+          </p>
+        )}
         <h1 class="text-4xl font-bold mb-3 dark:text-white">{d.title}</h1>
+        {d.statusNote && (
+          <p class="mb-4 text-sm text-neutral-700 dark:text-neutral-300">{d.statusNote}</p>
+        )}
         {d.description && (
           <p class="text-gray-600 dark:text-gray-300 mb-4">{d.description}</p>
         )}
