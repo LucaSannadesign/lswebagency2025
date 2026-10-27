@@ -6,7 +6,7 @@ const PER_PAGE = 12;
 
 const metadata = {
   title: 'Portfolio Progetti Web | LS Web Agency',
-  description: 'Una selezione dei lavori realizzati: siti web, e-commerce e progetti digitali.',
+  description: 'Siti cliente attivi, progetti digitali indipendenti e case study storici: portfolio LS Web Agency con stato dei lavori verificato.',
   canonical: '/portfolio',
   openGraph: { url: '/portfolio', type: 'website' },
 };
@@ -54,7 +54,7 @@ const pageItems = sorted.slice(start, end);
         </span>
       </h1>
       <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
-        Una selezione di progetti web e digitali realizzati per attività locali, professionisti e brand che avevano bisogno di una presenza online più chiara, credibile e utile ai propri obiettivi.
+        Progetti web e digitali: distinguiamo i siti clienti ancora online, le iniziative indipendenti in fase pilota e i lavori storici. Lo stato di ciascun progetto verificato è indicato nella scheda.
       </p>
     </div>
   </section>
@@ -87,6 +87,15 @@ const pageItems = sorted.slice(start, end);
                   />
                 )}
                 <div class="p-4">
+                  {item.data.projectStatus && (
+                    <p class="mb-2 text-xs font-medium text-neutral-600 dark:text-neutral-300">
+                      {item.data.projectStatus === 'live_client'
+                        ? '● Sito cliente attivo'
+                        : item.data.projectStatus === 'independent_pilot'
+                        ? '◦ Progetto indipendente · Pilota'
+                        : '◦ Progetto storico · Sito non più online'}
+                    </p>
+                  )}
                   {item.data.category && (
                     <p class="text-[11px] font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">
                       {item.data.category}
