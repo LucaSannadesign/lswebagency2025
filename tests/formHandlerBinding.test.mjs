@@ -135,3 +135,48 @@ for (const field of REQUIRED_FIELDS) {
     );
   });
 }
+
+// --- Endpoint dei form: nessun action/fetch verso rotte API inesistenti --------
+//
+// /transizione-digitale-turismo inviava a /api/richieste-dirette, rotta mai
+// creata: in produzione rispondeva 404 e la richiesta andava persa. Ogni form o
+// fetch del sito deve puntare a un file esistente in src/pages/api.
+
+import { readdirSync, statSync } from 'node:fs';
+import { join, extname, basename } from 'node:path';
+
+function walk(dir) {
+  return readdirSync(dir).flatMap((entry) => {
+    const full = join(dir, entry);
+    return statSync(full).isDirectory() ? walk(full) : [full];
+  });
+}
+
+const SRC_DIR = fileURLToPath(new URL('../src', import.meta.url));
+const API_DIR = fileURLToPath(new URL('../src/pages/api', import.meta.url));
+const API_ROUTES = new Set(
+  readdirSync(API_DIR)
+    .filter((f) => ['.ts', '.js'].includes(extname(f)) && !f.startsWith('_'))
+    .map((f) => basename(f, extname(f)))
+);
+
+test('endpoint: ogni action/fetch verso /api/* punta a una rotta esistente', () => {
+  const missing = [];
+  for (const file of walk(SRC_DIR).filter((f) => /\.(astro|tsx?|jsx?)$/.test(f))) {
+    const code = readFileSync(file, 'utf8');
+    for (const m of code.matchAll(/(?:action=|fetch\()\s*["'`]\/api\/([a-z0-9-]+)/g)) {
+      if (!API_ROUTES.has(m[1])) missing.push(`${file.replace(SRC_DIR, 'src')} → /api/${m[1]}`);
+    }
+  }
+  assert.deepEqual(missing, [], `form collegati a rotte API inesistenti:\n${missing.join('\n')}`);
+});
+
+test('endpoint: il form turismo usa /api/contatti con privacy e honeypot', () => {
+  const TURISMO = source('src/pages/transizione-digitale-turismo.astro');
+  assert.ok(!TURISMO.includes('action="/api/richieste-dirette"'));
+  assert.match(TURISMO, /fetch\('\/api\/contatti'/);
+  assert.match(TURISMO, /privacy: fd\.get\('privacy'\) === 'on'/);
+  assert.match(TURISMO, /name="ref_note"/);
+  assert.match(TURISMO, /addEventListener\('astro:page-load', attachContactFormHandler\)/);
+  assert.ok(TURISMO.includes("form.dataset.contactFetchBound = '1'"));
+});

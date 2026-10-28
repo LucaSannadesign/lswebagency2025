@@ -469,7 +469,9 @@ const serviceSchema = {
             esperienza mobile e punti che possono ridurre le richieste dirette.
           </p>
 
-          <form method="POST" action="/api/richieste-dirette" class="lead-form">
+          <form id="form-turismo" method="POST" action="/api/contatti" class="lead-form" novalidate>
+            <!-- Honeypot anti-spam: stesso campo trappola di /api/contatti -->
+            <input type="text" name="ref_note" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
             <div class="form-grid">
               <div class="field">
                 <label for="nome">Nome e cognome</label>
@@ -519,13 +521,104 @@ const serviceSchema = {
               </div>
             </div>
 
+            <div class="field field-full consent">
+              <label>
+                <input id="privacy" name="privacy" type="checkbox" required />
+                <span>Ho letto l’<a href="/privacy">informativa privacy</a> e acconsento al trattamento dei dati per ricevere una risposta.</span>
+              </label>
+            </div>
+
             <button type="submit" class="btn btn-primary">Invia richiesta</button>
+            <p id="form-turismo-status" class="form-note" role="status" aria-live="polite"></p>
             <p class="form-note">
               Riceverai un primo riscontro orientativo entro 24–48 ore lavorative.
             </p>
           </form>
         </div>
       </section>
+
+      <script>
+        // Il modulo scriveva su /api/richieste-dirette, endpoint mai esistito (404):
+        // le richieste andavano perse. Ora usa /api/contatti, lo stesso del form
+        // Contatti (CRM + notifica email, honeypot, rate limit, guard di origine).
+        const OBIETTIVI: Record<string, string> = {
+          'aumentare-richieste-dirette': 'Aumentare richieste dirette',
+          'migliorare-modulo-richieste': 'Migliorare modulo richieste',
+          'capire-conversione-bassa': 'Capire perché il sito converte poco',
+          'migliorare-esperienza-mobile': 'Migliorare esperienza mobile',
+          altro: 'Altro',
+        };
+        const val = (fd: FormData, k: string) => String(fd.get(k) || '').trim();
+
+        function attachContactFormHandler() {
+          const form = document.getElementById('form-turismo') as HTMLFormElement | null;
+          if (!form) return;
+          if (form.dataset.contactFetchBound === '1') return;
+          form.dataset.contactFetchBound = '1';
+          const statusEl = document.getElementById('form-turismo-status');
+
+          form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!form.reportValidity()) return;
+            const fd = new FormData(form);
+            const button = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+            const obiettivo = OBIETTIVI[val(fd, 'obiettivo')] || val(fd, 'obiettivo');
+            const message = [
+              `Struttura: ${val(fd, 'struttura')}`,
+              `Sito web: ${val(fd, 'sito')}`,
+              `Città: ${val(fd, 'citta')}`,
+              `Obiettivo: ${obiettivo}`,
+              '',
+              val(fd, 'messaggio') || '(nessun messaggio aggiuntivo)',
+            ].join('\n');
+            const payload = {
+              name: val(fd, 'nome'),
+              email: val(fd, 'email'),
+              phone: val(fd, 'telefono'),
+              service: 'Valutazione iniziale — struttura turistica',
+              message,
+              privacy: fd.get('privacy') === 'on',
+              ref_note: val(fd, 'ref_note'),
+              requestedServizioSlug: 'transizione-digitale-turismo',
+              requestedServizioLabel: 'Transizione digitale turismo',
+            };
+            if (statusEl) statusEl.textContent = 'Invio in corso…';
+            if (button) button.disabled = true;
+            try {
+              const res = await fetch('/api/contatti', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+              });
+              let body: { ok?: boolean; message?: string } = {};
+              try {
+                body = await res.json();
+              } catch {
+                body = {};
+              }
+              if (res.ok && body.ok === true) {
+                form.reset();
+                if (statusEl) statusEl.textContent = 'Richiesta inviata. Riceverai un primo riscontro entro 24–48 ore lavorative.';
+              } else if (statusEl) {
+                statusEl.textContent = typeof body.message === 'string' ? body.message : 'Invio non riuscito. Riprova o scrivi a info@lswebagency.com.';
+              }
+            } catch {
+              if (statusEl) statusEl.textContent = 'Connessione non riuscita. Riprova o scrivi a info@lswebagency.com.';
+            } finally {
+              if (button) button.disabled = false;
+            }
+          });
+        }
+
+        // ClientRouter: dopo una navigazione client-side gli script di modulo non
+        // vengono rieseguiti, quindi il binding passa da astro:page-load.
+        document.addEventListener('astro:page-load', attachContactFormHandler);
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', attachContactFormHandler);
+        } else {
+          attachContactFormHandler();
+        }
+      </script>
 
       <section class="section final-cta">
         <div class="container narrow center">
@@ -1023,6 +1116,29 @@ const serviceSchema = {
 
   .field-full {
     grid-column: 1 / -1;
+  }
+
+  .consent {
+    margin: 1rem 0 1.1rem;
+  }
+
+  .consent label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-weight: 400;
+    font-size: 0.92rem;
+  }
+
+  .consent input[type='checkbox'] {
+    flex: 0 0 auto;
+    width: 1.1rem;
+    height: 1.1rem;
+    min-height: 0;
+    margin-top: 0.2rem;
+    padding: 0;
+    border-radius: 0.25rem;
+    accent-color: #7628E8;
   }
 
   label {
