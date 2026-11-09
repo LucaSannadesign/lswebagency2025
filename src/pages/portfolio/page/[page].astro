@@ -1,14 +1,14 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
-import { comparePortfolioByPublication } from '@/utils/portfolio-order';
+import { comparePortfolioByRecency } from '@/utils/portfolio-order';
 
 const PER_PAGE = 12;
 
 export async function getStaticPaths() {
   const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
     .slice()
-    .sort(comparePortfolioByPublication);
+    .sort(comparePortfolioByRecency);
 
   const total = all.length;
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 
 const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
   .slice()
-  .sort(comparePortfolioByPublication);
+  .sort(comparePortfolioByRecency);
 
 const total = all.length;
 const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
