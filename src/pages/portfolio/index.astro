@@ -79,7 +79,7 @@ const pageItems = sorted.slice(start, end);
           const hrefRaw = item.data.permalink ?? `/portfolio/${item.data.slug}`;
           const href = String(hrefRaw).replace(/\/+$/, '');
           const img = item.data.image as
-            | { src: string; alt?: string; width?: number; height?: number }
+            | { src: string; alt?: string; width?: number; height?: number; fit?: 'cover' | 'contain' }
             | undefined;
 
           return (
@@ -93,7 +93,7 @@ const pageItems = sorted.slice(start, end);
                     height={img.height ?? 800}
                     loading="lazy"
                     decoding="async"
-                    class="w-full object-cover aspect-[3/2]"
+                    class={img?.fit === "contain" ? "w-full object-contain aspect-[3/2] p-6 sm:p-8 bg-white dark:bg-neutral-100" : "w-full object-cover aspect-[3/2]"}
                   />
                 )}
                 <div class="p-4">
