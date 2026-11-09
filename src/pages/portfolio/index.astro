@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
-import { comparePortfolioByPublication } from '@/utils/portfolio-order';
+import { comparePortfolioByRecency } from '@/utils/portfolio-order';
 
 const PER_PAGE = 12;
 
@@ -17,7 +17,7 @@ const items = await getCollection('portfolio');
 const sorted = items
   .filter((e) => !((e.data as any)?.draft === true))
   .slice()
-  .sort(comparePortfolioByPublication);
+  .sort(comparePortfolioByRecency);
 
 const totalPages = Math.max(1, Math.ceil(sorted.length / PER_PAGE));
 const currentPage = 1;
