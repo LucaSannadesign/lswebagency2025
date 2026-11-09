@@ -18,8 +18,32 @@ import { findLatestPosts } from '@/utils/blog';
 import { APP_BLOG } from 'astrowind:config';
 import Grid from '@/components/blog/Grid.astro';
 import { getBlogPermalink } from '@/utils/permalinks';
+import { getCollection } from 'astro:content';
 
 const latestPosts = APP_BLOG.isEnabled ? await findLatestPosts({ count: 4 }) : [];
+
+/* ─────────────────────────────────────────────
+   PROGETTI IN EVIDENZA — solo schede con stato verificato e non storiche
+───────────────────────────────────────────── */
+const FEATURED_PROJECT_SLUGS = [
+  'preventivodentale',
+  'even-flow-band-web-site',
+  'soluzioni-digitali-chiaroveggenza-estrella-yoruba-tarot',
+];
+
+const PROJECT_STATUS_LABEL: Record<string, string> = {
+  live_client: '● Sito cliente attivo',
+  independent_active: '◦ Progetto indipendente · Online',
+  independent_pilot: '◦ Progetto indipendente · Pilota',
+};
+
+const portfolioEntries = await getCollection('portfolio');
+const featuredProjects = FEATURED_PROJECT_SLUGS.map((slug) =>
+  portfolioEntries.find((e) => e.data.slug === slug)
+).filter(
+  (e): e is (typeof portfolioEntries)[number] =>
+    !!e && !!e.data.projectStatus && e.data.projectStatus in PROJECT_STATUS_LABEL
+);
 
 if (import.meta.env.DEV) {
   console.log('[DEBUG HOME] APP_BLOG.isEnabled:', APP_BLOG.isEnabled);
@@ -597,6 +621,84 @@ const WHATSAPP =
       </p>
     </div>
   </section>
+
+  <!-- ═══════════════════════════════════════
+       PROGETTI IN EVIDENZA — dal portfolio, con stato verificato
+  ════════════════════════════════════════ -->
+  {featuredProjects.length > 0 && (
+    <section class="relative bg-slate-50 dark:bg-slate-900/50 py-16 md:py-24" aria-labelledby="progetti-home-heading">
+      <div class="mx-auto max-w-screen-xl px-6 md:px-8">
+        <div class="text-center mb-10 md:mb-12 max-w-3xl mx-auto">
+          <h2 id="progetti-home-heading" class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-3">
+            Progetti realizzati
+          </h2>
+          <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+            Siti per clienti e piattaforme sviluppate in proprio. Per ogni progetto è indicato lo stato attuale: online, indipendente o in fase pilota.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {featuredProjects.map((item) => {
+            const href = String(item.data.permalink ?? `/portfolio/${item.data.slug}`).replace(/\/+$/, '');
+            const img = item.data.image;
+            // HTML/CSS/JavaScript sono comuni a tutti i progetti: si mostrano solo stack distintivi
+            const techs = (item.data.technologies ?? []).filter((t) => !['HTML', 'CSS', 'JavaScript'].includes(t)).slice(0, 3);
+            return (
+              <article class="flex flex-col rounded-2xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-700/60 bg-white dark:bg-slate-900 hover:shadow-md transition">
+                {img?.src && (
+                  <img
+                    src={img.src}
+                    alt={img.alt ?? item.data.title}
+                    width={img.width ?? 1200}
+                    height={img.height ?? 800}
+                    loading="lazy"
+                    decoding="async"
+                    class="w-full object-cover aspect-[3/2]"
+                  />
+                )}
+                <div class="flex flex-1 flex-col p-5">
+                  <p class="mb-2 text-xs font-medium text-slate-600 dark:text-slate-300">
+                    {PROJECT_STATUS_LABEL[item.data.projectStatus!]}
+                    {item.data.category && <span class="text-slate-500 dark:text-slate-400"> · {item.data.category}</span>}
+                  </p>
+                  <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 line-clamp-2">{item.data.title}</h3>
+                  {item.data.description && (
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">{item.data.description}</p>
+                  )}
+                  {techs.length > 0 && (
+                    <ul class="mt-4 flex flex-wrap gap-2" aria-label="Tecnologie">
+                      {techs.map((tech) => (
+                        <li class="rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-1 text-xs text-slate-700 dark:text-slate-300">
+                          {tech}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <a
+                    href={href}
+                    class="mt-auto pt-5 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-800 dark:text-violet-300 dark:hover:text-violet-200"
+                  >
+                    <span>Leggi il progetto<span class="sr-only">: {item.data.title}</span></span>
+                    <Icon name="tabler:arrow-right" class="w-4 h-4 shrink-0" />
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <div class="mt-10 text-center">
+          <a
+            href="/portfolio"
+            class="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-brand-ink dark:text-white bg-transparent hover:bg-brand-purple/10 dark:hover:bg-brand-purple/20 rounded-full ring-1 ring-slate-300 dark:ring-slate-600 transition-all duration-200"
+          >
+            <span>Vedi tutto il portfolio</span>
+            <Icon name="tabler:arrow-right" class="w-4 h-4 shrink-0" />
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- ═══════════════════════════════════════
        RECENSIONI GOOGLE
