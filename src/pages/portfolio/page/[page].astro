@@ -1,35 +1,14 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
+import { comparePortfolioByPublication } from '@/utils/portfolio-order';
 
 const PER_PAGE = 12;
-
-// Ordinamento robusto per data
-const ts = (v: unknown) => {
-  const d = v instanceof Date ? v : (typeof v === 'string' && v ? new Date(v) : null);
-  return d && !Number.isNaN(d.getTime()) ? d.getTime() : 0;
-};
-
-const statusRank = (status?: string) =>
-  status === 'live_client' ? 0
-  : status === 'independent_active' ? 1
-  : status === 'independent_pilot' ? 2
-  : status === 'editorial_project' ? 3
-  : status === 'historical' ? 5
-  : 4;
-
-const comparePortfolio = (a: any, b: any) => {
-  const rankDiff = statusRank(a.data.projectStatus) - statusRank(b.data.projectStatus);
-  if (rankDiff !== 0) return rankDiff;
-  const tb = ts(b.data.updateDate ?? b.data.publishDate);
-  const ta = ts(a.data.updateDate ?? a.data.publishDate);
-  return tb - ta || String(a.data.slug || '').localeCompare(String(b.data.slug || ''));
-};
 
 export async function getStaticPaths() {
   const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
     .slice()
-    .sort(comparePortfolio);
+    .sort(comparePortfolioByPublication);
 
   const total = all.length;
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
@@ -43,7 +22,7 @@ export async function getStaticPaths() {
 
 const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
   .slice()
-  .sort(comparePortfolio);
+  .sort(comparePortfolioByPublication);
 
 const total = all.length;
 const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
