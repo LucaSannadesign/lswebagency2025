@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
+import { comparePortfolioByRecency } from '@/utils/portfolio-order';
 
 const PER_PAGE = 12;
 
@@ -11,32 +12,12 @@ const metadata = {
   openGraph: { url: '/portfolio', type: 'website' },
 };
 
-// util: timestamp sicuro (0 se assente/invalid) per finire in fondo
-const ts = (v: unknown) => {
-  const d = v instanceof Date ? v : (typeof v === 'string' && v ? new Date(v) : null);
-  return d && !Number.isNaN(d.getTime()) ? d.getTime() : 0;
-};
-
 const items = await getCollection('portfolio');
-
-const statusRank = (status?: string) =>
-  status === 'live_client' ? 0
-  : status === 'independent_active' ? 1
-  : status === 'independent_pilot' ? 2
-  : status === 'editorial_project' ? 3
-  : status === 'historical' ? 5
-  : 4;
 
 const sorted = items
   .filter((e) => !((e.data as any)?.draft === true))
   .slice()
-  .sort((a, b) => {
-    const rankDiff = statusRank(a.data.projectStatus) - statusRank(b.data.projectStatus);
-    if (rankDiff !== 0) return rankDiff;
-    const tb = ts(b.data.updateDate ?? b.data.publishDate);
-    const ta = ts(a.data.updateDate ?? a.data.publishDate);
-    return tb - ta || String(a.data.slug || '').localeCompare(String(b.data.slug || ''));
-  });
+  .sort(comparePortfolioByRecency);
 
 const totalPages = Math.max(1, Math.ceil(sorted.length / PER_PAGE));
 const currentPage = 1;
@@ -64,7 +45,7 @@ const pageItems = sorted.slice(start, end);
         </span>
       </h1>
       <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
-        Progetti web e digitali: distinguiamo i siti clienti ancora online, le iniziative indipendenti in fase pilota e i lavori storici. Lo stato di ciascun progetto verificato è indicato nella scheda.
+        Progetti web e digitali, dai più recenti ai precedenti. Ogni scheda distingue i siti clienti, le iniziative indipendenti in fase pilota e i lavori storici.
       </p>
     </div>
   </section>
