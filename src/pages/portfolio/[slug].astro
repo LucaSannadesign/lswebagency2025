@@ -74,15 +74,15 @@ const metadata: MetaData = {
       <div>
         {d.projectStatus && (
           <p class="mb-3 text-sm font-medium text-neutral-600 dark:text-neutral-300">
-            {d.projectStatus === 'live_client'
+            {d.stageLabel ?? (d.projectStatus === 'live_client'
               ? 'Sito cliente attivo'
               : d.projectStatus === 'independent_active'
               ? 'Progetto indipendente · Online'
               : d.projectStatus === 'editorial_project'
               ? 'Grafica editoriale'
               : d.projectStatus === 'independent_pilot'
-              ? 'Progetto indipendente · Fase pilota'
-              : 'Case study storico · Sito non più online'}
+              ? 'Progetto indipendente · In sviluppo'
+              : 'Case study storico · Sito non più online')}
           </p>
         )}
         <h1 class="text-4xl font-bold mb-3 dark:text-white">{d.title}</h1>

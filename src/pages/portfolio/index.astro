@@ -45,7 +45,7 @@ const pageItems = sorted.slice(start, end);
         </span>
       </h1>
       <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
-        Progetti web e digitali, dai più recenti ai precedenti. Ogni scheda distingue i siti clienti, le iniziative indipendenti in fase pilota e i lavori storici.
+        Progetti web e digitali, dai più recenti ai precedenti. Ogni scheda distingue i siti clienti, le iniziative indipendenti in sviluppo e i lavori storici.
       </p>
     </div>
   </section>
@@ -80,15 +80,15 @@ const pageItems = sorted.slice(start, end);
                 <div class="p-4">
                   {item.data.projectStatus && (
                     <p class="mb-2 text-xs font-medium text-neutral-600 dark:text-neutral-300">
-                      {item.data.projectStatus === 'live_client'
+                      {item.data.stageLabel ?? (item.data.projectStatus === 'live_client'
                         ? '● Sito cliente attivo'
                         : item.data.projectStatus === 'independent_active'
                         ? '◦ Progetto indipendente · Online'
                         : item.data.projectStatus === 'editorial_project'
                         ? '◦ Grafica editoriale'
                         : item.data.projectStatus === 'independent_pilot'
-                        ? '◦ Progetto indipendente · Pilota'
-                        : '◦ Progetto storico · Sito non più online'}
+                        ? '◦ Progetto indipendente · In sviluppo'
+                        : '◦ Progetto storico · Sito non più online')}
                     </p>
                   )}
                   {item.data.category && (

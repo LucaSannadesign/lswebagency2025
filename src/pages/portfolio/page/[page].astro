@@ -81,15 +81,15 @@ function hrefFor(item: any) {
               <div class="p-4">
                 {item.data.projectStatus && (
                   <p class="mb-2 text-xs font-medium text-neutral-600 dark:text-neutral-300">
-                    {item.data.projectStatus === 'live_client'
+                    {item.data.stageLabel ?? (item.data.projectStatus === 'live_client'
                       ? '● Sito cliente attivo'
                         : item.data.projectStatus === 'independent_active'
                         ? '◦ Progetto indipendente · Online'
                         : item.data.projectStatus === 'editorial_project'
                         ? '◦ Grafica editoriale'
                       : item.data.projectStatus === 'independent_pilot'
-                      ? '◦ Progetto indipendente · Pilota'
-                      : '◦ Progetto storico · Sito non più online'}
+                      ? '◦ Progetto indipendente · In sviluppo'
+                      : '◦ Progetto storico · Sito non più online')}
                   </p>
                 )}
                 <h3 class="font-semibold">{item.data.title}</h3>
