@@ -1,9 +1,35 @@
 # LS Web Agency — Commercial Roadmap
 
-Last update: 2026-09-11
+Last update: 2026-11-20
 
 ## STEP CORRENTE
-1 — VERIFICA TECNICA/SEO
+2 — COMPLETAMENTO COLLAUDO CONVERSIONE E AVVIO ACQUISIZIONE (PR #49; non in produzione)
+
+## SESSIONE 2026-11-20 — CICLO DI ACQUISIZIONE
+
+**Ambito:** www.lswebagency.com, nessuna modifica o invio di contatti in produzione.
+
+### Risultati documentati
+- [x] Ricontrollati live `robots.txt` e `sitemap.xml`: sitemap raggiungibile e `/mini-analisi` presente (verifica browser 20/11/2026).
+- [x] Landing `/mini-analisi` già attiva: widget guidato, endpoint `/api/mini-analisi` e notifica amministrativa.
+- [x] Controllati il codice server/client e l'endpoint, incluso il recupero su email quando il CRM fallisce.
+- [x] Letto il CRM Supabase in sola lettura: 239 lead, 10 marcati mini-analisi, nessuno nuovo mini-analisi negli ultimi 30 giorni; i tre potenziali lead non archiviati senza etichetta test fanno riferimento a indirizzi/progetti interni e NON sono prospect commerciabili.
+- [x] Correzione preparata in **PR #49 (draft)**: messaggio corretto per recupero via email e evento non-PII `lswa_mini_analisi_received` da collegare a GTM/GA4.
+- [x] Aggiunto workflow CI PR: esecuzione 44747861442 **SUCCESS** (test unitari); deploy preview per commit 54d3e075 **READY** su Vercel.
+- [x] Identificati 2 prospect esterni già presenti nel registro: Il Cenacolo e Trattoria Loludà, Sassari. I siti Eatbu sono pubblici; osservazioni commerciali: presenza su dominio di terzi e copy/identità da valutare. Per Il Cenacolo compare nel menu di navigazione un link 'Menù Capodanno 2023', da verificare prima di qualsiasi proposta.
+- [x] Ricerca storica sulle email delle due attività: nessuna corrispondenza nelle quattro caselle Gmail consultabili e nei registri inbound/outbound LSWA; collegamento PreventivoDentale ancora non leggibile.
+- [x] Verificato vincolo privacy: il recapito email pubblico non autorizza invii promozionali non richiesti; art. 130 Codice privacy, cfr. provvedimento Garante 20/10/2026 https://www.garanteprivacy.it/web/guest/home/docweb/-/docweb/10313574
+
+### Da chiudere prima della promozione
+- [ ] Esito di un test end-to-end controllato su preview, senza contaminare CRM production.
+- [ ] Configurare in GTM trigger dell'evento `lswa_mini_analisi_received`, tag GA4 `generate_lead`, e verificare in Tag Assistant / GA4 DebugView dopo consenso; non assumere che la sola dataLayer push misuri le conversioni.
+- [ ] Review, merge e verifica post-deploy della PR #49 soltanto dopo via libera al rilascio e test.
+- [ ] Trasformare i due micro-audit in contenuti/proposte personalizzate, evitando email promozionali a freddo senza base valida.
+- [ ] Preparare il primo contenuto social 'Perché il tuo sito non porta richieste?' con CTA `/mini-analisi`, poi pubblicare soltanto previa approvazione.
+
+**Metriche da monitorare:** visite landing, completamenti, salvataggi CRM, richieste qualificate esterne, preventivi, contratti paganti. Non conteggiare test o lead interni come acquisizioni.
+
+---
 
 ## COSA È STATO FATTO
 - [x] Verificata la configurazione sitemap nel repository `lswebagency2025`.
