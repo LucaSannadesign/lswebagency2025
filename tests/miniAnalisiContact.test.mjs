@@ -143,7 +143,7 @@ import assert from "node:assert/strict";
     checkbox(/Accetto la/, true);
     await submit();
     assert.ok(!nodes().find((n) => n.props.id === "ma-website"));
-    if (mode !== "no-site") {
+    if (mode !== "no-site" && mode !== "email-only") {
       checkbox(/Desidero anche/, true);
       await submit();
       assert.equal(payloads.length, 0);
