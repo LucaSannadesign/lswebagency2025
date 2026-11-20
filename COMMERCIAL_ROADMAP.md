@@ -18,7 +18,7 @@ Last update: 2026-11-20
 - [x] Aggiunto workflow CI PR: esecuzione 44747861442 **SUCCESS** (test unitari); deploy preview per commit 54d3e075 **READY** su Vercel.
 - [x] Identificati 2 prospect esterni già presenti nel registro: Il Cenacolo e Trattoria Loludà, Sassari. I siti Eatbu sono pubblici; osservazioni commerciali: presenza su dominio di terzi e copy/identità da valutare. Per Il Cenacolo compare nel menu di navigazione un link 'Menù Capodanno 2023', da verificare prima di qualsiasi proposta.
 - [x] Ricerca storica sulle email delle due attività: nessuna corrispondenza nelle quattro caselle Gmail consultabili e nei registri inbound/outbound LSWA; collegamento PreventivoDentale ancora non leggibile.
-- [x] Verificato vincolo privacy: il recapito email pubblico non autorizza invii promozionali non richiesti; art. 130 Codice privacy, cfr. provvedimento Garante 20/10/2026 https://www.garanteprivacy.it/web/guest/home/docweb/-/docweb/10313574
+- [x] Verificato vincolo privacy: il recapito email pubblico non autorizza invii promozionali non richiesti; art. 130 Codice privacy, cfr. provvedimento Garante 20/10/2026 https://www.garanteprivacy.it/web/guest/home/docweb/-/docweb-display/docweb/10313574
 
 ### Da chiudere prima della promozione
 - [ ] Esito di un test end-to-end controllato su preview, senza contaminare CRM production.
