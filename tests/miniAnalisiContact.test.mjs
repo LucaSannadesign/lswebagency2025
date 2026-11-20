@@ -42,10 +42,11 @@ import assert from "node:assert/strict";
     require,
   );
   const Component = mod.exports.default;
-  for (const mode of ["no-site", "audit", "cancel-audit", "server-errors"]) {
+  for (const mode of ["no-site", "audit", "cancel-audit", "server-errors", "email-only"]) {
     let states = [],
       cursor = 0,
       payloads = [];
+    globalThis.window = { dataLayer: [] };
     globalThis.__hooks = {
       state(v) {
         let i = cursor++;
@@ -67,12 +68,14 @@ import assert from "node:assert/strict";
             },
             new Error("network down"),
           ]
-        : [];
+        : mode === "email-only"
+          ? [{ ok: true, json: async () => ({ ok: true, leadSaved: false, emailSent: true }) }]
+          : [];
     globalThis.fetch = async (url, options) => {
       payloads.push(JSON.parse(options.body));
       const next = responses.shift();
       if (next instanceof Error) throw next;
-      return next ?? { ok: true, json: async () => ({ ok: true }) };
+      return next ?? { ok: true, json: async () => ({ ok: true, leadSaved: true, emailSent: true }) };
     };
     let tree;
     function render() {
@@ -181,7 +184,17 @@ import assert from "node:assert/strict";
     const withAudit = mode === "audit" || mode === "server-errors";
     assert.equal(payloads[0].auditConsent, withAudit);
     assert.equal(payloads[0].websiteUrl, withAudit ? "example.com" : undefined);
-    assert.ok(txt(tree).includes("Richiesta inviata correttamente"));
+    if (mode === "email-only") {
+      assert.ok(txt(tree).includes("Richiesta ricevuta via email"));
+      assert.ok(!txt(tree).includes("Richiesta inviata correttamente"));
+    } else {
+      assert.ok(txt(tree).includes("Richiesta inviata correttamente"));
+    }
+    assert.equal(window.dataLayer.length, 1, "un evento per singola richiesta riuscita");
+    assert.equal(window.dataLayer[0].event, "lswa_mini_analisi_received");
+    assert.equal(window.dataLayer[0].delivery, mode === "email-only" ? "email_only" : "crm");
+    assert.equal(window.dataLayer[0].audit_requested, withAudit);
+    assert.ok(!JSON.stringify(window.dataLayer).includes("qa@example.com"), "niente PII nell'evento");
     console.log("PASS component handlers:", mode);
   }
 })().catch((e) => {
