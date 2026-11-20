@@ -88,6 +88,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
   const [honeypot, setHoneypot] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
   const [clientReportExpected, setClientReportExpected] = useState(false);
+  const [emailOnlyDelivery, setEmailOnlyDelivery] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
   // Percorso di contatto progressivo dopo il risultato.
@@ -210,6 +211,7 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
     setHoneypot('');
     setSubmitState('idle');
     setClientReportExpected(false);
+    setEmailOnlyDelivery(false);
     setFormError(null);
   }
 
@@ -291,8 +293,22 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data?.ok) {
+        const crmSaved = data?.leadSaved === true;
+        const emailFallback = data?.leadSaved === false && data?.emailSent === true;
         setClientReportExpected(data?.clientReportExpected === true);
+        setEmailOnlyDelivery(emailFallback);
         setSubmitState('success');
+        // Tracciamento senza PII: GTM può usare questo evento per generare
+        // una conversione GA4. Non equivale, da solo, a una configurazione GTM.
+        if (typeof window !== 'undefined' && (crmSaved || emailFallback)) {
+          const dataLayer = (window as Window & { dataLayer?: Array<Record<string, unknown>> }).dataLayer;
+          dataLayer?.push({
+            event: 'lswa_mini_analisi_received',
+            delivery: crmSaved ? 'crm' : 'email_only',
+            entry_point: isAssistant ? 'assistente_ai' : 'mini_analisi',
+            audit_requested: !isAssistant && requestAudit,
+          });
+        }
       } else {
         setSubmitState('error');
         setFormError(API_ERROR_MESSAGES[data?.error] ?? 'Invio non riuscito. Riprova tra poco.');
@@ -393,7 +409,9 @@ export default function MiniAnalisi({ variant = 'mini', source, context, whatsap
             <p className="font-semibold text-emerald-800 dark:text-emerald-200">
               {clientReportExpected
                 ? 'Richiesta ricevuta. Stiamo preparando la valutazione del tuo sito: riceverai un riepilogo via email quando sarà pronto.'
-                : 'Richiesta inviata correttamente. Ti ricontatterò entro 24–48 ore.'}
+                : emailOnlyDelivery
+                  ? 'Richiesta ricevuta via email. Il sistema di registrazione è temporaneamente indisponibile: la tua richiesta sarà gestita manualmente.'
+                  : 'Richiesta inviata correttamente. Ti ricontatterò entro 24–48 ore.'}
             </p>
             {isAssistant && (
               <p className="mt-2 text-sm text-emerald-800/80 dark:text-emerald-200/80">
