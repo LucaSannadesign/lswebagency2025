@@ -39,11 +39,11 @@ restano) · **DA VERIFICARE**.
 
 | Elemento | Decisione | Motivazione |
 |---|---|---|
-| Assistente di sito (React, `client:idle`) | CONSERVARE | Montato globalmente da PageLayout; la CTA mobile sticky C.3 è posizionata per non sovrapporsi. |
+| Assistente di sito (React, `client:idle`) | CONSERVARE | Montato globalmente da PageLayout, nessuna modifica. |
 | Cookie banner + modale preferenze + `data-cookie-preferences` | CONSERVARE | Nessuna modifica alla logica di consenso; il footer C.3 mantiene «Gestisci preferenze cookie». |
 | CTA personalizzata (`PersonalizedCta`, localStorage) | CONSERVARE | Inserita nel capitolo servizi; stile adattato via CSS di scope. |
 | `PersonalizationTracker` | CONSERVARE | Globale, first-party. |
-| CTA mobile sticky | NUOVO (da C.2) | Compare dopo la hero, sparisce vicino ai contatti. |
+| CTA mobile sticky (da C.2) | NON ADOTTATA | Sul mobile il widget assistente occupa già tutta la fascia inferiore (e ne intercetta i click): una seconda barra fissa si sovrapporrebbe. La conversione resta su hero, sezioni, menu mobile e assistente. |
 
 ## 4. Moduli, CTA e percorsi di conversione
 

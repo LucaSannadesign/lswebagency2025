@@ -4,10 +4,20 @@ import Header from '@/components/widgets/Header.astro';
 import Footer from '@/components/widgets/Footer.astro';
 import CookieBanner from '@/components/CookieBanner.astro'; // ✅ ADD
 import SiteAssistant from '@/components/SiteAssistant';
+import C3Header from '@/components/c3/C3Header.astro';
+import C3Footer from '@/components/c3/C3Footer.astro';
 import type { MetaData } from '@/types';
 
-export interface Props { metadata?: MetaData }
+export interface Props {
+  metadata?: MetaData;
+  /**
+   * 'c3' = redesign Kinetic Graphite (header/footer C.3, token sotto .c3).
+   * Predefinito 'default': tutte le pagine esistenti restano invariate.
+   */
+  variant?: 'default' | 'c3';
+}
 const metadata = (Astro.props.metadata ?? {}) as MetaData;
+const variant = Astro.props.variant ?? 'default';
 
 // Assistente di sito (widget flottante): montato globalmente UNA sola volta, idratazione lazy.
 // Escluso dalla pagina che ha già demo + assistente inline (evita sovraccarico): la decisione
@@ -25,13 +35,26 @@ const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || undefined;
 <Document metadata={metadata}>
   <Fragment slot="head"><slot name="head" /></Fragment>
 
-  <Header />
-
-  <main id="main" class="min-h-screen">
-    <slot />
-  </main>
-
-  <Footer />
+  {
+    variant === 'c3' ? (
+      <div id="c3-root" class="c3" data-tone="dark">
+        <a class="c3-skip" href="#main">Vai al contenuto</a>
+        <C3Header />
+        <main id="main">
+          <slot />
+        </main>
+        <C3Footer />
+      </div>
+    ) : (
+      <>
+        <Header />
+        <main id="main" class="min-h-screen">
+          <slot />
+        </main>
+        <Footer />
+      </>
+    )
+  }
 
   <!-- ✅ Cookie banner / preferenze -->
   <CookieBanner />
