@@ -1,0 +1,57 @@
+---
+/**
+ * Sezione C.3.4 a tono fisso con titolo editoriale opzionale.
+ * tone: dark (grafite) · deep (grafite secondaria) · anth (antracite) · ivory (avorio)
+ */
+export interface Props {
+  tone?: 'dark' | 'deep' | 'anth' | 'ivory';
+  id?: string;
+  index?: string;
+  kicker?: string;
+  title?: string;
+  accent?: string;
+  lead?: string;
+  stack?: boolean;
+  tight?: boolean;
+  glow?: boolean;
+  labelledby?: string;
+}
+const { tone = 'dark', id, index, kicker, title, accent, lead, stack = false, tight = false, glow = false } = Astro.props;
+const headId = id ? `${id}-h` : undefined;
+const at = title && accent ? title.indexOf(accent) : -1;
+const parts = title && accent && at >= 0 ? [title.slice(0, at), accent, title.slice(at + accent.length)] : [title ?? '', '', ''];
+---
+
+<section
+  class:list={['c3-sec', `c3-sec--${tone}`, { 'c3-sec--tight': tight, 'c3-sec--glow': glow }]}
+  id={id}
+  {...(title && headId ? { 'aria-labelledby': headId } : {})}
+>
+  <div class="c3-sec-in">
+    {
+      title && (
+        <div class:list={['c3-sec-head', 'c3-up', { 'c3-sec-head--stack': stack || !lead }]}>
+          <div>
+            {kicker && (
+              <p class="c3-kicker">
+                {index && (
+                  <span class="c3-idx" aria-hidden="true">
+                    {index}
+                  </span>
+                )}
+                {kicker}
+              </p>
+            )}
+            <h2 class="c3-h2" id={headId}>
+              {parts[0]}
+              {parts[1] && <span class="c3-grad">{parts[1]}</span>}
+              {parts[2]}
+            </h2>
+          </div>
+          {lead && <p class="c3-lead">{lead}</p>}
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</section>

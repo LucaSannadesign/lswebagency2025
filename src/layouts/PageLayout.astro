@@ -18,9 +18,15 @@ export interface Props {
    * 'legacy' = header e footer storici (riserva, non usata).
    */
   variant?: 'default' | 'c3' | 'legacy';
+  /**
+   * Tono dell'header C.3 in cima alla pagina: 'light' (testo scuro, pagine con
+   * testata chiara) o 'dark' (testo avorio, pagine con testata grafite C.3.4).
+   */
+  headerTone?: 'light' | 'dark';
 }
 const metadata = (Astro.props.metadata ?? {}) as MetaData;
 const variant = Astro.props.variant ?? 'default';
+const headerTone = Astro.props.headerTone ?? 'light';
 
 // Assistente di sito (widget flottante): montato globalmente UNA sola volta, idratazione lazy.
 // Escluso dalla pagina che ha già demo + assistente inline (evita sovraccarico): la decisione
@@ -58,7 +64,7 @@ const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || undefined;
       </>
     ) : (
       <>
-        <div class="c3 c3-chrome" data-tone="light">
+        <div class="c3 c3-chrome" data-tone={headerTone}>
           <a class="c3-skip" href="#main">Vai al contenuto</a>
           <C3Header mode="page" />
         </div>
