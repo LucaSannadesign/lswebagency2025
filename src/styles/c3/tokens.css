@@ -1,0 +1,257 @@
+/*
+ * LS Web Agency · Redesign C.3 «Kinetic Graphite» — design token e primitive.
+ *
+ * Tutto è sotto .c3: il resto del sito (token --aw-*, Tailwind) non cambia.
+ * Palette: grafite + carta che si alternano per capitoli, accento unico «ione»,
+ * una tinta per progetto nel portfolio.
+ * Tipografia: Archivo variabile (larghezza 62–125) per titoli e numeri,
+ * Inter Variable (già caricato dal sito) per il testo.
+ */
+
+/* Archivo variabile self-hosted (SIL OFL 1.1, vedi /fonts/archivo/OFL.txt) */
+@font-face {
+  font-family: 'Archivo C3';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  src: url('/fonts/archivo/archivo-latin-wdth-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Archivo C3';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  src: url('/fonts/archivo/archivo-latin-ext-wdth-normal.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF,
+    U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+.c3 {
+  /* Primitivi */
+  --c3-g0: #0d0f11;
+  --c3-g1: #15181b;
+  --c3-g2: #1d2125;
+  --c3-g3: #2b3035;
+  --c3-ion: #8fd3c8;
+  --c3-ion-deep: #1f5a54;
+  --c3-paper: #e8e6e1;
+  --c3-paper-hi: #f3f2ee;
+  --c3-snow: #edece8;
+
+  --c3-disp: 'Archivo C3', 'Helvetica Neue', Arial, sans-serif;
+  --c3-text: 'Inter Variable', 'Helvetica Neue', Arial, sans-serif;
+  --c3-pad: max(5vw, 20px);
+  --c3-ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --c3-radius: 14px;
+
+  /* Tono scuro (predefinito) */
+  --bg: var(--c3-g0);
+  --ink: var(--c3-snow);
+  --mute: #a3a9ae;
+  --line: var(--c3-g3);
+  --ctrl: #666e75;
+  --panel: var(--c3-g1);
+  --link: var(--c3-ion);
+  --btn: var(--c3-ion);
+  --btn-ink: var(--c3-g0);
+
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 17px/1.6 var(--c3-text);
+  letter-spacing: normal;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  color-scheme: dark;
+  transition:
+    background-color 0.7s var(--c3-ease),
+    color 0.7s var(--c3-ease);
+}
+
+/* Capitoli: il tono della pagina segue la sezione al centro dello schermo */
+.c3[data-tone='light'] {
+  --bg: var(--c3-paper);
+  --ink: #16191c;
+  --mute: #4a5157;
+  --line: #c9c6bf;
+  --ctrl: #6e747a;
+  --panel: var(--c3-paper-hi);
+  --link: var(--c3-ion-deep);
+  --btn: #16191c;
+  --btn-ink: var(--c3-paper);
+  color-scheme: light;
+}
+.c3[data-tone='tint'] {
+  --bg: var(--c3-tint, var(--c3-g0));
+}
+
+/* Sezioni con tono proprio: leggibili anche senza JavaScript */
+.c3 [data-c3-tone='light'] {
+  --ink: #16191c;
+  --mute: #4a5157;
+  --line: #c9c6bf;
+  --ctrl: #6e747a;
+  --panel: var(--c3-paper-hi);
+  --link: var(--c3-ion-deep);
+  --btn: #16191c;
+  --btn-ink: var(--c3-paper);
+  color: var(--ink);
+}
+.c3:not(.c3-js) [data-c3-tone='light'] {
+  background: var(--c3-paper);
+}
+
+html:has(.c3) body {
+  background: var(--c3-g0, #0d0f11);
+}
+
+.c3 *,
+.c3 *::before,
+.c3 *::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+.c3 a {
+  color: inherit;
+}
+.c3 :focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+.c3 ::selection {
+  background: var(--c3-ion);
+  color: var(--c3-g0);
+}
+
+/* Primitive tipografiche */
+.c3-kicker {
+  font: 500 15px/1.3 var(--c3-text);
+  color: var(--link);
+  margin: 0 0 20px;
+  letter-spacing: 0.01em;
+}
+.c3-h2 {
+  margin: 0;
+  font: 800 clamp(42px, 7vw, 112px) / 0.92 var(--c3-disp);
+  font-stretch: 72%;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.c3-lead {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--mute);
+  max-width: 600px;
+  margin: 24px 0 0;
+}
+.c3-band {
+  padding: clamp(88px, 11vw, 168px) var(--c3-pad);
+}
+.c3-grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* Pulsanti */
+.c3-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 26px;
+  border-radius: 999px;
+  font: 600 15px/1.1 var(--c3-text);
+  text-decoration: none;
+  text-align: center;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s,
+    transform 0.3s var(--c3-ease);
+}
+.c3-btn svg {
+  transition: transform 0.3s var(--c3-ease);
+}
+.c3-btn:hover svg {
+  transform: translateX(3px);
+}
+.c3-btn--p {
+  background: var(--btn);
+  color: var(--btn-ink);
+}
+.c3-btn--p:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+.c3-btn--s {
+  border-color: var(--ctrl);
+  color: var(--ink);
+  background: transparent;
+}
+.c3-btn--s:hover {
+  border-color: var(--ink);
+}
+.c3-link {
+  color: var(--link);
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+
+.c3-sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Movimento ridotto: preferenza di sistema o interruttore in pagina */
+.c3.is-reduced *,
+.c3.is-reduced *::before,
+.c3.is-reduced *::after {
+  transition-duration: 0s !important;
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .c3 *,
+  .c3 *::before,
+  .c3 *::after {
+    transition-duration: 0s !important;
+    animation: none !important;
+  }
+}
+
+/* Elementi globali conservati, adattati alla palette sulla home */
+html:has(.c3) #scrollToTop {
+  background: var(--c3-g1, #15181b);
+  color: #8fd3c8;
+  box-shadow:
+    0 0 0 1px #2b3035,
+    0 10px 30px rgba(0, 0, 0, 0.35);
+}
+html:has(.c3) #scrollToTop:hover {
+  background: #8fd3c8;
+  color: #0d0f11;
+}
+
+@media (max-width: 600px) {
+  .c3 {
+    font-size: 16px;
+  }
+  .c3-lead {
+    font-size: 17px;
+  }
+}
