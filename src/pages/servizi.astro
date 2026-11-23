@@ -1,9 +1,18 @@
 ---
-import Hero from '@/components/widgets/Hero.astro';
+/**
+ * /servizi — hub dei servizi · Redesign C.3.4
+ * Gerarchia: 4 pratiche principali → percorso d'ingresso (prezzi dichiarati)
+ * → percorsi secondari → lavori selezionati → doppio percorso.
+ * Invariati: metadata, H1, ancore #servizi-principali e #ai, link alle pagine servizio.
+ */
 import Layout from '@/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
+import C3PageHero from '@/components/c3/page/C3PageHero.astro';
+import C3Section from '@/components/c3/page/C3Section.astro';
+import C3Paths from '@/components/c3/page/C3Paths.astro';
+import { PRACTICES, SECONDARY } from '@/data/c3/services';
+import { SERVICES, PORTFOLIO } from '@/data/c3/home';
 
-// ✅ immagine esistente importata come ESM (evita MissingImageDimension)
+// ✅ immagine esistente importata come ESM (evita MissingImageDimension) — usata per OG
 import servicesHero from '@/assets/images/servizi-seo-grafica-branding-siti-web.webp';
 
 const metadata = {
@@ -22,466 +31,151 @@ const metadata = {
   },
 };
 
-// URL utili
+const isExternal = (href: string) => /^https?:\/\//.test(href);
 ---
 
-<Layout metadata={metadata}>
-  <!-- HERO: background premium con gradient radiale morbido -->
-  <section class="relative isolate services-hero overflow-hidden">
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[360px] sm:h-[420px] md:h-[460px] dark:hidden"
-    >
-      <div class="hero-services-bg h-full w-full" />
-    </div>
-
-    <Hero
-      tagline="Siti web strategici · da Sassari in tutta Italia"
+<Layout metadata={metadata} headerTone="dark">
+  <div class="c3 c3p">
+    <C3PageHero
+      kicker="Servizi"
+      title="Servizi web e digitali: scegli da dove partire"
+      accent="da dove partire"
+      lead="Non tutti hanno bisogno dello stesso intervento. Se il sito è già online può essere utile partire da un audit; se manca, dal progetto. Qui trovi i servizi disponibili, come si combinano e il percorso più adatto alla situazione della tua attività."
       actions={[
-        {
-          variant: 'primary',
-          text: 'Richiedi la valutazione gratuita',
-          href: '/mini-analisi',
-          class: 'px-6 md:px-7 py-3 text-sm md:text-base shadow-sm hover:shadow-md',
-        },
-        {
-          text: 'Scopri il percorso',
-          href: '#servizi-principali',
-          class: 'px-5 md:px-6 py-3 text-sm md:text-base border border-neutral-300/70 dark:border-neutral-600/70 bg-white/60 dark:bg-neutral-900/40 hover:bg-white dark:hover:bg-neutral-900',
-        },
+        { text: 'Richiedi la valutazione gratuita', href: '/mini-analisi' },
+        { text: 'Scopri le pratiche', href: '#servizi-principali', variant: 'secondary' },
       ]}
-      image={{
-        src: servicesHero.src,
-        alt: 'Siti web strategici e componenti digitali integrati nel sito',
-        width: servicesHero.width,
-        height: servicesHero.height,
-        class: 'hero-services-image',
-      }}
-      gradient={false}
     >
-      <span slot="title">
-        Servizi web e digitali: scegli da dove partire
-      </span>
+      <dl class="c3-meta" slot="aside">
+        <div><dt>Pratiche</dt><dd>Web design, UX/UI, front-end, prodotti digitali</dd></div>
+        <div><dt>Formati</dt><dd>Progetti su misura, audit, sprint, cura continuativa</dd></div>
+        <div><dt>Interlocutore</dt><dd>Luca Sanna, dal brief al rilascio</dd></div>
+        <div><dt>Dove</dt><dd>Studio a Sassari · progetti in tutta Italia</dd></div>
+      </dl>
+    </C3PageHero>
 
-      <span slot="subtitle">
-        Non tutti hanno bisogno dello stesso intervento. Se il sito è già online può essere utile partire da un audit; se manca, dal progetto. Qui trovi i servizi disponibili, come si combinano e il percorso più adatto alla situazione della tua attività.
-      </span>
-    </Hero>
-  </section>
-
-  <!-- SERVIZI PRINCIPALI -->
-  <section id="servizi-principali" class="container mx-auto max-w-7xl px-6 md:px-8 py-16 scroll-mt-32">
-    <div class="mb-12 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">Da dove partire</h2>
-      <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-        Il percorso è chiaro: valutazione iniziale gratuita → audit del sito → sprint tecnico di ottimizzazione → eventuale sito web strategico. Se hai già un sito online, l’audit è il primo passo per capire cosa migliorare; SEO, form, landing e tracciamento sono moduli integrabili nel progetto, non interventi paralleli scollegati.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      <article id="siti-web" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
-        <div class="w-12 h-12 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center mb-6">
-          <Icon name="tabler:device-desktop" class="w-6 h-6 text-primary dark:text-violet-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Sito web strategico</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Prodotto centrale del percorso: sito veloce e chiaro per acquisire richieste e gestire i contatti con ordine.
-          Per chi opera a Sassari, c’è una
-          <a
-            href="/servizi/creazione-siti-web-sassari"
-            class="font-medium text-primary hover:text-secondary dark:text-violet-300 dark:hover:text-violet-200 underline underline-offset-2"
-          >
-            pagina dedicata ai siti web a Sassari
-          </a>.
-        </p>
-        <a href="/servizi/siti-web" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article id="audit-rapido" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
-        <div class="w-12 h-12 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center mb-6">
-          <Icon name="tabler:search" class="w-6 h-6 text-primary dark:text-violet-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Audit del sito — primo passo</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Punto di partenza se il sito è già online: UX, SEO tecnica, performance e accessibilità, per capire cosa frena contatti, chiarezza e conversioni con evidenze e priorità, prima di decidere se ottimizzare con lo sprint o ripartire con un sito strategico.
-        </p>
-        <a href="/servizi/audit-rapido" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article id="seo" class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition scroll-mt-32">
-        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-6">
-          <Icon name="tabler:chart-line" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Ottimizzazione SEO</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Modulo del percorso: visibilità, contenuti e base tecnica per farti trovare dalle ricerche che contano, integrati nel sito strategico.
-        </p>
-        <a href="/servizi/ottimizzazione-seo-siti-web" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-6">
-          <Icon name="tabler:shopping-cart" class="w-6 h-6 text-green-600 dark:text-green-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">E-commerce</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Estensione del sito strategico quando serve vendere online: catalogo, checkout e percorsi d’acquisto integrati.
-        </p>
-        <a href="/servizi/realizzazione-siti-ecommerce" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center mb-6">
-          <Icon name="tabler:palette" class="w-6 h-6 text-orange-600 dark:text-orange-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Branding e grafica</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Identità visiva coordinata al sito e ai materiali di contatto, per un’immagine coerente lungo tutto il percorso.
-        </p>
-        <a href="/servizi/branding-e-grafica-siti-web" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-8 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-12 h-12 bg-gray-100 dark:bg-gray-900/30 rounded-lg flex items-center justify-center mb-6">
-          <Icon name="tabler:settings" class="w-6 h-6 text-gray-600 dark:text-gray-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Assistenza e manutenzione</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Supporto e aggiornamenti per mantenere il sito efficiente, sicuro e allineato alle richieste che arrivano nel tempo.
-        </p>
-        <a href="/servizi/assistenza-manutenzione" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </article>
-    </div>
-  </section>
-
-  <!-- SOLUZIONI SPECIALISTICHE -->
-  <section id="ai" class="container mx-auto max-w-7xl px-6 md:px-8 py-12 bg-neutral-50/50 dark:bg-neutral-900/20 scroll-mt-32">
-    <div class="mb-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold mb-3">Componenti integrabili nel sito</h2>
-      <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Moduli da aggiungere al sito strategico quando servono — landing, form avanzati, automazioni leggere — senza stravolgere il percorso di base.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-      <div class="rounded-xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-8 h-8 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center mb-3">
-          <Icon name="tabler:layout" class="w-4 h-4 text-primary dark:text-violet-400" />
-        </div>
-        <h3 class="font-semibold mb-2">Landing page</h3>
-        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Pagina dedicata integrata al sito per campagne, promozioni e conversioni mirate.
-        </p>
-        <a href="/servizi/landing-page-professionale" class="text-xs font-medium text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
+    <C3Section
+      tone="ivory"
+      id="servizi-principali"
+      index="01"
+      kicker="Pratiche"
+      title="Quattro competenze, un solo progetto."
+      accent="un solo progetto."
+      lead="Design, esperienza, codice e strumenti digitali nelle stesse mani: ogni pratica raccoglie i servizi che la rendono concreta."
+    >
+      <div class="c3-practices">
+        {
+          PRACTICES.map((p, i) => (
+            <article class="c3-practice c3-up" id={p.id} aria-labelledby={`pratica-${i}`}>
+              <span class="c3-practice-n">{String(i + 1).padStart(2, '0')}</span>
+              <h3 id={`pratica-${i}`}>{p.title}</h3>
+              <p>{p.desc}</p>
+              <ul class="c3-practice-tags">
+                {p.tags.map((t) => (
+                  <li>{t}</li>
+                ))}
+              </ul>
+              <ul class="c3-linklist">
+                {p.links.map((l) => (
+                  <li>
+                    <a href={l.href}>
+                      <span class="c3-sr">Servizio: </span>
+                      <div>
+                        {l.label}
+                        {l.note && <small>{l.note}</small>}
+                      </div>
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
       </div>
+    </C3Section>
 
-      <div class="rounded-xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-3">
-          <Icon name="tabler:message-chatbot" class="w-4 h-4 text-purple-600 dark:text-purple-400" />
-        </div>
-        <h3 class="font-semibold mb-2">Assistente AI</h3>
-        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Automazione leggera sul sito: FAQ, prenotazioni e qualificazione lead, integrata nel flusso di richieste.
-        </p>
-        <a href="/servizi/assistente-ai-sito-whatsapp" class="text-xs font-medium text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
+    <C3Section
+      tone="deep"
+      id="da-dove-partire"
+      index="02"
+      kicker="Da dove partire"
+      title="Un percorso per gradi."
+      lead="Non sempre serve rifare tutto. Prezzi di partenza dichiarati; se non sai quale passo fa per te, la valutazione iniziale è gratuita."
+    >
+      <ol class="c3-route">
+        {
+          SERVICES.map((s, i) => (
+            <li class="c3-up">
+              <span class="c3-route-n">Passo {i + 1}</span>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+              <p class="c3-route-price">
+                {s.price}
+                <small>{s.priceNote}</small>
+              </p>
+              <a href={s.href}>{s.cta}</a>
+            </li>
+          ))
+        }
+      </ol>
+    </C3Section>
+
+    <C3Section
+      tone="dark"
+      id="percorsi-secondari"
+      index="03"
+      kicker="Percorsi secondari"
+      title="Visibilità, settori e cura nel tempo."
+      lead="Servizi che completano un progetto o rispondono a esigenze specifiche."
+    >
+      <div class="c3-cols">
+        {
+          SECONDARY.map((g) => (
+            <div class="c3-col c3-up">
+              <h3>{g.title}</h3>
+              <p>{g.desc}</p>
+              <ul class="c3-linklist">
+                {g.links.map((l) => (
+                  <li>
+                    <a href={l.href} {...(isExternal(l.href) ? { target: '_blank', rel: 'noopener' } : {})}>
+                      <div>{l.label}</div>
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
       </div>
+    </C3Section>
 
-      <div class="rounded-xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-8 h-8 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center mb-3">
-          <Icon name="tabler:wheelchair" class="w-4 h-4 text-primary dark:text-violet-400" />
-        </div>
-        <h3 class="font-semibold mb-2">Accessibilità digitale</h3>
-        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Adeguamenti WCAG/AgID integrati nel sito, per un’esperienza accessibile a tutti.
-        </p>
-        <a href="/servizi/accessibilita-digitale-avanzata" class="text-xs font-medium text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
+    <C3Section
+      tone="ivory"
+      id="lavori"
+      index="04"
+      kicker="Lavori selezionati"
+      title="Dall’identità al codice."
+      accent="al codice."
+      lead="Progetti in cui design, sviluppo e prodotto sono stati seguiti dall’inizio alla fine."
+    >
+      <div class="c3-works">
+        {
+          PORTFOLIO.map((p) => (
+            <a class="c3-work c3-up" href={`/portfolio/${p.id}`}>
+              <span class="c3-work-img">
+                <img src={p.shot} alt={`Homepage del sito ${p.domain}`} width="800" height="500" loading="lazy" decoding="async" />
+              </span>
+              <strong>{p.name}</strong>
+              <span>{p.role}</span>
+            </a>
+          ))
+        }
       </div>
+      <p class="c3-paths-note c3-up"><a href="/portfolio">Tutti i progetti →</a></p>
+    </C3Section>
 
-      <div class="rounded-xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center mb-3">
-          <Icon name="tabler:brain" class="w-4 h-4 text-orange-600 dark:text-orange-400" />
-        </div>
-        <h3 class="font-semibold mb-2">UX con AI</h3>
-        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Personalizzazione leggera dell’esperienza sul sito, quando serve guidare meglio il visitatore verso il contatto.
-        </p>
-        <a href="/servizi/personalizzazione-ux-intelligenza-artificiale" class="text-xs font-medium text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </div>
-
-      <div class="rounded-xl p-4 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-8 h-8 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center mb-3">
-          <Icon name="tabler:leaf" class="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-        </div>
-        <h3 class="font-semibold mb-2">Web design etico</h3>
-        <p class="text-xs text-neutral-600 dark:text-neutral-300 mb-3">
-          Accessibilità, trasparenza e sostenibilità integrate nel progetto del sito.
-        </p>
-        <a href="/servizi/web-design-etico-sostenibile" class="text-xs font-medium text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PACCHETTI RAPIDI -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-12">
-    <div class="mb-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold mb-3">Interventi mirati</h2>
-      <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Servizi rapidi e circoscritti, pensati per intervenire su problemi specifici quando sai già dove serve migliorare.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4">
-          <Icon name="tabler:tool" class="w-5 h-5 text-green-600 dark:text-green-400" />
-        </div>
-        <h3 class="font-semibold text-lg mb-2">Fix Performance e SEO</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
-          Intervento mirato quando le priorità sono già chiare.
-        </p>
-        <a href="/servizi/fix-performance-seo" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center mb-4">
-          <Icon name="tabler:rocket" class="w-5 h-5 text-orange-600 dark:text-orange-400" />
-        </div>
-        <h3 class="font-semibold text-lg mb-2">Sprint di Ottimizzazione</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
-          Audit + fix + misurazione in un percorso breve e strutturato.
-        </p>
-        <a href="/servizi/sprint-ottimizzazione" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri di più →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center mb-4">
-          <Icon name="tabler:map-pin" class="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-        </div>
-        <h3 class="font-semibold text-lg mb-2">Local SEO Booster</h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
-          Pacchetto operativo su Google Business Profile, recensioni e tracking locale, con deliverable e tempi definiti.
-        </p>
-        <a href="/servizi/local-seo-booster" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri il pacchetto →
-        </a>
-      </article>
-    </div>
-  </section>
-
-  <!-- SOLUZIONI PER ESIGENZE SPECIFICHE -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-12 bg-neutral-50/50 dark:bg-neutral-900/20">
-    <div class="mb-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold mb-3">Percorsi specifici</h2>
-      <p class="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-        Servizi pensati per progetti che richiedono un focus settoriale o un approccio più verticale.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4">
-          <Icon name="tabler:map-pin" class="w-6 h-6 text-green-600 dark:text-green-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">SEO locale</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Tutto quello che serve per essere trovati nelle ricerche locali.
-        </p>
-        <a href="/servizi/seo-locale" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri l'approccio →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4">
-          <Icon name="tabler:building-store" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Transizione Digitale Turismo</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Soluzioni specifiche per B&B, agriturismi, hotel e attività turistiche.
-        </p>
-        <a href="/transizione-digitale-turismo" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri il servizio →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-12 h-12 bg-rose-100 dark:bg-rose-900/30 rounded-lg flex items-center justify-center mb-4">
-          <Icon name="tabler:clipboard-heart" class="w-6 h-6 text-rose-600 dark:text-rose-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Pre-Accoglienza Digitale</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Per studi dentistici e cliniche: organizza le richieste online dei pazienti in schede protette e utili alla segreteria, con supervisione umana e attenzione alla privacy.
-        </p>
-        <a href="/servizi/pre-accoglienza-digitale" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri il servizio →
-        </a>
-      </article>
-
-      <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-        <div class="w-12 h-12 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center mb-4">
-          <Icon name="tabler:code" class="w-6 h-6 text-primary dark:text-violet-400" />
-        </div>
-        <h3 class="font-semibold text-xl mb-3">Sviluppo white label per agenzie</h3>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-4 leading-relaxed">
-          Per agenzie e studi digitali: landing page e piccoli siti sviluppati dai tuoi design pronti, con collaborazione riservata. Da 1.200 €.
-        </p>
-        <a href="/servizi/sviluppo-web-white-label" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary dark:text-violet-300">
-          Scopri il servizio →
-        </a>
-      </article>
-    </div>
-  </section>
-
-  <!-- MINI-ANALISI CTA -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-12">
-    <div class="max-w-4xl mx-auto rounded-2xl border border-violet-200/80 bg-gradient-to-br from-violet-50/80 via-white to-fuchsia-50/60 dark:border-violet-800/50 dark:from-violet-950/30 dark:via-slate-900/50 dark:to-fuchsia-950/20 p-8 md:p-10 shadow-sm">
-      <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3">Non sai da dove partire?</h2>
-      <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6 max-w-2xl">
-        Rispondi a poche domande e ricevi una prima lettura del progetto: priorità, servizio consigliato e prossimo passo utile.
-      </p>
-      <a
-        href="/mini-analisi"
-        class="inline-flex items-center justify-center min-h-[46px] rounded-full px-6 py-3 text-base font-semibold text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-400 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
-      >
-        Avvia la valutazione iniziale gratuita
-        <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
-      </a>
-    </div>
-  </section>
-
-  <!-- CTA FINALE -->
-  <section class="container mx-auto max-w-7xl px-6 md:px-8 py-16">
-    <div class="relative isolate overflow-hidden rounded-2xl bg-neutral-950">
-      <div class="absolute inset-0 -z-10 opacity-90 bg-[radial-gradient(circle_at_18%_28%,rgba(168,85,247,0.34),transparent_34%),radial-gradient(circle_at_82%_72%,rgba(95 184 171,0.22),transparent_32%),radial-gradient(circle_at_58%_42%,rgba(236,72,153,0.20),transparent_28%),linear-gradient(135deg,rgba(10,10,12,0.96),rgba(5,8,18,0.98))]"></div>
-      <div class="max-w-3xl mx-auto text-center px-6 py-12 md:py-16">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">Hai già chiaro cosa ti serve?</h2>
-        <p class="text-neutral-200 mb-6">
-          Raccontami il progetto o il problema da risolvere: ti rispondo con i prossimi passaggi e, quando serve, una proposta chiara.
-        </p>
-        <a href="/contatti" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-primary hover:bg-secondary rounded-lg transition-colors">
-          Parliamo del progetto
-          <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
-        </a>
-      </div>
-    </div>
-  </section>
+    <C3Paths index="05" />
+  </div>
 </Layout>
-<style>
-  .services-hero {
-    background-color: #f9fafb;
-  }
-
-  .services-hero .hero-services-bg {
-    position: relative;
-    background-image:
-      radial-gradient(circle at 10% 0%, rgba(38 122 112, 0.14), transparent 60%),
-      radial-gradient(circle at 90% 0%, rgba(236, 72, 153, 0.12), transparent 60%),
-      linear-gradient(to bottom, #f9fafb, #ffffff);
-    background-size: 120% 120%;
-    background-position: 0% 0%;
-  }
-
-  :global(.dark) .services-hero {
-    background-color: #0D0F11 !important;
-    background-image: none !important;
-  }
-
-  :global(.dark) .services-hero .hero-services-bg {
-    display: none !important;
-    background-image: none !important;
-    background-color: transparent !important;
-  }
-
-  /* Badge/tagline sopra il titolo: pill elegante, più piccola */
-  .services-hero
-    :global(
-      p.text-xs.font-semibold.uppercase.tracking-wide.text-primary\/90.dark\:text-violet-300
-    ) {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.28rem 0.8rem;
-    border-radius: 9999px;
-    border: 1px solid rgba(38 122 112, 0.28);
-    background: rgba(249, 250, 251, 0.96);
-    color: rgb(24 70 65);
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    backdrop-filter: blur(6px);
-  }
-
-  .dark
-    .services-hero
-    :global(
-      p.text-xs.font-semibold.uppercase.tracking-wide.text-primary\/90.dark\:text-violet-300
-    ) {
-    background: rgba(15, 23, 42, 0.86);
-    border-color: rgba(38 122 112, 0.5);
-    color: rgb(222, 211, 234);
-  }
-
-  /* CTA: più respiro e micro-riga informativa più discreta */
-  .services-hero :global(.mt-5.flex.flex-wrap.gap-3) {
-    margin-top: 1.5rem;
-    column-gap: 1rem;
-    row-gap: 0.8rem;
-  }
-
-  .services-hero :global(.mt-5.flex.flex-wrap.gap-3)::after {
-    content: 'Sito strategico \2022  Richieste clienti \2022  Moduli integrati';
-    display: block;
-    width: 100%;
-    margin-top: 0.55rem;
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(55, 65, 81, 0.65);
-  }
-
-  .dark .services-hero :global(.mt-5.flex.flex-wrap.gap-3)::after {
-    color: rgba(209, 213, 219, 0.7);
-  }
-
-  /* Contenitore immagine: ring e ombra morbidi e integrati */
-  .services-hero :global(img.hero-services-image) {
-    border-radius: 1.5rem;
-    box-shadow:
-      0 22px 45px rgba(15, 23, 42, 0.18),
-      0 0 0 1px rgba(148, 163, 184, 0.25);
-    background-color: rgba(248, 250, 252, 0.9);
-  }
-
-  .dark .services-hero :global(img.hero-services-image) {
-    box-shadow:
-      0 24px 52px rgba(15, 23, 42, 0.55),
-      0 0 0 1px rgba(148, 163, 184, 0.45);
-    background-color: transparent;
-  }
-</style>
