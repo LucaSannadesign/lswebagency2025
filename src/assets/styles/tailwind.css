@@ -456,13 +456,16 @@
     @apply text-slate-800 bg-white dark:text-slate-100 dark:bg-slate-950;
   }
 
-  /* ✔️ Titoli leggibili in dark ovunque */
-  h1, h2, h3, h4, h5, h6 {
+  /* ✔️ Titoli leggibili in dark ovunque — tranne nell'area C.3 (.c3), che
+     gestisce i propri toni: lì il colore segue il capitolo (avorio o grafite).
+     Senza questa esclusione, con il sistema in tema scuro i titoli dei
+     capitoli chiari diventavano bianchi su avorio (contrasto 1,25:1). */
+  :is(h1, h2, h3, h4, h5, h6):not(.c3 *) {
     @apply dark:text-white;
   }
 
-  /* ✔️ Paragrafi/secondari più chiari in dark */
-  p, .text-muted {
+  /* ✔️ Paragrafi/secondari più chiari in dark (stessa esclusione) */
+  :is(p, .text-muted):not(.c3 *) {
     @apply dark:text-gray-300;
   }
 
