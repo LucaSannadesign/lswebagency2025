@@ -5,6 +5,8 @@
  * - Il canvas viene attivato da hero-controller.ts solo quando conviene.
  * - data-veil: riquadri di testo dietro cui il campo si attenua (leggibilità).
  * Un solo H1, con la keyword «siti web a Sassari».
+ * data-c3-kinetic: hero-type.ts divide le prime due righe in lettere per
+ * l'onda e la reazione al puntatore (solo transform, nessun layout shift).
  */
 ---
 
@@ -24,10 +26,10 @@
     <canvas data-c3-gl></canvas>
   </div>
 
-  <h1 class="c3-h1" id="c3-h1">
+  <h1 class="c3-h1" id="c3-h1" data-c3-kinetic>
     <span class="c3-ln c3-l1"><span data-veil="0.5">Siti web</span></span>
     <span class="c3-ln c3-l2"><span data-veil="0.5">a Sassari,</span></span>
-    <span class="c3-ln c3-l3"><span data-veil="0.36">progettati come esperienze.</span></span>
+    <span class="c3-ln c3-l3"><span data-veil="0.36">progettati come <span class="c3-mark">esperienze</span>.</span></span>
   </h1>
 
   <div class="c3-hero-foot">

@@ -59,8 +59,8 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
   const quality = small.matches || coarse ? 0.75 : 1;
 
   const P: VortexParams = {
-    intensity: clamp(Number(query.get('fx-int')) || 0.7, 0.2, 1.4),
-    speed: clamp(Number(query.get('fx-speed')) || 1, 0.2, 2.5),
+    intensity: clamp(Number(query.get('fx-int')) || 0.8, 0.2, 1.4),
+    speed: clamp(Number(query.get('fx-speed')) || 1.4, 0.2, 2.5),
     scale: 1,
     turb: 0.5,
     pal: PALETTE,
@@ -202,7 +202,7 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
       fit(true);
       return;
     }
-    if (fps < 24 && ++slowWindows >= 3) fail(`frame rate insufficiente (${Math.round(fps)} fps)`);
+    if (fps < 20 && ++slowWindows >= 4) fail(`frame rate insufficiente (${Math.round(fps)} fps)`);
   }
 
   function frame(now: number) {

@@ -8,6 +8,7 @@
  */
 import { mountHero, type HeroHandle } from './hero-controller';
 import { mountLab, type LabHandle } from './lab-field';
+import { mountHeroType, type TypeHandle } from './hero-type';
 
 const MOTION_KEY = 'ls-motion';
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -45,100 +46,8 @@ function init(root: HTMLElement): () => void {
   const motionBtn = $<HTMLButtonElement>('[data-c3-motion]');
   const motionLabel = $('[data-c3-motion-label]');
 
-  // ── Header ────────────────────────────────────────────────────────────────
-  const header = $('[data-c3-header]');
-  let lastY = scrollY;
-  const headerTick = () => {
-    if (!header) return;
-    const y = scrollY;
-    header.classList.toggle('is-solid', y > 30);
-    const delta = y - lastY;
-    if (Math.abs(delta) < 10) return;
-    const locked =
-      header.contains(document.activeElement) ||
-      overlay?.classList.contains('is-open') ||
-      !!header.querySelector('[data-c3-dd-btn][aria-expanded="true"]');
-    header.classList.toggle('is-hidden', delta > 0 && y > 240 && !locked);
-    lastY = y;
-  };
-  header?.addEventListener('focusin', () => header.classList.remove('is-hidden'), sig);
-
-  // Sottomenu Servizi (disclosure)
-  const closeDropdowns = (except?: Element) =>
-    $$<HTMLButtonElement>('[data-c3-dd-btn]').forEach((b) => {
-      if (b === except) return;
-      b.setAttribute('aria-expanded', 'false');
-      document.getElementById(b.getAttribute('aria-controls') || '')?.setAttribute('hidden', '');
-    });
-  $$<HTMLButtonElement>('[data-c3-dd-btn]').forEach((btn) => {
-    const menu = document.getElementById(btn.getAttribute('aria-controls') || '');
-    btn.addEventListener(
-      'click',
-      () => {
-        const open = btn.getAttribute('aria-expanded') !== 'true';
-        closeDropdowns(btn);
-        btn.setAttribute('aria-expanded', String(open));
-        menu?.toggleAttribute('hidden', !open);
-      },
-      sig
-    );
-    btn.closest('[data-c3-dd]')?.addEventListener(
-      'focusout',
-      (e) => {
-        const next = (e as FocusEvent).relatedTarget as Node | null;
-        if (!next || !btn.closest('[data-c3-dd]')!.contains(next)) closeDropdowns();
-      },
-      sig
-    );
-  });
-  document.addEventListener(
-    'click',
-    (e) => {
-      if (!(e.target as Element).closest?.('[data-c3-dd]')) closeDropdowns();
-    },
-    sig
-  );
-
-  // Menu mobile
-  const menuBtn = $<HTMLButtonElement>('[data-c3-menu]');
-  const overlay = $('[data-c3-overlay]');
-  const setMenu = (open: boolean) => {
-    if (!overlay || !menuBtn) return;
-    overlay.classList.toggle('is-open', open);
-    menuBtn.setAttribute('aria-expanded', String(open));
-    menuBtn.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu');
-    document.documentElement.style.overflow = open ? 'hidden' : '';
-    if (open) {
-      header?.classList.remove('is-hidden');
-      header?.classList.add('is-solid');
-      overlay.querySelector<HTMLElement>('a')?.focus();
-    }
-  };
-  menuBtn?.addEventListener('click', () => setMenu(!overlay?.classList.contains('is-open')), sig);
-  overlay?.addEventListener('click', (e) => (e.target as Element).closest('a') && setMenu(false), sig);
-  document.addEventListener(
-    'keydown',
-    (e) => {
-      if (e.key !== 'Escape') return;
-      if (overlay?.classList.contains('is-open')) {
-        setMenu(false);
-        menuBtn?.focus();
-      }
-      const openDd = $<HTMLButtonElement>('[data-c3-dd-btn][aria-expanded="true"]');
-      if (openDd) {
-        closeDropdowns();
-        openDd.focus();
-      }
-    },
-    sig
-  );
   const desktop = matchMedia('(min-width: 1024px)');
-  const onDesktopChange = () => desktop.matches && setMenu(false);
-  desktop.addEventListener('change', onDesktopChange);
-  cleanups.push(() => {
-    desktop.removeEventListener('change', onDesktopChange);
-    document.documentElement.style.overflow = '';
-  });
+
 
   // ── Capitoli tonali ──────────────────────────────────────────────────────
   const toneIO = io(
@@ -379,7 +288,6 @@ function init(root: HTMLElement): () => void {
   let ticking = false;
   function frame() {
     ticking = false;
-    headerTick();
     pinTick();
   }
   function kick() {
@@ -393,6 +301,8 @@ function init(root: HTMLElement): () => void {
 
   // ── WebGL: hero e scheda lab ────────────────────────────────────────────
   const hero: HeroHandle | null = heroEl ? mountHero(heroEl, isReduced) : null;
+  const h1 = $('[data-c3-kinetic]');
+  const heroType: TypeHandle | null = h1 && heroEl ? mountHeroType(h1, heroEl, isReduced) : null;
   const labCanvas = $<HTMLCanvasElement>('[data-lab-canvas]');
   let lab: LabHandle | null = null;
   if (labCanvas) {
@@ -440,13 +350,13 @@ function init(root: HTMLElement): () => void {
   cleanups.push(() => mq.removeEventListener('change', onMq));
 
   applyMotion();
-  headerTick();
 
   return () => {
     ac.abort();
     observers.forEach((o) => o.disconnect());
     cleanups.forEach((fn) => fn());
     hero?.destroy();
+    heroType?.destroy();
     lab?.destroy();
     root.classList.remove('is-ready', 'c3-js');
   };
