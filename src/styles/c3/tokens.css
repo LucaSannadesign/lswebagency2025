@@ -8,28 +8,6 @@
  * Inter Variable (già caricato dal sito) per il testo.
  */
 
-/* Archivo variabile self-hosted (SIL OFL 1.1, vedi /fonts/archivo/OFL.txt) */
-@font-face {
-  font-family: 'Archivo C3';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  font-stretch: 62% 125%;
-  src: url('/fonts/archivo/archivo-latin-wdth-normal.woff2') format('woff2-variations');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Archivo C3';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  font-stretch: 62% 125%;
-  src: url('/fonts/archivo/archivo-latin-ext-wdth-normal.woff2') format('woff2-variations');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF,
-    U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
 .c3 {
   /* Primitivi */
   --c3-g0: #0d0f11;
@@ -104,7 +82,7 @@
   background: var(--c3-paper);
 }
 
-html:has(.c3) body {
+html:has(#c3-root) body {
   background: var(--c3-g0, #0d0f11);
 }
 
@@ -248,19 +226,6 @@ html:has(.c3) body {
     transition-duration: 0s !important;
     animation: none !important;
   }
-}
-
-/* Elementi globali conservati, adattati alla palette sulla home */
-html:has(.c3) #scrollToTop {
-  background: var(--c3-g1, #15181b);
-  color: #8fd3c8;
-  box-shadow:
-    0 0 0 1px #2b3035,
-    0 10px 30px rgba(0, 0, 0, 0.35);
-}
-html:has(.c3) #scrollToTop:hover {
-  background: #8fd3c8;
-  color: #0d0f11;
 }
 
 @media (max-width: 600px) {

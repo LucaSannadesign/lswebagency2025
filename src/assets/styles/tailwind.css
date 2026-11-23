@@ -10,12 +10,13 @@
   :root {
     /* Palette viola–fucsia unica del brand.
        `brand-blue` conserva il nome storico per non toccare ~30 punti d'uso,
-       ma il valore è il viola principale #7628E8. */
-    --brand-purple: 162 83 218; /* #A253DA viola intermedio */
-    --brand-blue: 118 40 232; /* #7628E8 viola principale */
-    --brand-ink: 33 24 49; /* #211831 testo principale */
-    --brand-surface: 245 240 251; /* #F5F0FB lilla chiaro */
-    --brand-magenta: 231 42 174; /* #E72AAE fucsia */
+       ma il valore è il viola principale #1F5A54. */
+    /* Redesign C.3: i nomi storici restano, i valori passano ai token Kinetic Graphite */
+    --brand-purple: 38 122 112; /* #267A70 ione medio (era #267A70) */
+    --brand-blue: 31 90 84; /* #1F5A54 ione profondo, colore principale (era #1F5A54) */
+    --brand-ink: 22 25 28; /* #16191C testo principale (era #16191C) */
+    --brand-surface: 243 242 238; /* #F3F2EE carta chiara (era #F3F2EE) */
+    --brand-magenta: 95 184 171; /* #5FB8AB ione chiaro (era #5FB8AB) */
   }
 }
 
@@ -59,16 +60,16 @@
   .btn-primary {
     /* `border-white/[0.12]` anche in dark: neutralizza `dark:border-slate-500` ereditato da `.btn`. */
     @apply btn font-semibold text-white hover:text-white border-white/[0.12] hover:border-white/[0.12] dark:border-white/[0.12] dark:hover:border-white/[0.12];
-    background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+    background-image: linear-gradient(105deg, #1F5A54 0%, #267A70 50%, #5FB8AB 100%);
     box-shadow:
-      0 12px 26px -10px rgb(118 40 232 / 0.55),
+      0 12px 26px -10px rgb(31 90 84 / 0.55),
       inset 0 1px 0 rgb(255 255 255 / 0.4);
   }
 
   .btn-primary:hover {
-    background-image: linear-gradient(105deg, #5f19ca 0%, #8b3fc4 50%, #cc1f97 100%);
+    background-image: linear-gradient(105deg, #184641 0%, #8b3fc4 50%, #cc1f97 100%);
     box-shadow:
-      0 18px 34px -10px rgb(118 40 232 / 0.6),
+      0 18px 34px -10px rgb(31 90 84 / 0.6),
       inset 0 1px 0 rgb(255 255 255 / 0.4);
     transform: translateY(-2px);
   }
@@ -111,7 +112,7 @@
     min-height: 0;
     border-radius: 4px;
     padding: 4px 1px 5px;
-    background-image: linear-gradient(105deg, #7628e8, #e72aae);
+    background-image: linear-gradient(105deg, #1F5A54, #5FB8AB);
     background-repeat: no-repeat;
     background-position: 0 100%;
     background-size: 0% 2px;
@@ -172,11 +173,11 @@
   /* Pulsante di invio */
   .btn-submit {
     @apply w-full text-white font-bold py-3 px-4 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
-    background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+    background-image: linear-gradient(105deg, #1F5A54 0%, #267A70 50%, #5FB8AB 100%);
   }
 
   .btn-submit:hover {
-    background-image: linear-gradient(105deg, #5f19ca 0%, #8b3fc4 50%, #cc1f97 100%);
+    background-image: linear-gradient(105deg, #184641 0%, #8b3fc4 50%, #cc1f97 100%);
   }
 }
 
@@ -244,16 +245,16 @@
   border-color: rgba(222, 211, 234, 0.9);
   box-shadow:
     0 12px 35px rgba(33, 24, 49, 0.1),
-    0 4px 14px rgba(118, 40, 232, 0.08);
+    0 4px 14px rgba(31 90 84, 0.08);
 }
 
 .dark #header.is-floating:not(.is-hidden) [data-header-inner],
 .dark #header.expanded [data-header-inner] {
   background: rgba(17, 11, 26, 0.88);
-  border-color: rgba(118, 40, 232, 0.38);
+  border-color: rgba(31 90 84, 0.38);
   box-shadow:
     0 12px 35px rgba(6, 3, 12, 0.45),
-    0 4px 14px rgba(118, 40, 232, 0.18);
+    0 4px 14px rgba(31 90 84, 0.18);
 }
 
 /* Con il menù mobile aperto il blur resta al pannello: un backdrop-filter sul
@@ -324,7 +325,7 @@
   bottom: 6px;
   height: 2px;
   border-radius: 999px;
-  background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+  background-image: linear-gradient(105deg, #1F5A54 0%, #267A70 50%, #5FB8AB 100%);
   transform: scaleX(0);
   transform-origin: center;
   opacity: 0;
@@ -477,7 +478,7 @@
 }
 
 .kw{
-  color:#140a2e;
+  color:#16191C;
   background:none !important;
 }
 

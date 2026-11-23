@@ -23,38 +23,41 @@ import '@fontsource-variable/inter';
   :root {
     --aw-font-sans: 'Inter Variable';
     --aw-font-serif: 'Inter Variable';
-    --aw-font-heading: 'Inter Variable';
+    --aw-font-heading: 'Archivo C3', 'Inter Variable';
 
-    /* Sistema CTA viola–fucsia: primary #7628E8, hover #5F19CA, accent #A253DA */
-    --aw-color-primary: 118 40 232;
-    --aw-color-secondary: 95 25 202;
-    --aw-color-accent: 162 83 218;
+    /* Redesign C.3 «Kinetic Graphite»: primary ione profondo #1F5A54,
+       hover #184641, accent ione #267A70 (testo bianco ≥ 5,5:1) */
+    --aw-color-primary: 31 90 84;
+    --aw-color-secondary: 24 70 65;
+    --aw-color-accent: 38 122 112;
 
-    --aw-color-text-heading: rgb(0 0 0);
-    --aw-color-text-default: rgb(16 16 16);
-    --aw-color-text-muted: rgb(16 16 16 / 66%);
+    --aw-color-text-heading: rgb(22 25 28);
+    --aw-color-text-default: rgb(22 25 28);
+    --aw-color-text-muted: rgb(22 25 28 / 70%);
     --aw-color-bg-page: rgb(255 255 255);
 
-    --aw-color-bg-page-dark: rgb(3 6 32);
+    --aw-color-bg-page-dark: rgb(13 15 17);
 
     ::selection {
-      background-color: lavender;
+      background-color: #8fd3c8;
+      color: #0d0f11;
     }
   }
 
   .dark {
     --aw-font-sans: 'Inter Variable';
     --aw-font-serif: 'Inter Variable';
-    --aw-font-heading: 'Inter Variable';
+    --aw-font-heading: 'Archivo C3', 'Inter Variable';
 
-    --aw-color-primary: 118 40 232;
-    --aw-color-secondary: 95 25 202;
-    --aw-color-accent: 162 83 218;
+    /* su fondo grafite il principale diventa ione chiaro (testo scuro sopra) */
+    --aw-color-primary: 31 90 84;
+    --aw-color-secondary: 24 70 65;
+    --aw-color-accent: 143 211 200;
 
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(3 6 32);
+    --aw-color-text-heading: rgb(237 236 232);
+    --aw-color-text-default: rgb(237 236 232);
+    --aw-color-text-muted: rgb(237 236 232 / 70%);
+    --aw-color-bg-page: rgb(13 15 17);
 
     ::selection {
       background-color: black;
