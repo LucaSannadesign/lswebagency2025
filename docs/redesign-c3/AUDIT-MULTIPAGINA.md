@@ -61,7 +61,7 @@ e header/footer C.3 già applicati) · **P3** = non toccare o solo manutenzione.
 - **Visivo:** illustrazione «dashboard» viola (`/images/chi-siamo-dashboard.webp`) con fallback a gradiente `rgba(139,92,246)` (viola) nel codice; emoji come icone (✅ 🎯 ♿ 🔒 📈 ⭐ 🛡️ 👥 🎨); componente generico `Features3`.
 - **Comunicazione:** plurale «aiutiamo», «i nostri valori», «collaboriamo con esperti» → suggerisce un team; la figura di Luca Sanna resta in secondo piano; nessun riferimento alla formazione artistica né al metodo.
 - **Conservare:** title, description (contiene «collaboriamo con esperti»: modifica proposta, **non applicata**), H1 «Strategie Digitali e Creazione Siti Web su Misura», CTA «Parla con Luca» → `/contatti`, «Vedi lavori» → `/portfolio`.
-- **Modificare:** profilo in prima persona, pratica artistica (rimando a `/portfolio/luca-sanna-artista-sardo-sassari`), metodo, competenze con tecnologie realmente usate nei progetti, a chi si rivolge lo studio.
+- **Modificare:** profilo in prima persona, pratica artistica (rimando a `/portfolio/luca-sanna-artista-contemporaneo`), metodo, competenze con tecnologie realmente usate nei progetti, a chi si rivolge lo studio.
 
 ### 2.6 Blog — `[...blog]/[...page].astro`, `components/blog/*` · **P1 (indice e articolo)**
 - **Visivo:** testata generica, card AstroWind, articolo `prose` con link `dark:prose-a:text-violet-300`.
@@ -112,3 +112,27 @@ Gradienti: solo su una parola o frase dei titoli principali e su dettagli intera
 - Nessun cambio di URL, title, description, canonical, H1 o dati strutturati.
 - Nessuna modifica a form, API, CRM (`/api/*`, `MiniAnalisi.tsx`, `ProcessFitCheck.tsx`, script del form contatti).
 - Pagine con tema chiaro/scuro: le pagine ridisegnate hanno toni progettati (come la home); il toggle tema resta attivo e governa le pagine non ancora migrate.
+
+---
+
+## 5. Stato a fine C.3.4 — pagine modificate
+
+| Area | File | Cosa è cambiato | Invariato |
+|---|---|---|---|
+| Sistema pagine | `src/styles/c3/pages.css`, `src/components/c3/page/*`, `src/scripts/c3/pages.ts`, `src/layouts/PageLayout.astro` (`headerTone`) | Testata editoriale, sezioni a tono, percorsi, card, stati, lettura, blog, contatti | Token C.3, header/footer globali |
+| `/servizi` | `src/pages/servizi.astro`, `src/data/c3/services.ts` | 4 pratiche principali, percorso d'ingresso, percorsi secondari, lavori, doppio percorso | Metadata, URL dei 21 servizi |
+| `/portfolio`, `/portfolio/page/N` | `src/pages/portfolio/index.astro`, `page/[page].astro`, `src/data/c3/portfolio-*.ts` | 4 progetti in evidenza sempre visibili, archivio con stato dichiarato | Metadata, formato title/canonical delle pagine N |
+| Case study (24) | `src/pages/portfolio/[slug].astro`, `MdxH1AsH2.astro` | Testata con scheda dati, indice capitoli, risultati dichiarati onestamente | Metadata, contenuto MDX, prev/next, un solo H1 |
+| `/chi-siamo` | `src/pages/chi-siamo.astro` | Profilo dello studio indipendente, formazione artistica, metodo, competenze reali, tre pubblici, principi | Title, description, H1 |
+| Blog | `[...blog]/[...page].astro`, `[category]`, `[tag]`, `index.astro`, `components/blog/SinglePost.astro`, `C3BlogList.astro`, `C3PostCard.astro` | Indice con categorie e articolo in evidenza; articolo con testata scura e colonna di lettura che segue il tema | URL, metadata, robots, H1, CTA, tag, share, correlati, RSS |
+| `/contatti` | `src/pages/contatti.astro` | Testata C.3 con contatti rapidi, sezione `#progetto-strutturato`, fascia di lettura attorno a modulo e sede | H1 dinamico, testi, modulo, script `initContactForm`, JSON-LD |
+| Homepage | `src/components/c3/C3About.astro` | Corretto link al portfolio artistico (era 404) | — |
+
+Non migrate (restano con lo stile legacy ricolorato via token, P2/P3): 21 pagine servizio, `/local/*`, landing `/lp/*`, strumenti, legali.
+
+### Problemi aperti (preesistenti, non introdotti da C.3.4)
+
+- `/contatti`: asterischi dei campi obbligatori (`text-red-500`, 3.2:1) e pulsante WhatsApp in «Dove siamo» (3.8:1) sotto soglia AA; bordi rossi dei campi prima dell'interazione. Appartengono al modulo, lasciato invariato per vincolo.
+- Articolo `voucher-innovazione-sostenibilita-sassari-2026`: pulsante «Vai al sito ufficiale» (classi nel MDX) 3.2:1 in tema scuro. Correzione editoriale da approvare.
+- Categorie blog con titoli minuscoli (`marketing`, `tecnologia`, `wordpress`): mostrati con iniziale maiuscola solo a video; la normalizzazione cambierebbe gli URL `/category/*` (P2, da approvare con redirect).
+- ESLint segnala `any` e import inutilizzati preesistenti in `SinglePost.astro` e `[...blog]/*.astro`.
