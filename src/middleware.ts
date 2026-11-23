@@ -1,4 +1,6 @@
 import { defineMiddleware } from 'astro:middleware';
+import type { MiddlewareHandler } from 'astro';
+import { isPreviewDeployment } from './lib/deployEnv';
 
 const REDIRECTS: Record<string, string> = {
   // Voucher (pagine rimosse)
@@ -86,7 +88,42 @@ function hasSuspiciousUserAgent(request: Request): boolean {
   return SUSPICIOUS_UA.some((needle) => ua.includes(needle));
 }
 
-export const onRequest = defineMiddleware((context, next) => {
+/**
+ * Anteprima isolata: nei deployment Preview nessuna richiesta di scrittura verso
+ * le API raggiunge CRM (Supabase), provider email o servizi esterni. La risposta
+ * simulata ha la stessa forma di quella reale (ok/success), così i moduli si
+ * possono provare fino alla conferma. In produzione questo ramo non si attiva.
+ */
+const PREVIEW_SIMULATED_MESSAGE =
+  'Anteprima: richiesta simulata. Nessun dato è stato inviato al CRM o via email.';
+
+function withPreviewHeaders(response: Response): Response {
+  try {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    return response;
+  } catch {
+    // Header immutabili (es. redirect): si ricrea la risposta con gli stessi dati.
+    const headers = new Headers(response.headers);
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  }
+}
+
+export const onRequest = defineMiddleware(async (context, next) => {
+  if (!isPreviewDeployment()) return productionHandler(context, next);
+
+  const { request, url } = context;
+  if (url.pathname.startsWith('/api/') && request.method !== 'GET' && request.method !== 'HEAD') {
+    console.warn('[preview-guard] scrittura API simulata', { path: url.pathname });
+    return withPreviewHeaders(
+      json(200, { ok: true, success: true, preview: true, message: PREVIEW_SIMULATED_MESSAGE })
+    );
+  }
+
+  return withPreviewHeaders(await productionHandler(context, next));
+});
+
+const productionHandler: MiddlewareHandler = (context, next) => {
   const pathname = context.url.pathname;
 
   // Normalizza eventuale trailing slash.
@@ -149,4 +186,4 @@ export const onRequest = defineMiddleware((context, next) => {
   }
 
   return next();
-});
+};

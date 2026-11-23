@@ -14,6 +14,7 @@ import PersonalizationTracker from "@/components/ux/PersonalizationTracker.astro
 import { ClientRouter } from "astro:transitions";
 import Analytics from "@vercel/analytics/astro";
 import type { MetaData as MetaDataType } from "@/types";
+import { isPreviewDeployment } from "@/lib/deployEnv";
 
 export interface Props {
   metadata?: MetaDataType & {
@@ -50,11 +51,15 @@ const pageDescription =
   "Siti web strategici per PMI e professionisti: form, SEO e gestione ordinata delle richieste clienti. Da Sassari, in tutta Italia.";
 
 /* ----------------------------- Robots ----------------------------------- */
+// Deployment Preview: mai indicizzabile e senza tracciamenti di produzione.
+const isPreview = isPreviewDeployment();
 const robotsCfg = md?.robots ?? { index: true, follow: true };
-const robotsContent = [
-  robotsCfg.index === false ? "noindex" : "index",
-  robotsCfg.follow === false ? "nofollow" : "follow",
-].join(", ");
+const robotsContent = isPreview
+  ? "noindex, nofollow"
+  : [
+      robotsCfg.index === false ? "noindex" : "index",
+      robotsCfg.follow === false ? "nofollow" : "follow",
+    ].join(", ");
 
 /* ---------------------------- Canonical --------------------------------- */
 const canonicalIn = (md?.canonical ?? Astro.url?.pathname ?? "/") as string;
@@ -155,8 +160,8 @@ const jsonLdBlocks = md?.jsonLd
     <SiteVerification />
 
     <!-- Perf hints -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    {!isPreview && <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />}
+    {!isPreview && <link rel="dns-prefetch" href="https://www.googletagmanager.com" />}
 
     <!-- Client-side transitions -->
     <ClientRouter fallback="swap" />
@@ -169,6 +174,8 @@ const jsonLdBlocks = md?.jsonLd
     <!-- Contenuto <head> aggiuntivo fornito dalla singola pagina -->
     <slot name="head" />
 
+    {!isPreview && (
+      <>
     <!-- Google Consent Mode v2: stato predefinito, DEVE precedere lo snippet GTM -->
     <script is:inline>
       (function () {
@@ -209,10 +216,13 @@ const jsonLdBlocks = md?.jsonLd
 
     <!-- Ahrefs Analytics -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="DlGcEnQE0aZnH/+2sYquBw" async></script>
+      </>
+    )}
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight overflow-x-hidden">
     <!-- Google Tag Manager (noscript) -->
+    {!isPreview && (
     <noscript>
       <iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-T8LF93LT"
@@ -221,11 +231,12 @@ const jsonLdBlocks = md?.jsonLd
         style="display:none;visibility:hidden"
       ></iframe>
     </noscript>
+    )}
     <!-- End Google Tag Manager (noscript) -->
 
     <slot />
     <PersonalizationTracker />
     <BasicScripts />
-    <Analytics />
+    {!isPreview && <Analytics />}
   </body>
 </html>
