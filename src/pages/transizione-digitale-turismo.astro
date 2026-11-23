@@ -469,7 +469,12 @@ const serviceSchema = {
             esperienza mobile e punti che possono ridurre le richieste dirette.
           </p>
 
-          <form method="POST" action="/api/richieste-dirette" class="lead-form">
+          <form method="POST" action="/api/richieste-dirette" class="lead-form" accept-charset="utf-8">
+            <!-- Honeypot: non mostrare, non usare come campo legittimo della struttura. -->
+            <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+              <label for="website_confirm">Lascia vuoto questo campo</label>
+              <input id="website_confirm" name="website_confirm" type="text" tabindex="-1" autocomplete="off" />
+            </div>
             <div class="form-grid">
               <div class="field">
                 <label for="nome">Nome e cognome</label>
@@ -516,6 +521,12 @@ const serviceSchema = {
               <div class="field field-full">
                 <label for="messaggio">Messaggio</label>
                 <textarea id="messaggio" name="messaggio" rows="5"></textarea>
+              </div>
+              <div class="field field-full">
+                <label for="turismo_privacy" style="display:flex;align-items:flex-start;gap:.65rem">
+                  <input id="turismo_privacy" name="privacy" type="checkbox" value="on" required style="margin-top:.35rem" />
+                  <span>Ho letto l'<a href="/privacy" target="_blank" rel="noopener noreferrer">informativa privacy</a> relativa alla gestione di questa richiesta.</span>
+                </label>
               </div>
             </div>
 
