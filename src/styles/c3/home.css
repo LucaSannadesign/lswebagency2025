@@ -607,7 +607,7 @@
   pointer-events: auto;
 }
 .c3.is-pinned .c3-pf-open {
-  height: calc(100% - 250px);
+  height: calc(100% - 310px);
 }
 .c3.is-pinned .c3-pf-frame {
   height: 100%;
@@ -625,7 +625,7 @@
   grid-row: 1;
   align-self: end;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   column-gap: 24px;
   align-items: end;
   opacity: 0;
@@ -665,11 +665,10 @@
   margin: 8px 0 0;
 }
 .c3.is-pinned .c3-pf-more {
-  grid-column: 2;
-  grid-row: 2 / 5;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
+  /* sotto lo stato, a sinistra: l'angolo in basso a destra è occupato da
+     scroll-to-top e assistente di sito */
+  grid-column: 1;
+  margin-top: 16px;
 }
 .c3.is-pinned .c3-pf-item.is-active .c3-pf-meta {
   opacity: 1;
