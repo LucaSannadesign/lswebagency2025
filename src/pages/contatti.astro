@@ -2,6 +2,7 @@
 import Layout from '@/layouts/PageLayout.astro';
 import Button from '@/components/ui/Button.astro';
 import { Icon } from 'astro-icon/components';
+import C3PageHero from '@/components/c3/page/C3PageHero.astro';
 import { getService, serviceByCtaSlug, serviceName } from '@/config/services';
 
 /*
@@ -189,107 +190,91 @@ const AGENCY = {
 };
 ---
 
-<Layout metadata={metadata}>
-  <!-- HERO / INTRO -->
-  <section class="relative overflow-hidden isolate">
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[360px] bg-gradient-to-b
-             from-violet-100/80 via-white to-transparent
-             dark:from-violet-900/40 dark:via-transparent">
-    </div>
-
-    <div class="container mx-auto px-6 pt-14 md:pt-16 pb-8">
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r
-                         from-violet-700 via-fuchsia-500 to-pink-500
-                         dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-300">
-              {isAuditRapido ? 'Richiedi disponibilità per l’audit del sito' : 'Richiedi la valutazione iniziale gratuita'}
-            </span>
-          </h1>
-          <p class="mt-3 text-base md:text-lg text-neutral-700 dark:text-neutral-300 max-w-prose">
-            {isAuditRapido
-              ? 'Invia i dati del sito da analizzare. Verificherò la disponibilità e ti confermerò l’avvio dell’audit del sito fino a 10 pagine, su UX, SEO tecnica, performance e accessibilità.'
-              : 'Lavoro a Sassari e anche da remoto in tutta Italia. Dopo la tua richiesta riceverai una prima valutazione iniziale gratuita del tuo sito, con indicazioni chiare su cosa migliorare per ottenere più contatti.'}
-          </p>
-
-          <div class="mt-5 flex flex-wrap gap-3">
-            <a href="#contact" class="inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 text-base font-semibold text-white bg-violet-600 hover:bg-violet-700 transition">
-              {isAuditRapido ? 'Vai al modulo dell’audit' : 'Scrivimi per il tuo sito'}
-            </a>
-            <a href="/servizi" class="inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 text-base font-semibold ring-1 ring-neutral-300 text-neutral-900 hover:bg-neutral-100 dark:text-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800 transition">
-              Scopri i servizi principali
-            </a>
-          </div>
-        </div>
-
-        <!-- Contatti rapidi -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href={`tel:${AGENCY.phoneIntl}`} class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
-            <div class="flex items-center gap-3">
-              <Icon name="tabler:phone" class="text-2xl opacity-80" aria-hidden="true" />
-              <div>
-                <div class="text-sm text-neutral-500">Telefono</div>
-                <div class="font-semibold">{AGENCY.phoneHuman}</div>
-              </div>
-            </div>
+<Layout metadata={metadata} headerTone="dark">
+  <!-- HERO / INTRO · Redesign C.3.4: testata editoriale; H1, testi, link e contatti rapidi invariati -->
+  <div class="c3 c3p">
+    <C3PageHero
+      kicker="Contatti"
+      title={isAuditRapido ? 'Richiedi disponibilità per l’audit del sito' : 'Richiedi la valutazione iniziale gratuita'}
+      accent={isAuditRapido ? 'audit del sito' : 'valutazione iniziale gratuita'}
+      size="l"
+      lead={isAuditRapido
+        ? 'Invia i dati del sito da analizzare. Verificherò la disponibilità e ti confermerò l’avvio dell’audit del sito fino a 10 pagine, su UX, SEO tecnica, performance e accessibilità.'
+        : 'Lavoro a Sassari e anche da remoto in tutta Italia. Dopo la tua richiesta riceverai una prima valutazione iniziale gratuita del tuo sito, con indicazioni chiare su cosa migliorare per ottenere più contatti.'}
+      actions={[
+        { text: isAuditRapido ? 'Vai al modulo dell’audit' : 'Scrivimi per il tuo sito', href: '#contact' },
+        { text: 'Scopri i servizi principali', href: '/servizi', variant: 'secondary' },
+      ]}
+    >
+      <!-- Contatti rapidi -->
+      <ul class="c3-qc" slot="aside" aria-label="Contatti rapidi">
+        <li>
+          <a href={`tel:${AGENCY.phoneIntl}`}>
+            <Icon name="tabler:phone" aria-hidden="true" />
+            <span><small>Telefono</small>{AGENCY.phoneHuman}</span>
           </a>
-
-          <a href="https://wa.me/393403223494" target="_blank" rel="noopener noreferrer nofollow"
-             class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
-            <div class="flex items-center gap-3">
-              <Icon name="tabler:brand-whatsapp" class="text-2xl opacity-80" aria-hidden="true" />
-              <div>
-                <div class="text-sm text-neutral-500">WhatsApp</div>
-                <div class="font-semibold">Scrivici ora</div>
-              </div>
-            </div>
+        </li>
+        <li>
+          <a href="https://wa.me/393403223494" target="_blank" rel="noopener noreferrer nofollow">
+            <Icon name="tabler:brand-whatsapp" aria-hidden="true" />
+            <span><small>WhatsApp</small>Scrivici ora</span>
           </a>
-
-          <a href="https://t.me/lswebagency" target="_blank" rel="noopener noreferrer nofollow"
-             class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
-            <div class="flex items-center gap-3">
-              <Icon name="tabler:brand-telegram" class="text-2xl opacity-80" aria-hidden="true" />
-              <div>
-                <div class="text-sm text-neutral-500">Telegram</div>
-                <div class="font-semibold">Messaggia su Telegram</div>
-              </div>
-            </div>
+        </li>
+        <li>
+          <a href="https://t.me/lswebagency" target="_blank" rel="noopener noreferrer nofollow">
+            <Icon name="tabler:brand-telegram" aria-hidden="true" />
+            <span><small>Telegram</small>Messaggia su Telegram</span>
           </a>
-
-          <a href={`mailto:${AGENCY.email}`} class="group rounded-2xl p-5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 hover:shadow-sm transition">
-            <div class="flex items-center gap-3">
-              <Icon name="tabler:mail" class="text-2xl opacity-80" aria-hidden="true" />
-              <div>
-                <div class="text-sm text-neutral-500">Email</div>
-                <div class="font-semibold">{AGENCY.email}</div>
-              </div>
-            </div>
+        </li>
+        <li>
+          <a href={`mailto:${AGENCY.email}`}>
+            <Icon name="tabler:mail" aria-hidden="true" />
+            <span><small>Email</small>{AGENCY.email}</span>
           </a>
+        </li>
+      </ul>
+    </C3PageHero>
+
+    <!-- DUE PERCORSI: valutazione iniziale (ex blocco mini-analisi) e progetto strutturato -->
+    <section class="c3-sec c3-sec--deep c3-sec--tight" id="progetto-strutturato" aria-labelledby="percorsi-contatto-h">
+      <div class="c3-sec-in">
+        <h2 id="percorsi-contatto-h" class="c3-sr">Come iniziare</h2>
+        <div class="c3-paths">
+          <article class:list={['c3-path', { hidden: isAuditRapido }]}>
+            <p class="c3-path-k">Per orientarti · gratuita</p>
+            <h3>Non sai da dove partire?</h3>
+            <p>
+              Rispondi a poche domande e ricevi una prima lettura del progetto: priorità, servizio consigliato e
+              prossimo passo utile.
+            </p>
+            <a class="c3-btn c3-btn--p" href="/mini-analisi">Avvia la valutazione iniziale gratuita</a>
+          </article>
+          <article class="c3-path c3-path--accent">
+            <p class="c3-path-k">Per progetti definiti</p>
+            <h3>Hai un progetto strutturato?</h3>
+            <p>
+              Un nuovo sito, un prodotto digitale o un’interfaccia da progettare e sviluppare su misura. Indica nel
+              modulo obiettivi, tempi indicativi e budget, anche in forma di bozza: rispondo con le domande utili e,
+              quando il quadro è chiaro, con una proposta divisa in fasi.
+            </p>
+            <div class="c3-feat-links">
+              <a class="c3-btn c3-btn--p" href="#contact">Descrivi il progetto nel modulo</a>
+              <a class="c3-btn c3-btn--s" href={`mailto:${AGENCY.email}?subject=${encodeURIComponent('Progetto strutturato')}`}>
+                Invia un brief via email
+              </a>
+            </div>
+            <p class="c3-note">
+              Agenzia o partner tecnologico? <a class="c3-link" href="/servizi/sviluppo-web-white-label">Collaborazioni white label</a>.
+              <span lang="en">Based abroad? You can write to me in English.</span>
+            </p>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <!-- MINI-ANALISI CTA -->
-  <section class:list={['container mx-auto px-6 py-4', isAuditRapido ? 'hidden' : '']}>
-    <div class="max-w-4xl mx-auto rounded-2xl border border-violet-200/80 bg-gradient-to-br from-violet-50/80 via-white to-fuchsia-50/60 dark:border-violet-800/50 dark:from-violet-950/30 dark:via-slate-900/50 dark:to-fuchsia-950/20 p-8 md:p-10 shadow-sm">
-      <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3">Non sai da dove partire?</h2>
-      <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6 max-w-2xl">
-        Rispondi a poche domande e ricevi una prima lettura del progetto: priorità, servizio consigliato e prossimo passo utile.
-      </p>
-      <a
-        href="/mini-analisi"
-        class="inline-flex items-center justify-center min-h-[46px] rounded-full px-6 py-3 text-base font-semibold text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-400 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
-      >
-        Avvia la valutazione iniziale gratuita
-        <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
-      </a>
-    </div>
-  </section>
-
+  <!-- Fascia di lettura C.3 attorno a modulo e sede: solo sfondo, markup e logica del modulo invariati -->
+  <div class="c3-contact-band">
   <!-- FORM CONTATTI -->
   <section id="contact" class="scroll-mt-24 container mx-auto px-6 py-10">
     <div class="max-w-4xl mx-auto rounded-3xl ring-1 ring-neutral-200 dark:ring-neutral-700 bg-white/80 dark:bg-neutral-900/75 shadow-sm dark:shadow-xl dark:shadow-black/30 p-6 md:p-8">
@@ -688,6 +673,7 @@ const AGENCY = {
       </div>
     </div>
   </section>
+  </div>
 
   <!-- JSON-LD LocalBusiness -->
   <script

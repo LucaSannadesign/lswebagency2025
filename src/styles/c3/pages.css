@@ -1258,3 +1258,65 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ───────── Contatti (C.3.4) ───────── */
+.c3-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.c3-qc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.c3-qc a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 70%, transparent);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: border-color 0.3s;
+}
+.c3-qc a:hover {
+  border-color: var(--c3-ion-mid);
+}
+.c3-qc svg {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--link);
+}
+.c3-qc small {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--mute);
+}
+.c3-path .c3-feat-links {
+  margin-top: 8px;
+}
+.c3-path > .c3-btn {
+  align-self: flex-start;
+}
+/* Contatti: modulo e sede su fascia avorio (chiaro) / grafite (scuro) */
+.c3-contact-band {
+  padding: clamp(40px, 5vw, 72px) 0 clamp(56px, 7vw, 96px);
+  background: var(--c3-ivory);
+}
+.dark .c3-contact-band {
+  background: var(--c3-g1);
+}
