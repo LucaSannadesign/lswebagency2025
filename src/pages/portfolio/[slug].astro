@@ -1,54 +1,48 @@
 ---
-// src/pages/portfolio/[slug].astro
+/**
+ * Case study · Redesign C.3.4
+ * Struttura: testata con scheda dati (stato, categoria, ruolo, tecnologie,
+ * sito) → copertina → lettura con indice dei capitoli (dal corpo MDX) →
+ * risultati dichiarati onestamente → navigazione progetti → doppio percorso.
+ * Invariati: metadata dal frontmatter, H1 = titolo, contenuto MDX integrale,
+ * prev/next, prerender. Nessuna metrica aggiunta.
+ */
 import Layout from '@/layouts/PageLayout.astro';
 import { getCollection, render as renderEntry } from 'astro:content';
 import type { MetaData } from '@/types';
-
+import C3PageHero from '@/components/c3/page/C3PageHero.astro';
+import C3Section from '@/components/c3/page/C3Section.astro';
+import C3Paths from '@/components/c3/page/C3Paths.astro';
+import MdxH1AsH2 from '@/components/c3/page/MdxH1AsH2.astro';
+import { statusOf, statusLabel } from '@/data/c3/portfolio-status';
+import { PORTFOLIO } from '@/data/c3/home';
 export const prerender = true;
 
-// utilità piccole e sicure
-const short = (s: string = '', n = 38) => (s?.length > n ? s.slice(0, n) + '…' : s ?? '');
-const toDate = (v: unknown) =>
-  v instanceof Date ? v : (typeof v === 'string' && v ? new Date(v) : new Date(0));
+const toDate = (v: unknown) => (v instanceof Date ? v : typeof v === 'string' && v ? new Date(v) : new Date(0));
 
 export async function getStaticPaths() {
   const all = await getCollection('portfolio');
-  // evita record senza slug
-  return all
-    .filter((e) => !!e.data?.slug)
-    .map((e) => ({ params: { slug: String(e.data.slug) } }));
+  return all.filter((e) => !!e.data?.slug).map((e) => ({ params: { slug: String(e.data.slug) } }));
 }
 
 const { slug } = Astro.params;
-
-// prendo tutte le voci per calcolare prev/next in modo coerente
 const all = await getCollection('portfolio');
-
-const ordered = all
-  .slice()
-  .sort((a, b) => {
-    const byDate =
-      toDate(b.data?.publishDate).getTime() - toDate(a.data?.publishDate).getTime();
-    if (byDate !== 0) return byDate;
-    return String(a.data?.slug || '').localeCompare(String(b.data?.slug || ''));
-  });
-
+const ordered = all.slice().sort((a, b) => {
+  const byDate = toDate(b.data?.publishDate).getTime() - toDate(a.data?.publishDate).getTime();
+  if (byDate !== 0) return byDate;
+  return String(a.data?.slug || '').localeCompare(String(b.data?.slug || ''));
+});
 const entry = ordered.find((e) => String(e.data?.slug) === String(slug));
 if (!entry) {
   throw new Error(`Portfolio non trovato: ${slug}`);
 }
-
 const d = entry.data;
-const { Content } = await renderEntry(entry);
+const { Content, headings } = await renderEntry(entry);
 
-// prev/next
 const idx = ordered.findIndex((e) => String(e.data?.slug) === String(slug));
 const prev = idx > 0 ? ordered[idx - 1] : null;
 const next = idx < ordered.length - 1 ? ordered[idx + 1] : null;
 
-// SEO: unisce metadata del frontmatter con title/description di pagina
-// `robots` nello schema ammette anche la forma stringa, non gestita da Layout:
-// in quel caso si ricade sul default (index, follow), come già avviene oggi.
 const rawRobots = d.metadata?.robots;
 const metadata: MetaData = {
   ...(d.metadata ?? {}),
@@ -56,67 +50,137 @@ const metadata: MetaData = {
   description: d.metadata?.description ?? d.description,
   robots: typeof rawRobots === 'string' ? undefined : rawRobots,
 };
+
+// Dati di presentazione dei 4 progetti principali (ruolo, sito, funzionalità visibili)
+const x = PORTFOLIO.find((p) => p.id === entry.id);
+const status = statusOf(d);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 1);
+const cover = x
+  ? { src: x.shot, alt: `Homepage del sito ${x.domain}`, contain: false, w: 800, h: 500 }
+  : d.image?.src
+    ? { src: d.image.src, alt: d.image.alt ?? d.title, contain: d.image.fit === 'contain', w: d.image.width ?? 1200, h: d.image.height ?? 800 }
+    : null;
 ---
 
-<Layout metadata={metadata}>
-  <section class="container mx-auto px-6 py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-8 items-start">
-      {d.image?.src && (
-        <img
-          src={d.image.src}
-          alt={d.image.alt ?? d.title}
-          width={d.image.width ?? 1200}
-          height={d.image.height ?? 800}
-          class="w-full rounded-2xl shadow object-cover"
-          loading="eager"
-        />
-      )}
-      <div>
-        {d.projectStatus && (
-          <p class="mb-3 text-sm font-medium text-neutral-600 dark:text-neutral-300">
-            {d.stageLabel ?? (d.projectStatus === 'live_client'
-              ? 'Sito cliente attivo'
-              : d.projectStatus === 'independent_active'
-              ? 'Progetto indipendente · Online'
-              : d.projectStatus === 'editorial_project'
-              ? 'Grafica editoriale'
-              : d.projectStatus === 'independent_pilot'
-              ? 'Progetto indipendente · In sviluppo'
-              : 'Case study storico · Sito non più online')}
-          </p>
+<Layout metadata={metadata} headerTone="dark">
+  <div class="c3 c3p">
+    <C3PageHero kicker={d.category ?? 'Case study'} title={d.title} size="l" lead={d.description}>
+      {d.statusNote && <p class="c3-note">{d.statusNote}</p>}
+      <dl class="c3-meta" slot="aside">
+        <div>
+          <dt>Stato</dt>
+          <dd><span class="c3-status" data-s={status}>{statusLabel(d)}</span></dd>
+        </div>
+        {d.category && (<div><dt>Categoria</dt><dd>{d.category}</dd></div>)}
+        {x?.role && (<div><dt>Ruolo</dt><dd>{x.role}</dd></div>)}
+        {Array.isArray(d.technologies) && d.technologies.length > 0 && (<div><dt>Tecnologie</dt><dd>{d.technologies.join(' · ')}</dd></div>)}
+        {x?.url && (
+          <div>
+            <dt>Sito</dt>
+            <dd><a class="c3-link" href={x.url} target="_blank" rel="noopener">{x.domain} ↗</a></dd>
+          </div>
         )}
-        <h1 class="text-4xl font-bold mb-3 dark:text-white">{d.title}</h1>
-        {d.statusNote && (
-          <p class="mb-4 text-sm text-neutral-700 dark:text-neutral-300">{d.statusNote}</p>
-        )}
-        {d.description && (
-          <p class="text-gray-600 dark:text-gray-300 mb-4">{d.description}</p>
-        )}
-        {d.category && (
-          <p class="mt-2"><strong>Categoria:</strong> {d.category}</p>
-        )}
-        {Array.isArray(d.technologies) && d.technologies.length > 0 && (
-          <p class="mt-2"><strong>Tecnologie:</strong> {d.technologies.join(', ')}</p>
-        )}
+      </dl>
+    </C3PageHero>
+
+    {
+      cover && (
+        <div class="c3-sec c3-sec--ivory c3-cover-band">
+          <div class="c3-sec-in">
+            <figure class:list={['c3-cover', { 'is-contain': cover.contain }]}>
+              <img src={cover.src} alt={cover.alt} width={cover.w} height={cover.h} loading="eager" decoding="async" />
+            </figure>
+          </div>
+        </div>
+      )
+    }
+
+    <section class="c3-sec c3-sec--ivory" aria-label="Racconto del progetto">
+      <div class="c3-reading">
+        <nav class="c3-toc" aria-label="Capitoli del case study">
+          {
+            toc.length > 1 && (
+              <>
+                <p>Capitoli</p>
+                <ol>
+                  {toc.map((h) => (
+                    <li>
+                      <a href={`#${h.slug}`}>{h.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )
+          }
+        </nav>
+        <div class="c3-prose">
+          <Content components={{ h1: MdxH1AsH2 }} />
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Contenuto body del portfolio -->
-    <div class="prose prose-slate lg:prose-lg dark:prose-invert max-w-none mt-10">
-      <Content />
-    </div>
+    <C3Section tone="anth" id="risultati" kicker="Risultati" title="Cosa è documentato.">
+      <div class="c3-results">
+        <div class="c3-up">
+          {
+            x ? (
+              <>
+                <h3 class="c3-mega-name" style="font-size:24px;margin:0 0 16px">Funzionalità realizzate e visibili sul sito</h3>
+                <ul>
+                  {x.features.map((f) => (
+                    <li>{f}</li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p class="c3-lead" style="margin:0">
+                La scheda descrive il progetto, il ruolo svolto e le scelte di design e sviluppo come riportati nel racconto.
+              </p>
+            )
+          }
+        </div>
+        <div class="c3-up">
+          <p class="c3-note" style="margin-top:0">
+            I risultati quantitativi (traffico, contatti, vendite) sono riportati solo quando misurati e verificabili.
+            {d.statusNote ? ' ' + d.statusNote : ''}
+          </p>
+        </div>
+      </div>
+    </C3Section>
 
-    <nav class="mt-12 flex justify-between text-sm">
-      {prev ? (
-        <a href={`/portfolio/${prev.data.slug}`} class="text-primary hover:underline">
-          ← {short(prev.data.title)}
-        </a>
-      ) : <span></span>}
-      {next ? (
-        <a href={`/portfolio/${next.data.slug}`} class="text-primary hover:underline">
-          {short(next.data.title)} →
-        </a>
-      ) : <span></span>}
-    </nav>
-  </section>
+    <section class="c3-sec c3-sec--dark c3-sec--tight" aria-label="Altri progetti">
+      <div class="c3-sec-in">
+        <nav class="c3-pnav" aria-label="Progetto precedente e successivo">
+          {
+            prev ? (
+              <a href={`/portfolio/${prev.data.slug}`}>
+                <small>← Progetto più recente</small>
+                <strong>{prev.data.title}</strong>
+              </a>
+            ) : (
+              <a href="/portfolio">
+                <small>← Portfolio</small>
+                <strong>Tutti i progetti</strong>
+              </a>
+            )
+          }
+          {
+            next ? (
+              <a class="is-next" href={`/portfolio/${next.data.slug}`}>
+                <small>Progetto precedente →</small>
+                <strong>{next.data.title}</strong>
+              </a>
+            ) : (
+              <a class="is-next" href="/portfolio">
+                <small>Portfolio →</small>
+                <strong>Tutti i progetti</strong>
+              </a>
+            )
+          }
+        </nav>
+      </div>
+    </section>
+
+    <C3Paths />
+  </div>
 </Layout>

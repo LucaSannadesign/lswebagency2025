@@ -1,0 +1,75 @@
+---
+/** Archivio del portfolio: legenda degli stati, griglia e paginazione. */
+import C3Section from './C3Section.astro';
+import C3WorkCard from './C3WorkCard.astro';
+import { STATUS_LABEL, type StatusKey } from '@/data/c3/portfolio-status';
+
+export interface Props {
+  items: { id: string; data: Record<string, any> }[];
+  counts: [StatusKey, number][];
+  currentPage: number;
+  totalPages: number;
+  index?: string;
+}
+const { items, counts, currentPage, totalPages, index } = Astro.props;
+const pageHref = (n: number) => (n === 1 ? '/portfolio#archivio' : `/portfolio/page/${n}`);
+---
+
+<C3Section
+  tone="ivory"
+  id="archivio"
+  index={index}
+  kicker="Archivio"
+  title="Tutti i lavori, con lo stato dichiarato."
+  lead="Ogni scheda distingue i siti cliente attivi, i progetti indipendenti online o in sviluppo, la grafica editoriale e i lavori storici."
+>
+  <ul class="c3-legend c3-up" aria-label="Legenda degli stati dei progetti">
+    {
+      counts.map(([s, n]) => (
+        <li>
+          <span class="c3-status" data-s={s}>
+            {STATUS_LABEL[s]} <small>· {n}</small>
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+  {items.length === 0 ? <p>Nessun progetto pubblicato al momento.</p> : <div class="c3-wgrid">{items.map((item) => <C3WorkCard item={item} />)}</div>}
+  {
+    totalPages > 1 && (
+      <nav aria-label="Paginazione portfolio">
+        <ul class="c3-pager">
+          <li>
+            {currentPage > 1 ? (
+              <a href={pageHref(currentPage - 1)} rel="prev">
+                ← Precedente
+              </a>
+            ) : (
+              <span class="is-off" aria-hidden="true">
+                ← Precedente
+              </span>
+            )}
+          </li>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+            <li>
+              <a href={pageHref(n)} {...(n === currentPage ? { 'aria-current': 'page' } : {})}>
+                {n}
+              </a>
+            </li>
+          ))}
+          <li>
+            {currentPage < totalPages ? (
+              <a href={pageHref(currentPage + 1)} rel="next">
+                Successiva →
+              </a>
+            ) : (
+              <span class="is-off" aria-hidden="true">
+                Successiva →
+              </span>
+            )}
+          </li>
+        </ul>
+      </nav>
+    )
+  }
+</C3Section>
