@@ -6,6 +6,16 @@
  * focus da tastiera al suo interno). Logica in src/scripts/c3/home.ts.
  */
 import { headerData } from '@/navigation';
+import ToggleTheme from '@/components/common/ToggleTheme.astro';
+
+export interface Props {
+  /** 'home': trasparente sulla hero, toggle Movimento. 'page': pieno, toggle tema. */
+  mode?: 'home' | 'page';
+}
+const { mode = 'home' } = Astro.props;
+const isHome = mode === 'home';
+const current = '/' + Astro.url.pathname.replace(/^\/+|\/+$/g, '');
+const isCurrent = (href = '') => href !== '/' && (current === href || current.startsWith(href + '/'));
 
 type NavLink = { text?: string; href?: string; links?: NavLink[] };
 
@@ -15,8 +25,8 @@ const isExternal = (href = '') => /^https?:\/\//.test(href);
 const clean = (items: NavLink[] = []) => items.filter((l) => l.text !== 'divider');
 ---
 
-<header class="c3-top" id="c3-header" data-c3-header>
-  <div class="c3-top-in" data-veil="0.2" data-veil-box="element">
+<header class:list={['c3-top', { 'c3-top--page': !isHome }]} id="c3-header" data-c3-header>
+  <div class="c3-top-in" {...(isHome ? { 'data-veil': '0.2', 'data-veil-box': 'element' } : {})}>
     <a class="c3-brand" href="/" aria-label="LS Web Agency, torna alla home">
       <img
         class="c3-logo c3-logo--on-dark"
@@ -35,7 +45,9 @@ const clean = (items: NavLink[] = []) => items.filter((l) => l.text !== 'divider
           links.map((l, i) =>
             l.links?.length ? (
               <li class="c3-dd" data-c3-dd>
-                <a href={l.href}>{l.text}</a>
+                <a href={l.href} {...(isCurrent(l.href) ? { 'aria-current': 'page' } : {})}>
+                  {l.text}
+                </a>
                 <button
                   type="button"
                   class="c3-dd-btn"
@@ -60,7 +72,13 @@ const clean = (items: NavLink[] = []) => items.filter((l) => l.text !== 'divider
               </li>
             ) : (
               <li>
-                <a href={l.href}>{l.text}</a>
+                <a
+                  href={l.href}
+                  {...(isCurrent(l.href) ? { 'aria-current': 'page' } : {})}
+                  {...(l.href === '/blog' ? { 'data-astro-reload': true } : {})}
+                >
+                  {l.text}
+                </a>
               </li>
             )
           )
@@ -68,7 +86,14 @@ const clean = (items: NavLink[] = []) => items.filter((l) => l.text !== 'divider
       </ul>
     </nav>
 
-    <button
+    {
+      !isHome && (
+        <span class="c3-theme">
+          <ToggleTheme label="Passa dal tema chiaro al tema scuro" class="" iconClass="c3-ico" />
+        </span>
+      )
+    }
+    {isHome && (<button
       class="c3-icon-btn c3-motion-btn"
       type="button"
       aria-pressed="false"
@@ -76,7 +101,7 @@ const clean = (items: NavLink[] = []) => items.filter((l) => l.text !== 'divider
       data-c3-motion
     >
       <i aria-hidden="true"></i><span>Movimento</span><span class="c3-sr" data-c3-motion-label>: attivo</span>
-    </button>
+    </button>)}
 
     {cta && <a class="c3-btn c3-btn--p c3-navcta" href={cta.href}>{cta.text}</a>}
 
@@ -119,3 +144,7 @@ const clean = (items: NavLink[] = []) => items.filter((l) => l.text !== 'divider
   {cta && <a class="c3-btn c3-btn--p" href={cta.href}>{cta.text}</a>}
   <p>LS Web Agency di Luca Sanna · Via Alcide De Gasperi 3, Sassari</p>
 </nav>
+
+<script>
+  import '@/scripts/c3/chrome';
+</script>

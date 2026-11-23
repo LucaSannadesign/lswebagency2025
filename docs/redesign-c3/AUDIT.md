@@ -5,9 +5,11 @@ Branch: `feat/lswebagency-redesign-c3` · Base: `main@582d7da` · Data: 2026-11-
 Riferimenti progettuali: artifact «LS Web Agency · C.2 con portfolio aggiornato» e
 «C.2 · confronto hero Vortex Field / Digital Ink» (motore `hero-fx.js`).
 
-Ambito del redesign: **homepage** (`/`). Le altre ~90 pagine restano invariate in
-questa fase; header, footer e token C.3 sono isolati e non toccano i componenti
-condivisi (`Header.astro`, `Footer.astro`, `CustomStyles.astro`).
+Ambito del redesign: **homepage** (`/`) completa e, da C.3.1, **tutte le pagine**
+tramite token globali (palette Tailwind rimappata, variabili brand, titoli in
+Archivo) più header e footer C.3 in `PageLayout`. Il contenuto delle pagine
+interne non è riscritto. `Header.astro` e `Footer.astro` restano nel progetto
+(variante `legacy` di `PageLayout`).
 
 Legenda: **CONSERVARE** · **ADATTARE** · **RIMUOVERE** (solo dalla homepage, i file
 restano) · **DA VERIFICARE**.
@@ -20,8 +22,8 @@ restano) · **DA VERIFICARE**.
 | Voci menu (Home, Servizi + 8 sottovoci, Portfolio, Blog, Contatti) | `src/navigation.ts` | CONSERVARE | C3Header legge la stessa fonte (`headerData`): nessuna duplicazione, stessi URL reali (link interni SEO). Sottomenu Servizi come disclosure accessibile. |
 | CTA header «Valutazione iniziale gratuita» → `/mini-analisi` | `navigation.ts` | CONSERVARE | Percorso di conversione principale. |
 | Menu mobile (pannello + Escape) | `BasicScripts.astro` | ADATTARE | Overlay a tutto schermo C.2, con `aria-expanded`, Escape, focus restituito, blocco scroll. |
-| Toggle tema chiaro/scuro | `common/ToggleTheme.astro` | ADATTARE | La home C.3 usa «capitoli» tonali progettati (grafite/carta): il toggle non compare sulla home; la preferenza salvata continua a valere sulle altre pagine. Al suo posto il toggle «Movimento». |
-| Scroll-to-top | `layouts/PageLayout.astro` | CONSERVARE | Stesso pulsante e script (soglia 300px, reduced-motion, tastiera); solo restyling grafite/ione sulla home. |
+| Toggle tema chiaro/scuro | `common/ToggleTheme.astro` | ADATTARE | Presente nell'header C.3 di tutte le pagine interne (l'header segue il tema). Sulla home i capitoli tonali sono progettati: al suo posto il toggle «Movimento». |
+| Scroll-to-top | `layouts/PageLayout.astro` | CONSERVARE + ADATTARE | Stesso script (soglia 300px, reduced-motion, tastiera). Nuovo stile globale `.c3-totop`: ione ad alto contrasto con anello di avanzamento della lettura, visibile su fondi chiari e scuri (la prima versione C.3 era grafite su grafite, quasi invisibile). |
 | ClientRouter (view transitions) | `layouts/Layout.astro` | CONSERVARE | Gli script C.3 si inizializzano su `astro:page-load` e si fermano su `astro:before-swap` (nessun RAF/observer orfano). |
 | Animazioni `intersect` | `BasicScripts.astro` | CONSERVARE | Restano per le altre pagine; la home usa reveal propri. |
 
@@ -104,3 +106,17 @@ restano) · **DA VERIFICARE**.
 6. Menu duplicato tra `src/config.yaml` e `src/navigation.ts` (fa fede `navigation.ts`).
 7. Handle Twitter `@lswebagency` non verificato.
 8. In preview il CRM non era protetto (vedi §5): corretto solo per l'ambiente preview.
+
+## 10. C.3.1 — estensione a tutto il sito (2026-11-23)
+
+| Leva | File | Effetto |
+|---|---|---|
+| Palette Tailwind | `tailwind.config.js` | `violet`/`purple`/`fuchsia`/`pink` → scala «ione»; `slate`/`gray`/`neutral`/`zinc` → scala «grafite». ~3.800 classi aggiornate senza toccarle. |
+| Variabili brand e tema | `assets/styles/tailwind.css`, `CustomStyles.astro` | `--brand-*` e `--aw-color-*` sui token C.3; fondo scuro grafite; titoli in Archivo. |
+| Esadecimali fissi | 20 file | Viola/fucsia/blu notte sostituiti con gli equivalenti C.3. |
+| Header/footer | `PageLayout.astro`, `C3Header.astro` (modalità `page`), `chrome.css`, `chrome.ts` | Su tutte le pagine: link attivo, sottomenu, menu mobile, toggle tema, hide-on-scroll. |
+| Titolo hero | `hero-type.ts` | Onda periodica e reazione al puntatore, solo transform (CLS invariato), `aria-label` sull'H1. |
+
+Non coperto dai token: immagini raster con colori viola (es. illustrazione di
+«Chi siamo», copertine del blog). Il logo a colori resta invariato nei file; nell'header
+chiaro si usa la versione monocromatica ufficiale resa in grafite.
