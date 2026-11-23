@@ -1,0 +1,132 @@
+---
+/**
+ * Elenco articoli C.3 condiviso da /blog, /category/* e /tag/*.
+ * Testata editoriale → categorie curate → articolo in evidenza (solo prima
+ * pagina dell'indice) → griglia → paginazione → percorsi.
+ * Le pagine passano H1, URL di paginazione e metadata invariati.
+ */
+import C3PageHero from '@/components/c3/page/C3PageHero.astro';
+import C3PostCard from '@/components/c3/page/C3PostCard.astro';
+import C3Paths from '@/components/c3/page/C3Paths.astro';
+import type { Post } from '@/types';
+import { fetchPosts } from '@/utils/blog';
+import { getBlogPermalink, getPermalink } from '@/utils/permalinks';
+
+export interface Props {
+  title: string;
+  accent?: string;
+  kicker?: string;
+  lead?: string;
+  posts: Post[];
+  prevUrl?: string;
+  nextUrl?: string;
+  currentPage?: number;
+  lastPage?: number;
+  /** Mostra il primo articolo in formato largo */
+  feature?: boolean;
+  activeCategory?: string;
+}
+const {
+  title,
+  accent,
+  kicker = 'Blog',
+  lead,
+  posts = [],
+  prevUrl,
+  nextUrl,
+  currentPage = 1,
+  lastPage = 1,
+  feature = false,
+  activeCategory,
+} = Astro.props;
+
+// Categorie esistenti con conteggio (URL /category/<slug> invariati)
+const all = await fetchPosts();
+const catMap = new Map<string, { slug: string; title: string; n: number }>();
+for (const p of all) {
+  if (!p.category?.slug) continue;
+  const c = catMap.get(p.category.slug) ?? { slug: p.category.slug, title: p.category.title, n: 0 };
+  c.n++;
+  catMap.set(p.category.slug, c);
+}
+// Solo visualizzazione: iniziale maiuscola (slug e URL invariati)
+const cap = (t: string) => t.charAt(0).toLocaleUpperCase('it') + t.slice(1);
+const cats = [...catMap.values()].sort((a, b) => b.n - a.n || a.title.localeCompare(b.title));
+
+const [first, ...rest] = posts;
+const lead1 = feature && first ? first : null;
+const grid = lead1 ? rest : posts;
+---
+
+<div class="c3 c3p">
+  <C3PageHero kicker={kicker} title={title} accent={accent} size="l" lead={lead}>
+    <dl class="c3-meta" slot="aside">
+      <div><dt>Articoli</dt><dd>{all.length} pubblicati</dd></div>
+      <div><dt>Temi</dt><dd>siti web, SEO locale, velocità, conversione, AI</dd></div>
+      {lastPage > 1 && (<div><dt>Pagina</dt><dd>{currentPage} di {lastPage}</dd></div>)}
+    </dl>
+  </C3PageHero>
+
+  <section class="c3-sec c3-sec--read c3-sec--tight" aria-label="Articoli">
+    <div class="c3-sec-in">
+      <nav class="c3-cats" aria-label="Categorie del blog">
+        <a href={getBlogPermalink()} aria-current={!activeCategory && feature ? 'page' : undefined}>Tutti</a>
+        {
+          cats.map((c) => (
+            <a href={getPermalink(c.slug, 'category')} aria-current={activeCategory === c.slug ? 'page' : undefined}>
+              {cap(c.title)} <small>{c.n}</small>
+            </a>
+          ))
+        }
+      </nav>
+
+      {lead1 && <C3PostCard post={lead1} featured eager />}
+
+      {
+        grid.length > 0 ? (
+          <div class="c3-pgrid">
+            {grid.map((p, i) => (
+              <C3PostCard post={p} eager={!lead1 && i < 3} />
+            ))}
+          </div>
+        ) : (
+          !lead1 && <p class="c3-lead">Nessun articolo disponibile.</p>
+        )
+      }
+
+      {
+        (prevUrl || nextUrl) && (
+          <ul class="c3-pager" aria-label="Paginazione">
+            <li>
+              {prevUrl ? (
+                <a href={getPermalink(prevUrl)} rel="prev">
+                  ← Articoli più recenti
+                </a>
+              ) : (
+                <span class="is-off" aria-hidden="true">
+                  ← Articoli più recenti
+                </span>
+              )}
+            </li>
+            <li>
+              <span aria-current="page">{currentPage}</span>
+            </li>
+            <li>
+              {nextUrl ? (
+                <a href={getPermalink(nextUrl)} rel="next">
+                  Articoli meno recenti →
+                </a>
+              ) : (
+                <span class="is-off" aria-hidden="true">
+                  Articoli meno recenti →
+                </span>
+              )}
+            </li>
+          </ul>
+        )
+      }
+    </div>
+  </section>
+
+  <C3Paths title="Vuoi applicare queste idee al tuo sito? Come vuoi iniziare?" />
+</div>
