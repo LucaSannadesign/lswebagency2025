@@ -4,31 +4,37 @@
  */
 /* Archivo variabile self-hosted (SIL OFL 1.1, vedi /fonts/archivo/OFL.txt) */
 @font-face {
-  font-family: 'Archivo C3';
+  font-family: "Archivo C3";
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
   font-stretch: 62% 125%;
-  src: url('/fonts/archivo/archivo-latin-wdth-normal.woff2') format('woff2-variations');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url("/fonts/archivo/archivo-latin-wdth-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Archivo C3';
+  font-family: "Archivo C3";
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
   font-stretch: 62% 125%;
-  src: url('/fonts/archivo/archivo-latin-ext-wdth-normal.woff2') format('woff2-variations');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF,
-    U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  src: url("/fonts/archivo/archivo-latin-ext-wdth-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 /* Titoli: Archivo variabile leggermente condensato, stessa larghezza di prima */
 h1,
 h2,
 h3 {
-  font-family: var(--aw-font-heading, 'Archivo C3', sans-serif);
+  font-family: var(--aw-font-heading, "Archivo C3", sans-serif);
   font-stretch: 86%;
   letter-spacing: -0.015em;
 }
@@ -47,13 +53,20 @@ h3 {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  color: #0d0f11;
+  color: var(--c3-g0);
   background:
-    radial-gradient(closest-side, #8fd3c8 calc(100% - 4px), transparent calc(100% - 3px)),
-    conic-gradient(#0d0f11 calc(var(--p) * 1turn), rgba(13, 15, 17, 0.25) 0);
+    radial-gradient(
+      closest-side,
+      var(--c3-ion) calc(100% - 4px),
+      transparent calc(100% - 3px)
+    ),
+    conic-gradient(
+      var(--c3-g0) calc(var(--p) * 1turn),
+      color-mix(in srgb, var(--c3-g0) 25%, transparent) 0
+    );
   box-shadow:
-    0 0 0 2px rgba(143, 211, 200, 0.55),
-    0 10px 28px rgba(0, 0, 0, 0.35);
+    0 0 0 2px color-mix(in srgb, var(--c3-ion) 55%, transparent),
+    0 10px 28px color-mix(in srgb, var(--c3-g0) 35%, transparent);
   cursor: pointer;
   transition:
     opacity 0.3s ease,
@@ -64,7 +77,7 @@ h3 {
   transform: translateY(-2px);
 }
 .c3-totop:focus-visible {
-  outline: 3px solid #1f5a54;
+  outline: 3px solid var(--c3-ion-deep);
   outline-offset: 3px;
 }
 .c3-totop svg {
@@ -80,5 +93,28 @@ h3 {
 @media (prefers-reduced-motion: reduce) {
   .c3-totop {
     transition: none;
+  }
+}
+
+/* ───────── Gradienti C.3 sulle pagine interne ─────────
+ * 1. Il titolo principale (h1) di ogni pagina riceve il gradiente del Design
+ *    System: grafite → ione profondo su chiaro, avorio → ione su scuro.
+ *    Contrasto minimo dei colori del gradiente: 4,7:1 su chiaro, 6,8:1 su scuro.
+ * 2. I testi a gradiente già presenti (bg-clip-text) usano gli stessi gradienti
+ *    al posto delle vecchie sfumature viola–fucsia.
+ * La home (.c3) gestisce i propri gradienti in modo selettivo. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  main h1:not(.c3 *),
+  .bg-clip-text.text-transparent:not(.c3 *) {
+    background-image: var(--c3-grad-on-light) !important;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  html.dark main h1:not(.c3 *),
+  html.dark .bg-clip-text.text-transparent:not(.c3 *) {
+    background-image: var(--c3-grad-on-dark) !important;
   }
 }

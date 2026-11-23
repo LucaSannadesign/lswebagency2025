@@ -9,6 +9,10 @@ import typographyPlugin from '@tailwindcss/typography';
  * - viola / fucsia / rosa / porpora → «ione» (accento verde acqua)
  * - slate / gray / neutral / zinc → «grafite» (neutri caldi)
  * Contrasti verificati: testo bianco su -600 5,5:1, su -700 7,9:1.
+ * Valori allineati ai token ufficiali (src/styles/c3/tokens.css):
+ * graphite-950 Grafite #0D0F11 · 900 Grafite secondaria #15181B ·
+ * 800 Antracite #1D2125 · 400 Grigio #A3A9AE · 100 Avorio #EDECE8 ·
+ * ion-300 Ione #8FD3C8.
  */
 const ion = {
   50: '#EEF8F6',
@@ -24,11 +28,11 @@ const ion = {
   950: '#0B201E',
 };
 const graphite = {
-  50: '#F3F2EE',
-  100: '#E8E6E1',
+  50: '#F6F5F2',
+  100: '#EDECE8',
   200: '#D9D6CF',
   300: '#C9C6BF',
-  400: '#9BA1A6',
+  400: '#A3A9AE',
   500: '#6E747A',
   600: '#4A5157',
   700: '#2B3035',

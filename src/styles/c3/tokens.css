@@ -1,41 +1,116 @@
 /*
- * LS Web Agency · Redesign C.3 «Kinetic Graphite» — design token e primitive.
+ * LS Web Agency · Design System C.3 «Kinetic Graphite» — design token.
  *
- * Tutto è sotto .c3: il resto del sito (token --aw-*, Tailwind) non cambia.
- * Palette: grafite + carta che si alternano per capitoli, accento unico «ione»,
- * una tinta per progetto nel portfolio.
- * Tipografia: Archivo variabile (larghezza 62–125) per titoli e numeri,
- * Inter Variable (già caricato dal sito) per il testo.
+ * Fonte unica dei colori del redesign. Nessun componente usa HEX propri:
+ * tutto passa da queste variabili (o dalle scale Tailwind in tailwind.config.js,
+ * allineate agli stessi valori).
+ *
+ * Primitivi ufficiali
+ *   Grafite              #0D0F11  --c3-g0     background principale
+ *   Grafite secondaria   #15181B  --c3-g1     superficie intermedia
+ *   Antracite            #1D2125  --c3-g2     superficie scura
+ *   Avorio               #EDECE8  --c3-ivory  testo chiaro / sezioni chiare
+ *   Ione                 #8FD3C8  --c3-ion    accento primario
+ *   Grigio               #A3A9AE  --c3-grey   testo secondario su scuro
+ *
+ * Derivati (solo variazioni di luminosità/trasparenza dei primitivi), con il
+ * contrasto WCAG verificato sull'uso previsto.
  */
-
-.c3 {
+:root {
   /* Primitivi */
   --c3-g0: #0d0f11;
   --c3-g1: #15181b;
   --c3-g2: #1d2125;
-  --c3-g3: #2b3035;
+  --c3-ivory: #edece8;
   --c3-ion: #8fd3c8;
-  --c3-ion-deep: #1f5a54;
-  --c3-paper: #e8e6e1;
-  --c3-paper-hi: #f3f2ee;
-  --c3-snow: #edece8;
+  --c3-grey: #a3a9ae;
 
-  --c3-disp: 'Archivo C3', 'Helvetica Neue', Arial, sans-serif;
-  --c3-text: 'Inter Variable', 'Helvetica Neue', Arial, sans-serif;
+  /* Derivati da Ione (stessa tinta, luminosità diversa) */
+  --c3-ion-hi: #c4ebe4; /* ione chiaro: gradienti su scuro */
+  --c3-ion-mid: #4fa89b; /* ione medio: gradienti, decorazioni (non testo su avorio) */
+  --c3-ion-deep: #1f5a54; /* ione profondo: link e CTA su avorio, 6,7:1 */
+  --c3-ion-ink: #2a7369; /* ione scuro: testo grande su avorio, 4,7:1 */
+
+  /* Derivati da Grafite/Antracite */
+  --c3-line-d: #2b3035; /* filetti su scuro */
+  --c3-ctrl-d: #666e75; /* bordi dei controlli su scuro, 3,7:1 */
+  --c3-placeholder: #7d858c; /* segnaposto nei campi su g1, 4,8:1 */
+
+  /* Derivati da Avorio */
+  --c3-ivory-hi: #f6f5f2; /* pannelli su avorio */
+  --c3-ivory-dim: #c9cdd0; /* testo introduttivo su grafite, 12:1 */
+  --c3-ivory-lo: #dcdad4; /* blocchi neutri su avorio */
+  --c3-line-l: #c9c6bf; /* filetti su avorio */
+  --c3-ctrl-l: #6e747a; /* bordi dei controlli su avorio, 4,0:1 */
+  --c3-ink-2: #4a5157; /* testo secondario su avorio, 6,8:1 */
+  --c3-white: #ffffff; /* solo fondo dei loghi autentici dei progetti */
+
+  /* Tinte del portfolio: grafite appena velata di ione (nessun colore estraneo) */
+  --c3-tint-1: #0f1a1a;
+  --c3-tint-2: #111817;
+  --c3-tint-3: #10161a;
+  --c3-tint-4: #14181c;
+  --c3-acc-1: var(--c3-ion);
+  --c3-acc-2: var(--c3-ion-hi);
+  --c3-acc-3: var(--c3-ion-mid);
+  --c3-acc-4: var(--c3-ivory);
+
+  /* Gradienti (vedi sezione «Gradienti» più sotto per l'uso) */
+  --c3-grad-on-dark: linear-gradient(
+    100deg,
+    var(--c3-ivory) 0%,
+    var(--c3-ion-hi) 30%,
+    var(--c3-ion) 62%,
+    var(--c3-ion-mid) 100%
+  );
+  --c3-grad-on-light: linear-gradient(
+    100deg,
+    var(--c3-g0) 0%,
+    var(--c3-ion-deep) 55%,
+    var(--c3-ion-ink) 100%
+  );
+  --c3-grad-line: linear-gradient(
+    90deg,
+    var(--c3-ion-mid),
+    var(--c3-ion),
+    var(--c3-ion-hi)
+  );
+  --c3-glow-ion: radial-gradient(
+    60% 70% at 85% 10%,
+    color-mix(in srgb, var(--c3-ion) 16%, transparent),
+    transparent 70%
+  );
+  --c3-glow-deep: radial-gradient(
+    70% 80% at 10% 100%,
+    color-mix(in srgb, var(--c3-ion-mid) 14%, transparent),
+    transparent 70%
+  );
+
+  /* Alias storici (compatibilità con i componenti C.3 già scritti) */
+  --c3-snow: var(--c3-ivory);
+  --c3-paper: var(--c3-ivory);
+  --c3-paper-hi: var(--c3-ivory-hi);
+  --c3-g3: var(--c3-line-d);
+}
+
+.c3 {
+  --c3-disp: "Archivo C3", "Helvetica Neue", Arial, sans-serif;
+  --c3-text: "Inter Variable", "Helvetica Neue", Arial, sans-serif;
   --c3-pad: max(5vw, 20px);
   --c3-ease: cubic-bezier(0.2, 0.7, 0.1, 1);
   --c3-radius: 14px;
 
-  /* Tono scuro (predefinito) */
+  /* Tono scuro (predefinito): grafite */
   --bg: var(--c3-g0);
-  --ink: var(--c3-snow);
-  --mute: #a3a9ae;
-  --line: var(--c3-g3);
-  --ctrl: #666e75;
+  --ink: var(--c3-ivory);
+  --mute: var(--c3-grey);
+  --line: var(--c3-line-d);
+  --ctrl: var(--c3-ctrl-d);
   --panel: var(--c3-g1);
   --link: var(--c3-ion);
   --btn: var(--c3-ion);
   --btn-ink: var(--c3-g0);
+  --grad: var(--c3-grad-on-dark);
 
   position: relative;
   background: var(--bg);
@@ -51,39 +126,49 @@
 }
 
 /* Capitoli: il tono della pagina segue la sezione al centro dello schermo */
-.c3[data-tone='light'] {
-  --bg: var(--c3-paper);
-  --ink: #16191c;
-  --mute: #4a5157;
-  --line: #c9c6bf;
-  --ctrl: #6e747a;
-  --panel: var(--c3-paper-hi);
+.c3[data-tone="light"] {
+  --bg: var(--c3-ivory);
+  --ink: var(--c3-g0);
+  --mute: var(--c3-ink-2);
+  --line: var(--c3-line-l);
+  --ctrl: var(--c3-ctrl-l);
+  --panel: var(--c3-ivory-hi);
   --link: var(--c3-ion-deep);
-  --btn: #16191c;
-  --btn-ink: var(--c3-paper);
+  --btn: var(--c3-g0);
+  --btn-ink: var(--c3-ivory);
+  --grad: var(--c3-grad-on-light);
   color-scheme: light;
 }
-.c3[data-tone='tint'] {
+/* Antracite: superficie scura secondaria per variare il ritmo */
+.c3[data-tone="anthracite"] {
+  --bg: var(--c3-g1);
+  --panel: var(--c3-g2);
+}
+.c3[data-tone="tint"] {
   --bg: var(--c3-tint, var(--c3-g0));
 }
 
 /* Senza JavaScript ogni sezione chiara porta il proprio tono; con JavaScript
    tutta la pagina segue il capitolo al centro dello schermo (transizione). */
-.c3:not(.c3-js) [data-c3-tone='light'] {
-  --ink: #16191c;
-  --mute: #4a5157;
-  --line: #c9c6bf;
-  --ctrl: #6e747a;
-  --panel: var(--c3-paper-hi);
+.c3:not(.c3-js) [data-c3-tone="light"] {
+  --ink: var(--c3-g0);
+  --mute: var(--c3-ink-2);
+  --line: var(--c3-line-l);
+  --ctrl: var(--c3-ctrl-l);
+  --panel: var(--c3-ivory-hi);
   --link: var(--c3-ion-deep);
-  --btn: #16191c;
-  --btn-ink: var(--c3-paper);
+  --btn: var(--c3-g0);
+  --btn-ink: var(--c3-ivory);
+  --grad: var(--c3-grad-on-light);
   color: var(--ink);
-  background: var(--c3-paper);
+  background: var(--c3-ivory);
+}
+.c3:not(.c3-js) [data-c3-chapter="anthracite"] {
+  background: var(--c3-g1);
 }
 
 html:has(#c3-root) body {
-  background: var(--c3-g0, #0d0f11);
+  background: var(--c3-g0);
 }
 
 .c3 *,
@@ -265,5 +350,30 @@ html:has(#c3-root) body {
   }
   .c3-lead {
     font-size: 17px;
+  }
+}
+
+/* ───────── Gradienti ─────────
+ * Uso selettivo, mai su tutti i titoli:
+ *  .c3-grad          parola o breve frase evidenziata (segue il tono del capitolo:
+ *                    avorio→ione su scuro, grafite→ione profondo su avorio)
+ *  --c3-grad-line    filetti e sottolineature interattive
+ *  --c3-glow-*       luce d'ambiente di alcune sezioni (non dietro al testo)
+ * Contrasto: ogni colore dei gradienti rispetta ≥ 3:1 sul proprio fondo per
+ * il testo grande; i gradienti non si usano per il testo corrente. */
+.c3-grad {
+  background-image: var(--grad);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--link);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding-bottom: 0.06em;
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .c3-grad {
+    -webkit-text-fill-color: currentColor;
   }
 }
