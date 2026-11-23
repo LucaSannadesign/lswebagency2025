@@ -1,111 +1,46 @@
 /**
- * Header C.3 su tutte le pagine: pieno allo scroll, si nasconde scendendo e
- * riappare salendo (mai con il focus da tastiera dentro), sottomenu Servizi
- * come disclosure accessibile, menu mobile a tutto schermo con Escape.
+ * Navbar C.3.2 su tutte le pagine.
+ *
+ * - Stati: trasparente in cima → capsula (.is-solid) dopo lo scroll; si
+ *   nasconde scendendo (.is-hidden) e riappare salendo. Mai nascosta con il
+ *   focus da tastiera dentro, con il pannello Servizi o il menu aperti.
+ * - Pannello Servizi: disclosure accessibile; con puntatore preciso si apre
+ *   al passaggio del mouse con un breve ritardo (hover intent).
+ * - Menu mobile: overlay a tutto schermo, Servizi a fisarmonica, Escape,
+ *   focus intrappolato finché è aperto, blocco dello scroll della pagina.
  * Init su `astro:page-load`, teardown su `astro:before-swap` (ClientRouter).
  */
-function init(): () => void {
+const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+function init(header: HTMLElement): () => void {
   const ac = new AbortController();
   const sig = { signal: ac.signal };
+  const passive = { signal: ac.signal, passive: true };
   const cleanups: Array<() => void> = [];
-  const q = <T extends Element = HTMLElement>(s: string) => document.querySelector<T>(s);
-  const qa = <T extends Element = HTMLElement>(s: string) => [...document.querySelectorAll<T>(s)];
+  const isHome = header.classList.contains('c3-top--home');
+  const SOLID_AT = isHome ? 40 : 16;
 
-  // ── Header ────────────────────────────────────────────────────────────────
-  const header = q('[data-c3-header]');
+  const ddBtn = header.querySelector<HTMLButtonElement>('[data-c3-dd-btn]');
+  const mega = header.querySelector<HTMLElement>('[data-c3-mega]');
+  const ddItem = ddBtn?.closest<HTMLElement>('[data-c3-dd]') ?? null;
+  const menuBtn = header.querySelector<HTMLButtonElement>('[data-c3-menu]');
+  const menuLabel = header.querySelector<HTMLElement>('[data-c3-menu-label]');
+  const overlay = document.querySelector<HTMLElement>('[data-c3-overlay]');
+
+  const megaOpen = () => !!mega?.classList.contains('is-open');
+  const menuOpen = () => !!overlay?.classList.contains('is-open');
+
+  // ── Stati della navbar ───────────────────────────────────────────────────
   let lastY = scrollY;
-  const headerTick = () => {
-    if (!header) return;
+  const tick = () => {
     const y = scrollY;
-    header.classList.toggle('is-solid', y > 30);
+    header.classList.toggle('is-solid', y > SOLID_AT || menuOpen());
     const delta = y - lastY;
-    if (Math.abs(delta) < 10) return;
-    const locked =
-      header.contains(document.activeElement) ||
-      overlay?.classList.contains('is-open') ||
-      !!header.querySelector('[data-c3-dd-btn][aria-expanded="true"]');
-    header.classList.toggle('is-hidden', delta > 0 && y > 240 && !locked);
+    if (Math.abs(delta) < 8) return;
+    const locked = header.contains(document.activeElement) || megaOpen() || menuOpen();
+    header.classList.toggle('is-hidden', delta > 0 && y > 260 && !locked);
     lastY = y;
   };
-  header?.addEventListener('focusin', () => header.classList.remove('is-hidden'), sig);
-
-  // Sottomenu Servizi (disclosure)
-  const closeDropdowns = (except?: Element) =>
-    qa<HTMLButtonElement>('[data-c3-dd-btn]').forEach((b) => {
-      if (b === except) return;
-      b.setAttribute('aria-expanded', 'false');
-      document.getElementById(b.getAttribute('aria-controls') || '')?.setAttribute('hidden', '');
-    });
-  qa<HTMLButtonElement>('[data-c3-dd-btn]').forEach((btn) => {
-    const menu = document.getElementById(btn.getAttribute('aria-controls') || '');
-    btn.addEventListener(
-      'click',
-      () => {
-        const open = btn.getAttribute('aria-expanded') !== 'true';
-        closeDropdowns(btn);
-        btn.setAttribute('aria-expanded', String(open));
-        menu?.toggleAttribute('hidden', !open);
-      },
-      sig
-    );
-    btn.closest('[data-c3-dd]')?.addEventListener(
-      'focusout',
-      (e) => {
-        const next = (e as FocusEvent).relatedTarget as Node | null;
-        if (!next || !btn.closest('[data-c3-dd]')!.contains(next)) closeDropdowns();
-      },
-      sig
-    );
-  });
-  document.addEventListener(
-    'click',
-    (e) => {
-      if (!(e.target as Element).closest?.('[data-c3-dd]')) closeDropdowns();
-    },
-    sig
-  );
-
-  // Menu mobile
-  const menuBtn = q<HTMLButtonElement>('[data-c3-menu]');
-  const overlay = q('[data-c3-overlay]');
-  const setMenu = (open: boolean) => {
-    if (!overlay || !menuBtn) return;
-    overlay.classList.toggle('is-open', open);
-    menuBtn.setAttribute('aria-expanded', String(open));
-    menuBtn.setAttribute('aria-label', open ? 'Chiudi il menu' : 'Apri il menu');
-    document.documentElement.style.overflow = open ? 'hidden' : '';
-    if (open) {
-      header?.classList.remove('is-hidden');
-      header?.classList.add('is-solid');
-      overlay.querySelector<HTMLElement>('a')?.focus();
-    }
-  };
-  menuBtn?.addEventListener('click', () => setMenu(!overlay?.classList.contains('is-open')), sig);
-  overlay?.addEventListener('click', (e) => (e.target as Element).closest('a') && setMenu(false), sig);
-  document.addEventListener(
-    'keydown',
-    (e) => {
-      if (e.key !== 'Escape') return;
-      if (overlay?.classList.contains('is-open')) {
-        setMenu(false);
-        menuBtn?.focus();
-      }
-      const openDd = q<HTMLButtonElement>('[data-c3-dd-btn][aria-expanded="true"]');
-      if (openDd) {
-        closeDropdowns();
-        openDd.focus();
-      }
-    },
-    sig
-  );
-  const desktop = matchMedia('(min-width: 1024px)');
-  const onDesktopChange = () => desktop.matches && setMenu(false);
-  desktop.addEventListener('change', onDesktopChange);
-  cleanups.push(() => {
-    desktop.removeEventListener('change', onDesktopChange);
-    document.documentElement.style.overflow = '';
-  });
-
   let ticking = false;
   addEventListener(
     'scroll',
@@ -114,12 +49,149 @@ function init(): () => void {
       ticking = true;
       requestAnimationFrame(() => {
         ticking = false;
-        headerTick();
+        tick();
       });
     },
-    { signal: ac.signal, passive: true }
+    passive
   );
-  headerTick();
+  header.addEventListener('focusin', () => header.classList.remove('is-hidden'), sig);
+  tick();
+
+  // ── Pannello Servizi ─────────────────────────────────────────────────────
+  let openTimer = 0;
+  let closeTimer = 0;
+  const setMega = (open: boolean) => {
+    if (!mega || !ddBtn) return;
+    clearTimeout(openTimer);
+    clearTimeout(closeTimer);
+    mega.classList.toggle('is-open', open);
+    ddBtn.setAttribute('aria-expanded', String(open));
+    if (open) header.classList.remove('is-hidden');
+  };
+  if (ddBtn && mega) {
+    ddBtn.addEventListener('click', () => setMega(!megaOpen()), sig);
+    const fine = matchMedia('(hover: hover) and (pointer: fine)');
+    const enter = () => {
+      if (!fine.matches) return;
+      clearTimeout(closeTimer);
+      if (!megaOpen()) openTimer = window.setTimeout(() => setMega(true), 90);
+    };
+    const leave = () => {
+      if (!fine.matches) return;
+      clearTimeout(openTimer);
+      closeTimer = window.setTimeout(() => setMega(false), 240);
+    };
+    [ddItem, mega].forEach((el) => {
+      el?.addEventListener('pointerenter', enter, sig);
+      el?.addEventListener('pointerleave', leave, sig);
+    });
+    // Il focus che esce da trigger e pannello chiude il pannello
+    const onFocusOut = (e: FocusEvent) => {
+      const next = e.relatedTarget as Node | null;
+      if (!next || !(ddItem?.contains(next) || mega.contains(next))) setMega(false);
+    };
+    ddItem?.addEventListener('focusout', onFocusOut, sig);
+    mega.addEventListener('focusout', onFocusOut, sig);
+    document.addEventListener(
+      'click',
+      (e) => {
+        const t = e.target as Node;
+        if (megaOpen() && !ddItem?.contains(t) && !mega.contains(t)) setMega(false);
+      },
+      sig
+    );
+    // Da tastiera: freccia giù sul trigger apre e porta il focus nel pannello
+    ddBtn.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key !== 'ArrowDown') return;
+        e.preventDefault();
+        setMega(true);
+        mega.querySelector<HTMLElement>('a')?.focus();
+      },
+      sig
+    );
+  }
+
+  // ── Menu mobile ──────────────────────────────────────────────────────────
+  const setMenu = (open: boolean, restoreFocus = false) => {
+    if (!overlay || !menuBtn) return;
+    overlay.classList.toggle('is-open', open);
+    header.classList.toggle('is-menu', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    if (menuLabel) menuLabel.textContent = open ? 'Chiudi' : 'Menu';
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) {
+      header.classList.remove('is-hidden');
+      header.classList.add('is-solid');
+      requestAnimationFrame(() => overlay.querySelector<HTMLElement>(FOCUSABLE)?.focus());
+    } else {
+      tick();
+      if (restoreFocus) menuBtn.focus();
+    }
+  };
+  menuBtn?.addEventListener('click', () => setMenu(!menuOpen()), sig);
+  overlay?.addEventListener(
+    'click',
+    (e) => {
+      if ((e.target as Element).closest('a')) setMenu(false);
+    },
+    sig
+  );
+  overlay?.querySelectorAll<HTMLButtonElement>('[data-c3-acc]').forEach((btn) => {
+    btn.addEventListener(
+      'click',
+      () => {
+        const open = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', String(open));
+        document.getElementById(btn.getAttribute('aria-controls') || '')?.toggleAttribute('hidden', !open);
+      },
+      sig
+    );
+  });
+
+  document.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key === 'Escape') {
+        if (menuOpen()) setMenu(false, true);
+        if (megaOpen()) {
+          setMega(false);
+          ddBtn?.focus();
+        }
+        return;
+      }
+      // Focus intrappolato tra pulsante Menu e overlay
+      if (e.key === 'Tab' && menuOpen() && overlay && menuBtn) {
+        const items = [menuBtn, ...overlay.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
+          (el) => el.offsetParent !== null || el === menuBtn
+        );
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    },
+    sig
+  );
+
+  const desktop = matchMedia('(min-width: 1024px)');
+  const onDesktop = () => {
+    if (desktop.matches) setMenu(false);
+    else setMega(false);
+  };
+  desktop.addEventListener('change', onDesktop);
+  cleanups.push(() => {
+    desktop.removeEventListener('change', onDesktop);
+    document.documentElement.style.overflow = '';
+    clearTimeout(openTimer);
+    clearTimeout(closeTimer);
+  });
 
   return () => {
     ac.abort();
@@ -130,7 +202,8 @@ function init(): () => void {
 let teardown: (() => void) | null = null;
 document.addEventListener('astro:page-load', () => {
   teardown?.();
-  teardown = document.querySelector('[data-c3-header]') ? init() : null;
+  const header = document.querySelector<HTMLElement>('[data-c3-header]');
+  teardown = header ? init(header) : null;
 });
 document.addEventListener('astro:before-swap', () => {
   teardown?.();

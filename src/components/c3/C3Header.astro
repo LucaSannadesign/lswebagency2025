@@ -1,149 +1,235 @@
 ---
 /**
- * Header C.3. Stessa fonte dati dell'header del sito (src/navigation.ts):
- * stesse voci, stessi URL, stessa CTA. Comportamento: trasparente in cima,
- * pieno allo scroll, si nasconde scendendo e riappare salendo (mai con il
- * focus da tastiera al suo interno). Logica in src/scripts/c3/home.ts.
+ * Header C.3.2 — navbar immersiva.
+ *
+ * Stati (gestiti da src/scripts/c3/chrome.ts):
+ * - in cima: nessuno sfondo né bordo, integrata nella hero; velatura sfumata
+ *   solo sulla home per la leggibilità sopra il campo WebGL;
+ * - dopo lo scroll: capsula sospesa in vetro grafite, compatta; si nasconde
+ *   scendendo e riappare salendo (mai con il focus da tastiera dentro).
+ * CTA leggera a contorno in cima, pillola ione nella capsula.
+ * Servizi: pannello a gruppi con descrizioni (disclosure accessibile).
+ * Mobile: «Menu» testuale, overlay a tutto schermo con Servizi a fisarmonica.
+ * Fonte unica delle voci: src/navigation.ts.
  */
 import { headerData } from '@/navigation';
 import ToggleTheme from '@/components/common/ToggleTheme.astro';
 
 export interface Props {
-  /** 'home': trasparente sulla hero, toggle Movimento. 'page': pieno, toggle tema. */
+  /** 'home': sopra la hero scura, toggle Movimento. 'page': pagine interne, toggle tema. */
   mode?: 'home' | 'page';
 }
 const { mode = 'home' } = Astro.props;
 const isHome = mode === 'home';
 const current = '/' + Astro.url.pathname.replace(/^\/+|\/+$/g, '');
 const isCurrent = (href = '') => href !== '/' && (current === href || current.startsWith(href + '/'));
+const isExternal = (href = '') => /^https?:\/\//.test(href);
 
 type NavLink = { text?: string; href?: string; links?: NavLink[] };
 
 const links = (headerData.links as NavLink[]).filter((l) => l.href !== '/');
 const cta = headerData.actions?.[0];
-const isExternal = (href = '') => /^https?:\/\//.test(href);
-const clean = (items: NavLink[] = []) => items.filter((l) => l.text !== 'divider');
+const services = links.find((l) => l.links?.length);
+const others = links.filter((l) => !l.links?.length);
+
+/* Descrizioni brevi del pannello Servizi (le voci restano quelle di navigation.ts) */
+const DESC: Record<string, string> = {
+  '/servizi/siti-web': 'Un sito costruito intorno a come i clienti ti cercano e ti contattano.',
+  '/servizi/audit-rapido': 'Cosa frena i contatti e cosa sistemare per primo, con priorità chiare.',
+  '/servizi/sprint-ottimizzazione': 'Interventi mirati e verificabili sulle priorità emerse dall’audit.',
+  '/servizi/ai-operations-pmi': 'Automazioni leggere per richieste, risposte e processi ripetitivi.',
+  '/process-fit-check': 'In pochi minuti capisci cosa conviene automatizzare, e cosa no.',
+  'https://digitalpresence.lswebagency.com/': 'Il percorso dedicato alla presenza digitale completa.',
+};
+
+// Gruppi: le prime tre voci sono il percorso sito; il resto AI e strumenti.
+const subs = (services?.links ?? []).filter((l) => l.text !== 'divider');
+const allServices = subs.find((l) => /tutti i servizi/i.test(l.text ?? ''));
+const items = subs.filter((l) => l !== allServices);
+const groups = [
+  { title: 'Siti e ottimizzazione', items: items.slice(0, 3) },
+  { title: 'AI e strumenti', items: items.slice(3) },
+];
+const ext = (href = '') => (isExternal(href) ? { target: '_blank', rel: 'noopener' } : {});
+const clean = (t = '') => t.replace(' ↗', '');
 ---
 
-<header class:list={['c3-top', { 'c3-top--page': !isHome }]} id="c3-header" data-c3-header>
+<header class:list={['c3-top', isHome ? 'c3-top--home' : 'c3-top--page']} id="c3-header" data-c3-header>
   <div class="c3-top-in" {...(isHome ? { 'data-veil': '0.2', 'data-veil-box': 'element' } : {})}>
     <a class="c3-brand" href="/" aria-label="LS Web Agency, torna alla home">
-      <img
-        class="c3-logo c3-logo--on-dark"
-        src="/images/logo-ls-webdesignagency-2025-bn.svg"
-        alt=""
-        width="168"
-        height="30"
-      />
-      <img class="c3-logo c3-logo--on-light" src="/images/logo-ls-webdesignagency-2025.svg" alt="" width="168" height="30" />
+      <img class="c3-logo" src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="" width="168" height="30" />
       <span class="c3-sr">LS Web Agency</span>
     </a>
 
     <nav class="c3-nav" aria-label="Navigazione principale">
       <ul>
         {
-          links.map((l, i) =>
-            l.links?.length ? (
-              <li class="c3-dd" data-c3-dd>
-                <a href={l.href} {...(isCurrent(l.href) ? { 'aria-current': 'page' } : {})}>
-                  {l.text}
-                </a>
-                <button
-                  type="button"
-                  class="c3-dd-btn"
-                  aria-expanded="false"
-                  aria-controls={`c3-dd-${i}`}
-                  aria-label={`Apri il sottomenu ${l.text}`}
-                  data-c3-dd-btn
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </button>
-                <ul class="c3-dd-menu" id={`c3-dd-${i}`} hidden>
-                  {clean(l.links).map((s) => (
-                    <li>
-                      <a href={s.href} {...(isExternal(s.href) ? { target: '_blank', rel: 'noopener' } : {})}>
-                        {s.text}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ) : (
-              <li>
-                <a
-                  href={l.href}
-                  {...(isCurrent(l.href) ? { 'aria-current': 'page' } : {})}
-                  {...(l.href === '/blog' ? { 'data-astro-reload': true } : {})}
-                >
-                  {l.text}
-                </a>
-              </li>
-            )
+          services && (
+            <li class="c3-dd" data-c3-dd>
+              <button
+                type="button"
+                class="c3-nav-link c3-dd-btn"
+                aria-expanded="false"
+                aria-controls="c3-mega"
+                data-c3-dd-btn
+                {...(isCurrent(services.href) ? { 'data-current': 'true' } : {})}
+              >
+                {services.text}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+            </li>
           )
+        }
+        {
+          others.map((l) => (
+            <li>
+              <a
+                class="c3-nav-link"
+                href={l.href}
+                {...(isCurrent(l.href) ? { 'aria-current': 'page' } : {})}
+                {...(l.href === '/blog' ? { 'data-astro-reload': true } : {})}
+              >
+                {l.text}
+              </a>
+            </li>
+          ))
         }
       </ul>
     </nav>
 
-    {
-      !isHome && (
-        <span class="c3-theme">
-          <ToggleTheme label="Passa dal tema chiaro al tema scuro" class="" iconClass="c3-ico" />
-        </span>
-      )
-    }
-    {isHome && (<button
-      class="c3-icon-btn c3-motion-btn"
-      type="button"
-      aria-pressed="false"
-      title="Riduci il movimento della pagina"
-      data-c3-motion
-    >
-      <i aria-hidden="true"></i><span>Movimento</span><span class="c3-sr" data-c3-motion-label>: attivo</span>
-    </button>)}
-
-    {cta && <a class="c3-btn c3-btn--p c3-navcta" href={cta.href}>{cta.text}</a>}
-
-    <button
-      class="c3-icon-btn c3-menu-btn"
-      type="button"
-      aria-label="Apri il menu"
-      aria-expanded="false"
-      aria-controls="c3-overlay"
-      data-c3-menu
-    >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-        <path d="M4 9h16M4 15h16"></path>
-      </svg>
-    </button>
+    <div class="c3-actions">
+      {
+        isHome ? (
+          <button
+            class="c3-quiet-btn c3-motion-btn"
+            type="button"
+            aria-pressed="false"
+            title="Riduci il movimento della pagina"
+            data-c3-motion
+          >
+            <i aria-hidden="true" />
+            <span class="c3-sr">
+              Movimento<span data-c3-motion-label>: attivo</span>
+            </span>
+          </button>
+        ) : (
+          <span class="c3-theme">
+            <ToggleTheme label="Passa dal tema chiaro al tema scuro" class="" iconClass="c3-ico" />
+          </span>
+        )
+      }
+      {
+        cta && (
+          <a class="c3-navcta" href={cta.href}>
+            {cta.text}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+        )
+      }
+      <button class="c3-menu-btn" type="button" aria-expanded="false" aria-controls="c3-overlay" data-c3-menu>
+        <span class="c3-menu-label" data-c3-menu-label>Menu</span>
+        <span class="c3-menu-ico" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
   </div>
+
+  {
+    services && (
+      <div class="c3-mega c3-dd-menu" id="c3-mega" data-c3-mega>
+        <div class="c3-mega-in">
+          {groups.map((g) =>
+            g.items.length ? (
+              <div class="c3-mega-col">
+                <p class="c3-mega-t">{g.title}</p>
+                <ul>
+                  {g.items.map((s) => (
+                    <li>
+                      <a href={s.href} {...ext(s.href)} {...(isCurrent(s.href) ? { 'aria-current': 'page' } : {})}>
+                        <span class="c3-mega-name">
+                          {clean(s.text)}
+                          {isExternal(s.href) && <span aria-hidden="true"> ↗</span>}
+                        </span>
+                        {s.href && DESC[s.href] && <span class="c3-mega-desc">{DESC[s.href]}</span>}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null
+          )}
+          <a class="c3-mega-card" href="/mini-analisi">
+            <span class="c3-mega-t">Non sai da dove partire?</span>
+            <span class="c3-mega-card-h">Valutazione iniziale gratuita</span>
+            <span class="c3-mega-desc">Poche domande, una prima lettura del progetto e il passo successivo più utile.</span>
+            <span class="c3-mega-go" aria-hidden="true">Inizia →</span>
+          </a>
+        </div>
+        {
+          allServices && (
+            <a class="c3-mega-all" href={allServices.href}>
+              {allServices.text} <span aria-hidden="true">→</span>
+            </a>
+          )
+        }
+      </div>
+    )
+  }
 </header>
 
-<nav class="c3-overlay" id="c3-overlay" aria-label="Menu mobile" data-c3-overlay>
-  <ul class="c3-overlay-main">
-    {
-      links.map((l) => (
-        <li>
-          <a href={l.href}>{l.text}</a>
-          {l.links?.length && (
-            <ul class="c3-overlay-sub">
-              {clean(l.links).map((s) => (
+<div class="c3-overlay" id="c3-overlay" role="dialog" aria-modal="true" aria-label="Menu" data-c3-overlay>
+  <nav aria-label="Menu mobile">
+    <ul class="c3-overlay-main">
+      {
+        services && (
+          <li style="--n:0">
+            <button type="button" class="c3-acc-btn" aria-expanded="false" aria-controls="c3-acc-servizi" data-c3-acc>
+              {services.text}
+              <span class="c3-acc-ico" aria-hidden="true" />
+            </button>
+            <ul class="c3-overlay-sub" id="c3-acc-servizi" hidden>
+              {items.map((s) => (
                 <li>
-                  <a href={s.href} {...(isExternal(s.href) ? { target: '_blank', rel: 'noopener' } : {})}>
-                    {s.text}
+                  <a href={s.href} {...ext(s.href)}>
+                    <span class="c3-mega-name">{s.text}</span>
+                    {s.href && DESC[s.href] && <span class="c3-mega-desc">{DESC[s.href]}</span>}
                   </a>
                 </li>
               ))}
+              {allServices && (
+                <li>
+                  <a href={allServices.href} class="c3-overlay-all">
+                    {allServices.text} →
+                  </a>
+                </li>
+              )}
             </ul>
-          )}
-        </li>
-      ))
-    }
-  </ul>
-  {cta && <a class="c3-btn c3-btn--p" href={cta.href}>{cta.text}</a>}
-  <p>LS Web Agency di Luca Sanna · Via Alcide De Gasperi 3, Sassari</p>
-</nav>
+          </li>
+        )
+      }
+      {
+        others.map((l, i) => (
+          <li style={`--n:${i + 1}`}>
+            <a href={l.href} {...(isCurrent(l.href) ? { 'aria-current': 'page' } : {})}>
+              {l.text}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="c3-overlay-foot">
+    {cta && <a class="c3-btn c3-btn--p" href={cta.href}>{cta.text}</a>}
+    <p class="c3-overlay-contacts">
+      <a href="https://wa.me/393403223494" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a href="mailto:info@lswebagency.com">info@lswebagency.com</a>
+    </p>
+    <p class="c3-overlay-addr">LS Web Agency di Luca Sanna · Via Alcide De Gasperi 3, Sassari</p>
+  </div>
+</div>
 
 <script>
   import '@/scripts/c3/chrome';
