@@ -71,6 +71,47 @@ function init(root: HTMLElement): () => void {
     { rootMargin: '0px 0px -10% 0px' }
   );
   $$('.c3-reveal').forEach((el) => revealIO.observe(el));
+  // Titoli di sezione: rivelazione a maschera (la hero ha la sua animazione)
+  $$('.c3-h2, .c3-stmt').forEach((el) => {
+    el.classList.add('c3-rv');
+    revealIO.observe(el);
+  });
+
+  // ── Orologio di Sassari nella riga meta della hero ─────────────────────
+  const clock = $('[data-c3-clock]');
+  if (clock) {
+    const fmtTime = new Intl.DateTimeFormat('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' });
+    const tickClock = () => (clock.textContent = fmtTime.format(new Date()));
+    tickClock();
+    const timer = window.setInterval(tickClock, 30000);
+    cleanups.push(() => clearInterval(timer));
+  }
+
+  // ── Nastro cinetico: accelera con la velocità dello scroll ─────────────
+  const marquee = $('[data-c3-marquee] .c3-marquee-track');
+  let marqAnim: Animation | undefined;
+  let boost = 0;
+  let marqRaf = 0;
+  let lastScroll = scrollY;
+  const marqStep = () => {
+    marqRaf = 0;
+    if (!marqAnim) marqAnim = marquee?.getAnimations()[0];
+    if (!marqAnim) return;
+    boost *= 0.92;
+    marqAnim.playbackRate = 1 + boost;
+    if (boost > 0.02) marqRaf = requestAnimationFrame(marqStep);
+    else marqAnim.playbackRate = 1;
+  };
+  const marqScroll = () => {
+    const dy = Math.abs(scrollY - lastScroll);
+    lastScroll = scrollY;
+    if (!marquee || reduced) return;
+    boost = Math.min(5, boost + dy / 40);
+    if (!marqRaf) marqRaf = requestAnimationFrame(marqStep);
+  };
+  cleanups.push(() => {
+    if (marqRaf) cancelAnimationFrame(marqRaf);
+  });
 
   // ── Portfolio ─────────────────────────────────────────────────────────────
   const pf = $('[data-c3-pf]');
@@ -286,9 +327,21 @@ function init(root: HTMLElement): () => void {
 
   // ── Motore di scroll ────────────────────────────────────────────────────
   let ticking = false;
+  const heroTick = () => {
+    if (!heroEl) return;
+    if (reduced) {
+      heroEl.style.removeProperty('--hx');
+      return;
+    }
+    const h = heroEl.offsetHeight || innerHeight;
+    const p = clamp(scrollY / (h * 0.85));
+    heroEl.style.setProperty('--hx', p.toFixed(3));
+  };
   function frame() {
     ticking = false;
     pinTick();
+    heroTick();
+    marqScroll();
   }
   function kick() {
     if (!ticking) {

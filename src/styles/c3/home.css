@@ -1443,3 +1443,223 @@
     justify-content: flex-start;
   }
 }
+
+/* ═════════ C.3.2 — scenografia ═════════ */
+
+/* Hero: riga meta, indicatore di scroll, uscita cinematografica (--hx 0→1) */
+.c3-hero {
+  --hx: 0;
+}
+.c3-hero-meta {
+  position: absolute !important;
+  top: 108px;
+  left: var(--c3-pad);
+  right: var(--c3-pad);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font: 500 12.5px/1.4 var(--c3-text);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(237, 236, 232, 0.62);
+}
+.c3-hero-meta [data-c3-clock] {
+  color: var(--c3-ion);
+  font-variant-numeric: tabular-nums;
+}
+.c3-h1,
+.c3-hero-foot,
+.c3-hero-meta {
+  transform: translate3d(0, calc(var(--hx) * -70px), 0);
+  opacity: calc(1 - var(--hx) * 0.9);
+  will-change: transform, opacity;
+}
+.c3-hero-bg {
+  transform: scale(calc(1 + var(--hx) * 0.08));
+  transform-origin: 50% 35%;
+}
+.c3-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #0d0f11;
+  opacity: calc(var(--hx) * 0.7);
+  pointer-events: none;
+}
+.c3-scrollcue {
+  position: absolute !important;
+  left: 50%;
+  bottom: 18px;
+  translate: -50% 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(237, 236, 232, 0.6);
+  font: 600 11px/1 var(--c3-text);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: calc(1 - var(--hx) * 3);
+}
+.c3-scrollcue i {
+  position: relative;
+  width: 1px;
+  height: 34px;
+  overflow: hidden;
+  background: rgba(237, 236, 232, 0.18);
+}
+.c3-scrollcue i::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -40%;
+  width: 1px;
+  height: 40%;
+  background: var(--c3-ion);
+  animation: c3-cue 2.2s var(--c3-ease) infinite;
+}
+@keyframes c3-cue {
+  to {
+    top: 110%;
+  }
+}
+.c3-scrollcue:hover {
+  color: var(--c3-snow);
+}
+
+/* Nastro cinetico tra hero e portfolio (velocità legata allo scroll in home.ts) */
+.c3-marquee {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(22px, 3vw, 36px) 0;
+  border-block: 1px solid var(--line);
+  background: var(--c3-g0);
+  color: var(--c3-snow);
+}
+.c3-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.4vw, 40px);
+  width: max-content;
+  animation: c3-marquee 46s linear infinite;
+}
+.c3-marquee-track span {
+  font: 800 clamp(38px, 6vw, 96px) / 1 var(--c3-disp);
+  font-stretch: 118%;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.c3-marquee-track span.o {
+  font-stretch: 64%;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(237, 236, 232, 0.55);
+}
+.c3-marquee-track i {
+  font-style: normal;
+  color: var(--c3-ion);
+  font-size: clamp(16px, 2vw, 28px);
+}
+@keyframes c3-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Numerazione editoriale delle sezioni */
+.c3-idx {
+  display: inline-block;
+  margin-right: 12px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+.c3-idx::after {
+  content: ' —';
+}
+
+/* Titoli di sezione: rivelazione all'ingresso (solo con JavaScript) */
+.c3-js .c3-rv {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.25em);
+  transition:
+    clip-path 1.1s var(--c3-ease),
+    transform 1.1s var(--c3-ease);
+}
+.c3-js .c3-rv.is-in {
+  clip-path: inset(-10% -2% -18% -2%);
+  transform: none;
+}
+.c3.is-reduced .c3-rv {
+  clip-path: none !important;
+  transform: none !important;
+}
+
+/* Servizi: riga che si accende al passaggio */
+.c3-svc {
+  position: relative;
+  isolation: isolate;
+}
+.c3-svc::before {
+  content: '';
+  position: absolute;
+  inset: 0 calc(var(--c3-pad) * -1);
+  z-index: -1;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c3-ion) 10%, transparent), transparent 75%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s var(--c3-ease);
+}
+.c3-svc:hover::before,
+.c3-svc:focus-within::before {
+  transform: scaleX(1);
+}
+.c3-svc h3,
+.c3-svc-n {
+  transition:
+    transform 0.6s var(--c3-ease),
+    color 0.3s;
+}
+.c3-svc:hover h3 {
+  transform: translateX(10px);
+}
+.c3-svc:hover .c3-svc-n {
+  color: var(--c3-ion);
+}
+
+/* Grande CTA dei contatti: sottolineatura che cresce */
+.c3-big-cta {
+  background-image: linear-gradient(var(--c3-ion), var(--c3-ion));
+  background-repeat: no-repeat;
+  background-position: 0 96%;
+  background-size: 0% 0.05em;
+  transition:
+    background-size 0.7s var(--c3-ease),
+    color 0.3s;
+}
+.c3-big-cta:hover {
+  background-size: 100% 0.05em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-h1,
+  .c3-hero-foot,
+  .c3-hero-meta,
+  .c3-hero-bg {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .c3-rv {
+    clip-path: none !important;
+    transform: none !important;
+  }
+}
+@media (max-width: 1023px) {
+  .c3-scrollcue {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .c3-hero-meta {
+    display: none;
+  }
+}
