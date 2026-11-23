@@ -74,7 +74,7 @@
 }
 .c3-phero::after {
   /* filetto a gradiente sul bordo inferiore: chiude la testata */
-  content: '';
+  content: "";
   position: absolute;
   left: var(--c3-pad);
   right: var(--c3-pad);
@@ -190,7 +190,7 @@
   grid-column: span 7;
 }
 .c3-practice::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0 0 auto;
   height: 3px;
@@ -201,7 +201,8 @@
 }
 .c3-practice:hover {
   transform: translateY(-3px);
-  box-shadow: 0 24px 50px -30px color-mix(in srgb, var(--c3-g0) 45%, transparent);
+  box-shadow: 0 24px 50px -30px
+    color-mix(in srgb, var(--c3-g0) 45%, transparent);
 }
 .c3-practice:hover::after,
 .c3-practice:focus-within::after {
@@ -234,7 +235,7 @@
   color: var(--ink);
 }
 .c3-practice-tags li::before {
-  content: '— ';
+  content: "— ";
   color: var(--link);
 }
 .c3-linklist {
@@ -472,34 +473,34 @@
   white-space: nowrap;
 }
 .c3-status::before {
-  content: '';
+  content: "";
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--st, var(--c3-grey));
 }
-.c3-status[data-s='live_client'] {
+.c3-status[data-s="live_client"] {
   --st: var(--c3-ion);
 }
-.c3-status[data-s='independent_active'] {
+.c3-status[data-s="independent_active"] {
   --st: var(--c3-ion-mid);
 }
-.c3-status[data-s='independent_pilot'] {
+.c3-status[data-s="independent_pilot"] {
   --st: transparent;
 }
-.c3-status[data-s='independent_pilot']::before {
+.c3-status[data-s="independent_pilot"]::before {
   box-shadow: inset 0 0 0 1.5px var(--link);
 }
-.c3-status[data-s='editorial_project'] {
+.c3-status[data-s="editorial_project"] {
   --st: var(--c3-ivory-dim);
 }
-.c3-status[data-s='historical'] {
+.c3-status[data-s="historical"] {
   --st: var(--c3-grey);
 }
-.c3-status[data-s='unclassified'] {
+.c3-status[data-s="unclassified"] {
   --st: transparent;
 }
-.c3-status[data-s='unclassified']::before {
+.c3-status[data-s="unclassified"]::before {
   box-shadow: inset 0 0 0 1.5px var(--mute);
 }
 
@@ -877,7 +878,7 @@
   text-decoration: none;
   font-weight: 600;
 }
-.c3-pager [aria-current='page'] {
+.c3-pager [aria-current="page"] {
   background: var(--btn);
   color: var(--btn-ink);
   border-color: var(--btn);
@@ -892,7 +893,8 @@
   border-radius: 24px;
   overflow: hidden;
   background: var(--c3-white);
-  box-shadow: 0 50px 90px -60px color-mix(in srgb, var(--c3-g0) 90%, transparent);
+  box-shadow: 0 50px 90px -60px
+    color-mix(in srgb, var(--c3-g0) 90%, transparent);
 }
 .c3-cover img {
   width: 100%;
@@ -1037,7 +1039,7 @@
 .c3-cats a:hover {
   border-color: var(--c3-ion-mid);
 }
-.c3-cats a[aria-current='page'] {
+.c3-cats a[aria-current="page"] {
   background: var(--ink);
   border-color: var(--ink);
   color: var(--bg);

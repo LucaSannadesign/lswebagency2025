@@ -1,14 +1,14 @@
 ---
 /** Card di un progetto nell'archivio del portfolio (indice e paginazione). */
-import { statusOf, statusLabel } from '@/data/c3/portfolio-status';
+import { statusOf, statusLabel, type PortfolioCardData } from '@/data/c3/portfolio-status';
 
 export interface Props {
-  item: { id: string; data: Record<string, any> };
+  item: { id: string; data: PortfolioCardData };
 }
 const { item } = Astro.props;
 const d = item.data;
 const href = String(d.permalink ?? `/portfolio/${d.slug}`).replace(/\/+$/, '');
-const img = d.image as { src: string; alt?: string; width?: number; height?: number; fit?: 'cover' | 'contain' } | undefined;
+const img = d.image;
 const s = statusOf(d);
 ---
 

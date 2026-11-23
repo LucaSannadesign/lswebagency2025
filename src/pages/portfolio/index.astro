@@ -12,7 +12,7 @@ import C3Section from '@/components/c3/page/C3Section.astro';
 import C3Archive from '@/components/c3/page/C3Archive.astro';
 import C3Paths from '@/components/c3/page/C3Paths.astro';
 import { getPortfolio, PER_PAGE } from '@/data/c3/portfolio-archive';
-import { statusOf, statusLabel } from '@/data/c3/portfolio-status';
+import { statusOf, statusLabel, type PortfolioCardData } from '@/data/c3/portfolio-status';
 import { PORTFOLIO } from '@/data/c3/home';
 
 const metadata = {
@@ -25,8 +25,7 @@ const metadata = {
 const { all, featured, archive, totalPages, counts } = await getPortfolio();
 const pageItems = archive.slice(0, PER_PAGE);
 const extra = new Map(PORTFOLIO.map((p) => [p.id, p]));
-type Data = { slug?: string; title?: string; description?: string; image?: { src?: string; alt?: string } };
-const featuredView = featured.map((e) => ({ id: e.id, d: e.data as Data & Record<string, unknown>, x: extra.get(e.id) }));
+const featuredView = featured.map((e) => ({ id: e.id, d: e.data as PortfolioCardData, x: extra.get(e.id) }));
 ---
 
 <Layout metadata={metadata} headerTone="dark">
