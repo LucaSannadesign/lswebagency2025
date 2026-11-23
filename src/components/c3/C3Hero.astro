@@ -1,0 +1,56 @@
+---
+/**
+ * Hero C.3 con campo generativo Vortex Field.
+ * - Lo still WebP è sempre presente (LCP, fallback, nessun JavaScript).
+ * - Il canvas viene attivato da hero-controller.ts solo quando conviene.
+ * - data-veil: riquadri di testo dietro cui il campo si attenua (leggibilità).
+ * Un solo H1, con la keyword «siti web a Sassari».
+ */
+---
+
+<section class="c3-hero" id="hero" data-c3-chapter="dark" data-c3-hero data-gl-state="still" aria-labelledby="c3-h1">
+  <div class="c3-hero-bg" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 700px)" srcset="/images/c3/hero-vortex-m.webp" width="390" height="844" />
+      <img
+        src="/images/c3/hero-vortex-d.webp"
+        alt=""
+        width="1600"
+        height="1000"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+    <canvas data-c3-gl></canvas>
+  </div>
+
+  <h1 class="c3-h1" id="c3-h1">
+    <span class="c3-ln c3-l1"><span data-veil="0.5">Siti web</span></span>
+    <span class="c3-ln c3-l2"><span data-veil="0.5">a Sassari,</span></span>
+    <span class="c3-ln c3-l3"><span data-veil="0.36">progettati come esperienze.</span></span>
+  </h1>
+
+  <div class="c3-hero-foot">
+    <p class="c3-intro c3-fade" data-veil="0.22">
+      Sono Luca Sanna, web designer e creative developer. Progetto siti veloci, chiari e orientati ai contatti per
+      imprese, professionisti e attività locali, con UX/UI, sviluppo front-end e SEO locale nello stesso progetto.
+    </p>
+    <div class="c3-acts c3-fade" data-veil="0.3" data-veil-box="element">
+      <a class="c3-btn c3-btn--p" href="/mini-analisi">
+        Richiedi la valutazione gratuita
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </a>
+      <a class="c3-btn c3-btn--s" href="#progetti">Guarda i progetti</a>
+      <p class="c3-note">
+        <span class="c3-dot" aria-hidden="true"></span>Risposta entro 24–48 ore <span aria-hidden="true">·</span> Nessun impegno
+      </p>
+    </div>
+    <p class="c3-caption c3-fade">
+      Vortex Field: filamenti generati in tempo reale da vortici in movimento.<span class="c3-hint">
+        Muovi il puntatore per aggiungere un vortice.</span
+      >
+    </p>
+  </div>
+</section>

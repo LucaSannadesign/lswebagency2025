@@ -89,8 +89,9 @@
   --bg: var(--c3-tint, var(--c3-g0));
 }
 
-/* Sezioni con tono proprio: leggibili anche senza JavaScript */
-.c3 [data-c3-tone='light'] {
+/* Senza JavaScript ogni sezione chiara porta il proprio tono; con JavaScript
+   tutta la pagina segue il capitolo al centro dello schermo (transizione). */
+.c3:not(.c3-js) [data-c3-tone='light'] {
   --ink: #16191c;
   --mute: #4a5157;
   --line: #c9c6bf;
@@ -100,8 +101,6 @@
   --btn: #16191c;
   --btn-ink: var(--c3-paper);
   color: var(--ink);
-}
-.c3:not(.c3-js) [data-c3-tone='light'] {
   background: var(--c3-paper);
 }
 
@@ -115,7 +114,7 @@ html:has(.c3) body {
   box-sizing: border-box;
   min-width: 0;
 }
-.c3 a {
+:where(.c3) a {
   color: inherit;
 }
 .c3 :focus-visible {
@@ -216,6 +215,23 @@ html:has(.c3) body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Skip link */
+.c3-skip {
+  position: fixed;
+  left: 12px;
+  top: -80px;
+  z-index: 100;
+  background: var(--c3-ion);
+  color: var(--c3-g0) !important;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.c3-skip:focus {
+  top: 12px;
 }
 
 /* Movimento ridotto: preferenza di sistema o interruttore in pagina */

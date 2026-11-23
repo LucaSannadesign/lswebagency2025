@@ -1,0 +1,64 @@
+---
+/**
+ * Competenze: tre schede con una prova interattiva ciascuna.
+ * Senza JavaScript restano leggibili (stato «Dopo», metriche «—», fondo grafite).
+ */
+---
+
+<section class="c3-band c3-skills" id="competenze" data-c3-chapter="light" data-c3-tone="light" aria-labelledby="c3-h-skill">
+  <div class="c3-grid12">
+    <header class="c3-skills-head">
+      <p class="c3-kicker">Competenze</p>
+      <h2 class="c3-h2" id="c3-h-skill">Esperienza, codice e movimento nelle stesse mani.</h2>
+      <p class="c3-lead">
+        Un sito più chiaro si capisce subito, trasmette fiducia e accompagna verso il contatto. Le tre schede qui sotto
+        funzionano davvero.
+      </p>
+    </header>
+  </div>
+  <div class="c3-cards">
+    <article class="c3-card c3-reveal">
+      <h3>UX/UI</h3>
+      <p>Struttura prima della forma: architettura dei contenuti, gerarchia, percorsi verso il contatto, accessibilità.</p>
+      <div class="c3-demo">
+        <div class="c3-seg" role="group" aria-label="Confronto della gerarchia di una homepage">
+          <button type="button" aria-pressed="false" data-ux="before">Prima</button>
+          <button type="button" aria-pressed="true" data-ux="after">Dopo</button>
+        </div>
+        <div
+          class="c3-mini"
+          role="img"
+          aria-label="Schema di una homepage con gerarchia chiara: titolo, testo, un solo pulsante"
+          data-ux-mini
+        >
+          <i class="t"></i><i style="width:92%"></i><i style="width:70%"></i><i class="c"></i>
+        </div>
+      </div>
+    </article>
+
+    <article class="c3-card c3-reveal">
+      <h3>Sviluppo front-end</h3>
+      <p>HTML semantico, CSS moderno, JavaScript solo dove serve. Questa pagina, misurata adesso nel tuo browser:</p>
+      <div class="c3-demo">
+        <dl class="c3-metrics" aria-live="polite">
+          <div><dt>Contenuto principale visibile (LCP)</dt><dd data-m="lcp">—</dd></div>
+          <div><dt>Elementi nella pagina</dt><dd data-m="dom">—</dd></div>
+          <div><dt>Campo WebGL della hero</dt><dd data-m="gl">—</dd></div>
+          <div><dt>Movimento</dt><dd data-m="motion">—</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="c3-card c3-reveal" data-c3-lab>
+      <h3>Creative development</h3>
+      <p>WebGL, shader e animazioni con una funzione precisa, che si fermano quando non servono. Prova a cambiare questo campo.</p>
+      <div class="c3-demo">
+        <div class="c3-lab"><canvas aria-hidden="true" data-lab-canvas></canvas><span class="c3-lab-off">Anteprima statica: WebGL non disponibile.</span></div>
+        <div class="c3-rng">
+          <label for="c3-rF">Linee di livello</label><input id="c3-rF" type="range" min="4" max="16" step="1" value="9" data-lab-f />
+          <label for="c3-rV">Flusso</label><input id="c3-rV" type="range" min="0" max="3" step="0.1" value="1" data-lab-v />
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

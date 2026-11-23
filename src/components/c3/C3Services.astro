@@ -1,0 +1,49 @@
+---
+/**
+ * Servizi: il percorso esistente (valutazione → audit → sprint → sito) con
+ * prezzi dichiarati invariati. La CTA personalizzata (localStorage) resta qui.
+ */
+import PersonalizedCta from '@/components/ux/PersonalizedCta.astro';
+import { SERVICES } from '@/data/c3/home';
+---
+
+<section class="c3-band c3-svc-band" id="servizi" data-c3-chapter="dark" aria-labelledby="c3-h-serv">
+  <p class="c3-kicker">Da dove partire</p>
+  <h2 class="c3-h2" id="c3-h-serv">Quattro modi per iniziare.</h2>
+  <p class="c3-lead">
+    Non sempre serve rifare tutto. Prezzi di partenza dichiarati; se non sai quale fa per te, la valutazione iniziale è
+    gratuita.
+  </p>
+  <div class="c3-svc-list">
+    {
+      SERVICES.map((s, i) => (
+        <article class="c3-svc c3-reveal">
+          <span class="c3-svc-n" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3>
+            {s.title}
+            {s.badge && <small class="c3-badge">{s.badge}</small>}
+          </h3>
+          <p class="c3-svc-desc">
+            {s.desc}
+            <span>{s.includes}</span>
+          </p>
+          <p class="c3-svc-price">
+            {s.price}
+            <small>{s.priceNote}</small>
+            <a href={s.href}>{s.cta}</a>
+          </p>
+        </article>
+      ))
+    }
+  </div>
+  <p class="c3-svc-more">
+    Lavori in un settore specifico? <a href="/servizi/pre-accoglienza-digitale">Studi dentistici e cliniche</a> ·
+    <a href="/servizi/sviluppo-web-white-label">Agenzie (white label)</a> ·
+    <a href="/servizi/ai-operations-pmi">AI Operations per PMI</a> · <a href="/servizi">Tutti i servizi</a>
+  </p>
+  <div class="c3-pcta">
+    <PersonalizedCta />
+  </div>
+</section>

@@ -1,0 +1,121 @@
+---
+/**
+ * Header C.3. Stessa fonte dati dell'header del sito (src/navigation.ts):
+ * stesse voci, stessi URL, stessa CTA. Comportamento: trasparente in cima,
+ * pieno allo scroll, si nasconde scendendo e riappare salendo (mai con il
+ * focus da tastiera al suo interno). Logica in src/scripts/c3/home.ts.
+ */
+import { headerData } from '@/navigation';
+
+type NavLink = { text?: string; href?: string; links?: NavLink[] };
+
+const links = (headerData.links as NavLink[]).filter((l) => l.href !== '/');
+const cta = headerData.actions?.[0];
+const isExternal = (href = '') => /^https?:\/\//.test(href);
+const clean = (items: NavLink[] = []) => items.filter((l) => l.text !== 'divider');
+---
+
+<header class="c3-top" id="c3-header" data-c3-header>
+  <div class="c3-top-in" data-veil="0.2" data-veil-box="element">
+    <a class="c3-brand" href="/" aria-label="LS Web Agency, torna alla home">
+      <img
+        class="c3-logo c3-logo--on-dark"
+        src="/images/logo-ls-webdesignagency-2025-bn.svg"
+        alt=""
+        width="168"
+        height="30"
+      />
+      <img class="c3-logo c3-logo--on-light" src="/images/logo-ls-webdesignagency-2025.svg" alt="" width="168" height="30" />
+      <span class="c3-sr">LS Web Agency</span>
+    </a>
+
+    <nav class="c3-nav" aria-label="Navigazione principale">
+      <ul>
+        {
+          links.map((l, i) =>
+            l.links?.length ? (
+              <li class="c3-dd" data-c3-dd>
+                <a href={l.href}>{l.text}</a>
+                <button
+                  type="button"
+                  class="c3-dd-btn"
+                  aria-expanded="false"
+                  aria-controls={`c3-dd-${i}`}
+                  aria-label={`Apri il sottomenu ${l.text}`}
+                  data-c3-dd-btn
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <ul class="c3-dd-menu" id={`c3-dd-${i}`} hidden>
+                  {clean(l.links).map((s) => (
+                    <li>
+                      <a href={s.href} {...(isExternal(s.href) ? { target: '_blank', rel: 'noopener' } : {})}>
+                        {s.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li>
+                <a href={l.href}>{l.text}</a>
+              </li>
+            )
+          )
+        }
+      </ul>
+    </nav>
+
+    <button
+      class="c3-icon-btn c3-motion-btn"
+      type="button"
+      aria-pressed="false"
+      title="Riduci il movimento della pagina"
+      data-c3-motion
+    >
+      <i aria-hidden="true"></i><span>Movimento</span><span class="c3-sr" data-c3-motion-label>: attivo</span>
+    </button>
+
+    {cta && <a class="c3-btn c3-btn--p c3-navcta" href={cta.href}>{cta.text}</a>}
+
+    <button
+      class="c3-icon-btn c3-menu-btn"
+      type="button"
+      aria-label="Apri il menu"
+      aria-expanded="false"
+      aria-controls="c3-overlay"
+      data-c3-menu
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <path d="M4 9h16M4 15h16"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<nav class="c3-overlay" id="c3-overlay" aria-label="Menu mobile" data-c3-overlay>
+  <ul class="c3-overlay-main">
+    {
+      links.map((l) => (
+        <li>
+          <a href={l.href}>{l.text}</a>
+          {l.links?.length && (
+            <ul class="c3-overlay-sub">
+              {clean(l.links).map((s) => (
+                <li>
+                  <a href={s.href} {...(isExternal(s.href) ? { target: '_blank', rel: 'noopener' } : {})}>
+                    {s.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+  {cta && <a class="c3-btn c3-btn--p" href={cta.href}>{cta.text}</a>}
+  <p>LS Web Agency di Luca Sanna · Via Alcide De Gasperi 3, Sassari</p>
+</nav>
