@@ -1497,14 +1497,13 @@
   pointer-events: none;
 }
 .c3-scrollcue {
+  /* in basso a sinistra, sotto l'introduzione: non tocca CTA e didascalia */
   position: absolute !important;
-  left: 50%;
+  left: var(--c3-pad);
   bottom: 18px;
-  translate: -50% 0;
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   color: color-mix(in srgb, var(--c3-ivory) 60%, transparent);
   font: 600 11px/1 var(--c3-text);
   letter-spacing: 0.18em;
@@ -1514,24 +1513,24 @@
 }
 .c3-scrollcue i {
   position: relative;
-  width: 1px;
-  height: 34px;
+  width: 44px;
+  height: 1px;
   overflow: hidden;
   background: color-mix(in srgb, var(--c3-ivory) 18%, transparent);
 }
 .c3-scrollcue i::after {
   content: "";
   position: absolute;
-  left: 0;
-  top: -40%;
-  width: 1px;
-  height: 40%;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 1px;
   background: var(--c3-ion);
   animation: c3-cue 2.2s var(--c3-ease) infinite;
 }
 @keyframes c3-cue {
   to {
-    top: 110%;
+    left: 110%;
   }
 }
 .c3-scrollcue:hover {
