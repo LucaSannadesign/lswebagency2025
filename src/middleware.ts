@@ -1,5 +1,5 @@
 import { defineMiddleware } from 'astro:middleware';
-import type { MiddlewareHandler } from 'astro';
+import type { APIContext, MiddlewareNext } from 'astro';
 import { isPreviewDeployment } from './lib/deployEnv';
 
 const REDIRECTS: Record<string, string> = {
@@ -123,7 +123,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   return withPreviewHeaders(await productionHandler(context, next));
 });
 
-const productionHandler: MiddlewareHandler = (context, next) => {
+function productionHandler(context: APIContext, next: MiddlewareNext): Response | Promise<Response> {
   const pathname = context.url.pathname;
 
   // Normalizza eventuale trailing slash.
@@ -186,4 +186,4 @@ const productionHandler: MiddlewareHandler = (context, next) => {
   }
 
   return next();
-};
+}
