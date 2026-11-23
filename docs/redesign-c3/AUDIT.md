@@ -120,3 +120,16 @@ restano) · **DA VERIFICARE**.
 Non coperto dai token: immagini raster con colori viola (es. illustrazione di
 «Chi siamo», copertine del blog). Il logo a colori resta invariato nei file; nell'header
 chiaro si usa la versione monocromatica ufficiale resa in grafite.
+
+## 11. C.3.3 — refinement UI/UX e Design System (2026-11-23)
+
+| Problema | Causa reale | Correzione |
+|---|---|---|
+| Titolo e testo di «Competenze» illeggibili (bianco su avorio) | In `assets/styles/tailwind.css` le regole base `.dark h1…h6 { bianco }` e `.dark p { gray-300 }` si applicavano anche alla home C.3 quando il sistema operativo è in tema scuro, scavalcando il colore ereditato dal capitolo chiaro (contrasto 1,25:1). Stesso difetto in «Chi sono» e «FAQ» (17 testi). | Regole limitate a `:not(.c3 *)`. Audit automatico: 0 testi sotto soglia su 4 larghezze × 2 temi. |
+| Colori HEX sparsi nei componenti | Valori scritti a mano in CSS, dati del portfolio e shader | Token centrali su `:root` (6 primitivi ufficiali + derivati documentati con contrasto); CSS, dati e WebGL leggono solo token. |
+| Colori estranei alla palette | Tinte e accenti del portfolio (blu notte, verde, arancio, lavanda), errore salmone, blu-ottanio nel campo WebGL | Sostituiti da derivati di grafite/ione/avorio. I loghi autentici dei progetti restano invariati. |
+| Navbar: passaggio binario | Classe on/off a 40 px | Trasformazione progressiva (larghezza, altezza, logo, superficie) sui primi 140 px; superficie a soglia sui fondi chiari per evitare grigi intermedi illeggibili; ritorno automatico allo stato iniziale. |
+| Grafica uniforme | Un solo tono per capitolo, nessun gradiente | Sistema di gradienti token (su scuro / su chiaro / filetti / luci), applicato in modo selettivo; capitolo antracite per servizi e blog; luci d'ambiente su servizi, recensioni, contatti. |
+| Vortici dietro al titolo | Orbite centrate sullo schermo | Centro delle orbite spostato lontano dai testi (destra in alto su desktop, alto su mobile); still rigenerati dal campo reale. |
+
+Proposte SEO di posizionamento nazionale: `docs/redesign-c3/SEO-POSIZIONAMENTO.md` (non applicate).
