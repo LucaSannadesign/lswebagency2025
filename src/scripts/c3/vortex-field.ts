@@ -28,6 +28,10 @@ export interface VortexParams {
   Zk: Float32Array;
   /** Morbidezza del bordo del velo, in pixel */
   Zf: number;
+  /** Centro delle orbite dei vortici (0–1), per comporre il campo intorno ai testi */
+  focus?: [number, number];
+  /** Raggio medio delle orbite */
+  spread?: number;
 }
 
 export interface VortexField {
@@ -93,27 +97,33 @@ precision highp float;in vec2 uv;out vec4 o;uniform sampler2D TR;uniform vec3 bg
 ${TONE}${VEIL}
 void main(){vec3 x=pow(texture(TR,uv).rgb,vec3(1.35));o=vec4(veil(tone(x,bg,1.1+inten*.6),bg),1.);}`;
 
-function shader(gl: WebGL2RenderingContext, type: number, src: string): WebGLShader {
+function shader(
+  gl: WebGL2RenderingContext,
+  type: number,
+  src: string,
+): WebGLShader {
   const s = gl.createShader(type);
-  if (!s) throw new Error('createShader');
+  if (!s) throw new Error("createShader");
   gl.shaderSource(s, src);
   gl.compileShader(s);
-  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) || 'shader');
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
+    throw new Error(gl.getShaderInfoLog(s) || "shader");
   return s;
 }
 
 function program(gl: WebGL2RenderingContext, vs: string, fs: string): Prog {
   const p = gl.createProgram();
-  if (!p) throw new Error('createProgram');
+  if (!p) throw new Error("createProgram");
   gl.attachShader(p, shader(gl, gl.VERTEX_SHADER, vs));
   gl.attachShader(p, shader(gl, gl.FRAGMENT_SHADER, fs));
   gl.linkProgram(p);
-  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p) || 'link');
-  const u: Prog['u'] = {};
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS))
+    throw new Error(gl.getProgramInfoLog(p) || "link");
+  const u: Prog["u"] = {};
   const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS) as number;
   for (let i = 0; i < n; i++) {
     const a = gl.getActiveUniform(p, i);
-    if (a) u[a.name.replace('[0]', '')] = gl.getUniformLocation(p, a.name);
+    if (a) u[a.name.replace("[0]", "")] = gl.getUniformLocation(p, a.name);
   }
   return { p, u };
 }
@@ -125,10 +135,10 @@ function texture(
   ifmt: number,
   type: number,
   data: ArrayBufferView | null,
-  linear: boolean
+  linear: boolean,
 ): WebGLTexture {
   const t = gl.createTexture();
-  if (!t) throw new Error('createTexture');
+  if (!t) throw new Error("createTexture");
   gl.bindTexture(gl.TEXTURE_2D, t);
   gl.texImage2D(gl.TEXTURE_2D, 0, ifmt, w, h, 0, gl.RGBA, type, data);
   const f = linear ? gl.LINEAR : gl.NEAREST;
@@ -139,11 +149,20 @@ function texture(
   return t;
 }
 
-function framebuffer(gl: WebGL2RenderingContext, t: WebGLTexture): WebGLFramebuffer {
+function framebuffer(
+  gl: WebGL2RenderingContext,
+  t: WebGLTexture,
+): WebGLFramebuffer {
   const f = gl.createFramebuffer();
-  if (!f) throw new Error('createFramebuffer');
+  if (!f) throw new Error("createFramebuffer");
   gl.bindFramebuffer(gl.FRAMEBUFFER, f);
-  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+  gl.framebufferTexture2D(
+    gl.FRAMEBUFFER,
+    gl.COLOR_ATTACHMENT0,
+    gl.TEXTURE_2D,
+    t,
+    0,
+  );
   return f;
 }
 
@@ -155,9 +174,12 @@ function pingPong(
   ifmt: number,
   type: number,
   linear: boolean,
-  data: ArrayBufferView | null = null
+  data: ArrayBufferView | null = null,
 ) {
-  const t = [texture(gl, w, h, ifmt, type, data, linear), texture(gl, w, h, ifmt, type, data, linear)];
+  const t = [
+    texture(gl, w, h, ifmt, type, data, linear),
+    texture(gl, w, h, ifmt, type, data, linear),
+  ];
   const f = [framebuffer(gl, t[0]), framebuffer(gl, t[1])];
   return {
     t,
@@ -179,14 +201,14 @@ function pingPong(
   };
 }
 
-function setPalette(gl: WebGL2RenderingContext, u: Prog['u'], p: VortexParams) {
+function setPalette(gl: WebGL2RenderingContext, u: Prog["u"], p: VortexParams) {
   gl.uniform3fv(u.bg, p.pal.bg);
   gl.uniform3fv(u.c1, p.pal.c[0]);
   gl.uniform3fv(u.c2, p.pal.c[1]);
   gl.uniform3fv(u.c3, p.pal.c[2]);
 }
 
-function setVeil(gl: WebGL2RenderingContext, u: Prog['u'], p: VortexParams) {
+function setVeil(gl: WebGL2RenderingContext, u: Prog["u"], p: VortexParams) {
   gl.uniform4fv(u.Z, p.Z);
   gl.uniform1fv(u.Zk, p.Zk);
   gl.uniform1f(u.Zf, p.Zf);
@@ -202,7 +224,10 @@ export function particleSide(quality: number): number {
  * controller prima della chiamata). Lancia un errore se la compilazione fallisce:
  * il controller lo intercetta e mantiene l'immagine statica.
  */
-export function createVortexField(gl: WebGL2RenderingContext, quality: number): VortexField {
+export function createVortexField(
+  gl: WebGL2RenderingContext,
+  quality: number,
+): VortexField {
   const W = particleSide(quality);
   const N = W * W;
   const pStep = program(gl, VQ, V_STEP);
@@ -230,12 +255,15 @@ export function createVortexField(gl: WebGL2RenderingContext, quality: number): 
 
   function vortices(t: number, p: VortexParams) {
     const k = 0.55 * p.intensity;
+    const [fx, fy] = p.focus ?? [0.5, 0.5];
+    const spread = p.spread ?? 0.28;
     for (let i = 0; i < 6; i++) {
       const a = t * (0.07 + 0.025 * i) + i * 1.7 + seed;
-      const r = 0.28 + 0.08 * Math.sin(t * 0.13 + i);
-      Vb[i * 4] = 0.5 + r * Math.cos(a) * (i % 2 ? 1 : 0.8);
-      Vb[i * 4 + 1] = 0.5 + r * Math.sin(a * 1.13) * (i % 2 ? 0.8 : 1);
-      Vb[i * 4 + 2] = (i % 2 ? 1 : -1) * k * (0.1 + 0.04 * Math.sin(t * 0.3 + i)) * p.scale;
+      const r = spread + 0.08 * Math.sin(t * 0.13 + i);
+      Vb[i * 4] = fx + r * Math.cos(a) * (i % 2 ? 1 : 0.8);
+      Vb[i * 4 + 1] = fy + r * Math.sin(a * 1.13) * (i % 2 ? 0.8 : 1);
+      Vb[i * 4 + 2] =
+        (i % 2 ? 1 : -1) * k * (0.1 + 0.04 * Math.sin(t * 0.3 + i)) * p.scale;
       Vb[i * 4 + 3] = 0.0025 * p.scale * p.scale;
     }
     Vb[24] = p.ptr[0];
@@ -244,7 +272,7 @@ export function createVortexField(gl: WebGL2RenderingContext, quality: number): 
     Vb[27] = 0.003;
   }
 
-  function common(u: Prog['u'], t: number, p: VortexParams) {
+  function common(u: Prog["u"], t: number, p: VortexParams) {
     gl.uniform4fv(u.V, Vb);
     gl.uniform1f(u.asp, w / h);
     gl.uniform1f(u.turb, p.turb);

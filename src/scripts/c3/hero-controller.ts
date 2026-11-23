@@ -16,18 +16,28 @@
  *
  * Regolazione in anteprima (nessuna UI): ?fx-int=0.2–1.4 · ?fx-speed=0.2–2.5 · ?nogl
  */
-import { createVortexField, type VortexField, type VortexParams } from './vortex-field';
+import {
+  createVortexField,
+  type VortexField,
+  type VortexParams,
+} from "./vortex-field";
+import { token } from "./tokens";
 
-type Nav = Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
-
-const PALETTE: VortexParams['pal'] = {
-  bg: [13 / 255, 15 / 255, 17 / 255],
-  c: [
-    [143 / 255, 211 / 255, 200 / 255],
-    [62 / 255, 124 / 255, 140 / 255],
-    [237 / 255, 236 / 255, 232 / 255],
-  ],
+type Nav = Navigator & {
+  deviceMemory?: number;
+  connection?: { saveData?: boolean };
 };
+
+/* Palette letta dai design token (src/styles/c3/tokens.css): grafite di fondo,
+   filamenti ione → ione medio → avorio. I ripieghi sono neutri. */
+const readPalette = (): VortexParams["pal"] => ({
+  bg: token("--c3-g0", [0.05, 0.06, 0.07]),
+  c: [
+    token("--c3-ion", [0.6, 0.6, 0.6]),
+    token("--c3-ion-mid", [0.35, 0.35, 0.35]),
+    token("--c3-ivory", [0.93, 0.93, 0.93]),
+  ],
+});
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
@@ -37,8 +47,11 @@ export interface HeroHandle {
   destroy(): void;
 }
 
-export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHandle {
-  const canvas = hero.querySelector<HTMLCanvasElement>('[data-c3-gl]');
+export function mountHero(
+  hero: HTMLElement,
+  isReduced: () => boolean,
+): HeroHandle {
+  const canvas = hero.querySelector<HTMLCanvasElement>("[data-c3-gl]");
   const ac = new AbortController();
   const on = { signal: ac.signal, passive: true } as AddEventListenerOptions;
   const query = new URLSearchParams(location.search);
@@ -47,23 +60,27 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
   const setState = (s: string) => {
     hero.dataset.glState = s;
   };
-  setState('still');
+  setState("still");
 
   // ---- Criteri di idoneità -------------------------------------------------
   const lowPower =
     nav.connection?.saveData === true ||
-    (typeof nav.deviceMemory === 'number' && nav.deviceMemory < 4) ||
-    (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 2);
-  const small = matchMedia('(max-width: 700px)');
-  const coarse = !matchMedia('(pointer: fine)').matches;
+    (typeof nav.deviceMemory === "number" && nav.deviceMemory < 4) ||
+    (typeof nav.hardwareConcurrency === "number" &&
+      nav.hardwareConcurrency <= 2);
+  const small = matchMedia("(max-width: 700px)");
+  const coarse = !matchMedia("(pointer: fine)").matches;
   const quality = small.matches || coarse ? 0.75 : 1;
 
   const P: VortexParams = {
-    intensity: clamp(Number(query.get('fx-int')) || 0.8, 0.2, 1.4),
-    speed: clamp(Number(query.get('fx-speed')) || 1.4, 0.2, 2.5),
+    intensity: clamp(Number(query.get("fx-int")) || 0.8, 0.2, 1.4),
+    speed: clamp(Number(query.get("fx-speed")) || 1.4, 0.2, 2.5),
     scale: 1,
     turb: 0.5,
-    pal: PALETTE,
+    pal: readPalette(),
+    // Composizione: i vortici orbitano lontano dal titolo (in basso a sinistra)
+    focus: small.matches ? [0.5, 0.7] : [0.68, 0.6],
+    spread: small.matches ? 0.22 : 0.27,
     ptr: [0.5, 0.5],
     pv: [0, 0],
     ptrOn: 0,
@@ -95,31 +112,33 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
   let slowWindows = 0;
   let downgrades = 0;
 
-  const eligible = () => !!canvas && !query.has('nogl') && !lowPower && !failed;
-  const running = () => ok && started && !isReduced() && !document.hidden && visible;
+  const eligible = () => !!canvas && !query.has("nogl") && !lowPower && !failed;
+  const running = () =>
+    ok && started && !isReduced() && !document.hidden && visible;
 
   function fail(reason: string) {
     failed = true;
     ok = false;
     if (raf) cancelAnimationFrame(raf);
     raf = 0;
-    canvas?.classList.remove('is-live');
-    setState('fallback');
-    if (import.meta.env.DEV) console.info('[c3-hero] fallback statico:', reason);
+    canvas?.classList.remove("is-live");
+    setState("fallback");
+    if (import.meta.env.DEV)
+      console.info("[c3-hero] fallback statico:", reason);
   }
 
   function init(): boolean {
     if (ok) return true;
     if (!canvas || !eligible()) return false;
     try {
-      gl = canvas.getContext('webgl2', {
+      gl = canvas.getContext("webgl2", {
         antialias: false,
         alpha: false,
         depth: false,
-        powerPreference: 'high-performance',
+        powerPreference: "high-performance",
       });
-      if (!gl || !gl.getExtension('EXT_color_buffer_float')) {
-        fail('WebGL2 o float render target non disponibili');
+      if (!gl || !gl.getExtension("EXT_color_buffer_float")) {
+        fail("WebGL2 o float render target non disponibili");
         return false;
       }
       field = createVortexField(gl, quality);
@@ -127,7 +146,7 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
       fit(true);
       return true;
     } catch (e) {
-      fail(e instanceof Error ? e.message : 'init');
+      fail(e instanceof Error ? e.message : "init");
       return false;
     }
   }
@@ -157,13 +176,18 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
     const sx = w / cr.width;
     const sy = h / cr.height;
     const pad = 10;
-    const els = [...document.querySelectorAll<HTMLElement>('[data-veil]')].slice(0, 6);
+    const els = [
+      ...document.querySelectorAll<HTMLElement>("[data-veil]"),
+    ].slice(0, 6);
     P.Z.fill(-1e5);
     P.Zk.fill(1);
     els.forEach((el, i) => {
       const range = document.createRange();
       range.selectNodeContents(el);
-      const b = el.dataset.veilBox === 'element' ? el.getBoundingClientRect() : range.getBoundingClientRect();
+      const b =
+        el.dataset.veilBox === "element"
+          ? el.getBoundingClientRect()
+          : range.getBoundingClientRect();
       P.Z[i * 4] = (b.left - pad - cr.left) * sx;
       P.Z[i * 4 + 1] = (cr.bottom - b.bottom - pad) * sy;
       P.Z[i * 4 + 2] = (b.right + pad - cr.left) * sx;
@@ -202,7 +226,8 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
       fit(true);
       return;
     }
-    if (fps < 20 && ++slowWindows >= 4) fail(`frame rate insufficiente (${Math.round(fps)} fps)`);
+    if (fps < 20 && ++slowWindows >= 4)
+      fail(`frame rate insufficiente (${Math.round(fps)} fps)`);
   }
 
   function frame(now: number) {
@@ -211,26 +236,28 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
     fit();
     const dt = last ? Math.min((now - last) / 1000, 0.05) : 0.016;
     last = now;
-    if (lastMove && now - lastMove > 120) P.pv = [P.pv[0] * 0.85, P.pv[1] * 0.85];
+    if (lastMove && now - lastMove > 120)
+      P.pv = [P.pv[0] * 0.85, P.pv[1] * 0.85];
     if (lastMove && now - lastMove > 1200) ptrTarget = 0;
     P.ptrOn += (ptrTarget - P.ptrOn) * 0.1;
     t += dt;
     field.step(t, dt, P);
     field.render(P);
-    if (!canvas!.classList.contains('is-live')) canvas!.classList.add('is-live');
+    if (!canvas!.classList.contains("is-live"))
+      canvas!.classList.add("is-live");
     monitor(now);
     if (ok) raf = requestAnimationFrame(frame);
   }
 
   function sync() {
-    if (failed) return setState('fallback');
+    if (failed) return setState("fallback");
     if (isReduced()) {
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
-      canvas?.classList.remove('is-live');
-      return setState('reduced');
+      canvas?.classList.remove("is-live");
+      return setState("reduced");
     }
-    if (!started) return setState('still');
+    if (!started) return setState("still");
     if (!init()) return;
     if (running()) {
       if (!raf) {
@@ -239,11 +266,11 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
         windowStart = 0;
         raf = requestAnimationFrame(frame);
       }
-      setState('live');
+      setState("live");
     } else {
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
-      setState('paused');
+      setState("paused");
     }
   }
 
@@ -252,20 +279,30 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
     if (started || ac.signal.aborted) return;
     started = true;
     if (!eligible()) {
-      if (lowPower) setState('still');
+      if (lowPower) setState("still");
       return;
     }
     if (init()) warm(90);
     sync();
   }
   const idle = (cb: () => void) => {
-    const ric = (window as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number })
-      .requestIdleCallback;
-    if (typeof ric === 'function') ric(cb, { timeout: 1500 });
+    const ric = (
+      window as {
+        requestIdleCallback?: (
+          cb: () => void,
+          o?: { timeout: number },
+        ) => number;
+      }
+    ).requestIdleCallback;
+    if (typeof ric === "function") ric(cb, { timeout: 1500 });
     else setTimeout(cb, 300);
   };
-  if (document.readyState === 'complete') idle(start);
-  else addEventListener('load', () => idle(start), { once: true, signal: ac.signal });
+  if (document.readyState === "complete") idle(start);
+  else
+    addEventListener("load", () => idle(start), {
+      once: true,
+      signal: ac.signal,
+    });
 
   // ---- Eventi --------------------------------------------------------------
   const io = new IntersectionObserver((entries) => {
@@ -273,9 +310,9 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
     sync();
   });
   io.observe(hero);
-  document.addEventListener('visibilitychange', sync, { signal: ac.signal });
+  document.addEventListener("visibilitychange", sync, { signal: ac.signal });
   addEventListener(
-    'resize',
+    "resize",
     () =>
       requestAnimationFrame(() => {
         if (ok) {
@@ -283,12 +320,12 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
           zones();
         }
       }),
-    on
+    on,
   );
   document.fonts?.ready.then(() => ok && zones());
 
   hero.addEventListener(
-    'pointermove',
+    "pointermove",
     (e) => {
       if (!ok || isReduced() || !canvas) return;
       const r = canvas.getBoundingClientRect();
@@ -304,16 +341,16 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
       ptrTarget = 1;
       lastMove = now;
     },
-    on
+    on,
   );
-  hero.addEventListener('pointerleave', () => (ptrTarget = 0), on);
+  hero.addEventListener("pointerleave", () => (ptrTarget = 0), on);
   canvas?.addEventListener(
-    'webglcontextlost',
+    "webglcontextlost",
     (e) => {
       e.preventDefault();
-      fail('contesto WebGL perso');
+      fail("contesto WebGL perso");
     },
-    { signal: ac.signal }
+    { signal: ac.signal },
   );
 
   return {
@@ -325,7 +362,7 @@ export function mountHero(hero: HTMLElement, isReduced: () => boolean): HeroHand
       raf = 0;
       field?.dispose();
       field = null;
-      gl?.getExtension('WEBGL_lose_context')?.loseContext();
+      gl?.getExtension("WEBGL_lose_context")?.loseContext();
       gl = null;
       ok = false;
     },
