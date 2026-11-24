@@ -370,7 +370,13 @@ html:has(#c3-root) body {
   color: var(--link);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  padding-bottom: 0.06em;
+  /* Con il riempimento trasparente il gradiente esiste solo dentro il box
+   * dello span: col tracking negativo dei titoli il disegno dell'ultima (e
+   * della prima) lettera supera il box e veniva tagliato in verticale (la «g»
+   * di «Il Blog»). Il padding allarga l'area dipinta, il margine negativo
+   * identico lo compensa: nessuno spostamento del testo. */
+  padding: 0 0.12em 0.06em;
+  margin: 0 -0.12em;
 }
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
   .c3-grad {

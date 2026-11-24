@@ -127,6 +127,38 @@
     border-color: var(--c3-ion-deep);
     background: var(--c3-ivory-hi);
   }
+  /* Tema scuro: i colori sopra sono pensati per il pannello chiaro. Su fondo
+   * grafite servono l'ione chiaro per testo/bordi (contrasto AA) e un hover
+   * che non riporti la riga o il pulsante al colore del pannello. */
+  .dark #cookie-banner .btn-secondary,
+  .dark #cookie-modal .btn-secondary {
+    background: transparent;
+    border-color: var(--c3-ion);
+    color: var(--c3-ion);
+  }
+  .dark #cookie-banner .btn-secondary:hover,
+  .dark #cookie-modal .btn-secondary:hover {
+    background: color-mix(in srgb, var(--c3-ion) 14%, transparent);
+    border-color: var(--c3-ion);
+    color: var(--c3-ivory-hi);
+  }
+  .dark #cookie-banner .btn-primary:hover,
+  .dark #cookie-modal .btn-primary:hover {
+    background: var(--c3-ion);
+    border-color: var(--c3-ion);
+    color: var(--c3-g0);
+  }
+  .dark #cookie-banner button:focus-visible,
+  .dark #cookie-modal button:focus-visible,
+  .dark #cookie-banner a:focus-visible,
+  .dark #cookie-modal input:focus-visible {
+    outline-color: var(--c3-ion);
+  }
+  .dark #cookie-modal input[type="checkbox"] { accent-color: var(--c3-ion); }
+  .dark #cookie-modal label:has(input:not(:disabled)):hover {
+    border-color: var(--c3-ion);
+    background: var(--c3-g2);
+  }
   @media (prefers-reduced-motion: reduce) {
     #cookie-banner button, #cookie-modal button { transition: none; transform: none !important; }
   }

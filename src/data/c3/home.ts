@@ -27,6 +27,19 @@ export interface PortfolioExtra {
   features: string[];
 }
 
+/**
+ * Anteprime dei progetti (/images/c3/pf-*.webp): catturate a 2560×1600 dalla
+ * homepage pubblicata e salvate in quattro larghezze reali (800, 1280, 1920,
+ * 2560). Restituisce lo srcset per le anteprime note, `undefined` per le altre
+ * immagini (che restano a sorgente singola).
+ */
+export function shotSrcset(src?: string): string | undefined {
+  const m = src?.match(/^(\/images\/c3\/pf-[a-z-]+)\.webp$/);
+  if (!m) return undefined;
+  const b = m[1];
+  return `${b}.webp 800w, ${b}-1280.webp 1280w, ${b}-1920.webp 1920w, ${b}-2560.webp 2560w`;
+}
+
 export const PORTFOLIO: PortfolioExtra[] = [
   {
     id: "preventivodentale",

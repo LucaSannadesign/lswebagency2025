@@ -13,7 +13,7 @@ import C3Archive from '@/components/c3/page/C3Archive.astro';
 import C3Paths from '@/components/c3/page/C3Paths.astro';
 import { getPortfolio, PER_PAGE } from '@/data/c3/portfolio-archive';
 import { statusOf, statusLabel, type PortfolioCardData } from '@/data/c3/portfolio-status';
-import { PORTFOLIO } from '@/data/c3/home';
+import { PORTFOLIO, shotSrcset } from '@/data/c3/home';
 
 const metadata = {
   title: 'Portfolio Progetti Web | LS Web Agency',
@@ -63,6 +63,8 @@ const featuredView = featured.map((e) => ({ id: e.id, d: e.data as PortfolioCard
                 <figure class="c3-feat-fig">
                   <img
                     src={x?.shot ?? d.image?.src}
+                    srcset={shotSrcset(x?.shot)}
+                    sizes="(min-width: 1440px) 713px, (min-width: 1024px) 50vw, 90vw"
                     alt={x ? `Homepage del sito ${x.domain}` : (d.image?.alt ?? d.title)}
                     width="800"
                     height="500"

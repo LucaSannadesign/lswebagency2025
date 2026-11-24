@@ -15,7 +15,7 @@ import C3Section from '@/components/c3/page/C3Section.astro';
 import C3Paths from '@/components/c3/page/C3Paths.astro';
 import MdxH1AsH2 from '@/components/c3/page/MdxH1AsH2.astro';
 import { statusOf, statusLabel } from '@/data/c3/portfolio-status';
-import { PORTFOLIO } from '@/data/c3/home';
+import { PORTFOLIO, shotSrcset } from '@/data/c3/home';
 export const prerender = true;
 
 const toDate = (v: unknown) => (v instanceof Date ? v : typeof v === 'string' && v ? new Date(v) : new Date(0));
@@ -88,7 +88,16 @@ const cover = x
         <div class="c3-sec c3-sec--ivory c3-cover-band">
           <div class="c3-sec-in">
             <figure class:list={['c3-cover', { 'is-contain': cover.contain }]}>
-              <img src={cover.src} alt={cover.alt} width={cover.w} height={cover.h} loading="eager" decoding="async" />
+              <img
+                src={cover.src}
+                srcset={shotSrcset(cover.src)}
+                sizes="(min-width: 1440px) 1280px, 90vw"
+                alt={cover.alt}
+                width={cover.w}
+                height={cover.h}
+                loading="eager"
+                decoding="async"
+              />
             </figure>
           </div>
         </div>

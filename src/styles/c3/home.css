@@ -1516,6 +1516,9 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* stessa compensazione di .c3-grad: l'ultima lettera non viene tagliata */
+  padding-inline: 0.12em;
+  margin-inline: -0.12em;
 }
 
 /* Luce d'ambiente selettiva (mai dietro al testo corrente) */

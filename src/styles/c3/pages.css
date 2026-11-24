@@ -464,15 +464,21 @@
   align-items: center;
   gap: 8px;
   padding: 5px 12px;
-  border-radius: 999px;
+  /* resta una pillola su una riga; su due righe diventa un rettangolo arrotondato */
+  border-radius: 1.2em;
   font: 600 12.5px/1.2 var(--c3-text);
   letter-spacing: 0.02em;
   border: 1px solid var(--line);
   color: var(--ink);
   background: color-mix(in srgb, var(--panel) 80%, transparent);
-  white-space: nowrap;
+  /* le etichette lunghe («Piattaforma indipendente · In validazione») andavano
+   * a capo fuori dalla colonna e venivano tagliate su mobile: ora restano
+   * dentro il contenitore */
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 .c3-status::before {
+  flex: none;
   content: "";
   width: 7px;
   height: 7px;
@@ -823,7 +829,8 @@
   background: var(--c3-white);
 }
 .c3-wcard-img.is-contain img {
-  object-fit: contain;
+  /* come contain, ma senza mai ingrandire oltre la risoluzione reale */
+  object-fit: scale-down;
   padding: 8%;
 }
 .c3-wcard a:hover .c3-wcard-img img {
@@ -903,7 +910,7 @@
 }
 .c3-cover.is-contain img {
   max-height: 420px;
-  object-fit: contain;
+  object-fit: scale-down;
   padding: 6% 10%;
 }
 .c3-cover-band {

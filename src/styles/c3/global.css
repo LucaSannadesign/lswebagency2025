@@ -113,6 +113,13 @@ h3 {
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
+  /* Parole a gradiente in linea (span): l'area dipinta coincide con il box
+   * dello span e taglierebbe l'ultima lettera. Padding finale compensato dal
+   * margine negativo: layout invariato, margini sinistri (ml-*) intatti. */
+  span.bg-clip-text.text-transparent:not(.c3 *) {
+    padding-inline-end: 0.12em;
+    margin-inline-end: -0.12em;
+  }
   html.dark main h1:not(.c3 *),
   html.dark .bg-clip-text.text-transparent:not(.c3 *) {
     background-image: var(--c3-grad-on-dark) !important;

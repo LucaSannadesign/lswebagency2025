@@ -8,7 +8,7 @@
  * Stato, descrizione e tecnologie arrivano dalla collection `portfolio`.
  */
 import { getCollection } from 'astro:content';
-import { PORTFOLIO } from '@/data/c3/home';
+import { PORTFOLIO, shotSrcset } from '@/data/c3/home';
 
 const entries = await getCollection('portfolio');
 const byId = new Map(entries.map((e) => [e.id, e.data]));
@@ -70,6 +70,8 @@ const items = PORTFOLIO.map((p) => {
                 <span class="c3-pf-frame">
                   <img
                     src={p.shot}
+                    srcset={shotSrcset(p.shot)}
+                    sizes="(min-width: 1024px) 68vw, 106vw"
                     alt={`Homepage del sito ${p.domain}`}
                     width="800"
                     height="500"
@@ -109,7 +111,7 @@ const items = PORTFOLIO.map((p) => {
             </div>
 
             <div hidden data-case>
-              <img class="c3-case-img" src={p.shot} alt={`Homepage del sito ${p.domain}`} width="800" height="500" loading="lazy" />
+              <img class="c3-case-img" src={p.shot} srcset={shotSrcset(p.shot)} sizes="(min-width: 1024px) 60vw, 100vw" alt={`Homepage del sito ${p.domain}`} width="800" height="500" loading="lazy" />
               <div class="c3-case-body">
                 <div>
                   <span class="c3-case-logo" style={p.logoBg ? `background:${p.logoBg}` : undefined}>
@@ -123,7 +125,7 @@ const items = PORTFOLIO.map((p) => {
                       <li>{f}</li>
                     ))}
                   </ul>
-                  {p.shot2 && <img class="c3-case-img2" src={p.shot2.src} alt={p.shot2.alt} width="800" height="500" loading="lazy" />}
+                  {p.shot2 && <img class="c3-case-img2" src={p.shot2.src} srcset={shotSrcset(p.shot2.src)} sizes="(min-width: 1024px) 30vw, 100vw" alt={p.shot2.alt} width="800" height="500" loading="lazy" />}
                 </div>
                 <div>
                   <dl>
