@@ -627,170 +627,6 @@
   cursor: pointer;
 }
 
-/* ───────── Competenze ───────── */
-.c3-skills-head {
-  grid-column: 1 / 9;
-}
-.c3-cards {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin-top: 64px;
-}
-.c3-card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  transition:
-    transform 0.4s var(--c3-ease),
-    box-shadow 0.4s;
-}
-.c3-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 18px 40px -24px
-    color-mix(in srgb, var(--c3-g0) 35%, transparent);
-}
-.c3-card h3 {
-  margin: 0;
-  font: 800 34px/1 var(--c3-disp);
-  font-stretch: 76%;
-  letter-spacing: -0.02em;
-}
-.c3-card > p {
-  margin: 0;
-  color: var(--mute);
-  font-size: 16px;
-}
-.c3-demo {
-  margin-top: auto;
-  border-top: 1px solid var(--line);
-  padding-top: 18px;
-}
-.c3-mini {
-  height: 170px;
-  border-radius: 12px;
-  background: var(--c3-white);
-  border: 1px solid var(--line);
-  padding: 14px;
-  display: grid;
-  gap: 8px;
-  align-content: start;
-  overflow: hidden;
-}
-.c3-mini i {
-  display: block;
-  height: 9px;
-  border-radius: 3px;
-  background: var(--c3-line-l);
-}
-.c3-mini .t {
-  height: 16px;
-  width: 80%;
-  background: var(--c3-g0);
-}
-.c3-mini .c {
-  height: 26px;
-  width: 46%;
-  border-radius: 999px;
-  background: var(--c3-ion-deep);
-}
-.c3-mini.is-before {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.c3-mini.is-before i,
-.c3-mini.is-before .t,
-.c3-mini.is-before .c {
-  height: 22px;
-  width: auto;
-  background: var(--c3-ivory-lo);
-  border-radius: 3px;
-}
-.c3-seg {
-  display: inline-flex;
-  border: 1px solid var(--ctrl);
-  border-radius: 999px;
-  padding: 3px;
-  margin-bottom: 12px;
-}
-.c3-seg button {
-  min-height: 40px;
-  padding: 0 16px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink);
-  font: 500 14px/1 var(--c3-text);
-  cursor: pointer;
-}
-.c3-seg button[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--c3-paper);
-}
-.c3-metrics {
-  display: grid;
-  margin: 0;
-}
-.c3-metrics div {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 15px;
-}
-.c3-metrics dt {
-  color: var(--mute);
-}
-.c3-metrics dd {
-  margin: 0;
-  font: 700 18px/1.2 var(--c3-disp);
-  font-stretch: 85%;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  text-align: right;
-}
-.c3-lab {
-  position: relative;
-  height: 150px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--c3-g1);
-}
-.c3-lab canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.c3-lab-off {
-  position: absolute;
-  inset: auto 12px 10px;
-  font-size: 13px;
-  color: var(--c3-grey);
-  display: none;
-}
-[data-lab-state="fallback"] .c3-lab-off {
-  display: block;
-}
-.c3-rng {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 6px 14px;
-  align-items: center;
-  margin-top: 14px;
-  font-size: 14px;
-}
-.c3-rng input {
-  width: 100%;
-  accent-color: var(--c3-ion-deep);
-  min-height: 32px;
-}
-
 /* ───────── Servizi ───────── */
 .c3-svc-list {
   margin-top: 56px;
@@ -1368,9 +1204,6 @@
   .c3-pf-all {
     display: block;
   }
-  .c3-cards {
-    grid-template-columns: minmax(0, 1fr);
-  }
   .c3-skills-head,
   .c3-stmt,
   .c3-faq-head,
@@ -1439,9 +1272,6 @@
   .c3-band {
     padding-top: 80px;
     padding-bottom: 80px;
-  }
-  .c3-card {
-    padding: 22px;
   }
   .c3-facts {
     grid-template-columns: minmax(0, 1fr);
@@ -1722,26 +1552,6 @@
 }
 .c3-rev-big blockquote {
   position: relative;
-}
-
-/* Schede competenze su avorio: filetto a gradiente al passaggio */
-.c3-card {
-  position: relative;
-  overflow: hidden;
-}
-.c3-card::after {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 3px;
-  background: var(--c3-grad-line);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s var(--c3-ease);
-}
-.c3-card:hover::after,
-.c3-card:focus-within::after {
-  transform: scaleX(1);
 }
 
 /* Prezzi: numeri in Archivo con il gradiente del tono, solo testo grande */

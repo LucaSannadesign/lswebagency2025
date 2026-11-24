@@ -248,13 +248,13 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
   const showPinnedInput = submitState !== 'success' && !isContactNode;
 
   const optButtonClass =
-    'w-full text-left rounded-xl px-4 py-2.5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 text-sm font-medium transition hover:ring-violet-400 hover:bg-violet-50/60 dark:hover:bg-violet-900/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transition-none';
+    'w-full text-left rounded-xl px-4 py-2.5 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50 text-sm font-medium transition hover:ring-[var(--c3-ion-deep)] hover:bg-[var(--c3-ivory)] dark:hover:bg-[var(--c3-g2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)] motion-reduce:transition-none';
   const inputClass =
-    'mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500';
+    'mt-1 w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)]';
   const primaryBtn =
-    'inline-flex items-center justify-center rounded-full px-4 py-2.5 bg-violet-600 text-white text-sm font-semibold transition hover:bg-violet-700 disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transition-none';
+    'inline-flex items-center justify-center rounded-full px-4 py-2.5 bg-[var(--c3-ion-deep)] text-white text-sm font-semibold transition hover:bg-[var(--c3-g0)] disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)] motion-reduce:transition-none';
   const ghostBtn =
-    'inline-flex items-center justify-center rounded-full px-4 py-2.5 ring-1 ring-neutral-300 dark:ring-neutral-700 text-sm font-semibold transition hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transition-none';
+    'inline-flex items-center justify-center rounded-full px-4 py-2.5 ring-1 ring-neutral-300 dark:ring-neutral-700 text-sm font-semibold transition hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)] motion-reduce:transition-none';
 
   return (
     <div id="site-assistant-widget" className="fixed bottom-4 right-4 z-[70] max-sm:left-4 md:bottom-6 md:right-6">
@@ -267,7 +267,7 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
         // Da aperto il trigger resta montato per l'animazione di uscita ma è coperto dal
         // pannello: `inert` lo toglie dalla tabulazione finché non torna visibile.
         inert={isOpen}
-        className={`inline-flex items-center gap-2 rounded-full bg-violet-600 px-4 py-3 text-white shadow-lg ring-1 ring-violet-700/30 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 motion-reduce:transition-none ${
+        className={`inline-flex items-center gap-2 rounded-full bg-[var(--c3-ion-deep)] px-4 py-3 text-white shadow-lg ring-1 ring-[var(--c3-ion-deep)]/30 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--c3-g0)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion)] motion-reduce:transition-none ${
           isOpen ? 'pointer-events-none scale-95 opacity-0' : 'scale-100 opacity-100'
         }`}
       >
@@ -291,23 +291,23 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
       >
         {/* Header */}
         <div className="shrink-0 flex items-start gap-2.5 px-3 py-3 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
-          <span aria-hidden="true" className="mt-0.5 shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-500 text-white">
+          <span aria-hidden="true" className="mt-0.5 shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[var(--c3-ion-deep)] to-[var(--c3-ion-ink)] text-white">
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
             </svg>
           </span>
           <div className="min-w-0 flex-1">
-            <h2 ref={titleRef} tabIndex={-1} className="text-sm font-bold leading-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded">
+            <h2 ref={titleRef} tabIndex={-1} className="text-sm font-bold leading-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)] rounded">
               Assistente LS Web Agency
             </h2>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-snug">Risposte rapide su siti, SEO e automazioni</p>
             <p className="text-[11px] text-neutral-400 dark:text-neutral-500 leading-snug">Assistente virtuale, non una persona reale</p>
           </div>
           <div className="flex shrink-0 items-center gap-1">
-            <button type="button" onClick={restart} className="rounded-lg px-2 py-1 text-xs font-semibold text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
+            <button type="button" onClick={restart} className="rounded-lg px-2 py-1 text-xs font-semibold text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)]">
               Ricomincia
             </button>
-            <button type="button" onClick={() => setIsOpen(false)} aria-label="Chiudi assistente" className="rounded-lg p-2 text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500">
+            <button type="button" onClick={() => setIsOpen(false)} aria-label="Chiudi assistente" className="rounded-lg p-2 text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)]">
               <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 6 6 18M6 6l12 12" />
               </svg>
@@ -324,7 +324,7 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
             {messages.map((m) =>
               m.role === 'user' ? (
                 <div key={m.id} className="flex justify-end">
-                  <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-violet-600 px-3.5 py-2 text-sm text-white">{m.text}</div>
+                  <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-[var(--c3-ion-deep)] px-3.5 py-2 text-sm text-white">{m.text}</div>
                 </div>
               ) : m.role === 'assistant' ? (
                 <div key={m.id} className="flex">
@@ -372,7 +372,7 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
                 onClick={() => setShowOptionalContact((v) => !v)}
                 aria-expanded={showOptionalContact}
                 aria-controls="sa-optional"
-                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-violet-700 dark:text-violet-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded"
+                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[var(--c3-ion-deep)] dark:text-[var(--c3-ion)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)] rounded"
               >
                 <span aria-hidden="true">{showOptionalContact ? '−' : '+'}</span> Aggiungi sito, telefono o dettagli
               </button>
@@ -410,7 +410,7 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
               </div>
 
               <label className="mt-3 flex items-start gap-2 text-xs text-neutral-600 dark:text-neutral-300">
-                <input type="checkbox" required checked={privacyConsent} onChange={(e) => setPrivacyConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 rounded accent-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                <input type="checkbox" required checked={privacyConsent} onChange={(e) => setPrivacyConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[var(--c3-ion-deep)] focus:outline-none focus:ring-2 focus:ring-[var(--c3-ion-deep)]" />
                 <span>Accetto la <a href="/privacy" className="underline">Privacy &amp; Cookie Policy</a>.*</span>
               </label>
 
@@ -482,15 +482,15 @@ export default function SiteAssistant({ whatsappNumber, initiallyOpen = false }:
                 value={freeInput}
                 onChange={(e) => setFreeInput(e.target.value)}
                 placeholder="Scrivi la tua domanda…"
-                className="min-w-0 flex-1 rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3.5 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                className="min-w-0 flex-1 rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3.5 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)]"
               />
-              <button type="submit" className="shrink-0 rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transition-none">
+              <button type="submit" className="shrink-0 rounded-full bg-[var(--c3-ion-deep)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--c3-g0)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)] motion-reduce:transition-none">
                 Invia
               </button>
             </form>
 
             <div className="mt-2 text-center">
-              <button type="button" onClick={() => navigateTo(HUMAN_NODE_ID)} className="text-xs font-semibold text-neutral-500 underline hover:text-violet-700 dark:text-neutral-400 dark:hover:text-violet-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded">
+              <button type="button" onClick={() => navigateTo(HUMAN_NODE_ID)} className="text-xs font-semibold text-neutral-500 underline hover:text-[var(--c3-ion-deep)] dark:text-neutral-400 dark:hover:text-[var(--c3-ion)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c3-ion-deep)] rounded">
                 Parla con Luca
               </button>
             </div>

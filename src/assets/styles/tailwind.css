@@ -56,18 +56,18 @@
     padding-block: 0.75rem;
   }
 
-  /* CTA Primary — gradiente viola→fucsia, unico gradiente autorizzato. */
+  /* CTA primaria: derivati del Design System C.3, con testo chiaro leggibile. */
   .btn-primary {
     /* `border-white/[0.12]` anche in dark: neutralizza `dark:border-slate-500` ereditato da `.btn`. */
     @apply btn font-semibold text-white hover:text-white border-white/[0.12] hover:border-white/[0.12] dark:border-white/[0.12] dark:hover:border-white/[0.12];
-    background-image: linear-gradient(105deg, #1F5A54 0%, #267A70 50%, #5FB8AB 100%);
+    background-image: linear-gradient(105deg, var(--c3-ion-deep) 0%, var(--c3-ion-ink) 100%);
     box-shadow:
       0 12px 26px -10px rgb(31 90 84 / 0.55),
       inset 0 1px 0 rgb(255 255 255 / 0.4);
   }
 
   .btn-primary:hover {
-    background-image: linear-gradient(105deg, #184641 0%, #8b3fc4 50%, #cc1f97 100%);
+    background-image: linear-gradient(105deg, var(--c3-g2) 0%, var(--c3-ion-deep) 100%);
     box-shadow:
       0 18px 34px -10px rgb(31 90 84 / 0.6),
       inset 0 1px 0 rgb(255 255 255 / 0.4);
@@ -92,7 +92,7 @@
 
   /* CTA Secondary — fondo bianco/trasparente, bordo e testo viola. */
   .btn-secondary {
-    @apply btn border-primary text-primary font-semibold hover:bg-brand-surface hover:border-primary hover:text-primary dark:text-violet-300 dark:border-violet-400/60 dark:hover:bg-primary/20 dark:hover:border-violet-300;
+    @apply btn border-primary text-primary font-semibold hover:bg-brand-surface hover:border-primary hover:text-primary dark:text-[var(--c3-ion)] dark:border-[var(--c3-ion)] dark:hover:bg-primary/20 dark:hover:border-[var(--c3-ion)];
     background-color: #fff;
     border-width: 1.5px;
   }
@@ -108,7 +108,7 @@
   /* CTA Tertiary — solo testo viola con underline a gradiente. */
   .btn-tertiary {
     /* `Button.astro` applica `btn btn-tertiary`: qui neutralizziamo il contenitore di `.btn`. */
-    @apply inline-flex items-center gap-2 border-none bg-transparent p-0 font-semibold text-primary hover:bg-transparent hover:border-transparent dark:hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 dark:text-violet-300 dark:hover:text-violet-200 cursor-pointer;
+    @apply inline-flex items-center gap-2 border-none bg-transparent p-0 font-semibold text-primary hover:bg-transparent hover:border-transparent dark:hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 dark:text-[var(--c3-ion)] dark:hover:text-[var(--c3-ivory-hi)] cursor-pointer;
     min-height: 0;
     border-radius: 4px;
     padding: 4px 1px 5px;
@@ -173,11 +173,11 @@
   /* Pulsante di invio */
   .btn-submit {
     @apply w-full text-white font-bold py-3 px-4 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
-    background-image: linear-gradient(105deg, #1F5A54 0%, #267A70 50%, #5FB8AB 100%);
+    background-image: linear-gradient(105deg, var(--c3-ion-deep), var(--c3-ion-ink));
   }
 
   .btn-submit:hover {
-    background-image: linear-gradient(105deg, #184641 0%, #8b3fc4 50%, #cc1f97 100%);
+    background-image: linear-gradient(105deg, var(--c3-g2), var(--c3-ion-deep));
   }
 }
 
@@ -437,7 +437,7 @@
    Gradient Text
    ========================= */
 .text-gradient {
-  background: linear-gradient(90deg, #8A2BE2, #C837AB);
+  background: var(--c3-grad-on-light);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline;

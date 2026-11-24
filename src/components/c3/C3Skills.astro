@@ -1,64 +1,53 @@
 ---
-/**
- * Competenze: tre schede con una prova interattiva ciascuna.
- * Senza JavaScript restano leggibili (stato «Dopo», metriche «—», fondo grafite).
- */
+/** Tre discipline: il campo generativo è decorativo; i due esempi sono progetti reali del portfolio. */
 ---
 
 <section class="c3-band c3-skills" id="competenze" data-c3-chapter="light" data-c3-tone="light" aria-labelledby="c3-h-skill">
   <div class="c3-grid12">
     <header class="c3-skills-head">
       <p class="c3-kicker"><span class="c3-idx" aria-hidden="true">02</span>Competenze</p>
-      <h2 class="c3-h2" id="c3-h-skill">Esperienza, codice e <span class="c3-grad">movimento</span> nelle stesse mani.</h2>
-      <p class="c3-lead">
-        Un sito più chiaro si capisce subito, trasmette fiducia e accompagna verso il contatto. Le tre schede qui sotto
-        funzionano davvero.
-      </p>
+      <h2 class="c3-h2" id="c3-h-skill">Design, codice e <span class="c3-grad">movimento.</span></h2>
+      <p class="c3-lead">Tre discipline, un'unica visione progettuale.</p>
     </header>
   </div>
-  <div class="c3-cards">
-    <article class="c3-card c3-reveal">
-      <h3>UX/UI</h3>
-      <p>Struttura prima della forma: architettura dei contenuti, gerarchia, percorsi verso il contatto, accessibilità.</p>
-      <div class="c3-demo">
-        <div class="c3-seg" role="group" aria-label="Confronto della gerarchia di una homepage">
-          <button type="button" aria-pressed="false" data-ux="before">Prima</button>
-          <button type="button" aria-pressed="true" data-ux="after">Dopo</button>
-        </div>
-        <div
-          class="c3-mini"
-          role="img"
-          aria-label="Schema di una homepage con gerarchia chiara: titolo, testo, un solo pulsante"
-          data-ux-mini
-        >
-          <i class="t"></i><i style="width:92%"></i><i style="width:70%"></i><i class="c"></i>
-        </div>
+
+  <div class="c3-skills-layout">
+    <article class="c3-skill-feature c3-reveal" data-c3-lab>
+      <div class="c3-skill-feature-copy">
+        <span class="c3-skill-index">01 / ESPERIENZA INTERATTIVA</span>
+        <h3>Creative<br />development<span aria-hidden="true">.</span></h3>
+        <p>Il movimento dà forma a un’identità digitale. Un campo generativo che reagisce al puntatore e lascia spazio al contenuto.</p>
       </div>
+      <div class="c3-lab" role="img" aria-label="Composizione astratta di linee luminose color Ione su fondo grafite; si muove lentamente e reagisce al puntatore quando disponibile">
+        <canvas aria-hidden="true" data-lab-canvas></canvas>
+      </div>
+      <div class="c3-skill-feature-foot"><span>Forma · interazione · ritmo</span><span aria-hidden="true">→</span></div>
     </article>
 
-    <article class="c3-card c3-reveal">
-      <h3>Sviluppo front-end</h3>
-      <p>HTML semantico, CSS moderno, JavaScript solo dove serve. Questa pagina, misurata adesso nel tuo browser:</p>
-      <div class="c3-demo">
-        <dl class="c3-metrics" aria-live="polite">
-          <div><dt>Contenuto principale visibile (LCP)</dt><dd data-m="lcp">—</dd></div>
-          <div><dt>Elementi nella pagina</dt><dd data-m="dom">—</dd></div>
-          <div><dt>Campo WebGL della hero</dt><dd data-m="gl">—</dd></div>
-          <div><dt>Movimento</dt><dd data-m="motion">—</dd></div>
-        </dl>
-      </div>
-    </article>
-
-    <article class="c3-card c3-reveal" data-c3-lab>
-      <h3>Creative development</h3>
-      <p>WebGL, shader e animazioni con una funzione precisa, che si fermano quando non servono. Prova a cambiare questo campo.</p>
-      <div class="c3-demo">
-        <div class="c3-lab"><canvas aria-hidden="true" data-lab-canvas></canvas><span class="c3-lab-off">Anteprima statica: WebGL non disponibile.</span></div>
-        <div class="c3-rng">
-          <label for="c3-rF">Linee di livello</label><input id="c3-rF" type="range" min="4" max="16" step="1" value="9" data-lab-f />
-          <label for="c3-rV">Flusso</label><input id="c3-rV" type="range" min="0" max="3" step="0.1" value="1" data-lab-v />
+    <div class="c3-skills-side">
+      <article class="c3-skill-secondary c3-skill-ux c3-reveal">
+        <div class="c3-skill-text">
+          <span class="c3-skill-index">02 / CHIAREZZA</span>
+          <h3>UX/UI<span aria-hidden="true">.</span></h3>
+          <p>Un percorso leggibile aiuta a scegliere il passo successivo. In PreventivoDentale la richiesta è guidata dall’esigenza ai recapiti, con uno stato pratica consultabile.</p>
+          <a href="/portfolio/preventivodentale" class="c3-skill-link">Esplora il progetto <span aria-hidden="true">→</span></a>
         </div>
-      </div>
-    </article>
+        <div class="c3-skill-visual c3-skill-visual-ux">
+          <img src="/images/c3/pf-preventivodentale.webp" alt="Anteprima dell’interfaccia di PreventivoDentale" width="800" height="500" loading="lazy" decoding="async" />
+        </div>
+      </article>
+
+      <article class="c3-skill-secondary c3-skill-front c3-reveal">
+        <div class="c3-skill-text">
+          <span class="c3-skill-index">03 / PRECISIONE</span>
+          <h3>Front-end<span aria-hidden="true">.</span></h3>
+          <p>Interfacce responsive costruite con cura per struttura, accessibilità e tempi di caricamento. Canapalandia riunisce un magazine in due lingue, ricerca e tema chiaro/scuro.</p>
+          <a href="/portfolio/canapalandia-blog" class="c3-skill-link">Esplora il progetto <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="c3-skill-visual c3-skill-visual-front">
+          <img src="/images/c3/pf-canapalandia.webp" alt="Anteprima dell’interfaccia del magazine Canapalandia" width="800" height="500" loading="lazy" decoding="async" />
+        </div>
+      </article>
+    </div>
   </div>
 </section>

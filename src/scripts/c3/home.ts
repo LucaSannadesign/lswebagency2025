@@ -263,67 +263,7 @@ function init(root: HTMLElement): () => void {
   dlg?.addEventListener("close", () => opener?.focus(), sig);
   cleanups.push(() => dlg?.open && dlg.close());
 
-  // ── Competenze: demo UX ──────────────────────────────────────────────────
-  const mini = $("[data-ux-mini]");
-  const uxBtns = $$<HTMLButtonElement>("[data-ux]");
-  const AFTER =
-    '<i class="t"></i><i style="width:92%"></i><i style="width:70%"></i><i class="c"></i>';
-  const BEFORE =
-    '<i></i><i class="c"></i><i></i><i class="t"></i><i></i><i></i><i></i><i class="c"></i><i></i><i></i><i></i><i></i>';
-  uxBtns.forEach((b) =>
-    b.addEventListener(
-      "click",
-      () => {
-        const after = b.dataset.ux === "after";
-        uxBtns.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-        if (!mini) return;
-        mini.classList.toggle("is-before", !after);
-        mini.innerHTML = after ? AFTER : BEFORE;
-        mini.setAttribute(
-          "aria-label",
-          after
-            ? "Schema di una homepage con gerarchia chiara: titolo, testo, un solo pulsante"
-            : "Schema di una homepage confusa: dodici blocchi uguali e due pulsanti in competizione",
-        );
-      },
-      sig,
-    ),
-  );
-
-  // ── Competenze: metriche misurate nel browser ───────────────────────────
-  const metric = (k: string, v: string) => {
-    const el = $(`[data-m="${k}"]`);
-    if (el) el.textContent = v;
-  };
-  metric("dom", String(document.getElementsByTagName("*").length));
-  try {
-    const po = new PerformanceObserver((list) => {
-      const en = list.getEntries();
-      const v = en[en.length - 1]?.startTime ?? 0;
-      metric("lcp", `${(v / 1000).toFixed(2).replace(".", ",")} s`);
-    });
-    po.observe({ type: "largest-contentful-paint", buffered: true });
-    cleanups.push(() => po.disconnect());
-  } catch {
-    metric("lcp", "non misurabile qui");
-  }
-  const GL_LABEL: Record<string, string> = {
-    still: "immagine statica",
-    live: "attivo",
-    paused: "in pausa",
-    reduced: "fermo",
-    fallback: "immagine statica",
-  };
   const heroEl = $("[data-c3-hero]");
-  const glWatch = new MutationObserver(() =>
-    metric("gl", GL_LABEL[heroEl?.dataset.glState || "still"] || "—"),
-  );
-  if (heroEl)
-    glWatch.observe(heroEl, {
-      attributes: true,
-      attributeFilter: ["data-gl-state"],
-    });
-  cleanups.push(() => glWatch.disconnect());
 
   // ── Recensioni: carosello ────────────────────────────────────────────────
   $$("[data-c3-carousel]").forEach((car) => {
@@ -425,7 +365,6 @@ function init(root: HTMLElement): () => void {
     motionBtn?.setAttribute("aria-pressed", String(reduced));
     if (motionLabel)
       motionLabel.textContent = reduced ? ": ridotto" : ": attivo";
-    metric("motion", reduced ? "ridotto" : "attivo");
     setupPin();
     kick();
     hero?.sync();
