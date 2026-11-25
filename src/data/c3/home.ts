@@ -187,7 +187,7 @@ export interface Service {
 export const SERVICES: Service[] = [
   {
     title: "Valutazione iniziale",
-    desc: "Un primo sguardo leggero al sito per capire se ha problemi evidenti di chiarezza, messaggio o percorso verso il contatto.",
+    desc: "Un primo orientamento sulle esigenze del progetto. Se hai già un sito, puoi richiedere una verifica preliminare di chiarezza, messaggio e percorso verso il contatto.",
     includes:
       "Prima impressione sulla homepage · problemi principali · passo successivo consigliato",
     price: "Gratuita",
@@ -197,7 +197,7 @@ export const SERVICES: Service[] = [
   },
   {
     title: "Audit del sito",
-    desc: "Analisi tecnica e verifica manuale selettiva: cosa frena i contatti e cosa sistemare per primo, con evidenze e priorità.",
+    desc: "Analisi tecnica e verifica manuale per individuare le criticità del sito e definire interventi prioritari, con evidenze concrete.",
     includes:
       "UX e messaggio · SEO tecnica e performance · accessibilità · fino a 10 pagine",
     price: "349 €",
@@ -207,14 +207,14 @@ export const SERVICES: Service[] = [
     badge: "Primo step consigliato",
   },
   {
-    title: "Sprint tecnico",
+    title: "Sprint di ottimizzazione",
     desc: "Interventi mirati su homepage, CTA, pagine servizio, percorso di prenotazione e presenza locale, senza rifare tutto.",
     includes:
       "Modifiche verificabili · priorità dall’audit · SEO locale quando serve",
     price: "Su preventivo",
     priceNote: "calibrato sulle priorità",
     href: "/servizi/sprint-ottimizzazione",
-    cta: "Scopri lo sprint tecnico",
+    cta: "Scopri lo sprint di ottimizzazione",
   },
   {
     title: "Sito web strategico",
