@@ -42,7 +42,7 @@ export const PRACTICES: Practice[] = [
       { label: 'Audit del sito', href: '/servizi/audit-rapido', note: 'UX, SEO tecnica, performance e accessibilità · 349 €' },
       { label: 'Accessibilità digitale', href: '/servizi/accessibilita-digitale-avanzata', note: 'Verifica tecnica su criteri WCAG selezionati' },
       { label: 'UX personalizzata con AI', href: '/servizi/personalizzazione-ux-intelligenza-artificiale', note: 'Esperienze che si adattano in tempo reale' },
-      { label: 'Web design etico', href: '/servizi/web-design-etico-sostenibile', note: 'Accessibile, trasparente e sostenibile' },
+      { label: 'Web design etico', href: '/servizi/web-design-etico-sostenibile', note: 'Progettazione attenta a inclusione, trasparenza e risorse' },
     ],
   },
   {
@@ -59,7 +59,7 @@ export const PRACTICES: Practice[] = [
   {
     id: 'ai',
     title: 'Prodotti digitali e AI',
-    desc: 'Strumenti che lavorano dentro il sito e nei processi: automazioni con controllo umano, assistenti sui contenuti dell’attività, flussi editoriali assistiti.',
+    desc: 'Automazioni, assistenti AI e prodotti digitali per semplificare le attività ripetitive, organizzare le richieste e supportare il lavoro quotidiano, con supervisione umana.',
     tags: ['Automazioni', 'Assistenti', 'Prodotti indipendenti'],
     links: [
       { label: 'AI Operations per PMI', href: '/servizi/ai-operations-pmi', note: 'Sito, email, CRM e calendario collegati' },
@@ -90,11 +90,17 @@ export const SECONDARY: SecondaryPath[] = [
     ],
   },
   {
-    title: 'Cura continuativa',
+    title: 'Assistenza ed evoluzione',
     desc: 'Dopo il lancio: aggiornamenti, controlli tecnici e miglioramenti progressivi.',
     links: [
       { label: 'Assistenza e manutenzione', href: '/servizi/assistenza-manutenzione' },
-      { label: 'Digital Presence ↗', href: 'https://digitalpresence.lswebagency.com/' },
+    ],
+  },
+  {
+    title: 'Consulenza per creativi',
+    desc: 'Digital Presence: analisi della presenza professionale online, revisione del portfolio e risorse per artisti, designer, fotografi e freelance.',
+    links: [
+      { label: 'Digital Presence · consulenza specialistica ↗', href: 'https://digitalpresence.lswebagency.com/' },
     ],
   },
 ];

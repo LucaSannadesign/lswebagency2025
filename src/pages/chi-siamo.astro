@@ -37,7 +37,7 @@ const AUDIENCES = [
     t: 'Aziende e professionisti',
     d: 'Progetti strutturati: un nuovo sito, il rifacimento di una piattaforma, un prodotto digitale con obiettivi chiari.',
     href: '/servizi',
-    cta: 'Le pratiche dello studio',
+    cta: 'Esplora i servizi dello studio',
   },
   {
     t: 'Agenzie e partner tecnologici',
@@ -67,7 +67,7 @@ const PRINCIPLES = [
       kicker="Chi siamo"
       title="Strategie Digitali e Creazione Siti Web su Misura"
       accent="su Misura"
-      lead="LS Web Agency è lo studio indipendente di Luca Sanna: progetto e sviluppo siti e prodotti digitali per aziende e professionisti, con cura per SEO, accessibilità e performance."
+      lead="LS Web Agency è lo studio indipendente di Luca Sanna. Unisce cultura visiva, progettazione UX/UI e sviluppo web per realizzare siti e prodotti digitali su misura, con attenzione a SEO, accessibilità e prestazioni."
       actions={[
         { text: 'Parla con Luca', href: '/contatti' },
         { text: 'Vedi lavori', href: '/portfolio', variant: 'secondary' },
@@ -109,12 +109,12 @@ const PRINCIPLES = [
       </div>
     </C3Section>
 
-    <C3Section tone="deep" id="metodo" index="02" kicker="Metodo" title="Quattro tempi, nessun passaggio di mano.">
+    <C3Section tone="deep" id="metodo" index="02" kicker="Metodo" title="Un metodo, quattro fasi.">
       <ol class="c3-route">
         {
           METHOD.map((m, i) => (
             <li class="c3-up">
-              <span class="c3-route-n">Tempo {i + 1}</span>
+              <span class="c3-route-n">Fase {i + 1}</span>
               <h3>{m.t}</h3>
               <p>{m.d}</p>
             </li>
@@ -130,7 +130,7 @@ const PRINCIPLES = [
       kicker="Competenze e strumenti"
       title="Dal segno all’interfaccia."
       accent="all’interfaccia."
-      lead="Gli strumenti elencati sono quelli usati nei progetti pubblicati nel portfolio e in questo sito."
+      lead="Dalla composizione visiva al codice, gli strumenti che utilizzo nei progetti presentati nel portfolio e in questo sito."
     >
       <div class="c3-cols">
         {

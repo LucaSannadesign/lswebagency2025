@@ -257,7 +257,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "Un sito con animazioni è lento o poco accessibile?",
-    a: "Non se è progettato bene: le animazioni partono solo dopo il caricamento, si fermano fuori schermo e si spengono per chi ha chiesto meno movimento al proprio dispositivo. Sui dispositivi meno potenti resta un’immagine statica.",
+    a: "Le animazioni sono progettate per ridurre il carico grafico: si fermano quando non sono visibili e, sul sito pubblico, rispettano le preferenze di movimento ridotto. Quando il dispositivo non supporta l’effetto, rimane disponibile una versione statica.",
   },
   {
     q: "Lavori solo a Sassari?",
