@@ -135,24 +135,9 @@
   transition: color var(--c3-motion-fast) var(--c3-motion-color-ease),
     background-color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
-.c3-nav-link::after {
-  content: "";
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 9px;
-  height: 1px;
-  background: var(--c3-grad-line);
-  transform: scaleX(0);
-  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
-}
 .c3-nav-link:hover,
 .c3-nav-link[aria-expanded="true"] {
   color: var(--link);
-}
-.c3-nav-link:hover::after,
-.c3-nav-link:focus-visible::after {
-  transform: scaleX(1);
 }
 .c3-nav-link[aria-current="page"],
 .c3-nav-link[data-current] {
@@ -176,9 +161,6 @@
 }
 .c3-dd-btn[aria-expanded="true"] svg {
   transform: rotate(180deg);
-}
-.c3-dd-btn[aria-expanded="true"]::after {
-  transform: scaleX(1);
 }
 
 .c3-actions {

@@ -435,3 +435,12 @@ html:has(#c3-root) body {
     color: var(--c3-g0);
   }
 }
+
+/* C.3.13 — titoli navigabili senza sottolineature al rollover.
+ * I link nel testo corrente e gli indicatori focus restano invariati. */
+.c3 :is(h1, h2, h3, h4, h5, h6) a,
+.c3 a:has(:is(h1, h2, h3, h4, h5, h6)),
+.c3 a:hover :is(h1, h2, h3, h4, h5, h6),
+.c3 :is(h1, h2, h3, h4, h5, h6):hover a {
+  text-decoration: none;
+}

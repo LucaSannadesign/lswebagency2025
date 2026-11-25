@@ -1470,19 +1470,6 @@
   color: var(--c3-ion);
 }
 
-/* Grande CTA dei contatti: sottolineatura che cresce */
-.c3-big-cta {
-  background-image: linear-gradient(var(--c3-ion), var(--c3-ion));
-  background-repeat: no-repeat;
-  background-position: 0 96%;
-  background-size: 0% 0.05em;
-  transition:
-    background-size var(--c3-motion-overlay) var(--c3-motion-ease),
-    color var(--c3-motion-button) var(--c3-motion-color-ease);
-}
-.c3-big-cta:hover {
-  background-size: 100% 0.05em;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .c3-h1,
@@ -1619,9 +1606,6 @@ html[data-ls-home-theme="light"] #c3-root:not(.c3-js) [data-c3-chapter="anthraci
 }
 html[data-ls-home-theme="light"] #c3-root :is(.c3-stars, .c3-big-cta:hover, .c3-direct a:hover, .c3-svc:hover .c3-svc-n, #contact-form-status.is-ok) {
   color: var(--c3-ion-deep);
-}
-html[data-ls-home-theme="light"] #c3-root .c3-big-cta {
-  background-image: linear-gradient(var(--c3-ion-deep), var(--c3-ion-deep));
 }
 html[data-ls-home-theme="light"] #c3-root.is-pinned .c3-pf-nav button[aria-current="true"] span:last-child {
   color: var(--c3-ion-deep);
