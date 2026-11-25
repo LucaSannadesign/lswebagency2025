@@ -111,8 +111,12 @@
   background: var(--c3-ion);
   color: var(--c3-g0);
 }
-.c3-hero .c3-btn--p:hover {
-  background: var(--c3-snow);
+@media (hover: hover) and (pointer: fine) {
+  #c3-root .c3-hero .c3-btn--p:not(:disabled):hover {
+    background-color: var(--c3-ion-hi);
+    border-color: var(--c3-ion-hi);
+    color: var(--c3-g0);
+  }
 }
 .c3-hero .c3-btn--s {
   border-color: var(--c3-ctrl-d);
@@ -607,8 +611,12 @@
   background: var(--c3-ion);
   color: var(--c3-g0);
 }
-.c3-btn--case:hover {
-  background: var(--c3-snow);
+@media (hover: hover) and (pointer: fine) {
+  #c3-root .c3-btn--case:hover {
+    background-color: var(--c3-ion-hi);
+    border-color: var(--c3-ion-hi);
+    color: var(--c3-g0);
+  }
 }
 .c3-case .c3-btn--s {
   border-color: var(--c3-ctrl-d);
@@ -1063,7 +1071,7 @@
 .c3-form input:not([type="checkbox"]):hover,
 .c3-form textarea:hover,
 .c3-form select:hover {
-  border-color: var(--mute);
+  border-color: var(--link);
 }
 .c3-form input::placeholder,
 .c3-form textarea::placeholder {

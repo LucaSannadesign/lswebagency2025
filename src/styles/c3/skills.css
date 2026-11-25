@@ -147,3 +147,11 @@ html[data-ls-theme="dark"] .c3-skill-link:focus-visible {
 html[data-ls-theme="dark"] .c3-skill-visual {
   border-color: var(--c3-line-d);
 }
+
+.c3-skill-link {
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  html[data-ls-theme="light"] .c3-skill-link:hover { color: var(--c3-g0); }
+  html[data-ls-theme="dark"] .c3-skill-link:hover { color: var(--c3-ion-hi); }
+}

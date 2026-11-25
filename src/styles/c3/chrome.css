@@ -148,7 +148,7 @@
 }
 .c3-nav-link:hover,
 .c3-nav-link[aria-expanded="true"] {
-  color: var(--ink);
+  color: var(--link);
 }
 .c3-nav-link:hover::after,
 .c3-nav-link:focus-visible::after {
@@ -200,9 +200,6 @@
   transition: border-color var(--c3-motion-fast) var(--c3-motion-color-ease),
     background-color var(--c3-motion-fast) var(--c3-motion-color-ease),
     color var(--c3-motion-fast) var(--c3-motion-color-ease);
-}
-.c3-quiet-btn:hover {
-  border-color: var(--ink);
 }
 .c3-motion-btn i {
   width: 8px;
@@ -263,10 +260,6 @@
 .c3-navcta svg {
   transition: transform var(--c3-motion-button) var(--c3-motion-ease);
 }
-.c3-navcta:hover {
-  border-color: var(--c3-ion);
-  background: color-mix(in srgb, var(--c3-ion) 12%, transparent);
-}
 .c3-navcta:hover svg {
   transform: translateX(3px);
 }
@@ -274,9 +267,6 @@
   border-color: transparent;
   background: var(--c3-ion);
   color: var(--c3-g0);
-}
-.c3-top.is-solid .c3-navcta:hover {
-  background: var(--c3-snow);
 }
 
 /* Pulsante Menu (mobile e tablet) */
@@ -294,6 +284,9 @@
   cursor: pointer;
   position: relative;
   z-index: 2;
+  transition: background-color var(--c3-motion-button) var(--c3-motion-color-ease),
+    color var(--c3-motion-button) var(--c3-motion-color-ease),
+    border-color var(--c3-motion-button) var(--c3-motion-color-ease);
 }
 .c3-menu-ico {
   position: relative;
@@ -658,18 +651,19 @@
   color: var(--mute);
   font-size: 15px;
 }
-.c3-foot a,
-.c3-foot button {
+.c3-foot a:not(.c3-btn, .c3-icon-btn),
+.c3-foot button:not(.c3-btn, .c3-icon-btn) {
   color: var(--ink);
   text-decoration: underline;
   text-decoration-color: transparent;
   text-underline-offset: 0.2em;
-  transition: text-decoration-color var(--c3-motion-fast) var(--c3-motion-color-ease);
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    text-decoration-color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
-.c3-foot a:hover,
-.c3-foot button:hover {
+.c3-foot a:not(.c3-btn, .c3-icon-btn):hover,
+.c3-foot button:not(.c3-btn, .c3-icon-btn):hover {
+  color: var(--link);
   text-decoration-color: currentColor;
-  text-underline-offset: 0.2em;
 }
 .c3-foot-grid {
   display: grid;
@@ -708,9 +702,6 @@
   display: flex;
   gap: 10px;
   margin-top: 16px;
-}
-.c3-foot .c3-soc a:hover {
-  text-decoration: none;
 }
 .c3-foot-mail {
   font-weight: 600;
@@ -855,12 +846,40 @@ html[data-ls-theme="light"] .c3-foot-brand img {
 html[data-ls-theme="dark"] #c3-root .c3-top--home .c3-logo {
   filter: none;
 }
-.c3-theme button:hover {
-  border-color: var(--ink);
-  background-color: color-mix(in srgb, var(--ink) 8%, transparent);
-}
 @media (max-width: 380px) {
   #c3-root .c3-actions { gap: 6px; }
   #c3-root .c3-top-in { gap: 8px; }
   #c3-root .c3-logo { max-width: 112px; height: auto; }
+}
+
+/* C.3.10 — controlli coerenti con il tono effettivo della navbar. */
+.c3-top.is-solid,
+.c3-top.is-menu,
+#c3-root .c3-top--home:not(.is-solid) {
+  --btn-ink: var(--c3-g0);
+  --link: var(--c3-ion);
+}
+@media (hover: hover) and (pointer: fine) {
+  .c3-top :is(.c3-quiet-btn, .c3-theme button, .c3-menu-btn, .c3-navcta):hover {
+    background-color: var(--link);
+    border-color: var(--link);
+    color: var(--btn-ink);
+  }
+  .c3-top.is-solid .c3-navcta:hover {
+    background-color: var(--c3-ion-hi);
+    border-color: var(--c3-ion-hi);
+    color: var(--c3-g0);
+  }
+  .c3-mega-col a:hover {
+    background-color: color-mix(in srgb, var(--c3-ion) 12%, transparent);
+    color: var(--c3-ion);
+  }
+  .c3-mega-all:hover { color: var(--c3-ion); }
+}
+.c3-motion-btn:hover i {
+  background-color: currentColor;
+}
+.c3-motion-btn[aria-pressed="true"]:hover i {
+  background-color: transparent;
+  border-color: currentColor;
 }

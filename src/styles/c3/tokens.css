@@ -192,7 +192,10 @@ html:has(#c3-root) body {
 .c3 :focus-visible {
   outline: 3px solid var(--link);
   outline-offset: 4px;
-  border-radius: 3px;
+}
+/* Il focus segue la forma del controllo, senza alterarne il raggio. */
+.c3 :is(.c3-icon-btn, .c3-quiet-btn, .c3-navcta, .c3-menu-btn, .c3-btn):focus-visible {
+  outline-offset: 3px;
 }
 .c3 ::selection {
   background: var(--c3-ion);
@@ -258,17 +261,10 @@ html:has(#c3-root) body {
   background: var(--btn);
   color: var(--btn-ink);
 }
-.c3-btn--p:hover {
-  background: var(--ink);
-  color: var(--bg);
-}
 .c3-btn--s {
   border-color: var(--ctrl);
   color: var(--ink);
   background: transparent;
-}
-.c3-btn--s:hover {
-  border-color: var(--ink);
 }
 .c3-link {
   color: var(--link);
@@ -306,9 +302,6 @@ html:has(#c3-root) body {
   transition: border-color var(--c3-motion-button) var(--c3-motion-color-ease),
     background-color var(--c3-motion-button) var(--c3-motion-color-ease),
     color var(--c3-motion-button) var(--c3-motion-color-ease);
-}
-.c3-icon-btn:hover {
-  border-color: var(--ink);
 }
 .c3-icon-btn:disabled {
   opacity: 0.35;
@@ -417,5 +410,26 @@ html:has(#c3-root) body {
 @media (prefers-reduced-motion: reduce) {
   .c3 :is(.c3-btn:hover svg, .c3-navcta:hover svg, .c3-mega-card:hover .c3-mega-go, .c3-svc:hover h3, .c3-skill-link:hover span, .c3-practice:hover, .c3-path:hover, .c3-wcard a:hover, .c3-post-a:hover, .c3-work:hover .c3-work-img img, .c3-feat-item:hover .c3-feat-fig img, .c3-wcard a:hover .c3-wcard-img img, .c3-post-a:hover .c3-post-img img, .c3-path:hover .c3-path-go span, .c3-linklist a:hover span, .c3-linklist a:focus-visible span) {
     transform: none;
+  }
+}
+
+/* C.3.10 — feedback dei controlli sui toni chiari e scuri. */
+@media (hover: hover) and (pointer: fine) {
+  .c3-btn--p:not(:disabled):hover {
+    background-color: var(--link);
+    border-color: var(--link);
+    color: var(--btn-ink);
+  }
+  .c3-btn--s:not(:disabled):hover,
+  .c3-icon-btn:not(:disabled):hover {
+    background-color: var(--link);
+    border-color: var(--link);
+    color: var(--btn-ink);
+  }
+  /* Il pulsante ione già pieno schiarisce il verde, senza invertire il testo. */
+  html[data-ls-theme="dark"] .c3-btn--p:not(:disabled):hover {
+    background-color: var(--c3-ion-hi);
+    border-color: var(--c3-ion-hi);
+    color: var(--c3-g0);
   }
 }

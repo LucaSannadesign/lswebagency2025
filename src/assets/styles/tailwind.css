@@ -100,13 +100,23 @@
 
   /* CTA Secondary — fondo bianco/trasparente, bordo e testo viola. */
   .btn-secondary {
-    @apply btn border-primary text-primary font-semibold hover:bg-brand-surface hover:border-primary hover:text-primary dark:text-[var(--c3-ion)] dark:border-[var(--c3-ion)] dark:hover:bg-primary/20 dark:hover:border-[var(--c3-ion)];
+    @apply btn border-primary text-primary font-semibold dark:text-[var(--c3-ion)] dark:border-[var(--c3-ion)];
     background-color: #fff;
     border-width: 1.5px;
   }
 
-  .btn-secondary:hover {
-    transform: translateY(-1px);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-secondary:hover {
+      background-color: var(--c3-ion-deep);
+      border-color: var(--c3-ion-deep);
+      color: var(--c3-ivory-hi);
+      transform: translateY(-1px);
+    }
+    :is(.dark) .btn-secondary:hover {
+      background-color: var(--c3-ion);
+      border-color: var(--c3-ion);
+      color: var(--c3-g0);
+    }
   }
 
   :is(.dark) .btn-secondary {

@@ -174,7 +174,8 @@
   position: relative;
   overflow: hidden;
   transition: transform var(--c3-motion-medium) var(--c3-motion-ease),
-    box-shadow var(--c3-motion-medium) var(--c3-motion-color-ease);
+    box-shadow var(--c3-motion-medium) var(--c3-motion-color-ease),
+    border-color var(--c3-motion-medium) var(--c3-motion-color-ease);
 }
 .c3-practice:nth-child(1) {
   grid-column: span 7;
@@ -1373,4 +1374,12 @@ html[data-ls-theme="dark"] .c3p .c3-cover-band {
 }
 html[data-ls-theme="light"] .c3p :is(.c3-path:hover, .c3-pnav a:hover) {
   border-color: var(--c3-ion-deep);
+}
+
+/* Accent verde leggibile anche su superfici avorio. */
+@media (hover: hover) and (pointer: fine) {
+  .c3p :is(.c3-practice, .c3-path, .c3-wcard a, .c3-post-a, .c3-pnav a, .c3-cats a, .c3-qc a):hover {
+    border-color: var(--link);
+  }
+  .c3p .c3-toc a:hover { color: var(--link); border-left-color: var(--link); }
 }
