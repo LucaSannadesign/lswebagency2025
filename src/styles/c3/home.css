@@ -30,7 +30,7 @@
 }
 .c3-hero-bg canvas {
   opacity: 0;
-  transition: opacity 1.4s;
+  transition: opacity 0.45s;
 }
 .c3-hero-bg canvas.is-live {
   opacity: 1;

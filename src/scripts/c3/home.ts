@@ -393,16 +393,22 @@ function init(root: HTMLElement): () => void {
 }
 
 let teardown: (() => void) | null = null;
+let activeRoot: HTMLElement | null = null;
 
 function boot() {
+  const root = document.getElementById("c3-root");
+  if (root && root === activeRoot) return;
   teardown?.();
   teardown = null;
-  const root = document.getElementById("c3-root");
+  activeRoot = root;
   if (root) teardown = init(root);
 }
 
 document.addEventListener("astro:page-load", boot);
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot, { once: true });
+else boot();
 document.addEventListener("astro:before-swap", () => {
   teardown?.();
   teardown = null;
+  activeRoot = null;
 });

@@ -2,7 +2,11 @@
 const TAU = Math.PI * 2;
 const desktop = matchMedia('(min-width: 1024px)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const KEY = 'ls-c4-field-paused';
+const KEY = 'ls-motion';
+type MotionChoice = 'full' | 'reduced' | null;
+function readMotion(): MotionChoice {
+  try { const value = localStorage.getItem(KEY); return value === 'full' || value === 'reduced' ? value : null; } catch { return null; }
+}
 const mounted = new Map<HTMLElement, () => void>();
 function mount(el: HTMLElement): () => void {
   const canvas = el.querySelector<HTMLCanvasElement>('[data-c4-canvas]');
@@ -13,11 +17,12 @@ function mount(el: HTMLElement): () => void {
   const ac = new AbortController(), sig = { signal: ac.signal };
   const kind = el.dataset.c4Field;
   let w = 0, h = 0, t = 0, last = 0, raf = 0, painted = 0;
-  let visible = false, paused = false, mx = 0, my = 0, px = 0, py = 0;
-  try { paused = localStorage.getItem(KEY) === '1'; } catch {}
+  let visible = false, mx = 0, my = 0, px = 0, py = 0;
+  let choice = readMotion();
+  const paused = () => choice === 'reduced' || (choice !== 'full' && reduced.matches);
   const p = new Float64Array(4);
   const eligible = () => desktop.matches && w > 0 && h > 0;
-  const enabled = () => eligible() && visible && !document.hidden && !reduced.matches && !paused;
+  const enabled = () => eligible() && visible && !document.hidden && !paused();
   function project(u: number, v: number) {
     const a = u * TAU;
     const k = kind === 'geometry' ? 4 : kind === 'sculpture' ? 2 : 3;
@@ -105,11 +110,15 @@ function mount(el: HTMLElement): () => void {
   }
   function sync() {
     if (!btn) return;
-    btn.hidden = !eligible() || reduced.matches;
-    btn.setAttribute('aria-pressed', String(paused));
-    btn.setAttribute('aria-label', paused ? 'Riprendi animazione della testata' : 'Pausa animazione della testata');
-    btn.title = paused ? 'Riprendi animazione' : 'Pausa animazione';
-    el.dataset.c4State = !eligible() ? 'static' : reduced.matches ? 'reduced' : paused ? 'paused' : enabled() ? 'live' : 'offscreen';
+    const isPaused = paused();
+    btn.hidden = !eligible();
+    btn.setAttribute('aria-pressed', String(isPaused));
+    const label = isPaused ? 'Attiva animazione' : 'Pausa animazione';
+    btn.setAttribute('aria-label', label + ' della testata');
+    btn.title = label;
+    const caption = btn.querySelector('[data-c4-motion-label]');
+    if (caption) caption.textContent = isPaused ? 'Attiva movimento' : 'Pausa';
+    el.dataset.c4State = !eligible() ? 'static' : isPaused ? (choice === null ? 'reduced' : 'paused') : enabled() ? 'live' : 'offscreen';
     if (enabled()) { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } }
     else if (raf) { cancelAnimationFrame(raf); raf = 0; }
   }
@@ -120,8 +129,8 @@ function mount(el: HTMLElement): () => void {
     sync();
   }
   btn.addEventListener('click', () => {
-    paused = !paused;
-    try { localStorage.setItem(KEY, paused ? '1' : '0'); } catch {}
+    choice = paused() ? 'full' : 'reduced';
+    try { localStorage.setItem(KEY, choice); } catch {}
     sync();
   }, sig);
   host.addEventListener('pointermove', e => {
@@ -134,6 +143,7 @@ function mount(el: HTMLElement): () => void {
   document.addEventListener('visibilitychange', () => { checkVisible(); }, sig);
   desktop.addEventListener('change', () => { measure(); checkVisible(); }, sig);
   reduced.addEventListener('change', sync, sig);
+  window.addEventListener('storage', event => { if (event.key === KEY || event.key === null) { choice = readMotion(); sync(); } }, sig);
   const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(() => { measure(); checkVisible(); }) : null;
   ro?.observe(el);
   const io = typeof IntersectionObserver === 'function' ? new IntersectionObserver(() => checkVisible()) : null;

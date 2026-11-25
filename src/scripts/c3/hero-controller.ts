@@ -3,7 +3,7 @@
  *
  * Strategia (progressive enhancement):
  * 1. L'immagine statica (still) è sempre nel markup: è l'LCP e il fallback.
- * 2. Il campo WebGL parte solo dopo il load, in idle, se: WebGL2 + float target
+ * 2. Il campo WebGL parte al primo frame disponibile, se: WebGL2 + float target
  *    disponibili, movimento non ridotto, nessun Data Saver, dispositivo non
  *    troppo debole. Altrimenti resta lo still.
  * 3. Gira solo con la hero visibile e la scheda in primo piano.
@@ -274,35 +274,14 @@ export function mountHero(
     }
   }
 
-  // ---- Avvio progressivo: dopo il load, in idle ----------------------------
-  function start() {
-    if (started || ac.signal.aborted) return;
+  // Avvio al primo frame disponibile: lo still protegge il primo paint.
+  // Non attendiamo immagini, analytics o altri asset non critici.
+  const startup = requestAnimationFrame(() => {
+    if (ac.signal.aborted || started) return;
     started = true;
-    if (!eligible()) {
-      if (lowPower) setState("still");
-      return;
-    }
-    if (init()) warm(90);
     sync();
-  }
-  const idle = (cb: () => void) => {
-    const ric = (
-      window as {
-        requestIdleCallback?: (
-          cb: () => void,
-          o?: { timeout: number },
-        ) => number;
-      }
-    ).requestIdleCallback;
-    if (typeof ric === "function") ric(cb, { timeout: 1500 });
-    else setTimeout(cb, 300);
-  };
-  if (document.readyState === "complete") idle(start);
-  else
-    addEventListener("load", () => idle(start), {
-      once: true,
-      signal: ac.signal,
-    });
+  });
+  ac.signal.addEventListener("abort", () => cancelAnimationFrame(startup), { once: true });
 
   // ---- Eventi --------------------------------------------------------------
   const io = new IntersectionObserver((entries) => {
