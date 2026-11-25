@@ -1,6 +1,8 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
+import C3PageHero from '@/components/c3/page/C3PageHero.astro';
+import C3Section from '@/components/c3/page/C3Section.astro';
 
 const metadata = {
   title: 'Realizzazione siti web professionali per PMI | LS Web Agency',
@@ -11,92 +13,8 @@ const metadata = {
 };
 
 const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazioni%20su%20un%20sito%20web%20strategico.';
----
 
-<Layout metadata={metadata}>
-  <!-- HERO -->
-  <section class="relative overflow-hidden isolate">
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100/80 via-white to-white dark:from-violet-900/30 dark:via-transparent"></div>
-    <div class="container mx-auto px-6 pt-16 md:pt-20 pb-14">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
-            <span class="block text-neutral-900 dark:text-white">
-              Siti web strategici
-            </span>
-            <span class="block text-primary dark:text-violet-400">
-              per acquisire e gestire richieste clienti
-            </span>
-          </h1>
-
-          <p class="mt-5 text-base md:text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
-            Il sito web è il prodotto centrale: non una vetrina statica, ma uno strumento per trasformare visite in
-            richieste qualificate e gestirle con ordine. Progettiamo siti veloci e chiari, con form, CTA, SEO e
-            tracciamento già integrati — senza moduli scollegati da collegare dopo.
-          </p>
-          <p class="mt-3 text-sm md:text-base text-neutral-600 dark:text-neutral-400">
-            Se la tua attività ha sede a Sassari, trovi tipologie di progetto e indicazioni sui preventivi nella pagina
-            dedicata alla
-            <a
-              href="/servizi/creazione-siti-web-sassari"
-              class="font-medium text-primary dark:text-violet-400 underline underline-offset-2 hover:text-primary dark:hover:text-violet-300"
-            >
-              creazione di siti web a Sassari
-            </a>.
-          </p>
-
-          <div class="mt-8 flex flex-col sm:flex-row gap-3">
-            <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-primary hover:bg-secondary rounded-full shadow-lg transition">
-              Richiedi preventivo sito
-              <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
-            </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full transition">
-              <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2 text-emerald-600" />
-              WhatsApp
-            </a>
-          </div>
-
-          <div class="mt-6 grid grid-cols-3 gap-3 text-sm text-neutral-600 dark:text-neutral-300">
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              Richieste clienti
-            </div>
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              Form &amp; CTA
-            </div>
-            <div class="rounded-xl px-3 py-2 ring-1 ring-neutral-200 dark:ring-neutral-700 text-center">
-              SEO &amp; tracking
-            </div>
-          </div>
-        </div>
-
-        <div class="relative hidden md:block">
-          <div class="rounded-3xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/40 shadow-xl">
-            <img
-              src="/images/creazione-sito-web-professionale.webp"
-              alt="Sito web strategico orientato ad acquisire e gestire richieste clienti"
-              width="800"
-              height="600"
-              loading="eager"
-              decoding="async"
-              class="w-full h-auto"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COSA INCLUDE UN SITO WEB STRATEGICO -->
-  <section class="container mx-auto px-6 py-12">
-    <div class="text-center mb-12">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Cosa include un sito web strategico</h2>
-      <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-        Form, SEO, tracciamento e gestione richieste fanno parte del sito — non servizi separati da aggiungere in un secondo momento.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-6">
-      {[
+const FEATURES = [
         {
           icon: 'tabler:layout',
           title: 'Struttura orientata alle richieste',
@@ -122,88 +40,85 @@ const WHATSAPP = 'https://wa.me/393403223494?text=Ciao%2C%20vorrei%20informazion
           title: 'Tracciamento e automazioni leggere',
           desc: 'Monitoraggio delle conversioni e piccoli flussi automatici — notifiche, reminder, risposte iniziali — integrati nel sito.',
         },
-      ].map((item) => (
-        <article class="rounded-2xl p-6 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/80 dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition">
-          <Icon name={item.icon} class="w-10 h-10 text-primary dark:text-violet-400 mb-4" />
-          <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
-          <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
-        </article>
-      ))}
-    </div>
-  </section>
+      ];
+const REASONS = [
+  {
+    "title": "Progetto orientato alle richieste",
+    "desc": "Partiamo da come arrivano i contatti oggi e da come vuoi gestirli domani. Ogni scelta — struttura, contenuti, form — serve a generare e qualificare richieste, non a riempire pagine."
+  },
+  {
+    "title": "Percorso utente chiaro",
+    "desc": "Messaggio, gerarchia visiva e CTA pensati per ridurre attriti: il visitatore capisce subito cosa offri e come contattarti, da qualsiasi dispositivo."
+  },
+  {
+    "title": "Contatti gestiti con ordine",
+    "desc": "Form strutturati, notifiche e flusso di risposta definiti fin dall’inizio: le richieste non restano disperse tra email, WhatsApp e moduli scollegati."
+  },
+  {
+    "title": "Misurazione e crescita modulare",
+    "desc": "Tracciamento delle conversioni integrato e base solida da cui partire: puoi aggiungere SEO, automazioni o nuove sezioni nel tempo, senza rifare il sito da zero."
+  }
+];
+---
 
-  <!-- PERCHÉ SCEGLIERCI -->
-  <section class="bg-neutral-50 dark:bg-neutral-900/50 py-12">
-    <div class="container mx-auto px-6">
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Perché scegliere LS Web Agency</h2>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div>
-            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
-              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
-              Progetto orientato alle richieste
-            </h3>
-            <p class="text-neutral-600 dark:text-neutral-300">
-              Partiamo da come arrivano i contatti oggi e da come vuoi gestirli domani. Ogni scelta — struttura,
-              contenuti, form — serve a generare e qualificare richieste, non a riempire pagine.
-            </p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
-              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
-              Percorso utente chiaro
-            </h3>
-            <p class="text-neutral-600 dark:text-neutral-300">
-              Messaggio, gerarchia visiva e CTA pensati per ridurre attriti: il visitatore capisce subito cosa offri
-              e come contattarti, da qualsiasi dispositivo.
-            </p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
-              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
-              Contatti gestiti con ordine
-            </h3>
-            <p class="text-neutral-600 dark:text-neutral-300">
-              Form strutturati, notifiche e flusso di risposta definiti fin dall’inizio: le richieste non restano
-              disperse tra email, WhatsApp e moduli scollegati.
-            </p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
-              <Icon name="tabler:check" class="w-6 h-6 text-emerald-600" />
-              Misurazione e crescita modulare
-            </h3>
-            <p class="text-neutral-600 dark:text-neutral-300">
-              Tracciamento delle conversioni integrato e base solida da cui partire: puoi aggiungere SEO, automazioni
-              o nuove sezioni nel tempo, senza rifare il sito da zero.
-            </p>
-          </div>
-        </div>
+<Layout metadata={metadata} headerTone="dark">
+  <div class="c3 c3p c4-service-detail">
+    <C3PageHero
+      kicker="Siti web strategici"
+      title="Siti web strategici per acquisire e gestire richieste clienti"
+      accent="per acquisire e gestire richieste clienti"
+      size="l"
+      lead="Il sito web è il prodotto centrale: non una vetrina statica, ma uno strumento per trasformare visite in richieste qualificate e gestirle con ordine. Progettiamo siti veloci e chiari, con form, CTA, SEO e tracciamento già integrati — senza moduli scollegati da collegare dopo."
+      actions={[
+        { text: 'Richiedi preventivo sito', href: '/contatti?servizio=siti-web' },
+        { text: 'WhatsApp', href: WHATSAPP, variant: 'secondary', external: true },
+      ]}
+    >
+      <p class="c4-service-local">
+        Se la tua attività ha sede a Sassari, trovi tipologie di progetto e indicazioni sui preventivi nella pagina dedicata alla
+        <a href="/servizi/creazione-siti-web-sassari">creazione di siti web a Sassari</a>.
+      </p>
+      <div slot="aside" class="c4-service-aside">
+        <figure class="c4-service-visual">
+          <img src="/images/creazione-sito-web-professionale.webp" alt="Sito web strategico orientato ad acquisire e gestire richieste clienti" width="800" height="600" loading="eager" decoding="async" />
+        </figure>
+        <ul class="c4-service-tags" aria-label="Caratteristiche">
+          <li>Richieste clienti</li><li>Form &amp; CTA</li><li>SEO &amp; tracking</li>
+        </ul>
       </div>
-    </div>
-  </section>
+    </C3PageHero>
 
-  <!-- CTA FINALE -->
-  <section class="container mx-auto px-6 py-16">
-    <div class="rounded-3xl p-8 md:p-12 ring-1 ring-neutral-200 dark:ring-neutral-800 bg-gradient-to-br from-violet-600 via-violet-600 to-violet-700 text-white">
-      <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-2xl md:text-3xl font-extrabold mb-4">Parliamo del tuo progetto web</h2>
-        <p class="text-lg text-violet-100 mb-8">
-          Raccontaci obiettivi, tipologia di clienti e come gestisci oggi i contatti: valuto il progetto e preparo
-          una proposta di sito strategico su misura.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/contatti?servizio=siti-web" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-primary bg-white hover:bg-violet-50 rounded-full shadow-lg transition">
-            Richiedi preventivo sito
-            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
-          </a>
-          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-secondary/50 hover:bg-secondary border-2 border-white/30 rounded-full transition">
-            <Icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-2" />
-            Scrivici su WhatsApp
-          </a>
-        </div>
+    <C3Section tone="ivory" id="cosa-include" index="01" kicker="Il progetto" title="Cosa include un sito web strategico" lead="Form, SEO, tracciamento e gestione richieste fanno parte del sito — non servizi separati da aggiungere in un secondo momento.">
+      <div class="c4-service-features">
+        {FEATURES.map((item, i) => (
+          <article class="c4-service-feature">
+            <div class="c4-service-feature-top">
+              <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <Icon name={item.icon} class="c4-service-icon" aria-hidden="true" />
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </article>
+        ))}
       </div>
-    </div>
-  </section>
+    </C3Section>
+
+    <C3Section tone="deep" id="perche-sceglierci" index="02" kicker="Metodo" title="Perché scegliere LS Web Agency">
+      <div class="c4-service-reasons">
+        {REASONS.map((item, i) => (
+          <article class="c4-service-reason">
+            <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div><h3>{item.title}</h3><p>{item.desc}</p></div>
+          </article>
+        ))}
+      </div>
+    </C3Section>
+
+    <C3Section tone="ivory" id="progetto" index="03" kicker="Contatti" title="Parliamo del tuo progetto web" lead="Raccontaci obiettivi, tipologia di clienti e come gestisci oggi i contatti: valuto il progetto e preparo una proposta di sito strategico su misura.">
+      <div class="c4-service-actions">
+        <a class="c3-btn c3-btn--p" href="/contatti?servizio=siti-web">Richiedi preventivo sito <Icon name="tabler:arrow-right" class="c3-ico" aria-hidden="true" /></a>
+        <a class="c3-btn c3-btn--s" href={WHATSAPP} target="_blank" rel="noopener noreferrer"><Icon name="tabler:brand-whatsapp" class="c3-ico" aria-hidden="true" /> Scrivici su WhatsApp</a>
+      </div>
+    </C3Section>
+  </div>
 </Layout>
-

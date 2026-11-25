@@ -10,7 +10,7 @@ import C3PageHero from '@/components/c3/page/C3PageHero.astro';
 import C3Section from '@/components/c3/page/C3Section.astro';
 import C3Paths from '@/components/c3/page/C3Paths.astro';
 import { PRACTICES, SECONDARY } from '@/data/c3/services';
-import { SERVICES, PORTFOLIO } from '@/data/c3/home';
+import { SERVICES, PORTFOLIO, shotSrcset } from '@/data/c3/home';
 
 // ✅ immagine esistente importata come ESM (evita MissingImageDimension) — usata per OG
 import servicesHero from '@/assets/images/servizi-seo-grafica-branding-siti-web.webp';
@@ -35,7 +35,7 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
 ---
 
 <Layout metadata={metadata} headerTone="dark">
-  <div class="c3 c3p">
+  <div class="c3 c3p c4-service-hub">
     <C3PageHero
       kicker="Servizi"
       title="Servizi web e digitali: scegli da dove partire"
@@ -165,7 +165,7 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
           PORTFOLIO.map((p) => (
             <a class="c3-work c3-up" href={`/portfolio/${p.id}`}>
               <span class="c3-work-img">
-                <img src={p.shot} alt={`Homepage del sito ${p.domain}`} width="800" height="500" loading="lazy" decoding="async" />
+                <img src={p.shot} srcset={shotSrcset(p.shot)} sizes="(min-width: 1440px) 305px, (min-width: 1024px) 23vw, (min-width: 601px) 45vw, 90vw" alt={`Homepage del sito ${p.domain}`} width="800" height="500" loading="lazy" decoding="async" />
               </span>
               <strong>{p.name}</strong>
               <span>{p.role}</span>
