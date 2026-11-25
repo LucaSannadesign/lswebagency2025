@@ -1749,3 +1749,17 @@ html[data-ls-home-theme="dark"] #c3-root.c3-js .c3-skills {
     --portfolio-bridge: clamp(220px, 40svh, 360px);
   }
 }
+
+/* Default hero autoplay survives unavailable or throttled WebGL.
+   Animate the already-loaded still on the compositor; pause when offscreen,
+   hidden, or when the visitor requests reduced movement. */
+@keyframes c3-hero-fallback-drift {
+  from { transform: translate3d(-0.8%, -0.5%, 0) scale(1.055); }
+  to { transform: translate3d(1.2%, 0.8%, 0) scale(1.14); }
+}
+#c3-root:not(.is-reduced) .c3-hero:is([data-gl-state="fallback"], [data-gl-state="fallback-paused"]) .c3-hero-bg img {
+  animation: c3-hero-fallback-drift 14s ease-in-out infinite alternate;
+}
+#c3-root .c3-hero[data-gl-state="fallback-paused"] .c3-hero-bg img {
+  animation-play-state: paused;
+}
