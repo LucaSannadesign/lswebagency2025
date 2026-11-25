@@ -1,149 +1,57 @@
 ---
+/**
+ * /portfolio/page/N · Redesign C.3.4
+ * Stesso archivio di /portfolio (esclusi i 4 progetti in evidenza), 12 per
+ * pagina. URL, title, description e canonical invariati nel formato.
+ */
 import Layout from '@/layouts/PageLayout.astro';
-import { getCollection } from 'astro:content';
+import C3PageHero from '@/components/c3/page/C3PageHero.astro';
+import C3Archive from '@/components/c3/page/C3Archive.astro';
+import C3Paths from '@/components/c3/page/C3Paths.astro';
+import { getPortfolio, PER_PAGE } from '@/data/c3/portfolio-archive';
 
-const PER_PAGE = 12;
-
-// Ordinamento robusto per data
-const ts = (v: unknown) => {
-  const d = v instanceof Date ? v : (typeof v === 'string' && v ? new Date(v) : null);
-  return d && !Number.isNaN(d.getTime()) ? d.getTime() : 0;
-};
-
-const statusRank = (status?: string) =>
-  status === 'live_client' ? 0
-  : status === 'independent_active' ? 1
-  : status === 'independent_pilot' ? 2
-  : status === 'editorial_project' ? 3
-  : status === 'historical' ? 5
-  : 4;
-
-const comparePortfolio = (a: any, b: any) => {
-  const rankDiff = statusRank(a.data.projectStatus) - statusRank(b.data.projectStatus);
-  if (rankDiff !== 0) return rankDiff;
-  const tb = ts(b.data.updateDate ?? b.data.publishDate);
-  const ta = ts(a.data.updateDate ?? a.data.publishDate);
-  return tb - ta || String(a.data.slug || '').localeCompare(String(b.data.slug || ''));
-};
-
-export async function getStaticPaths() {
-  const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
-    .slice()
-    .sort(comparePortfolio);
-
-  const total = all.length;
-  const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
-
-  const paths: { params: { page: string } }[] = [];
-  for (let p = 2; p <= totalPages; p++) {
-    paths.push({ params: { page: String(p) } });
-  }
-  return paths;
+const { all, archive, totalPages, counts } = await getPortfolio();
+const rawPage = Astro.params.page ?? '';
+const pageParam = /^[1-9]\d*$/.test(rawPage) ? Number(rawPage) : NaN;
+if (pageParam === 1) return Astro.redirect('/portfolio', 301);
+// Preserve formerly valid archive pages if highlighting projects reduces the page count.
+const formerPages = Math.max(1, Math.ceil(all.length / PER_PAGE));
+if (Number.isSafeInteger(pageParam) && pageParam > totalPages && pageParam <= formerPages) {
+  return Astro.redirect(totalPages === 1 ? '/portfolio#archivio' : `/portfolio/page/${totalPages}`, 301);
 }
+const invalid = !Number.isSafeInteger(pageParam) || pageParam < 2 || pageParam > totalPages;
+if (invalid) Astro.response.status = 404;
+const currentPage = invalid ? 2 : pageParam;
+const items = archive.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
-const all = (await getCollection('portfolio', (e) => !(e.data as any)?.draft))
-  .slice()
-  .sort(comparePortfolio);
-
-const total = all.length;
-const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
-const pageParam = Number.parseInt(Astro.params.page ?? '2', 10);
-const currentPage = Number.isFinite(pageParam) && pageParam >= 2 ? pageParam : 2;
-
-const start = (currentPage - 1) * PER_PAGE;
-const items = all.slice(start, start + PER_PAGE);
-
-const prevHref = currentPage === 2 ? '/portfolio' : `/portfolio/page/${currentPage - 1}`;
-const nextHref = currentPage < totalPages ? `/portfolio/page/${currentPage + 1}` : null;
-
-const metadata = {
+const metadata = invalid ? {
+  title: 'Pagina non trovata (404)',
+  description: 'La pagina richiesta non esiste.',
+  robots: { index: false, follow: true },
+} : {
   title: `Portfolio — Pagina ${currentPage}`,
   description: `Progetti realizzati da LS Web Agency — pagina ${currentPage} di ${totalPages}.`,
   canonical: `/portfolio/page/${currentPage}`,
 };
-
-// Normalizza l’href della card
-function hrefFor(item: any) {
-  const raw =
-    item?.data?.permalink
-      ?? (item?.data?.slug ? `/portfolio/${item.data.slug}` : null)
-      ?? `/portfolio/${item.slug}`;
-
-  return ('/' + String(raw).trim())
-    .replace(/\/{2,}/g, '/')
-    .replace(/\/+$/, '');
-}
 ---
 
-<Layout metadata={metadata}>
-  <section class="container mx-auto px-6 py-10">
-    <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Portfolio</h1>
-    <p class="text-neutral-600 dark:text-neutral-300 mb-6">Pagina {currentPage} di {totalPages}</p>
-
-    <div id="portfolio-grid" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map((item) => {
-        const href = hrefFor(item);
-        const img = item.data.image as { src?: string; alt?: string; width?: number; height?: number } | undefined;
-
-        return (
-          <article class="rounded-xl overflow-hidden ring-1 ring-neutral-200 dark:ring-neutral-800 bg-white/70 dark:bg-neutral-900/50">
-            <a href={href} class="block" aria-label={`Apri: ${item.data.title}`}>
-              {img?.src && (
-                <img
-                  src={img.src}
-                  alt={img?.alt ?? item.data.title}
-                  width={img?.width ?? 1200}
-                  height={img?.height ?? 800}
-                  loading="lazy"
-                  decoding="async"
-                  class="w-full object-cover aspect-[3/2]"
-                />
-              )}
-              <div class="p-4">
-                {item.data.projectStatus && (
-                  <p class="mb-2 text-xs font-medium text-neutral-600 dark:text-neutral-300">
-                    {item.data.projectStatus === 'live_client'
-                      ? '● Sito cliente attivo'
-                        : item.data.projectStatus === 'independent_active'
-                        ? '◦ Progetto indipendente · Online'
-                        : item.data.projectStatus === 'editorial_project'
-                        ? '◦ Grafica editoriale'
-                      : item.data.projectStatus === 'independent_pilot'
-                      ? '◦ Progetto indipendente · Pilota'
-                      : '◦ Progetto storico · Sito non più online'}
-                  </p>
-                )}
-                <h3 class="font-semibold">{item.data.title}</h3>
-                {item.data.description && (
-                  <p class="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2">
-                    {item.data.description}
-                  </p>
-                )}
-              </div>
-            </a>
-          </article>
-        );
-      })}
-    </div>
-
-    <nav class="mt-10 flex items-center justify-center gap-3">
-      <a
-        href={prevHref}
-        rel="prev"
-        class="inline-flex items-center justify-center rounded-full px-5 py-2.5 ring-1 ring-neutral-300 hover:bg-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800"
-      >
-        ← Pagina precedente
-      </a>
-
-      {nextHref && (
-        <a
-          href={nextHref}
-          rel="next"
-          class="inline-flex items-center justify-center rounded-full px-5 py-2.5 ring-1 ring-neutral-300 hover:bg-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800"
-        >
-          Pagina successiva →
-        </a>
-      )}
-    </nav>
-  </section>
+<Layout metadata={metadata} headerTone="dark">
+  {invalid ? (
+    <section class="min-h-[60vh] flex items-center justify-center px-6 text-center">
+      <div><h1 class="text-4xl font-bold">Pagina non trovata</h1><p class="mt-3">Questa pagina del portfolio non esiste.</p><a class="inline-block mt-6 underline" href="/portfolio">Torna al portfolio</a></div>
+    </section>
+  ) : (
+  <div class="c3 c3p">
+    <C3PageHero
+      kicker="Lavori"
+      title={`Portfolio — pagina ${currentPage}`}
+      accent="Portfolio"
+      size="l"
+      lead="Archivio dei progetti con lo stato dichiarato su ogni scheda."
+      actions={[{ text: '← Torna ai progetti in evidenza', href: '/portfolio', variant: 'secondary' }]}
+    />
+    <C3Archive items={items} counts={counts} currentPage={currentPage} totalPages={totalPages} />
+    <C3Paths />
+  </div>
+  )}
 </Layout>

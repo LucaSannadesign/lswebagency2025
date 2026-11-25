@@ -1,0 +1,120 @@
+---
+/**
+ * Footer C.3: stessi contenuti e link del footer del sito (navigazione,
+ * servizi, social, RSS, sede, P. IVA, email, WhatsApp, Telegram, privacy,
+ * mappa del sito, preferenze cookie), con la palette grafite.
+ */
+import { Icon } from 'astro-icon/components';
+
+const NAV_MAIN = [
+  { text: 'Home', href: '/' },
+  { text: 'Chi siamo', href: '/chi-siamo' },
+  { text: 'Servizi', href: '/servizi' },
+  { text: 'Portfolio', href: '/portfolio' },
+  { text: 'Blog', href: '/blog' },
+  { text: 'Contatti', href: '/contatti' },
+];
+const NAV_SERVICES = [
+  { text: 'Sito web strategico', href: '/servizi/siti-web' },
+  { text: 'Ottimizzazione SEO', href: '/servizi/ottimizzazione-seo-siti-web' },
+  { text: 'AI Operations per PMI', href: '/servizi/ai-operations-pmi' },
+];
+const SOCIAL = [
+  { href: 'https://www.linkedin.com/in/lucasannadesign', icon: 'tabler:brand-linkedin', label: 'LinkedIn' },
+  { href: 'https://www.instagram.com/ls_web_agency', icon: 'tabler:brand-instagram', label: 'Instagram' },
+  { href: 'https://www.facebook.com/lswebdesignagency', icon: 'tabler:brand-facebook', label: 'Facebook' },
+];
+---
+
+<footer class="c3-foot" data-c3-chapter="dark">
+  <div class="c3-foot-grid">
+    <div class="c3-foot-brand">
+      <a href="/" aria-label="LS Web Agency, torna alla home">
+        <img src="/images/logo-ls-webdesignagency-2025-bn.svg" alt="" width="190" height="34" loading="lazy" />
+        <span class="c3-sr">LS Web Agency</span>
+      </a>
+      <p>UX/UI, sviluppo front-end, creative development e SEO locale per professionisti e piccole imprese.</p>
+      <ul class="c3-soc" aria-label="Social e feed">
+        {
+          SOCIAL.map((s) => (
+            <li>
+              <a class="c3-icon-btn" href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
+                <Icon name={s.icon} class="c3-ico" />
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="c3-icon-btn" href="/rss.xml" rel="alternate" aria-label="Feed RSS del blog">
+            <Icon name="tabler:rss" class="c3-ico" />
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="c3-foot-t">Dove siamo</p>
+      <address>
+        LS Web Agency di <a href="https://www.lucasanna.eu/" target="_blank" rel="noopener noreferrer">Luca Sanna</a><br />
+        Via Alcide De Gasperi, 3<br />
+        07100 Sassari, Sardegna, Italia<br />
+        P. IVA: 02929290902
+      </address>
+    </div>
+
+    <nav aria-label="Navigazione footer">
+      <p class="c3-foot-t">Navigazione</p>
+      <ul>
+        {
+          NAV_MAIN.map((l) => (
+            <li>
+              <a href={l.href} {...(l.href === '/blog' ? { 'data-astro-reload': true } : {})}>
+                {l.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="c3-foot-t c3-foot-t--sub">Servizi principali</p>
+      <ul>
+        {
+          NAV_SERVICES.map((l) => (
+            <li>
+              <a href={l.href}>{l.text}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div>
+      <p class="c3-foot-t">Richiedi una consulenza</p>
+      <p>Hai un progetto web, SEO o AI? Scrivimi per una prima valutazione.</p>
+      <p><a class="c3-foot-mail" href="mailto:info@lswebagency.com">info@lswebagency.com</a></p>
+      <ul class="c3-soc">
+        <li>
+          <a class="c3-icon-btn" href="https://wa.me/393403223494" aria-label="Scrivici su WhatsApp">
+            <Icon name="tabler:brand-whatsapp" class="c3-ico" />
+          </a>
+        </li>
+        <li>
+          <a class="c3-icon-btn" href="https://t.me/lswebagency" aria-label="Scrivici su Telegram">
+            <Icon name="tabler:brand-telegram" class="c3-ico" />
+          </a>
+        </li>
+      </ul>
+      <a class="c3-btn c3-btn--s c3-foot-cta" href="/contatti">Vai al form contatti</a>
+    </div>
+  </div>
+
+  <div class="c3-foot-bar">
+    <p>© {new Date().getFullYear()} <strong>LS Web Agency</strong>. Tutti i diritti riservati.</p>
+    <nav aria-label="Link legali footer">
+      <a href="/privacy">Privacy & Cookie Policy</a>
+      <a href="/terms">Termini di servizio</a>
+      <a href="/mappa-del-sito">Mappa del sito</a>
+      <button type="button" data-cookie-preferences>Gestisci preferenze cookie</button>
+    </nav>
+  </div>
+</footer>
+

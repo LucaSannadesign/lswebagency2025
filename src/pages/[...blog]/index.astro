@@ -45,10 +45,14 @@ const metadata = merge(
 ) as MetaData;
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} headerTone="dark">
   <SinglePost post={{ ...post, image }} url={url}>
     {post.Content ? <post.Content /> : <Fragment set:html={post.content || ''} />}
   </SinglePost>
-  <ToBlogLink />
-  <RelatedPosts post={post} />
+  <div class="c3 c3p">
+    <div class="c3-sec c3-sec--read c3-article-after">
+      <ToBlogLink />
+      <RelatedPosts post={post} />
+    </div>
+  </div>
 </Layout>

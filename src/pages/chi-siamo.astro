@@ -1,234 +1,197 @@
 ---
-import Features3 from '@/components/widgets/Features3.astro';
+/**
+ * /chi-siamo · Redesign C.3.4
+ * Ritratto professionale dello studio indipendente di Luca Sanna: profilo,
+ * formazione artistica, metodo, competenze (tecnologie realmente usate nei
+ * progetti del portfolio), pubblici, principi. Nessuna illustrazione generica,
+ * nessun team suggerito.
+ * Invariati: title, description, H1.
+ */
 import Layout from '@/layouts/PageLayout.astro';
-import CallToAction from '@/components/widgets/CallToAction.astro';
+import C3PageHero from '@/components/c3/page/C3PageHero.astro';
+import C3Section from '@/components/c3/page/C3Section.astro';
+import C3Paths from '@/components/c3/page/C3Paths.astro';
 
 const metadata = {
   title: 'Chi Siamo - LS Web Agency',
   description:
     'LS Web Agency è un progetto di Luca Sanna, web designer e developer con oltre 15 anni di esperienza nello sviluppo di siti web e applicazioni. Collaboriamo con esperti per offrire soluzioni digitali di alta qualità.',
 };
+
+const METHOD = [
+  { t: 'Ascolto e analisi', d: 'Obiettivi, pubblico, vincoli e materiali esistenti. Se il sito c’è già, parto da cosa funziona e da cosa frena i contatti.' },
+  { t: 'Struttura e direzione visiva', d: 'Architettura dei contenuti, gerarchie, percorsi e un linguaggio visivo coerente con l’identità del progetto.' },
+  { t: 'Sviluppo su misura', d: 'Codice scritto per il progetto: veloce, accessibile, responsive e facile da aggiornare, con SEO tecnica e moduli integrati.' },
+  { t: 'Lancio, misura e cura', d: 'Verifiche, pubblicazione e misurazione. Dopo il lancio intervengo sulle priorità, quando servono.' },
+];
+
+const SKILLS = [
+  { t: 'Design', items: ['UX/UI e architettura dei contenuti', 'Brand identity e design grafico', 'Grafica editoriale e impaginazione'] },
+  { t: 'Sviluppo front-end', items: ['HTML, CSS, JavaScript', 'Astro, React, Tailwind CSS', 'Accessibilità e performance'] },
+  { t: 'Creative development', items: ['WebGL e shader', 'Animazioni con riduzione del movimento', 'Prototipi interattivi'] },
+  { t: 'Piattaforme e dati', items: ['WordPress, WooCommerce, Drupal', 'Supabase, Vercel', 'SEO tecnica e misurazione'] },
+];
+
+const AUDIENCES = [
+  {
+    t: 'Aziende e professionisti',
+    d: 'Progetti strutturati: un nuovo sito, il rifacimento di una piattaforma, un prodotto digitale con obiettivi chiari.',
+    href: '/servizi',
+    cta: 'Esplora i servizi dello studio',
+  },
+  {
+    t: 'Agenzie e partner tecnologici',
+    d: 'Sviluppo front-end e design in collaborazione, con perimetro definito e lavoro riservato: il cliente resta vostro.',
+    href: '/servizi/sviluppo-web-white-label',
+    cta: 'Collaborazioni white label',
+  },
+  {
+    t: 'Clienti internazionali',
+    d: 'Creative development, UX/UI e sviluppo web su misura, a distanza. Lavoro in italiano e in inglese.',
+    href: '/contatti#progetto-strutturato',
+    cta: 'Write to me in English',
+  },
+];
+
+const PRINCIPLES = [
+  { t: 'Trasparenza', d: 'Prezzi di partenza dichiarati e stato reale di ogni progetto in portfolio.' },
+  { t: 'Qualità verificabile', d: 'Siti veloci, accessibili e sicuri, controllati prima e dopo la pubblicazione.' },
+  { t: 'Risultati misurati', d: 'Riporto metriche e risultati solo quando sono misurati e verificabili.' },
+  { t: 'Continuità', d: 'Un solo interlocutore dal primo confronto alla manutenzione.' },
+];
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} headerTone="dark">
+  <div class="c3 c3p">
+    <C3PageHero visual="sculpture"
+      kicker="Chi siamo"
+      title="Strategie Digitali e Creazione Siti Web su Misura"
+      accent="su Misura"
+      lead="LS Web Agency è lo studio indipendente di Luca Sanna. Unisce cultura visiva, progettazione UX/UI e sviluppo web per realizzare siti e prodotti digitali su misura, con attenzione a SEO, accessibilità e prestazioni."
+      actions={[
+        { text: 'Parla con Luca', href: '/contatti' },
+        { text: 'Vedi lavori', href: '/portfolio', variant: 'secondary' },
+      ]}
+    >
+      <dl class="c3-meta" slot="aside">
+        <div><dt>Fondatore</dt><dd>Luca Sanna, web designer e developer</dd></div>
+        <div><dt>Esperienza</dt><dd>Oltre 15 anni di siti web e applicazioni</dd></div>
+        <div><dt>Base</dt><dd>Sassari · da remoto in tutta Italia</dd></div>
+        <div><dt>Lingue</dt><dd>Italiano, inglese</dd></div>
+      </dl>
+    </C3PageHero>
 
-  <!-- HERO personalizzato -->
-  <section class="relative isolate overflow-hidden">
-    <!-- sfondo hero -->
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
-      <div class="absolute inset-0 bg-gradient-to-b from-fuchsia-100/70 via-white/70 to-white dark:from-fuchsia-900/25 dark:via-transparent dark:to-transparent"></div>
-    </div>
-
-    <div class="container mx-auto px-6 pt-16 pb-10 grid md:grid-cols-12 gap-10 items-center">
-      <!-- TESTO -->
-      <div class="md:col-span-7">
-        <p class="mb-2 text-xs font-semibold tracking-wide text-fuchsia-700/90 dark:text-fuchsia-300">CHI SIAMO</p>
-        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-400">
-            Strategie Digitali
-          </span>
-          e
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 dark:from-violet-400 dark:via-fuchsia-400 dark:to-pink-400">
-            Creazione Siti Web
-          </span>
-          su Misura
-        </h1>
-
-        <p class="mt-4 text-neutral-700 dark:text-neutral-300 max-w-prose">
-          Aiutiamo aziende e professionisti a trasformare la presenza online con siti innovativi, ottimizzati per SEO e performance elevate.
-        </p>
-        <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-          Base a Sassari · Lavoriamo anche da remoto in tutta Italia
-        </p>
-
-        <ul class="mt-6 grid grid-cols-2 gap-3 max-w-md text-sm">
-          <li class="flex items-center gap-2">✅ Go-live veloce</li>
-          <li class="flex items-center gap-2">🎯 Focus KPI</li>
-          <li class="flex items-center gap-2">♿ Accessibilità</li>
-          <li class="flex items-center gap-2">🔒 Sicurezza</li>
-        </ul>
-
-        <div class="mt-7 flex flex-wrap gap-3">
-          <a href="/contatti" class="inline-flex items-center justify-center rounded-full px-6 py-3 text-white bg-primary hover:bg-secondary transition">Parla con Luca</a>
-          <a href="/portfolio" class="inline-flex items-center justify-center rounded-full px-6 py-3 ring-1 ring-neutral-300 text-neutral-900 hover:bg-neutral-100 dark:text-neutral-100 dark:ring-neutral-700 dark:hover:bg-neutral-800 transition">Vedi lavori</a>
+    <C3Section tone="ivory" id="profilo" index="01" kicker="Profilo" title="Un designer che scrive il codice." accent="scrive il codice.">
+      <div class="c3-phero-grid">
+        <div class="c3-up">
+          <p class="c3-stmt-s">
+            <strong>LS Web Agency</strong> è un progetto fondato da <strong>Luca Sanna</strong>, web designer e developer con
+            oltre 15 anni di esperienza nello sviluppo di siti web e applicazioni.
+          </p>
+          <p class="c3-lead">
+            Vengo dalla pittura e dalla grafica: composizione, colore e gerarchia sono il punto di partenza di ogni
+            interfaccia. Poi viene il codice, scritto per il progetto e non adattato da un tema. Seguo ogni lavoro in prima
+            persona, dal primo confronto al rilascio e alla manutenzione.
+          </p>
         </div>
-      </div>
-
-      <!-- RIQUADRO “appoggiato” a destra -->
-      <div class="hidden md:block md:col-span-5 relative hero-stage">
-        <figure class="hero-card">
-          <!-- immagine trasparente: metti il file in /public/images/hero/chi-siamo-dashboard.png -->
-          <img
-            src="/images/chi-siamo-dashboard.webp"
-            alt="Dashboard SEO con grafici e indicatori di performance"
-            width="1200" height="900"
-            loading="eager" decoding="async" fetchpriority="high"
-            class="block w-full h-auto"
-            onerror="this.style.display='none'; this.parentElement.querySelector('.fallback').style.display='block';"
-          />
-          <!-- fallback tenue se l'immagine manca -->
-          <div class="fallback absolute inset-0 hidden">
-            <div class="absolute inset-0 bg-gradient-to-tr from-fuchsia-100/60 via-white to-violet-100/50 dark:from-fuchsia-900/25 dark:via-transparent dark:to-violet-900/25"></div>
-            <div class="absolute bottom-6 left-6 right-6 h-24 rounded-xl"
-                 style="background:
-                   linear-gradient(120deg, rgba(139,92,246,.35), rgba(217,70,239,.25), rgba(162,83,218,.35)),
-                   repeating-linear-gradient( to right, rgba(17,24,39,.10) 0 10px, rgba(17,24,39,0) 10px 20px);
-                 ">
-            </div>
+        <dl class="c3-meta c3-up">
+          <div>
+            <dt>Formazione</dt>
+            <dd>
+              Artistica, con una pratica pittorica attiva ·
+              <a class="c3-link" href="/portfolio/luca-sanna-artista-contemporaneo">il lavoro artistico</a>
+            </dd>
           </div>
-          <figcaption class="sr-only">Rappresentazione dei risultati digitali dell’agenzia</figcaption>
-        </figure>
+          <div><dt>Ruolo</dt><dd>Direzione visiva, UX/UI e sviluppo front-end</dd></div>
+          <div><dt>Interlocutore</dt><dd>Uno solo, per tutto il progetto</dd></div>
+          <div><dt>Progetti propri</dt><dd>PreventivoDentale, Canapalandia, LUGHE, YoArtly</dd></div>
+        </dl>
       </div>
-    </div>
+    </C3Section>
 
-    <style>
-      /* Ombra “d’appoggio” sul piano */
-      .hero-stage::after{
-        content:"";
-        position:absolute;
-        right:2%;
-        bottom:-10px;
-        width:min(48vw, 680px);
-        height:24px;
-        filter: blur(14px);
-        background: radial-gradient(60% 120% at 50% 50%, rgba(2,6,23,.20), transparent 70%);
-        z-index:-1;
-      }
-
-      /* Card con angoli arrotondati e leggera fluttuazione */
-      .hero-card{
-        position:relative;
-        overflow:hidden;
-        border-radius:28px;
-        background:#fff; /* il PNG è trasparente, lo sfondo vive nella card */
-        box-shadow:
-          0 22px 44px rgba(2,6,23,.08),
-          0 4px 10px rgba(2,6,23,.05);
-      }
-      .hero-card::before,
-      .hero-card::after{
-        content:"";
-        position:absolute;
-        z-index:-1;
-        bottom:-16px;
-        width:44%;
-        height:28px;
-        filter: blur(12px);
-        background: radial-gradient(ellipse at center, rgba(2,6,23,.38), rgba(2,6,23,0) 70%);
-      }
-      .hero-card::before{ left:6%;  transform: rotate(-2deg); }
-      .hero-card::after { right:6%; transform: rotate( 2deg); }
-
-      .hero-card > img + .fallback,
-      .hero-card > .fallback{
-        box-shadow: inset 0 0 0 1px rgba(2,6,23,.06);
-      }
-
-      @media (prefers-reduced-motion: no-preference){
-        .hero-card{ animation: cardFloat 14s ease-in-out infinite; }
-        @keyframes cardFloat{
-          0%,100%{ transform: translateY(0) }
-          50%{     transform: translateY(-4px) }
+    <C3Section tone="deep" id="metodo" index="02" kicker="Metodo" title="Un metodo, quattro fasi.">
+      <ol class="c3-route">
+        {
+          METHOD.map((m, i) => (
+            <li class="c3-up">
+              <span class="c3-route-n">Fase {i + 1}</span>
+              <h3>{m.t}</h3>
+              <p>{m.d}</p>
+            </li>
+          ))
         }
-      }
-    </style>
-  </section>
+      </ol>
+    </C3Section>
 
-  <!-- Sezione Descrittiva su LS Web Agency -->
-  <section class="py-16 text-center">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold">Chi è LS Web Agency?</h2>
-      <p class="text-lg mt-4 max-w-2xl mx-auto">
-        <strong>LS Web Agency</strong> è un progetto fondato da <strong>Luca Sanna</strong>, web designer e developer con oltre 15 anni di esperienza
-        nello sviluppo di siti web e applicazioni.
-        Il nostro obiettivo è unire competenze e professionalità per offrire soluzioni digitali
-        <strong> di alta qualità</strong>, con un approccio su misura per ogni cliente.
-      </p>
-    </div>
-  </section>
-
-  <!-- Servizi Offerti -->
-  <Features3
-    title="I Nostri Servizi"
-    subtitle="Ogni progetto è studiato per ottenere il massimo dei risultati."
-    columns={3}
-    isBeforeContent={true}
-    items={[
-      { title: 'Creazione Siti Web', description: 'Realizziamo siti web personalizzati, responsive e ottimizzati per ogni dispositivo.', icon: 'tabler:template' },
-      { title: 'SEO e Posizionamento', description: 'Miglioriamo il ranking sui motori di ricerca con strategie SEO avanzate.', icon: 'tabler:search' },
-      { title: 'Branding e Identità Visiva', description: 'Costruiamo la tua immagine online con grafiche accattivanti e un’identità forte.', icon: 'tabler:palette' },
-    ]}
-  />
-
-  <!-- I Nostri Valori -->
-  <section class="py-16">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-6">I Nostri Valori</h2>
-      <p class="text-center text-muted max-w-3xl mx-auto mb-10">
-        La nostra filosofia si basa su qualità, trasparenza e innovazione. Ogni sito web che realizziamo è il risultato
-        di una visione strategica e di un impegno costante per offrire il massimo valore ai nostri clienti.
-      </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <!-- Colonna Sinistra -->
-        <div class="space-y-6">
-          <div class="flex items-start space-x-4">
-            <span class="text-accent text-3xl">📈</span>
-            <div>
-              <h3 class="text-lg font-semibold">Innovazione Continua</h3>
-              <p class="text-muted">Esploriamo nuove tecnologie e seguiamo le ultime tendenze per creare soluzioni digitali avanzate e performanti.</p>
+    <C3Section
+      tone="ivory"
+      id="competenze"
+      index="03"
+      kicker="Competenze e strumenti"
+      title="Dal segno all’interfaccia."
+      accent="all’interfaccia."
+      lead="Dalla composizione visiva al codice, gli strumenti che utilizzo nei progetti presentati nel portfolio e in questo sito."
+    >
+      <div class="c3-cols">
+        {
+          SKILLS.map((s) => (
+            <div class="c3-col c3-up">
+              <h3>{s.t}</h3>
+              <ul class="c3-practice-tags" style="display:grid;gap:8px">
+                {s.items.map((it) => (
+                  <li>{it}</li>
+                ))}
+              </ul>
             </div>
-          </div>
-          <div class="flex items-start space-x-4">
-            <span class="text-accent text-3xl">⭐</span>
-            <div>
-              <h3 class="text-lg font-semibold">Eccellenza e Qualità</h3>
-              <p class="text-muted">Lavoriamo con precisione per garantire siti web veloci, sicuri e dall’estetica impeccabile.</p>
-            </div>
-          </div>
-          <div class="flex items-start space-x-4">
-            <span class="text-accent text-3xl">🛡️</span>
-            <div>
-              <h3 class="text-lg font-semibold">Trasparenza e Affidabilità</h3>
-              <p class="text-muted">Costruiamo relazioni di fiducia con i nostri clienti attraverso comunicazione chiara e supporto continuo.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Colonna Destra -->
-        <div class="space-y-6">
-          <div class="flex items-start space-x-4">
-            <span class="text-accent text-3xl">👥</span>
-            <div>
-              <h3 class="text-lg font-semibold">Focus sul Cliente</h3>
-              <p class="text-muted">Ogni progetto è creato su misura per soddisfare le esigenze e gli obiettivi specifici di ogni cliente.</p>
-            </div>
-          </div>
-          <div class="flex items-start space-x-4">
-            <span class="text-accent text-3xl">🎨</span>
-            <div>
-              <h3 class="text-lg font-semibold">Creatività e Passione</h3>
-              <p class="text-muted">La nostra esperienza e passione per il design ci permettono di realizzare siti web unici e coinvolgenti.</p>
-            </div>
-          </div>
-          <div class="flex items-start space-x-4">
-            <span class="text-accent text-3xl">📊</span>
-            <div>
-              <h3 class="text-lg font-semibold">Risultati Misurabili</h3>
-              <p class="text-muted">Monitoriamo costantemente il rendimento dei siti per garantire una crescita continua e successi concreti.</p>
-            </div>
-          </div>
-        </div>
+          ))
+        }
       </div>
-    </div>
-  </section>
+    </C3Section>
 
-  <CallToAction
-    title="Vuoi un sito web professionale?"
-    subtitle="Parliamone e troviamo la soluzione perfetta per la tua attività."
-  >
-    <Fragment slot="actions">
-      <a href="/contatti" class="btn-primary">Richiedi una consulenza</a>
-    </Fragment>
-  </CallToAction>
+    <C3Section tone="anth" id="con-chi-lavoro" index="04" kicker="Con chi lavoro" title="Tre modi di collaborare.">
+      <div class="c3-cols">
+        {
+          AUDIENCES.map((a) => (
+            <div class="c3-col c3-up">
+              <h3>{a.t}</h3>
+              <p>{a.d}</p>
+              <ul class="c3-linklist">
+                <li>
+                  <a href={a.href} {...(a.cta.startsWith('Write') ? { lang: 'en' } : {})}>
+                    <div>{a.cta}</div>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </C3Section>
+
+    <C3Section tone="dark" id="principi" index="05" kicker="Principi" title="Come lavoro, in concreto.">
+      <div class="c3-cols">
+        {
+          PRINCIPLES.map((p) => (
+            <div class="c3-col c3-up">
+              <h3>{p.t}</h3>
+              <p>{p.d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </C3Section>
+
+    <C3Paths index="06" />
+  </div>
 </Layout>
+
+<style is:global>
+  .c3-stmt-s {
+    margin: 0 0 24px;
+    font: 600 clamp(26px, 2.8vw, 40px) / 1.15 var(--c3-disp);
+    font-stretch: 86%;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+/**
+ * Testata editoriale delle pagine interne C.3.4.
+ * - Un solo H1: il testo resta quello SEO della pagina; `accent` indica la
+ *   porzione (sottostringa) resa con il gradiente del Design System.
+ * - Slot `aside`: scheda dati, contatti rapidi o altro contenuto a destra.
+ * - Carica una sola volta stili delle pagine e rivelazione (pages.ts).
+ */
+import '@/styles/c3/pages.css';
+import C4HeroField from './C4HeroField.astro';
+
+export interface Action {
+  text: string;
+  href: string;
+  variant?: 'primary' | 'secondary';
+  external?: boolean;
+}
+export interface Props {
+  kicker?: string;
+  index?: string;
+  title: string;
+  accent?: string;
+  lead?: string;
+  actions?: Action[];
+  tone?: 'dark' | 'deep';
+  size?: 'xl' | 'l';
+  id?: string;
+  visual?: 'field' | 'flow' | 'geometry' | 'sculpture' | 'none';
+}
+const { kicker, index, title, accent, lead, actions = [], tone = 'dark', size = 'xl', id, visual = 'none' } = Astro.props;
+const at = accent ? title.indexOf(accent) : -1;
+const parts = at >= 0 && accent ? [title.slice(0, at), accent, title.slice(at + accent.length)] : [title, '', ''];
+const hasAside = Astro.slots.has('aside');
+---
+
+<header class:list={['c3-sec', `c3-sec--${tone}`, 'c3-phero', size === 'l' && 'c3-phero--l', visual !== 'none' && 'c4-phero--field']} id={id}>
+  {visual !== 'none' && <C4HeroField variant={visual} />}
+  <div class="c3-sec-in">
+    <div class="c3-phero-grid" style={hasAside ? undefined : 'grid-template-columns:minmax(0,1fr)'}>
+      <div>
+        {
+          kicker && (
+            <p class="c3-kicker">
+              {index && (
+                <span class="c3-idx" aria-hidden="true">
+                  {index}
+                </span>
+              )}
+              {kicker}
+            </p>
+          )
+        }
+        <h1 class="c3-phero-title">
+          {parts[0]}{parts[1] && <span class="c3-grad">{parts[1]}</span>}{parts[2]}
+        </h1>
+        {lead && <p class="c3-phero-lead">{lead}</p>}
+        <slot />
+        {
+          actions.length > 0 && (
+            <div class="c3-phero-acts">
+              {actions.map((a) => (
+                <a
+                  class:list={['c3-btn', a.variant === 'secondary' ? 'c3-btn--s' : 'c3-btn--p']}
+                  href={a.href}
+                  {...(a.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {a.text}
+                  {a.variant !== 'secondary' && (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  )}
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+      {
+        hasAside && (
+          <div class="c3-phero-aside">
+            <slot name="aside" />
+          </div>
+        )
+      }
+    </div>
+  </div>
+</header>
+
+<script>
+  import '@/scripts/c3/pages';
+</script>

@@ -1,0 +1,31 @@
+---
+/** Card di un progetto nell'archivio del portfolio (indice e paginazione). */
+import { statusOf, statusLabel, type PortfolioCardData } from '@/data/c3/portfolio-status';
+
+export interface Props {
+  item: { id: string; data: PortfolioCardData };
+}
+const { item } = Astro.props;
+const d = item.data;
+const href = String(d.permalink ?? `/portfolio/${d.slug}`).replace(/\/+$/, '');
+const img = d.image;
+const s = statusOf(d);
+---
+
+<article class="c3-wcard c3-up">
+  <a href={href} aria-label={`Apri il case study: ${d.title}`}>
+    <span class:list={['c3-wcard-img', { 'is-contain': img?.fit === 'contain' }]}>
+      {
+        img?.src && (
+          <img src={img.src} alt={img.alt ?? d.title} width={img.width ?? 1200} height={img.height ?? 800} loading="lazy" decoding="async" />
+        )
+      }
+    </span>
+    <span class="c3-wcard-body">
+      <span class="c3-status" data-s={s}>{statusLabel(d)}</span>
+      {d.category && <span class="c3-wcard-cat">{d.category}</span>}
+      <h3>{d.title}</h3>
+      {d.description && <span class="c3-wcard-desc">{d.description}</span>}
+    </span>
+  </a>
+</article>

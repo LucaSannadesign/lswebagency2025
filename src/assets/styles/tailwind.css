@@ -10,12 +10,13 @@
   :root {
     /* Palette viola–fucsia unica del brand.
        `brand-blue` conserva il nome storico per non toccare ~30 punti d'uso,
-       ma il valore è il viola principale #7628E8. */
-    --brand-purple: 162 83 218; /* #A253DA viola intermedio */
-    --brand-blue: 118 40 232; /* #7628E8 viola principale */
-    --brand-ink: 33 24 49; /* #211831 testo principale */
-    --brand-surface: 245 240 251; /* #F5F0FB lilla chiaro */
-    --brand-magenta: 231 42 174; /* #E72AAE fucsia */
+       ma il valore è il viola principale #1F5A54. */
+    /* Redesign C.3: i nomi storici restano, i valori passano ai token Kinetic Graphite */
+    --brand-purple: 38 122 112; /* #267A70 ione medio (era #267A70) */
+    --brand-blue: 31 90 84; /* #1F5A54 ione profondo, colore principale (era #1F5A54) */
+    --brand-ink: 22 25 28; /* #16191C testo principale (era #16191C) */
+    --brand-surface: 243 242 238; /* #F3F2EE carta chiara (era #F3F2EE) */
+    --brand-magenta: 95 184 171; /* #5FB8AB ione chiaro (era #5FB8AB) */
   }
 }
 
@@ -50,25 +51,33 @@
      `rounded-full` resta riservato a badge, chip e indicatori.
      ───────────────────────────────────────────────────────── */
   .btn {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-[14px] border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition px-6 ease-in duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:focus-visible:ring-offset-slate-900 cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2.5 rounded-[14px] border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug px-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:focus-visible:ring-offset-slate-900 cursor-pointer;
     min-height: 52px;
     padding-block: 0.75rem;
+    transition: background-color var(--c3-motion-button) var(--c3-motion-color-ease), color var(--c3-motion-button) var(--c3-motion-color-ease), border-color var(--c3-motion-button) var(--c3-motion-color-ease),
+      box-shadow var(--c3-motion-button) var(--c3-motion-color-ease), transform var(--c3-motion-button) var(--c3-motion-ease);
   }
 
-  /* CTA Primary — gradiente viola→fucsia, unico gradiente autorizzato. */
+  /* CTA primaria: derivati del Design System C.3, con testo chiaro leggibile. */
   .btn-primary {
     /* `border-white/[0.12]` anche in dark: neutralizza `dark:border-slate-500` ereditato da `.btn`. */
     @apply btn font-semibold text-white hover:text-white border-white/[0.12] hover:border-white/[0.12] dark:border-white/[0.12] dark:hover:border-white/[0.12];
-    background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+    --c3-cta-start: var(--c3-ion-deep);
+    --c3-cta-end: var(--c3-ion-ink);
+    background-image: linear-gradient(105deg, var(--c3-cta-start) 0%, var(--c3-cta-end) 100%);
+    transition: background-color var(--c3-motion-button) var(--c3-motion-color-ease), color var(--c3-motion-button) var(--c3-motion-color-ease), border-color var(--c3-motion-button) var(--c3-motion-color-ease),
+      box-shadow var(--c3-motion-button) var(--c3-motion-color-ease), transform var(--c3-motion-button) var(--c3-motion-ease),
+      --c3-cta-start var(--c3-motion-overlay) var(--c3-motion-color-ease), --c3-cta-end var(--c3-motion-overlay) var(--c3-motion-color-ease);
     box-shadow:
-      0 12px 26px -10px rgb(118 40 232 / 0.55),
+      0 12px 26px -10px rgb(31 90 84 / 0.55),
       inset 0 1px 0 rgb(255 255 255 / 0.4);
   }
 
   .btn-primary:hover {
-    background-image: linear-gradient(105deg, #5f19ca 0%, #8b3fc4 50%, #cc1f97 100%);
+    --c3-cta-start: var(--c3-g2);
+    --c3-cta-end: var(--c3-ion-deep);
     box-shadow:
-      0 18px 34px -10px rgb(118 40 232 / 0.6),
+      0 18px 34px -10px rgb(31 90 84 / 0.6),
       inset 0 1px 0 rgb(255 255 255 / 0.4);
     transform: translateY(-2px);
   }
@@ -91,13 +100,23 @@
 
   /* CTA Secondary — fondo bianco/trasparente, bordo e testo viola. */
   .btn-secondary {
-    @apply btn border-primary text-primary font-semibold hover:bg-brand-surface hover:border-primary hover:text-primary dark:text-violet-300 dark:border-violet-400/60 dark:hover:bg-primary/20 dark:hover:border-violet-300;
+    @apply btn border-primary text-primary font-semibold dark:text-[var(--c3-ion)] dark:border-[var(--c3-ion)];
     background-color: #fff;
     border-width: 1.5px;
   }
 
-  .btn-secondary:hover {
-    transform: translateY(-1px);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-secondary:hover {
+      background-color: var(--c3-ion-deep);
+      border-color: var(--c3-ion-deep);
+      color: var(--c3-ivory-hi);
+      transform: translateY(-1px);
+    }
+    :is(.dark) .btn-secondary:hover {
+      background-color: var(--c3-ion);
+      border-color: var(--c3-ion);
+      color: var(--c3-g0);
+    }
   }
 
   :is(.dark) .btn-secondary {
@@ -107,17 +126,17 @@
   /* CTA Tertiary — solo testo viola con underline a gradiente. */
   .btn-tertiary {
     /* `Button.astro` applica `btn btn-tertiary`: qui neutralizziamo il contenitore di `.btn`. */
-    @apply inline-flex items-center gap-2 border-none bg-transparent p-0 font-semibold text-primary hover:bg-transparent hover:border-transparent dark:hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 dark:text-violet-300 dark:hover:text-violet-200 cursor-pointer;
+    @apply inline-flex items-center gap-2 border-none bg-transparent p-0 font-semibold text-primary hover:bg-transparent hover:border-transparent dark:hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 dark:text-[var(--c3-ion)] dark:hover:text-[var(--c3-ivory-hi)] cursor-pointer;
     min-height: 0;
     border-radius: 4px;
     padding: 4px 1px 5px;
-    background-image: linear-gradient(105deg, #7628e8, #e72aae);
+    background-image: linear-gradient(105deg, #1F5A54, #5FB8AB);
     background-repeat: no-repeat;
     background-position: 0 100%;
     background-size: 0% 2px;
     transition:
-      background-size 0.22s ease,
-      color 0.18s ease;
+      background-size var(--c3-motion-button) var(--c3-motion-ease),
+      color var(--c3-motion-button) var(--c3-motion-color-ease);
   }
 
   .btn-tertiary:hover {
@@ -125,6 +144,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .btn, .btn-primary, .btn-secondary, .btn-tertiary, .btn-submit { transition: none !important; }
     .btn-primary:hover,
     .btn-secondary:hover {
       transform: none;
@@ -171,12 +191,17 @@
 
   /* Pulsante di invio */
   .btn-submit {
-    @apply w-full text-white font-bold py-3 px-4 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
-    background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+    @apply w-full text-white font-bold py-3 px-4 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
+    --c3-cta-start: var(--c3-ion-deep);
+    --c3-cta-end: var(--c3-ion-ink);
+    background-image: linear-gradient(105deg, var(--c3-cta-start), var(--c3-cta-end));
+    transition: color var(--c3-motion-button) var(--c3-motion-color-ease), box-shadow var(--c3-motion-button) var(--c3-motion-color-ease),
+      --c3-cta-start var(--c3-motion-overlay) var(--c3-motion-color-ease), --c3-cta-end var(--c3-motion-overlay) var(--c3-motion-color-ease);
   }
 
   .btn-submit:hover {
-    background-image: linear-gradient(105deg, #5f19ca 0%, #8b3fc4 50%, #cc1f97 100%);
+    --c3-cta-start: var(--c3-g2);
+    --c3-cta-end: var(--c3-ion-deep);
   }
 }
 
@@ -244,16 +269,16 @@
   border-color: rgba(222, 211, 234, 0.9);
   box-shadow:
     0 12px 35px rgba(33, 24, 49, 0.1),
-    0 4px 14px rgba(118, 40, 232, 0.08);
+    0 4px 14px rgba(31 90 84, 0.08);
 }
 
 .dark #header.is-floating:not(.is-hidden) [data-header-inner],
 .dark #header.expanded [data-header-inner] {
   background: rgba(17, 11, 26, 0.88);
-  border-color: rgba(118, 40, 232, 0.38);
+  border-color: rgba(31 90 84, 0.38);
   box-shadow:
     0 12px 35px rgba(6, 3, 12, 0.45),
-    0 4px 14px rgba(118, 40, 232, 0.18);
+    0 4px 14px rgba(31 90 84, 0.18);
 }
 
 /* Con il menù mobile aperto il blur resta al pannello: un backdrop-filter sul
@@ -324,7 +349,7 @@
   bottom: 6px;
   height: 2px;
   border-radius: 999px;
-  background-image: linear-gradient(105deg, #7628e8 0%, #a253da 50%, #e72aae 100%);
+  background-image: linear-gradient(105deg, #1F5A54 0%, #267A70 50%, #5FB8AB 100%);
   transform: scaleX(0);
   transform-origin: center;
   opacity: 0;
@@ -436,7 +461,7 @@
    Gradient Text
    ========================= */
 .text-gradient {
-  background: linear-gradient(90deg, #8A2BE2, #C837AB);
+  background: var(--c3-grad-on-light);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline;
@@ -455,13 +480,16 @@
     @apply text-slate-800 bg-white dark:text-slate-100 dark:bg-slate-950;
   }
 
-  /* ✔️ Titoli leggibili in dark ovunque */
-  h1, h2, h3, h4, h5, h6 {
+  /* ✔️ Titoli leggibili in dark ovunque — tranne nell'area C.3 (.c3), che
+     gestisce i propri toni: lì il colore segue il capitolo (avorio o grafite).
+     Senza questa esclusione, con il sistema in tema scuro i titoli dei
+     capitoli chiari diventavano bianchi su avorio (contrasto 1,25:1). */
+  :is(h1, h2, h3, h4, h5, h6):not(.c3 *) {
     @apply dark:text-white;
   }
 
-  /* ✔️ Paragrafi/secondari più chiari in dark */
-  p, .text-muted {
+  /* ✔️ Paragrafi/secondari più chiari in dark (stessa esclusione) */
+  :is(p, .text-muted):not(.c3 *) {
     @apply dark:text-gray-300;
   }
 
@@ -477,7 +505,7 @@
 }
 
 .kw{
-  color:#140a2e;
+  color:#16191C;
   background:none !important;
 }
 

@@ -1,0 +1,74 @@
+---
+import Layout from '@/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Confronto con proprietari di appartamenti a Sassari — LS Web Agency',
+  description:
+    'Un confronto volontario di 10 minuti per capire come i proprietari di Sassari preparano gli annunci di affitto.',
+  canonical: '/confronto-annunci-sassari',
+  robots: { index: false, follow: true },
+};
+
+const emailHref = 'mailto:info@lswebagency.com?subject=Confronto%20annunci%20Sassari';
+---
+
+<Layout metadata={metadata}>
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-900/35 dark:via-transparent"></div>
+    <div class="container mx-auto max-w-4xl px-6 pt-16 pb-12 text-center">
+      <p class="inline-flex items-center rounded-full bg-violet-100 px-4 py-2 text-sm font-semibold text-violet-800 ring-1 ring-violet-200 dark:bg-violet-900/40 dark:text-violet-200 dark:ring-violet-700">
+        Ricerca esplorativa · 10 minuti · nessun impegno
+      </p>
+      <h1 class="mt-6 text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white md:text-5xl">
+        Affitti un appartamento a Sassari e prepari tu l’annuncio?
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-neutral-700 dark:text-neutral-200">
+        LS Web Agency cerca proprietari disponibili a raccontare come raccolgono le informazioni,
+        scrivono il testo e scelgono le foto per pubblicare un annuncio di affitto.
+      </p>
+      <a
+        href={emailHref}
+        class="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-violet-700 px-7 py-3 text-base font-semibold text-white transition hover:bg-violet-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-700"
+      >
+        Scrivi per partecipare
+      </a>
+      <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-300">
+        Oppure scrivi a <a class="underline underline-offset-2 hover:text-violet-700" href={emailHref}>info@lswebagency.com</a>
+        con oggetto “Confronto annunci Sassari”.
+      </p>
+    </div>
+  </section>
+
+  <section class="container mx-auto max-w-4xl px-6 pb-16">
+    <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-neutral-200 dark:bg-neutral-900 dark:ring-neutral-800 md:p-9">
+      <h2 class="text-2xl font-bold text-neutral-900 dark:text-white">A chi è rivolto</h2>
+      <p class="mt-3 text-base leading-relaxed text-neutral-700 dark:text-neutral-300">
+        A chi possiede un appartamento a Sassari, pubblica personalmente l’annuncio e lo ha
+        pubblicato da poco o pensa di farlo prossimamente. Il confronto riguarda la preparazione
+        dell’annuncio, non la gestione dell’affitto.
+      </p>
+
+      <h2 class="mt-9 text-2xl font-bold text-neutral-900 dark:text-white">Cosa vorremmo capire</h2>
+      <ul class="mt-3 list-disc space-y-2 pl-6 text-base leading-relaxed text-neutral-700 dark:text-neutral-300">
+        <li>Quali passaggi richiedono più tempo nella preparazione dell’annuncio.</li>
+        <li>Quali informazioni vengono chieste più spesso da chi cerca casa.</li>
+        <li>Se sarebbe utile un servizio a pagamento che aiuti a chiarire i dati, preparare il testo e ordinare le foto.</li>
+      </ul>
+
+      <div class="mt-9 rounded-xl bg-violet-50 p-5 text-base leading-relaxed text-neutral-800 dark:bg-violet-950/30 dark:text-neutral-200">
+        <h2 class="font-bold">Come funziona</h2>
+        <p class="mt-2">
+          Il colloquio dura circa 10 minuti, è gratuito e non comporta alcun impegno.
+          Non devi inviare documenti, fotografie, indirizzi precisi o dati degli inquilini.
+          Il servizio è ancora in valutazione e questa pagina non propone un acquisto.
+        </p>
+      </div>
+
+      <p class="mt-7 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+        Scrivendoci via email comunichi volontariamente il tuo recapito per organizzare il confronto
+        e ricevere risposta. Per informazioni sul trattamento dei dati consulta la
+        <a href="/privacy" class="underline underline-offset-2 hover:text-violet-700">privacy policy</a>.
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,46 @@
+---
+/**
+ * Ultimi articoli: assente nel prototipo C.2 ma conservato per i link interni
+ * verso il blog (SEO). Elenco editoriale leggero, senza immagini.
+ */
+import type { Post } from '@/types';
+import { getPermalink, getBlogPermalink } from '@/utils/permalinks';
+
+export interface Props {
+  posts: Post[];
+}
+const { posts = [] } = Astro.props;
+const fmt = new Intl.DateTimeFormat('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+{
+  posts.length > 0 && (
+    <section class="c3-band c3-blog-band" id="blog" data-c3-chapter="anthracite" aria-labelledby="c3-h-blog">
+      <div class="c3-blog-head">
+        <div>
+          <p class="c3-kicker"><span class="c3-idx" aria-hidden="true">07</span>Dal blog</p>
+          <h2 class="c3-h2 c3-h2--sm" id="c3-h-blog">
+            Guide su web design, SEO e AI.
+          </h2>
+        </div>
+        <a class="c3-btn c3-btn--s" href={getBlogPermalink()} data-astro-reload>
+          Vedi tutti gli articoli
+        </a>
+      </div>
+      <ul class="c3-blog-list">
+        {posts.map((p) => (
+          <li class="c3-reveal">
+            <a href={getPermalink(p.permalink, 'post')}>
+              <span class="c3-blog-meta">
+                {p.category?.title && <span>{p.category.title}</span>}
+                {p.publishDate && <time datetime={p.publishDate.toISOString()}>{fmt.format(p.publishDate)}</time>}
+              </span>
+              <h3>{p.title}</h3>
+              {p.excerpt && <p>{p.excerpt}</p>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

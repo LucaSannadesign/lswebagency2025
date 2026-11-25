@@ -4,10 +4,29 @@ import Header from '@/components/widgets/Header.astro';
 import Footer from '@/components/widgets/Footer.astro';
 import CookieBanner from '@/components/CookieBanner.astro'; // ✅ ADD
 import SiteAssistant from '@/components/SiteAssistant';
+import C3Header from '@/components/c3/C3Header.astro';
+import C3Footer from '@/components/c3/C3Footer.astro';
+import '@/styles/c3/tokens.css';
+import '@/styles/c3/chrome.css';
 import type { MetaData } from '@/types';
 
-export interface Props { metadata?: MetaData }
+export interface Props {
+  metadata?: MetaData;
+  /**
+   * 'c3' = homepage Kinetic Graphite (pagina interamente sotto .c3).
+   * 'default' = pagine interne: contenuto invariato, header e footer C.3.
+   * 'legacy' = header e footer storici (riserva, non usata).
+   */
+  variant?: 'default' | 'c3' | 'legacy';
+  /**
+   * Tono dell'header C.3 in cima alla pagina: 'light' (testo scuro, pagine con
+   * testata chiara) o 'dark' (testo avorio, pagine con testata grafite C.3.4).
+   */
+  headerTone?: 'light' | 'dark';
+}
 const metadata = (Astro.props.metadata ?? {}) as MetaData;
+const variant = Astro.props.variant ?? 'default';
+const headerTone = Astro.props.headerTone ?? 'light';
 
 // Assistente di sito (widget flottante): montato globalmente UNA sola volta, idratazione lazy.
 // Escluso dalla pagina che ha già demo + assistente inline (evita sovraccarico): la decisione
@@ -25,13 +44,39 @@ const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || undefined;
 <Document metadata={metadata}>
   <Fragment slot="head"><slot name="head" /></Fragment>
 
-  <Header />
-
-  <main id="main" class="min-h-screen">
-    <slot />
-  </main>
-
-  <Footer />
+  {
+    variant === 'c3' ? (
+      <div id="c3-root" class="c3" data-tone="dark">
+        <a class="c3-skip" href="#main">Vai al contenuto</a>
+        <C3Header />
+        <main id="main">
+          <slot />
+        </main>
+        <C3Footer />
+      </div>
+    ) : variant === 'legacy' ? (
+      <>
+        <Header />
+        <main id="main" class="min-h-screen">
+          <slot />
+        </main>
+        <Footer />
+      </>
+    ) : (
+      <>
+        <div class="c3 c3-chrome" data-tone={headerTone}>
+          <a class="c3-skip" href="#main">Vai al contenuto</a>
+          <C3Header mode="page" />
+        </div>
+        <main id="main" class="min-h-screen">
+          <slot />
+        </main>
+        <div class="c3 c3-chrome-foot" data-tone="dark">
+          <C3Footer />
+        </div>
+      </>
+    )
+  }
 
   <!-- ✅ Cookie banner / preferenze -->
   <CookieBanner />
@@ -41,19 +86,11 @@ const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || undefined;
     id="scrollToTop"
     type="button"
     aria-label="Torna su"
-    class="fixed bottom-20 right-6 z-[65]
-           h-12 w-12 rounded-full
-           bg-primary/95 text-white
-           shadow-lg ring-1 ring-white/10
-           backdrop-blur
-           opacity-0 translate-y-2 pointer-events-none
-           transition-all duration-300 ease-in-out
-           hover:bg-secondary
-           focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2
-           dark:bg-violet-300/95 dark:text-brand-ink dark:ring-white/10 dark:hover:bg-violet-200
-           md:bottom-24 md:right-8"
+    class="c3-totop opacity-0 translate-y-2 pointer-events-none"
   >
-    <span aria-hidden="true" class="text-xl leading-none">↑</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+      <path d="M12 19V5M6 11l6-6 6 6"></path>
+    </svg>
   </button>
 
   <script is:inline>
@@ -66,6 +103,8 @@ const whatsappNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER || undefined;
 
       const onScroll = () => {
         const y = window.scrollY || document.documentElement.scrollTop || 0;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        btn.style.setProperty('--p', max > 0 ? Math.min(1, y / max).toFixed(3) : '0');
         if (y > SHOW_AT) {
           btn.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
           btn.classList.add('opacity-100', 'translate-y-0');

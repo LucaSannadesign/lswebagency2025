@@ -2,18 +2,18 @@
 import { getCollection } from 'astro:content';
 import { fetchPosts } from '@/utils/blog';
 import { getPermalink } from '@/utils/permalinks';
+import { getPortfolio } from '@/data/c3/portfolio-archive';
 
 function esc(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 export const prerender = true;
-const PER_PAGE_PORTFOLIO = 12;
 
 export async function GET({ site }: { site: URL }) {
   const origin = site?.origin ?? 'https://www.lswebagency.com';
   const posts = await fetchPosts();
-  const portfolio = await getCollection('portfolio', (e) => !(e.data as any)?.draft);
+  const { all: portfolio, totalPages } = await getPortfolio();
   const cities = await getCollection('cities').catch(() => []);
 
   const staticPages = [
@@ -79,7 +79,6 @@ export async function GET({ site }: { site: URL }) {
     push(`/portfolio/${i.data.slug}`, last as any);
   });
 
-  const totalPages = Math.max(1, Math.ceil(portfolio.length / PER_PAGE_PORTFOLIO));
   for (let p = 2; p <= totalPages; p++) push(`/portfolio/page/${p}`);
 
   const dedup = Array.from(new Map(urls.map((u) => [u.loc, u])).values());

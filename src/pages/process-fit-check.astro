@@ -1,5 +1,6 @@
 ---
 import Layout from '@/layouts/PageLayout.astro';
+import C3PageHero from '@/components/c3/page/C3PageHero.astro';
 import ProcessFitCheckWidget from '@/components/ProcessFitCheck';
 import { Icon } from 'astro-icon/components';
 
@@ -12,32 +13,10 @@ const metadata = {
 };
 ---
 
-<Layout metadata={metadata}>
-  <section class="relative isolate overflow-hidden">
-    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-b from-violet-100 via-white to-white dark:from-violet-950/45 dark:via-neutral-950 dark:to-neutral-950"></div>
-    <div aria-hidden="true" class="absolute -top-24 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-fuchsia-300/30 blur-3xl dark:bg-fuchsia-600/10"></div>
-
-    <div class="container mx-auto max-w-5xl px-6 pt-14 pb-14 text-center md:pt-20 md:pb-20">
-      <p class="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/70 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm dark:border-violet-800 dark:bg-neutral-900/70 dark:text-violet-300">
-        <Icon name="tabler:clipboard-check" class="h-4 w-4" />
-        Strumento gratuito · AI Operations
-      </p>
-
-      <h1 class="mx-auto mt-5 max-w-4xl text-4xl font-extrabold tracking-tight md:text-6xl">
-        Capisci in pochi minuti se il tuo processo <span class="text-violet-700 dark:text-violet-400">merita davvero un’automazione.</span>
-      </h1>
-
-      <p class="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-600 md:text-xl dark:text-neutral-300">
-        Rispondi a 8 domande e ottieni un Automation Fit Score da 0 a 100 con un esito <strong>GO</strong>, <strong>PREPARARE</strong> o <strong>NO-GO</strong>. Nessun modello AI decide il punteggio.
-      </p>
-
-      <div class="mt-7 flex flex-wrap justify-center gap-2.5 text-sm font-medium text-neutral-700 dark:text-neutral-200">
-        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/80 px-3.5 py-2 dark:border-neutral-800 dark:bg-neutral-900/70"><Icon name="tabler:clock" class="h-4 w-4 text-violet-600" />2–3 minuti</span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/80 px-3.5 py-2 dark:border-neutral-800 dark:bg-neutral-900/70"><Icon name="tabler:list-numbers" class="h-4 w-4 text-violet-600" />8 domande</span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/80 px-3.5 py-2 dark:border-neutral-800 dark:bg-neutral-900/70"><Icon name="tabler:shield-check" class="h-4 w-4 text-violet-600" />Punteggio anonimo</span>
-      </div>
-    </div>
-  </section>
+<Layout metadata={metadata} headerTone="dark">
+  <div class="c3 c3p">
+    <C3PageHero kicker="Strumento gratuito · AI Operations" title="Capisci se il tuo processo merita davvero un’automazione." accent="merita davvero un’automazione." size="l" visual="geometry" lead="Rispondi a 8 domande in 2–3 minuti: ottieni un Automation Fit Score anonimo da 0 a 100 e un esito GO, PREPARARE o NO-GO. Il punteggio deriva da regole, non da un modello AI." />
+  </div>
 
   <section class="relative z-10 container mx-auto max-w-5xl px-4 pb-14 sm:px-6 md:-mt-5 md:pb-20">
     <ProcessFitCheckWidget client:load />
