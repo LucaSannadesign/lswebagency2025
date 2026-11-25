@@ -16,7 +16,7 @@ import { headerData } from '@/navigation';
 import ToggleTheme from '@/components/common/ToggleTheme.astro';
 
 export interface Props {
-  /** 'home': sopra la hero scura, toggle Movimento. 'page': pagine interne, toggle tema. */
+  /** 'home': sopra la hero scura, toggle Movimento e tema. 'page': toggle tema. */
   mode?: 'home' | 'page';
 }
 const { mode = 'home' } = Astro.props;
@@ -101,7 +101,7 @@ const clean = (t = '') => t.replace(' ↗', '');
 
     <div class="c3-actions">
       {
-        isHome ? (
+        isHome && (
           <button
             class="c3-quiet-btn c3-motion-btn"
             type="button"
@@ -114,12 +114,11 @@ const clean = (t = '') => t.replace(' ↗', '');
               Movimento<span data-c3-motion-label>: attivo</span>
             </span>
           </button>
-        ) : (
-          <span class="c3-theme">
-            <ToggleTheme label="Passa dal tema chiaro al tema scuro" class="" iconClass="c3-ico" />
-          </span>
         )
       }
+      <span class="c3-theme">
+        <ToggleTheme label="Tema scuro" class="c3-quiet-btn" iconClass="c3-ico" />
+      </span>
       {
         cta && (
           <a class="c3-navcta" href={cta.href}>

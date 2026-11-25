@@ -1327,3 +1327,50 @@
 .dark .c3-contact-band {
   background: var(--c3-g1);
 }
+
+/* C.3.8 — modalità effettiva: i toni editoriali mantengono il ritmo
+ * attraverso superfici della palette selezionata, non colori fissi. */
+html[data-ls-theme="light"] .c3p,
+html[data-ls-theme="light"] .c3p :is(.c3-sec--dark, .c3-sec--deep, .c3-sec--anth, .c3-sec--ivory) {
+  --ink: var(--c3-g0);
+  --mute: var(--c3-ink-2);
+  --line: var(--c3-line-l);
+  --ctrl: var(--c3-ctrl-l);
+  --link: var(--c3-ion-deep);
+  --btn: var(--c3-g0);
+  --btn-ink: var(--c3-ivory);
+  --grad: var(--c3-grad-on-light);
+  color-scheme: light;
+  --bg: var(--c3-ivory);
+  --panel: var(--c3-ivory-hi);
+}
+html[data-ls-theme="light"] .c3p .c3-sec--deep {
+  --bg: var(--c3-ivory-hi);
+  --panel: var(--c3-ivory);
+}
+html[data-ls-theme="light"] .c3p .c3-sec--anth {
+  --bg: var(--c3-ivory-lo);
+  --panel: var(--c3-ivory-hi);
+}
+html[data-ls-theme="dark"] .c3p .c3-sec--ivory {
+  --ink: var(--c3-ivory);
+  --mute: var(--c3-grey);
+  --line: var(--c3-line-d);
+  --ctrl: var(--c3-ctrl-d);
+  --link: var(--c3-ion);
+  --btn: var(--c3-ion);
+  --btn-ink: var(--c3-g0);
+  --grad: var(--c3-grad-on-dark);
+  color-scheme: dark;
+  --bg: var(--c3-g1);
+  --panel: var(--c3-g2);
+}
+html[data-ls-theme="light"] .c3p .c3-cover-band {
+  background: linear-gradient(to bottom, var(--c3-ivory) 55%, var(--c3-ivory-hi) 55%);
+}
+html[data-ls-theme="dark"] .c3p .c3-cover-band {
+  background: linear-gradient(to bottom, var(--c3-g0) 55%, var(--c3-g1) 55%);
+}
+html[data-ls-theme="light"] .c3p :is(.c3-path:hover, .c3-pnav a:hover) {
+  border-color: var(--c3-ion-deep);
+}

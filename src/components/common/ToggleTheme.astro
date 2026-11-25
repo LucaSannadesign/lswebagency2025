@@ -11,7 +11,7 @@ export interface Props {
 }
 
 const {
-  label = 'Toggle between Dark and Light mode',
+  label = 'Tema scuro',
   // Toggle 44×44, radius 12px, bordo lilla e icona viola (design Cloud Design).
   class:
     className =
@@ -23,8 +23,15 @@ const {
 
 {
   !(UI.theme && UI.theme.endsWith(':only')) && (
-    <button type="button" class={className} aria-label={label} data-aw-toggle-color-scheme>
-      <Icon name={iconName} class={iconClass} />
+    <button type="button" class={className} aria-label={label} aria-pressed="false" data-aw-toggle-color-scheme>
+      <Icon name={iconName} class={`${iconClass} ls-theme-sun`} aria-hidden="true" />
+      <Icon name="tabler:moon" class={`${iconClass} ls-theme-moon`} aria-hidden="true" />
     </button>
   )
 }
+
+<style is:global>
+  [data-aw-toggle-color-scheme] .ls-theme-moon { display: none; }
+  html.dark [data-aw-toggle-color-scheme] .ls-theme-sun { display: none; }
+  html.dark [data-aw-toggle-color-scheme] .ls-theme-moon { display: block; }
+</style>

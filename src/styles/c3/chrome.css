@@ -824,3 +824,43 @@ html.dark .c3-chrome[data-tone="light"] .c3-top:not(.is-solid) .c3-logo {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* C.3.8 — header e footer coerenti con il tema effettivo.
+ * La capsula e l'overlay del menu rimangono grafite per leggibilità. */
+html[data-ls-theme="light"] .c3-chrome:has(+ main .c3p),
+html[data-ls-theme="light"] .c3-chrome-foot {
+  --ink: var(--c3-g0);
+  --mute: var(--c3-ink-2);
+  --line: var(--c3-line-l);
+  --ctrl: var(--c3-ctrl-l);
+  --link: var(--c3-ion-deep);
+  --btn: var(--c3-g0);
+  --btn-ink: var(--c3-ivory);
+  --grad: var(--c3-grad-on-light);
+  color-scheme: light;
+  --bg: var(--c3-ivory);
+  --panel: var(--c3-ivory-hi);
+}
+html[data-ls-theme="light"] .c3-chrome:has(+ main .c3p) .c3-top:not(.is-solid):not(.is-menu) .c3-logo,
+html[data-ls-theme="light"] .c3-foot-brand img {
+  filter: brightness(0.09);
+}
+#c3-root .c3-top--home:not(.is-solid) {
+  --ink: var(--c3-ivory);
+  --ctrl: var(--c3-ctrl-d);
+  --mute: var(--c3-grey);
+  --link: var(--c3-ion);
+}
+#c3-root .c3-top--home:not(.is-solid) .c3-logo,
+html[data-ls-theme="dark"] #c3-root .c3-top--home .c3-logo {
+  filter: none;
+}
+.c3-theme button:hover {
+  border-color: var(--ink);
+  background-color: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+@media (max-width: 380px) {
+  #c3-root .c3-actions { gap: 6px; }
+  #c3-root .c3-top-in { gap: 8px; }
+  #c3-root .c3-logo { max-width: 112px; height: auto; }
+}

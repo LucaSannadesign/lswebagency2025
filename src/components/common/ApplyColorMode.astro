@@ -1,41 +1,71 @@
 ---
 import { UI } from 'astrowind:config';
-
-// TODO: This code is temporary
 ---
 
+<!-- Unica sorgente dello stato tema, prima del paint e dopo gli swap Astro. -->
 <script is:inline define:vars={{ defaultTheme: UI.theme || 'system' }}>
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+  (() => {
+    if (window.__lsThemeController) {
+      window.__lsThemeController.sync();
+      return;
     }
 
-    const matches = document.querySelectorAll('[data-aw-toggle-color-scheme] > input');
-    if (matches && matches.length) {
-      matches.forEach((elem) => {
-        elem.checked = theme !== 'dark';
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const locked = defaultTheme.endsWith(':only');
+    const fixed = defaultTheme.replace(':only', '');
+    let explicit = null;
+    const valid = (value) => value === 'light' || value === 'dark';
+
+    try {
+      const saved = localStorage.getItem('theme');
+      if (valid(saved)) explicit = saved;
+    } catch {
+      // La preferenza resta utilizzabile per la sessione anche senza storage.
+    }
+
+    const preferred = () =>
+      locked ? fixed : explicit || (valid(fixed) ? fixed : media.matches ? 'dark' : 'light');
+
+    function sync() {
+      const theme = preferred();
+      const dark = theme === 'dark';
+      const root = document.documentElement;
+      root.classList.toggle('dark', dark);
+      root.dataset.lsTheme = theme;
+      root.style.colorScheme = theme;
+
+      document.querySelectorAll('[data-aw-toggle-color-scheme]').forEach((button) => {
+        button.setAttribute('aria-pressed', String(dark));
+        button.setAttribute('title', dark ? 'Passa al tema chiaro' : 'Passa al tema scuro');
+        const input = button.querySelector('input');
+        if (input) input.checked = !dark;
       });
     }
-  }
 
-  function getPreferredTheme() {
-    if (localStorage.theme) {
-      return localStorage.theme; // Se l'utente ha scelto un tema, usalo
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark'; // Se il sistema è in dark mode, usa dark
-    } else {
-      return 'light'; // Altrimenti usa light
-    }
-  }
+    window.__lsThemeController = { sync };
+    sync();
 
-  applyTheme(getPreferredTheme()); // ✅ Imposta il tema corretto al caricamento
-
-  // Ascolta i cambiamenti di preferenza del sistema
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.theme) { // Cambia solo se l'utente non ha scelto manualmente
-      applyTheme(e.matches ? 'dark' : 'light');
-    }
-  });
+    document.addEventListener('click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-aw-toggle-color-scheme]')
+        : null;
+      if (!button || locked) return;
+      explicit = preferred() === 'dark' ? 'light' : 'dark';
+      try {
+        localStorage.setItem('theme', explicit);
+      } catch {
+        // Il tema corrente continua a funzionare anche senza persistenza.
+      }
+      sync();
+    });
+    media.addEventListener('change', sync);
+    window.addEventListener('storage', (event) => {
+      if (event.key !== 'theme' && event.key !== null) return;
+      explicit = valid(event.newValue) ? event.newValue : null;
+      sync();
+    });
+    document.addEventListener('DOMContentLoaded', sync, { once: true });
+    document.addEventListener('astro:after-swap', sync);
+    document.addEventListener('astro:page-load', sync);
+  })();
 </script>

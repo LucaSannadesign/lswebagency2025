@@ -2,35 +2,13 @@
 import { UI } from 'astrowind:config';
 ---
 
-<!-- Theme + header/menu/script base (idempotente tramite window.basic_script) -->
+<!-- Header/menu/script base (idempotente tramite window.basic_script) -->
 <script is:inline define:vars={{ defaultTheme: UI.theme }}>
   if (window.basic_script) {
     // Evita doppie inizializzazioni in caso di navigazioni client-side
     return;
   }
   window.basic_script = true;
-
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }
-
-  const initTheme = function () {
-    if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
-      applyTheme(defaultTheme.replace(':only', ''));
-    } else if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      applyTheme('dark');
-    } else {
-      applyTheme('light');
-    }
-  };
-  initTheme();
 
   function attachEvent(selector, event, fn) {
     const matches = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
@@ -114,12 +92,6 @@ import { UI } from 'astrowind:config';
         closeHeaderDropdowns();
         closeMobileMenu();
       }
-    });
-
-    attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
-      if (defaultTheme.endsWith(':only')) return;
-      document.documentElement.classList.toggle('dark');
-      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
     });
 
     attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
@@ -218,7 +190,6 @@ import { UI } from 'astrowind:config';
   window.onpageshow = onPageShow;
 
   document.addEventListener('astro:after-swap', () => {
-    initTheme();
     onLoad();
     onPageShow();
   });
