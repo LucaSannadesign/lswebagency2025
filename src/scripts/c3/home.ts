@@ -69,7 +69,13 @@ function init(root: HTMLElement): () => void {
       if (gap === 0) break;
     }
     const tone = nearest?.dataset.c3Chapter || "dark";
-    if (root.dataset.tone !== tone) root.dataset.tone = tone;
+    if (root.dataset.tone !== tone) {
+      const previous = root.dataset.tone;
+      const portfolioExit = previous === "tint" && nearest?.id === "competenze";
+      const portfolioReturn = previous === "light" && nearest?.id === "progetti";
+      root.classList.toggle("is-pf-tone-transition", portfolioExit || portfolioReturn);
+      root.dataset.tone = tone;
+    }
   };
   toneTick();
 

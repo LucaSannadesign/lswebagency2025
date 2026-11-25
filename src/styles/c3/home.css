@@ -1651,3 +1651,86 @@ html[data-ls-home-theme="light"] #c3-root .c3-form :is(input, textarea)::placeho
   pointer-events: none;
   background: linear-gradient(to bottom, transparent, var(--project-tint) 16%, var(--project-tint) 84%, transparent);
 }
+
+/* C.5.5 — a warm-to-ivory bridge after YoArtly.
+   Local tone roles prevent the text from changing contrast halfway through
+   the root's chapter transition. The gradient occupies only empty padding. */
+#c3-root.c3-js .c3-pf {
+  --ink: var(--c3-ivory);
+  --mute: var(--c3-grey);
+  --line: var(--c3-line-d);
+  --ctrl: var(--c3-ctrl-d);
+  --link: var(--c3-ion);
+  --btn: var(--c3-ion);
+  --btn-ink: var(--c3-g0);
+  --panel: var(--c3-g1);
+  --grad: var(--c3-grad-on-dark);
+  color: var(--ink);
+  background-color: var(--c3-tint, var(--c3-tint-1));
+  transition: background-color .7s var(--c3-ease);
+  color-scheme: dark;
+}
+html[data-ls-home-theme="light"] #c3-root.c3-js .c3-pf {
+  --ink: var(--c3-g0);
+  --mute: var(--c3-ink-2);
+  --line: var(--c3-line-l);
+  --ctrl: var(--c3-ctrl-l);
+  --link: var(--c3-ion-deep);
+  --btn: var(--c3-g0);
+  --btn-ink: var(--c3-ivory);
+  --panel: var(--c3-ivory-hi);
+  --grad: var(--c3-grad-on-light);
+  color-scheme: light;
+}
+#c3-root.c3-js .c3-skills {
+  --ink: var(--c3-g0);
+  --mute: var(--c3-ink-2);
+  --line: var(--c3-line-l);
+  --ctrl: var(--c3-ctrl-l);
+  --link: var(--c3-ion-deep);
+  --btn: var(--c3-g0);
+  --btn-ink: var(--c3-ivory);
+  --panel: var(--c3-ivory-hi);
+  --grad: var(--c3-grad-on-light);
+  --skills-paper: var(--c3-ivory);
+  --portfolio-bridge: clamp(140px, 22vh, 240px);
+  position: relative;
+  color: var(--ink);
+  color-scheme: light;
+  background-color: var(--skills-paper);
+  padding-top: calc(var(--portfolio-bridge) + clamp(56px, 7vw, 100px));
+}
+html[data-ls-home-theme="dark"] #c3-root.c3-js .c3-skills {
+  --ink: var(--c3-ivory);
+  --mute: var(--c3-grey);
+  --line: var(--c3-line-d);
+  --ctrl: var(--c3-ctrl-d);
+  --link: var(--c3-ion);
+  --btn: var(--c3-ion);
+  --btn-ink: var(--c3-g0);
+  --panel: var(--c3-g2);
+  --grad: var(--c3-grad-on-dark);
+  --skills-paper: var(--c3-g1);
+  color-scheme: dark;
+}
+#c3-root.c3-js .c3-skills::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--portfolio-bridge);
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    var(--c3-tint-4) 0%,
+    color-mix(in srgb, var(--c3-tint-4) 85%, var(--skills-paper)) 22%,
+    color-mix(in srgb, var(--c3-tint-4) 50%, var(--skills-paper)) 50%,
+    color-mix(in srgb, var(--c3-tint-4) 15%, var(--skills-paper)) 78%,
+    var(--skills-paper) 100%);
+}
+#c3-root.is-pf-tone-transition:not(.is-reduced) {
+  transition-duration: 1.4s;
+  transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
+#c3-root.is-reduced .c3-pf { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  #c3-root.is-pf-tone-transition, #c3-root.c3-js .c3-pf { transition: none; }
+}
