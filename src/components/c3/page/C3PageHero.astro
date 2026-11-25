@@ -25,7 +25,7 @@ export interface Props {
   tone?: 'dark' | 'deep';
   size?: 'xl' | 'l';
   id?: string;
-  visual?: 'field' | 'none';
+  visual?: 'field' | 'flow' | 'geometry' | 'sculpture' | 'none';
 }
 const { kicker, index, title, accent, lead, actions = [], tone = 'dark', size = 'xl', id, visual = 'none' } = Astro.props;
 const at = accent ? title.indexOf(accent) : -1;
@@ -33,8 +33,8 @@ const parts = at >= 0 && accent ? [title.slice(0, at), accent, title.slice(at + 
 const hasAside = Astro.slots.has('aside');
 ---
 
-<header class:list={['c3-sec', `c3-sec--${tone}`, 'c3-phero', size === 'l' && 'c3-phero--l', visual === 'field' && 'c4-phero--field']} id={id}>
-  {visual === 'field' && <C4HeroField />}
+<header class:list={['c3-sec', `c3-sec--${tone}`, 'c3-phero', size === 'l' && 'c3-phero--l', visual !== 'none' && 'c4-phero--field']} id={id}>
+  {visual !== 'none' && <C4HeroField variant={visual} />}
   <div class="c3-sec-in">
     <div class="c3-phero-grid" style={hasAside ? undefined : 'grid-template-columns:minmax(0,1fr)'}>
       <div>

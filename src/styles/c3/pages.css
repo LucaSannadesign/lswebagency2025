@@ -1470,54 +1470,21 @@ html[data-ls-theme="light"] .c3p :is(.c3-path:hover, .c3-pnav a:hover) {
 }
 
 
-/* C.4.2 — Ion Field: testata editoriale con filamenti vettoriali.
- * Il campo occupa il vuoto superiore e non entra nella griglia dei testi. */
-.c4-phero-field {
-  display: none;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  inset: 0 0 auto auto;
-  width: min(76%, 1120px);
-  height: clamp(120px, 12.8vw, 196px);
-  overflow: hidden;
-  color: var(--link);
-  opacity: .64;
-  mask-image: linear-gradient(to right, transparent 0%, #000 24%, #000 100%);
-}
-.c4-phero-field svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.c4-phero--field > .c3-sec-in {
-  position: relative;
-  z-index: 1;
-}
-@media (min-width: 1024px) {
-  .c4-phero-field { display: block; }
-  /* Mantiene una distanza tra l'ornamento e il testo, senza altezza fissa. */
-  .c4-phero--field { padding-top: clamp(170px, 16vw, 220px); }
-}
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .c4-phero-field svg {
-    transform-origin: 70% 40%;
-    animation: c4-field-arrive 4.5s var(--c3-ease) both;
-  }
-  @keyframes c4-field-arrive {
-    from { opacity: .25; transform: translate3d(18px,-8px,0) scale(.98); }
-    to { opacity: 1; transform: translate3d(0,0,0) scale(1); }
-  }
-}
-@media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .c4-phero-field {
-    transition: opacity 600ms var(--c3-motion-color-ease), transform 1.2s var(--c3-motion-ease);
-  }
-  .c4-phero--field:hover .c4-phero-field {
-    opacity: .85;
-    transform: translate3d(-8px, 3px, 0);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .c4-phero-field, .c4-phero-field svg { animation: none; transition: none; transform: none; }
+/* C.4.3 — Animated Ion Flow */
+.c4-phero-field { display:none; }
+.c4-field-art { position:absolute; inset:0; pointer-events:none; }
+.c4-field-art > svg,.c4-field-art canvas { position:absolute; inset:0; width:100%; height:100%; }
+.c4-field-art canvas { opacity:0; }
+.c4-phero-field.is-drawn canvas { opacity:1; }
+.c4-phero-field.is-drawn .c4-field-art > svg { visibility:hidden; }
+.c4-phero--field > .c3-sec-in { position:relative; z-index:1; }
+.c4-field-toggle[hidden] { display:none; }
+.c4-field-toggle { position:absolute; top:12px; right:var(--c3-pad); display:grid; place-items:center; width:44px; height:44px; border:1px solid var(--ctrl); border-radius:50%; color:var(--link); background:var(--bg); pointer-events:auto; cursor:pointer; z-index:2; }
+.c4-field-toggle:hover { border-color:var(--link); }
+.c4-field-toggle .c4-play-icon,.c4-field-toggle[aria-pressed="true"] .c4-pause-icon { display:none; }
+.c4-field-toggle[aria-pressed="true"] .c4-play-icon { display:block; }
+@media (min-width:1024px) {
+  .c4-phero--field > .c4-phero-field { display:block; position:absolute; inset:0 0 auto auto; width:min(78%,1250px); height:clamp(230px,25vw,370px); color:var(--link); pointer-events:none; }
+  .c4-field-art { mask-image:linear-gradient(90deg,transparent 0%,#000 26%),linear-gradient(0deg,transparent 0%,#000 38%); mask-composite:intersect; }
+  .c4-phero--field .c3-phero-grid > * { background:linear-gradient(0deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 96%,transparent) 85%,transparent 100%); }
 }
