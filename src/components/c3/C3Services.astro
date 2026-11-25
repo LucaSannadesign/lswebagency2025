@@ -1,0 +1,52 @@
+---
+/**
+ * Servizi: il percorso esistente (valutazione → audit → sprint → sito) con
+ * prezzi dichiarati invariati. La CTA personalizzata (localStorage) resta qui.
+ */
+import PersonalizedCta from '@/components/ux/PersonalizedCta.astro';
+import { SERVICES } from '@/data/c3/home';
+---
+
+<section class="c3-band c3-svc-band" id="servizi" data-c3-chapter="anthracite" aria-labelledby="c3-h-serv">
+  <p class="c3-kicker"><span class="c3-idx" aria-hidden="true">03</span>Da dove partire</p>
+  <h2 class="c3-h2" id="c3-h-serv">Il percorso giusto per il tuo progetto.</h2>
+  <p class="c3-lead">
+    Ogni attività ha esigenze diverse. Puoi partire da una valutazione gratuita, approfondire con un audit o progettare un nuovo sito. I costi e il perimetro sono chiari prima di iniziare.
+  </p>
+  <div class="c3-svc-list">
+    {
+      SERVICES.map((s, i) => (
+        <article class="c3-svc c3-reveal">
+          <span class="c3-svc-n" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3>
+            {s.title}
+            {s.badge && <small class="c3-badge">{s.badge}</small>}
+          </h3>
+          <p class="c3-svc-desc">
+            {s.desc}
+            <span>{s.includes}</span>
+          </p>
+          <p class="c3-svc-price">
+            {s.price}
+            <small>{s.priceNote}</small>
+            <a href={s.href}>{s.cta}</a>
+          </p>
+        </article>
+      ))
+    }
+  </div>
+  <p class="c3-svc-more">
+    I tuoi clienti ti cercano in zona? La <a href="/servizi/seo-locale">verifica SEO locale</a> controlla come appare la
+    tua attività nelle ricerche locali e su Google Maps, a Sassari e in Sardegna, e indica le priorità per farti trovare.
+  </p>
+  <p class="c3-svc-more">
+    Lavori in un settore specifico? <a href="/servizi/pre-accoglienza-digitale">Studi dentistici e cliniche</a> ·
+    <a href="/servizi/sviluppo-web-white-label">Agenzie (white label)</a> ·
+    <a href="/servizi/ai-operations-pmi">Automazione e AI per PMI</a> · <a href="/servizi">Tutti i servizi</a>
+  </p>
+  <div class="c3-pcta">
+    <PersonalizedCta />
+  </div>
+</section>

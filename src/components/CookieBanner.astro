@@ -1,39 +1,33 @@
----
-const CONSENT_KEY = 'ls_cookie_consent_v1';
----
-
 <div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-[60] hidden">
-  <div class="mx-auto max-w-screen-xl px-3 sm:px-4 md:px-8 pb-3 sm:pb-4">
-    <div class="rounded-2xl border border-slate-200 bg-white/95 backdrop-blur shadow-2xl
-                dark:border-slate-800 dark:bg-slate-950/85">
-      <div class="p-3 sm:p-4 md:p-6 grid gap-3 md:gap-4 md:grid-cols-[1fr_auto] md:items-center">
-        <div class="space-y-1.5 sm:space-y-2">
-          <p class="text-[11px] sm:text-sm font-semibold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400">
+  <div class="ls-cookie-shell">
+    <div class="ls-cookie-card">
+      <div class="ls-cookie-content">
+        <div class="ls-cookie-copy">
+          <p class="ls-cookie-kicker">
             Cookie e preferenze
           </p>
 
-          <p class="text-sm sm:text-base md:text-lg text-slate-700 dark:text-slate-200 leading-snug sm:leading-normal">
+          <p class="ls-cookie-description">
             Usiamo cookie necessari. Con il tuo consenso attiviamo anche cookie
             <strong>statistici</strong>.
           </p>
 
-          <p class="text-[12px] sm:text-sm text-slate-500 dark:text-slate-400">
+          <p class="ls-cookie-policy">
             Leggi la <a class="underline underline-offset-4" href="/cookie">Cookie Policy</a>.
           </p>
         </div>
 
-        <!-- ✅ Mobile compact: griglia, bottoni piccoli -->
-        <div class="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-end md:gap-2">
-          <button id="cookie-reject" class="btn-secondary btn-compact w-full !py-2 !px-3 text-sm">
+        <!-- Tre azioni equivalenti: nessuna CTA sovradimensionata. -->
+        <div class="ls-cookie-actions">
+          <button id="cookie-reject" class="btn-secondary btn-compact ls-cookie-action">
             Rifiuta
           </button>
 
-          <button id="cookie-prefs" class="btn-secondary btn-compact w-full !py-2 !px-3 text-sm">
+          <button id="cookie-prefs" class="btn-secondary btn-compact ls-cookie-action">
             Preferenze
           </button>
 
-          <!-- su mobile occupa 2 colonne: decisione principale chiara, ma non “gigante” -->
-          <button id="cookie-accept" class="btn-primary btn-compact col-span-2 w-full !py-2.5 !px-3 text-sm">
+          <button id="cookie-accept" class="btn-secondary btn-compact ls-cookie-action">
             Accetta
           </button>
         </div>
@@ -43,19 +37,16 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 </div>
 
 <!-- Modal preferenze -->
-<div id="cookie-modal" class="fixed inset-0 z-[70] hidden">
+<div id="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookie-modal-title" class="fixed inset-0 z-[70] hidden">
   <div class="absolute inset-0 bg-black/40"></div>
 
   <!-- ✅ Mobile: margini e altezza controllati + scroll interno -->
-  <div class="relative mx-auto my-6 w-[min(92vw,720px)]
-              max-h-[calc(100vh-3rem)] overflow-hidden
-              rounded-2xl border border-slate-200 bg-white shadow-2xl
-              dark:border-slate-800 dark:bg-slate-950">
-    <div class="p-4 sm:p-5 md:p-6 overflow-auto max-h-[calc(100vh-3rem)]">
+  <div class="ls-cookie-dialog">
+    <div class="ls-cookie-dialog-content">
       <div class="flex items-start justify-between gap-3">
         <div>
-          <h2 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-slate-100">Preferenze cookie</h2>
-          <p class="mt-1.5 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+          <h2 id="cookie-modal-title" class="text-lg font-semibold text-slate-900 dark:text-slate-100">Preferenze cookie</h2>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">
             Scegli quali categorie attivare. I cookie necessari restano sempre attivi.
           </p>
         </div>
@@ -65,8 +56,8 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
         </button>
       </div>
 
-      <div class="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
-        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-3 sm:p-4 dark:border-slate-800">
+      <div class="mt-4 space-y-2">
+        <label class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
           <div>
             <p class="font-semibold text-slate-900 dark:text-slate-100 text-sm sm:text-base">Necessari</p>
             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Sempre attivi (sicurezza, funzioni base).</p>
@@ -74,7 +65,7 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
           <input type="checkbox" checked disabled class="h-5 w-5" />
         </label>
 
-        <label class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 p-3 sm:p-4 dark:border-slate-800">
+        <label class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 p-3 dark:border-slate-800">
           <div>
             <p class="font-semibold text-slate-900 dark:text-slate-100 text-sm sm:text-base">Statistiche (Analytics)</p>
             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">Misura visite e performance in forma aggregata.</p>
@@ -84,7 +75,7 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
 
       </div>
 
-      <div class="mt-4 sm:mt-6 flex justify-end">
+      <div class="mt-4 flex justify-end">
         <button id="cookie-save" class="btn-primary btn-compact !py-2.5 !px-4 text-sm sm:text-base">
           Salva preferenze
         </button>
@@ -92,6 +83,178 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
     </div>
   </div>
 </div>
+
+<style is:global>
+  /* C.3.11 — avviso compatto, non blocca la hero. Misure in px per
+     non ereditare la scala tipografica editoriale sui desktop grandi. */
+  #cookie-banner {
+    pointer-events: none;
+  }
+  #cookie-banner .ls-cookie-shell {
+    box-sizing: border-box;
+    width: min(100%, 580px);
+    margin-inline: auto;
+    padding: 0 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  #cookie-banner .ls-cookie-card {
+    pointer-events: auto;
+    border: 1px solid var(--c3-line-l, #c9c6bf);
+    border-radius: 16px;
+    background: var(--c3-ivory-hi, #f6f5f2);
+    color: var(--c3-g0, #0d0f11);
+    box-shadow: 0 8px 32px rgb(13 15 17 / 18%);
+  }
+  #cookie-banner .ls-cookie-content {
+    display: grid;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+  #cookie-banner .ls-cookie-copy {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+  }
+  #cookie-banner .ls-cookie-kicker {
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--c3-ion-deep, #1f5a54);
+  }
+  #cookie-banner .ls-cookie-description {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  #cookie-banner .ls-cookie-policy {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--c3-ink-2, #4a5157);
+  }
+  #cookie-banner .ls-cookie-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  #cookie-banner .ls-cookie-action {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 7px 6px;
+    font-size: 13px;
+    line-height: 1.2;
+    border-radius: 10px;
+    background: transparent;
+    box-shadow: none;
+  }
+  #cookie-modal .ls-cookie-dialog {
+    position: relative;
+    box-sizing: border-box;
+    width: min(calc(100% - 24px), 480px);
+    margin: 20px auto;
+    max-height: calc(100vh - 40px);
+    max-height: calc(100dvh - 40px);
+    overflow: auto;
+    border: 1px solid var(--c3-line-l, #c9c6bf);
+    border-radius: 16px;
+    background: var(--c3-ivory-hi, #f6f5f2);
+    box-shadow: 0 12px 48px rgb(13 15 17 / 25%);
+  }
+  #cookie-modal .ls-cookie-dialog-content { padding: 16px; }
+  .dark #cookie-banner .ls-cookie-card,
+  .dark #cookie-modal .ls-cookie-dialog {
+    background: var(--c3-g1, #15181b);
+    border-color: var(--c3-line-d, #2b3035);
+    color: var(--c3-ivory, #edece8);
+  }
+  .dark #cookie-banner .ls-cookie-kicker { color: var(--c3-ion, #8fd3c8); }
+  .dark #cookie-banner .ls-cookie-policy { color: var(--c3-grey, #a3a9ae); }
+  @media (max-width: 360px) {
+    #cookie-banner .ls-cookie-content { padding: 12px; }
+    #cookie-banner .ls-cookie-actions { gap: 5px; }
+    #cookie-banner .ls-cookie-action { font-size: 12px; padding-inline: 3px; }
+  }
+  @media (max-height: 420px) {
+    #cookie-banner .ls-cookie-card { max-height: 65vh; overflow: auto; }
+  }
+
+  /* Il pannello è fuori da .c3: usa direttamente i token globali. */
+  #cookie-banner .btn-primary,
+  #cookie-modal .btn-primary {
+    background: var(--c3-ion-deep);
+    color: var(--c3-ivory-hi);
+    border-color: var(--c3-ion-deep);
+  }
+  #cookie-banner .btn-primary:hover,
+  #cookie-modal .btn-primary:hover {
+    background: var(--c3-g0);
+    border-color: var(--c3-g0);
+    color: var(--c3-ivory-hi);
+  }
+  #cookie-banner .btn-secondary,
+  #cookie-modal .btn-secondary {
+    border-color: var(--c3-ion-deep);
+    color: var(--c3-ion-deep);
+  }
+  #cookie-banner .btn-secondary:hover,
+  #cookie-modal .btn-secondary:hover {
+    background-color: var(--c3-ion-deep);
+    border-color: var(--c3-ion-deep);
+    color: var(--c3-ivory-hi);
+  }
+  #cookie-banner button:focus-visible,
+  #cookie-modal button:focus-visible,
+  #cookie-banner a:focus-visible,
+  #cookie-modal input:focus-visible {
+    outline: 3px solid var(--c3-ion-deep);
+    outline-offset: 3px;
+    box-shadow: none;
+  }
+  #cookie-modal input[type="checkbox"] { accent-color: var(--c3-ion-deep); }
+  #cookie-modal label:has(input:not(:disabled)) {
+    transition: border-color var(--c3-motion-button) var(--c3-motion-color-ease), background-color var(--c3-motion-button) var(--c3-motion-color-ease);
+  }
+  #cookie-modal label:has(input:not(:disabled)):hover {
+    border-color: var(--c3-ion-deep);
+    background: var(--c3-ivory-hi);
+  }
+  /* Tema scuro: i colori sopra sono pensati per il pannello chiaro. Su fondo
+   * grafite servono l'ione chiaro per testo/bordi (contrasto AA) e un hover
+   * che non riporti la riga o il pulsante al colore del pannello. */
+  .dark #cookie-banner .btn-secondary,
+  .dark #cookie-modal .btn-secondary {
+    background: transparent;
+    border-color: var(--c3-ion);
+    color: var(--c3-ion);
+  }
+  .dark #cookie-banner .btn-secondary:hover,
+  .dark #cookie-modal .btn-secondary:hover {
+    background-color: var(--c3-ion);
+    border-color: var(--c3-ion);
+    color: var(--c3-g0);
+  }
+  .dark #cookie-banner .btn-primary:hover,
+  .dark #cookie-modal .btn-primary:hover {
+    background: var(--c3-ion);
+    border-color: var(--c3-ion);
+    color: var(--c3-g0);
+  }
+  .dark #cookie-banner button:focus-visible,
+  .dark #cookie-modal button:focus-visible,
+  .dark #cookie-banner a:focus-visible,
+  .dark #cookie-modal input:focus-visible {
+    outline-color: var(--c3-ion);
+  }
+  .dark #cookie-modal input[type="checkbox"] { accent-color: var(--c3-ion); }
+  .dark #cookie-modal label:has(input:not(:disabled)):hover {
+    border-color: var(--c3-ion);
+    background: var(--c3-g2);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #cookie-banner button, #cookie-modal button,
+    #cookie-modal label:has(input:not(:disabled)) { transition: none; transform: none !important; }
+  }
+</style>
 
 <script is:inline>
   // IIFE: nessuna variabile globale, quindi nessuna ridichiarazione se lo script
@@ -128,11 +291,19 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
     function openPreferences() {
       var modal = document.getElementById('cookie-modal');
       if (!modal) return;
+      window.__lsCookiePrefsOpener = document.activeElement;
       var chkAnalytics = document.getElementById('cookie-analytics');
       var c = readConsent() || { analytics: false, marketing: false, ts: Date.now() };
       if (chkAnalytics) chkAnalytics.checked = !!c.analytics;
       modal.classList.remove('hidden');
       if (chkAnalytics) chkAnalytics.focus();
+    }
+    function closePreferences() {
+      var modal = document.getElementById('cookie-modal');
+      if (modal) modal.classList.add('hidden');
+      const opener = window.__lsCookiePrefsOpener;
+      if (opener && opener.isConnected) opener.focus();
+      window.__lsCookiePrefsOpener = null;
     }
 
     // Rieseguibile su ogni nuovo DOM. L'attributo data-cookie-bound garantisce
@@ -152,7 +323,7 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
       var chkAnalytics = document.getElementById('cookie-analytics');
 
       function hideBanner() { banner.classList.add('hidden'); }
-      function closeModal() { if (modal) modal.classList.add('hidden'); }
+      function closeModal() { closePreferences(); }
       function openModal() { openPreferences(); }
       function decide(analytics) {
         writeConsent({ analytics: analytics, marketing: false, ts: Date.now() });
@@ -189,8 +360,18 @@ const CONSENT_KEY = 'ls_cookie_consent_v1';
       // Chiusura da tastiera del pannello preferenze.
       document.addEventListener('keydown', function (e) {
         if (e.key !== 'Escape') return;
-        var modal = document.getElementById('cookie-modal');
-        if (modal && !modal.classList.contains('hidden')) modal.classList.add('hidden');
+        const modal = document.getElementById('cookie-modal');
+        if (modal && !modal.classList.contains('hidden')) closePreferences();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        const modal = document.getElementById('cookie-modal');
+        if (e.key !== 'Tab' || !modal || modal.classList.contains('hidden')) return;
+        const focusables = Array.from(modal.querySelectorAll('button:not(:disabled), input:not(:disabled), a[href]'));
+        if (!focusables.length) return;
+        const first = focusables[0], last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       });
 
       // Compatibilità con i pulsanti già presenti che invocano questa funzione.

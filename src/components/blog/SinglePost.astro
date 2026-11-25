@@ -1,5 +1,4 @@
 ---
-import { Icon } from 'astro-icon/components';
 import PostTags from '@/components/blog/Tags.astro';
 import SocialShare from '@/components/common/SocialShare.astro';
 import PostCTA from '@/components/blog/PostCTA.astro';
@@ -7,6 +6,7 @@ import { getFormattedDate } from '@/utils/utils';
 import { getPostImageForComponent } from '@/utils/blog';
 import { findImage } from '@/utils/images';
 import type { ImageMetadata } from 'astro';
+import '@/styles/c3/pages.css';
 
 export interface Props {
   post: Record<string, any>;
@@ -64,68 +64,48 @@ const hasExplicitDimensions = Boolean(coverW && coverH);
 const shareUrl = typeof url === 'string' ? url : url?.toString?.() ?? '';
 ---
 
-<section class="py-8 sm:py-16 lg:py-20">
-  <article class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-    <!-- meta (data / autore) -->
-    <div class="flex justify-between flex-col sm:flex-row sm:items-center mt-0 mb-4">
-      <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600 dark:text-slate-400">
-        {post.category && (
-          <span class="inline-flex rounded-full bg-violet-100 px-2.5 py-1 font-semibold text-violet-700 dark:bg-violet-900/40 dark:text-violet-200">
-            {post.category.title}
-          </span>
-        )}
-        <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
-        <time datetime={String(post.publishDate)} class="inline-block">
-          {getFormattedDate(post.publishDate)}
-        </time>
-        {post.readingTime && <span>· {post.readingTime} min di lettura</span>}
-        {post.author && (
-          <>
-            {' '}· <Icon name="tabler:user" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
-            <span class="inline-block">{post.author}</span>
-          </>
-        )}
+<!-- Redesign C.3.4: testata scura editoriale, colonna di lettura che segue il tema
+     (avorio in chiaro, grafite in scuro). H1, contenuto, CTA, tag e share invariati. -->
+<article class="c3 c3p c3-article">
+  <header class="c3-sec c3-sec--dark c3-phero c3-ahero">
+    <div class="c3-ahero-in">
+      <p class="c3-post-meta c3-ahero-meta">
+        {post.category && <span class="c3-post-cat">{post.category.title}</span>}
+        <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
+        {post.readingTime && <span>{post.readingTime} min di lettura</span>}
+        {post.author && <span>{post.author}</span>}
       </p>
+
+      <h1 class="c3-phero-title c3-ahero-title">{title}</h1>
+
+      {post.excerpt && <p class="c3-lead c3-ahero-lead">{post.excerpt}</p>}
     </div>
+  </header>
 
-    <!-- H1 -->
-    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight font-heading text-slate-900 dark:text-white mt-4">
-      {title}
-    </h1>
+  <div class="c3-sec c3-sec--read c3-article-body">
+    <div class="c3-article-in">
+      {coverSrc && (
+        <figure class="c3-article-cover">
+          <img
+            src={coverSrc}
+            alt={coverAlt}
+            {...(hasExplicitDimensions ? { width: coverW, height: coverH } : {})}
+            loading="eager"
+            decoding="async"
+          />
+        </figure>
+      )}
 
-    <!-- Excerpt opzionale -->
-    {post.excerpt && (
-      <p class="text-xl md:text-2xl text-slate-600 dark:text-slate-400 leading-relaxed mt-6 mb-0">
-        {post.excerpt}
-      </p>
-    )}
-
-    <!-- Unica cover (solo se presente) -->
-    {coverSrc && (
-      <div class="mt-10 overflow-hidden rounded-2xl shadow-md bg-slate-100 dark:bg-slate-900/40 ring-1 ring-slate-200/70 dark:ring-slate-700/50">
-        <img
-          src={coverSrc}
-          alt={coverAlt}
-          {...(hasExplicitDimensions ? { width: coverW, height: coverH } : {})}
-          loading="eager"
-          decoding="async"
-          class="block w-full h-auto max-w-full object-contain"
-        />
+      <div class="prose prose-lg lg:prose-xl max-w-none c3-article-prose">
+        <slot />
       </div>
-    )}
 
-    <!-- Contenuto -->
-    <div class="prose prose-slate prose-lg lg:prose-xl dark:prose-invert max-w-none mt-12 prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:leading-relaxed prose-a:text-primary dark:prose-a:text-violet-300 prose-strong:text-slate-900 dark:prose-strong:text-white">
-      <slot />
+      {!post.hideDefaultCTA && <PostCTA />}
+
+      <div class="c3-article-foot">
+        <PostTags tags={post.tags} class="mr-5 rtl:mr-0 rtl:ml-5" />
+        <SocialShare url={shareUrl} text={title} class="sm:mt-0 align-middle" />
+      </div>
     </div>
-
-    <!-- CTA -->
-    {!post.hideDefaultCTA && <PostCTA />}
-
-    <!-- Tag + share -->
-    <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex justify-between flex-col sm:flex-row gap-4">
-      <PostTags tags={post.tags} class="mr-5 rtl:mr-0 rtl:ml-5" />
-      <SocialShare url={shareUrl} text={title} class="sm:mt-0 align-middle text-gray-500 dark:text-slate-600" />
-    </div>
-  </article>
-</section>
+  </div>
+</article>

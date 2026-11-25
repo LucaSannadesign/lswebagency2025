@@ -1,0 +1,24 @@
+---
+/** FAQ: stesse domande del JSON-LD FAQPage (fonte unica in data/c3/home.ts). */
+import { FAQS } from '@/data/c3/home';
+---
+
+<section class="c3-band c3-faq-band" id="faq" data-c3-chapter="light" data-c3-tone="light" aria-labelledby="c3-h-faq">
+  <div class="c3-grid12">
+    <div class="c3-faq-head">
+      <p class="c3-kicker"><span class="c3-idx" aria-hidden="true">06</span>Domande frequenti</p>
+      <h2 class="c3-h2 c3-h2--sm" id="c3-h-faq">Quello che è utile sapere.</h2>
+      <p class="c3-faq-more">Hai altre domande? <a class="c3-link" href="/contatti">Scrivimi</a></p>
+    </div>
+    <div class="c3-faq">
+      {
+        FAQS.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

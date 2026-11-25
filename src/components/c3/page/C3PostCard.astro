@@ -1,0 +1,58 @@
+---
+/**
+ * Card articolo del blog C.3 (indice, categorie, tag).
+ * `featured` = articolo in evidenza in formato largo (7/5).
+ * Immagine ottimizzata con lo stesso componente Image di ListItem.
+ */
+import type { ImageMetadata } from 'astro';
+import Image from '@/components/common/Image.astro';
+import type { Post } from '@/types';
+import { APP_BLOG } from 'astrowind:config';
+import { getPermalink } from '@/utils/permalinks';
+import { findImage } from '@/utils/images';
+import { getPostImageForComponent } from '@/utils/blog';
+import { getFormattedDate } from '@/utils/utils';
+
+export interface Props {
+  post: Post;
+  featured?: boolean;
+  eager?: boolean;
+}
+const { post, featured = false, eager = false } = Astro.props;
+
+const normalized = getPostImageForComponent(post.image);
+const image = normalized ? ((await findImage(normalized)) as ImageMetadata | string | undefined) : undefined;
+const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
+const Tag = featured ? 'h2' : 'h3';
+---
+
+<article class:list={['c3-post c3-up', { 'c3-post--feat': featured }]}>
+  <a href={link} class="c3-post-a">
+    <span class="c3-post-img">
+      {
+        image && (
+          <Image
+            src={image}
+            widths={featured ? [600, 1000] : [400, 700]}
+            width={featured ? 1000 : 700}
+            sizes={featured ? '(max-width: 1023px) 100vw, 58vw' : '(max-width: 600px) 100vw, (max-width: 1023px) 50vw, 33vw'}
+            alt=""
+            aspectRatio="16:9"
+            loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+        )
+      }
+    </span>
+    <span class="c3-post-body">
+      <span class="c3-post-meta">
+        {post.category && <span class="c3-post-cat">{post.category.title}</span>}
+        <time datetime={new Date(post.publishDate).toISOString()}>{getFormattedDate(post.publishDate)}</time>
+        {post.readingTime && <span>{post.readingTime} min</span>}
+      </span>
+      <Tag class="c3-post-title">{post.title}</Tag>
+      {post.excerpt && <span class="c3-post-ex">{post.excerpt}</span>}
+      <span class="c3-post-go" aria-hidden="true">Leggi l’articolo →</span>
+    </span>
+  </a>
+</article>

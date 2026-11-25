@@ -1,0 +1,172 @@
+---
+/**
+ * Portfolio immersivo C.3: quattro progetti.
+ * Desktop con movimento attivo: palco fissato (sticky) in cui le anteprime si
+ * aprono una dopo l'altra durante lo scroll e la pagina prende la tinta del
+ * progetto attivo. Mobile, tablet e movimento ridotto: elenco verticale con
+ * reveal all'ingresso. La scheda di dettaglio è un <dialog> nativo.
+ * Stato, descrizione e tecnologie arrivano dalla collection `portfolio`.
+ */
+import { getCollection } from 'astro:content';
+import { PORTFOLIO, shotSrcset } from '@/data/c3/home';
+
+const entries = await getCollection('portfolio');
+const byId = new Map(entries.map((e) => [e.id, e.data]));
+
+const items = PORTFOLIO.map((p) => {
+  const data = byId.get(p.id);
+  return {
+    ...p,
+    description: data?.description ?? '',
+    stage: data?.stageLabel ?? p.fallbackStage ?? '',
+    statusNote: data?.statusNote ?? '',
+    tech: (data?.technologies ?? []).join(' · '),
+    caseHref: `/portfolio/${p.id}`,
+  };
+});
+---
+
+<section class="c3-pf" id="progetti" data-c3-chapter="tint" aria-labelledby="c3-h-prog" data-c3-pf>
+  <div class="c3-pf-stage">
+    <div class="c3-pf-head">
+      <div>
+        <p class="c3-kicker"><span class="c3-idx" aria-hidden="true">01</span>Progetti in evidenza</p>
+        <h2 class="c3-h2" id="c3-h-prog">Dall’identità al <span class="c3-grad">codice.</span></h2>
+      </div>
+      <a class="c3-btn c3-btn--s c3-pf-all-top" href="/portfolio">Tutti i progetti</a>
+    </div>
+
+    <nav class="c3-pf-nav" aria-label="Elenco progetti">
+      <ol>
+        {
+          items.map((p, i) => (
+            <li>
+              <button type="button" data-go={i} style={`--project-number:${p.accent}`}>
+                <span>
+                  {p.name}
+                  <small>{p.kind}</small>
+                </span>
+                <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="c3-pf-items">
+      {
+        items.map((p, i) => (
+          <article
+            class="c3-pf-item is-pre"
+            data-i={i}
+            data-tint={p.tint}
+            data-accent={p.accent}
+            aria-labelledby={`c3-pf-t-${i}`}
+            style={`--pacc:${p.accent};--project-tint:${p.tint}`}
+          >
+            <figure class="c3-pf-fig">
+              <button class="c3-pf-open" type="button" data-open={i} aria-label={`Apri la scheda di ${p.name}`}>
+                <span class="c3-pf-frame">
+                  <img
+                    src={p.shot}
+                    srcset={shotSrcset(p.shot)}
+                    sizes="(min-width: 1024px) 68vw, 106vw"
+                    alt={`Homepage del sito ${p.domain}`}
+                    width="800"
+                    height="500"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+              </button>
+            </figure>
+            <div class="c3-pf-meta">
+              <span class="c3-pf-n" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="c3-pf-logo" style={p.logoBg ? `background:${p.logoBg}` : undefined}>
+                <img src={p.logo} alt={`Logo ${p.name}`} height="28" loading="lazy" />
+              </span>
+              <h3 id={`c3-pf-t-${i}`}>{p.name}</h3>
+              <p>{p.description}</p>
+              <dl>
+                <dt>Stato</dt>
+                <dd>
+                  <span class="c3-kind" style={`--k:${p.accent}`}>
+                    {p.stage || p.kind}
+                  </span>
+                </dd>
+                <dt class="c3-opt">Ruolo</dt>
+                <dd class="c3-opt">{p.role}</dd>
+              </dl>
+              <div class="c3-pf-more">
+                <button class="c3-btn c3-btn--s" type="button" data-open={i}>
+                  Apri la scheda
+                </button>
+                <a class="c3-link" href={p.caseHref}>
+                  Case study
+                </a>
+              </div>
+            </div>
+
+            <div hidden data-case>
+              <img class="c3-case-img" src={p.shot} srcset={shotSrcset(p.shot)} sizes="(min-width: 1024px) 60vw, 100vw" alt={`Homepage del sito ${p.domain}`} width="800" height="500" loading="lazy" />
+              <div class="c3-case-body">
+                <div>
+                  <span class="c3-case-logo" style={p.logoBg ? `background:${p.logoBg}` : undefined}>
+                    <img src={p.logo} alt={`Logo ${p.name}`} height="34" loading="lazy" />
+                  </span>
+                  <h2 class="c3-case-title">{p.name}</h2>
+                  <p class="c3-case-d">{p.description}</p>
+                  <h3 class="c3-case-h">Cosa è stato realizzato</h3>
+                  <ul class="c3-case-f">
+                    {p.features.map((f) => (
+                      <li>{f}</li>
+                    ))}
+                  </ul>
+                  {p.shot2 && <img class="c3-case-img2" src={p.shot2.src} srcset={shotSrcset(p.shot2.src)} sizes="(min-width: 1024px) 30vw, 100vw" alt={p.shot2.alt} width="800" height="500" loading="lazy" />}
+                </div>
+                <div>
+                  <dl>
+                    <dt>Stato</dt>
+                    <dd>
+                      <span class="c3-kind" style={`--k:${p.accent}`}>
+                        {p.stage || p.kind}
+                      </span>
+                    </dd>
+                    <dt>Ruolo</dt>
+                    <dd>{p.role}</dd>
+                    {p.tech && (
+                      <>
+                        <dt>Tecnologie</dt>
+                        <dd>{p.tech}</dd>
+                      </>
+                    )}
+                  </dl>
+                  {p.statusNote && <p class="c3-case-note">{p.statusNote}</p>}
+                  <p class="c3-case-acts">
+                    <a class="c3-btn c3-btn--case" href={p.url} target="_blank" rel="noopener">
+                      Visita {p.domain}
+                    </a>
+                    <a class="c3-btn c3-btn--s" href={p.caseHref}>
+                      Leggi il case study
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+  <div class="c3-pf-all">
+    <a class="c3-btn c3-btn--s" href="/portfolio">Tutti i progetti</a>
+  </div>
+
+  <dialog class="c3-case" aria-labelledby="c3-case-title" data-c3-case>
+    <button class="c3-case-x" type="button" aria-label="Chiudi la scheda" data-c3-case-x>×</button>
+    <div data-c3-case-body></div>
+  </dialog>
+</section>

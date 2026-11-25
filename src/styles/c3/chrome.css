@@ -1,0 +1,876 @@
+/*
+ * LS Web Agency · Redesign C.3.2 — navbar immersiva, menu mobile e footer.
+ * Usati da tutte le pagine (PageLayout). Dipende da tokens.css.
+ *
+ * Stati della navbar (classi da chrome.ts):
+ *   (nessuna)   in cima: trasparente, integrata nella hero
+ *   .is-solid   dopo lo scroll: capsula sospesa in vetro grafite
+ *   .is-hidden  scorrendo verso il basso (mai con focus o pannelli aperti)
+ */
+
+/* ───────── Navbar ───────── */
+.c3-top {
+  /* --np: avanzamento geometrico 0→1 (scroll 0–140px, da chrome.ts)
+     --nps: presenza della superficie 0→1 (progressiva su fondo scuro,
+     a soglia con transizione su fondo chiaro: nessun grigio intermedio) */
+  --np: 0;
+  --nps: 0;
+  --nav-h0: 64px;
+  --nav-h1: 58px;
+  --nav-pt0: 14px;
+  --nav-pt1: 10px;
+  --logo0: 28px;
+  --logo1: 24px;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 40;
+  padding: calc(var(--nav-pt0) - var(--np) * (var(--nav-pt0) - var(--nav-pt1)))
+    var(--c3-pad) 0;
+  pointer-events: none;
+  transition: transform 0.5s var(--c3-ease);
+}
+.c3-top > * {
+  pointer-events: auto;
+}
+.c3-top.is-hidden {
+  transform: translateY(calc(-100% - 16px));
+}
+/* Velatura sfumata (solo home): leggibilità sopra il campo, senza «barra» */
+.c3-top--home::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -70px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--c3-g0) 55%, transparent),
+    transparent
+  );
+  pointer-events: none;
+  opacity: calc(1 - var(--np));
+}
+
+.c3-top-in {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: calc(var(--nav-h0) - var(--np) * (var(--nav-h0) - var(--nav-h1)));
+  margin: 0 auto;
+  /* da tutta la larghezza a una capsula di 1180px, senza salti */
+  max-width: calc(100% - var(--np) * max(0px, 100% - 1180px));
+  padding: 0 calc(var(--np) * 8px) 0 calc(var(--np) * 22px);
+  border-radius: 999px;
+  color: var(--ink);
+  background-color: color-mix(
+    in srgb,
+    var(--c3-g1) calc(var(--nps) * 88%),
+    transparent
+  );
+  -webkit-backdrop-filter: blur(calc(var(--nps) * 18px))
+    saturate(calc(100% + var(--nps) * 40%));
+  backdrop-filter: blur(calc(var(--nps) * 18px))
+    saturate(calc(100% + var(--nps) * 40%));
+  box-shadow:
+    0 0 0 1px
+      color-mix(in srgb, var(--c3-ivory) calc(var(--nps) * 9%), transparent),
+    inset 0 1px 0
+      color-mix(in srgb, var(--c3-ivory) calc(var(--nps) * 6%), transparent),
+    0 18px 44px -22px
+      color-mix(in srgb, var(--c3-g0) calc(var(--nps) * 75%), transparent);
+  transition:
+    background-color 0.4s var(--c3-ease),
+    box-shadow 0.4s var(--c3-ease),
+    color 0.3s;
+}
+/* Capsula attiva: testi e controlli in avorio, indipendenti dal capitolo sotto */
+.c3-top.is-solid {
+  --ink: var(--c3-ivory);
+  --mute: var(--c3-grey);
+  --line: color-mix(in srgb, var(--c3-ivory) 12%, transparent);
+  --ctrl: color-mix(in srgb, var(--c3-ivory) 28%, transparent);
+  --link: var(--c3-ion);
+}
+
+.c3-brand {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+.c3-logo {
+  height: calc(var(--logo0) - var(--np) * (var(--logo0) - var(--logo1)));
+  width: auto;
+  transition: filter 0.3s;
+}
+/* Logo monocromatico ufficiale: bianco su fondi scuri, grafite su fondi chiari */
+.c3[data-tone="light"] .c3-top:not(.is-solid) .c3-logo {
+  filter: brightness(0.09);
+}
+
+.c3-nav {
+  margin-left: auto;
+}
+.c3-nav > ul {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.c3-nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: color-mix(in srgb, var(--ink) 78%, transparent);
+  font: 500 14.5px/1 var(--c3-text);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    background-color var(--c3-motion-fast) var(--c3-motion-color-ease);
+}
+.c3-nav-link:hover,
+.c3-nav-link[aria-expanded="true"] {
+  color: var(--link);
+}
+.c3-nav-link[aria-current="page"],
+.c3-nav-link[data-current] {
+  color: var(--ink);
+}
+.c3-nav-link[aria-current="page"]::before,
+.c3-nav-link[data-current]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--c3-ion);
+}
+.c3-dd-btn svg {
+  opacity: 0.7;
+  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
+}
+.c3-dd-btn[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.c3-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+.c3-quiet-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--ctrl);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    background-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    color var(--c3-motion-fast) var(--c3-motion-color-ease);
+}
+.c3-motion-btn i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c3-ion);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c3-ion) 16%, transparent);
+  animation: c3-pulse 2.8s ease-in-out infinite;
+}
+@keyframes c3-pulse {
+  50% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--c3-ion) 0%, transparent);
+  }
+}
+.c3-motion-btn[aria-pressed="true"] i {
+  background: transparent;
+  border: 1.5px solid var(--mute);
+  box-shadow: none;
+  animation: none;
+}
+.c3-ico {
+  width: 18px;
+  height: 18px;
+}
+.c3-theme button,
+.c3-theme [data-aw-toggle-color-scheme] {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--ctrl);
+  color: var(--ink);
+  background: transparent;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  transition: border-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    background-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    color var(--c3-motion-fast) var(--c3-motion-color-ease);
+}
+
+/* CTA: leggera a contorno in cima, pillola ione nella capsula */
+.c3-navcta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px 0 18px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  color: var(--ink);
+  font: 600 14px/1 var(--c3-text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--c3-motion-button) var(--c3-motion-color-ease),
+    color var(--c3-motion-button) var(--c3-motion-color-ease),
+    border-color var(--c3-motion-button) var(--c3-motion-color-ease);
+}
+.c3-navcta svg {
+  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
+}
+.c3-navcta:hover svg {
+  transform: translateX(3px);
+}
+.c3-top.is-solid .c3-navcta {
+  border-color: transparent;
+  background: var(--c3-ion);
+  color: var(--c3-g0);
+}
+
+/* Pulsante Menu (mobile e tablet) */
+.c3-menu-btn {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 14px 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--ctrl);
+  background: transparent;
+  color: var(--ink);
+  font: 600 14px/1 var(--c3-text);
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: background-color var(--c3-motion-button) var(--c3-motion-color-ease),
+    color var(--c3-motion-button) var(--c3-motion-color-ease),
+    border-color var(--c3-motion-button) var(--c3-motion-color-ease);
+}
+.c3-menu-ico {
+  position: relative;
+  width: 16px;
+  height: 10px;
+}
+.c3-menu-ico i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    transform 0.4s var(--c3-ease),
+    top 0.4s var(--c3-ease);
+}
+.c3-menu-ico i:first-child {
+  top: 1px;
+}
+.c3-menu-ico i:last-child {
+  top: 7px;
+}
+.c3-menu-btn[aria-expanded="true"] .c3-menu-ico i:first-child {
+  top: 4px;
+  transform: rotate(45deg);
+}
+.c3-menu-btn[aria-expanded="true"] .c3-menu-ico i:last-child {
+  top: 4px;
+  transform: rotate(-45deg);
+}
+
+/* ───────── Pannello Servizi ───────── */
+.c3-mega {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  width: min(980px, calc(100vw - 2 * var(--c3-pad)));
+  translate: -50% 0;
+  padding: 26px;
+  border-radius: 26px;
+  color: var(--c3-ivory);
+  background: color-mix(in srgb, var(--c3-g1) 90%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  backdrop-filter: blur(22px) saturate(140%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--c3-ivory) 9%, transparent),
+    0 40px 80px -30px color-mix(in srgb, var(--c3-g0) 80%, transparent);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  clip-path: inset(0 0 100% 0 round 26px);
+  transition:
+    opacity 0.35s var(--c3-ease),
+    transform 0.45s var(--c3-ease),
+    clip-path 0.55s var(--c3-ease),
+    visibility 0s 0.55s;
+}
+.c3-mega.is-open {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0 round 26px);
+  transition:
+    opacity 0.35s var(--c3-ease),
+    transform 0.45s var(--c3-ease),
+    clip-path 0.55s var(--c3-ease),
+    visibility 0s;
+}
+.c3-mega-in {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.9fr;
+  gap: 8px 28px;
+}
+.c3-mega-t {
+  margin: 0 0 10px;
+  padding: 0 12px;
+  font: 600 12px/1.3 var(--c3-text);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c3-ion);
+}
+.c3-mega ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.c3-mega-col a {
+  display: grid;
+  gap: 3px;
+  padding: 11px 12px;
+  border-radius: 14px;
+  color: var(--c3-ivory);
+  text-decoration: none;
+  transition: background-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    color var(--c3-motion-fast) var(--c3-motion-color-ease);
+}
+.c3-mega-col a:hover,
+.c3-mega-col a:focus-visible {
+  background: color-mix(in srgb, var(--c3-ivory) 6%, transparent);
+}
+.c3-mega-name {
+  font: 700 17px/1.2 var(--c3-disp);
+  font-stretch: 88%;
+}
+.c3-mega-desc {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--c3-grey);
+}
+.c3-mega-col li,
+.c3-mega-card {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.4s var(--c3-ease),
+    transform 0.45s var(--c3-ease);
+}
+.c3-mega.is-open .c3-mega-col li,
+.c3-mega.is-open .c3-mega-card {
+  opacity: 1;
+  transform: none;
+}
+.c3-mega.is-open .c3-mega-col li:nth-child(2) {
+  transition-delay: 0.04s;
+}
+.c3-mega.is-open .c3-mega-col li:nth-child(3) {
+  transition-delay: 0.08s;
+}
+.c3-mega.is-open .c3-mega-card {
+  transition-delay: 0.1s;
+}
+.c3-mega-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: var(--c3-ivory);
+  background:
+    radial-gradient(
+      120% 90% at 100% 0%,
+      color-mix(in srgb, var(--c3-ion) 22%, transparent),
+      transparent 60%
+    ),
+    color-mix(in srgb, var(--c3-ivory) 4%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c3-ion) 18%, transparent);
+}
+.c3-mega-card .c3-mega-t {
+  padding: 0;
+  margin: 0;
+}
+.c3-mega-card-h {
+  font: 800 24px/1.05 var(--c3-disp);
+  font-stretch: 80%;
+}
+.c3-mega-go {
+  margin-top: auto;
+  font: 600 14px/1 var(--c3-text);
+  color: var(--c3-ion);
+  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
+}
+.c3-mega-card:hover .c3-mega-go,
+.c3-mega-card:focus-visible .c3-mega-go {
+  transform: translateX(4px);
+}
+.c3-mega-all {
+  display: inline-flex;
+  gap: 6px;
+  margin: 16px 12px 0;
+  color: var(--c3-ivory);
+  font: 600 14px/1 var(--c3-text);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+  opacity: 0.8;
+  transition: opacity var(--c3-motion-fast) var(--c3-motion-color-ease),
+    text-decoration-color var(--c3-motion-fast) var(--c3-motion-color-ease);
+}
+.c3-mega-all:hover {
+  opacity: 1;
+  text-decoration-color: currentColor;
+  text-underline-offset: 0.25em;
+}
+
+/* ───────── Menu mobile ───────── */
+.c3-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 39;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 104px var(--c3-pad) 32px;
+  overflow-y: auto;
+  color: var(--c3-ivory);
+  background:
+    radial-gradient(
+      90% 60% at 100% 0%,
+      color-mix(in srgb, var(--c3-ion) 14%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      70% 50% at 0% 100%,
+      color-mix(in srgb, var(--c3-ion-mid) 18%, transparent),
+      transparent 60%
+    ),
+    var(--c3-g0);
+  visibility: hidden;
+  opacity: 0;
+  clip-path: circle(0% at calc(100% - 48px) 40px);
+  transition:
+    opacity 0.3s,
+    clip-path 0.6s var(--c3-ease),
+    visibility 0s 0.6s;
+}
+.c3-overlay.is-open {
+  visibility: visible;
+  opacity: 1;
+  clip-path: circle(150% at calc(100% - 48px) 40px);
+  transition:
+    opacity 0.3s,
+    clip-path 0.7s var(--c3-ease),
+    visibility 0s;
+}
+.c3-overlay ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.c3-overlay-main > li {
+  border-bottom: 1px solid color-mix(in srgb, var(--c3-ivory) 10%, transparent);
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.5s var(--c3-ease),
+    transform 0.6s var(--c3-ease);
+}
+.c3-overlay.is-open .c3-overlay-main > li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(0.12s + var(--n, 0) * 0.06s);
+}
+.c3-overlay-main > li > a,
+.c3-acc-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border: 0;
+  background: none;
+  color: var(--c3-ivory);
+  font: 800 clamp(36px, 10vw, 60px) / 1.05 var(--c3-disp);
+  font-stretch: 74%;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+}
+.c3-overlay-main a[aria-current="page"] {
+  color: var(--c3-ion);
+}
+.c3-acc-ico {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+.c3-acc-ico::before,
+.c3-acc-ico::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--c3-ion);
+  transition: transform 0.35s var(--c3-ease);
+}
+.c3-acc-ico::after {
+  transform: rotate(90deg);
+}
+.c3-acc-btn[aria-expanded="true"] .c3-acc-ico::after {
+  transform: rotate(0deg);
+}
+.c3-overlay-sub {
+  display: grid;
+  gap: 2px;
+  padding: 0 0 16px !important;
+}
+.c3-overlay-sub a {
+  display: grid;
+  gap: 2px;
+  padding: 10px 0;
+  color: var(--c3-ivory);
+  text-decoration: none;
+}
+.c3-overlay-sub .c3-mega-name {
+  font-size: 18px;
+}
+.c3-overlay-all {
+  color: var(--c3-ion) !important;
+  font-weight: 600;
+}
+.c3-overlay-foot {
+  display: grid;
+  gap: 16px;
+  opacity: 0;
+  transition: opacity 0.5s 0.35s;
+}
+.c3-overlay.is-open .c3-overlay-foot {
+  opacity: 1;
+}
+.c3-overlay-foot .c3-btn {
+  width: 100%;
+  background: var(--c3-ion);
+  color: var(--c3-g0);
+}
+.c3-overlay-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 0;
+}
+.c3-overlay-contacts a {
+  color: var(--c3-ivory);
+  font-weight: 600;
+}
+.c3-overlay-addr {
+  margin: 0;
+  font-size: 14px;
+  color: var(--c3-grey);
+}
+/* Con il menu aperto la navbar resta leggibile sopra l'overlay */
+.c3-top.is-menu {
+  --ink: var(--c3-ivory);
+  --ctrl: color-mix(in srgb, var(--c3-ivory) 30%, transparent);
+}
+.c3-top.is-menu .c3-logo {
+  filter: none !important;
+}
+.c3-top.is-menu .c3-top-in {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.c3-top.is-menu::before {
+  opacity: 0;
+}
+
+/* ───────── Footer ───────── */
+.c3-foot {
+  border-top: 1px solid var(--line);
+  padding: 64px var(--c3-pad) 0;
+  color: var(--mute);
+  font-size: 15px;
+}
+.c3-foot a:not(.c3-btn, .c3-icon-btn),
+.c3-foot button:not(.c3-btn, .c3-icon-btn) {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    text-decoration-color var(--c3-motion-fast) var(--c3-motion-color-ease);
+}
+.c3-foot a:not(.c3-btn, .c3-icon-btn):hover,
+.c3-foot button:not(.c3-btn, .c3-icon-btn):hover {
+  color: var(--link);
+  text-decoration-color: currentColor;
+}
+.c3-foot-grid {
+  display: grid;
+  grid-template-columns: 4fr 3fr 3fr 3fr;
+  gap: 32px;
+}
+.c3-foot-brand img {
+  height: 34px;
+  width: auto;
+}
+.c3-foot-brand p {
+  max-width: 300px;
+}
+.c3-foot-t {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.c3-foot-t--sub {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--mute);
+}
+.c3-foot ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.c3-foot address {
+  font-style: normal;
+  line-height: 1.7;
+}
+.c3-foot .c3-soc {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.c3-foot-mail {
+  font-weight: 600;
+}
+.c3-foot-cta {
+  margin-top: 20px;
+  min-height: 44px;
+}
+.c3-foot-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 48px;
+  border-top: 1px solid var(--line);
+  /* spazio per il widget assistente fisso in basso a destra */
+  padding: 20px 0 104px;
+  font-size: 14px;
+}
+.c3-foot-bar p {
+  margin: 0;
+}
+.c3-foot-bar nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.c3-foot-bar button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Pagine interne: la navbar segue il tema in cima (chiaro o scuro) */
+.c3-chrome {
+  background: transparent;
+}
+html.dark .c3-chrome[data-tone="light"] {
+  --bg: var(--c3-g0);
+  --ink: var(--c3-snow);
+  --mute: var(--c3-grey);
+  --line: var(--c3-g3);
+  --ctrl: var(--c3-ctrl-d);
+  --panel: var(--c3-g1);
+  --link: var(--c3-ion);
+  --btn: var(--c3-ion);
+  --btn-ink: var(--c3-g0);
+  color-scheme: dark;
+}
+html.dark .c3-chrome[data-tone="light"] .c3-top:not(.is-solid) .c3-logo {
+  filter: none;
+}
+
+/* Movimento ridotto: navbar e pannelli senza animazioni */
+@media (prefers-reduced-motion: reduce) {
+  .c3-top,
+  .c3-top-in,
+  .c3-mega,
+  .c3-mega *,
+  .c3-overlay,
+  .c3-overlay * {
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .c3-nav-link {
+    padding: 0 10px;
+  }
+  .c3-top-in {
+    gap: 16px;
+  }
+}
+@media (max-width: 1023px) {
+  .c3-nav,
+  .c3-navcta,
+  .c3-mega {
+    display: none;
+  }
+  .c3-menu-btn {
+    display: inline-flex;
+  }
+  .c3-brand {
+    margin-right: auto;
+  }
+  .c3-top-in {
+    padding: 0 calc(var(--np) * 6px) 0 calc(var(--np) * 18px);
+  }
+  .c3-foot-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .c3-top {
+    --nav-h0: 56px;
+    --nav-h1: 54px;
+    --nav-pt0: 10px;
+    --nav-pt1: 8px;
+    --logo0: 24px;
+    --logo1: 22px;
+  }
+  .c3-overlay {
+    padding-top: 92px;
+  }
+  .c3-foot-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* C.3.8 — header e footer coerenti con il tema effettivo.
+ * La capsula e l'overlay del menu rimangono grafite per leggibilità. */
+html[data-ls-theme="light"] .c3-chrome:has(+ main .c3p),
+html[data-ls-theme="light"] .c3-chrome-foot {
+  --ink: var(--c3-g0);
+  --mute: var(--c3-ink-2);
+  --line: var(--c3-line-l);
+  --ctrl: var(--c3-ctrl-l);
+  --link: var(--c3-ion-deep);
+  --btn: var(--c3-g0);
+  --btn-ink: var(--c3-ivory);
+  --grad: var(--c3-grad-on-light);
+  color-scheme: light;
+  --bg: var(--c3-ivory);
+  --panel: var(--c3-ivory-hi);
+}
+html[data-ls-theme="light"] .c3-chrome:has(+ main .c3p) .c3-top:not(.is-solid):not(.is-menu) .c3-logo,
+html[data-ls-theme="light"] .c3-chrome-foot .c3-foot-brand img,
+html[data-ls-home-theme="light"] #c3-root .c3-foot-brand img,
+html[data-ls-home-theme="editorial"] #c3-root[data-tone="light"] .c3-foot-brand img {
+  filter: brightness(0.09);
+}
+#c3-root .c3-top--home:not(.is-solid) {
+  --ink: var(--c3-ivory);
+  --ctrl: var(--c3-ctrl-d);
+  --mute: var(--c3-grey);
+  --link: var(--c3-ion);
+}
+#c3-root .c3-top--home:not(.is-solid) .c3-logo,
+html[data-ls-home-theme="dark"] #c3-root .c3-top--home .c3-logo {
+  filter: none;
+}
+@media (max-width: 380px) {
+  #c3-root .c3-actions { gap: 6px; }
+  #c3-root .c3-top-in { gap: 8px; }
+  #c3-root .c3-logo { max-width: 112px; height: auto; }
+}
+
+/* C.3.10 — controlli coerenti con il tono effettivo della navbar. */
+.c3-top.is-solid,
+.c3-top.is-menu,
+#c3-root .c3-top--home:not(.is-solid) {
+  --btn-ink: var(--c3-g0);
+  --link: var(--c3-ion);
+}
+@media (hover: hover) and (pointer: fine) {
+  .c3-top :is(.c3-quiet-btn, .c3-theme button, .c3-menu-btn, .c3-navcta):hover {
+    background-color: var(--link);
+    border-color: var(--link);
+    color: var(--btn-ink);
+  }
+  .c3-top.is-solid .c3-navcta:hover {
+    background-color: var(--c3-ion-hi);
+    border-color: var(--c3-ion-hi);
+    color: var(--c3-g0);
+  }
+  .c3-mega-col a:hover {
+    background-color: color-mix(in srgb, var(--c3-ion) 12%, transparent);
+    color: var(--c3-ion);
+  }
+  .c3-mega-all:hover { color: var(--c3-ion); }
+}
+.c3-motion-btn:hover i {
+  background-color: currentColor;
+}
+.c3-motion-btn[aria-pressed="true"]:hover i {
+  background-color: transparent;
+  border-color: currentColor;
+}
+
+/* C.3.12 — icona della modalità home, indipendente dal tema delle pagine interne. */
+[data-c3-home-theme] :is(.c3-home-theme-light, .c3-home-theme-dark) { display: none; }
+html[data-ls-home-theme="light"] [data-c3-home-theme] :is(.c3-home-theme-editorial, .c3-home-theme-dark),
+html[data-ls-home-theme="dark"] [data-c3-home-theme] :is(.c3-home-theme-editorial, .c3-home-theme-light) { display: none; }
+html[data-ls-home-theme="light"] [data-c3-home-theme] .c3-home-theme-light,
+html[data-ls-home-theme="dark"] [data-c3-home-theme] .c3-home-theme-dark { display: block; }

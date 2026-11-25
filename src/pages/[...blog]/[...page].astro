@@ -2,9 +2,7 @@
 import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
 import Layout from '@/layouts/PageLayout.astro';
-import BlogList from '@/components/blog/List.astro';
-import Headline from '@/components/blog/Headline.astro';
-import Pagination from '@/components/blog/Pagination.astro';
+import C3BlogList from '@/components/c3/page/C3BlogList.astro';
 
 import { blogListRobots, getStaticPathsBlogList } from '@/utils/blog';
 import { getCollection } from 'astro:content';
@@ -43,13 +41,17 @@ const metadata = {
 };
 ---
 
-<Layout metadata={metadata}>
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline subtitle="Il Blog di LS Web Agency: Guide su Web Design, SEO e Sviluppo Web">
-      Il Blog
-    </Headline>
-    <!-- ✅ Usi lasciati invariati -->
-    <BlogList posts={page?.data ?? []} />
-    <Pagination prevUrl={page?.url?.prev} nextUrl={page?.url?.next} />
-  </section>
+<Layout metadata={metadata} headerTone="dark">
+  <C3BlogList
+    title="Il Blog"
+    accent="Blog"
+    kicker="Guide e approfondimenti"
+    lead="Il Blog di LS Web Agency: Guide su Web Design, SEO e Sviluppo Web"
+    posts={page?.data ?? []}
+    prevUrl={page?.url?.prev}
+    nextUrl={page?.url?.next}
+    currentPage={currentPage}
+    lastPage={page?.lastPage ?? 1}
+    feature={currentPage === 1}
+  />
 </Layout>
