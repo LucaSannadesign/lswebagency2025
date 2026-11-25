@@ -54,15 +54,15 @@
   --c3-ink-2: #4a5157; /* testo secondario su avorio, 6,8:1 */
   --c3-white: #ffffff; /* solo fondo dei loghi autentici dei progetti */
 
-  /* Tinte del portfolio: grafite appena velata di ione (nessun colore estraneo) */
-  --c3-tint-1: #0f1a1a;
-  --c3-tint-2: #111817;
-  --c3-tint-3: #10161a;
-  --c3-tint-4: #14181c;
-  --c3-acc-1: var(--c3-ion);
-  --c3-acc-2: var(--c3-ion-hi);
-  --c3-acc-3: var(--c3-ion-mid);
-  --c3-acc-4: var(--c3-ivory);
+  /* Portfolio: quattro capitoli cromatici, petrolio → salvia → ardesia → grafite calda. */
+  --c3-tint-1: #14292b;
+  --c3-tint-2: #29382c;
+  --c3-tint-3: #25333f;
+  --c3-tint-4: #39312e;
+  --c3-acc-1: #8fd3c8;
+  --c3-acc-2: #b6cba8;
+  --c3-acc-3: #b1c8dd;
+  --c3-acc-4: #e0c5ad;
 
   /* Gradienti (vedi sezione «Gradienti» più sotto per l'uso) */
   --c3-grad-on-dark: linear-gradient(

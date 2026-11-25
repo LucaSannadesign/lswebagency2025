@@ -298,7 +298,7 @@
 .c3-pf-n {
   font: 700 clamp(56px, 6vw, 96px) / 1 var(--c3-disp);
   font-stretch: 62%;
-  color: var(--mute);
+  color: var(--pacc, var(--mute));
   display: block;
   margin-bottom: 10px;
 }
@@ -433,7 +433,10 @@
   color: var(--ink);
 }
 .c3.is-pinned .c3-pf-nav button[aria-current="true"] span:last-child {
-  color: var(--pacc, var(--c3-ion));
+  color: var(--project-number, var(--pacc, var(--c3-ion)));
+}
+.c3.is-pinned .c3-pf-nav button span:last-child {
+  color: var(--project-number, var(--mute));
 }
 .c3.is-pinned .c3-pf-items {
   grid-column: 1 / -1;
@@ -1560,8 +1563,18 @@ html[data-ls-home-theme="light"] #c3-root {
 html[data-ls-home-theme="light"] #c3-root[data-tone="anthracite"] {
   --bg: var(--c3-ivory-lo);
 }
+html[data-ls-home-theme="light"] #c3-root {
+  --c3-tint-1: #dfeeeb;
+  --c3-tint-2: #e5ecdd;
+  --c3-tint-3: #e1eaf0;
+  --c3-tint-4: #f0e6dd;
+  --c3-acc-1: #235e5b;
+  --c3-acc-2: #385c3b;
+  --c3-acc-3: #35556f;
+  --c3-acc-4: #71503c;
+}
 html[data-ls-home-theme="light"] #c3-root[data-tone="tint"] {
-  --bg: var(--c3-ivory-hi);
+  --bg: var(--c3-tint, var(--c3-tint-1));
 }
 html[data-ls-home-theme="dark"] #c3-root,
 html[data-ls-home-theme="dark"] #c3-root:not(.c3-js) [data-c3-tone="light"] {
@@ -1607,9 +1620,7 @@ html[data-ls-home-theme="light"] #c3-root:not(.c3-js) [data-c3-chapter="anthraci
 html[data-ls-home-theme="light"] #c3-root :is(.c3-stars, .c3-big-cta:hover, .c3-direct a:hover, .c3-svc:hover .c3-svc-n, #contact-form-status.is-ok) {
   color: var(--c3-ion-deep);
 }
-html[data-ls-home-theme="light"] #c3-root.is-pinned .c3-pf-nav button[aria-current="true"] span:last-child {
-  color: var(--c3-ion-deep);
-}
+/* The active number inherits the project palette in either home theme. */
 html[data-ls-home-theme="light"] #c3-root .c3-form :is(input, textarea)::placeholder {
   color: var(--c3-ink-2);
 }
@@ -1624,4 +1635,19 @@ html[data-ls-home-theme="light"] #c3-root .c3-form :is(input, textarea)::placeho
 @media (min-width: 1024px) {
   #c3-root .c3-hero .c3-acts { flex-direction: column; align-items: flex-start; }
   #c3-root .c3-hero .c3-acts .c3-btn { max-width: 100%; white-space: normal; }
+}
+
+/* Portfolio chapters remain distinct on mobile, without JS and with reduced motion.
+   The existing desktop scroll engine transitions the root background. */
+#c3-root:not(.is-pinned) .c3-pf-item {
+  position: relative;
+  isolation: isolate;
+}
+#c3-root:not(.is-pinned) .c3-pf-item::before {
+  content: "";
+  position: absolute;
+  inset: -24px calc(-1 * var(--c3-pad));
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--project-tint) 16%, var(--project-tint) 84%, transparent);
 }

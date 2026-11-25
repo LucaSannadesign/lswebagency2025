@@ -41,7 +41,7 @@ const items = PORTFOLIO.map((p) => {
         {
           items.map((p, i) => (
             <li>
-              <button type="button" data-go={i}>
+              <button type="button" data-go={i} style={`--project-number:${p.accent}`}>
                 <span>
                   {p.name}
                   <small>{p.kind}</small>
@@ -63,7 +63,7 @@ const items = PORTFOLIO.map((p) => {
             data-tint={p.tint}
             data-accent={p.accent}
             aria-labelledby={`c3-pf-t-${i}`}
-            style={`--pacc:${p.accent}`}
+            style={`--pacc:${p.accent};--project-tint:${p.tint}`}
           >
             <figure class="c3-pf-fig">
               <button class="c3-pf-open" type="button" data-open={i} aria-label={`Apri la scheda di ${p.name}`}>
