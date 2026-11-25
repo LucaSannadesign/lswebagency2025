@@ -1,0 +1,28 @@
+---
+/**
+ * Ion Field — variante vettoriale del linguaggio Vortex Field della home.
+ * Coordinate deterministiche, generate a build/SSR; nessun canvas, timer,
+ * immagine esterna o JavaScript client. Tutti i filamenti sono decorativi.
+ */
+const strands = Array.from({ length: 44 }, (_, i) => {
+  const u = i / 43;
+  const points = Array.from({ length: 65 }, (_, j) => {
+    const t = j / 64;
+    const wave = Math.sin(t * Math.PI * 2.35 + u * 1.7);
+    const envelope = Math.sin(t * Math.PI) ** 1.2;
+    const curl = Math.sin(t * Math.PI * 2.6 - u * 2.2);
+    const x = -65 + t * 1130 + 42 * envelope * Math.sin(t * Math.PI * 2 + u * 2.8);
+    const y = 174 - 96 * t + (u - .5) * (120 - 55 * envelope) + envelope * (54 * wave + 24 * curl);
+    return `${j === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
+  });
+  return { d: points.join(' '), opacity: .19 + .48 * Math.sin(Math.PI * u), width: i % 7 === 0 ? 1.65 : .8 };
+});
+---
+
+<div class="c4-phero-field" aria-hidden="true">
+  <svg viewBox="0 0 1000 240" preserveAspectRatio="xMidYMid slice" fill="none" focusable="false" aria-hidden="true">
+    {strands.map((line) => (
+      <path d={line.d} stroke="currentColor" stroke-opacity={line.opacity} stroke-width={line.width} stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+    ))}
+  </svg>
+</div>

@@ -7,6 +7,7 @@
  * - Carica una sola volta stili delle pagine e rivelazione (pages.ts).
  */
 import '@/styles/c3/pages.css';
+import C4HeroField from './C4HeroField.astro';
 
 export interface Action {
   text: string;
@@ -24,14 +25,16 @@ export interface Props {
   tone?: 'dark' | 'deep';
   size?: 'xl' | 'l';
   id?: string;
+  visual?: 'field' | 'none';
 }
-const { kicker, index, title, accent, lead, actions = [], tone = 'dark', size = 'xl', id } = Astro.props;
+const { kicker, index, title, accent, lead, actions = [], tone = 'dark', size = 'xl', id, visual = 'none' } = Astro.props;
 const at = accent ? title.indexOf(accent) : -1;
 const parts = at >= 0 && accent ? [title.slice(0, at), accent, title.slice(at + accent.length)] : [title, '', ''];
 const hasAside = Astro.slots.has('aside');
 ---
 
-<header class:list={['c3-sec', `c3-sec--${tone}`, 'c3-phero', size === 'l' && 'c3-phero--l']} id={id}>
+<header class:list={['c3-sec', `c3-sec--${tone}`, 'c3-phero', size === 'l' && 'c3-phero--l', visual === 'field' && 'c4-phero--field']} id={id}>
+  {visual === 'field' && <C4HeroField />}
   <div class="c3-sec-in">
     <div class="c3-phero-grid" style={hasAside ? undefined : 'grid-template-columns:minmax(0,1fr)'}>
       <div>
