@@ -5,14 +5,15 @@
  * 1. L'immagine statica (still) è sempre nel markup: è l'LCP e il fallback.
  * 2. Il campo WebGL parte al primo frame disponibile, se: WebGL2 + float target
  *    disponibili, movimento non ridotto, nessun Data Saver, dispositivo non
- *    troppo debole. Altrimenti resta lo still.
+ *    troppo debole. In assenza di WebGL, lo still ha un fallback CSS leggero,
+ *    salvo Data Saver, pausa esplicita o preferenza di movimento ridotto.
  * 3. Gira solo con la hero visibile e la scheda in primo piano.
  * 4. Qualità adattiva: se il frame rate è basso riduce la risoluzione; se resta
  *    insufficiente si ferma e torna allo still.
  * 5. Perdita del contesto WebGL → still.
  *
  * Lo stato è esposto in hero.dataset.glState:
- *   still · live · paused · reduced · fallback
+ *   still · live · paused · reduced · fallback · fallback-paused
  *
  * Regolazione in anteprima (nessuna UI): ?fx-int=0.2–1.4 · ?fx-speed=0.2–2.5 · ?nogl
  */
@@ -116,13 +117,21 @@ export function mountHero(
   const running = () =>
     ok && started && !isReduced() && !document.hidden && visible;
 
+  // The still remains the LCP. Animate it only when WebGL is unavailable
+  // and motion is actually allowed, without consuming a continuous JS loop.
+  const fallbackState = () => {
+    if (isReduced()) return "reduced";
+    if (query.has("nogl") || nav.connection?.saveData === true) return "still";
+    return !document.hidden && visible ? "fallback" : "fallback-paused";
+  };
+
   function fail(reason: string) {
     failed = true;
     ok = false;
     if (raf) cancelAnimationFrame(raf);
     raf = 0;
     canvas?.classList.remove("is-live");
-    setState("fallback");
+    setState(fallbackState());
     if (import.meta.env.DEV)
       console.info("[c3-hero] fallback statico:", reason);
   }
@@ -250,7 +259,6 @@ export function mountHero(
   }
 
   function sync() {
-    if (failed) return setState("fallback");
     if (isReduced()) {
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
@@ -258,7 +266,7 @@ export function mountHero(
       return setState("reduced");
     }
     if (!started) return setState("still");
-    if (!init()) return;
+    if (failed || !init()) return setState(fallbackState());
     if (running()) {
       if (!raf) {
         last = 0;
