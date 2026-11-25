@@ -1480,7 +1480,7 @@ html[data-ls-theme="light"] .c3p :is(.c3-path:hover, .c3-pnav a:hover) {
 .c4-phero--field > .c3-sec-in { position: relative; z-index: 1; }
 .c4-field-toggle[hidden] { display: none; }
 .c4-field-toggle {
-  position: absolute; bottom: 12px; right: var(--c3-pad);
+  position: absolute; bottom: 12px; right: max(var(--c3-pad), 235px);
   display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
   border: 0; border-radius: 50%; color: var(--mute);
   background: transparent; pointer-events: auto; cursor: pointer; z-index: 3;

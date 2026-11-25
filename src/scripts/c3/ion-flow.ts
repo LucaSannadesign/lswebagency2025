@@ -2,6 +2,7 @@
 const TAU = Math.PI * 2;
 const desktop = matchMedia('(min-width: 1024px)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+import { previewAutoplay } from './motion-preference';
 const KEY = 'ls-motion-v2';
 type MotionChoice = 'full' | 'reduced' | null;
 function readMotion(): MotionChoice {
@@ -20,7 +21,7 @@ function mount(el: HTMLElement): () => void {
   let w = 0, h = 0, t = 0, last = 0, raf = 0, painted = 0;
   let visible = false, mx = 0, my = 0, px = 0, py = 0;
   let choice = readMotion();
-  const paused = () => choice === 'reduced' || (choice !== 'full' && reduced.matches);
+  const paused = () => choice === 'reduced' || (choice !== 'full' && !previewAutoplay() && reduced.matches);
   const p = new Float64Array(4);
   const eligible = () => desktop.matches && w > 0 && h > 0;
   const enabled = () => eligible() && visible && !document.hidden && !paused();

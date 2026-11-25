@@ -9,6 +9,7 @@
 import { mountHero, type HeroHandle } from "./hero-controller";
 import { mountHeroType, type TypeHandle } from "./hero-type";
 
+import { previewAutoplay } from "./motion-preference";
 const MOTION_KEY = "ls-motion-v2";
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
@@ -48,7 +49,7 @@ function init(root: HTMLElement): () => void {
   // ── Movimento: preferenza di sistema + interruttore in pagina ─────────────
   const mq = matchMedia("(prefers-reduced-motion: reduce)");
   const stored = readStoredMotion();
-  let reduced = stored ? stored === "reduced" : mq.matches;
+  let reduced = stored ? stored === "reduced" : !previewAutoplay() && mq.matches;
   const isReduced = () => reduced;
   const motionBtn = $<HTMLButtonElement>("[data-c3-motion]");
   const motionLabel = $("[data-c3-motion-label]");
@@ -373,7 +374,7 @@ function init(root: HTMLElement): () => void {
   );
   const onMq = (e: MediaQueryListEvent) => {
     if (!readStoredMotion()) {
-      reduced = e.matches;
+      reduced = !previewAutoplay() && e.matches;
       applyMotion();
     }
   };
