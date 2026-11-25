@@ -7,7 +7,6 @@
  * qui si aggiungono solo movimento e interazioni.
  */
 import { mountHero, type HeroHandle } from "./hero-controller";
-import { mountLab, type LabHandle } from "./lab-field";
 import { mountHeroType, type TypeHandle } from "./hero-type";
 
 const MOTION_KEY = "ls-motion";
@@ -338,27 +337,11 @@ function init(root: HTMLElement): () => void {
   addEventListener("scroll", kick, passive);
   addEventListener("resize", kick, passive);
 
-  // ── WebGL: hero e scheda lab ────────────────────────────────────────────
+  // ── WebGL: hero ────────────────────────────────────────────
   const hero: HeroHandle | null = heroEl ? mountHero(heroEl, isReduced) : null;
   const h1 = $("[data-c3-kinetic]");
   const heroType: TypeHandle | null =
     h1 && heroEl ? mountHeroType(h1, heroEl, isReduced) : null;
-  const labCanvas = $<HTMLCanvasElement>("[data-lab-canvas]");
-  let lab: LabHandle | null = null;
-  if (labCanvas) {
-    // Il lab parte solo quando la scheda si avvicina alla viewport.
-    const labIO = io(
-      (es) => {
-        if (es[0]?.isIntersecting && !lab) {
-          lab = mountLab(labCanvas, isReduced);
-          labIO.disconnect();
-        }
-      },
-      { rootMargin: "200px 0px" },
-    );
-    labIO.observe(labCanvas);
-  }
-
   // ── Applicazione della preferenza di movimento ──────────────────────────
   function applyMotion() {
     root.classList.toggle("is-reduced", reduced);
@@ -368,7 +351,6 @@ function init(root: HTMLElement): () => void {
     setupPin();
     kick();
     hero?.sync();
-    lab?.sync();
   }
   motionBtn?.addEventListener(
     "click",
@@ -400,7 +382,6 @@ function init(root: HTMLElement): () => void {
     cleanups.forEach((fn) => fn());
     hero?.destroy();
     heroType?.destroy();
-    lab?.destroy();
     root.classList.remove("is-ready", "c3-js");
   };
 }

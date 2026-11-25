@@ -833,28 +833,13 @@
 .c3-revs-head .c3-h2 {
   max-width: 14ch;
 }
-.c3-rev-big {
-  margin: 56px 0 0;
-  max-width: 1100px;
-}
-.c3-rev-big blockquote {
-  margin: 0;
-}
-.c3-rev-big blockquote p {
-  margin: 0;
-  font: 600 clamp(26px, 3.2vw, 50px) / 1.1 var(--c3-disp);
-  font-stretch: 84%;
-  letter-spacing: -0.02em;
-}
-.c3-rev-big figcaption,
 .c3-rev-a {
-  margin-top: 18px;
+  margin: auto 0 0;
+  padding-top: 24px;
   font-size: 15px;
   color: var(--mute);
 }
-.c3-rev-big figcaption strong {
-  color: var(--ink);
-}
+.c3-rev-a strong { color: var(--ink); }
 .c3-stars {
   letter-spacing: 3px;
   font-size: 14px;
@@ -863,7 +848,7 @@
   color: var(--c3-ion);
 }
 .c3-car {
-  margin-top: 64px;
+  margin-top: clamp(32px, 4vw, 56px);
 }
 .c3-car-ctrl {
   display: flex;
@@ -898,8 +883,12 @@
   flex: none;
   width: min(420px, 82vw);
   scroll-snap-align: start;
-  border-top: 1px solid var(--line);
-  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(20px, 2.4vw, 32px);
 }
 .c3-rev blockquote {
   margin: 0;
@@ -1540,27 +1529,6 @@
   );
 }
 
-/* Recensione in evidenza: virgolette decorative a gradiente */
-.c3-rev-big {
-  position: relative;
-}
-.c3-rev-big::before {
-  content: "“";
-  position: absolute;
-  right: 0;
-  top: -0.32em;
-  font: 800 clamp(120px, 14vw, 220px) / 1 var(--c3-disp);
-  background-image: var(--c3-grad-on-dark);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  opacity: 0.22;
-  pointer-events: none;
-}
-.c3-rev-big blockquote {
-  position: relative;
-}
-
 /* Prezzi: numeri in Archivo con il gradiente del tono, solo testo grande */
 .c3-svc-price {
   font-stretch: 80%;
@@ -1652,7 +1620,4 @@ html[data-ls-theme="light"] #c3-root.is-pinned .c3-pf-nav button[aria-current="t
 }
 html[data-ls-theme="light"] #c3-root .c3-form :is(input, textarea)::placeholder {
   color: var(--c3-ink-2);
-}
-html[data-ls-theme="light"] #c3-root .c3-rev-big::before {
-  background-image: var(--c3-grad-on-light);
 }
