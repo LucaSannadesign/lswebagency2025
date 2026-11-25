@@ -277,10 +277,13 @@
   height: 100%;
   object-fit: cover;
   object-position: top center;
-  transition: transform 1.4s var(--c3-ease);
+  transition: transform 1.4s var(--c3-ease),
+    scale var(--c3-motion-slow) var(--c3-motion-ease);
 }
-.c3-pf-open:hover .c3-pf-frame img {
-  transform: scale(1.03);
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .c3:not(.is-reduced) .c3-pf-open:hover .c3-pf-frame img {
+    scale: 1.03;
+  }
 }
 .c3-js .c3-pf-item.is-pre .c3-pf-frame {
   clip-path: inset(48% 0 48% 0 round 14px);
@@ -420,7 +423,7 @@
   font: 500 16px/1.3 var(--c3-text);
   cursor: pointer;
   text-align: left;
-  transition: color 0.3s;
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3.is-pinned .c3-pf-nav button[aria-current="true"] {
   color: var(--ink);
@@ -466,7 +469,7 @@
 .c3.is-pinned .c3-pf-frame img {
   object-position: left top;
   transform: scale(calc(1 + var(--r0, 0) * 0.18));
-  transition: none;
+  transition: scale var(--c3-motion-slow) var(--c3-motion-ease);
 }
 .c3.is-pinned .c3-pf-meta {
   grid-column: 2;
@@ -977,7 +980,7 @@
   margin: 8px 0 10px;
   font: 700 clamp(22px, 2.2vw, 30px) / 1.15 var(--c3-disp);
   font-stretch: 88%;
-  transition: color 0.2s;
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-blog-list a:hover h3 {
   color: var(--link);
@@ -1009,7 +1012,7 @@
   font: 800 clamp(48px, 11vw, 184px) / 0.86 var(--c3-disp);
   font-stretch: 70%;
   letter-spacing: -0.035em;
-  transition: color 0.3s;
+  transition: color var(--c3-motion-button) var(--c3-motion-color-ease);
 }
 .c3-big-cta:hover {
   color: var(--c3-ion);
@@ -1038,6 +1041,7 @@
   font: 700 20px/1.3 var(--c3-disp);
   font-stretch: 92%;
   text-decoration: none;
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-direct a:hover {
   color: var(--c3-ion);
@@ -1065,7 +1069,7 @@
   border-radius: 12px;
   color: var(--ink);
   font: 16px/1.4 var(--c3-text);
-  transition: border-color 0.2s;
+  transition: border-color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-form input:not([type="checkbox"]):hover,
 .c3-form textarea:hover,
@@ -1340,6 +1344,7 @@
   text-transform: uppercase;
   text-decoration: none;
   opacity: calc(1 - var(--hx) * 3);
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-scrollcue i {
   position: relative;
@@ -1450,7 +1455,7 @@
   );
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.7s var(--c3-ease);
+  transition: transform var(--c3-motion-overlay) var(--c3-motion-ease);
 }
 .c3-svc:hover::before,
 .c3-svc:focus-within::before {
@@ -1458,9 +1463,8 @@
 }
 .c3-svc h3,
 .c3-svc-n {
-  transition:
-    transform 0.6s var(--c3-ease),
-    color 0.3s;
+  transition: transform var(--c3-motion-medium) var(--c3-motion-ease),
+    color var(--c3-motion-medium) var(--c3-motion-color-ease);
 }
 .c3-svc:hover h3 {
   transform: translateX(10px);
@@ -1476,8 +1480,8 @@
   background-position: 0 96%;
   background-size: 0% 0.05em;
   transition:
-    background-size 0.7s var(--c3-ease),
-    color 0.3s;
+    background-size var(--c3-motion-overlay) var(--c3-motion-ease),
+    color var(--c3-motion-button) var(--c3-motion-color-ease);
 }
 .c3-big-cta:hover {
   background-size: 100% 0.05em;

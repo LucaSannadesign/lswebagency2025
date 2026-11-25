@@ -17,6 +17,15 @@
  * contrasto WCAG verificato sull'uso previsto.
  */
 :root {
+  /* C.3.7 — microinterazioni: separati dal timing dei reveal/scroll. */
+  --c3-motion-fast: 250ms;
+  --c3-motion-button: 300ms;
+  --c3-motion-medium: 400ms;
+  --c3-motion-overlay: 450ms;
+  --c3-motion-slow: 600ms;
+  --c3-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --c3-motion-color-ease: ease-in-out;
+
   /* Primitivi */
   --c3-g0: #0d0f11;
   --c3-g1: #15181b;
@@ -234,14 +243,13 @@ html:has(#c3-root) body {
   text-align: center;
   border: 1px solid transparent;
   cursor: pointer;
-  transition:
-    background-color 0.3s,
-    color 0.3s,
-    border-color 0.3s,
-    transform 0.3s var(--c3-ease);
+  transition: background-color var(--c3-motion-button) var(--c3-motion-color-ease),
+    color var(--c3-motion-button) var(--c3-motion-color-ease),
+    border-color var(--c3-motion-button) var(--c3-motion-color-ease),
+    transform var(--c3-motion-button) var(--c3-motion-ease);
 }
 .c3-btn svg {
-  transition: transform 0.3s var(--c3-ease);
+  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
 }
 .c3-btn:hover svg {
   transform: translateX(3px);
@@ -266,6 +274,8 @@ html:has(#c3-root) body {
   color: var(--link);
   font-weight: 600;
   text-underline-offset: 0.2em;
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    text-decoration-color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 
 .c3-sr {
@@ -293,9 +303,9 @@ html:has(#c3-root) body {
   cursor: pointer;
   flex: none;
   text-decoration: none;
-  transition:
-    border-color 0.2s,
-    background-color 0.2s;
+  transition: border-color var(--c3-motion-button) var(--c3-motion-color-ease),
+    background-color var(--c3-motion-button) var(--c3-motion-color-ease),
+    color var(--c3-motion-button) var(--c3-motion-color-ease);
 }
 .c3-icon-btn:hover {
   border-color: var(--ink);
@@ -332,6 +342,7 @@ html:has(#c3-root) body {
 .c3.is-reduced *,
 .c3.is-reduced *::before,
 .c3.is-reduced *::after {
+  transition-delay: 0s !important;
   transition-duration: 0s !important;
   animation: none !important;
 }
@@ -339,6 +350,7 @@ html:has(#c3-root) body {
   .c3 *,
   .c3 *::before,
   .c3 *::after {
+    transition-delay: 0s !important;
     transition-duration: 0s !important;
     animation: none !important;
   }
@@ -381,5 +393,29 @@ html:has(#c3-root) body {
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
   .c3-grad {
     -webkit-text-fill-color: currentColor;
+  }
+}
+
+/* Colori interpolabili delle CTA legacy: fallback discreto nei browser senza @property. */
+@property --c3-cta-start {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+@property --c3-cta-end {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+/* C.3.7 — feedback cromatico resta attivo, ma niente spostamenti di hover
+ * quando il movimento è ridotto. La scala del portfolio è già protetta
+ * dalla media query del componente. */
+.c3.is-reduced :is(.c3-btn:hover svg, .c3-navcta:hover svg, .c3-mega-card:hover .c3-mega-go, .c3-svc:hover h3, .c3-skill-link:hover span, .c3-practice:hover, .c3-path:hover, .c3-wcard a:hover, .c3-post-a:hover, .c3-work:hover .c3-work-img img, .c3-feat-item:hover .c3-feat-fig img, .c3-wcard a:hover .c3-wcard-img img, .c3-post-a:hover .c3-post-img img, .c3-path:hover .c3-path-go span, .c3-linklist a:hover span, .c3-linklist a:focus-visible span) {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .c3 :is(.c3-btn:hover svg, .c3-navcta:hover svg, .c3-mega-card:hover .c3-mega-go, .c3-svc:hover h3, .c3-skill-link:hover span, .c3-practice:hover, .c3-path:hover, .c3-wcard a:hover, .c3-post-a:hover, .c3-work:hover .c3-work-img img, .c3-feat-item:hover .c3-feat-fig img, .c3-wcard a:hover .c3-wcard-img img, .c3-post-a:hover .c3-post-img img, .c3-path:hover .c3-path-go span, .c3-linklist a:hover span, .c3-linklist a:focus-visible span) {
+    transform: none;
   }
 }

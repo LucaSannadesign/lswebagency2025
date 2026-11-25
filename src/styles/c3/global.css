@@ -68,10 +68,9 @@ h3 {
     0 0 0 2px color-mix(in srgb, var(--c3-ion) 55%, transparent),
     0 10px 28px color-mix(in srgb, var(--c3-g0) 35%, transparent);
   cursor: pointer;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease,
-    background-color 0.3s;
+  transition: opacity var(--c3-motion-button) var(--c3-motion-color-ease),
+    transform var(--c3-motion-button) var(--c3-motion-ease),
+    background-color var(--c3-motion-button) var(--c3-motion-color-ease);
 }
 .c3-totop:hover {
   transform: translateY(-2px);
@@ -93,7 +92,9 @@ h3 {
 @media (prefers-reduced-motion: reduce) {
   .c3-totop {
     transition: none;
+    transform: none;
   }
+  .c3-totop:hover { transform: none; }
 }
 
 /* ───────── Gradienti C.3 sulle pagine interne ─────────

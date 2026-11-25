@@ -94,7 +94,8 @@
   border: 1px solid var(--c3-line-l);
   border-radius: 20px;
   background: var(--c3-ivory-hi);
-  transition: border-color .3s ease, box-shadow .3s ease;
+  transition: border-color var(--c3-motion-medium) var(--c3-motion-color-ease),
+    box-shadow var(--c3-motion-medium) var(--c3-motion-color-ease);
 }
 .c3-skill-secondary:hover,
 .c3-skill-secondary:focus-within {
@@ -137,7 +138,7 @@
   text-decoration: underline;
   text-underline-offset: .25em;
 }
-.c3-skill-link span { font-size: 18px; text-decoration: none; transition: transform .25s ease; }
+.c3-skill-link span { font-size: 18px; text-decoration: none; transition: transform var(--c3-motion-button) var(--c3-motion-ease); }
 .c3-skill-link:hover span { transform: translate(2px, -2px); }
 .c3-skill-link:focus-visible { outline: 2px solid var(--c3-ion-deep); outline-offset: 5px; border-radius: 2px; }
 .c3-skill-visual {

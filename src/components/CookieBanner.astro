@@ -123,6 +123,9 @@
     box-shadow: none;
   }
   #cookie-modal input[type="checkbox"] { accent-color: var(--c3-ion-deep); }
+  #cookie-modal label:has(input:not(:disabled)) {
+    transition: border-color var(--c3-motion-button) var(--c3-motion-color-ease), background-color var(--c3-motion-button) var(--c3-motion-color-ease);
+  }
   #cookie-modal label:has(input:not(:disabled)):hover {
     border-color: var(--c3-ion-deep);
     background: var(--c3-ivory-hi);
@@ -160,7 +163,8 @@
     background: var(--c3-g2);
   }
   @media (prefers-reduced-motion: reduce) {
-    #cookie-banner button, #cookie-modal button { transition: none; transform: none !important; }
+    #cookie-banner button, #cookie-modal button,
+    #cookie-modal label:has(input:not(:disabled)) { transition: none; transform: none !important; }
   }
 </style>
 

@@ -132,9 +132,8 @@
   letter-spacing: 0.01em;
   text-decoration: none;
   cursor: pointer;
-  transition:
-    color 0.25s,
-    background-color 0.25s;
+  transition: color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    background-color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-nav-link::after {
   content: "";
@@ -145,13 +144,14 @@
   height: 1px;
   background: var(--c3-grad-line);
   transform: scaleX(0);
-  transition: transform 0.35s var(--c3-ease);
+  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
 }
 .c3-nav-link:hover,
 .c3-nav-link[aria-expanded="true"] {
   color: var(--ink);
 }
-.c3-nav-link:hover::after {
+.c3-nav-link:hover::after,
+.c3-nav-link:focus-visible::after {
   transform: scaleX(1);
 }
 .c3-nav-link[aria-current="page"],
@@ -172,7 +172,7 @@
 }
 .c3-dd-btn svg {
   opacity: 0.7;
-  transition: transform 0.35s var(--c3-ease);
+  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
 }
 .c3-dd-btn[aria-expanded="true"] svg {
   transform: rotate(180deg);
@@ -197,9 +197,9 @@
   background: transparent;
   color: var(--ink);
   cursor: pointer;
-  transition:
-    border-color 0.25s,
-    background-color 0.25s;
+  transition: border-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    background-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-quiet-btn:hover {
   border-color: var(--ink);
@@ -238,6 +238,9 @@
   display: inline-grid;
   place-items: center;
   padding: 0;
+  transition: border-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    background-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 
 /* CTA: leggera a contorno in cima, pillola ione nella capsula */
@@ -253,13 +256,12 @@
   font: 600 14px/1 var(--c3-text);
   text-decoration: none;
   white-space: nowrap;
-  transition:
-    background-color 0.3s,
-    color 0.3s,
-    border-color 0.3s;
+  transition: background-color var(--c3-motion-button) var(--c3-motion-color-ease),
+    color var(--c3-motion-button) var(--c3-motion-color-ease),
+    border-color var(--c3-motion-button) var(--c3-motion-color-ease);
 }
 .c3-navcta svg {
-  transition: transform 0.3s var(--c3-ease);
+  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
 }
 .c3-navcta:hover {
   border-color: var(--c3-ion);
@@ -388,7 +390,8 @@
   border-radius: 14px;
   color: var(--c3-ivory);
   text-decoration: none;
-  transition: background-color 0.25s;
+  transition: background-color var(--c3-motion-fast) var(--c3-motion-color-ease),
+    color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-mega-col a:hover,
 .c3-mega-col a:focus-visible {
@@ -454,9 +457,10 @@
   margin-top: auto;
   font: 600 14px/1 var(--c3-text);
   color: var(--c3-ion);
-  transition: transform 0.3s var(--c3-ease);
+  transition: transform var(--c3-motion-button) var(--c3-motion-ease);
 }
-.c3-mega-card:hover .c3-mega-go {
+.c3-mega-card:hover .c3-mega-go,
+.c3-mega-card:focus-visible .c3-mega-go {
   transform: translateX(4px);
 }
 .c3-mega-all {
@@ -465,12 +469,16 @@
   margin: 16px 12px 0;
   color: var(--c3-ivory);
   font: 600 14px/1 var(--c3-text);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
   opacity: 0.8;
+  transition: opacity var(--c3-motion-fast) var(--c3-motion-color-ease),
+    text-decoration-color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-mega-all:hover {
   opacity: 1;
-  text-decoration: underline;
+  text-decoration-color: currentColor;
   text-underline-offset: 0.25em;
 }
 
@@ -653,11 +661,14 @@
 .c3-foot a,
 .c3-foot button {
   color: var(--ink);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 .c3-foot a:hover,
 .c3-foot button:hover {
-  text-decoration: underline;
+  text-decoration-color: currentColor;
   text-underline-offset: 0.2em;
 }
 .c3-foot-grid {
@@ -764,6 +775,7 @@ html.dark .c3-chrome[data-tone="light"] .c3-top:not(.is-solid) .c3-logo {
   .c3-mega *,
   .c3-overlay,
   .c3-overlay * {
+    transition-delay: 0s !important;
     transition-duration: 0s !important;
     animation: none !important;
   }
