@@ -1619,3 +1619,9 @@ html[data-ls-home-theme="light"] #c3-root .c3-form :is(input, textarea)::placeho
 @media (prefers-reduced-motion: reduce) {
   #c3-root { transition: none; }
 }
+
+/* Release QA: keep hero actions away from the fixed assistant on desktop. */
+@media (min-width: 1024px) {
+  #c3-root .c3-hero .c3-acts { flex-direction: column; align-items: flex-start; }
+  #c3-root .c3-hero .c3-acts .c3-btn { max-width: 100%; white-space: normal; }
+}
