@@ -9,7 +9,7 @@
 import { mountHero, type HeroHandle } from "./hero-controller";
 import { mountHeroType, type TypeHandle } from "./hero-type";
 
-const MOTION_KEY = "ls-motion";
+const MOTION_KEY = "ls-motion-v2";
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
 function readStoredMotion(): string | null {

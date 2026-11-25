@@ -1480,13 +1480,19 @@ html[data-ls-theme="light"] .c3p :is(.c3-path:hover, .c3-pnav a:hover) {
 .c4-phero--field > .c3-sec-in { position: relative; z-index: 1; }
 .c4-field-toggle[hidden] { display: none; }
 .c4-field-toggle {
-  position: absolute; top: clamp(150px, 12vw, 210px); right: max(9vw, 56px);
-  display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 44px; height: 44px; padding: 0 13px; font: 500 12px/1 var(--c3-text); white-space: nowrap;
-  border: 1px solid var(--ctrl); border-radius: 50%; color: var(--link);
-  background: var(--bg); pointer-events: auto; cursor: pointer; z-index: 2;
-  transition: color var(--c3-motion-fast), border-color var(--c3-motion-fast);
+  position: absolute; bottom: 12px; right: var(--c3-pad);
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 0; border-radius: 50%; color: var(--mute);
+  background: transparent; pointer-events: auto; cursor: pointer; z-index: 3;
+  transition: color var(--c3-motion-fast), opacity var(--c3-motion-fast);
 }
-.c4-field-toggle:hover { border-color: var(--link); }
+.c4-field-toggle::before {
+  content: ""; position: absolute; inset: 9px; border: 1px solid var(--line);
+  border-radius: 50%; background: var(--bg); opacity: .82;
+}
+.c4-field-toggle svg { position: relative; width: 13px; height: 13px; }
+.c4-field-toggle:is(:hover, :focus-visible) { color: var(--link); }
+.c4-field-toggle:is(:hover, :focus-visible)::before { border-color: var(--link); opacity: 1; }
 .c4-field-toggle .c4-play-icon, .c4-field-toggle[aria-pressed="true"] .c4-pause-icon { display: none; }
 .c4-field-toggle[aria-pressed="true"] .c4-play-icon { display: block; }
 @media (min-width: 1024px) {
@@ -1496,13 +1502,13 @@ html[data-ls-theme="light"] .c3p :is(.c3-path:hover, .c3-pnav a:hover) {
     isolation: isolate;
   }
   .c4-phero--field > .c4-phero-field {
-    display: block; position: absolute;
-    top: -50px; right: -4vw;
-    width: min(100%, 1660px);
-    height: clamp(540px, 48vw, 850px);
+    display: block; position: absolute; inset: 0;
     color: var(--link); pointer-events: none;
   }
   .c4-field-art {
+    inset: -50px -4vw auto auto;
+    width: min(100%, 1660px);
+    height: clamp(540px, 48vw, 850px);
     /* One continuous feather, not separate rectangular text backgrounds.
        The canvas crosses the editorial grid and its edges fade to zero. */
     mask-image: radial-gradient(ellipse 57% 51% at 65% 43%, #000 46%, #000c 66%, transparent 100%);
@@ -1518,4 +1524,16 @@ html[data-ls-theme="light"] .c3p :is(.c3-path:hover, .c3-pnav a:hover) {
 }
 @media (prefers-reduced-motion: reduce) {
   .c4-field-toggle { transition: none; }
+}
+
+/* C.4.6 — motion before canvas hydration, no interaction needed. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .c4-phero-field[data-c4-state="fallback"]:not(.is-drawn) .c4-field-art > svg {
+    transform-origin: 65% 42%;
+    animation: c4-field-breathe 9s ease-in-out infinite alternate;
+  }
+  @keyframes c4-field-breathe {
+    0% { transform: translate3d(-1.5%, -1%, 0) rotate(-2deg) scale(.99); }
+    100% { transform: translate3d(2%, 1%, 0) rotate(3deg) scale(1.07); }
+  }
 }

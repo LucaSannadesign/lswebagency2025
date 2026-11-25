@@ -1,8 +1,8 @@
-/** C.4.4 — continuous spatial Ion Flow. */
+/** C.4.6 — autoplay spatial Ion Flow, discreet pause control. */
 const TAU = Math.PI * 2;
 const desktop = matchMedia('(min-width: 1024px)');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const KEY = 'ls-motion';
+const KEY = 'ls-motion-v2';
 type MotionChoice = 'full' | 'reduced' | null;
 function readMotion(): MotionChoice {
   try { const value = localStorage.getItem(KEY); return value === 'full' || value === 'reduced' ? value : null; } catch { return null; }
@@ -11,9 +11,10 @@ const mounted = new Map<HTMLElement, () => void>();
 function mount(el: HTMLElement): () => void {
   const canvas = el.querySelector<HTMLCanvasElement>('[data-c4-canvas]');
   const btn = el.querySelector<HTMLButtonElement>('[data-c4-pause]');
+  const art = el.querySelector<HTMLElement>('.c4-field-art');
   const host = el.closest<HTMLElement>('.c3-phero');
   const ctx = canvas?.getContext('2d');
-  if (!canvas || !btn || !host || !ctx) { el.dataset.c4State = 'fallback'; return () => {}; }
+  if (!canvas || !btn || !host || !ctx || !art) { el.dataset.c4State = 'fallback'; return () => {}; }
   const ac = new AbortController(), sig = { signal: ac.signal };
   const kind = el.dataset.c4Field;
   let w = 0, h = 0, t = 0, last = 0, raf = 0, painted = 0;
@@ -89,7 +90,7 @@ function mount(el: HTMLElement): () => void {
   }
   function measure() {
     if (!canvas || !ctx) return;
-    const r = el.getBoundingClientRect();
+    const r = art.getBoundingClientRect();
     w = r.width; h = r.height;
     if (!eligible()) return;
     const d = Math.min(devicePixelRatio || 1, 1.5);
@@ -116,8 +117,6 @@ function mount(el: HTMLElement): () => void {
     const label = isPaused ? 'Attiva animazione' : 'Pausa animazione';
     btn.setAttribute('aria-label', label + ' della testata');
     btn.title = label;
-    const caption = btn.querySelector('[data-c4-motion-label]');
-    if (caption) caption.textContent = isPaused ? 'Attiva movimento' : 'Pausa';
     el.dataset.c4State = !eligible() ? 'static' : isPaused ? (choice === null ? 'reduced' : 'paused') : enabled() ? 'live' : 'offscreen';
     if (enabled()) { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } }
     else if (raf) { cancelAnimationFrame(raf); raf = 0; }
@@ -145,7 +144,7 @@ function mount(el: HTMLElement): () => void {
   reduced.addEventListener('change', sync, sig);
   window.addEventListener('storage', event => { if (event.key === KEY || event.key === null) { choice = readMotion(); sync(); } }, sig);
   const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(() => { measure(); checkVisible(); }) : null;
-  ro?.observe(el);
+  ro?.observe(art);
   const io = typeof IntersectionObserver === 'function' ? new IntersectionObserver(() => checkVisible()) : null;
   io?.observe(host);
   if (!io) addEventListener('scroll', checkVisible, { ...sig, passive: true });
