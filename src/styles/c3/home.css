@@ -1693,12 +1693,12 @@ html[data-ls-home-theme="light"] #c3-root.c3-js .c3-pf {
   --panel: var(--c3-ivory-hi);
   --grad: var(--c3-grad-on-light);
   --skills-paper: var(--c3-ivory);
-  --portfolio-bridge: clamp(140px, 22vh, 240px);
+  --portfolio-bridge: clamp(280px, 46svh, 520px);
   position: relative;
   color: var(--ink);
   color-scheme: light;
   background-color: var(--skills-paper);
-  padding-top: calc(var(--portfolio-bridge) + clamp(56px, 7vw, 100px));
+  padding-top: calc(var(--portfolio-bridge) + clamp(28px, 4vw, 56px));
 }
 html[data-ls-home-theme="dark"] #c3-root.c3-js .c3-skills {
   --ink: var(--c3-ivory);
@@ -1719,18 +1719,33 @@ html[data-ls-home-theme="dark"] #c3-root.c3-js .c3-skills {
   inset: 0 0 auto;
   height: var(--portfolio-bridge);
   pointer-events: none;
-  background: linear-gradient(to bottom,
+  /* Gentle, nearly uniform perceptual progression with soft endpoints.
+     A plain linear gradient remains as fallback for older browsers. */
+  background: linear-gradient(to bottom, var(--c3-tint-4), var(--skills-paper));
+  background: linear-gradient(to bottom in oklab,
     var(--c3-tint-4) 0%,
-    color-mix(in srgb, var(--c3-tint-4) 85%, var(--skills-paper)) 22%,
-    color-mix(in srgb, var(--c3-tint-4) 50%, var(--skills-paper)) 50%,
-    color-mix(in srgb, var(--c3-tint-4) 15%, var(--skills-paper)) 78%,
+    color-mix(in oklab, var(--c3-tint-4) 95%, var(--skills-paper)) 10%,
+    color-mix(in oklab, var(--c3-tint-4) 86%, var(--skills-paper)) 20%,
+    color-mix(in oklab, var(--c3-tint-4) 75%, var(--skills-paper)) 30%,
+    color-mix(in oklab, var(--c3-tint-4) 63%, var(--skills-paper)) 40%,
+    color-mix(in oklab, var(--c3-tint-4) 50%, var(--skills-paper)) 50%,
+    color-mix(in oklab, var(--c3-tint-4) 37%, var(--skills-paper)) 60%,
+    color-mix(in oklab, var(--c3-tint-4) 25%, var(--skills-paper)) 70%,
+    color-mix(in oklab, var(--c3-tint-4) 14%, var(--skills-paper)) 80%,
+    color-mix(in oklab, var(--c3-tint-4) 5%, var(--skills-paper)) 90%,
     var(--skills-paper) 100%);
 }
 #c3-root.is-pf-tone-transition:not(.is-reduced) {
-  transition-duration: 1.4s;
+  transition-duration: 2.2s;
   transition-timing-function: cubic-bezier(.4, 0, .2, 1);
 }
 #c3-root.is-reduced .c3-pf { transition: none; }
 @media (prefers-reduced-motion: reduce) {
   #c3-root.is-pf-tone-transition, #c3-root.c3-js .c3-pf { transition: none; }
+}
+
+@media (max-width: 767px) {
+  #c3-root.c3-js .c3-skills {
+    --portfolio-bridge: clamp(220px, 40svh, 360px);
+  }
 }
