@@ -14,11 +14,16 @@ import { UI } from 'astrowind:config';
     const locked = defaultTheme.endsWith(':only');
     const fixed = defaultTheme.replace(':only', '');
     let explicit = null;
+    let homeMode = 'editorial';
+    const HOME_KEY = 'ls_home_theme_v1';
+    const validHome = (value) => ['editorial', 'light', 'dark'].includes(value);
     const valid = (value) => value === 'light' || value === 'dark';
 
     try {
       const saved = localStorage.getItem('theme');
       if (valid(saved)) explicit = saved;
+      const savedHome = localStorage.getItem(HOME_KEY);
+      if (validHome(savedHome)) homeMode = savedHome;
     } catch {
       // La preferenza resta utilizzabile per la sessione anche senza storage.
     }
@@ -33,6 +38,16 @@ import { UI } from 'astrowind:config';
       root.classList.toggle('dark', dark);
       root.dataset.lsTheme = theme;
       root.style.colorScheme = theme;
+      root.dataset.lsHomeTheme = locked ? fixed : homeMode;
+
+      const homeLabels = { editorial: 'Editoriale', light: 'Chiaro', dark: 'Scuro' };
+      const nextHome = { editorial: 'light', light: 'dark', dark: 'editorial' };
+      document.querySelectorAll('[data-c3-home-theme]').forEach((button) => {
+        const mode = root.dataset.lsHomeTheme;
+        const label = 'Tema home: ' + homeLabels[mode] + '. Passa a ' + homeLabels[nextHome[mode]];
+        button.setAttribute('aria-label', label);
+        button.setAttribute('title', label);
+      });
 
       document.querySelectorAll('[data-aw-toggle-color-scheme]').forEach((button) => {
         button.setAttribute('aria-pressed', String(dark));
@@ -46,10 +61,15 @@ import { UI } from 'astrowind:config';
     sync();
 
     document.addEventListener('click', (event) => {
-      const button = event.target instanceof Element
-        ? event.target.closest('[data-aw-toggle-color-scheme]')
-        : null;
-      if (!button || locked) return;
+      if (!(event.target instanceof Element) || locked) return;
+      if (event.target.closest('[data-c3-home-theme]')) {
+        homeMode = { editorial: 'light', light: 'dark', dark: 'editorial' }[homeMode];
+        try { localStorage.setItem(HOME_KEY, homeMode); } catch {}
+        sync();
+        return;
+      }
+      const button = event.target.closest('[data-aw-toggle-color-scheme]');
+      if (!button) return;
       explicit = preferred() === 'dark' ? 'light' : 'dark';
       try {
         localStorage.setItem('theme', explicit);
@@ -60,9 +80,13 @@ import { UI } from 'astrowind:config';
     });
     media.addEventListener('change', sync);
     window.addEventListener('storage', (event) => {
-      if (event.key !== 'theme' && event.key !== null) return;
-      explicit = valid(event.newValue) ? event.newValue : null;
-      sync();
+      if (event.key === HOME_KEY || event.key === null) {
+        homeMode = validHome(event.newValue) ? event.newValue : 'editorial';
+      }
+      if (event.key === 'theme' || event.key === null) {
+        explicit = valid(event.newValue) ? event.newValue : null;
+      }
+      if (event.key === HOME_KEY || event.key === 'theme' || event.key === null) sync();
     });
     document.addEventListener('DOMContentLoaded', sync, { once: true });
     document.addEventListener('astro:after-swap', sync);

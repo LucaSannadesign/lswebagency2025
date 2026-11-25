@@ -14,6 +14,8 @@
  */
 import { headerData } from '@/navigation';
 import ToggleTheme from '@/components/common/ToggleTheme.astro';
+import { Icon } from 'astro-icon/components';
+import { UI } from 'astrowind:config';
 
 export interface Props {
   /** 'home': sopra la hero scura, toggle Movimento e tema. 'page': toggle tema. */
@@ -117,7 +119,17 @@ const clean = (t = '') => t.replace(' ↗', '');
         )
       }
       <span class="c3-theme">
-        <ToggleTheme label="Tema scuro" class="c3-quiet-btn" iconClass="c3-ico" />
+        {isHome ? (
+          !(UI.theme && UI.theme.endsWith(':only')) && (
+            <button class="c3-quiet-btn" type="button" data-c3-home-theme aria-label="Tema home: Editoriale. Passa a Chiaro" title="Tema home: Editoriale. Passa a Chiaro">
+              <Icon name="tabler:contrast" class="c3-ico c3-home-theme-editorial" aria-hidden="true" />
+              <Icon name="tabler:sun" class="c3-ico c3-home-theme-light" aria-hidden="true" />
+              <Icon name="tabler:moon" class="c3-ico c3-home-theme-dark" aria-hidden="true" />
+            </button>
+          )
+        ) : (
+          <ToggleTheme label="Tema scuro" class="c3-quiet-btn" iconClass="c3-ico" />
+        )}
       </span>
       {
         cta && (

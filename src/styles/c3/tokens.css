@@ -427,7 +427,9 @@ html:has(#c3-root) body {
     color: var(--btn-ink);
   }
   /* Il pulsante ione già pieno schiarisce il verde, senza invertire il testo. */
-  html[data-ls-theme="dark"] .c3-btn--p:not(:disabled):hover {
+  html[data-ls-theme="dark"] .c3:not(#c3-root) .c3-btn--p:not(:disabled):hover,
+  html[data-ls-home-theme="dark"] #c3-root .c3-btn--p:not(:disabled):hover,
+  html:not([data-ls-home-theme="light"]):not([data-ls-home-theme="dark"]) #c3-root:not([data-tone="light"]) .c3-btn--p:not(:disabled):hover {
     background-color: var(--c3-ion-hi);
     border-color: var(--c3-ion-hi);
     color: var(--c3-g0);

@@ -1557,7 +1557,7 @@
 
 /* C.3.8 — tema della home. Le opere WebGL e il nastro cinetico rimangono
  * isole scure: non cambiano la palette o il contrasto delle opere. */
-html[data-ls-theme="light"] #c3-root {
+html[data-ls-home-theme="light"] #c3-root {
   --ink: var(--c3-g0);
   --mute: var(--c3-ink-2);
   --line: var(--c3-line-l);
@@ -1570,14 +1570,14 @@ html[data-ls-theme="light"] #c3-root {
   --bg: var(--c3-ivory);
   --panel: var(--c3-ivory-hi);
 }
-html[data-ls-theme="light"] #c3-root[data-tone="anthracite"] {
+html[data-ls-home-theme="light"] #c3-root[data-tone="anthracite"] {
   --bg: var(--c3-ivory-lo);
 }
-html[data-ls-theme="light"] #c3-root[data-tone="tint"] {
+html[data-ls-home-theme="light"] #c3-root[data-tone="tint"] {
   --bg: var(--c3-ivory-hi);
 }
-html[data-ls-theme="dark"] #c3-root,
-html[data-ls-theme="dark"] #c3-root:not(.c3-js) [data-c3-tone="light"] {
+html[data-ls-home-theme="dark"] #c3-root,
+html[data-ls-home-theme="dark"] #c3-root:not(.c3-js) [data-c3-tone="light"] {
   --ink: var(--c3-ivory);
   --mute: var(--c3-grey);
   --line: var(--c3-line-d);
@@ -1592,16 +1592,16 @@ html[data-ls-theme="dark"] #c3-root:not(.c3-js) [data-c3-tone="light"] {
   color: var(--ink);
   background-color: var(--bg);
 }
-html[data-ls-theme="dark"] #c3-root[data-tone="light"],
-html[data-ls-theme="dark"] #c3-root[data-tone="anthracite"],
-html[data-ls-theme="dark"] #c3-root:not(.c3-js) [data-c3-tone="light"] {
+html[data-ls-home-theme="dark"] #c3-root[data-tone="light"],
+html[data-ls-home-theme="dark"] #c3-root[data-tone="anthracite"],
+html[data-ls-home-theme="dark"] #c3-root:not(.c3-js) [data-c3-tone="light"] {
   --bg: var(--c3-g1);
   --panel: var(--c3-g2);
 }
-html[data-ls-theme="dark"] #c3-root[data-tone="tint"] {
+html[data-ls-home-theme="dark"] #c3-root[data-tone="tint"] {
   --bg: var(--c3-tint, var(--c3-g0));
 }
-html[data-ls-theme="light"] #c3-root:not(.c3-js) [data-c3-chapter="anthracite"] {
+html[data-ls-home-theme="light"] #c3-root:not(.c3-js) [data-c3-chapter="anthracite"] {
   background-color: var(--c3-ivory-lo);
 }
 #c3-root :is(.c3-hero, .c3-case, .c3-marquee) {
@@ -1617,15 +1617,21 @@ html[data-ls-theme="light"] #c3-root:not(.c3-js) [data-c3-chapter="anthracite"] 
   --bg: var(--c3-g0);
   --panel: var(--c3-g1);
 }
-html[data-ls-theme="light"] #c3-root :is(.c3-stars, .c3-big-cta:hover, .c3-direct a:hover, .c3-svc:hover .c3-svc-n, #contact-form-status.is-ok) {
+html[data-ls-home-theme="light"] #c3-root :is(.c3-stars, .c3-big-cta:hover, .c3-direct a:hover, .c3-svc:hover .c3-svc-n, #contact-form-status.is-ok) {
   color: var(--c3-ion-deep);
 }
-html[data-ls-theme="light"] #c3-root .c3-big-cta {
+html[data-ls-home-theme="light"] #c3-root .c3-big-cta {
   background-image: linear-gradient(var(--c3-ion-deep), var(--c3-ion-deep));
 }
-html[data-ls-theme="light"] #c3-root.is-pinned .c3-pf-nav button[aria-current="true"] span:last-child {
+html[data-ls-home-theme="light"] #c3-root.is-pinned .c3-pf-nav button[aria-current="true"] span:last-child {
   color: var(--c3-ion-deep);
 }
-html[data-ls-theme="light"] #c3-root .c3-form :is(input, textarea)::placeholder {
+html[data-ls-home-theme="light"] #c3-root .c3-form :is(input, textarea)::placeholder {
   color: var(--c3-ink-2);
+}
+
+/* La transizione del capitolo rispetta anche il controllo movimento della home. */
+#c3-root.is-reduced { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  #c3-root { transition: none; }
 }

@@ -833,7 +833,9 @@ html[data-ls-theme="light"] .c3-chrome-foot {
   --panel: var(--c3-ivory-hi);
 }
 html[data-ls-theme="light"] .c3-chrome:has(+ main .c3p) .c3-top:not(.is-solid):not(.is-menu) .c3-logo,
-html[data-ls-theme="light"] .c3-foot-brand img {
+html[data-ls-theme="light"] .c3-chrome-foot .c3-foot-brand img,
+html[data-ls-home-theme="light"] #c3-root .c3-foot-brand img,
+html[data-ls-home-theme="editorial"] #c3-root[data-tone="light"] .c3-foot-brand img {
   filter: brightness(0.09);
 }
 #c3-root .c3-top--home:not(.is-solid) {
@@ -843,7 +845,7 @@ html[data-ls-theme="light"] .c3-foot-brand img {
   --link: var(--c3-ion);
 }
 #c3-root .c3-top--home:not(.is-solid) .c3-logo,
-html[data-ls-theme="dark"] #c3-root .c3-top--home .c3-logo {
+html[data-ls-home-theme="dark"] #c3-root .c3-top--home .c3-logo {
   filter: none;
 }
 @media (max-width: 380px) {
@@ -883,3 +885,10 @@ html[data-ls-theme="dark"] #c3-root .c3-top--home .c3-logo {
   background-color: transparent;
   border-color: currentColor;
 }
+
+/* C.3.12 — icona della modalità home, indipendente dal tema delle pagine interne. */
+[data-c3-home-theme] :is(.c3-home-theme-light, .c3-home-theme-dark) { display: none; }
+html[data-ls-home-theme="light"] [data-c3-home-theme] :is(.c3-home-theme-editorial, .c3-home-theme-dark),
+html[data-ls-home-theme="dark"] [data-c3-home-theme] :is(.c3-home-theme-editorial, .c3-home-theme-light) { display: none; }
+html[data-ls-home-theme="light"] [data-c3-home-theme] .c3-home-theme-light,
+html[data-ls-home-theme="dark"] [data-c3-home-theme] .c3-home-theme-dark { display: block; }

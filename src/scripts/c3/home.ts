@@ -56,16 +56,21 @@ function init(root: HTMLElement): () => void {
   const desktop = matchMedia("(min-width: 1024px)");
 
   // ── Capitoli tonali ──────────────────────────────────────────────────────
-  const toneIO = io(
-    (es) =>
-      es.forEach((e) => {
-        if (e.isIntersecting)
-          root.dataset.tone =
-            (e.target as HTMLElement).dataset.c3Chapter || "dark";
-      }),
-    { rootMargin: "-50% 0px -50% 0px" },
-  );
-  $$("[data-c3-chapter]").forEach((s) => toneIO.observe(s));
+  const chapters = $$<HTMLElement>("[data-c3-chapter]");
+  const toneTick = () => {
+    const center = innerHeight / 2;
+    let nearest: HTMLElement | undefined;
+    let distance = Infinity;
+    for (const section of chapters) {
+      const rect = section.getBoundingClientRect();
+      const gap = center < rect.top ? rect.top - center : center > rect.bottom ? center - rect.bottom : 0;
+      if (gap < distance) { nearest = section; distance = gap; }
+      if (gap === 0) break;
+    }
+    const tone = nearest?.dataset.c3Chapter || "dark";
+    if (root.dataset.tone !== tone) root.dataset.tone = tone;
+  };
+  toneTick();
 
   // ── Reveal generico ──────────────────────────────────────────────────────
   const revealIO = io(
@@ -324,6 +329,7 @@ function init(root: HTMLElement): () => void {
   };
   function frame() {
     ticking = false;
+    toneTick();
     pinTick();
     heroTick();
     marqScroll();

@@ -124,27 +124,27 @@
 }
 
 /* Superfici e testo coerenti nei due temi. */
-html[data-ls-theme="dark"] .c3-skill-secondary {
+html[data-ls-home-theme="dark"] .c3-skill-secondary {
   background: var(--c3-g1);
   border-color: var(--c3-line-d);
   color: var(--c3-ivory);
 }
-html[data-ls-theme="dark"] .c3-skill-secondary :is(.c3-skill-index, .c3-skill-link, h3 span) {
+html[data-ls-home-theme="dark"] .c3-skill-secondary :is(.c3-skill-index, .c3-skill-link, h3 span) {
   color: var(--c3-ion);
 }
-html[data-ls-theme="dark"] .c3-skill-secondary h3 {
+html[data-ls-home-theme="dark"] .c3-skill-secondary h3 {
   color: var(--c3-ivory);
 }
-html[data-ls-theme="dark"] .c3-skill-text p {
+html[data-ls-home-theme="dark"] .c3-skill-text p {
   color: var(--c3-grey);
 }
-html[data-ls-theme="dark"] .c3-skill-secondary:is(:hover, :focus-within) {
+html[data-ls-home-theme="dark"] .c3-skill-secondary:is(:hover, :focus-within) {
   border-color: var(--c3-ion);
 }
-html[data-ls-theme="dark"] .c3-skill-link:focus-visible {
+html[data-ls-home-theme="dark"] .c3-skill-link:focus-visible {
   outline-color: var(--c3-ion);
 }
-html[data-ls-theme="dark"] .c3-skill-visual {
+html[data-ls-home-theme="dark"] .c3-skill-visual {
   border-color: var(--c3-line-d);
 }
 
@@ -152,6 +152,6 @@ html[data-ls-theme="dark"] .c3-skill-visual {
   transition: color var(--c3-motion-fast) var(--c3-motion-color-ease);
 }
 @media (hover: hover) and (pointer: fine) {
-  html[data-ls-theme="light"] .c3-skill-link:hover { color: var(--c3-g0); }
-  html[data-ls-theme="dark"] .c3-skill-link:hover { color: var(--c3-ion-hi); }
+  html:not([data-ls-home-theme="dark"]) .c3-skill-link:hover { color: var(--c3-g0); }
+  html[data-ls-home-theme="dark"] .c3-skill-link:hover { color: var(--c3-ion-hi); }
 }
