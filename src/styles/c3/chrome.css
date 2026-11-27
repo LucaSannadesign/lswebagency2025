@@ -833,7 +833,7 @@ html[data-ls-home-theme="dark"] #c3-root .c3-top--home .c3-logo {
 @media (max-width: 380px) {
   #c3-root .c3-actions { gap: 6px; }
   #c3-root .c3-top-in { gap: 8px; }
-  #c3-root .c3-logo { max-width: 112px; height: auto; }
+  #c3-root .c3-logo { max-width: 146px; height: auto; }
 }
 
 /* C.3.10 — controlli coerenti con il tono effettivo della navbar. */
@@ -928,4 +928,10 @@ html[data-ls-home-theme="light"] #c3-root .c3-foot-brand .c3-brand-color { displ
     background: var(--c3-ion-deep);
     color: var(--c3-ivory);
   }
+}
+
+/* Wider lettering, small-screen safety without changing the emblem. */
+@media (max-width: 380px) {
+  #c3-header .c3-logo { max-width: 140px; height: auto; }
+  #c3-header .c3-top-in { gap: 6px; }
 }
