@@ -833,7 +833,6 @@ html[data-ls-home-theme="dark"] #c3-root .c3-top--home .c3-logo {
 @media (max-width: 380px) {
   #c3-root .c3-actions { gap: 6px; }
   #c3-root .c3-top-in { gap: 8px; }
-  #c3-root .c3-logo { max-width: 146px; height: auto; }
 }
 
 /* C.3.10 — controlli coerenti con il tono effettivo della navbar. */
@@ -930,8 +929,39 @@ html[data-ls-home-theme="light"] #c3-root .c3-foot-brand .c3-brand-color { displ
   }
 }
 
-/* Wider lettering, small-screen safety without changing the emblem. */
+
+/* Contemporary wordmark — Inter already shipped by the site.
+   The cap height is approximately half the full cube (one projected
+   vertical edge). A single text line keeps the lockup calm and compact. */
+.c3-brand-lockup {
+  --brand-height: calc(var(--logo0) - var(--np) * (var(--logo0) - var(--logo1)));
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--brand-height) * .29);
+  white-space: nowrap;
+  line-height: 1;
+}
+.c3-brand-lockup img {
+  height: var(--brand-height);
+  width: auto;
+  flex: none;
+}
+.c3-brand-wordmark {
+  font-family: var(--c3-text);
+  font-size: calc(var(--brand-height) * .64);
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: -.035em;
+  color: #f2f2f2;
+  font-kerning: normal;
+}
+#c3-header.is-light-surface:not(.is-menu) .c3-brand-wordmark,
+html[data-ls-theme="light"] .c3-chrome-foot .c3-brand-wordmark,
+html[data-ls-home-theme="light"] #c3-root .c3-foot-brand .c3-brand-wordmark {
+  color: var(--c3-g1);
+}
+.c3-foot-brand .c3-brand-lockup { --brand-height: 34px; }
 @media (max-width: 380px) {
-  #c3-header .c3-logo { max-width: 140px; height: auto; }
+  #c3-header .c3-brand-lockup { --brand-height: 22px; gap: 6px; }
   #c3-header .c3-top-in { gap: 6px; }
 }
