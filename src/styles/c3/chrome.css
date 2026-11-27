@@ -874,3 +874,58 @@ html[data-ls-home-theme="light"] [data-c3-home-theme] :is(.c3-home-theme-editori
 html[data-ls-home-theme="dark"] [data-c3-home-theme] :is(.c3-home-theme-editorial, .c3-home-theme-light) { display: none; }
 html[data-ls-home-theme="light"] [data-c3-home-theme] .c3-home-theme-light,
 html[data-ls-home-theme="dark"] [data-c3-home-theme] .c3-home-theme-dark { display: block; }
+
+/* LS isometric lockup: identical geometry on light and dark surfaces.
+   The capsule must also be light for the dark gradient to remain legible. */
+.c3-brand-color { display: none; }
+.c3-brand-mono { display: block; }
+#c3-header .c3-logo,
+.c3-foot-brand img { filter: none !important; }
+#c3-header.is-light-surface:not(.is-menu) {
+  --ink: var(--c3-g0);
+  --mute: var(--c3-ink-2);
+  --line: var(--c3-line-l);
+  --ctrl: var(--c3-ctrl-l);
+  --link: var(--c3-ion-deep);
+  --btn-ink: var(--c3-ivory);
+}
+#c3-header.is-light-surface:not(.is-menu) .c3-top-in {
+  background-color: color-mix(in srgb, var(--c3-ivory-hi) calc(var(--nps) * 96%), transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--c3-g0) calc(var(--nps) * 12%), transparent),
+    0 18px 44px -22px color-mix(in srgb, var(--c3-g0) calc(var(--nps) * 22%), transparent);
+}
+#c3-header.is-light-surface:not(.is-menu)::before { opacity: 0; }
+#c3-header.is-light-surface:not(.is-menu) .c3-brand-mono,
+html[data-ls-theme="light"] .c3-chrome-foot .c3-brand-mono,
+html[data-ls-home-theme="light"] #c3-root .c3-foot-brand .c3-brand-mono { display: none; }
+#c3-header.is-light-surface:not(.is-menu) .c3-brand-color,
+html[data-ls-theme="light"] .c3-chrome-foot .c3-brand-color,
+html[data-ls-home-theme="light"] #c3-root .c3-foot-brand .c3-brand-color { display: block; }
+#c3-header.is-light-surface:not(.is-menu) .c3-navcta {
+  border-color: var(--c3-g0);
+  color: var(--c3-ivory);
+  background: var(--c3-g0);
+}
+#c3-header.is-light-surface:not(.is-menu) .c3-motion-btn i {
+  background-color: var(--c3-ion-deep);
+}
+#c3-header.is-light-surface:not(.is-menu) .c3-motion-btn[aria-pressed="true"] i {
+  background: transparent;
+  border-color: var(--c3-ion-deep);
+}
+/* The disclosure and fullscreen overlay keep their existing dark surface. */
+#c3-header .c3-mega {
+  --ink: var(--c3-ivory);
+  --mute: var(--c3-grey);
+  --line: var(--c3-line-d);
+  --ctrl: var(--c3-ctrl-d);
+  --link: var(--c3-ion);
+  --btn-ink: var(--c3-g0);
+}
+@media (hover: hover) and (pointer: fine) {
+  #c3-header.is-light-surface:not(.is-menu) .c3-navcta:hover {
+    border-color: var(--c3-ion-deep);
+    background: var(--c3-ion-deep);
+    color: var(--c3-ivory);
+  }
+}

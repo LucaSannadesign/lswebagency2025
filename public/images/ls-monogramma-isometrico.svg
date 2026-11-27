@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" role="img" aria-labelledby="title">
+  <title id="title">LS Web Agency — monogramma isometrico</title>
+  <desc>Tre facce di un cubo isometrico; rombo superiore leggero, lettere LS, gradiente grafite, blu e verde ione, fondo trasparente.</desc>
+  <defs>
+    <linearGradient id="top" gradientUnits="userSpaceOnUse" x1="141.62831425915823" y1="310.0" x2="938.3716857408417" y2="310.0">
+      <stop offset="0" stop-color="#15181B"/><stop offset=".55" stop-color="#145374"/><stop offset="1" stop-color="#4FA89B"/>
+    </linearGradient>
+    <linearGradient id="body" gradientUnits="userSpaceOnUse" x1="150" y1="850" x2="930" y2="365">
+      <stop offset="0" stop-color="#15181B"/><stop offset=".26" stop-color="#1D2937"/><stop offset=".57" stop-color="#104A72"/><stop offset=".82" stop-color="#176E89"/><stop offset="1" stop-color="#4FA89B"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#top)" fill-rule="evenodd" d="M540.000000 80.000000 L938.371686 310.000000 L540.000000 540.000000 L141.628314 310.000000 Z M540.000000 111.050000 L884.591508 310.000000 L540.000000 508.950000 L195.408492 310.000000 Z"/>
+  <path fill="url(#body)" d="M141.628314 344.500000 L277.074687 422.700000 L277.074687 719.400000 L540.000000 871.200000 L727.234692 763.100000 L540.000000 703.300000 L540.000000 574.500000 L938.371686 344.500000 L938.371686 473.300000 L719.267259 599.800000 L938.371686 659.600000 L938.371686 770.000000 L540.000000 1000.000000 L141.628314 770.000000 Z"/>
+</svg>

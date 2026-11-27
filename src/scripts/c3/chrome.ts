@@ -37,9 +37,35 @@ function init(header: HTMLElement): () => void {
   // il testo non attraversa mai un grigio medio con contrasto insufficiente.
   const RANGE = 140;
   const SOLID_AT = 0.45;
-  const lightContext = () =>
-    !document.documentElement.classList.contains("dark") &&
-    !!header.closest('.c3[data-tone="light"]');
+  const homeRoot = isHome ? document.getElementById("c3-root") : null;
+  const darkIslands = homeRoot
+    ? [...homeRoot.querySelectorAll<HTMLElement>(".c3-hero, .c3-marquee")]
+    : [];
+  const portfolio = homeRoot?.querySelector<HTMLElement>(".c3-pf");
+  const skills = homeRoot?.querySelector<HTMLElement>(".c3-skills");
+  const covers = (el: HTMLElement, y: number) => {
+    const r = el.getBoundingClientRect();
+    return r.top <= y && r.bottom > y;
+  };
+  const lightContext = () => {
+    const html = document.documentElement;
+    if (!homeRoot) {
+      return html.dataset.lsTheme === "light" ||
+        (!html.classList.contains("dark") && !!header.closest('.c3[data-tone="light"]'));
+    }
+    const y = 44;
+    const mode = html.dataset.lsHomeTheme || "editorial";
+    if (mode === "dark" || darkIslands.some(el => covers(el, y))) return false;
+    if (mode === "light") return true;
+    if (portfolio && covers(portfolio, y)) return false;
+    if (skills && covers(skills, y)) {
+      // Keep white over the dark half of the YoArtly-to-ivory bridge.
+      const r = skills.getBoundingClientRect();
+      const bridge = parseFloat(getComputedStyle(skills, "::before").height) || 0;
+      return y - r.top >= bridge * 0.7;
+    }
+    return homeRoot.dataset.tone === "light";
+  };
   let lastY = scrollY;
   const tick = () => {
     const y = scrollY;
@@ -51,6 +77,7 @@ function init(header: HTMLElement): () => void {
       (lightContext() || !isHome ? (solid ? 1 : 0) : np).toFixed(3),
     );
     header.classList.toggle("is-solid", solid);
+    header.classList.toggle("is-light-surface", lightContext() && !menuOpen());
     const delta = y - lastY;
     if (Math.abs(delta) < 8) return;
     const locked =
@@ -77,6 +104,16 @@ function init(header: HTMLElement): () => void {
     sig,
   );
   tick();
+  // Theme toggles and chapter changes can occur without a scroll.
+  const toneObserver = new MutationObserver(tick);
+  toneObserver.observe(document.documentElement, {
+    attributes: true, attributeFilter: ["data-ls-theme", "data-ls-home-theme"],
+  });
+  if (homeRoot) toneObserver.observe(homeRoot, {
+    attributes: true, attributeFilter: ["data-tone"],
+  });
+  addEventListener("resize", tick, passive);
+  cleanups.push(() => toneObserver.disconnect());
 
   // ── Pannello Servizi ─────────────────────────────────────────────────────
   let openTimer = 0;
@@ -147,6 +184,7 @@ function init(header: HTMLElement): () => void {
     if (open) {
       header.classList.remove("is-hidden");
       header.classList.add("is-solid");
+      header.classList.remove("is-light-surface");
       requestAnimationFrame(() =>
         overlay.querySelector<HTMLElement>(FOCUSABLE)?.focus(),
       );
